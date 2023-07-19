@@ -7,14 +7,6 @@ Files:
 
 - .github/workflows/secret_scan.yml
 
-## Pre-commit Hook
-
-Please see readme
-Files:
-
-- .pre-commit-config.yaml
-- .pre-commit-README.md
-
 ## Readme Template Preamble
 
 Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor
