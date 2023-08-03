@@ -29,7 +29,8 @@ and it can run either on-demand or continuously in the background:
 ### Checkstyle as PR validation
 
 Apart from running Checkstyle locally as IDE plugin, we do run it on
-our [Github Actions pipeline](.github/workflows/code_analysis.yml). At this time, Checkstyle will only spew out warnings, but
+our [Github Actions pipeline](.github/workflows/code_analysis.yml). At this time, Checkstyle will only spew out
+warnings, but
 we may tighten the rules at a future time and without notice. This will result in failing Github Action pipelines. Also,
 committers might reject PRs due to Checkstyle warnings.
 
