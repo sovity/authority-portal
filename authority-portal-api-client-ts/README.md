@@ -8,9 +8,9 @@
 <h3 align="center">Authority Portal API TypeScript Client Library</h3>
 
   <p align="center">
-    <a href="https://github.com/sovity/authority-portal-backend/issues/new?template=bug_report.md">Report Bug</a>
+    <a href="https://github.com/sovity/authority-portal/issues/new?template=bug_report.md">Report Bug</a>
     ·
-    <a href="https://github.com/sovity/authority-portal-backend/issues/new?template=feature_request.md">Request Feature</a>
+    <a href="https://github.com/sovity/authority-portal/issues/new?template=feature_request.md">Request Feature</a>
   </p>
 </div>
 
@@ -54,7 +54,7 @@ let result: ExamplePageResult = await authorityPortalClient.uiApi.examplePage();
 ## License
 
 See
-[LICENSE](https://github.com/sovity/authority-portal-backend/blob/main/LICENSE)
+[LICENSE](https://github.com/sovity/authority-portal/blob/main/LICENSE)
 
 ## Contact
 

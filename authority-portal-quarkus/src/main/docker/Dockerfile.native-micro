@@ -10,11 +10,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/authority-portal-backend .
+# docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/authority-portal .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/authority-portal-backend
+# docker run -i --rm -p 8080:8080 quarkus/authority-portal
 #
 ###
 FROM quay.io/quarkus/quarkus-micro-image:2.0
