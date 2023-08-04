@@ -1,0 +1,13 @@
+services:
+  frontend:
+    build: 
+      context: ./
+      # dockerfile: ./docker/frontend/Dockerfile
+    ports:
+      - "8000:80"
+  # fake-backend:
+  #   build: 
+  #     context: ./
+  #     dockerfile: ./docker/fake-backend/Dockerfile
+  #   ports: 
+  #     -  "3001:3000"
