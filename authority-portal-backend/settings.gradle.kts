@@ -1,4 +1,4 @@
-rootProject.name = "authority-portal"
+rootProject.name = "authority-portal-backend"
 
 pluginManagement {
     val quarkusPluginVersion: String by settings
