@@ -40,9 +40,11 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {ExampleQuery} from './ExampleQuery';
 
-const authorityPortalClient: AuthorityPortalClient = buildAuthorityPortalClient({
-    backendUrl: 'https://my-portal.sovity.io',
-});
+const authorityPortalClient: AuthorityPortalClient = buildAuthorityPortalClient(
+    {
+        backendUrl: 'https://my-portal.sovity.io',
+    },
+);
 
 let query: ExamplePageQuery = {
     greeting: 'Hello World',
@@ -53,8 +55,7 @@ let result: ExamplePageResult = await authorityPortalClient.uiApi.examplePage();
 
 ## License
 
-See
-[LICENSE](https://github.com/sovity/authority-portal/blob/main/LICENSE)
+See [LICENSE](https://github.com/sovity/authority-portal/blob/main/LICENSE)
 
 ## Contact
 
