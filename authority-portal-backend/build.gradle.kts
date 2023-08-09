@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     id("java")
     id("checkstyle")
@@ -28,6 +31,13 @@ allprojects {
         configFile = rootProject.file("docs/dev/checkstyle/checkstyle-config.xml")
         configDirectory.set(rootProject.file("docs/dev/checkstyle"))
         maxErrors = 0 // does not tolerate errors
+    }
+
+    tasks.withType<Test> {
+        testLogging {
+            events = setOf(TestLogEvent.FAILED)
+            exceptionFormat = TestExceptionFormat.FULL
+        }
     }
 
     publishing {

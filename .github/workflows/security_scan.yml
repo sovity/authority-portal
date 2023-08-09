@@ -6,7 +6,7 @@ on:
 
 jobs:
   security_scan:
-    name: security_scan
+    name: Security scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

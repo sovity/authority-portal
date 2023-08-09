@@ -60,20 +60,20 @@ fun isTestcontainersEnabled(): Boolean {
 
 fun jdbcUrl(): String {
     return container?.jdbcUrl
-            ?: System.getenv()[jdbcUrlEnvVarName]
-            ?: error("Need $jdbcUrlEnvVarName since $skipTestcontainersEnvVarName=true")
+        ?: System.getenv()[jdbcUrlEnvVarName]
+        ?: error("Need $jdbcUrlEnvVarName since $skipTestcontainersEnvVarName=true")
 }
 
 fun jdbcUser(): String {
     return container?.username
-            ?: System.getenv()[jdbcUserEnvVarName]
-            ?: error("Need $jdbcUserEnvVarName since $skipTestcontainersEnvVarName=true")
+        ?: System.getenv()[jdbcUserEnvVarName]
+        ?: error("Need $jdbcUserEnvVarName since $skipTestcontainersEnvVarName=true")
 }
 
 fun jdbcPassword(): String {
     return container?.password
-            ?: System.getenv()[jdbcPasswordEnvVarName]
-            ?: error("Need $jdbcPasswordEnvVarName since $skipTestcontainersEnvVarName=true")
+        ?: System.getenv()[jdbcPasswordEnvVarName]
+        ?: error("Need $jdbcPasswordEnvVarName since $skipTestcontainersEnvVarName=true")
 }
 
 
@@ -146,15 +146,15 @@ jooq {
 tasks.withType<nu.studer.gradle.jooq.JooqGenerate> {
     dependsOn.add("flywayMigrate")
     inputs.files(fileTree(migrationsDir))
-            .withPropertyName("migrations")
-            .withPathSensitivity(PathSensitivity.RELATIVE)
+        .withPropertyName("migrations")
+        .withPathSensitivity(PathSensitivity.RELATIVE)
     allInputsDeclared.set(true)
     outputs.cacheIf { true }
     doFirst {
         require(this is nu.studer.gradle.jooq.JooqGenerate)
 
         val jooqConfiguration = nu.studer.gradle.jooq.JooqGenerate::class.java.getDeclaredField("jooqConfiguration")
-                .also { it.isAccessible = true }.get(this) as org.jooq.meta.jaxb.Configuration
+            .also { it.isAccessible = true }.get(this) as org.jooq.meta.jaxb.Configuration
 
         jooqConfiguration.jdbc.apply {
             url = jdbcUrl()

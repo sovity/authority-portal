@@ -4,16 +4,11 @@ import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.MyExampleStatus
 import de.sovity.authorityportal.web.services.ExampleTableApiService
 import io.quarkus.test.TestTransaction
-import io.quarkus.test.common.http.TestHTTPResource
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
-import jakarta.transaction.Transactional
 import org.assertj.core.api.Assertions.assertThat
-import org.flywaydb.core.Flyway
 import org.jooq.DSLContext
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
-import java.net.URL
 import java.time.OffsetDateTime
 
 @QuarkusTest
