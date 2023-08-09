@@ -39,11 +39,13 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenera
     validateSpec.set(false)
     dependsOn("resolve")
     generatorName.set("typescript-fetch")
-    configOptions.set(mutableMapOf(
+    configOptions.set(
+        mutableMapOf(
             "supportsES6" to "true",
             "npmVersion" to "8.15.0",
             "typescriptThreePlus" to "true",
-    ))
+        )
+    )
 
     inputSpec.set(openapiFile)
     val outputDirectory = buildFile.parentFile.resolve(typescriptClientOutput).normalize()
