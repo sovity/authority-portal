@@ -35,7 +35,7 @@ Steps to reproduce the behavior:
 _Add any other context about the problem here._
 
 -   Environment: Which instance or deployment were you using when the error occurred? Staging, Productive, Connector-URL, etc.?
--   Used version: If a specific component was used, which Version did you use? E.g. EDC v1.0.0
+-   Used version: If a specific component was used, which Version did you use? E.g. v1.0.0
 -   Time: When did the error occur? Exact timestamp (incl. time zone; assumed CET/CEST if missing) if possible.
 -   Logs: Error log or further information
 -   Parameter: Request contents or information entered

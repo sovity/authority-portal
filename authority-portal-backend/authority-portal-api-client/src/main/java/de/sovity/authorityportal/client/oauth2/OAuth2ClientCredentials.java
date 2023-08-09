@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 /**
- * Credentials for connecting to the EDC via the OAuth2 "Client Credentials" flow.
+ * Credentials for connecting to the Authority Portal via the OAuth2 "Client Credentials" flow.
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

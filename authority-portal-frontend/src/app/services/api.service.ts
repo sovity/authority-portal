@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {Observable, from} from 'rxjs';
 import {
   AuthorityPortalClient,
@@ -6,9 +6,12 @@ import {
   ExamplePageResult,
   buildAuthorityPortalClient,
 } from '@sovity.de/authority-portal-client';
+import {APP_CONFIG, AppConfig} from './config/app-config';
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class ApiService {
+  constructor(@Inject(APP_CONFIG) private appConfig: AppConfig) {}
+
   examplePage(
     examplePageQuery: ExamplePageQuery,
   ): Observable<ExamplePageResult> {
@@ -21,7 +24,7 @@ export class ApiService {
 
   private getClient(): AuthorityPortalClient {
     return buildAuthorityPortalClient({
-      backendUrl: 'http://localhost:8080',
+      backendUrl: this.appConfig.backendUrl,
     });
   }
 }

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject, from, takeUntil} from 'rxjs';
 import {buildAuthorityPortalClient} from '@sovity.de/authority-portal-client';
-import {ApiService} from './api.service';
+import {ApiService} from './services/api.service';
 
 @Component({
   selector: 'app-root',

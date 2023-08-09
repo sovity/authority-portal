@@ -1,4 +1,4 @@
-package de.sovity.authorityportal.web
+package de.sovity.authorityportal.web.testutils
 
 import de.sovity.authorityportal.client.AuthorityPortalClient
 import java.net.URL

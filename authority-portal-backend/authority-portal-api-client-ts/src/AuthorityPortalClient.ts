@@ -26,7 +26,7 @@ export function buildAuthorityPortalClient(
 }
 
 /**
- * Options for instantiating an EDC API Client
+ * Options for instantiating an Authority Portal API Client
  */
 export interface AuthorityPortalClientOptions {
     backendUrl: string;

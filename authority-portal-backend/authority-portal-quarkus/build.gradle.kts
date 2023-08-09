@@ -7,12 +7,17 @@ plugins {
 val quarkusPlatformGroupId: String by project
 val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
-val assertj: String by project
+val assertjVersion: String by project
+val mockitoVersion: String by project
 
 dependencies {
+    annotationProcessor("org.projectlombok:lombok:1.18.28")
+    compileOnly("org.projectlombok:lombok:1.18.28")
+
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-flyway")
+    implementation("io.quarkus:quarkus-narayana-jta")
     implementation("io.quarkus:quarkus-jdbc-postgresql")
     implementation("io.quarkus:quarkus-kotlin")
     implementation("io.quarkus:quarkus-micrometer")
@@ -27,7 +32,9 @@ dependencies {
 
     testImplementation(project(":authority-portal-api-client"))
 
-    testImplementation("org.assertj:assertj-core:${assertj}")
+    testImplementation("org.assertj:assertj-core:${assertjVersion}")
+    testImplementation("org.mockito:mockito-core:${mockitoVersion}")
+    testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
     testImplementation("io.quarkus:quarkus-junit5")
 }
 
