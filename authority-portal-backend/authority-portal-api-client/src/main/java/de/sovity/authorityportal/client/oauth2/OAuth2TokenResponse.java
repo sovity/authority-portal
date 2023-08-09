@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Credentials for connecting to the EDC via the OAuth2 "Client Credentials" flow.
+ * OAuth2 "Client Credentials" flow response object (subset).
  */
 @Getter
 @Setter

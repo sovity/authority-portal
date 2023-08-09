@@ -11,7 +11,7 @@
 
 <h3 align="center">Authority Portal</h3>
 <p align="center" style="padding-bottom:16px">
-Java / Kotlin Backend
+Backend + Frontend + E2E Tests
 <br />
 <a href="https://github.com/sovity/authority-portal/issues/new?template=bug_report.md">Report Bug</a>
 ·
@@ -19,9 +19,9 @@ Java / Kotlin Backend
 </p>
 </div>
 
-## About The Project
+## About This Component
 
-TODO
+Backend code for ... TODO
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

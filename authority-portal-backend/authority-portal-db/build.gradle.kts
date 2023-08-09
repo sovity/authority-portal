@@ -15,8 +15,6 @@ val jooqTargetSourceRoot = "build/generated/jooq"
 val jooqTargetDir = jooqTargetSourceRoot + "/" + jooqTargetPackage.replace(".", "/")
 val flywayMigration = configurations.create("flywayMigration")
 
-val edcVersion: String by project
-val edcGroup: String by project
 val flywayVersion: String by project
 val postgresVersion: String by project
 

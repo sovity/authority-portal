@@ -6,5 +6,4 @@ node_modules
 .github
 
 openapi
-src/modules/edc-dmgmt-client
 src/assets/config/app-config.json
