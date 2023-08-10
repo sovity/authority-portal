@@ -50,6 +50,15 @@ sources for the config.
 # (2) Start Application in Dev Mode
 npm run start
 
+    # (optional) Start fake backend (two options):
+    (a) cd ./fake-backend
+        npm run build // for ts -> js
+        npm run start // to start nodemon
+        
+    (b) cd ./fake-backend
+        docker compose build
+        docker compose up   // localhost:3001
+
 # (3) Start Karma Test Server
 npm run test
 ```

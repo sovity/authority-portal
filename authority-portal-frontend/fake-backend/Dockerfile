@@ -2,13 +2,14 @@
 FROM node:lts as npm-install
 
 WORKDIR /app
-COPY ./fake-backend/package*.json /app/
+COPY ./package*.json /app/
 RUN npm install
 
 # Stage 2: Serve Fake Backend
 FROM node:lts
 WORKDIR /app
 COPY --from=npm-install /app/node_modules /app/node_modules
-COPY ./fake-backend/ /app/
+COPY ./ /app/
 # RUN npm run start
+RUN npm run build
 CMD ["npm", "run", "start"]
