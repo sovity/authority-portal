@@ -47,6 +47,10 @@ project of choice:
 (cd ../path-to-your-ui && npm i && npm link ../path-to-this-folder/authority-portal-client-ts)
 ```
 
+### Keycloak
+
+Local development uses a Keycloak instance launched by Quarkus both for authentication and manual testing of our interactions with the Keycloak Admin API. To add new Roles to the Dev Keycloak or change the Keycloak Realm Config, please refer to our [Keycloak Realm Export Documentation](docs/dev/keycloak-realm-export).
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## License
