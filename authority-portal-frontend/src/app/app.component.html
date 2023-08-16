@@ -1,13 +1,15 @@
-<h1 class="my-8 text-center text-6xl font-bold">
-  <span class="text-teal-500">TailwindCSS</span> and
-  <span class="text-red-600">Angular</span> is awesome!
-</h1>
-<div class="flex justify-around my-64 md:my-8">
-  <button mat-raised-button color="primary">Primary Button</button>
-  <button mat-raised-button color="accent">Accent Button</button>
-  <button mat-raised-button color="warn">Warn Button</button>
+<div class="flex">
+  <app-sidebar
+    class="flex flex-col flex-none justify-start items-start bg-gray-900 no-scrollbar h-screen overflow-y-auto"></app-sidebar>
+  <app-main
+    class="flex-auto flex flex-col h-screen no-scrollbar overflow-x-hidden overflow-y-auto"></app-main>
 </div>
-<p class="my-8 text-center text-3xl">Thanks for reading!</p>
-<p id="example-query-result" class="my-8 text-center text-3xl">
-  Example Query Result: {{ exampleDbQueryResult | json }}
-</p>
+<div
+  class="fixed bottom-1 right-1 z-100 flex h-6 w-6 items-center justify-center rounded-none bg-blue-500 p-5 text-sm text-white">
+  <div class="block sm:hidden">xs</div>
+  <div class="hidden sm:block md:hidden lg:hidden xl:hidden 2xl:hidden">sm</div>
+  <div class="hidden md:block lg:hidden xl:hidden 2xl:hidden">md</div>
+  <div class="hidden lg:block xl:hidden 2xl:hidden">lg</div>
+  <div class="hidden xl:block 2xl:hidden">xl</div>
+  <div class="hidden 2xl:block">2xl</div>
+</div>

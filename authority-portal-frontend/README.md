@@ -27,7 +27,8 @@ Frontend for sovity's Dataspace Authority Portal, written in Angular.
 
 ## Configuration
 
-Both the docker image and the locally run build can be configured via ENV Variables:
+Both the docker image and the locally run build can be configured via ENV
+Variables:
 
 ```yaml
 # Required: Backend URL
@@ -40,8 +41,8 @@ AUTHORITY_PORTAL_FRONTEND_BACKEND_URL=https://my-portal.sovity.io
 
 For local development Node16 and NPM are required.
 
-For local development both the committed [.env.local-dev](.env.local-dev) and not committed `.env` files are additional
-sources for the config.
+For local development both the committed [.env.local-dev](.env.local-dev) and
+not committed `.env` files are additional sources for the config.
 
 ```shell
 # (1) Build and link the TypeScript API Client Library
@@ -54,10 +55,6 @@ npm run start
     (a) cd ./fake-backend
         npm run build // for ts -> js
         npm run start // to start nodemon
-        
-    (b) cd ./fake-backend
-        docker compose build
-        docker compose up   // localhost:3001
 
 # (3) Start Karma Test Server
 npm run test
