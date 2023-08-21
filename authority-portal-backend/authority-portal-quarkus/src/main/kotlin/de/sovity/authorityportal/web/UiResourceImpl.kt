@@ -8,7 +8,7 @@ import de.sovity.authorityportal.api.model.UserApprovalPageResult
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.web.services.ExamplePageApiService
 import de.sovity.authorityportal.web.services.ExampleTableApiService
-import de.sovity.authorityportal.web.services.UserApprovalPageApiService
+import de.sovity.authorityportal.web.services.pages.userapproval.UserApprovalPageApiService
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 

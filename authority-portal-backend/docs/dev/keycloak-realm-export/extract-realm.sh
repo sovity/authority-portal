@@ -4,7 +4,7 @@
 # -u: error on unset variables
 # -x: print commands before executing (optional)
 # -o pipefail: fail pipelines if any command fails, not just the final one
-set -euxo pipefail
+set -euo pipefail
 
 TOTAL_STEPS=7
 
@@ -30,7 +30,7 @@ docker image rm "$image"
 echo "(7/${TOTAL_STEPS}) Format realm.json"
 REALM_JSON="$PWD/authority-portal-quarkus/src/main/resources/realm.json"
 REALM_JSON_FORMATTED="$REALM_JSON.formatted"
-docker run -i alpine:3.18.3 sh -c 'apk add --no-cache jq >/dev/null 2>&1 </dev/null && jq' <$REALM_JSON >$REALM_JSON_FORMATTED
-mv $REALM_JSON_FORMATTED $REALM_JSON
+docker run --rm -i alpine:3.18.3 sh -c 'apk add --no-cache jq >/dev/null 2>&1 </dev/null && jq' <"$REALM_JSON" >"$REALM_JSON_FORMATTED"
+mv "$REALM_JSON_FORMATTED" "$REALM_JSON"
 
 echo "Done."

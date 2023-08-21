@@ -17,6 +17,7 @@ dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation("io.quarkus:quarkus-oidc")
     implementation("io.quarkus:quarkus-keycloak-authorization")
+    implementation("io.quarkus:quarkus-keycloak-admin-client-reactive")
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-flyway")
     implementation("io.quarkus:quarkus-narayana-jta")

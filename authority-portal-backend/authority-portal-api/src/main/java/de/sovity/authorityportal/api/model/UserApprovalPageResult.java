@@ -17,6 +17,6 @@ import java.util.List;
 @Schema(description = "All data for user approval page.")
 public class UserApprovalPageResult {
     @Schema(description = "Visible users.", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<UserListEntryDto> users;
+    private List<UserApprovalPageListEntryDto> users;
 }
 
