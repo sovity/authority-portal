@@ -22,7 +22,7 @@ echo "(4/${TOTAL_STEPS}) Restart container with id $container"
 docker start "$container"
 
 echo "(5/${TOTAL_STEPS}) Run container from newly created image and export realm config"
-docker run --rm -v "$PWD/authority-portal-quarkus/src/main/resources:/tmp/src" "$image" export --file='/tmp/src/realm.json' --realm authority-portal
+docker run --rm -v "$PWD/authority-portal-quarkus/src/main/resources:/tmp/src" "$image" export --optimized --file='/tmp/src/realm.json' --realm authority-portal
 
 echo "(6/${TOTAL_STEPS}) Delete image $image"
 docker image rm "$image"
