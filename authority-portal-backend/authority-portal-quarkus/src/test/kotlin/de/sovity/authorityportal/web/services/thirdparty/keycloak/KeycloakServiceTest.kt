@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.admin.client.resource.RealmResource
+import org.keycloak.admin.client.resource.UserResource
 import org.keycloak.admin.client.resource.UsersResource
 import org.keycloak.representations.idm.UserRepresentation
 import org.mockito.ArgumentMatchers.eq
@@ -31,19 +32,20 @@ class KeycloakServiceTest {
     lateinit var realmResource: RealmResource
 
     @Mock
-    lateinit var userResource: UsersResource
+    lateinit var usersResource: UsersResource
 
     @BeforeEach
     fun setUp() {
         `when`(keycloak.realm(eq("authority-portal"))).thenReturn(realmResource)
-        `when`(realmResource.users()).thenReturn(userResource)
+        `when`(realmResource.users()).thenReturn(usersResource)
+        keycloakService.keycloakRealm = "authority-portal"
     }
 
     @Test
     fun testListUsers() {
         // arrange
         val representation = mock(UserRepresentation::class.java)
-        `when`(userResource.list()).thenReturn(listOf(representation))
+        `when`(usersResource.list()).thenReturn(listOf(representation))
         val expected = mock(KeycloakUserDto::class.java)
         `when`(keycloakUserMapper.buildKeycloakUserDto(representation)).thenReturn(expected)
 
@@ -52,6 +54,24 @@ class KeycloakServiceTest {
 
         // assert
         assertThat(actual).containsExactly(expected)
+    }
+
+    @Test
+    fun testGetUser() {
+        // arrange
+        val userId = "123"
+        val userResource = mock(UserResource::class.java)
+        `when`(this.usersResource.get(eq(userId))).thenReturn(userResource)
+        val representation = mock(UserRepresentation::class.java)
+        `when`(userResource.toRepresentation()).thenReturn(representation)
+        val expected = mock(KeycloakUserDto::class.java)
+        `when`(keycloakUserMapper.buildKeycloakUserDto(representation)).thenReturn(expected)
+
+        // act
+        val actual = keycloakService.getUser(userId)
+
+        // assert
+        assertThat(actual).isEqualTo(expected)
     }
 }
 
