@@ -1,6 +1,5 @@
 package de.sovity.authorityportal.web.services.pages.userapproval
 
-import de.sovity.authorityportal.api.model.UserApprovalPageQuery
 import de.sovity.authorityportal.api.model.UserApprovalPageListEntryDto
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.KeycloakUserDto
@@ -28,7 +27,6 @@ class UserApprovalPageApiServiceTest {
     @Test
     fun testUserApprovalPage() {
         // arrange
-        val query = UserApprovalPageQuery("")
         val pendingUser = mock(KeycloakUserDto::class.java)
         `when`(pendingUser.registrationStatus).thenReturn(UserRegistrationStatus.PENDING)
         val otherUser = mock(KeycloakUserDto::class.java)
@@ -37,10 +35,41 @@ class UserApprovalPageApiServiceTest {
         `when`(userApprovalPageUserMapper.buildUserListEntry(pendingUser)).thenReturn(expected)
 
         // act
-        val actual = userApprovalPageApiService.userApprovalPage(query)
+        val actual = userApprovalPageApiService.userApprovalPage()
 
         // assert
         val users = actual.users
         assertThat(users).containsExactly(expected)
+    }
+
+    @Test
+    fun testApproveUser() {
+        // arrange
+        val userId = "123"
+        pendingUser(userId)
+
+        // act
+        val actual = userApprovalPageApiService.approveUser(userId)
+
+        // assert
+        assertThat(actual).isEqualTo(userId)
+    }
+
+    @Test
+    fun testRejectUser() {
+        // arrange
+        val userId = "123"
+        pendingUser(userId)
+        // act
+        val actual = userApprovalPageApiService.approveUser(userId)
+
+        // assert
+        assertThat(actual).isEqualTo(userId)
+    }
+
+    private fun pendingUser(userId: String) {
+        val user = mock(KeycloakUserDto::class.java)
+        `when`(user.registrationStatus).thenReturn(UserRegistrationStatus.PENDING)
+        `when`(keycloakService.getUser(userId)).thenReturn(user)
     }
 }

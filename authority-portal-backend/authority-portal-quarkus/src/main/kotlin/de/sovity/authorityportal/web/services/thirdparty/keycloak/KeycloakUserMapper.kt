@@ -7,6 +7,10 @@ import org.keycloak.representations.idm.UserRepresentation
 
 @ApplicationScoped
 class KeycloakUserMapper {
+    companion object {
+        const val REGISTRATION_STATUS = "registrationStatus"
+    }
+
     fun buildKeycloakUserDto(user: UserRepresentation) = KeycloakUserDto(
         userId = user.id,
         firstName = user.firstName,
@@ -15,7 +19,7 @@ class KeycloakUserMapper {
         position = getString(user, "position"),
         phoneNumber = getString(user, "phoneNumber"),
         registrationStatus = UserRegistrationStatus.fromStatusCode(
-            getString(user, "registrationStatus")?.toInt() ?: -1
+            getString(user, REGISTRATION_STATUS)?.toInt() ?: -1
         )
     )
 

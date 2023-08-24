@@ -1,6 +1,8 @@
 package de.sovity.authorityportal.web.services.pages.userregistration
 
 import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
+import de.sovity.authorityportal.web.services.auth.UserView
+import de.sovity.authorityportal.web.services.auth.UserViewFilter
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus

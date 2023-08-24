@@ -37,10 +37,10 @@ To start the backend in development mode, a JDK17 and docker are required.
 
 ### Writing Tests
 
-This Codebase contains different kinds of tests. 
+This Codebase contains different kinds of tests.
 
 The naming of the types of tests is not standardized. The
-distinction between E2E, Integration and Unit Tests is made here purely for the sake of explanation. 
+distinction between E2E, Integration and Unit Tests is made here purely for the sake of explanation.
 One might argue all the these types of tests to be unit tests:
 
 - __(Backend) E2E Tests__:
@@ -62,10 +62,10 @@ One might argue all the these types of tests to be unit tests:
     - __Unit tests are lightning fast__, because they don't need to start a quarkus application, postgresql testcontainers,
       etc.
     - Life is easy when all code with branch-wise complexity is tested locally by unit tests, so it can then be used in
-    integration tests without having to test all branches again.
-    - A large part of being a senior software developer is about learning how to structure code so that the complexity 
+      integration tests without having to test all branches again.
+    - A large part of being a senior software developer is about learning how to structure code so that the complexity
       can be tested locally, allowing both code and tests to stay simple and manageable.
-    - Unit test don't work well when the unit under test contains db concerns. 
+    - Unit test don't work well when the unit under test contains db concerns.
       For testing code that uses JooQ Integration Tests are recommended.
     - Example: [GetExampleTableIdsUnitTest](./src/test/kotlin/de/sovity/authorityportal/GetExampleTableIdsUnitTest.kt)
 

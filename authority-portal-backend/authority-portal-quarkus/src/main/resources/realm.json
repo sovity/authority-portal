@@ -46,6 +46,109 @@
   "roles": {
     "realm": [
       {
+        "id": "4755ea10-5f36-4e21-9d56-2535adc51eac",
+        "name": "AR_AUTHORITY-PORTAL_USER-APPROVAL-PAGE_READ_GLOBAL",
+        "description": "User can query pending users. (All organizations)",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
+        "id": "5008930c-0d98-482b-94f9-6c91548538a2",
+        "name": "AR_AUTHORITY-PORTAL_USER-APPROVAL-PAGE_UPDATE-ROLE_EXEC_GLOBAL",
+        "description": "User can update a pending user's role. (All organizations)",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
+        "id": "b7a94152-d409-4b94-a123-03acb16406fc",
+        "name": "AR_AUTHORITY-PORTAL_USER-APPROVAL-PAGE_UPDATE-ROLE_EXEC_ORGANIZATION",
+        "description": "User can update a pending user's role. (Own organization)",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
+        "id": "3af66cfb-13be-4401-b5e9-04661a286f67",
+        "name": "AR_AUTHORITY-PORTAL_USER-REGISTRATION_READ_SELF",
+        "description": "User can query status of pending users. (Own)",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
+        "id": "d24a6aa3-9805-4324-bc12-51ee5d794156",
+        "name": "UR_AUTHORITY-PORTAL_AUTHORITY-ADMIN",
+        "description": "Admin of Dataspace Authority (MDS).",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "AR_AUTHORITY-PORTAL_USER-APPROVAL-PAGE_UPDATE-ROLE_EXEC_GLOBAL",
+            "UR_AUTHORITY-PORTAL_AUTHORITY-USER",
+            "AR_AUTHORITY-PORTAL_USER-APPROVAL-PAGE_READ_GLOBAL"
+          ]
+        },
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
+        "id": "04b696ff-910f-4de8-849c-5d1f886546a4",
+        "name": "UR_AUTHORITY-PORTAL_AUTHORITY-USER",
+        "description": "User of Dataspace Authority (MDS).",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
+          ]
+        },
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
+        "id": "fb4138cd-7775-42b0-949c-0bf8acad12d8",
+        "name": "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN",
+        "description": "Admin of participating organization.",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
+          ]
+        },
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
+        "id": "3ba0729c-96ea-4bca-8ac6-65ed7e5e4453",
+        "name": "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR",
+        "description": "Curator of participating organization.",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
+          ]
+        },
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
+        "id": "092b10ae-8572-4444-b8b9-bc5e8d8a1806",
+        "name": "UR_AUTHORITY-PORTAL_PARTICIPANT-USER",
+        "description": "User of participating organization.",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
         "id": "63a2225e-904c-44a2-9cf3-c2d6d7e3ee46",
         "name": "default-roles-authority-portal",
         "description": "${role_default-roles}",
@@ -409,17 +512,76 @@
       "name": "John's Doughs",
       "path": "/John's Doughs",
       "attributes": {
-        "securityEmail": [
-          "contact@johns-doughs.com"
+        "organizationId": [
+          "a2548b2c-3d0b-11ee-be56-0242ac120002"
         ],
         "duns": [
           "123456789"
+        ],
+        "securityEmail": [
+          "contact@johns-doughs.com"
         ],
         "url": [
           "https://www.johns-doughs.com"
         ]
       },
       "realmRoles": [],
+      "clientRoles": {},
+      "subGroups": [
+        {
+          "id": "f1ef1ed7-4b5b-4db7-a38c-8a28cdca99c0",
+          "name": "Participant Curator",
+          "path": "/John's Doughs/Participant Curator",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "41d733bf-1d87-4d53-85b2-0918f4d7cd9d",
+          "name": "Participant Admin",
+          "path": "/John's Doughs/Participant Admin",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "f526043d-899e-4c2c-a37b-c6f62539da20",
+          "name": "Participant User",
+          "path": "/John's Doughs/Participant User",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
+    },
+    {
+      "id": "ad98ab20-c5a5-45e4-bf1f-96dccd41c73e",
+      "name": "ROLE_AUTHORITY_ADMIN",
+      "path": "/ROLE_AUTHORITY_ADMIN",
+      "attributes": {},
+      "realmRoles": [
+        "UR_AUTHORITY-PORTAL_AUTHORITY-ADMIN"
+      ],
+      "clientRoles": {},
+      "subGroups": []
+    },
+    {
+      "id": "5966e9e4-3b70-4847-9059-013a33553601",
+      "name": "ROLE_AUTHORITY_USER",
+      "path": "/ROLE_AUTHORITY_USER",
+      "attributes": {},
+      "realmRoles": [
+        "UR_AUTHORITY-PORTAL_AUTHORITY-USER"
+      ],
       "clientRoles": {},
       "subGroups": []
     }
@@ -443,8 +605,8 @@
   "otpPolicyPeriod": 30,
   "otpPolicyCodeReusable": false,
   "otpSupportedApplications": [
-    "totpAppGoogleName",
     "totpAppMicrosoftAuthenticatorName",
+    "totpAppGoogleName",
     "totpAppFreeOTPName"
   ],
   "webAuthnPolicyRpEntityName": "keycloak",
@@ -490,18 +652,29 @@
           "0123123456"
         ],
         "position": [
-          "It-Administrator"
+          "IT-Administrator"
         ]
       },
-      "credentials": [],
+      "credentials": [
+        {
+          "id": "816e0eb2-3a7e-4f50-b43f-4ef71d4387c2",
+          "type": "password",
+          "userLabel": "My password",
+          "createdDate": 1692626787322,
+          "secretData": "{\"value\":\"ABJhZhi4xo0XM/gVOTim04YkzyWPQfZhPsSSwuD6Jnc=\",\"salt\":\"ENHQozmjeykDF2lQNoC0nQ==\",\"additionalParameters\":{}}",
+          "credentialData": "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+        }
+      ],
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
-        "default-roles-authority-portal"
+        "default-roles-authority-portal",
+        "AR_AUTHORITY-PORTAL_USER-REGISTRATION_READ_SELF"
       ],
       "notBefore": 0,
       "groups": [
-        "/John's Doughs"
+        "/John's Doughs",
+        "/John's Doughs/Participant Admin"
       ]
     },
     {
@@ -757,6 +930,21 @@
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientId",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "71fe4cf7-19d1-44dc-b37c-b05943fbce6a",
+          "name": "Organization ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "organizationId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "organizationId",
             "jsonType.label": "String"
           }
         },
@@ -2364,7 +2552,7 @@
     "parRequestUriLifespan": "60",
     "cibaInterval": "5"
   },
-  "keycloakVersion": "21.0.2",
+  "keycloakVersion": "22.0.1",
   "userManagedAccessAllowed": false,
   "clientProfiles": {
     "profiles": []
