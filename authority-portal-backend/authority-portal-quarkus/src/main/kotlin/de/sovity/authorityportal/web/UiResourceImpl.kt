@@ -3,19 +3,20 @@ package de.sovity.authorityportal.web
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.api.model.ExamplePageQuery
 import de.sovity.authorityportal.api.model.ExamplePageResult
-import de.sovity.authorityportal.api.model.UserApprovalPageQuery
 import de.sovity.authorityportal.api.model.UserApprovalPageResult
-import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
-import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.web.services.ExamplePageApiService
 import de.sovity.authorityportal.web.services.ExampleTableApiService
+import de.sovity.authorityportal.web.services.auth.AuthUtils
 import de.sovity.authorityportal.web.services.pages.userapproval.UserApprovalPageApiService
 import de.sovity.authorityportal.web.services.pages.userregistration.UserRegistrationApiService
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 
 class UiResourceImpl : UiResource {
+    @Inject
+    lateinit var authUtils: AuthUtils
+
     @Inject
     lateinit var examplePageApiService: ExamplePageApiService
 
@@ -41,23 +42,30 @@ class UiResourceImpl : UiResource {
 
     // Registration
     @Transactional
-    override fun userRegistrationStatus(userId: String): UserRegistrationStatusResult {
-        return userRegistrationApiService.userRegistrationStatus(userId)
-    }
-
-    @Transactional
-    override fun updateUserRegistrationStatus(status: UserRegistrationStatusDto, userId: String): String {
-        return userRegistrationApiService.updateUserRegistrationStatus(userId, status)
+    override fun userRegistrationStatus(): UserRegistrationStatusResult {
+        val view = authUtils.getViewDependingOnRole(Roles.UserRegistration.READ)
+        return userRegistrationApiService.userRegistrationStatus(view.userId)
     }
 
     // User Approval
     @Transactional
-    override fun userApprovalPage(query: UserApprovalPageQuery): UserApprovalPageResult {
-        return userApprovalPageApiService.userApprovalPage(query)
+    override fun userApprovalPage(): UserApprovalPageResult {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+
+        return userApprovalPageApiService.userApprovalPage()
     }
 
     @Transactional
-    override fun updateUserRole(role: UserRoleDto, userId: String): String {
-        return userApprovalPageApiService.updateUserRole(userId, role)
+    override fun approveUser(userId: String): String {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+
+        return userApprovalPageApiService.approveUser(userId)
+    }
+
+    @Transactional
+    override fun rejectUser(userId: String): String {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+
+        return userApprovalPageApiService.rejectUser(userId)
     }
 }

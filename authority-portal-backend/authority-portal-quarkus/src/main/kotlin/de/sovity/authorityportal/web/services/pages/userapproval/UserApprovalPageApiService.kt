@@ -1,12 +1,8 @@
 package de.sovity.authorityportal.web.services.pages.userapproval
 
-import de.sovity.authorityportal.api.model.UserApprovalPageQuery
 import de.sovity.authorityportal.api.model.UserApprovalPageResult
-import de.sovity.authorityportal.api.model.UserRoleDto
-import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
-import de.sovity.authorityportal.web.services.toDb
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
@@ -22,7 +18,7 @@ class UserApprovalPageApiService {
     @Inject
     lateinit var userApprovalPageUserMapper: UserApprovalPageUserMapper
 
-    fun userApprovalPage(query: UserApprovalPageQuery): UserApprovalPageResult {
+    fun userApprovalPage(): UserApprovalPageResult {
         val users = keycloakService.listUsers()
 
         val userDtos = users
@@ -32,17 +28,23 @@ class UserApprovalPageApiService {
         return UserApprovalPageResult(userDtos)
     }
 
-    /**
-     * TODO: Will get different functionality with the next PR
-     */
-    fun updateUserRole(userId: String, roleDto: UserRoleDto): String {
-        val u = Tables.USER!!
-
-        dsl.update(u)
-            .set(u.ROLE, roleDto.toDb())
-            .where(u.ID.eq(userId))
-            .execute()
+    fun approveUser(userId: String): String {
+        checkUserIsPending(userId)
+        keycloakService.updateStatus(userId, UserRegistrationStatus.APPROVED)
 
         return userId
+    }
+
+    fun rejectUser(userId: String): String {
+        checkUserIsPending(userId)
+        keycloakService.updateStatus(userId, UserRegistrationStatus.REJECTED)
+
+        return userId
+    }
+
+    private fun checkUserIsPending(userId: String) {
+        if (keycloakService.getUser(userId).registrationStatus != UserRegistrationStatus.PENDING) {
+            throw IllegalStateException("User is not in status \"pending\"")
+        }
     }
 }

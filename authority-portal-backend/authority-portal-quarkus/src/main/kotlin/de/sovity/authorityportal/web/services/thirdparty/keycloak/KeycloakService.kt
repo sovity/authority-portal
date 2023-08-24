@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.web.services.thirdparty.keycloak
 
+import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakUserMapper.Companion.REGISTRATION_STATUS
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
 import jakarta.enterprise.context.ApplicationScoped
@@ -35,7 +36,7 @@ class KeycloakService {
 
     fun updateStatus(userId: String, status: UserRegistrationStatus) {
         val user = keycloak.realm(keycloakRealm).users().get(userId).toRepresentation()
-        user.attributes["registrationStatus"] = listOf(status.statusCode.toString())
+        user.attributes[REGISTRATION_STATUS] = listOf(status.statusCode.toString())
         keycloak.realm(keycloakRealm).users().get(userId).update(user)
     }
 }

@@ -2,9 +2,7 @@ package de.sovity.authorityportal.api;
 
 import de.sovity.authorityportal.api.model.ExamplePageQuery;
 import de.sovity.authorityportal.api.model.ExamplePageResult;
-import de.sovity.authorityportal.api.model.UserApprovalPageQuery;
 import de.sovity.authorityportal.api.model.UserApprovalPageResult;
-import de.sovity.authorityportal.api.model.UserRegistrationStatusDto;
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
 import de.sovity.authorityportal.api.model.UserRoleDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,30 +37,27 @@ public interface UiResource {
 
     // Registration
     @GET
-    @Path("/registration/users/{userId}/registration-status")
+    @Path("/registration/registration-status")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Get the registration status of a user.")
-    UserRegistrationStatusResult userRegistrationStatus(@PathParam("userId") String userId);
-
-    @PUT
-    @Path("/registration/users/{userId}/registration-status")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Update the registration status of a user.")
-    String updateUserRegistrationStatus(UserRegistrationStatusDto status, @PathParam("userId") String userId);
+    @Operation(description = "Get a user's own registration status.")
+    UserRegistrationStatusResult userRegistrationStatus();
 
     // User Approval
-    @POST
+    @GET
     @Path("/user-approval")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "All data for UI user approval page.")
-    UserApprovalPageResult userApprovalPage(UserApprovalPageQuery query);
+    UserApprovalPageResult userApprovalPage();
 
     @PUT
-    @Path("/user-approval/users/{userId}/role")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/user-approval/users/{userId}/approve")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Update a user's role.")
-    String updateUserRole(UserRoleDto role, @PathParam("userId") String userId);
+    @Operation(description = "Approve a newly registered user.")
+    String approveUser(@PathParam("userId") String userId);
+
+    @PUT
+    @Path("/user-approval/users/{userId}/reject")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Reject a newly registered user.")
+    String rejectUser(@PathParam("userId") String userId);
 }
