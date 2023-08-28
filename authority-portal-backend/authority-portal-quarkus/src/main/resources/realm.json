@@ -516,7 +516,7 @@
           "a2548b2c-3d0b-11ee-be56-0242ac120002"
         ],
         "duns": [
-          "123456789"
+          "34-398-4587"
         ],
         "securityEmail": [
           "contact@johns-doughs.com"
@@ -605,9 +605,9 @@
   "otpPolicyPeriod": 30,
   "otpPolicyCodeReusable": false,
   "otpSupportedApplications": [
-    "totpAppMicrosoftAuthenticatorName",
+    "totpAppFreeOTPName",
     "totpAppGoogleName",
-    "totpAppFreeOTPName"
+    "totpAppMicrosoftAuthenticatorName"
   ],
   "webAuthnPolicyRpEntityName": "keycloak",
   "webAuthnPolicySignatureAlgorithms": [
@@ -635,6 +635,96 @@
   "webAuthnPolicyPasswordlessAcceptableAaguids": [],
   "users": [
     {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "createdTimestamp": 1692872833738,
+      "username": "example-authority-admin",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "Authority",
+      "lastName": "Admin",
+      "email": "example@authority.admin",
+      "attributes": {
+        "registrationStatus": [
+          "300"
+        ],
+        "phoneNumber": [
+          "0123456789"
+        ],
+        "position": [
+          "Admin"
+        ]
+      },
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-authority-portal"
+      ],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "createdTimestamp": 1692872833738,
+      "username": "example-participant-admin",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "Participant",
+      "lastName": "Admin",
+      "email": "example@participant.admin",
+      "attributes": {
+        "registrationStatus": [
+          "300"
+        ],
+        "phoneNumber": [
+          "0123456789"
+        ],
+        "position": [
+          "Admin"
+        ]
+      },
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-authority-portal"
+      ],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "createdTimestamp": 1692872833738,
+      "username": "example-new-user",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "New",
+      "lastName": "User",
+      "email": "example@new.user",
+      "attributes": {
+        "registrationStatus": [
+          "0"
+        ],
+        "phoneNumber": [
+          "0123456789"
+        ],
+        "position": [
+          "Trainee"
+        ]
+      },
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-authority-portal"
+      ],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
       "id": "9525c6ea-34d5-4c11-b9f8-133dc2086f00",
       "createdTimestamp": 1691679101665,
       "username": "jdoe",
@@ -646,7 +736,7 @@
       "email": "john.doe@company.com",
       "attributes": {
         "registrationStatus": [
-          "0"
+          "200"
         ],
         "phoneNumber": [
           "0123123456"
@@ -895,8 +985,8 @@
         "client.secret.creation.time": "1691678229",
         "backchannel.logout.session.required": "true",
         "post.logout.redirect.uris": "+",
-        "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},

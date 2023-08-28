@@ -22,6 +22,12 @@ class AuthUtils {
         return UserView(filter, loggedInUser.userId, loggedInUser.organisationId)
     }
 
+    fun requiresAuthenticated() {
+        if (loggedInUser.userId.isBlank()) {
+            unauthorized()
+        }
+    }
+
     fun requiresRole(role: String) {
         if (!loggedInUser.roles.contains(role)) {
             unauthorized()
