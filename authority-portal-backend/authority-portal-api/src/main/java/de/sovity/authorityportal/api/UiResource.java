@@ -3,8 +3,9 @@ package de.sovity.authorityportal.api;
 import de.sovity.authorityportal.api.model.ExamplePageQuery;
 import de.sovity.authorityportal.api.model.ExamplePageResult;
 import de.sovity.authorityportal.api.model.UserApprovalPageResult;
+import de.sovity.authorityportal.api.model.CreateOrganizationRequest;
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
-import de.sovity.authorityportal.api.model.UserRoleDto;
+import de.sovity.authorityportal.api.model.UserInfoResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.Consumes;
@@ -35,12 +36,26 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     List<String> exampleDbQuery();
 
+    // User info
+    @GET
+    @Path("/user-info")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get the current user's info.")
+    UserInfoResult userInfo();
+
     // Registration
     @GET
     @Path("/registration/registration-status")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get a user's own registration status.")
     UserRegistrationStatusResult userRegistrationStatus();
+
+    @POST
+    @Path("/registration/organization")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Create an organization for a user.")
+    String createOrganization(CreateOrganizationRequest organization);
 
     // User Approval
     @GET

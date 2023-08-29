@@ -4,6 +4,8 @@ import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.api.model.ExamplePageQuery
 import de.sovity.authorityportal.api.model.ExamplePageResult
 import de.sovity.authorityportal.api.model.UserApprovalPageResult
+import de.sovity.authorityportal.api.model.UserInfoResult
+import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.web.services.ExamplePageApiService
 import de.sovity.authorityportal.web.services.ExampleTableApiService
@@ -41,7 +43,14 @@ class UiResourceImpl : UiResource {
 
     @Transactional
     override fun exampleDbQuery(): MutableList<String> {
-        return exampleTableApiService.getExampleTableIds().toMutableList();
+        return exampleTableApiService.getExampleTableIds().toMutableList()
+    }
+
+    // User info
+    @Transactional
+    override fun userInfo(): UserInfoResult {
+        authUtils.requiresAuthenticated()
+        TODO("Not yet implemented")
     }
 
     // Registration
@@ -49,6 +58,12 @@ class UiResourceImpl : UiResource {
     override fun userRegistrationStatus(): UserRegistrationStatusResult {
         authUtils.requiresAuthenticated()
         return userRegistrationApiService.userRegistrationStatus(loggedInUser.userId)
+    }
+
+    @Transactional
+    override fun createOrganization(organization: CreateOrganizationRequest): String {
+        authUtils.requiresAuthenticated()
+        TODO("Not yet implemented")
     }
 
     // User Approval
