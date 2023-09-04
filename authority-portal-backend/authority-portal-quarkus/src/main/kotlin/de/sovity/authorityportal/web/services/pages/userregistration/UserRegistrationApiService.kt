@@ -37,7 +37,7 @@ class UserRegistrationApiService {
         keycloakService.createOrganization(mdsId)
         keycloakService.joinOrganization(userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
         keycloakService.updateStatus(userId, UserRegistrationStatus.PENDING)
-        organizationService.createOrgInDb(userId, mdsId, organization)
+        organizationService.createOrganization(userId, mdsId, organization)
 
         return userId
     }
