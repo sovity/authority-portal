@@ -8,13 +8,13 @@ create table my_example
     status     my_example_status        not null
 );
 
-create type user_role as enum ('ADMIN', 'USER');
-
-create table "user"
+create table "organization"
 (
-    id         text                     not null primary key,
-    first_name text                     not null,
-    last_name  text                     not null,
-    created_at timestamp with time zone not null,
-    role       user_role                not null
+    mds_id         text not null primary key,
+    name           text not null,
+    address        text not null,
+    duns           text not null,
+    url            text not null,
+    security_email text not null,
+    created_by     text not null
 );

@@ -16,12 +16,8 @@ import lombok.ToString;
 public class CreateOrganizationRequest {
     @Schema(description = "Legal name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
-    @Schema(description = "Address: Street and house number", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String addressStreetNr;
-    @Schema(description = "Address: Zip code", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String addressZipCode;
-    @Schema(description = "Address: City", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String addressCity;
+    @Schema(description = "Address", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String address;
     @Schema(description = "DUNS number", requiredMode = Schema.RequiredMode.REQUIRED)
     private String duns;
     @Schema(description = "URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
