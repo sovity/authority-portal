@@ -9,10 +9,10 @@ import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.representations.idm.GroupRepresentation
-import org.keycloak.representations.idm.RoleRepresentation
 
 @ApplicationScoped
 class KeycloakService {
+
     @Inject
     lateinit var keycloak: Keycloak
 
@@ -35,6 +35,23 @@ class KeycloakService {
         val user = keycloak.realm(keycloakRealm).users().get(userId).toRepresentation()
 
         return keycloakUserMapper.buildKeycloakUserDto(user)
+    }
+
+    fun getRolesOfUser(userId: String): Set<String> {
+        val roles = keycloak.realm(keycloakRealm).users().get(userId).roles().realmLevel().listEffective()
+
+        return roles.map { it.name }.toSet()
+    }
+
+    fun getOrganizationIdOfUser(userId: String): String? {
+        val groups = keycloak.realm(keycloakRealm).users().get(userId).groups()
+
+        val test = groups.mapNotNull {
+            it.path
+        }.firstOrNull { it.contains("MDSL") }
+            ?.split("/")
+            ?.get(1)
+        return test
     }
 
     fun updateStatus(userId: String, status: UserRegistrationStatus) {

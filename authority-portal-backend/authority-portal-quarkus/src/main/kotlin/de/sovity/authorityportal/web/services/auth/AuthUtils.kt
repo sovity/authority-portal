@@ -41,6 +41,7 @@ class AuthUtils {
 
     fun requiresRegistrationStatus(status: UserRegistrationStatus) {
         val userRegistrationStatus = keycloakService.getUser(loggedInUser.userId).registrationStatus
+
         if (userRegistrationStatus != status) {
             unauthorized("User registration status is invalid. Expected: $status. Has: $userRegistrationStatus")
         }

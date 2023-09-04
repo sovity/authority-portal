@@ -22,6 +22,8 @@ public class UserInfoResult {
     private String lastName;
     @Schema(description = "Name of the user's organization", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationName;
+    @Schema(description = "MDS-ID of the user's organization", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String organizationMdsId;
     @Schema(description = "Roles of the user", requiredMode = Schema.RequiredMode.REQUIRED)
     private Set<UserRoleDto> roles;
     @Schema(description = "Registration status of the user", requiredMode = Schema.RequiredMode.REQUIRED)

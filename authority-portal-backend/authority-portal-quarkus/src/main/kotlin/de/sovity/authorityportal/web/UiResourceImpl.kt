@@ -12,6 +12,7 @@ import de.sovity.authorityportal.web.services.ExampleTableApiService
 import de.sovity.authorityportal.web.services.auth.AuthUtils
 import de.sovity.authorityportal.web.services.auth.LoggedInUser
 import de.sovity.authorityportal.web.services.pages.userapproval.UserApprovalPageApiService
+import de.sovity.authorityportal.web.services.pages.userinfo.UserInfoApiService
 import de.sovity.authorityportal.web.services.pages.userregistration.UserRegistrationApiService
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
 import jakarta.inject.Inject
@@ -29,6 +30,9 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var exampleTableApiService: ExampleTableApiService
+
+    @Inject
+    lateinit var userInfoApiService: UserInfoApiService
 
     @Inject
     lateinit var userApprovalPageApiService: UserApprovalPageApiService
@@ -51,7 +55,7 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun userInfo(): UserInfoResult {
         authUtils.requiresAuthenticated()
-        TODO("Not yet implemented")
+        return userInfoApiService.userInfo(loggedInUser.userId)
     }
 
     // Registration
