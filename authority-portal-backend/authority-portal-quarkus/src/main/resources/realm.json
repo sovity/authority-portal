@@ -509,29 +509,16 @@
   "groups": [
     {
       "id": "54d8dae0-2e9f-471b-b449-b5f77345553f",
-      "name": "John's Doughs",
-      "path": "/John's Doughs",
-      "attributes": {
-        "organizationId": [
-          "a2548b2c-3d0b-11ee-be56-0242ac120002"
-        ],
-        "duns": [
-          "34-398-4587"
-        ],
-        "securityEmail": [
-          "contact@johns-doughs.com"
-        ],
-        "url": [
-          "https://www.johns-doughs.com"
-        ]
-      },
+      "name": "MDSL0123456789ZZ",
+      "path": "/MDSL0123456789ZZ",
+      "attributes": {},
       "realmRoles": [],
       "clientRoles": {},
       "subGroups": [
         {
           "id": "f1ef1ed7-4b5b-4db7-a38c-8a28cdca99c0",
           "name": "Participant Curator",
-          "path": "/John's Doughs/Participant Curator",
+          "path": "/MDSL0123456789ZZ/Participant Curator",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
@@ -542,7 +529,7 @@
         {
           "id": "41d733bf-1d87-4d53-85b2-0918f4d7cd9d",
           "name": "Participant Admin",
-          "path": "/John's Doughs/Participant Admin",
+          "path": "/MDSL0123456789ZZ/Participant Admin",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
@@ -553,7 +540,7 @@
         {
           "id": "f526043d-899e-4c2c-a37b-c6f62539da20",
           "name": "Participant User",
-          "path": "/John's Doughs/Participant User",
+          "path": "/MDSL0123456789ZZ/Participant User",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
@@ -665,36 +652,6 @@
       "groups": []
     },
     {
-      "id": "00000000-0000-0000-0000-000000000002",
-      "createdTimestamp": 1692872833738,
-      "username": "example-participant-admin",
-      "enabled": true,
-      "totp": false,
-      "emailVerified": false,
-      "firstName": "Participant",
-      "lastName": "Admin",
-      "email": "example@participant.admin",
-      "attributes": {
-        "registrationStatus": [
-          "300"
-        ],
-        "phoneNumber": [
-          "0123456789"
-        ],
-        "position": [
-          "Admin"
-        ]
-      },
-      "credentials": [],
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "default-roles-authority-portal"
-      ],
-      "notBefore": 0,
-      "groups": []
-    },
-    {
       "id": "00000000-0000-0000-0000-000000000003",
       "createdTimestamp": 1692872833738,
       "username": "example-new-user",
@@ -713,6 +670,36 @@
         ],
         "position": [
           "Trainee"
+        ]
+      },
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-authority-portal"
+      ],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "createdTimestamp": 1692872833738,
+      "username": "example-participant-admin",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "Participant",
+      "lastName": "Admin",
+      "email": "example@participant.admin",
+      "attributes": {
+        "registrationStatus": [
+          "300"
+        ],
+        "phoneNumber": [
+          "0123456789"
+        ],
+        "position": [
+          "Admin"
         ]
       },
       "credentials": [],
@@ -763,8 +750,7 @@
       ],
       "notBefore": 0,
       "groups": [
-        "/John's Doughs",
-        "/John's Doughs/Participant Admin"
+        "/MDSL0123456789ZZ/Participant Admin"
       ]
     },
     {
@@ -985,8 +971,8 @@
         "client.secret.creation.time": "1691678229",
         "backchannel.logout.session.required": "true",
         "post.logout.redirect.uris": "+",
-        "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},

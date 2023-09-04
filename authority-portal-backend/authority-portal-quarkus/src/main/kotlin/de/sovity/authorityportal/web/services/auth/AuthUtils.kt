@@ -1,5 +1,7 @@
 package de.sovity.authorityportal.web.services.auth
 
+import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
+import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.utils.unauthorized
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -8,6 +10,9 @@ import jakarta.inject.Inject
 class AuthUtils {
     @Inject
     lateinit var loggedInUser: LoggedInUser
+
+    @Inject
+    lateinit var keycloakService: KeycloakService
 
     fun getViewDependingOnRole(roles: UserViewRequiredRoles): UserView {
         val userRoles = loggedInUser.roles
@@ -31,6 +36,13 @@ class AuthUtils {
     fun requiresRole(role: String) {
         if (!loggedInUser.roles.contains(role)) {
             unauthorized()
+        }
+    }
+
+    fun requiresRegistrationStatus(status: UserRegistrationStatus) {
+        val userRegistrationStatus = keycloakService.getUser(loggedInUser.userId).registrationStatus
+        if (userRegistrationStatus != status) {
+            unauthorized("User registration status is invalid. Expected: $status. Has: $userRegistrationStatus")
         }
     }
 }

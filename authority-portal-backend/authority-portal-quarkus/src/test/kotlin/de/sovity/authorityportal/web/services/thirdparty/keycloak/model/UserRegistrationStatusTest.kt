@@ -12,7 +12,7 @@ class UserRegistrationStatusTest {
 
     @Test
     fun testFromStatusCode_Unknown() {
-        val unknown = UserRegistrationStatus.UNKNOWN
+        val unknown = UserRegistrationStatus.REJECTED
         assertThat(UserRegistrationStatus.fromStatusCode(-123)).isEqualTo(unknown)
     }
 }

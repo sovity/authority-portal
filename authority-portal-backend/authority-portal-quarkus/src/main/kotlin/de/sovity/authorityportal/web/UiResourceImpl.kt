@@ -1,11 +1,11 @@
 package de.sovity.authorityportal.web
 
 import de.sovity.authorityportal.api.UiResource
+import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.api.model.ExamplePageQuery
 import de.sovity.authorityportal.api.model.ExamplePageResult
 import de.sovity.authorityportal.api.model.UserApprovalPageResult
 import de.sovity.authorityportal.api.model.UserInfoResult
-import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.web.services.ExamplePageApiService
 import de.sovity.authorityportal.web.services.ExampleTableApiService
@@ -13,6 +13,7 @@ import de.sovity.authorityportal.web.services.auth.AuthUtils
 import de.sovity.authorityportal.web.services.auth.LoggedInUser
 import de.sovity.authorityportal.web.services.pages.userapproval.UserApprovalPageApiService
 import de.sovity.authorityportal.web.services.pages.userregistration.UserRegistrationApiService
+import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 
@@ -63,7 +64,8 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun createOrganization(organization: CreateOrganizationRequest): String {
         authUtils.requiresAuthenticated()
-        TODO("Not yet implemented")
+        authUtils.requiresRegistrationStatus(UserRegistrationStatus.CREATED)
+        return userRegistrationApiService.createOrganization(loggedInUser.userId, organization)
     }
 
     // User Approval

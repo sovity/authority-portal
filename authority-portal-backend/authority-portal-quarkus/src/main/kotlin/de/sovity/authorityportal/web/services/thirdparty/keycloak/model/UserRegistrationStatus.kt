@@ -5,11 +5,10 @@ enum class UserRegistrationStatus(val statusCode: Int) {
     ORGANIZATION_CREATED(100),
     PENDING(200),
     APPROVED(300),
-    REJECTED(400),
-    UNKNOWN(-1);
+    REJECTED(400);
 
     companion object {
         private val byStatusCode = values().associateBy { it.statusCode }
-        fun fromStatusCode(statusCode: Int): UserRegistrationStatus = byStatusCode[statusCode] ?: UNKNOWN
+        fun fromStatusCode(statusCode: Int): UserRegistrationStatus = byStatusCode[statusCode] ?: REJECTED
     }
 }
