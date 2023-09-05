@@ -34,4 +34,11 @@ class OrganizationService {
             .where(o.MDS_ID.eq(mdsId))
             .fetchOne()
     }
+
+    fun getOrganizations(): List<OrganizationRecord> {
+        val o = Tables.ORGANIZATION
+
+        return dsl.selectFrom(o)
+            .fetch()
+    }
 }

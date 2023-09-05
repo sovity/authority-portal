@@ -1,11 +1,13 @@
 package de.sovity.authorityportal.api;
 
+import de.sovity.authorityportal.api.model.CreateOrganizationRequest;
 import de.sovity.authorityportal.api.model.ExamplePageQuery;
 import de.sovity.authorityportal.api.model.ExamplePageResult;
+import de.sovity.authorityportal.api.model.OrganizationDetailResult;
+import de.sovity.authorityportal.api.model.OrganizationOverviewResult;
 import de.sovity.authorityportal.api.model.UserApprovalPageResult;
-import de.sovity.authorityportal.api.model.CreateOrganizationRequest;
-import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
 import de.sovity.authorityportal.api.model.UserInfoResult;
+import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.Consumes;
@@ -57,22 +59,35 @@ public interface UiResource {
     @Operation(description = "Create an organization for a user.")
     String createOrganization(CreateOrganizationRequest organization);
 
-    // User Approval
+    // Organization management
+    @GET
+    @Path("/authority/organizations")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get all participating organizations with their status.")
+    OrganizationOverviewResult organizationsOverview();
+
+    @GET
+    @Path("/authority/organizations/{mdsId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get an organization's detail information with their status.")
+    OrganizationDetailResult organizationDetails(@PathParam("mdsId") String mdsId);
+
+    @PUT
+    @Path("/authority/organizations/{mdsId}/approve")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Approve a newly registered organization.")
+    String approveOrganization(@PathParam("mdsId") String mdsId);
+
+    @PUT
+    @Path("/authority/organizations/{mdsId}/reject")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Reject a newly registered organization.")
+    String rejectOrganization(@PathParam("mdsId") String mdsId);
+
+    // LEGACY: user approval
     @GET
     @Path("/user-approval")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "All data for UI user approval page.")
     UserApprovalPageResult userApprovalPage();
-
-    @PUT
-    @Path("/user-approval/users/{userId}/approve")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Approve a newly registered user.")
-    String approveUser(@PathParam("userId") String userId);
-
-    @PUT
-    @Path("/user-approval/users/{userId}/reject")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Reject a newly registered user.")
-    String rejectUser(@PathParam("userId") String userId);
 }
