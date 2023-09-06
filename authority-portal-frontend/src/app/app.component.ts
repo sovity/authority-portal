@@ -1,28 +1,43 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subject, from, takeUntil} from 'rxjs';
-import {buildAuthorityPortalClient} from '@sovity.de/authority-portal-client';
-import {ApiService} from './services/api.service';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Subject, interval} from 'rxjs';
+import {Store} from '@ngxs/store';
+import {APP_CONFIG, AppConfig} from './core/config/app-config';
+import {GlobalState} from './core/global-state/global-state';
+import {RefreshUserInfo} from './core/global-state/global-state-actions';
+import {GlobalStateImpl} from './core/global-state/global-state-impl';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'app';
-  exampleDbQueryResult: string[] | null = null;
-  constructor(private apiService: ApiService) {}
+  state!: GlobalState;
+
+  constructor(
+    @Inject(APP_CONFIG) public config: AppConfig,
+    private store: Store,
+  ) {}
+
   ngOnInit() {
-    // Run dummy request on page open
-    this.apiService
-      .exampleDbQuery()
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((exampleDbQueryResult) => {
-        this.exampleDbQueryResult = exampleDbQueryResult;
-      });
+    this.startListeningToGlobalState();
+    this.startPollingUserInfo();
   }
+
+  private startListeningToGlobalState() {
+    this.store
+      .select<GlobalState>(GlobalStateImpl)
+      .subscribe((state) => (this.state = state));
+  }
+
   ngOnDestroy$ = new Subject();
+
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
+  }
+
+  private startPollingUserInfo() {
+    this.store.dispatch(RefreshUserInfo);
+    interval(5000).subscribe(() => this.store.dispatch(RefreshUserInfo));
   }
 }

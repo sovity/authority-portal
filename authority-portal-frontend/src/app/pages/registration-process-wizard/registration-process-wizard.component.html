@@ -1,0 +1,4 @@
+<app-organisation-create
+  *ngIf="registrationStatus === 'CREATED'"></app-organisation-create>
+<app-organization-pending-page *ngIf="registrationStatus === 'PENDING'">
+</app-organization-pending-page>
