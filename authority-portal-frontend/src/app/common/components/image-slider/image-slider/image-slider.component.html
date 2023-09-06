@@ -1,0 +1,29 @@
+<div
+  class="left-0 flex-auto flex justify-center text-center items-center w-full h-[50vh] bg-cover bg-center shadow-md"
+  [ngStyle]="{'background-image': getCurrentSlideUrl()}">
+  <div
+    class="text-white ml-10 min-w-[2.5rem] rounded-full w-10 h-10 bg-[#ffffff10] cursor-pointer focus:text-primary-600 flex justify-center items-center"
+    (click)="goToPrevious()">
+    ❰
+  </div>
+
+  <p
+    class="mx-[20%] lg:mx-[15%] xl:mx-[20%] mb-10 p-12 xl:text-5xl lg:text-4xl md:text-3xl bg-[#ffff00] shadow-lg drop-shadow-md text-[#111] max-h-[40vh]">
+    {{ getCurrentSlideTitle() }}
+  </p>
+  <div
+    class="text-white mr-10 min-w-[2.5rem] rounded-full w-10 h-10 bg-[#ffffff10] cursor-pointer focus:text-primary-600 flex justify-center items-center"
+    (click)="goToNext()">
+    ❱
+  </div>
+</div>
+
+<!-- <div class="flex flex-row">
+    <div
+        *ngFor="let slide of slides; let slideIndex = index"
+        class="mx-0.5 mt-[-2rem] my-1"
+        (click)="goToSlide(slideIndex)"
+    >
+        ●
+    </div>
+</div> -->

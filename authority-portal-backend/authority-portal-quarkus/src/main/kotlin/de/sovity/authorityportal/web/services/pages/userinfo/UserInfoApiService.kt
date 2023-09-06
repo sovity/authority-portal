@@ -1,6 +1,6 @@
 package de.sovity.authorityportal.web.services.pages.userinfo
 
-import de.sovity.authorityportal.api.model.UserInfoResult
+import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.web.services.db.OrganizationService
 import de.sovity.authorityportal.web.services.pages.userregistration.toDto
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
@@ -19,19 +19,19 @@ class UserInfoApiService {
     @Inject
     lateinit var userRoleMapper: UserRoleMapper
 
-    fun userInfo(userId: String): UserInfoResult {
+    fun userInfo(userId: String): UserInfo {
         val user = keycloakService.getUser(userId)
         val organizationMdsId = getMdsId(userId)
         val organizationName = getOrganization(organizationMdsId)
         val roles = userRoleMapper.getUserRoles(keycloakService.getRolesOfUser(userId))
 
-        return UserInfoResult(
-            user.firstName,
-            user.lastName,
-            organizationName,
-            organizationMdsId,
-            roles,
-            user.registrationStatus.toDto()
+        return UserInfo(
+                user.firstName,
+                user.lastName,
+                organizationName,
+                organizationMdsId,
+                roles.toList(),
+                user.registrationStatus.toDto()
         )
     }
 

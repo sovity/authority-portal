@@ -6,7 +6,7 @@ import de.sovity.authorityportal.api.model.ExamplePageResult;
 import de.sovity.authorityportal.api.model.OrganizationDetailResult;
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult;
 import de.sovity.authorityportal.api.model.UserApprovalPageResult;
-import de.sovity.authorityportal.api.model.UserInfoResult;
+import de.sovity.authorityportal.api.model.UserInfo;
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,7 +43,7 @@ public interface UiResource {
     @Path("/user-info")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get the current user's info.")
-    UserInfoResult userInfo();
+    UserInfo userInfo();
 
     // Registration
     @GET

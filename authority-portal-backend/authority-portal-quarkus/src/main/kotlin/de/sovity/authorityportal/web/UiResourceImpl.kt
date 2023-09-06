@@ -7,7 +7,7 @@ import de.sovity.authorityportal.api.model.ExamplePageResult
 import de.sovity.authorityportal.api.model.OrganizationDetailResult
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.UserApprovalPageResult
-import de.sovity.authorityportal.api.model.UserInfoResult
+import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.web.services.ExamplePageApiService
 import de.sovity.authorityportal.web.services.ExampleTableApiService
@@ -59,7 +59,7 @@ class UiResourceImpl : UiResource {
 
     // User info
     @Transactional
-    override fun userInfo(): UserInfoResult {
+    override fun userInfo(): UserInfo {
         authUtils.requiresAuthenticated()
         return userInfoApiService.userInfo(loggedInUser.userId)
     }

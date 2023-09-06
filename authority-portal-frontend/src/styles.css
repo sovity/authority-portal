@@ -5,10 +5,22 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+/* @font-face {
+  font-family: 'Soehne';
+  src: url('./assets/fonts/mds/soehne-web-buch.woff2');
+} */
+
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  outline: 0;
   /* !border only for testing purposes! */
   /* border: 1px dashed lightskyblue; */
 }
@@ -16,8 +28,13 @@
 body {
   width: 100vw;
   height: 100vh;
+  /* font-family: 'Soehne', sans-serif; */
   font-family: 'Inter', sans-serif;
-  /* font-family: Roboto, "Helvetica Neue", sans-serif; */
+  /* font-family: Roboto, 'Helvetica Neue', sans-serif; */
+}
+
+a {
+  @apply hover:text-yellow-500  focus:text-yellow-500;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -28,4 +45,20 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.sidebar-item-container {
+  @apply py-5 flex flex-row  pl-5 w-full;
+}
+
+.sidebar-item {
+  @apply flex items-center self-start w-fit space-x-6 focus:outline-none text-white focus:text-yellow-400 hover:text-yellow-400 rounded cursor-pointer;
+}
+
+.sidebar-sub-item {
+  @apply flex justify-start items-center space-x-6 hover:text-yellow-400 focus:text-yellow-400 text-gray-200 rounded lg:px-3 py-4 w-full;
+}
+
+.active {
+  color: red;
 }

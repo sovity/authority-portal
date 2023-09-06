@@ -3,13 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run link && npm run generate-config && ng serve",
-    "watch": "npm run link && ng build --watch --configuration development",
-    "test": "npm run link && ng test",
-    "test-ci": "npm run link && ng test --browsers=ChromeHeadless --progress=false --watch=false --code-coverage --source-map=false",
-    "build": "npm run link && ng build",
+    "start": "npm run generate-config && ng serve",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "test-ci": "ng test --browsers=ChromeHeadless --progress=false --watch=false --code-coverage --source-map=false",
+    "build": "ng build",
     "generate-config": "node config-generator.js",
-    "link": "npm link ../authority-portal-backend/authority-portal-api-client-ts",
     "format-all": "prettier --write ."
   },
   "private": true,
@@ -25,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
     "@ngxs/store": "^3.8.1",
+    "@sovity.de/authority-portal-client": "file:../authority-portal-backend/authority-portal-api-client-ts",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
@@ -33,6 +33,7 @@
     "@angular-devkit/build-angular": "^16.1.4",
     "@angular/cli": "~16.1.4",
     "@angular/compiler-cli": "^16.1.0",
+    "@ngxs/devtools-plugin": "^3.8.1",
     "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@types/jasmine": "~4.3.0",
     "autoprefixer": "^10.4.14",
@@ -43,10 +44,12 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "nodemon": "^3.0.1",
     "postcss": "^8.4.26",
-    "tailwindcss": "^3.3.3",
     "prettier": "^2.8.8",
     "prettier-plugin-organize-attributes": "^0.0.5",
+    "tailwindcss": "^3.3.3",
+    "ts-node": "^10.9.1",
     "typescript": "~5.1.3"
   }
 }
