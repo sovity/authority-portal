@@ -1,11 +1,9 @@
 package de.sovity.authorityportal.web.services.pages.userregistration
 
 import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
-import de.sovity.authorityportal.web.services.auth.UserView
-import de.sovity.authorityportal.web.services.auth.UserViewFilter
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.KeycloakUserDto
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
+import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
+import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
+import de.sovity.authorityportal.web.services.db.UserService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -21,15 +19,15 @@ class UserRegistrationApiServiceTest {
     lateinit var userRegistrationApiService: UserRegistrationApiService
 
     @Mock
-    lateinit var keycloakService: KeycloakService
+    lateinit var userService: UserService
 
     @Test
     fun testUserRegistrationStatus() {
         // arrange
         val userId = "123"
-        val pendingUser = mock(KeycloakUserDto::class.java)
+        val pendingUser = mock(UserRecord::class.java)
         `when`(pendingUser.registrationStatus).thenReturn(UserRegistrationStatus.PENDING)
-        `when`(keycloakService.getUser(userId)).thenReturn(pendingUser)
+        `when`(userService.getUserOrThrow(userId)).thenReturn(pendingUser)
         val expected = UserRegistrationStatusDto.PENDING
 
         // act

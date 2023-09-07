@@ -1,9 +1,10 @@
 package de.sovity.authorityportal.web.services.pages.userinfo
 
 import de.sovity.authorityportal.api.model.UserInfo
+import de.sovity.authorityportal.web.services.auth.LoggedInUser
 import de.sovity.authorityportal.web.services.db.OrganizationService
+import de.sovity.authorityportal.web.services.db.UserDetailService
 import de.sovity.authorityportal.web.services.pages.userregistration.toDto
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
@@ -11,7 +12,7 @@ import jakarta.inject.Inject
 class UserInfoApiService {
 
     @Inject
-    lateinit var keycloakService: KeycloakService
+    lateinit var userDetailService: UserDetailService
 
     @Inject
     lateinit var organizationService: OrganizationService
@@ -19,32 +20,28 @@ class UserInfoApiService {
     @Inject
     lateinit var userRoleMapper: UserRoleMapper
 
-    fun userInfo(userId: String): UserInfo {
-        val user = keycloakService.getUser(userId)
-        val organizationMdsId = getMdsId(userId)
+    fun userInfo(loggedInUser: LoggedInUser): UserInfo {
+        val user = userDetailService.getUserData(loggedInUser.userId)
+        val organizationMdsId = loggedInUser.organisationMdsId
         val organizationName = getOrganization(organizationMdsId)
-        val roles = userRoleMapper.getUserRoles(keycloakService.getRolesOfUser(userId))
+        val roles = userRoleMapper.getUserRoles(loggedInUser.roles)
 
         return UserInfo(
-                user.firstName,
-                user.lastName,
-                organizationName,
-                organizationMdsId,
-                roles.toList(),
-                user.registrationStatus.toDto()
+            user.firstName,
+            user.lastName,
+            organizationName,
+            organizationMdsId,
+            roles.toList(),
+            user.registrationStatus.toDto()
         )
     }
 
-    private fun getMdsId(userId: String): String? {
-        return keycloakService.getOrganizationIdOfUser(userId)
-    }
-
-    private fun getOrganization(mdsId: String?): String {
+    private fun getOrganization(mdsId: String?): String? {
         if (mdsId.isNullOrEmpty()) {
-            return ""
+            return null
         }
-        val organization = organizationService.getOrganization(mdsId)
+        val organization = organizationService.getOrganizationOrThrow(mdsId)
 
-        return organization?.name ?: ""
+        return organization.name
     }
 }

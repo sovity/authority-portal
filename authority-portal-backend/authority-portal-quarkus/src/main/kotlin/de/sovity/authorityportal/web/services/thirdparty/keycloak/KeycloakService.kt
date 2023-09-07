@@ -1,9 +1,7 @@
 package de.sovity.authorityportal.web.services.thirdparty.keycloak
 
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakUserMapper.Companion.REGISTRATION_STATUS
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.OrganizationRole
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
@@ -35,29 +33,6 @@ class KeycloakService {
         val user = keycloak.realm(keycloakRealm).users().get(userId).toRepresentation()
 
         return keycloakUserMapper.buildKeycloakUserDto(user)
-    }
-
-    fun getRolesOfUser(userId: String): Set<String> {
-        val roles = keycloak.realm(keycloakRealm).users().get(userId).roles().realmLevel().listEffective()
-
-        return roles.map { it.name }.toSet()
-    }
-
-    fun getOrganizationIdOfUser(userId: String): String? {
-        val groups = keycloak.realm(keycloakRealm).users().get(userId).groups()
-
-        val test = groups.mapNotNull {
-            it.path
-        }.firstOrNull { it.contains("MDSL") }
-            ?.split("/")
-            ?.get(1)
-        return test
-    }
-
-    fun updateStatus(userId: String, status: UserRegistrationStatus) {
-        val user = keycloak.realm(keycloakRealm).users().get(userId).toRepresentation()
-        user.attributes[REGISTRATION_STATUS] = listOf(status.statusCode.toString())
-        keycloak.realm(keycloakRealm).users().get(userId).update(user)
     }
 
     fun createOrganization(mdsId: String) {

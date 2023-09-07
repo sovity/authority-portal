@@ -3,7 +3,7 @@ package de.sovity.authorityportal.web.services.auth
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class UserViewRequiredRolesTest() {
+class UserViewRequiredRolesTest {
 
     @Test
     fun testUserViewRequiredRoles() {

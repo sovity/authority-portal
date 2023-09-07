@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.web.services.auth
 
+import de.sovity.authorityportal.web.services.db.UserService
 import de.sovity.authorityportal.web.services.utils.unauthorized
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.context.RequestScoped
@@ -21,6 +22,9 @@ class LoggedInUserFactory {
     lateinit var context: SecurityContext
 
     @Inject
+    lateinit var userService: UserService
+
+    @Inject
     lateinit var devLoggedInUserFactory: DevLoggedInUserFactory
 
     @Produces
@@ -34,19 +38,23 @@ class LoggedInUserFactory {
     }
 
     private fun buildLoggedInUser(jwt: JsonWebToken): LoggedInUser {
-        val userId = jwt.claim<String>("sub").orElseGet { unauthorized() }
-        val organisationId = jwt.claim<String>("organizationId").orElse(null)
+        val userId = getUserId(jwt)
+        val roles = getRoles(jwt)
+        val organisationMdsId: String? = userService.getUserOrCreate(userId).organizationMdsId
 
-        val roles = jwt.claim<JsonObject>("realm_access")
-            .orElseGet { unauthorized() }
-            .getJsonArray("roles")
-            .filterIsInstance<JsonString>()
-            .filter { it.string.startsWith("UR_") || it.string.startsWith("AR_") }
-            .map { it.string }
-            .toSet()
-
-        return LoggedInUser(userId, organisationId, roles)
+        return LoggedInUser(userId, organisationMdsId, roles)
     }
+
+    private fun getUserId(jwt: JsonWebToken): String =
+        jwt.claim<String>("sub").orElseGet { unauthorized() }
+
+    private fun getRoles(jwt: JsonWebToken) = jwt.claim<JsonObject>("realm_access")
+        .orElseGet { unauthorized() }
+        .getJsonArray("roles")
+        .filterIsInstance<JsonString>()
+        .filter { it.string.startsWith("UR_") || it.string.startsWith("AR_") }
+        .map { it.string }
+        .toSet()
 
     private fun jsonWebToken() = jwtInstance.toList().firstOrNull() ?: unauthorized()
 }

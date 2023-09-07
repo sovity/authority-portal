@@ -28,7 +28,7 @@
   "enabled": true,
   "sslRequired": "external",
   "registrationAllowed": true,
-  "registrationEmailAsUsername": false,
+  "registrationEmailAsUsername": true,
   "rememberMe": true,
   "verifyEmail": false,
   "loginWithEmailAllowed": true,
@@ -551,6 +551,135 @@
       ]
     },
     {
+      "id": "b1e09852-611d-427a-8a53-f65387c94ae1",
+      "name": "MDSL1111111111AA",
+      "path": "/MDSL1111111111AA",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {},
+      "subGroups": [
+        {
+          "id": "d8cdd787-09c5-4a20-8686-438c9356c84e",
+          "name": "Participant Curator",
+          "path": "/MDSL1111111111AA/Participant Curator",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "0c52315e-1f69-46ae-90d4-ecf3478b1678",
+          "name": "Participant Admin",
+          "path": "/MDSL1111111111AA/Participant Admin",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "cd7aae86-95fe-4b81-8551-6836f1695512",
+          "name": "Participant User",
+          "path": "/MDSL1111111111AA/Participant User",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
+    },
+    {
+      "id": "fb61c1f6-120a-4f27-8dc6-ca12178101df",
+      "name": "MDSL2222222222BB",
+      "path": "/MDSL2222222222BB",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {},
+      "subGroups": [
+        {
+          "id": "a4f878bb-d1f8-418b-baf9-655fe88f1017",
+          "name": "Participant Admin",
+          "path": "/MDSL2222222222BB/Participant Admin",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "2184e93f-d24b-4a38-8d70-93196c6acd1f",
+          "name": "Participant User",
+          "path": "/MDSL2222222222BB/Participant User",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "68dac581-b243-4ccb-9bf4-3c055bdceaa0",
+          "name": "Participant Curator",
+          "path": "/MDSL2222222222BB/Participant Curator",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
+    },
+    {
+      "id": "1016a4bb-4ebe-44ab-9135-2818308876bf",
+      "name": "MDSL3333333333CC",
+      "path": "/MDSL3333333333CC",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {},
+      "subGroups": [
+        {
+          "id": "e4ea2a78-9f15-4bd6-b47a-58448347befd",
+          "name": "Participant Admin",
+          "path": "/MDSL3333333333CC/Participant Admin",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "7870697b-69d2-4860-a95b-addd34898b63",
+          "name": "Participant User",
+          "path": "/MDSL3333333333CC/Participant User",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "156f0f11-641f-43b3-ad5f-fcaf2e29a733",
+          "name": "Participant Curator",
+          "path": "/MDSL3333333333CC/Participant Curator",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
+    },
+    {
       "id": "ad98ab20-c5a5-45e4-bf1f-96dccd41c73e",
       "name": "ROLE_AUTHORITY_ADMIN",
       "path": "/ROLE_AUTHORITY_ADMIN",
@@ -632,14 +761,69 @@
       "lastName": "Admin",
       "email": "example@authority.admin",
       "attributes": {
-        "registrationStatus": [
-          "300"
-        ],
         "phoneNumber": [
           "0123456789"
         ],
         "position": [
           "Admin"
+        ]
+      },
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-authority-portal"
+      ],
+      "notBefore": 0,
+      "groups": [
+        "/MDSL1111111111AA/Participant User"
+      ]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "createdTimestamp": 1692872833738,
+      "username": "example-authority-user",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "Authority",
+      "lastName": "User",
+      "email": "example@authority.user",
+      "attributes": {
+        "phoneNumber": [
+          "0123456789"
+        ],
+        "position": [
+          "User"
+        ]
+      },
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-authority-portal"
+      ],
+      "notBefore": 0,
+      "groups": [
+        "/MDSL1111111111AA/Participant User"
+      ]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000006",
+      "createdTimestamp": 1692872833738,
+      "username": "example-new-user",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "New",
+      "lastName": "User",
+      "email": "example@new.user",
+      "attributes": {
+        "phoneNumber": [
+          "0123456789"
+        ],
+        "position": [
+          "New"
         ]
       },
       "credentials": [],
@@ -654,36 +838,6 @@
     {
       "id": "00000000-0000-0000-0000-000000000003",
       "createdTimestamp": 1692872833738,
-      "username": "example-new-user",
-      "enabled": true,
-      "totp": false,
-      "emailVerified": false,
-      "firstName": "New",
-      "lastName": "User",
-      "email": "example@new.user",
-      "attributes": {
-        "registrationStatus": [
-          "0"
-        ],
-        "phoneNumber": [
-          "0123456789"
-        ],
-        "position": [
-          "Trainee"
-        ]
-      },
-      "credentials": [],
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "default-roles-authority-portal"
-      ],
-      "notBefore": 0,
-      "groups": []
-    },
-    {
-      "id": "00000000-0000-0000-0000-000000000002",
-      "createdTimestamp": 1692872833738,
       "username": "example-participant-admin",
       "enabled": true,
       "totp": false,
@@ -692,9 +846,6 @@
       "lastName": "Admin",
       "email": "example@participant.admin",
       "attributes": {
-        "registrationStatus": [
-          "300"
-        ],
         "phoneNumber": [
           "0123456789"
         ],
@@ -709,7 +860,67 @@
         "default-roles-authority-portal"
       ],
       "notBefore": 0,
-      "groups": []
+      "groups": [
+        "/MDSL2222222222BB/Participant Admin"
+      ]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000004",
+      "createdTimestamp": 1692872833738,
+      "username": "example-participant-user",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "Authority",
+      "lastName": "Admin",
+      "email": "example@participant.user",
+      "attributes": {
+        "phoneNumber": [
+          "0123456789"
+        ],
+        "position": [
+          "User"
+        ]
+      },
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-authority-portal"
+      ],
+      "notBefore": 0,
+      "groups": [
+        "/MDSL2222222222BB/Participant User"
+      ]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000005",
+      "createdTimestamp": 1692872833738,
+      "username": "example-pending-user",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "Pending",
+      "lastName": "User",
+      "email": "example@pending.user",
+      "attributes": {
+        "phoneNumber": [
+          "0123456789"
+        ],
+        "position": [
+          "Pending"
+        ]
+      },
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-authority-portal"
+      ],
+      "notBefore": 0,
+      "groups": [
+        "/MDSL3333333333CC/Participant Admin"
+      ]
     },
     {
       "id": "9525c6ea-34d5-4c11-b9f8-133dc2086f00",
@@ -722,9 +933,6 @@
       "lastName": "Doe",
       "email": "john.doe@company.com",
       "attributes": {
-        "registrationStatus": [
-          "200"
-        ],
         "phoneNumber": [
           "0123123456"
         ],
@@ -1006,21 +1214,6 @@
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientId",
-            "jsonType.label": "String"
-          }
-        },
-        {
-          "id": "71fe4cf7-19d1-44dc-b37c-b05943fbce6a",
-          "name": "Organization ID",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-attribute-mapper",
-          "consentRequired": false,
-          "config": {
-            "userinfo.token.claim": "true",
-            "user.attribute": "organizationId",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "organizationId",
             "jsonType.label": "String"
           }
         },

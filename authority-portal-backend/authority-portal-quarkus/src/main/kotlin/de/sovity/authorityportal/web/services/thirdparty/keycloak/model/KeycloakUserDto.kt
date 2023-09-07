@@ -7,5 +7,4 @@ data class KeycloakUserDto(
     val email: String,
     val position: String?,
     val phoneNumber: String?,
-    val registrationStatus: UserRegistrationStatus
 )

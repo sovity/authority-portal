@@ -13,21 +13,11 @@ class OrganizationService {
     @Inject
     lateinit var dsl: DSLContext
 
-    fun createOrganization(userId: String, mdsId: String, organization: CreateOrganizationRequest) {
-        dsl.newRecord(Tables.ORGANIZATION).also {
-            it.mdsId = mdsId
-            it.name = organization.name
-            it.address = organization.address
-            it.duns = organization.duns
-            it.url = organization.url
-            it.securityEmail = organization.securityEmail
-            it.createdBy = userId
-
-            it.insert()
-        }
+    fun getOrganizationOrThrow(mdsId: String): OrganizationRecord {
+        return getOrganization(mdsId) ?: error("Organization with id $mdsId not found")
     }
 
-    fun getOrganization(mdsId: String): OrganizationRecord? {
+    private fun getOrganization(mdsId: String): OrganizationRecord? {
         val o = Tables.ORGANIZATION
 
         return dsl.selectFrom(o)
@@ -40,5 +30,19 @@ class OrganizationService {
 
         return dsl.selectFrom(o)
             .fetch()
+    }
+
+    fun createOrganization(userId: String, mdsId: String, organization: CreateOrganizationRequest) {
+        dsl.newRecord(Tables.ORGANIZATION).also {
+            it.mdsId = mdsId
+            it.name = organization.name
+            it.address = organization.address
+            it.duns = organization.duns
+            it.url = organization.url
+            it.securityEmail = organization.securityEmail
+            it.createdBy = userId
+
+            it.insert()
+        }
     }
 }

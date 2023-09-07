@@ -1,7 +1,7 @@
 package de.sovity.authorityportal.web.services.auth
 
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
+import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
+import de.sovity.authorityportal.web.services.db.UserService
 import de.sovity.authorityportal.web.services.utils.unauthorized
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -12,7 +12,7 @@ class AuthUtils {
     lateinit var loggedInUser: LoggedInUser
 
     @Inject
-    lateinit var keycloakService: KeycloakService
+    lateinit var userService: UserService
 
     fun getViewDependingOnRole(roles: UserViewRequiredRoles): UserView {
         val userRoles = loggedInUser.roles
@@ -24,7 +24,7 @@ class AuthUtils {
             else -> unauthorized()
         }
 
-        return UserView(filter, loggedInUser.userId, loggedInUser.organisationId)
+        return UserView(filter, loggedInUser.userId, loggedInUser.organisationMdsId)
     }
 
     fun requiresAuthenticated() {
@@ -40,7 +40,7 @@ class AuthUtils {
     }
 
     fun requiresRegistrationStatus(status: UserRegistrationStatus) {
-        val userRegistrationStatus = keycloakService.getUser(loggedInUser.userId).registrationStatus
+        val userRegistrationStatus = userService.getUserOrThrow(loggedInUser.userId).registrationStatus
 
         if (userRegistrationStatus != status) {
             unauthorized("User registration status is invalid. Expected: $status. Has: $userRegistrationStatus")

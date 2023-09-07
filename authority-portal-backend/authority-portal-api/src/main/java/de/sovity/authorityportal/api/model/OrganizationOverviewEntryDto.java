@@ -21,5 +21,5 @@ public class OrganizationOverviewEntryDto {
     @Schema(description = "URL", requiredMode = Schema.RequiredMode.REQUIRED)
     private String url;
     @Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private UserRegistrationStatusDto registrationStatus;
+    private OrganizationRegistrationStatusDto registrationStatus;
 }

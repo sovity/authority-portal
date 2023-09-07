@@ -3,24 +3,22 @@ package de.sovity.authorityportal.web.services.pages.organizationmanagement
 import de.sovity.authorityportal.api.model.OrganizationDetailResult
 import de.sovity.authorityportal.api.model.OrganizationOverviewEntryDto
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
-import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
+import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
+import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.db.OrganizationService
-import de.sovity.authorityportal.web.services.pages.userapproval.UserApprovalPageApiService
-import de.sovity.authorityportal.web.services.pages.userregistration.toDto
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
+import de.sovity.authorityportal.web.services.db.UserService
+import de.sovity.authorityportal.web.services.utils.unauthorized
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
 @ApplicationScoped
 class OrganizationManagementApiService {
-    @Inject
-    lateinit var keycloakService: KeycloakService
 
     @Inject
     lateinit var organizationService: OrganizationService
 
     @Inject
-    lateinit var userApprovalPageApiService: UserApprovalPageApiService
+    lateinit var userService: UserService
 
     fun organizationsOverview(): OrganizationOverviewResult {
         val organizations = organizationService.getOrganizations()
@@ -30,7 +28,7 @@ class OrganizationManagementApiService {
                 it.mdsId,
                 it.name,
                 it.url,
-                getOrganizationStatus(it.createdBy)
+                it.registrationStatus.toDto()
             )
         }
 
@@ -38,8 +36,7 @@ class OrganizationManagementApiService {
     }
 
     fun organizationDetails(mdsId: String): OrganizationDetailResult {
-        val organization = organizationService.getOrganization(mdsId)
-            ?: orgNotFound(mdsId)
+        val organization = organizationService.getOrganizationOrThrow(mdsId)
 
         return OrganizationDetailResult(
             organization.mdsId,
@@ -48,31 +45,43 @@ class OrganizationManagementApiService {
             organization.duns,
             organization.url,
             organization.securityEmail,
-            getOrganizationStatus(organization.createdBy)
+            organization.registrationStatus.toDto()
         )
     }
 
     fun approveOrganization(mdsId: String): String {
-        val userId = organizationService.getOrganization(mdsId)?.createdBy
-            ?: orgNotFound(mdsId)
+        requirePending(mdsId)
 
-        userApprovalPageApiService.approveUser(userId)
+        val org = organizationService.getOrganizationOrThrow(mdsId)
+        org.registrationStatus = OrganizationRegistrationStatus.APPROVED
+        org.update()
+
+        val user = userService.getUserOrThrow(org.createdBy)
+        user.registrationStatus = UserRegistrationStatus.APPROVED
+        user.update()
+
         return mdsId
     }
 
     fun rejectOrganization(mdsId: String): String {
-        val userId = organizationService.getOrganization(mdsId)?.createdBy
-            ?: orgNotFound(mdsId)
+        requirePending(mdsId)
 
-        userApprovalPageApiService.rejectUser(userId)
+        val org = organizationService.getOrganizationOrThrow(mdsId)
+        org.registrationStatus = OrganizationRegistrationStatus.REJECTED
+        org.update()
+
+        val user = userService.getUserOrThrow(org.createdBy)
+        user.registrationStatus = UserRegistrationStatus.REJECTED
+        user.update()
+
         return mdsId
     }
 
-    private fun getOrganizationStatus(userId: String): UserRegistrationStatusDto {
-        return keycloakService.getUser(userId).registrationStatus.toDto()
-    }
+    private fun requirePending(mdsId: String) {
+        val org = organizationService.getOrganizationOrThrow(mdsId)
 
-    private fun orgNotFound(mdsId: String): Nothing {
-        error("Organization with MDS-ID $mdsId not found")
+        if (org.registrationStatus != OrganizationRegistrationStatus.PENDING) {
+            unauthorized("Organization $mdsId is not in status PENDING")
+        }
     }
 }

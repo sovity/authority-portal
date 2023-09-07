@@ -2,22 +2,16 @@ package de.sovity.authorityportal.web
 
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest
-import de.sovity.authorityportal.api.model.ExamplePageQuery
-import de.sovity.authorityportal.api.model.ExamplePageResult
 import de.sovity.authorityportal.api.model.OrganizationDetailResult
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
-import de.sovity.authorityportal.api.model.UserApprovalPageResult
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
-import de.sovity.authorityportal.web.services.ExamplePageApiService
-import de.sovity.authorityportal.web.services.ExampleTableApiService
+import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.auth.AuthUtils
 import de.sovity.authorityportal.web.services.auth.LoggedInUser
 import de.sovity.authorityportal.web.services.pages.organizationmanagement.OrganizationManagementApiService
-import de.sovity.authorityportal.web.services.pages.userapproval.UserApprovalPageApiService
 import de.sovity.authorityportal.web.services.pages.userinfo.UserInfoApiService
 import de.sovity.authorityportal.web.services.pages.userregistration.UserRegistrationApiService
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 
@@ -29,12 +23,6 @@ class UiResourceImpl : UiResource {
     lateinit var loggedInUser: LoggedInUser
 
     @Inject
-    lateinit var examplePageApiService: ExamplePageApiService
-
-    @Inject
-    lateinit var exampleTableApiService: ExampleTableApiService
-
-    @Inject
     lateinit var userInfoApiService: UserInfoApiService
 
     @Inject
@@ -43,25 +31,11 @@ class UiResourceImpl : UiResource {
     @Inject
     lateinit var organizationManagementApiService: OrganizationManagementApiService
 
-    @Inject
-    lateinit var userApprovalPageApiService: UserApprovalPageApiService
-
-    // Example
-    @Transactional
-    override fun examplePage(query: ExamplePageQuery): ExamplePageResult {
-        return examplePageApiService.examplePage(query)
-    }
-
-    @Transactional
-    override fun exampleDbQuery(): MutableList<String> {
-        return exampleTableApiService.getExampleTableIds().toMutableList()
-    }
-
     // User info
     @Transactional
     override fun userInfo(): UserInfo {
         authUtils.requiresAuthenticated()
-        return userInfoApiService.userInfo(loggedInUser.userId)
+        return userInfoApiService.userInfo(loggedInUser)
     }
 
     // Registration
@@ -101,12 +75,5 @@ class UiResourceImpl : UiResource {
     override fun rejectOrganization(mdsId: String): String {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
         return organizationManagementApiService.rejectOrganization(mdsId)
-    }
-
-    // LEGACY: user approval
-    @Transactional
-    override fun userApprovalPage(): UserApprovalPageResult {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
-        return userApprovalPageApiService.userApprovalPage()
     }
 }
