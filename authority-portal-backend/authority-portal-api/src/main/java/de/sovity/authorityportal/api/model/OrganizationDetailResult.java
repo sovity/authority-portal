@@ -27,5 +27,5 @@ public class OrganizationDetailResult {
     @Schema(description = "Email address for security related issues", requiredMode = Schema.RequiredMode.REQUIRED)
     private String securityEmail;
     @Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private UserRegistrationStatusDto registrationStatus;
+    private OrganizationRegistrationStatusDto registrationStatus;
 }

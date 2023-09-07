@@ -1,6 +1,5 @@
 package de.sovity.authorityportal.web.services.thirdparty.keycloak
 
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -23,8 +22,7 @@ class KeycloakUserMapperTest {
             email = "email"
             attributes = mapOf(
                 "position" to listOf("position"),
-                "phoneNumber" to listOf("phoneNumber"),
-                "registrationStatus" to listOf("300")
+                "phoneNumber" to listOf("phoneNumber")
             )
         }
 
@@ -38,7 +36,6 @@ class KeycloakUserMapperTest {
         assertThat(result.email).isEqualTo("email")
         assertThat(result.position).isEqualTo("position")
         assertThat(result.phoneNumber).isEqualTo("phoneNumber")
-        assertThat(result.registrationStatus).isEqualTo(UserRegistrationStatus.APPROVED)
     }
 }
 

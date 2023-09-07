@@ -1,7 +1,7 @@
 package de.sovity.authorityportal.web.services.pages.userregistration
 
 import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
-import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.UserRegistrationStatus
+import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,15 +10,13 @@ class UserRegistrationStatusMapperTest {
     @Test
     fun testUserRegistrationStatusMapper() {
         assertThat(UserRegistrationStatus.CREATED.toDto()).isEqualTo(UserRegistrationStatusDto.CREATED)
-        assertThat(UserRegistrationStatus.ORGANIZATION_CREATED.toDto()).isEqualTo(UserRegistrationStatusDto.ORGANIZATION_CREATED)
         assertThat(UserRegistrationStatus.PENDING.toDto()).isEqualTo(UserRegistrationStatusDto.PENDING)
         assertThat(UserRegistrationStatus.APPROVED.toDto()).isEqualTo(UserRegistrationStatusDto.APPROVED)
         assertThat(UserRegistrationStatus.REJECTED.toDto()).isEqualTo(UserRegistrationStatusDto.REJECTED)
 
-        assertThat(UserRegistrationStatusDto.CREATED.toKc()).isEqualTo(UserRegistrationStatus.CREATED)
-        assertThat(UserRegistrationStatusDto.ORGANIZATION_CREATED.toKc()).isEqualTo(UserRegistrationStatus.ORGANIZATION_CREATED)
-        assertThat(UserRegistrationStatusDto.PENDING.toKc()).isEqualTo(UserRegistrationStatus.PENDING)
-        assertThat(UserRegistrationStatusDto.APPROVED.toKc()).isEqualTo(UserRegistrationStatus.APPROVED)
-        assertThat(UserRegistrationStatusDto.REJECTED.toKc()).isEqualTo(UserRegistrationStatus.REJECTED)
+        assertThat(UserRegistrationStatusDto.CREATED.toDb()).isEqualTo(UserRegistrationStatus.CREATED)
+        assertThat(UserRegistrationStatusDto.PENDING.toDb()).isEqualTo(UserRegistrationStatus.PENDING)
+        assertThat(UserRegistrationStatusDto.APPROVED.toDb()).isEqualTo(UserRegistrationStatus.APPROVED)
+        assertThat(UserRegistrationStatusDto.REJECTED.toDb()).isEqualTo(UserRegistrationStatus.REJECTED)
     }
 }

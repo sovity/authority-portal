@@ -1,8 +1,6 @@
 import {
   CreateOrganizationRequestFromJSON,
   FetchAPI,
-  UserApprovalPageResult,
-  UserApprovalPageResultToJSON,
   UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
 import {createOrganization} from './impl/registration-process-fake';
@@ -34,23 +32,6 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       let request = CreateOrganizationRequestFromJSON(body);
       let result = createOrganization(request);
       return ok(result);
-    })
-
-    .url('user-approval')
-    .on('GET', () => {
-      let page: UserApprovalPageResult = {
-        users: [
-          {
-            firstName: 'Max',
-            lastName: 'Mustermann',
-            userId: 'max-mustermann-99',
-            email: 'max-mustermann@gg',
-            position: 'CEO',
-            phoneNumber: '+49 12345',
-          },
-        ],
-      };
-      return ok(UserApprovalPageResultToJSON(page));
     })
 
     .tryMatch();
