@@ -30,6 +30,7 @@ dependencies {
     implementation("io.quarkus:quarkus-smallrye-openapi")
     implementation("io.quarkiverse.jooq:quarkus-jooq:2.0.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.bouncycastle:bcprov-jdk15on:1.68")
     implementation(project(":authority-portal-api"))
     implementation(project(":authority-portal-db"))
 

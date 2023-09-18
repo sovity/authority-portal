@@ -46,51 +46,13 @@
   "roles": {
     "realm": [
       {
-        "id": "4755ea10-5f36-4e21-9d56-2535adc51eac",
-        "name": "AR_AUTHORITY-PORTAL_USER-APPROVAL-PAGE_READ_GLOBAL",
-        "description": "User can query pending users. (All organizations)",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
-        "attributes": {}
-      },
-      {
-        "id": "5008930c-0d98-482b-94f9-6c91548538a2",
-        "name": "AR_AUTHORITY-PORTAL_USER-APPROVAL-PAGE_UPDATE-ROLE_EXEC_GLOBAL",
-        "description": "User can update a pending user's role. (All organizations)",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
-        "attributes": {}
-      },
-      {
-        "id": "b7a94152-d409-4b94-a123-03acb16406fc",
-        "name": "AR_AUTHORITY-PORTAL_USER-APPROVAL-PAGE_UPDATE-ROLE_EXEC_ORGANIZATION",
-        "description": "User can update a pending user's role. (Own organization)",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
-        "attributes": {}
-      },
-      {
-        "id": "3af66cfb-13be-4401-b5e9-04661a286f67",
-        "name": "AR_AUTHORITY-PORTAL_USER-REGISTRATION_READ_SELF",
-        "description": "User can query status of pending users. (Own)",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
-        "attributes": {}
-      },
-      {
         "id": "d24a6aa3-9805-4324-bc12-51ee5d794156",
         "name": "UR_AUTHORITY-PORTAL_AUTHORITY-ADMIN",
         "description": "Admin of Dataspace Authority (MDS).",
         "composite": true,
         "composites": {
           "realm": [
-            "AR_AUTHORITY-PORTAL_USER-APPROVAL-PAGE_UPDATE-ROLE_EXEC_GLOBAL",
-            "UR_AUTHORITY-PORTAL_AUTHORITY-USER",
-            "AR_AUTHORITY-PORTAL_USER-APPROVAL-PAGE_READ_GLOBAL"
+            "UR_AUTHORITY-PORTAL_AUTHORITY-USER"
           ]
         },
         "clientRole": false,
@@ -101,12 +63,16 @@
         "id": "04b696ff-910f-4de8-849c-5d1f886546a4",
         "name": "UR_AUTHORITY-PORTAL_AUTHORITY-USER",
         "description": "User of Dataspace Authority (MDS).",
-        "composite": true,
-        "composites": {
-          "realm": [
-            "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
-          ]
-        },
+        "composite": false,
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
+        "id": "07e50d81-5957-4eb4-8e9c-4c4f2072f370",
+        "name": "UR_AUTHORITY-PORTAL_OPERATOR-ADMIN",
+        "description": "Admin of operator organization.",
+        "composite": false,
         "clientRole": false,
         "containerId": "505910bc-ea1d-497e-8107-461505d89736",
         "attributes": {}
@@ -143,6 +109,15 @@
         "id": "092b10ae-8572-4444-b8b9-bc5e8d8a1806",
         "name": "UR_AUTHORITY-PORTAL_PARTICIPANT-USER",
         "description": "User of participating organization.",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "505910bc-ea1d-497e-8107-461505d89736",
+        "attributes": {}
+      },
+      {
+        "id": "29a0ee0a-2a64-48cb-9228-95f174dba180",
+        "name": "UR_AUTHORITY-PORTAL_SERVICEPARTNER-ADMIN",
+        "description": "Admin of service partner organization.",
         "composite": false,
         "clientRole": false,
         "containerId": "505910bc-ea1d-497e-8107-461505d89736",
@@ -508,52 +483,9 @@
   },
   "groups": [
     {
-      "id": "54d8dae0-2e9f-471b-b449-b5f77345553f",
-      "name": "MDSL0123456789ZZ",
-      "path": "/MDSL0123456789ZZ",
-      "attributes": {},
-      "realmRoles": [],
-      "clientRoles": {},
-      "subGroups": [
-        {
-          "id": "f1ef1ed7-4b5b-4db7-a38c-8a28cdca99c0",
-          "name": "Participant Curator",
-          "path": "/MDSL0123456789ZZ/Participant Curator",
-          "attributes": {},
-          "realmRoles": [
-            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
-          ],
-          "clientRoles": {},
-          "subGroups": []
-        },
-        {
-          "id": "41d733bf-1d87-4d53-85b2-0918f4d7cd9d",
-          "name": "Participant Admin",
-          "path": "/MDSL0123456789ZZ/Participant Admin",
-          "attributes": {},
-          "realmRoles": [
-            "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
-          ],
-          "clientRoles": {},
-          "subGroups": []
-        },
-        {
-          "id": "f526043d-899e-4c2c-a37b-c6f62539da20",
-          "name": "Participant User",
-          "path": "/MDSL0123456789ZZ/Participant User",
-          "attributes": {},
-          "realmRoles": [
-            "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
-          ],
-          "clientRoles": {},
-          "subGroups": []
-        }
-      ]
-    },
-    {
       "id": "b1e09852-611d-427a-8a53-f65387c94ae1",
-      "name": "MDSL1111111111AA",
-      "path": "/MDSL1111111111AA",
+      "name": "MDSL1111AA",
+      "path": "/MDSL1111AA",
       "attributes": {},
       "realmRoles": [],
       "clientRoles": {},
@@ -561,7 +493,7 @@
         {
           "id": "d8cdd787-09c5-4a20-8686-438c9356c84e",
           "name": "Participant Curator",
-          "path": "/MDSL1111111111AA/Participant Curator",
+          "path": "/MDSL1111AA/Participant Curator",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
@@ -572,7 +504,7 @@
         {
           "id": "0c52315e-1f69-46ae-90d4-ecf3478b1678",
           "name": "Participant Admin",
-          "path": "/MDSL1111111111AA/Participant Admin",
+          "path": "/MDSL1111AA/Participant Admin",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
@@ -583,7 +515,50 @@
         {
           "id": "cd7aae86-95fe-4b81-8551-6836f1695512",
           "name": "Participant User",
-          "path": "/MDSL1111111111AA/Participant User",
+          "path": "/MDSL1111AA/Participant User",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
+    },
+    {
+      "id": "54d8dae0-2e9f-471b-b449-b5f77345553f",
+      "name": "MDSL1234ZZ",
+      "path": "/MDSL1234ZZ",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {},
+      "subGroups": [
+        {
+          "id": "f1ef1ed7-4b5b-4db7-a38c-8a28cdca99c0",
+          "name": "Participant Curator",
+          "path": "/MDSL1234ZZ/Participant Curator",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "41d733bf-1d87-4d53-85b2-0918f4d7cd9d",
+          "name": "Participant Admin",
+          "path": "/MDSL1234ZZ/Participant Admin",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "f526043d-899e-4c2c-a37b-c6f62539da20",
+          "name": "Participant User",
+          "path": "/MDSL1234ZZ/Participant User",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
@@ -595,8 +570,8 @@
     },
     {
       "id": "fb61c1f6-120a-4f27-8dc6-ca12178101df",
-      "name": "MDSL2222222222BB",
-      "path": "/MDSL2222222222BB",
+      "name": "MDSL2222BB",
+      "path": "/MDSL2222BB",
       "attributes": {},
       "realmRoles": [],
       "clientRoles": {},
@@ -604,7 +579,7 @@
         {
           "id": "a4f878bb-d1f8-418b-baf9-655fe88f1017",
           "name": "Participant Admin",
-          "path": "/MDSL2222222222BB/Participant Admin",
+          "path": "/MDSL2222BB/Participant Admin",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
@@ -615,7 +590,7 @@
         {
           "id": "2184e93f-d24b-4a38-8d70-93196c6acd1f",
           "name": "Participant User",
-          "path": "/MDSL2222222222BB/Participant User",
+          "path": "/MDSL2222BB/Participant User",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
@@ -626,7 +601,7 @@
         {
           "id": "68dac581-b243-4ccb-9bf4-3c055bdceaa0",
           "name": "Participant Curator",
-          "path": "/MDSL2222222222BB/Participant Curator",
+          "path": "/MDSL2222BB/Participant Curator",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
@@ -638,8 +613,8 @@
     },
     {
       "id": "1016a4bb-4ebe-44ab-9135-2818308876bf",
-      "name": "MDSL3333333333CC",
-      "path": "/MDSL3333333333CC",
+      "name": "MDSL3333CC",
+      "path": "/MDSL3333CC",
       "attributes": {},
       "realmRoles": [],
       "clientRoles": {},
@@ -647,7 +622,7 @@
         {
           "id": "e4ea2a78-9f15-4bd6-b47a-58448347befd",
           "name": "Participant Admin",
-          "path": "/MDSL3333333333CC/Participant Admin",
+          "path": "/MDSL3333CC/Participant Admin",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
@@ -658,7 +633,7 @@
         {
           "id": "7870697b-69d2-4860-a95b-addd34898b63",
           "name": "Participant User",
-          "path": "/MDSL3333333333CC/Participant User",
+          "path": "/MDSL3333CC/Participant User",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
@@ -669,7 +644,7 @@
         {
           "id": "156f0f11-641f-43b3-ad5f-fcaf2e29a733",
           "name": "Participant Curator",
-          "path": "/MDSL3333333333CC/Participant Curator",
+          "path": "/MDSL3333CC/Participant Curator",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
@@ -697,6 +672,28 @@
       "attributes": {},
       "realmRoles": [
         "UR_AUTHORITY-PORTAL_AUTHORITY-USER"
+      ],
+      "clientRoles": {},
+      "subGroups": []
+    },
+    {
+      "id": "4c11363e-b6c3-4a93-abca-52993f8fc6d0",
+      "name": "ROLE_OPERATOR_ADMIN",
+      "path": "/ROLE_OPERATOR_ADMIN",
+      "attributes": {},
+      "realmRoles": [
+        "UR_AUTHORITY-PORTAL_OPERATOR-ADMIN"
+      ],
+      "clientRoles": {},
+      "subGroups": []
+    },
+    {
+      "id": "ad203e61-5d5c-4d19-917a-45e938f3ed6d",
+      "name": "ROLE_SERVICEPARTNER_ADMIN",
+      "path": "/ROLE_SERVICEPARTNER_ADMIN",
+      "attributes": {},
+      "realmRoles": [
+        "UR_AUTHORITY-PORTAL_SERVICEPARTNER-ADMIN"
       ],
       "clientRoles": {},
       "subGroups": []
@@ -776,7 +773,7 @@
       ],
       "notBefore": 0,
       "groups": [
-        "/MDSL1111111111AA/Participant User"
+        "/MDSL1111AA/Participant User"
       ]
     },
     {
@@ -805,7 +802,7 @@
       ],
       "notBefore": 0,
       "groups": [
-        "/MDSL1111111111AA/Participant User"
+        "/MDSL1111AA/Participant User"
       ]
     },
     {
@@ -861,7 +858,7 @@
       ],
       "notBefore": 0,
       "groups": [
-        "/MDSL2222222222BB/Participant Admin"
+        "/MDSL2222BB/Participant Admin"
       ]
     },
     {
@@ -890,7 +887,7 @@
       ],
       "notBefore": 0,
       "groups": [
-        "/MDSL2222222222BB/Participant User"
+        "/MDSL2222BB/Participant User"
       ]
     },
     {
@@ -919,7 +916,7 @@
       ],
       "notBefore": 0,
       "groups": [
-        "/MDSL3333333333CC/Participant Admin"
+        "/MDSL3333CC/Participant Admin"
       ]
     },
     {
@@ -953,12 +950,11 @@
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
-        "default-roles-authority-portal",
-        "AR_AUTHORITY-PORTAL_USER-REGISTRATION_READ_SELF"
+        "default-roles-authority-portal"
       ],
       "notBefore": 0,
       "groups": [
-        "/MDSL0123456789ZZ/Participant Admin"
+        "/MDSL1234ZZ/Participant Admin"
       ]
     },
     {
@@ -2729,7 +2725,7 @@
       "name": "Configure OTP",
       "providerId": "CONFIGURE_TOTP",
       "enabled": true,
-      "defaultAction": false,
+      "defaultAction": true,
       "priority": 10,
       "config": {}
     },
@@ -2765,7 +2761,7 @@
       "name": "Verify Email",
       "providerId": "VERIFY_EMAIL",
       "enabled": true,
-      "defaultAction": false,
+      "defaultAction": true,
       "priority": 50,
       "config": {}
     },
