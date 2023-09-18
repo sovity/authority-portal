@@ -7,7 +7,7 @@ import de.sovity.authorityportal.web.services.db.OrganizationService
 import de.sovity.authorityportal.web.services.db.UserService
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.OrganizationRole
-import de.sovity.authorityportal.web.services.utils.MdsIdUtils
+import de.sovity.authorityportal.web.services.utils.idmanagement.MdsIdUtils
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
@@ -44,6 +44,6 @@ class UserRegistrationApiService {
         user.organizationMdsId = mdsId
         user.update()
 
-        return userId
+        return mdsId
     }
 }

@@ -14,19 +14,6 @@ class AuthUtils {
     @Inject
     lateinit var userService: UserService
 
-    fun getViewDependingOnRole(roles: UserViewRequiredRoles): UserView {
-        val userRoles = loggedInUser.roles
-
-        val filter = when {
-            userRoles.contains(roles.global) -> UserViewFilter.SEE_ALL
-            userRoles.contains(roles.organization) -> UserViewFilter.ONLY_ORGANIZATION
-            userRoles.contains(roles.self) -> UserViewFilter.ONLY_SELF
-            else -> unauthorized()
-        }
-
-        return UserView(filter, loggedInUser.userId, loggedInUser.organisationMdsId)
-    }
-
     fun requiresAuthenticated() {
         if (loggedInUser.userId.isBlank()) {
             unauthorized()
@@ -39,11 +26,23 @@ class AuthUtils {
         }
     }
 
+    fun requiresAnyRole(vararg roles: String) {
+        if (!loggedInUser.roles.any { it in roles }) {
+            unauthorized()
+        }
+    }
+
     fun requiresRegistrationStatus(status: UserRegistrationStatus) {
         val userRegistrationStatus = userService.getUserOrThrow(loggedInUser.userId).registrationStatus
 
         if (userRegistrationStatus != status) {
             unauthorized("User registration status is invalid. Expected: $status. Has: $userRegistrationStatus")
+        }
+    }
+
+    fun requiresMemberOfOrganization() {
+        if (loggedInUser.organisationMdsId.isNullOrEmpty()) {
+            unauthorized("User is not associated with any organization")
         }
     }
 }
