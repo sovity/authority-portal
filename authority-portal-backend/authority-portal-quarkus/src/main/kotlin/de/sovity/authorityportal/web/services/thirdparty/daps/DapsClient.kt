@@ -1,7 +1,7 @@
 package de.sovity.authorityportal.web.services.thirdparty.daps
 
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
-import de.sovity.authorityportal.web.services.environment.ConnectorDeploymentConfiguration.ConnectorDeploymentEnvironment.DapsConfig
+import de.sovity.authorityportal.web.services.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment.DapsConfig
 import de.sovity.authorityportal.web.services.thirdparty.daps.ext.CustomKeycloakResource
 import de.sovity.authorityportal.web.services.thirdparty.daps.ext.instantiateResource
 import org.keycloak.admin.client.KeycloakBuilder

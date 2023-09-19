@@ -93,6 +93,10 @@ class KeycloakService {
             }
         }
     }
+
+    fun invalidateUserSessions(userId: String) {
+        keycloak.realm(keycloakRealm).users().get(userId).logout()
+    }
 }
 
 

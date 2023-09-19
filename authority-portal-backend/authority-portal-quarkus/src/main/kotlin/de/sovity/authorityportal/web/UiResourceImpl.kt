@@ -1,6 +1,8 @@
 package de.sovity.authorityportal.web
 
 import de.sovity.authorityportal.api.UiResource
+import de.sovity.authorityportal.api.model.ConnectorDetailDto
+import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.api.model.OrganizationDetailResult
@@ -84,10 +86,36 @@ class UiResourceImpl : UiResource {
 
     // Connector management
     @Transactional
+    override fun ownOrganizationConnectors(): ConnectorOverviewResult {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
+        authUtils.requiresMemberOfOrganization()
+        return connectorManagementApiService.listOwnOrganizationConnectors(loggedInUser.organizationMdsId!!)
+    }
+
+    @Transactional
+    override fun ownOrganizationConnectorDetails(connectorId: String): ConnectorDetailDto {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
+        authUtils.requiresMemberOfOrganization()
+        return connectorManagementApiService.ownOrganizationConnectorDetails(loggedInUser.organizationMdsId!!, connectorId)
+    }
+
+    @Transactional
+    override fun organizationConnectors(mdsId: String): ConnectorOverviewResult {
+        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
+        return connectorManagementApiService.listOrganizationConnectors(mdsId)
+    }
+
+    @Transactional
+    override fun connectorDetails(mdsId: String, connectorId: String): ConnectorDetailDto {
+        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
+        return connectorManagementApiService.getConnectorDetails(connectorId, mdsId)
+    }
+
+    @Transactional
     override fun createOwnConnector(connector: CreateConnectorRequest): String {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfOrganization()
-        return connectorManagementApiService.createOwnConnector(loggedInUser.userId, loggedInUser.organisationMdsId!!, connector)
+        return connectorManagementApiService.createOwnConnector(loggedInUser.userId, loggedInUser.organizationMdsId!!, connector)
     }
 
     @Transactional
@@ -100,7 +128,7 @@ class UiResourceImpl : UiResource {
     override fun createProvidedConnector(mdsId: String, connector: CreateConnectorRequest): String {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.SERVICEPARTNER_ADMIN)
         authUtils.requiresMemberOfOrganization()
-        return connectorManagementApiService.createProvidedConnector(loggedInUser.userId, loggedInUser.organisationMdsId!!, mdsId, connector)
+        return connectorManagementApiService.createProvidedConnector(loggedInUser.userId, loggedInUser.organizationMdsId!!, mdsId, connector)
     }
 
     @Transactional

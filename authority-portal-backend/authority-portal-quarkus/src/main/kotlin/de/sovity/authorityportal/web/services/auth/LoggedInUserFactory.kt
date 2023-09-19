@@ -40,9 +40,9 @@ class LoggedInUserFactory {
     private fun buildLoggedInUser(jwt: JsonWebToken): LoggedInUser {
         val userId = getUserId(jwt)
         val roles = getRoles(jwt)
-        val organisationMdsId: String? = userService.getUserOrCreate(userId).organizationMdsId
+        val organizationMdsId: String? = userService.getUserOrCreate(userId).organizationMdsId
 
-        return LoggedInUser(userId, organisationMdsId, roles)
+        return LoggedInUser(userId, organizationMdsId, roles)
     }
 
     private fun getUserId(jwt: JsonWebToken): String =

@@ -31,9 +31,9 @@ class DevLoggedInUserFactory {
     fun buildDevLoggedInUser(): LoggedInUser {
         val userId = getUserId()
         val roles = getRoles(userId)
-        val organisationMdsId: String? = userService.getUserOrCreate(userId).organizationMdsId
+        val organizationMdsId: String? = userService.getUserOrCreate(userId).organizationMdsId
 
-        return LoggedInUser(userId, organisationMdsId, roles)
+        return LoggedInUser(userId, organizationMdsId, roles)
     }
 
 

@@ -2,6 +2,7 @@ package de.sovity.authorityportal.web.services.db
 
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -41,6 +42,7 @@ class OrganizationService {
             it.url = organization.url
             it.securityEmail = organization.securityEmail
             it.createdBy = userId
+            it.registrationStatus = OrganizationRegistrationStatus.PENDING
 
             it.insert()
         }

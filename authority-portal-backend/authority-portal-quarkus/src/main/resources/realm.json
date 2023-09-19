@@ -491,17 +491,6 @@
       "clientRoles": {},
       "subGroups": [
         {
-          "id": "d8cdd787-09c5-4a20-8686-438c9356c84e",
-          "name": "Participant Curator",
-          "path": "/MDSL1111AA/Participant Curator",
-          "attributes": {},
-          "realmRoles": [
-            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
-          ],
-          "clientRoles": {},
-          "subGroups": []
-        },
-        {
           "id": "0c52315e-1f69-46ae-90d4-ecf3478b1678",
           "name": "Participant Admin",
           "path": "/MDSL1111AA/Participant Admin",
@@ -522,6 +511,17 @@
           ],
           "clientRoles": {},
           "subGroups": []
+        },
+        {
+          "id": "d8cdd787-09c5-4a20-8686-438c9356c84e",
+          "name": "Participant Curator",
+          "path": "/MDSL1111AA/Participant Curator",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
+          ],
+          "clientRoles": {},
+          "subGroups": []
         }
       ]
     },
@@ -534,23 +534,23 @@
       "clientRoles": {},
       "subGroups": [
         {
-          "id": "f1ef1ed7-4b5b-4db7-a38c-8a28cdca99c0",
-          "name": "Participant Curator",
-          "path": "/MDSL1234ZZ/Participant Curator",
-          "attributes": {},
-          "realmRoles": [
-            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
-          ],
-          "clientRoles": {},
-          "subGroups": []
-        },
-        {
           "id": "41d733bf-1d87-4d53-85b2-0918f4d7cd9d",
           "name": "Participant Admin",
           "path": "/MDSL1234ZZ/Participant Admin",
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "f1ef1ed7-4b5b-4db7-a38c-8a28cdca99c0",
+          "name": "Participant Curator",
+          "path": "/MDSL1234ZZ/Participant Curator",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
           ],
           "clientRoles": {},
           "subGroups": []
@@ -648,6 +648,49 @@
           "attributes": {},
           "realmRoles": [
             "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
+    },
+    {
+      "id": "d4d72e65-b015-4d39-9ea6-bc00891e1db7",
+      "name": "MDSL4444DD",
+      "path": "/MDSL4444DD",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {},
+      "subGroups": [
+        {
+          "id": "97eed38d-99fa-4b7c-9955-7b209819938a",
+          "name": "Participant Curator",
+          "path": "/MDSL4444DD/Participant Curator",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "1c815c28-6ee7-4c5d-8cba-e3ae4071d3e9",
+          "name": "Participant Admin",
+          "path": "/MDSL4444DD/Participant Admin",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-ADMIN"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "d8c18adf-aaca-4eb0-91dd-bc9d78556657",
+          "name": "Participant User",
+          "path": "/MDSL4444DD/Participant User",
+          "attributes": {},
+          "realmRoles": [
+            "UR_AUTHORITY-PORTAL_PARTICIPANT-USER"
           ],
           "clientRoles": {},
           "subGroups": []
@@ -757,14 +800,6 @@
       "firstName": "Authority",
       "lastName": "Admin",
       "email": "example@authority.admin",
-      "attributes": {
-        "phoneNumber": [
-          "0123456789"
-        ],
-        "position": [
-          "Admin"
-        ]
-      },
       "credentials": [],
       "disableableCredentialTypes": [],
       "requiredActions": [],
@@ -786,14 +821,6 @@
       "firstName": "Authority",
       "lastName": "User",
       "email": "example@authority.user",
-      "attributes": {
-        "phoneNumber": [
-          "0123456789"
-        ],
-        "position": [
-          "User"
-        ]
-      },
       "credentials": [],
       "disableableCredentialTypes": [],
       "requiredActions": [],
@@ -815,14 +842,6 @@
       "firstName": "New",
       "lastName": "User",
       "email": "example@new.user",
-      "attributes": {
-        "phoneNumber": [
-          "0123456789"
-        ],
-        "position": [
-          "New"
-        ]
-      },
       "credentials": [],
       "disableableCredentialTypes": [],
       "requiredActions": [],
@@ -842,14 +861,6 @@
       "firstName": "Participant",
       "lastName": "Admin",
       "email": "example@participant.admin",
-      "attributes": {
-        "phoneNumber": [
-          "0123456789"
-        ],
-        "position": [
-          "Admin"
-        ]
-      },
       "credentials": [],
       "disableableCredentialTypes": [],
       "requiredActions": [],
@@ -871,14 +882,6 @@
       "firstName": "Authority",
       "lastName": "Admin",
       "email": "example@participant.user",
-      "attributes": {
-        "phoneNumber": [
-          "0123456789"
-        ],
-        "position": [
-          "User"
-        ]
-      },
       "credentials": [],
       "disableableCredentialTypes": [],
       "requiredActions": [],
@@ -900,14 +903,6 @@
       "firstName": "Pending",
       "lastName": "User",
       "email": "example@pending.user",
-      "attributes": {
-        "phoneNumber": [
-          "0123456789"
-        ],
-        "position": [
-          "Pending"
-        ]
-      },
       "credentials": [],
       "disableableCredentialTypes": [],
       "requiredActions": [],
@@ -920,6 +915,28 @@
       ]
     },
     {
+      "id": "00000000-0000-0000-0000-000000000007",
+      "createdTimestamp": 1692872833738,
+      "username": "example-servicepartner-admin",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "Servicepartner",
+      "lastName": "Admin",
+      "email": "example@servicepartner.admin",
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-authority-portal"
+      ],
+      "notBefore": 0,
+      "groups": [
+        "/MDSL4444DD/Participant Admin",
+        "/ROLE_SERVICEPARTNER_ADMIN"
+      ]
+    },
+    {
       "id": "9525c6ea-34d5-4c11-b9f8-133dc2086f00",
       "createdTimestamp": 1691679101665,
       "username": "jdoe",
@@ -929,14 +946,6 @@
       "firstName": "John",
       "lastName": "Doe",
       "email": "john.doe@company.com",
-      "attributes": {
-        "phoneNumber": [
-          "0123123456"
-        ],
-        "position": [
-          "IT-Administrator"
-        ]
-      },
       "credentials": [
         {
           "id": "816e0eb2-3a7e-4f50-b43f-4ef71d4387c2",
@@ -1175,8 +1184,8 @@
         "client.secret.creation.time": "1691678229",
         "backchannel.logout.session.required": "true",
         "post.logout.redirect.uris": "+",
-        "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
