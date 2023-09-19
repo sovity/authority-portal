@@ -22,7 +22,7 @@ class UserInfoApiService {
 
     fun userInfo(loggedInUser: LoggedInUser): UserInfo {
         val user = userDetailService.getUserData(loggedInUser.userId)
-        val organizationMdsId = loggedInUser.organisationMdsId
+        val organizationMdsId = loggedInUser.organizationMdsId
         val organizationName = getOrganization(organizationMdsId)
         val roles = userRoleMapper.getUserRoles(loggedInUser.roles)
 

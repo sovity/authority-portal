@@ -41,7 +41,7 @@ class AuthUtils {
     }
 
     fun requiresMemberOfOrganization() {
-        if (loggedInUser.organisationMdsId.isNullOrEmpty()) {
+        if (loggedInUser.organizationMdsId.isNullOrEmpty()) {
             unauthorized("User is not associated with any organization")
         }
     }

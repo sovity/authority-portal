@@ -1,6 +1,6 @@
 package de.sovity.authorityportal.web.services.thirdparty.broker
 
-import de.sovity.authorityportal.web.services.environment.ConnectorDeploymentConfiguration.ConnectorDeploymentEnvironment.BrokerConfig
+import de.sovity.authorityportal.web.services.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment.BrokerConfig
 import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder
 import jakarta.ws.rs.core.Response
 import java.net.URI

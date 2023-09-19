@@ -37,6 +37,7 @@ class UserRegistrationApiService {
 
         keycloakService.createOrganization(mdsId)
         keycloakService.joinOrganization(userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
+        keycloakService.invalidateUserSessions(userId)
 
         organizationService.createOrganization(userId, mdsId, organization)
         val user = userService.getUserOrThrow(userId)

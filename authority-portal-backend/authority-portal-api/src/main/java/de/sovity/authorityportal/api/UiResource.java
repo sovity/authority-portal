@@ -1,5 +1,7 @@
 package de.sovity.authorityportal.api;
 
+import de.sovity.authorityportal.api.model.ConnectorDetailDto;
+import de.sovity.authorityportal.api.model.ConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.CreateConnectorRequest;
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest;
 import de.sovity.authorityportal.api.model.OrganizationDetailResult;
@@ -69,6 +71,30 @@ public interface UiResource {
     String rejectOrganization(@PathParam("mdsId") String mdsId);
 
     // Connector management
+    @GET
+    @Path("/organizations/my-org/connectors")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get all connectors of a user's own organization.")
+    ConnectorOverviewResult ownOrganizationConnectors();
+
+    @GET
+    @Path("/organizations/my-org/connectors/{connectorId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get details of a user's own organization's connector.")
+    ConnectorDetailDto ownOrganizationConnectorDetails(@PathParam("connectorId") String connectorId);
+
+    @GET
+    @Path("/organizations/{mdsId}/connectors")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get all connectors of any organization.")
+    ConnectorOverviewResult organizationConnectors(@PathParam("mdsId") String mdsId);
+
+    @GET
+    @Path("/organizations/{mdsId}/connectors/{connectorId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get details of any connector of any organization.")
+    ConnectorDetailDto connectorDetails(@PathParam("mdsId") String mdsId, @PathParam("connectorId") String connectorId);
+
     @POST
     @Path("/organizations/my-org/connectors/create-on-premise")
     @Consumes(MediaType.APPLICATION_JSON)
