@@ -16,7 +16,7 @@ class KeycloakUserMapper {
         phoneNumber = getString(user, "phoneNumber")
     )
 
-    private fun getString(user: UserRepresentation, key: String): String? = user.attributes[key]?.get(0)
+    private fun getString(user: UserRepresentation, key: String): String = user.attributes?.get(key)?.get(0) ?: ""
 }
 
 
