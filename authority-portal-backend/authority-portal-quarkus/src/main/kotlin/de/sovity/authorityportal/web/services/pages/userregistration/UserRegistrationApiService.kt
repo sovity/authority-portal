@@ -1,6 +1,7 @@
 package de.sovity.authorityportal.web.services.pages.userregistration
 
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest
+import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.db.OrganizationService
@@ -32,7 +33,7 @@ class UserRegistrationApiService {
         return UserRegistrationStatusResult(user.registrationStatus.toDto())
     }
 
-    fun createOrganization(userId: String, organization: CreateOrganizationRequest): String {
+    fun createOrganization(userId: String, organization: CreateOrganizationRequest): IdResponse {
         val mdsId = mdsIdUtils.generateMdsId()
 
         keycloakService.createOrganization(mdsId)
@@ -45,6 +46,6 @@ class UserRegistrationApiService {
         user.organizationMdsId = mdsId
         user.update()
 
-        return mdsId
+        return IdResponse(mdsId)
     }
 }

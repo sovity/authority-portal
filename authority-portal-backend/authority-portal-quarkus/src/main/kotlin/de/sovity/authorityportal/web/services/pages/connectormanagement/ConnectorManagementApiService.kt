@@ -4,6 +4,7 @@ import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.web.services.db.ConnectorService
 import de.sovity.authorityportal.web.services.db.OrganizationService
 import de.sovity.authorityportal.web.services.environment.DeploymentEnvironmentDtoService
@@ -90,7 +91,7 @@ class ConnectorManagementApiService {
         mdsId: String,
         connector: CreateConnectorRequest,
         deploymentEnvId: String = "test"
-    ): String {
+    ): IdResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
         val connectorId = connectorIdUtils.generateConnectorId(mdsId)
@@ -107,7 +108,7 @@ class ConnectorManagementApiService {
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
         brokerClientService.forEnvironment(deploymentEnvId).addConnector(connector.url)
 
-        return connectorId
+        return IdResponse(connectorId)
     }
 
     fun createProvidedConnector(
@@ -116,7 +117,7 @@ class ConnectorManagementApiService {
         customerMdsId: String,
         connector: CreateConnectorRequest,
         deploymentEnvId: String = "test"
-    ): String {
+    ): IdResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
         val connectorId = connectorIdUtils.generateConnectorId(customerMdsId)
@@ -134,7 +135,7 @@ class ConnectorManagementApiService {
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
         brokerClientService.forEnvironment(deploymentEnvId).addConnector(connector.url)
 
-        return connectorId
+        return IdResponse(connectorId)
     }
 
     /**
@@ -144,7 +145,7 @@ class ConnectorManagementApiService {
         mdsId: String,
         connectorId: String,
         deploymentEnvId: String = "test" // TODO: necessary?
-    ): String {
+    ): IdResponse {
         if (!connectorId.startsWith(mdsId)) {
             error("Connector ID does not match MDS-ID of the user's organization")
         }
@@ -157,7 +158,7 @@ class ConnectorManagementApiService {
         dapsClientService.forEnvironment(deploymentEnvId).deleteClient(clientId)
         brokerClientService.forEnvironment(deploymentEnvId).removeConnector("TODO") // TODO: Wait for Broker API
 
-        return connectorId
+        return IdResponse(connectorId)
     }
 
     private fun registerConnectorAtDaps(

@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.web.services.pages.organizationmanagement
 
+import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.OrganizationDetailResult
 import de.sovity.authorityportal.api.model.OrganizationOverviewEntryDto
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
@@ -49,7 +50,7 @@ class OrganizationManagementApiService {
         )
     }
 
-    fun approveOrganization(mdsId: String): String {
+    fun approveOrganization(mdsId: String): IdResponse {
         requirePending(mdsId)
 
         val org = organizationService.getOrganizationOrThrow(mdsId)
@@ -60,10 +61,10 @@ class OrganizationManagementApiService {
         user.registrationStatus = UserRegistrationStatus.APPROVED
         user.update()
 
-        return mdsId
+        return IdResponse(mdsId)
     }
 
-    fun rejectOrganization(mdsId: String): String {
+    fun rejectOrganization(mdsId: String): IdResponse {
         requirePending(mdsId)
 
         val org = organizationService.getOrganizationOrThrow(mdsId)
@@ -74,7 +75,7 @@ class OrganizationManagementApiService {
         user.registrationStatus = UserRegistrationStatus.REJECTED
         user.update()
 
-        return mdsId
+        return IdResponse(mdsId)
     }
 
     private fun requirePending(mdsId: String) {

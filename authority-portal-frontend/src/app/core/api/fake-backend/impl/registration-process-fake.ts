@@ -1,9 +1,12 @@
-import {CreateOrganizationRequest} from '@sovity.de/authority-portal-client';
+import {
+  CreateOrganizationRequest,
+  IdResponse,
+} from '@sovity.de/authority-portal-client';
 import {updateLoggedInUser} from './user-info-fake';
 
 export const createOrganization = (
   request: CreateOrganizationRequest,
-): string => {
+): IdResponse => {
   // save info for a following "getCurrentUserPendingOrganizationCreateRequest" call
   // TODO
 
@@ -18,5 +21,5 @@ export const createOrganization = (
     }));
   }, 4_000);
 
-  return 'test-organization-id';
+  return {id: 'test-organization-id', changedDate: new Date()};
 };

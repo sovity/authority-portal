@@ -1,6 +1,7 @@
 import {
   CreateOrganizationRequestFromJSON,
   FetchAPI,
+  IdResponseToJSON,
   UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
 import {createOrganization} from './impl/registration-process-fake';
@@ -31,7 +32,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('POST', () => {
       let request = CreateOrganizationRequestFromJSON(body);
       let result = createOrganization(request);
-      return ok(result);
+      return ok(IdResponseToJSON(result));
     })
 
     .tryMatch();

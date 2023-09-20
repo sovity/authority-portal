@@ -5,6 +5,7 @@ import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest
+import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.OrganizationDetailResult
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.UserInfo
@@ -53,7 +54,7 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun createOrganization(organization: CreateOrganizationRequest): String {
+    override fun createOrganization(organization: CreateOrganizationRequest): IdResponse {
         authUtils.requiresAuthenticated()
         authUtils.requiresRegistrationStatus(UserRegistrationStatus.CREATED)
         return userRegistrationApiService.createOrganization(loggedInUser.userId, organization)
@@ -73,13 +74,13 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun approveOrganization(mdsId: String): String {
+    override fun approveOrganization(mdsId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
         return organizationManagementApiService.approveOrganization(mdsId)
     }
 
     @Transactional
-    override fun rejectOrganization(mdsId: String): String {
+    override fun rejectOrganization(mdsId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
         return organizationManagementApiService.rejectOrganization(mdsId)
     }
@@ -112,27 +113,27 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun createOwnConnector(connector: CreateConnectorRequest): String {
+    override fun createOwnConnector(connector: CreateConnectorRequest): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfOrganization()
         return connectorManagementApiService.createOwnConnector(loggedInUser.userId, loggedInUser.organizationMdsId!!, connector)
     }
 
     @Transactional
-    override fun deleteOwnConnector(connectorId: String): String {
+    override fun deleteOwnConnector(connectorId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         TODO("Not yet implemented")
     }
 
     @Transactional
-    override fun createProvidedConnector(mdsId: String, connector: CreateConnectorRequest): String {
+    override fun createProvidedConnector(mdsId: String, connector: CreateConnectorRequest): IdResponse {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.SERVICEPARTNER_ADMIN)
         authUtils.requiresMemberOfOrganization()
         return connectorManagementApiService.createProvidedConnector(loggedInUser.userId, loggedInUser.organizationMdsId!!, mdsId, connector)
     }
 
     @Transactional
-    override fun deleteProvidedConnector(mdsId: String, connectorId: String): String {
+    override fun deleteProvidedConnector(mdsId: String, connectorId: String): IdResponse {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.SERVICEPARTNER_ADMIN)
         TODO("Not yet implemented")
     }
