@@ -35,7 +35,8 @@ Variables:
 AUTHORITY_PORTAL_FRONTEND_BACKEND_URL=https://my-portal.sovity.io
 ```
 
-All available configuration options can be found in [app-config.ts](src/app/core/config/app-config.ts)
+All available configuration options can be found in
+[app-config.ts](src/app/core/config/app-config.ts)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

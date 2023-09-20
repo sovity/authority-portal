@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, delay, from, of} from 'rxjs';
 import {
   CreateOrganizationRequest,
+  IdResponse,
   UiApi,
   UserInfo,
 } from '@sovity.de/authority-portal-client';
@@ -18,7 +19,7 @@ export class ApiService {
 
   createOrganization(
     createOrganizationRequest: CreateOrganizationRequest,
-  ): Observable<string> {
+  ): Observable<IdResponse> {
     return from(this.api().createOrganization({createOrganizationRequest}));
   }
 

@@ -4,6 +4,7 @@ import de.sovity.authorityportal.api.model.ConnectorDetailDto;
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.CreateConnectorRequest;
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest;
+import de.sovity.authorityportal.api.model.IdResponse;
 import de.sovity.authorityportal.api.model.OrganizationDetailResult;
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult;
 import de.sovity.authorityportal.api.model.UserInfo;
@@ -43,7 +44,7 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Create an organization for a user.")
-    String createOrganization(CreateOrganizationRequest organization);
+    IdResponse createOrganization(CreateOrganizationRequest organization);
 
     // Organization management
     @GET
@@ -62,13 +63,13 @@ public interface UiResource {
     @Path("/authority/organizations/{mdsId}/approve")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Approve a newly registered organization.")
-    String approveOrganization(@PathParam("mdsId") String mdsId);
+    IdResponse approveOrganization(@PathParam("mdsId") String mdsId);
 
     @PUT
     @Path("/authority/organizations/{mdsId}/reject")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Reject a newly registered organization.")
-    String rejectOrganization(@PathParam("mdsId") String mdsId);
+    IdResponse rejectOrganization(@PathParam("mdsId") String mdsId);
 
     // Connector management
     @GET
@@ -100,24 +101,24 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a self-hosted connector.")
-    String createOwnConnector(CreateConnectorRequest connector);
+    IdResponse createOwnConnector(CreateConnectorRequest connector);
 
     @DELETE
     @Path("/organizations/my-org/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Unregister a self-hosted connector.")
-    String deleteOwnConnector(@PathParam("connectorId") String connectorId);
+    IdResponse deleteOwnConnector(@PathParam("connectorId") String connectorId);
 
     @POST
     @Path("/organizations/{mdsId}/connectors/create-service-provided")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a connector for another organization as a service provider.")
-    String createProvidedConnector(@PathParam("mdsId") String mdsId, CreateConnectorRequest connector);
+    IdResponse createProvidedConnector(@PathParam("mdsId") String mdsId, CreateConnectorRequest connector);
 
     @DELETE
     @Path("/organizations/{mdsId}/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Unregister a connector for another organization as a service provider.")
-    String deleteProvidedConnector(@PathParam("mdsId") String mdsId, @PathParam("connectorId") String connectorId);
+    IdResponse deleteProvidedConnector(@PathParam("mdsId") String mdsId, @PathParam("connectorId") String connectorId);
 }
