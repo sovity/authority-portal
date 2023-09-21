@@ -1,0 +1,11 @@
+:8080 {
+  map {path} {target_host} {target_port} {
+    ~/api/.*  backend   8080
+
+    default   frontend  80
+  }
+
+  reverse_proxy {target_host}:{target_port} {
+    header_up Authorization {header.X-Forwarded-Access-Token}
+  }
+}
