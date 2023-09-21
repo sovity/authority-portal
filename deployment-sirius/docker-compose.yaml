@@ -1,0 +1,77 @@
+services:
+  backend:
+    image: ${IMAGE_BASE_URL}/${BACKEND_IMAGE}:${BACKEND_IMAGE_TAG}
+    depends_on:
+      - postgres
+    environment:
+      quarkus.datasource.jdbc.url: jdbc:postgresql://postgres/authority_portal
+      quarkus.datasource.username: postgres
+      quarkus.datasource.password: postgres
+      quarkus.oidc.auth-server-url: https://keycloak.stage-sovity.azure.sovity.io/realms/authority-portal
+      quarkus.keycloak.admin-client.server-url: https://keycloak.stage-sovity.azure.sovity.io
+      quarkus.keycloak.admin-client.realm: authority-portal
+      quarkus.keycloak.admin-client.client-id: authority-portal-client
+      quarkus.keycloak.admin-client.client-secret: NKV91vM0KfWeXzaNGaH6fF2z4o01tugl
+      quarkus.keycloak.admin-client.grant-type: CLIENT_CREDENTIALS
+      authority-portal.deployment.environments.test.title: Test # test is mandatory
+      authority-portal.deployment.environments.test.position: 1
+      authority-portal.deployment.environments.test.broker.url: https://broker.sirius.sovity.io
+      authority-portal.deployment.environments.test.broker.admin-api-key: DefaultBrokerServerAdminApiKey
+      authority-portal.deployment.environments.test.broker.api-key: ApiKeyDefaultValue
+      authority-portal.deployment.environments.test.daps.url: https://keycloak.stage-sovity.azure.sovity.io
+      authority-portal.deployment.environments.test.daps.realm-name: DAPS
+      authority-portal.deployment.environments.test.daps.client-id: authority-portal
+      authority-portal.deployment.environments.test.daps.client-secret: TFzA09w8I6lWM4fbyScZ1qbwO2ejm840
+    restart: on-failure
+    networks: [ default ]
+
+  frontend:
+    image: ${IMAGE_BASE_URL}/${FRONTEND_IMAGE}:${FRONTEND_IMAGE_TAG}
+    restart: on-failure
+    networks: [ default ]
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: authority_portal
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: on-failure
+    networks: [ default ]
+
+  caddy:
+    image: caddy:2.7
+    restart: always
+    networks: [ default ]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+
+  auth-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.5.0
+    environment:
+      OAUTH2_PROXY_PROVIDER: keycloak-oidc
+      OAUTH2_PROXY_PROVIDER_DISPLAY_NAME: Keycloak
+      OAUTH2_PROXY_OIDC_ISSUER_URL: https://keycloak.stage-sovity.azure.sovity.io/realms/authority-portal
+      OAUTH2_PROXY_COOKIE_SECRET: d8rJowVoN3_SymFchIpeF8ztqmYlvbno7tUKlGtZ-jo=
+      OAUTH2_PROXY_CLIENT_ID: oauth2-proxy
+      OAUTH2_PROXY_CLIENT_SECRET: ghu3JIL7cze8u2R5P7KQTGUrDxbDT4XG
+      OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+      OAUTH2_PROXY_UPSTREAMS: http://caddy:8080/
+      OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:8080
+      OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
+      OAUTH2_PROXY_SKIP_AUTH_ROUTE: ^/oauth2
+      OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
+      OAUTH2_PROXY_SHOW_DEBUG_ON_ERROR: "true"
+      OAUTH2_PROXY_REDIRECT_URL: https://authority-portal.sirius.sovity.io/oauth2/callback
+      OAUTH2_PROXY_SCOPE: openid profile
+    networks:
+      ingress:
+        aliases:
+          - authority-portal
+      default:
+
+networks:
+  ingress:
+    name: ingress
+    external: true
+  default:
