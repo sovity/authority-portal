@@ -40,6 +40,14 @@ class AuthUtils {
         }
     }
 
+    fun requiresAnyRegistrationStatus(vararg statuses: UserRegistrationStatus) {
+        val userRegistrationStatus = userService.getUserOrThrow(loggedInUser.userId).registrationStatus
+
+        if (!statuses.contains(userRegistrationStatus)) {
+            unauthorized("User registration status is invalid. Expected one of: $statuses. Has: $userRegistrationStatus")
+        }
+    }
+
     fun requiresMemberOfOrganization() {
         if (loggedInUser.organizationMdsId.isNullOrEmpty()) {
             unauthorized("User is not associated with any organization")

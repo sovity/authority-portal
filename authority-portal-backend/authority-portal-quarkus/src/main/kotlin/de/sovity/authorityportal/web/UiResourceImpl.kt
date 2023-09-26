@@ -56,7 +56,7 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun createOrganization(organization: CreateOrganizationRequest): IdResponse {
         authUtils.requiresAuthenticated()
-        authUtils.requiresRegistrationStatus(UserRegistrationStatus.CREATED)
+        authUtils.requiresAnyRegistrationStatus(UserRegistrationStatus.CREATED, UserRegistrationStatus.FIRST_USER)
         return userRegistrationApiService.createOrganization(loggedInUser.userId, organization)
     }
 
@@ -127,14 +127,14 @@ class UiResourceImpl : UiResource {
 
     @Transactional
     override fun createProvidedConnector(mdsId: String, connector: CreateConnectorRequest): IdResponse {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.SERVICEPARTNER_ADMIN)
+        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfOrganization()
         return connectorManagementApiService.createProvidedConnector(loggedInUser.userId, loggedInUser.organizationMdsId!!, mdsId, connector)
     }
 
     @Transactional
     override fun deleteProvidedConnector(mdsId: String, connectorId: String): IdResponse {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.SERVICEPARTNER_ADMIN)
+        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         TODO("Not yet implemented")
     }
 }

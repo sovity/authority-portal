@@ -38,13 +38,4 @@ class UserService {
             it.insert()
         }
     }
-
-    fun updateStatus(userId: String, status: UserRegistrationStatus) {
-        val u = Tables.USER
-
-        dsl.update(u)
-            .set(u.REGISTRATION_STATUS, status)
-            .where(u.ID.eq(userId))
-            .execute()
-    }
 }

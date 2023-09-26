@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.web.services.thirdparty.keycloak
 
+import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.ApplicationRole
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.OrganizationRole
 import jakarta.enterprise.context.ApplicationScoped
@@ -94,7 +95,15 @@ class KeycloakService {
         }
     }
 
-    fun invalidateUserSessions(userId: String) {
+    fun joinApplicationRole(userId: String, role: ApplicationRole) {
+        val user = keycloak.realm(keycloakRealm).users().get(userId)
+        val roleGroup = keycloak.realm(keycloakRealm).groups()
+            .groups(role.kcGroupName, 0, 1).firstOrNull()!!.id
+
+        user.joinGroup(roleGroup)
+    }
+
+    fun forceLogout(userId: String) {
         keycloak.realm(keycloakRealm).users().get(userId).logout()
     }
 }
