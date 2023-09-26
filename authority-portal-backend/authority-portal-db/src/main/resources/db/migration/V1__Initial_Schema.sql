@@ -1,5 +1,5 @@
 -- User
-create type user_registration_status as enum ('CREATED', 'PENDING', 'APPROVED', 'REJECTED');
+create type user_registration_status as enum ('FIRST_USER', 'CREATED', 'PENDING', 'APPROVED', 'REJECTED');
 
 create table "user"
 (

@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.web.services.auth
 
+import de.sovity.authorityportal.web.services.db.FirstUserService
 import de.sovity.authorityportal.web.services.db.UserService
 import de.sovity.authorityportal.web.services.utils.unauthorized
 import jakarta.enterprise.context.ApplicationScoped
@@ -25,6 +26,9 @@ class LoggedInUserFactory {
     lateinit var userService: UserService
 
     @Inject
+    lateinit var firstUserService: FirstUserService
+
+    @Inject
     lateinit var devLoggedInUserFactory: DevLoggedInUserFactory
 
     @Produces
@@ -41,6 +45,7 @@ class LoggedInUserFactory {
         val userId = getUserId(jwt)
         val roles = getRoles(jwt)
         val organizationMdsId: String? = userService.getUserOrCreate(userId).organizationMdsId
+        firstUserService.setupFirstUserIfRequired(userId)
 
         return LoggedInUser(userId, organizationMdsId, roles)
     }

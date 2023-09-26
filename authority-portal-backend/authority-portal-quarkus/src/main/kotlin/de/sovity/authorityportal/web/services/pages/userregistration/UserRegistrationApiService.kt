@@ -6,6 +6,7 @@ import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.db.OrganizationService
 import de.sovity.authorityportal.web.services.db.UserService
+import de.sovity.authorityportal.web.services.pages.organizationmanagement.OrganizationManagementApiService
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.services.thirdparty.keycloak.model.OrganizationRole
 import de.sovity.authorityportal.web.services.utils.idmanagement.MdsIdUtils
@@ -17,6 +18,9 @@ class UserRegistrationApiService {
 
     @Inject
     lateinit var keycloakService: KeycloakService
+
+    @Inject
+    lateinit var organizationManagementApiService: OrganizationManagementApiService
 
     @Inject
     lateinit var organizationService: OrganizationService
@@ -38,13 +42,18 @@ class UserRegistrationApiService {
 
         keycloakService.createOrganization(mdsId)
         keycloakService.joinOrganization(userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
-        keycloakService.invalidateUserSessions(userId)
+        keycloakService.forceLogout(userId)
 
         organizationService.createOrganization(userId, mdsId, organization)
         val user = userService.getUserOrThrow(userId)
+        val initialUser = user.registrationStatus == UserRegistrationStatus.FIRST_USER
         user.registrationStatus = UserRegistrationStatus.PENDING
         user.organizationMdsId = mdsId
         user.update()
+
+        if (initialUser) {
+            organizationManagementApiService.approveOrganization(mdsId)
+        }
 
         return IdResponse(mdsId)
     }
