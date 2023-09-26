@@ -11,12 +11,12 @@ import de.sovity.authorityportal.api.model.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
-import de.sovity.authorityportal.web.services.auth.AuthUtils
-import de.sovity.authorityportal.web.services.auth.LoggedInUser
-import de.sovity.authorityportal.web.services.pages.connectormanagement.ConnectorManagementApiService
-import de.sovity.authorityportal.web.services.pages.organizationmanagement.OrganizationManagementApiService
-import de.sovity.authorityportal.web.services.pages.userinfo.UserInfoApiService
-import de.sovity.authorityportal.web.services.pages.userregistration.UserRegistrationApiService
+import de.sovity.authorityportal.web.auth.AuthUtils
+import de.sovity.authorityportal.web.auth.LoggedInUser
+import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
+import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationManagementApiService
+import de.sovity.authorityportal.web.pages.userinfo.UserInfoApiService
+import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 
@@ -43,7 +43,7 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun userInfo(): UserInfo {
         authUtils.requiresAuthenticated()
-        return userInfoApiService.userInfo(loggedInUser)
+        return userInfoApiService.userInfo(loggedInUser.userId, loggedInUser.organizationMdsId, loggedInUser.roles)
     }
 
     // Registration
@@ -64,25 +64,25 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun organizationsOverview(): OrganizationOverviewResult {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
-        return organizationManagementApiService.organizationsOverview()
+        return organizationManagementApiService.organizationsOverview(loggedInUser.userId)
     }
 
     @Transactional
     override fun organizationDetails(mdsId: String): OrganizationDetailResult {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
-        return organizationManagementApiService.organizationDetails(mdsId)
+        return organizationManagementApiService.organizationDetails(mdsId, loggedInUser.userId)
     }
 
     @Transactional
     override fun approveOrganization(mdsId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
-        return organizationManagementApiService.approveOrganization(mdsId)
+        return organizationManagementApiService.approveOrganization(mdsId, loggedInUser.userId)
     }
 
     @Transactional
     override fun rejectOrganization(mdsId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
-        return organizationManagementApiService.rejectOrganization(mdsId)
+        return organizationManagementApiService.rejectOrganization(mdsId, loggedInUser.userId)
     }
 
     // Connector management
@@ -90,26 +90,26 @@ class UiResourceImpl : UiResource {
     override fun ownOrganizationConnectors(): ConnectorOverviewResult {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfOrganization()
-        return connectorManagementApiService.listOwnOrganizationConnectors(loggedInUser.organizationMdsId!!)
+        return connectorManagementApiService.listOwnOrganizationConnectors(loggedInUser.organizationMdsId!!, loggedInUser.userId)
     }
 
     @Transactional
     override fun ownOrganizationConnectorDetails(connectorId: String): ConnectorDetailDto {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfOrganization()
-        return connectorManagementApiService.ownOrganizationConnectorDetails(loggedInUser.organizationMdsId!!, connectorId)
+        return connectorManagementApiService.ownOrganizationConnectorDetails(loggedInUser.organizationMdsId!!, connectorId, loggedInUser.userId)
     }
 
     @Transactional
     override fun organizationConnectors(mdsId: String): ConnectorOverviewResult {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
-        return connectorManagementApiService.listOrganizationConnectors(mdsId)
+        return connectorManagementApiService.listOrganizationConnectors(mdsId, loggedInUser.userId)
     }
 
     @Transactional
     override fun connectorDetails(mdsId: String, connectorId: String): ConnectorDetailDto {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
-        return connectorManagementApiService.getConnectorDetails(connectorId, mdsId)
+        return connectorManagementApiService.getConnectorDetails(connectorId, mdsId, loggedInUser.userId)
     }
 
     @Transactional
