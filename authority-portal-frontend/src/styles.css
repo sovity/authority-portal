@@ -5,11 +5,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-/* @font-face {
-  font-family: 'Soehne';
-  src: url('./assets/fonts/mds/soehne-web-buch.woff2');
-} */
-
 html {
   box-sizing: border-box;
   margin: 0;
@@ -28,9 +23,7 @@ html {
 body {
   width: 100vw;
   height: 100vh;
-  /* font-family: 'Soehne', sans-serif; */
   font-family: 'Inter', sans-serif;
-  /* font-family: Roboto, 'Helvetica Neue', sans-serif; */
 }
 
 a {
@@ -47,8 +40,20 @@ a {
   scrollbar-width: none; /* Firefox */
 }
 
+.sidebar-section {
+  @apply flex flex-col w-full;
+}
+
+.sidebar-section-title-container {
+  @apply py-5 flex flex-row justify-start pl-8 w-full;
+}
+
+.sidebar-section-title {
+  @apply flex items-center self-start w-fit focus:outline-none font-extralight text-xs text-yellow-400;
+}
+
 .sidebar-item-container {
-  @apply py-5 flex flex-row  pl-5 w-full;
+  @apply py-5 flex flex-row  pl-8 w-full;
 }
 
 .sidebar-item {
@@ -61,4 +66,42 @@ a {
 
 .active {
   color: red;
+}
+
+.organization-profile-label {
+  @apply text-black font-bold;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  /* bordefff solid white; */
+  -webkit-text-fill-color: black;
+
+  box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+  color: black;
+}
+
+input:-webkit-autofill:disabled,
+textarea:-webkit-autofill:disabled,
+select:-webkit-autofill:disabled {
+  -webkit-text-fill-color: black;
+
+  box-shadow: 0 0 0px 1000px #fafafa inset;
+  transition: background-color 5000s ease-in-out 0s;
+  color: black;
+}
+
+/* Animations */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

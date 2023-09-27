@@ -1,6 +1,8 @@
 const {writeFileSync, existsSync, readFileSync} = require('fs');
 const dotenv = require('dotenv');
 
+const envName = process.env.ENV || 'local-dev';
+
 // Generate app-config.json from ENV Vars
 // Priority: ENV VAR > .env > .env.local-dev
 // Usage: node ./config-generator.js
@@ -32,7 +34,7 @@ const objFilterKeys = (obj, fn) =>
 
 // Read ENV Vars from .env files as well
 const allProps = {
-  ...readEnvFileSync('.env.local-dev'),
+  ...readEnvFileSync('.env.' + envName),
   ...readEnvFileSync('.env'),
   ...process.env,
 };

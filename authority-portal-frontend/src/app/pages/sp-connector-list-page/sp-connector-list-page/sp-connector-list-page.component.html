@@ -1,0 +1,161 @@
+<section class="container px-4 my-10 mx-auto">
+  <div class="sm:flex sm:items-center sm:justify-between">
+    <div>
+      <div class="flex items-center gap-x-3">
+        <h2 class="text-lg font-medium text-gray-800 dark:text-white">
+          Connectors
+        </h2>
+      </div>
+
+      <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
+        List of all connectors of your organization
+      </p>
+    </div>
+
+    <div class="flex items-center mt-4 gap-x-3">
+      <button
+        class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+        routerLink="/my-organization/connectors/register">
+        <svg
+          class="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+
+        <span>Register Connector</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="flex flex-col mt-6">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div
+          class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+          <table
+            class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead class="bg-gray-200 dark:bg-gray-800">
+              <tr class="bg-yellow-400">
+                <th
+                  class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  scope="col">
+                  <button class="flex items-center gap-x-3 focus:outline-none">
+                    <span>Connector ID</span>
+                  </button>
+                </th>
+
+                <th
+                  class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  scope="col">
+                  Host
+                </th>
+
+                <th
+                  class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  scope="col">
+                  Type
+                </th>
+
+                <th
+                  class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  scope="col">
+                  Environment
+                </th>
+
+                <th
+                  class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  scope="col">
+                  Name
+                </th>
+                <th
+                  class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  scope="col">
+                  Details
+                </th>
+              </tr>
+            </thead>
+
+            <ng-container *ngIf="state.connectors.isReady">
+              <tbody
+                *ngFor="let connector of state.connectors.data"
+                class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                <tr>
+                  <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                    <div>
+                      <h2 class="font-medium text-gray-800 dark:text-white">
+                        {{ connector.id }}
+                      </h2>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm whitespace-nowrap">
+                    <div>
+                      <h4 class="text-gray-700 dark:text-gray-200">
+                        {{ connector.hostName }}
+                      </h4>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm whitespace-nowrap">
+                    <div>
+                      <h4 class="text-gray-700 dark:text-gray-200">
+                        {{ connector.type }}
+                      </h4>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm whitespace-nowrap">
+                    <div>
+                      <h4 class="text-gray-700 dark:text-gray-200">
+                        {{ connector.environment.title }}
+                      </h4>
+                    </div>
+                  </td>
+                  <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
+                    <div
+                      class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2 dark:bg-gray-800">
+                      {{ connector.name }}
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm whitespace-nowrap">
+                    <a
+                      class="px-1 py-1 text-gray-600 transition-colors duration-200 rounded-lg dark:text-gray-300"
+                      routerLink="/my-organization/connectors/{{
+                        connector.id
+                      }}">
+                      <svg
+                        class="w-6 h-6"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor">
+                        <path
+                          d="M12 22.4199C17.5228 22.4199 22 17.9428 22 12.4199C22 6.89707 17.5228 2.41992 12 2.41992C6.47715 2.41992 2 6.89707 2 12.4199C2 17.9428 6.47715 22.4199 12 22.4199Z"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path
+                          d="M10.5596 8.41992L13.6196 11.29C13.778 11.4326 13.9047 11.6068 13.9914 11.8015C14.0781 11.9962 14.123 12.2068 14.123 12.4199C14.123 12.633 14.0781 12.8439 13.9914 13.0386C13.9047 13.2332 13.778 13.4075 13.6196 13.55L10.5596 16.4199"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </ng-container>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

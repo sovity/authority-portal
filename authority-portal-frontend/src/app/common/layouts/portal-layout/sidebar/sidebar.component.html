@@ -1,0 +1,179 @@
+<div class="sidebar-section">
+  <div
+    class="flex justify-start lg:p-5 my-7 mx-7 lg:mx-2 items-center space-x-3 cursor-pointer text-white"
+    (click)="toggleMenuSize()">
+    <svg
+      class=""
+      width="36"
+      height="36"
+      stroke="currentColor"
+      fill="currentColor"
+      viewBox="0 -10 108 108"
+      xmlns="http://www.w3.org/2000/svg">
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        stroke-width="2"
+        d="M98,41.83h0L73.84,0H24.61L0,42.59,24.61,85.18H73.84L98,43.35h0l.44-.76ZM24,78,4.39,44.1H24Zm0-36.93H4.4L24,7.19ZM70.32,3,60.51,20,31.17,3ZM27,4.15,59,22.59,48.26,41.06H27ZM51.78,41.06l9.84-17L91,41.06ZM91,44.1l-29.41,17-9.85-17Zm-64,0H48.26L59,62.59,27,81Zm33.5,21.12,9.81,16.92H31.17ZM73,80.62,63.14,63.7l29.4-17ZM63.14,21.48,73,4.55,92.54,38.44Z" />
+    </svg>
+    <p
+      class="text-sm lg:block"
+      [ngClass]="smallDisplayExpandedMenu ? 'block' : 'hidden'">
+      MDS Community Portal
+    </p>
+  </div>
+</div>
+
+<div class="sidebar-section">
+  <sidebar-dashboard-element
+    class="sidebar-item-container"
+    rLink="/dashboard"
+    [smallDisplayExpandedMenu]="
+      smallDisplayExpandedMenu
+    "></sidebar-dashboard-element>
+</div>
+
+<div class="sidebar-section">
+  <div class="sidebar-section-title-container">
+    <div class="sidebar-section-title">
+      <p
+        class="text-sm leading-4 lg:block"
+        [ngClass]="smallDisplayExpandedMenu ? 'block' : 'hidden'">
+        My Organization
+      </p>
+    </div>
+  </div>
+
+  <sidebar-my-connectors-element
+    class="sidebar-item-container"
+    rLink="/my-organization/connectors"
+    [smallDisplayExpandedMenu]="
+      smallDisplayExpandedMenu
+    "></sidebar-my-connectors-element>
+</div>
+
+<!-- Authority Panel -->
+<div *ngIf="'AUTHORITY_ADMIN' | hasRole | async" class="sidebar-section">
+  <div class="sidebar-section-title-container">
+    <div class="sidebar-section-title">
+      <p
+        class="text-sm leading-4 lg:block"
+        [ngClass]="smallDisplayExpandedMenu ? 'block' : 'hidden'">
+        Authority Section
+      </p>
+    </div>
+  </div>
+
+  <sidebar-organizations-element
+    class="sidebar-item-container"
+    rLink="/authority/organizations"
+    [smallDisplayExpandedMenu]="smallDisplayExpandedMenu">
+  </sidebar-organizations-element>
+</div>
+
+<div class="sidebar-section">
+  <div class="sidebar-section-title-container">
+    <div class="sidebar-section-title">
+      <p
+        class="text-sm leading-4 lg:block"
+        [ngClass]="smallDisplayExpandedMenu ? 'block' : 'hidden'">
+        External Links
+      </p>
+    </div>
+  </div>
+
+  <!-- Prod Catalog -->
+  <div class="sidebar-item-container">
+    <a
+      class="sidebar-item"
+      target="_blank"
+      href="https://catalog.mobility-dataspace.eu/">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M9 17H15M9 13H15M9 9H10M13 3H8.2C7.0799 3 6.51984 3 6.09202 3.21799C5.71569 3.40973 5.40973 3.71569 5.21799 4.09202C5 4.51984 5 5.0799 5 6.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.0799 21 8.2 21H15.8C16.9201 21 17.4802 21 17.908 20.782C18.2843 20.5903 18.5903 20.2843 18.782 19.908C19 19.4802 19 18.9201 19 17.8V9M13 3L19 9M13 3V7.4C13 7.96005 13 8.24008 13.109 8.45399C13.2049 8.64215 13.3578 8.79513 13.546 8.89101C13.7599 9 14.0399 9 14.6 9H19"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+      <p
+        class="text-sm leading-4 ml-3 lg:block"
+        [ngClass]="smallDisplayExpandedMenu ? 'block' : 'hidden'">
+        Prod Catalog
+      </p>
+    </a>
+  </div>
+
+  <!-- Test Catalog -->
+  <div class="sidebar-item-container">
+    <a
+      class="sidebar-item"
+      target="_blank"
+      href="https://catalog.test.mobility-dataspace.eu/">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M9 17H15M9 13H15M9 9H10M13 3H8.2C7.0799 3 6.51984 3 6.09202 3.21799C5.71569 3.40973 5.40973 3.71569 5.21799 4.09202C5 4.51984 5 5.0799 5 6.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.0799 21 8.2 21H15.8C16.9201 21 17.4802 21 17.908 20.782C18.2843 20.5903 18.5903 20.2843 18.782 19.908C19 19.4802 19 18.9201 19 17.8V9M13 3L19 9M13 3V7.4C13 7.96005 13 8.24008 13.109 8.45399C13.2049 8.64215 13.3578 8.79513 13.546 8.89101C13.7599 9 14.0399 9 14.6 9H19"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+      <p
+        class="text-sm leading-4 ml-3 lg:block"
+        [ngClass]="smallDisplayExpandedMenu ? 'block' : 'hidden'">
+        Test Catalog
+      </p>
+    </a>
+  </div>
+
+  <!-- Support -->
+  <div class="sidebar-item-container">
+    <a
+      class="sidebar-item"
+      target="_blank"
+      href="https://mobility-dataspace.online/">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M8 21H12"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+        <path
+          d="M10 21V3"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+        <path
+          d="M10 4L19 8L10 12"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+      <p
+        class="text-sm leading-4 ml-3 lg:block"
+        [ngClass]="smallDisplayExpandedMenu ? 'block' : 'hidden'">
+        Support
+      </p>
+    </a>
+  </div>
+  <a
+    class="fixed self-center mr-3 bottom-3 text-white border border-gray-500 py-2 px-7 rounded-md"
+    [href]="logoutUrl">
+    Logout
+  </a>
+</div>

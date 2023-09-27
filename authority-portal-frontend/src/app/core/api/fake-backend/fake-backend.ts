@@ -14,7 +14,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
   input: RequestInfo,
   init?: RequestInit,
 ): Promise<Response> => {
-  let url = getUrl(input, 'http://authority-portal.fake-backend/api/v1/ui/');
+  let url = getUrl(input, 'http://authority-portal.fake-backend/api/');
   let method = getMethod(init);
   let body = getBody(init);
 

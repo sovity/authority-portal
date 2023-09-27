@@ -1,0 +1,9 @@
+<span>Override user:</span>
+<button
+  *ngFor="let user of users; let i = index"
+  class="hover:underline cursor-pointer"
+  [value]="i"
+  (click)="setUser(user)">
+  {{ user.firstName }} {{ user.lastName }}
+</button>
+<button class="hover:underline cursor-pointer" (click)="hide()">Hide</button>

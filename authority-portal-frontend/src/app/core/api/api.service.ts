@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Observable, delay, from, of} from 'rxjs';
+import {Observable, from} from 'rxjs';
 import {
+  ConnectorDetailDto,
+  ConnectorOverviewResult,
+  CreateConnectorRequest,
   CreateOrganizationRequest,
   IdResponse,
+  OrganizationDetailResult,
+  OrganizationOverviewResult,
   UiApi,
   UserInfo,
 } from '@sovity.de/authority-portal-client';
-import {OrganizationListEntry} from '../../pages/organization-list-page/state/organization-list-page-state';
 import {ApiClientFactory} from './api-client-factory';
 
 @Injectable()
@@ -23,9 +27,52 @@ export class ApiService {
     return from(this.api().createOrganization({createOrganizationRequest}));
   }
 
-  getOrganizations(): Observable<OrganizationListEntry[]> {
-    // TODO: Add this endpoint to UIResource so we can start working with the fake backend
-    return of([{id: 'example-data'}]).pipe(delay(1000));
+  getOrganizations(): Observable<OrganizationOverviewResult> {
+    return from(this.api().organizationsOverview());
+  }
+
+  getOrganizationDetails(mdsId: string): Observable<OrganizationDetailResult> {
+    return from(this.api().organizationDetails({mdsId}));
+  }
+
+  approveOrganization(mdsId: string): Observable<IdResponse> {
+    return from(this.api().approveOrganization({mdsId}));
+  }
+
+  rejectOrganization(mdsId: string): Observable<IdResponse> {
+    return from(this.api().rejectOrganization({mdsId}));
+  }
+
+  // Connectors
+  // Own Connectors
+  getOwnOrganizationConnectors(): Observable<ConnectorOverviewResult> {
+    return from(this.api().ownOrganizationConnectors());
+  }
+
+  getOwnOrganizationConnectorDetails(
+    connectorId: string,
+  ): Observable<ConnectorDetailDto> {
+    return from(this.api().ownOrganizationConnectorDetails({connectorId}));
+  }
+
+  createOwnConnector(
+    connector: CreateConnectorRequest,
+  ): Observable<IdResponse> {
+    return from(
+      this.api().createOwnConnector({createConnectorRequest: connector}),
+    );
+  }
+
+  createProvidedConnector(
+    connector: CreateConnectorRequest,
+    mdsId: string,
+  ): Observable<IdResponse> {
+    return from(
+      this.api().createProvidedConnector({
+        createConnectorRequest: connector,
+        mdsId,
+      }),
+    );
   }
 
   private api(): UiApi {

@@ -1,0 +1,133 @@
+<div class="bg-gray-50 flex flex-col py-24">
+  <div class="flex flex-col items-center justify-center mb-6 text-gray-700">
+    <ng-container *ngIf="!state.connector.isReady">
+      <p
+        class="inline-block p-3 m-6 text-2xl font-semibold text-center tracking-wider text-teal-900 uppercase bg-teal-accent-400">
+        ...loading...
+      </p>
+    </ng-container>
+
+    <ng-container *ngIf="state.connector.isReady">
+      <div
+        class="flex flex-col bg-white shadow-lg xl:w-1/2 w-2/3 p-8 rounded-3xl">
+        <div class="flex flex-row justify-start my-3 text-xl font-bold">
+          Connector Details:
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1 w-full">
+          <label class="connector-profile-label">Connector ID:</label>
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.connectorId"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label">Type:</label>
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.type"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label">Organization Name:</label>
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.orgName"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label">Organization's MDS ID:</label>
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.orgMdsId"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label"
+            >Hosting organization (name):</label
+          >
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.hostName"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label"
+            >Hosting organization (MDS-ID):</label
+          >
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.hostMdsId"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label">Deployment Environment:</label>
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.environment.title"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label">Connector Name:</label>
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.connectorName"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label">Location:</label>
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.location"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label">Endpoint URL:</label>
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.url"
+            [disabled]="true" />
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

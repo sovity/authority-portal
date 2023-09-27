@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Router, Routes} from '@angular/router';
 import {
-  AUTHORITY_ROUTES,
+  AUTHORITY_PORTAL_ROUTES,
   LOADING_ROUTES,
   REGISTRATION_PROCESS_ROUTES,
 } from '../../../app-routing.module';
@@ -11,7 +11,7 @@ import {AuthorityPortalPageSet} from './authority-portal-page-set';
 export class RouteConfigService {
   mapping: Record<AuthorityPortalPageSet, Routes> = {
     LOADING: LOADING_ROUTES,
-    AUTHORITY_PORTAL: AUTHORITY_ROUTES,
+    AUTHORITY_PORTAL: AUTHORITY_PORTAL_ROUTES,
     REGISTRATION_PROCESS: REGISTRATION_PROCESS_ROUTES,
   };
 
