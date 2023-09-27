@@ -60,6 +60,54 @@ npm run test
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Starting the UI
+
+### Local Development with the Fake Backend
+
+Developing with the Fake Backend requries only the API definitions for new
+endpoints to be present, as the data will be filled in by the UI Fake Backend.
+
+To start the frontend with the fake backend, please either run:
+
+- Expects the API Client Library to be built
+- Starts a Dev Server
+
+```shell
+npm run start
+```
+
+- Re-Builds the API Client Library
+- Starts a Dev Server
+
+```shell
+npm run cold-start
+```
+
+### Local Development with the Backend
+
+Local E2E Development allows manual testing of the UI + Backend without having
+to wait for docker images to be built. This requires a running backend in local
+development mode (Port 8080).
+
+This can be used to manually test done backend implementations in interaction
+with the UI.
+
+To run the frontend against alocally running backend, please either run:
+
+- Expects the API Client Library to be built
+- Starts a Dev Server
+
+```shell
+npm run start-e2e-dev
+```
+
+- Re-Builds the API Client Library
+- Starts a Dev Server
+
+```shell
+npm run cold-start-e2e-dev
+```
+
 ## License
 
 See [`LICENSE`](./LICENSE) for more information.

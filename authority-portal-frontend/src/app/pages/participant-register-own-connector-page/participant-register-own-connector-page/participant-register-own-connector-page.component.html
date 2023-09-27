@@ -1,0 +1,154 @@
+<div class="bg-gray-50 py-10 flex flex-col items-center justify-center w-full">
+  <form
+    class="flex flex-col bg-white shadow-lg w-2/3 md:w-4/5 xl:w-3/5 2xl:w-1/2 p-10 rounded-3xl"
+    ngxsForm="organization.organizationCreateForm"
+    [formGroup]="registerOwnConnectorForm"
+    (ngSubmit)="submit()">
+    <p
+      class="inline-block p-3 m-6 text-2xl font-semibold text-center tracking-wider text-teal-900 uppercase bg-teal-accent-400">
+      Register new Connector
+    </p>
+    <div class="select-none flex flex-col justify-between items-center my-2">
+      <div class="flex flex-col justify-between items-center w-full">
+        <label class="label w-full mb-2" for="formRegOConName"
+          >Connector's Name</label
+        >
+        <input
+          id="formRegOConName"
+          class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
+          type="text"
+          formControlName="name"
+          placeholder="The name of your connector." />
+      </div>
+
+      <ng-container
+        *ngIf="
+          registerOwnConnectorForm.controls['name'].touched &&
+          registerOwnConnectorForm.controls['name'].dirty &&
+          registerOwnConnectorForm.controls['name'].hasError('required')
+        "
+        class="mt-3 text-red-600">
+        Name is a required field
+      </ng-container>
+    </div>
+
+    <div class="select-none flex flex-col justify-between items-center my-2">
+      <div class="flex flex-col justify-between items-center w-full">
+        <label class="label w-full mb-2" for="formRegOConLocation"
+          >Connector's Location</label
+        >
+        <input
+          id="formRegOConLocation"
+          class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2 resize-none"
+          type="text"
+          formControlName="location"
+          placeholder="DE, UK, FR etc." />
+      </div>
+
+      <ng-container
+        *ngIf="
+          registerOwnConnectorForm.controls['location'].touched &&
+          registerOwnConnectorForm.controls['location'].dirty &&
+          registerOwnConnectorForm.controls['location'].hasError('required')
+        "
+        class="mt-3 text-red-600">
+        Connector's Location is a required field
+      </ng-container>
+    </div>
+
+    <div class="select-none flex flex-col justify-between items-center my-2">
+      <div class="flex flex-col justify-between items-center w-full">
+        <label class="label w-full mb-2" for="formRegOConUrl"
+          >Endpoint URL</label
+        >
+        <input
+          id="formRegOConUrl"
+          class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
+          type="text"
+          formControlName="url"
+          placeholder="Url of the connector endpoint" />
+      </div>
+
+      <ng-container
+        *ngIf="
+          registerOwnConnectorForm.controls['url'].touched &&
+          registerOwnConnectorForm.controls['url'].dirty &&
+          registerOwnConnectorForm.controls['url'].hasError('required')
+        "
+        class="mt-3 text-red-600">
+        Endpoint URL is a required field
+      </ng-container>
+    </div>
+
+    <div class="select-none flex flex-col justify-between items-center my-2">
+      <div class="flex flex-col justify-between items-center w-full">
+        <label class="label w-full mb-2" for="formRegOConPubCertKey"
+          >Public key of your certificate</label
+        >
+        <textarea
+          id="formRegOConPubCertKey"
+          class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-1 h-48 resize-none"
+          type="text"
+          formControlName="certificate"
+          placeholder="
+          -----BEGIN CERTIFICATE-----
+          MIICqjCCAhOgAwIBAgIBADANBgk
+          ...
+          AkmFH0MPvGNeUum02F0=
+          -----END CERTIFICATE-----"></textarea>
+      </div>
+
+      <ng-container
+        *ngIf="
+          registerOwnConnectorForm.controls['certificate'].touched &&
+          registerOwnConnectorForm.controls['certificate'].dirty &&
+          registerOwnConnectorForm.controls['certificate'].hasError('required')
+        "
+        class="mt-3 text-red-600">
+        Public key of your certificate is a required field
+      </ng-container>
+    </div>
+
+    <div class="border-gray-400 inline-flex mt-4 justify-evenly w-full">
+      <a
+        class="select-none cursor-pointer bg-red-200 rounded-md text-center active:bg-red-300 hover:bg-red-300 hover:text-black my-auto w-2/5 p-3 focus:text-black focus:bg-red-300 disabled:bg-slate-500"
+        routerLink="/my-organization/connectors"
+        [ngClass]="{
+          hidden: state.response.state === 'ready' && state.response.data.id ? true : false,
+        }">
+        Cancel
+      </a>
+      <button
+        class="select-none cursor-pointer bg-green-200 rounded-md text-center active:bg-green-300 hover:bg-green-300 hover:text-black my-auto w-2/5 p-3 focus:text-black focus:bg-green-300 disabled:bg-slate-500 disabled:text-gray-200"
+        type="submit"
+        [ngClass]="{
+          hidden: state.response.state === 'ready' && state.response.data.id ? true : false,
+        }"
+        [disabled]="!registerOwnConnectorForm['valid']">
+        Register
+      </button>
+    </div>
+
+    <div *ngIf="state.response.state === 'ready'" class="mt-6">
+      <div
+        class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+        role="alert">
+        <strong class="font-bold">Success!</strong>
+        <span class="block sm:inline"
+          >&nbsp;You successfully registered your own connector.</span
+        >
+      </div>
+    </div>
+
+    <div *ngIf="state.response.state === 'error'" class="mt-6">
+      <div
+        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+        role="alert">
+        <strong class="font-bold">Error!</strong>
+        <span class="block sm:inline"
+          >&nbsp; {{ state.response.error.failureMessage }}</span
+        >
+      </div>
+    </div>
+  </form>
+</div>

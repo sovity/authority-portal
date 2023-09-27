@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, distinctUntilChanged, filter, first, share} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
+import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {Select, Store, createSelector} from '@ngxs/store';
 import {UserInfo, UserInfoRolesEnum} from '@sovity.de/authority-portal-client';
 import {GlobalState} from './global-state';
@@ -15,7 +15,7 @@ export class GlobalStateUtils {
       distinctUntilChanged(),
       filter((it) => it.isReady),
       map((it) => it.data),
-      share(),
+      shareReplay(),
     );
 
   @Select(GlobalStateImpl.roles)

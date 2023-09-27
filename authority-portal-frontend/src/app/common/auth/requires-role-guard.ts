@@ -17,6 +17,7 @@ export const requiresRole: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   return globalStateUtils.awaitLoadedUserRoles().pipe(
     map((roles) => {
       let hasAnyRole = requiredRoles.some((role) => roles.has(role));
+
       if (hasAnyRole) {
         return true;
       } else {

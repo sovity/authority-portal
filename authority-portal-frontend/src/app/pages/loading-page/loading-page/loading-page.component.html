@@ -1,7 +1,17 @@
 <div *ngIf="state.userInfo.isError">
-  <p>TODO: Add proper error page</p>
-  <p>Failed loading session info</p>
+  <div class="flex flex-col justify-center items-center h-screen">
+    <h1 class="text-3xl font-bold mb-4">Oops! The page couldn't be loaded</h1>
+    <p class="text-lg mb-8">We're sorry, but an unexpected error occurred.</p>
+    <a
+      class="bg-black hover:bg-black text-white font-bold py-2 px-4 rounded"
+      href="/">
+      Go back to home page
+    </a>
+  </div>
 </div>
 <div *ngIf="state.userInfo.isLoading">
-  <p>TODO: Add proper loading page</p>
+  <div class="flex justify-center items-center h-screen">
+    <div
+      class="border-4 border-gray-300 border-t-0 border-l-0 rounded-full w-16 h-16 animate-spin"></div>
+  </div>
 </div>
