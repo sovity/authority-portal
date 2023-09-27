@@ -13,8 +13,8 @@ services:
       quarkus.keycloak.admin-client.client-id: authority-portal-client
       quarkus.keycloak.admin-client.client-secret: NKV91vM0KfWeXzaNGaH6fF2z4o01tugl
       quarkus.keycloak.admin-client.grant-type: CLIENT_CREDENTIALS
-      authority-portal.deployment.environments.test.title: Test # test is mandatory
-      authority-portal.deployment.environments.test.position: 1
+      authority-portal.deployment.environments.test.title: Test
+      authority-portal.deployment.environments.test.position: 0
       authority-portal.deployment.environments.test.broker.url: https://broker.sirius.sovity.io
       authority-portal.deployment.environments.test.broker.admin-api-key: DefaultBrokerServerAdminApiKey
       authority-portal.deployment.environments.test.broker.api-key: ApiKeyDefaultValue
@@ -27,6 +27,9 @@ services:
 
   frontend:
     image: ${IMAGE_BASE_URL}/${FRONTEND_IMAGE}:${FRONTEND_IMAGE_TAG}
+    environment:
+      AUTHORITY_PORTAL_FRONTEND_BACKEND_URL: https://authority-portal.sirius.sovity.io
+      AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL:  https://authority-portal.sirius.sovity.io/oauth2/sign_out?rd=https%3A%2F%2Fkeycloak.stage-sovity.azure.sovity.io%2Frealms%2Fauthority-portal%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252Fauthority-portal.sirius.sovity.io
     restart: on-failure
     networks: [ default ]
 
@@ -64,6 +67,7 @@ services:
       OAUTH2_PROXY_SHOW_DEBUG_ON_ERROR: "true"
       OAUTH2_PROXY_REDIRECT_URL: https://authority-portal.sirius.sovity.io/oauth2/callback
       OAUTH2_PROXY_SCOPE: openid profile
+      OAUTH2_PROXY_WHITELIST_DOMAINS: keycloak.stage-sovity.azure.sovity.io
     networks:
       ingress:
         aliases:
