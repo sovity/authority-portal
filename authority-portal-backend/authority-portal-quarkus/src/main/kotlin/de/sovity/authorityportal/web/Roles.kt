@@ -10,7 +10,7 @@ object Roles {
         /**
          * User has the role of a service partner admin.
          */
-        const val SERVICE_PARTNER_ADMIN = "UR_AUTHORITY-PORTAL_SERVICEPARTNER-ADMIN"
+        const val SERVICE_PARTNER_ADMIN = "UR_AUTHORITY-PORTAL_SERVICE_PARTNER-ADMIN"
 
         /**
          * User has the role of an authority admin.

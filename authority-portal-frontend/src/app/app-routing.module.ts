@@ -65,7 +65,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         data: {
           requiresRole: [
             'AUTHORITY_ADMIN',
-            'SERVICEPARTNER_ADMIN',
+            'SERVICE_PARTNER_ADMIN',
           ] satisfies UserInfoRolesEnum[],
         },
         canActivate: [requiresRole],

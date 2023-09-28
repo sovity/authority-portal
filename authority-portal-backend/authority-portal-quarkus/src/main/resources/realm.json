@@ -116,7 +116,7 @@
       },
       {
         "id": "29a0ee0a-2a64-48cb-9228-95f174dba180",
-        "name": "UR_AUTHORITY-PORTAL_SERVICEPARTNER-ADMIN",
+        "name": "UR_AUTHORITY-PORTAL_SERVICE_PARTNER-ADMIN",
         "description": "Admin of service partner organization.",
         "composite": false,
         "clientRole": false,
@@ -522,7 +522,7 @@
       "path": "/ROLE_SERVICE_PARTNER_ADMIN",
       "attributes": {},
       "realmRoles": [
-        "UR_AUTHORITY-PORTAL_SERVICEPARTNER-ADMIN"
+        "UR_AUTHORITY-PORTAL_SERVICE_PARTNER-ADMIN"
       ],
       "clientRoles": {},
       "subGroups": []
