@@ -1,17 +1,23 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {CreateConnectorRequest} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
+import {OrganizationCreatePageComponent} from '../../registration-process-wizard/organization-create-page/organization-create-page.component';
 import {
-  CleanRegisterOwnConnector,
-  RegisterOwnConnector,
+  Reset,
+  Submit,
 } from '../state/participant-register-own-connector-page-actions';
 import {
   DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_STATE,
   ParticipantRegisterOwnConnectorPageState,
 } from '../state/participant-register-own-connector-page-state';
 import {ParticipantRegisterOwnConnectorPageStateImpl} from '../state/participant-register-own-connector-page-state-impl';
+import {
+  ParticipantRegisterOwnConnectorPageFormModel,
+  ParticipantRegisterOwnConnectorPageFormValue,
+} from './participant-register-own-connector-page-form-model';
 
 @Component({
   selector: 'app-participant-register-own-connector-page',
@@ -21,21 +27,17 @@ import {ParticipantRegisterOwnConnectorPageStateImpl} from '../state/participant
 export class ParticipantRegisterOwnConnectorPageComponent
   implements OnInit, OnDestroy
 {
-  registerOwnConnectorForm: FormGroup;
   state = DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_STATE;
+  group = this.buildFormGroup();
 
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
     private store: Store,
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit(): void {
-    this.registerOwnConnectorForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      location: new FormControl('', [Validators.required]),
-      url: new FormControl('', [Validators.required]),
-      certificate: new FormControl('', [Validators.required]),
-    });
+    this.store.dispatch(Reset);
     this.startListeningToState();
   }
 
@@ -47,24 +49,44 @@ export class ParticipantRegisterOwnConnectorPageComponent
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
-        if (state.response.isError) {
-          this.registerOwnConnectorForm.enable();
-        }
       });
   }
 
-  submit(): void {
-    this.store.dispatch(
-      new RegisterOwnConnector(this.registerOwnConnectorForm.value),
-    );
+  buildFormGroup(): FormGroup<ParticipantRegisterOwnConnectorPageFormModel> {
+    return this.formBuilder.nonNullable.group({
+      name: ['', [Validators.required]],
+      location: ['', [Validators.required]],
+      url: ['', [Validators.required]],
+      certificate: ['', [Validators.required]],
+    });
+  }
 
-    this.registerOwnConnectorForm.disable();
+  get value(): ParticipantRegisterOwnConnectorPageFormValue {
+    return this.group.value;
+  }
+
+  submit(): void {
+    const formValue: ParticipantRegisterOwnConnectorPageFormValue = this.value;
+    const request: CreateConnectorRequest = {
+      name: formValue.name!,
+      location: formValue.location!,
+      url: formValue.url!,
+      certificate: formValue.certificate!,
+    };
+
+    this.group.disable();
+    this.store.dispatch(
+      new Submit(
+        request,
+        () => this.group.enable(),
+        () => this.group.disable(),
+      ),
+    );
   }
 
   ngOnDestroy$ = new Subject();
 
   ngOnDestroy() {
-    this.store.dispatch(CleanRegisterOwnConnector);
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }

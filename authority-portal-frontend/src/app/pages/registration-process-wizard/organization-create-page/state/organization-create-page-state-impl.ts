@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ignoreElements, tap} from 'rxjs/operators';
+import {Inject, Injectable} from '@angular/core';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError, ignoreElements, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
+import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {ApiService} from '../../../../core/api/api.service';
 import {Fetched} from '../../../../core/utils/fetched';
 import {CreateOrganization} from './organization-create-page-action';
@@ -16,21 +17,32 @@ import {
 })
 @Injectable()
 export class OrganizationCreatePageStateImpl {
-  constructor(private apiService: ApiService) {}
+  constructor(
+    @Inject(APP_CONFIG) public config: AppConfig,
+    private apiService: ApiService,
+  ) {}
 
   @Action(CreateOrganization, {cancelUncompleted: true})
   onCreateOrganization(
     ctx: StateContext<OrganizationCreatePageState>,
     action: CreateOrganization,
   ): Observable<never> {
-    return this.apiService.createOrganization(action.formValue).pipe(
-      Fetched.wrap({failureMessage: 'Failed creating organization'}),
-      tap((response) => {
-        if (response.state === 'ready') {
-          window.location.reload();
-        } else if (response.state === 'error') {
-          ctx.patchState({response});
-        }
+    ctx.patchState({state: 'submitting'});
+    action.disableForm();
+    return this.apiService.createOrganization(action.request).pipe(
+      tap(() => {
+        ctx.patchState({state: 'success'});
+        console.log(
+          'Organization created, redirecting user to:',
+          this.config.invalidateSessionCookiesUrl,
+        );
+        window.location.replace(this.config.invalidateSessionCookiesUrl);
+      }),
+      catchError((error) => {
+        console.error('Failed creating organization', error);
+        ctx.patchState({state: 'error'});
+        action.enableForm();
+        return EMPTY;
       }),
       ignoreElements(),
     );

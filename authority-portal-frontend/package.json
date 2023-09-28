@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run generate-config && ng serve",
-    "cold-start": "npm i && npm run backend:build-lib && npm run start",
     "start-e2e-dev": "cross-env ENV=local-e2e-dev npm run start",
+    "cold-start": "npm run backend:build-lib && npm i && npm run start",
     "cold-start-e2e-dev": "npm run dev:build-lib && npm i && npm run start-e2e-dev ",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

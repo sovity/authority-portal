@@ -119,3 +119,39 @@ See [`LICENSE`](./LICENSE) for more information.
 contact@sovity.de
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Users and their options
+
+### Authority Admin:
+
+#### My Organization Section
+
+- Connectors
+- - List of all connectors
+- - Details Page of each connector
+- - Provide Connector for another organization
+
+#### Authority Section
+
+- Organizations
+- - List of organizations with statuses
+- - Details Page of each Organization (Approval/Rejection if Pending Status)
+
+### Participant Admin:
+
+#### My Organization Section
+
+- Connectors
+- - List of all connectors
+- - Details Page of each connector
+- - Register Connector for own organization
+
+### Service Partner Admin:
+
+#### My Organization Section
+
+- Connectors
+- - List of all connectors
+- - Details Page of each connector
+- - Register Connector for own organization
+- - Provide Connector for another organization

@@ -1,3 +1,4 @@
 {
-  "java.compile.nullAnalysis.mode": "disabled"
+  "java.compile.nullAnalysis.mode": "disabled",
+  "liveServer.settings.root": "/authority-portal-frontend/dist/app"
 }

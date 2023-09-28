@@ -63,25 +63,25 @@ class UiResourceImpl : UiResource {
     // Organization management
     @Transactional
     override fun organizationsOverview(): OrganizationOverviewResult {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
         return organizationManagementApiService.organizationsOverview(loggedInUser.userId)
     }
 
     @Transactional
     override fun organizationDetails(mdsId: String): OrganizationDetailResult {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
         return organizationManagementApiService.organizationDetails(mdsId, loggedInUser.userId)
     }
 
     @Transactional
     override fun approveOrganization(mdsId: String): IdResponse {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
         return organizationManagementApiService.approveOrganization(mdsId, loggedInUser.userId)
     }
 
     @Transactional
     override fun rejectOrganization(mdsId: String): IdResponse {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
         return organizationManagementApiService.rejectOrganization(mdsId, loggedInUser.userId)
     }
 

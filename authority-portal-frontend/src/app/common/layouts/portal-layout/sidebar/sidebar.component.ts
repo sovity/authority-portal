@@ -13,15 +13,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
   userInfo: UserInfo | null = null;
 
   smallDisplayExpandedMenu: boolean = false;
-  logoutUrl = '';
 
   constructor(
-    @Inject(APP_CONFIG) private config: AppConfig,
+    @Inject(APP_CONFIG) public config: AppConfig,
     private globalStateUtils: GlobalStateUtils,
   ) {}
 
   ngOnInit() {
-    this.logoutUrl = this.config.logoutUrl;
     this.globalStateUtils.userInfo$
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((userInfo) => {

@@ -5,6 +5,7 @@ import {
   ConnectorOverviewResult,
   CreateConnectorRequest,
   CreateOrganizationRequest,
+  CreateOwnConnectorRequest,
   IdResponse,
   OrganizationDetailResult,
   OrganizationOverviewResult,
@@ -56,11 +57,9 @@ export class ApiService {
   }
 
   createOwnConnector(
-    connector: CreateConnectorRequest,
+    createConnectorRequest: CreateConnectorRequest,
   ): Observable<IdResponse> {
-    return from(
-      this.api().createOwnConnector({createConnectorRequest: connector}),
-    );
+    return from(this.api().createOwnConnector({createConnectorRequest}));
   }
 
   createProvidedConnector(
