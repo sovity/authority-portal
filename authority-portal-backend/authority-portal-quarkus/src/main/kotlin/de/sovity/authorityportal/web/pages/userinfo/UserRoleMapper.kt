@@ -8,7 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped
 class UserRoleMapper {
     val mapping = mapOf(
         Roles.UserRoles.OPERATOR_ADMIN to UserRoleDto.OPERATOR_ADMIN,
-        Roles.UserRoles.SERVICE_PARTNER_ADMIN to UserRoleDto.SERVICEPARTNER_ADMIN,
+        Roles.UserRoles.SERVICE_PARTNER_ADMIN to UserRoleDto.SERVICE_PARTNER_ADMIN,
         Roles.UserRoles.AUTHORITY_ADMIN to UserRoleDto.AUTHORITY_ADMIN,
         Roles.UserRoles.AUTHORITY_USER to UserRoleDto.AUTHORITY_USER,
         Roles.UserRoles.PARTICIPANT_ADMIN to UserRoleDto.PARTICIPANT_ADMIN,
