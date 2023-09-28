@@ -11,7 +11,7 @@ export interface SpRegisterConnectorPageState {
     status: string;
     errors: {[key: string]: string};
   };
-  response: Fetched<IdResponse>;
+  state: 'editing' | 'submitting' | 'success' | 'error';
 }
 
 export const DEFAULT_SP_REGISTER_CONNECTOR_STATE: SpRegisterConnectorPageState =
@@ -22,5 +22,5 @@ export const DEFAULT_SP_REGISTER_CONNECTOR_STATE: SpRegisterConnectorPageState =
       status: '',
       errors: {},
     },
-    response: Fetched.empty(),
+    state: 'editing',
   };

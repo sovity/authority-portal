@@ -1,11 +1,20 @@
+import {
+  CreateConnectorRequest,
+  CreateProvidedConnectorRequest,
+} from '@sovity.de/authority-portal-client';
+
 const tag = 'ServiceProviderRegisterConnectorPage';
 
-export class CleanRegisterConnector {
-  static readonly type = `[${tag}] Clean Register Connector Page`;
-  constructor() {}
+export class Reset {
+  static readonly type = `[${tag}] Reset`;
 }
 
-export class RegisterConnector {
+export class Submit {
   static readonly type = `[${tag}] Register Connector`;
-  constructor(public formValue: any, public mdsId: string) {}
+  constructor(
+    public request: CreateConnectorRequest,
+    public mdsId: string,
+    public enableForm: () => void,
+    public disableForm: () => void,
+  ) {}
 }

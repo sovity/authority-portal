@@ -88,7 +88,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         path: 'authority/organizations',
         component: AuthorityOrganizationListPageComponent,
         data: {
-          requiresRole: ['AUTHORITY_ADMIN'] satisfies UserInfoRolesEnum[],
+          requiresRole: ['AUTHORITY_USER'] satisfies UserInfoRolesEnum[],
         },
         canActivate: [requiresRole],
       },
@@ -96,7 +96,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         path: 'authority/organizations/:mdsId',
         component: AuthorityOrganizationDetailPageComponent,
         data: {
-          requiresRole: ['AUTHORITY_ADMIN'] satisfies UserInfoRolesEnum[],
+          requiresRole: ['AUTHORITY_USER'] satisfies UserInfoRolesEnum[],
         },
         canActivate: [requiresRole],
       },

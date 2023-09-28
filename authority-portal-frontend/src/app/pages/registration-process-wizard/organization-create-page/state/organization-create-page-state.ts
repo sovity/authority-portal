@@ -14,7 +14,8 @@ export interface OrganizationCreatePageState {
     errors: {[key: string]: string};
   };
   id: string;
-  response: Fetched<IdResponse>;
+
+  state: 'editing' | 'submitting' | 'success' | 'error';
 }
 
 export const DEFAULT_ORGANIZATION_CREATE_PAGE_STATE: OrganizationCreatePageState =
@@ -26,5 +27,5 @@ export const DEFAULT_ORGANIZATION_CREATE_PAGE_STATE: OrganizationCreatePageState
       errors: {},
     },
     id: '',
-    response: Fetched.empty(),
+    state: 'editing',
   };

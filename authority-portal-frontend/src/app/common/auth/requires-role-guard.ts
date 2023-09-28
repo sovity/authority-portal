@@ -28,12 +28,14 @@ export const requiresRole: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   );
 };
 
-const getAllowedRoles = (value: any): UserInfoRolesEnum[] => {
+const getAllowedRoles = (
+  value: UserInfoRolesEnum | UserInfoRolesEnum[],
+): UserInfoRolesEnum[] => {
   if (typeof value === 'string') {
     return [value as UserInfoRolesEnum];
   }
   if (Array.isArray(value)) {
-    return value;
+    return value as UserInfoRolesEnum[];
   }
   return [];
 };

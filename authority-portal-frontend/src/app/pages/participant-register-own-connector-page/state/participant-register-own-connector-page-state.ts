@@ -1,8 +1,4 @@
-import {
-  CreateConnectorRequest,
-  IdResponse,
-} from '@sovity.de/authority-portal-client';
-import {Fetched} from 'src/app/core/utils/fetched';
+import {CreateConnectorRequest} from '@sovity.de/authority-portal-client';
 
 export interface ParticipantRegisterOwnConnectorPageState {
   registerOwnConnectorForm: {
@@ -11,7 +7,7 @@ export interface ParticipantRegisterOwnConnectorPageState {
     status: string;
     errors: {[key: string]: string};
   };
-  response: Fetched<IdResponse>;
+  state: 'editing' | 'submitting' | 'success' | 'error';
 }
 
 export const DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_STATE: ParticipantRegisterOwnConnectorPageState =
@@ -22,5 +18,5 @@ export const DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_STATE: ParticipantRegist
       status: '',
       errors: {},
     },
-    response: Fetched.empty(),
+    state: 'editing',
   };

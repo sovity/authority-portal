@@ -1,9 +1,13 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {CreateOrganizationRequest} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from '../../../core/config/app-config';
-import {DEFAULT_AUTHORITY_ORGANIZATION_DETAIL_PAGE_STATE} from '../../authority-organization-detail-page/state/authority-organization-detail-page-state';
+import {
+  OrganizationCreatePageFormModel,
+  OrganizationCreatePageFormValue,
+} from './organization-create-page-form-model';
 import {CreateOrganization} from './state/organization-create-page-action';
 import {
   DEFAULT_ORGANIZATION_CREATE_PAGE_STATE,
@@ -16,35 +20,34 @@ import {OrganizationCreatePageStateImpl} from './state/organization-create-page-
   templateUrl: './organization-create-page.component.html',
 })
 export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
-  loading = false;
-  submitted = false;
-  organizationCreateForm: FormGroup;
   state = DEFAULT_ORGANIZATION_CREATE_PAGE_STATE;
+  group = this.buildFormGroup();
 
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
     private store: Store,
+    private formBuilder: FormBuilder,
   ) {}
 
+  get loading(): boolean {
+    return this.state.state === 'submitting';
+  }
+
   ngOnInit(): void {
-    this.organizationCreateForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      address: new FormControl('', [Validators.required]),
-      duns: new FormControl('', [Validators.required]),
-      url: new FormControl('', [Validators.required]),
-      securityEmail: new FormControl('', [Validators.required]),
-      authorizedCheck: new FormControl('', [Validators.required]),
-    });
-
     this.startListeningToState();
+  }
 
-    this.store.subscribe((state) => {
-      if (state.OrganizationCreatePage.response.error) {
-        this.organizationCreateForm.enable();
-        this.loading = false;
-        this.submitted = false;
-      }
-    });
+  buildFormGroup(): FormGroup<OrganizationCreatePageFormModel> {
+    const organizationCreateForm: FormGroup<OrganizationCreatePageFormModel> =
+      this.formBuilder.nonNullable.group({
+        name: ['', [Validators.required]],
+        address: ['', [Validators.required]],
+        duns: ['', [Validators.required]],
+        url: ['', [Validators.required]],
+        securityEmail: ['', [Validators.required]],
+        authorizedCheck: ['', [Validators.required]],
+      });
+    return organizationCreateForm;
   }
 
   private startListeningToState() {
@@ -53,20 +56,31 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
-        if (state.response.error) {
-          this.organizationCreateForm.enable();
-          this.loading = false;
-          this.submitted = false;
-        }
       });
   }
 
   submit(): void {
+    let formValue: OrganizationCreatePageFormValue = this.value;
+    let request: CreateOrganizationRequest = {
+      url: formValue.url!,
+      name: formValue.name!,
+      address: formValue.address!,
+      duns: formValue.duns!,
+      securityEmail: formValue.securityEmail!,
+    };
+
+    this.group.disable();
     this.store.dispatch(
-      new CreateOrganization(this.organizationCreateForm.value),
+      new CreateOrganization(
+        request,
+        () => this.group.enable(),
+        () => this.group.disable(),
+      ),
     );
-    this.submitted = true;
-    this.organizationCreateForm.disable();
+  }
+
+  get value(): OrganizationCreatePageFormValue {
+    return this.group.value;
   }
 
   ngOnDestroy$ = new Subject();
