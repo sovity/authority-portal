@@ -32,9 +32,7 @@ export class OrganizationCreatePageStateImpl {
     return this.apiService.createOrganization(action.request).pipe(
       tap(() => {
         ctx.patchState({state: 'success'});
-        setTimeout(() => {
-          window.location.replace(this.config.invalidateSessionCookiesUrl);
-        }, 5000);
+        window.location.replace(this.config.invalidateSessionCookiesUrl);
       }),
       catchError((error) => {
         console.error('Failed creating organization', error);
