@@ -1298,16 +1298,16 @@
       "clientId": "oauth-proxy",
       "name": "OAuth2 Proxy Client",
       "description": "",
-      "rootUrl": "",
+      "rootUrl": "https://authority-portal.example.com",
       "adminUrl": "",
-      "baseUrl": "",
+      "baseUrl": "https://authority-portal.example.com",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "2iYFD9Ha8djYUa30r79kzvRUcZXfaeox",
       "redirectUris": [
-        "https://authority-portal.example.com/oauth2/callback"
+        "/oauth2/callback"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -1324,7 +1324,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1695298697",
         "backchannel.logout.session.required": "true",
-        "post.logout.redirect.uris": "+",
+        "post.logout.redirect.uris": "/*",
         "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
