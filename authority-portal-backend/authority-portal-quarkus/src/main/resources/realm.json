@@ -376,7 +376,7 @@
           "attributes": {}
         }
       ],
-      "oauth-proxy": [],
+      "oauth2-proxy": [],
       "security-admin-console": [],
       "authority-portal-client": [],
       "admin-cli": [],
@@ -904,7 +904,7 @@
     },
     {
       "id": "e9254817-e123-4659-a8bf-b5c59e1c71a5",
-      "clientId": "oauth-proxy",
+      "clientId": "oauth2-proxy",
       "name": "OAuth2 Proxy Client",
       "description": "",
       "rootUrl": "https://authority-portal.example.com",
@@ -962,7 +962,7 @@
           "protocolMapper": "oidc-audience-mapper",
           "consentRequired": false,
           "config": {
-            "included.client.audience": "oauth-proxy",
+            "included.client.audience": "oauth2-proxy",
             "id.token.claim": "false",
             "access.token.claim": "true",
             "userinfo.token.claim": "false"
