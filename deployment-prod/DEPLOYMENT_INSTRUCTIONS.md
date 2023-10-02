@@ -20,7 +20,7 @@
 
 ### Keycloak (v22)
 
-1. Add `mds-theme` to `{keycloakRoot}/themes/` directory
+1. Copy `mds-theme` directory to `{keycloakRoot}/themes/` directory
 2. Import `realm.json` to create `authority-portal` realm
 3. Adjust settings for `oauth2-proxy` client (Clients > `oauth2-proxy` > Settings)
    - `Root URL`: URL of the auth proxy, e.g. `https://authority-portal.example.url`
@@ -97,7 +97,7 @@ Reverse Proxy (Caddy)
 
 ### Authority Portal - Backend
 
-- Image: `ghcr.io/sovity/authority-portal-backend:v1.0.0`
+- Image: `ghcr.io/sovity/authority-portal-backend:1.0.0`
 - Set environment variables according to the following table (mandatory, except log level)
 
 | Variable                                                           | Description                                                                                                 | Example                                            |
@@ -127,7 +127,7 @@ Reverse Proxy (Caddy)
 
 ### Authority Portal - Frontend
 
-- Image: `ghcr.io/sovity/authority-portal-frontend:v1.0.0`
+- Image: `ghcr.io/sovity/authority-portal-frontend:1.0.0`
 - Set environment variables according to the following table (mandatory)
 
 | Variable                                                 | Description                                                 | Example                                                                                                                                                                                                                        |

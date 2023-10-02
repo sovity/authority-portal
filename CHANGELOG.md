@@ -35,5 +35,5 @@ Please view the [Deployment Section in the README.md](README.md#deployment) for 
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:v1.0.0`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:v1.0.0`
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:1.0.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:1.0.0`

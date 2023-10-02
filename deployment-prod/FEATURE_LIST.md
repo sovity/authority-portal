@@ -11,11 +11,12 @@ An Example can be found at the end of this document.
 
 ### Participant Admin
 
-Inherits rights from `Participant Curator`.
+- Inherits rights from `Participant Curator`
+- Default role, when creating a new organization.
 
 ### Participant Curator
 
-Inherits rights from `Participant User`.
+- Inherits rights from `Participant User`
 
 #### Section: My Organization
 
@@ -34,7 +35,7 @@ Inherits rights from `Participant User`.
 
 ### Authority Admin
 
-Inherits rights from `Authority User`.
+- Inherits rights from `Authority User`
 
 #### Section: My Organization
 
