@@ -1,4 +1,4 @@
-package de.sovity.authorityportal.web.pages.userinfo
+package de.sovity.authorityportal.web.pages.usermanagement
 
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.web.pages.userregistration.toDto

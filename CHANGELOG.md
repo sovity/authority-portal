@@ -17,6 +17,7 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 
 #### Minor
 
+- Add endpoints for role changing for authority and participants
 - Unregister own connectors
 
 #### Patch
