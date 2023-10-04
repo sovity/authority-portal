@@ -5,10 +5,10 @@ import de.sovity.authorityportal.api.model.ConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.IdResponse
-import de.sovity.authorityportal.web.services.ConnectorService
-import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
+import de.sovity.authorityportal.web.services.ConnectorService
+import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
@@ -44,7 +44,7 @@ class ConnectorManagementApiService {
     @Inject
     lateinit var brokerClientService: BrokerClientService
 
-    fun ownOrganizationConnectorDetails(mdsId: String, connectorId: String, userId: String): ConnectorDetailDto =
+    fun ownOrganizationConnectorDetails(connectorId: String, mdsId: String, userId: String): ConnectorDetailDto =
         getConnectorDetails(connectorId, mdsId, userId)
 
     fun getConnectorDetails(connectorId: String, mdsId: String, userId: String): ConnectorDetailDto {
@@ -93,9 +93,9 @@ class ConnectorManagementApiService {
     }
 
     fun createOwnConnector(
-        userId: String,
-        mdsId: String,
         connector: CreateConnectorRequest,
+        mdsId: String,
+        userId: String,
         deploymentEnvId: String = "test"
     ): IdResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
@@ -120,10 +120,10 @@ class ConnectorManagementApiService {
     }
 
     fun createProvidedConnector(
-        userId: String,
-        providerMdsId: String,
-        customerMdsId: String,
         connector: CreateConnectorRequest,
+        customerMdsId: String,
+        providerMdsId: String,
+        userId: String,
         deploymentEnvId: String = "test"
     ): IdResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
@@ -152,23 +152,23 @@ class ConnectorManagementApiService {
      * Not yet working. Wait for Broker API.
      */
     fun deleteOwnConnector(
-        mdsId: String,
         connectorId: String,
-        userId: String,
-        deploymentEnvId: String = "test" // TODO: necessary?
+        mdsId: String,
+        userId: String
     ): IdResponse {
         if (!connectorId.startsWith(mdsId)) {
             Log.error("To be deleted connector does not belong to user's organization. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
             error("Connector ID does not match MDS-ID of the user's organization")
         }
+
+        val connector = connectorService.getConnectorOrThrow(connectorId)
+        val deploymentEnvId = connector.environment
+
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
-        val deploymentEnvironment = deploymentEnvironmentService.findByIdOrThrow(deploymentEnvId)
-        val clientId = connectorService.getClientIdByConnectorId(connectorId)
-
         connectorService.deleteConnector(connectorId)
-        dapsClientService.forEnvironment(deploymentEnvId).deleteClient(clientId)
-        brokerClientService.forEnvironment(deploymentEnvId).removeConnector("TODO") // TODO: Wait for Broker API
+        dapsClientService.forEnvironment(deploymentEnvId).deleteClient(connector.clientId)
+        brokerClientService.forEnvironment(deploymentEnvId).removeConnector(connector.url)
 
         Log.info("Connector unregistered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
 

@@ -24,6 +24,14 @@ class BrokerClient(private val brokerConfig: BrokerConfig) {
     }
 
     fun removeConnector(connectorUrl: String) {
-        TODO("Not yet implemented in Broker API")
+        val response = brokerClientResource.removeConnectors(
+            brokerConfig.apiKey(),
+            brokerConfig.adminApiKey(),
+            listOf(connectorUrl)
+        )
+
+        if (response.status != Response.Status.NO_CONTENT.statusCode) {
+            error("Broker API returned unexpected status code: ${response.status}. Expected: ${Response.Status.NO_CONTENT.statusCode}")
+        }
     }
 }

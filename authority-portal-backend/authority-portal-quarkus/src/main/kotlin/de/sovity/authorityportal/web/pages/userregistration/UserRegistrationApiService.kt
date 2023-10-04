@@ -41,7 +41,7 @@ class UserRegistrationApiService {
         return UserRegistrationStatusResult(user.registrationStatus.toDto())
     }
 
-    fun createOrganization(userId: String, organization: CreateOrganizationRequest): IdResponse {
+    fun createOrganization(organization: CreateOrganizationRequest, userId: String): IdResponse {
         val mdsId = mdsIdUtils.generateMdsId()
 
         keycloakService.createOrganization(mdsId)
