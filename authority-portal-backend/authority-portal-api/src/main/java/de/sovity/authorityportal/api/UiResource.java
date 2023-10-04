@@ -9,6 +9,7 @@ import de.sovity.authorityportal.api.model.OrganizationDetailResult;
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult;
 import de.sovity.authorityportal.api.model.UserInfo;
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
+import de.sovity.authorityportal.api.model.UserRoleDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.Consumes;
@@ -46,7 +47,20 @@ public interface UiResource {
     @Operation(description = "Create an organization for a user.")
     IdResponse createOrganization(CreateOrganizationRequest organization);
 
-    // Organization management
+    // Organization management (Internal)
+    @PUT
+    @Path("/organizations/my-org/users/{userId}/role")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    IdResponse changeParticipantRole(@PathParam("userId") String userId, UserRoleDto role);
+
+    // Organization management (Authority)
+    @PUT
+    @Path("/authority/users/{userId}/role")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    IdResponse changeAuthorityRole(@PathParam("userId") String userId, UserRoleDto role);
+
     @GET
     @Path("/authority/organizations")
     @Produces(MediaType.APPLICATION_JSON)

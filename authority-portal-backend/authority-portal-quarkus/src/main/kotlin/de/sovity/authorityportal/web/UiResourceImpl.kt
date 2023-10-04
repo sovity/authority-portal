@@ -10,12 +10,14 @@ import de.sovity.authorityportal.api.model.OrganizationDetailResult
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
+import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.auth.AuthUtils
 import de.sovity.authorityportal.web.auth.LoggedInUser
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationManagementApiService
-import de.sovity.authorityportal.web.pages.userinfo.UserInfoApiService
+import de.sovity.authorityportal.web.pages.usermanagement.UserInfoApiService
+import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
@@ -29,6 +31,9 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var userInfoApiService: UserInfoApiService
+
+    @Inject
+    lateinit var userRoleApiService: UserRoleApiService
 
     @Inject
     lateinit var userRegistrationApiService: UserRegistrationApiService
@@ -60,7 +65,22 @@ class UiResourceImpl : UiResource {
         return userRegistrationApiService.createOrganization(organization, loggedInUser.userId)
     }
 
-    // Organization management
+    // Organization management (Internal)
+    @Transactional
+    override fun changeParticipantRole(userId: String, roleDto: UserRoleDto): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
+        authUtils.assertLoggedInUserInSameOrgAs(userId)
+        return userRoleApiService.changeParticipantRole(userId, roleDto, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+    }
+
+    // Organization management (Authority)
+    @Transactional
+    override fun changeAuthorityRole(userId: String, roleDto: UserRoleDto): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        authUtils.assertLoggedInUserInSameOrgAs(userId)
+        return userRoleApiService.changeAuthorityRole(userId, roleDto, loggedInUser.userId)
+    }
+
     @Transactional
     override fun organizationsOverview(): OrganizationOverviewResult {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)

@@ -95,12 +95,26 @@ class KeycloakService {
         }
     }
 
+    /**
+     * Join the user to an authority role group.
+     * Can also be used to change the user's role in the authority.
+     *
+     * @param userId The user's ID
+     * @param role The user's role in the authority
+     */
     fun joinApplicationRole(userId: String, role: ApplicationRole) {
         val user = keycloak.realm(keycloakRealm).users().get(userId)
-        val roleGroup = keycloak.realm(keycloakRealm).groups()
-            .groups(role.kcGroupName, 0, 1).firstOrNull()!!.id
 
-        user.joinGroup(roleGroup)
+        ApplicationRole.values().forEach {
+            val roleGroupId = keycloak.realm(keycloakRealm).groups()
+                .groups(it.kcGroupName, 0, 1).firstOrNull()!!.id
+
+            if (it == role) {
+                user.joinGroup(roleGroupId)
+            } else {
+                user.leaveGroup(roleGroupId)
+            }
+        }
     }
 
     fun forceLogout(userId: String) {
