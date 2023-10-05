@@ -7,6 +7,7 @@ import {
   ApproveOrganization,
   RefreshOrganization,
   RejectOrganization,
+  SetOrganizationMdsId,
 } from '../state/authority-organization-detail-page-actions';
 import {
   AuthorityOrganizationDetailPageState,
@@ -31,8 +32,8 @@ export class AuthorityOrganizationDetailPageComponent
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
-      let mdsId = params.get('mdsId')!!;
-      this.store.dispatch(new RefreshOrganization(mdsId));
+      this.setOrganizationMdsId(params.get('mdsId')!!);
+      this.refresh();
     });
 
     this.startListeningToState();
@@ -49,12 +50,20 @@ export class AuthorityOrganizationDetailPageComponent
       });
   }
 
+  setOrganizationMdsId(mdsId: string) {
+    this.store.dispatch(new SetOrganizationMdsId(mdsId));
+  }
+
+  refresh() {
+    this.store.dispatch(RefreshOrganization);
+  }
+
   approve() {
-    this.store.dispatch(new ApproveOrganization(this.state.organizationMdsId));
+    this.store.dispatch(ApproveOrganization);
   }
 
   reject() {
-    this.store.dispatch(new RejectOrganization(this.state.organizationMdsId));
+    this.store.dispatch(RejectOrganization);
   }
 
   ngOnDestroy$ = new Subject();

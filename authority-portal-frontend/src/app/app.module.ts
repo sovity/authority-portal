@@ -11,6 +11,7 @@ import {NgxsModule} from '@ngxs/store';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DevUtilsModule} from './common/components/dev-utils/dev-utils.module';
+import {LoadingElementModule} from './common/components/loading-element/loading-element.module';
 import {PipesAndDirectivesModule} from './common/components/pipes-and-directives/pipes-and-directives.module';
 import {PortalLayoutModule} from './common/layouts/portal-layout/portal-layout.module';
 import {ApiClientFactory} from './core/api/api-client-factory';
@@ -20,6 +21,7 @@ import {GlobalStateImpl} from './core/global-state/global-state-impl';
 import {AuthorityOrganizationDetailPageModule} from './pages/authority-organization-detail-page/authority-organization-detail-page.module';
 import {AuthorityOrganizationListPageModule} from './pages/authority-organization-list-page/authority-organization-list-page.module';
 import {DashboardPageModule} from './pages/dashboard-page/dashboard-page.module';
+import {ErrorPageModule} from './pages/error-page/error-page.module';
 import {LoadingPageModule} from './pages/loading-page/loading-page.module';
 import {PageNotFoundPageModule} from './pages/page-not-found-page/page-not-found-page.module';
 import {ParticipantOwnConnectorDetailPageModule} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page.module';
@@ -54,6 +56,7 @@ import {SpRegisterConnectorModule} from './pages/sp-register-connector/sp-regist
     DashboardPageModule,
     DevUtilsModule,
     LoadingPageModule,
+    ErrorPageModule,
     AuthorityOrganizationListPageModule,
     AuthorityOrganizationDetailPageModule,
     ParticipantRegisterOwnConnectorPageModule,

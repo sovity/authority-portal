@@ -16,8 +16,13 @@ import {SpRegisterConnectorPageComponent} from './pages/sp-register-connector/sp
 
 export const REGISTRATION_PROCESS_ROUTES: Routes = [
   {
-    path: '**',
+    path: 'create-organization',
     component: RegistrationProcessWizardComponent,
+  },
+  {
+    path: '**',
+    redirectTo: 'create-organization',
+    pathMatch: 'full',
   },
 ];
 
@@ -102,7 +107,8 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
       },
       {
         path: '**',
-        component: PageNotFoundPageComponent,
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
       },
     ],
   },

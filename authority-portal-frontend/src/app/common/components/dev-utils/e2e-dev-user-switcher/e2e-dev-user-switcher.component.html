@@ -1,0 +1,28 @@
+<div class="fixed bottom-0 right-0 z-50">
+  <div
+    class="flex flex-row items-center justify-evenly p-2 bg-blue-100 gap-3 rounded-xl h-20">
+    <div *ngFor="let user of users" [ngClass]="minimize ? 'hidden' : ''">
+      <button
+        class="hover:bg-blue-300 cursor-pointer rounded-md text-xs py-2 px-3"
+        [ngClass]="{'bg-blue-300': user.user === currentUser}"
+        (click)="setUser(user)">
+        <div class="flex flex-col">
+          <p class="font-medium">{{ user.role }}</p>
+          <p class="text-gray-500">{{ user.organization }}</p>
+        </div>
+      </button>
+    </div>
+
+    <button
+      class="cursor-pointer flex justify-center items-center w-10 h-10 rounded-full bg-slate-50 text-lg"
+      (click)="hide()">
+      <span class="sr-only">{{ minimize ? 'Expand' : 'Minimize' }}</span>
+      <svg
+        class="w-6 h-6 text-gray-700 transform transition-transform duration-300 ease-in-out"
+        viewBox="0 0 24 24"
+        [class.rotate-90]="minimize">
+        <path fill="currentColor" d="M7 10l5 5 5-5z"></path>
+      </svg>
+    </button>
+  </div>
+</div>

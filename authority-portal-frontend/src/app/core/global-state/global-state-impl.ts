@@ -1,14 +1,16 @@
-import {Injectable, NgZone} from '@angular/core';
+import {Inject, Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ignoreElements, tap} from 'rxjs/operators';
-import {Action, Selector, State, StateContext} from '@ngxs/store';
+import {Action, NgxsOnInit, Selector, State, StateContext} from '@ngxs/store';
 import {UserInfo, UserInfoRolesEnum} from '@sovity.de/authority-portal-client';
+import {E2E_DEV_USERS} from 'src/app/common/components/dev-utils/e2e-dev-user-switcher/e2e-dev-users';
 import {ApiService} from '../api/api.service';
 import {isEqualSets} from '../api/fake-backend/utils/set-utils';
+import {APP_CONFIG, AppConfig} from '../config/app-config';
 import {Fetched} from '../utils/fetched';
 import {patchState} from '../utils/state-utils';
 import {GlobalState, INITIAL_GLOBAL_STATE_MODEL} from './global-state';
-import {RefreshUserInfo} from './global-state-actions';
+import {RefreshUserInfo, SwitchE2eDevUser} from './global-state-actions';
 import {AuthorityPortalPageSet} from './routes/authority-portal-page-set';
 import {RouteConfigService} from './routes/route-config-service';
 
@@ -17,16 +19,28 @@ import {RouteConfigService} from './routes/route-config-service';
   defaults: INITIAL_GLOBAL_STATE_MODEL,
 })
 @Injectable()
-export class GlobalStateImpl {
+export class GlobalStateImpl implements NgxsOnInit {
   constructor(
+    @Inject(APP_CONFIG) public config: AppConfig,
     private ngZone: NgZone,
     private apiService: ApiService,
     private routeConfigService: RouteConfigService,
   ) {}
 
+  ngxsOnInit(ctx: StateContext<any>): void {
+    if (this.config.useLocalBackend) {
+      ctx.dispatch(new SwitchE2eDevUser(E2E_DEV_USERS[0]));
+    }
+  }
+
   @Selector()
   static roles(state: GlobalState): Set<UserInfoRolesEnum> {
     return state.roles;
+  }
+
+  @Action(SwitchE2eDevUser)
+  onSwitchE2eDevUser(ctx: StateContext<GlobalState>, action: SwitchE2eDevUser) {
+    ctx.patchState({e2eDevUser: action.user});
   }
 
   @Action(RefreshUserInfo, {cancelUncompleted: true})

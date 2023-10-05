@@ -1,22 +1,24 @@
-import {Injectable, NgZone} from '@angular/core';
-import {EMPTY, Observable, concat} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {EMPTY, Observable} from 'rxjs';
 import {
   catchError,
   filter,
+  finalize,
   ignoreElements,
-  map,
   switchMap,
   takeUntil,
   tap,
 } from 'rxjs/operators';
 import {Action, Actions, State, StateContext} from '@ngxs/store';
 import {OrganizationDetailResult} from '@sovity.de/authority-portal-client';
+import {ErrorService} from 'src/app/core/error.service';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
 import {
   ApproveOrganization,
   RefreshOrganization,
   RejectOrganization,
+  SetOrganizationMdsId,
 } from './authority-organization-detail-page-actions';
 import {
   AuthorityOrganizationDetailPageState,
@@ -29,28 +31,40 @@ import {
 })
 @Injectable()
 export class AuthorityOrganizationDetailPageStateImpl {
-  constructor(private apiService: ApiService, private actions$: Actions) {}
+  constructor(
+    private apiService: ApiService,
+    private actions$: Actions,
+    private errorService: ErrorService,
+  ) {}
+
+  @Action(SetOrganizationMdsId)
+  onSetOrganizationMdsId(
+    ctx: StateContext<AuthorityOrganizationDetailPageState>,
+    action: SetOrganizationMdsId,
+  ): Observable<never> {
+    ctx.patchState({organizationMdsId: action.organizationMdsId});
+    return EMPTY;
+  }
 
   @Action(RefreshOrganization, {cancelUncompleted: true})
-  onRefreshOrganizations(
+  onRefreshOrganization(
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
     action: RefreshOrganization,
   ): Observable<never> {
-    return this.apiService.getOrganizationDetails(action.mdsId).pipe(
-      Fetched.wrap({failureMessage: 'Failed loading organizations'}),
-      tap((organization) =>
-        this.onOrganizationRefreshed(ctx, action.mdsId, organization),
-      ),
-      ignoreElements(),
-    );
+    return this.apiService
+      .getOrganizationDetails(ctx.getState().organizationMdsId)
+      .pipe(
+        Fetched.wrap({failureMessage: 'Failed loading organizations'}),
+        tap((organization) => this.organizationRefreshed(ctx, organization)),
+        ignoreElements(),
+      );
   }
 
-  private onOrganizationRefreshed(
+  private organizationRefreshed(
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    organizationMdsId: string,
     organization: Fetched<OrganizationDetailResult>,
   ) {
-    ctx.patchState({organizationMdsId, organization});
+    ctx.patchState({organization});
   }
 
   @Action(ApproveOrganization)
@@ -58,28 +72,28 @@ export class AuthorityOrganizationDetailPageStateImpl {
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
     action: ApproveOrganization,
   ): Observable<never> {
-    return this.apiService.approveOrganization(action.mdsId).pipe(
-      switchMap(() =>
-        this.apiService
-          .getOrganizationDetails(ctx.getState().organizationMdsId)
-          .pipe(
-            takeUntil(
-              this.actions$.pipe(
-                filter((action) => action instanceof RefreshOrganization),
-              ),
-            ),
-            catchError(() => EMPTY),
-            tap((data) =>
-              this.onOrganizationRefreshed(
-                ctx,
-                ctx.getState().organizationMdsId,
-                Fetched.ready(data),
-              ),
-            ),
-            ignoreElements(),
+    if (ctx.getState().busy) {
+      return EMPTY;
+    }
+    ctx.patchState({busy: true});
+    return this.apiService
+      .approveOrganization(ctx.getState().organizationMdsId)
+      .pipe(
+        switchMap(() =>
+          this.apiService.getOrganizationDetails(
+            ctx.getState().organizationMdsId,
           ),
-      ),
-    );
+        ),
+        takeUntil(
+          this.actions$.pipe(
+            filter((action) => action instanceof RefreshOrganization),
+          ),
+        ),
+        this.errorService.toastFailureRxjs('Failed approving organization'),
+        tap((data) => this.organizationRefreshed(ctx, Fetched.ready(data))),
+        finalize(() => ctx.patchState({busy: false})),
+        ignoreElements(),
+      );
   }
 
   @Action(RejectOrganization)
@@ -87,27 +101,27 @@ export class AuthorityOrganizationDetailPageStateImpl {
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
     action: RejectOrganization,
   ): Observable<never> {
-    return this.apiService.rejectOrganization(action.mdsId).pipe(
-      switchMap(() =>
-        this.apiService
-          .getOrganizationDetails(ctx.getState().organizationMdsId)
-          .pipe(
-            takeUntil(
-              this.actions$.pipe(
-                filter((action) => action instanceof RefreshOrganization),
-              ),
-            ),
-            catchError(() => EMPTY),
-            tap((data) =>
-              this.onOrganizationRefreshed(
-                ctx,
-                ctx.getState().organizationMdsId,
-                Fetched.ready(data),
-              ),
-            ),
-            ignoreElements(),
+    if (ctx.getState().busy) {
+      return EMPTY;
+    }
+    ctx.patchState({busy: true});
+    return this.apiService
+      .rejectOrganization(ctx.getState().organizationMdsId)
+      .pipe(
+        switchMap(() =>
+          this.apiService.getOrganizationDetails(
+            ctx.getState().organizationMdsId,
           ),
-      ),
-    );
+        ),
+        takeUntil(
+          this.actions$.pipe(
+            filter((action) => action instanceof RefreshOrganization),
+          ),
+        ),
+        this.errorService.toastFailureRxjs('Failed rejecting organization'),
+        tap((data) => this.organizationRefreshed(ctx, Fetched.ready(data))),
+        finalize(() => ctx.patchState({busy: false})),
+        ignoreElements(),
+      );
   }
 }

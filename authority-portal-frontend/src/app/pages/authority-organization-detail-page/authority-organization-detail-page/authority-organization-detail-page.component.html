@@ -1,11 +1,11 @@
 <div class="bg-gray-50 flex flex-col py-24">
   <div class="flex flex-col items-center justify-center mb-6 text-gray-700">
-    <ng-container *ngIf="!state.organization.isReady">
-      <p
-        class="inline-block p-3 m-6 text-2xl font-semibold text-center tracking-wider text-teal-900 uppercase bg-teal-accent-400">
-        ...loading...
-      </p>
-    </ng-container>
+    <app-loading-element
+      *ngIf="state.organization.isLoading"></app-loading-element>
+
+    <app-error-element
+      *ngIf="state.organization.isError"
+      errorMessage="organization"></app-error-element>
 
     <ng-container *ngIf="state.organization.isReady">
       <div
@@ -94,12 +94,14 @@
           *ngIf="state.organization.data.registrationStatus === 'PENDING'"
           class="flex flex-row justify-evenly items-center my-4">
           <button
-            class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2"
+            class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
+            [disabled]="state.busy"
             (click)="approve()">
             Approve
           </button>
           <button
-            class="bg-white hover:bg-red-50 text-red-600 border-gray-500 border py-2 px-8 rounded-full my-2"
+            class="bg-white hover:bg-red-50 text-red-600 border-gray-500 border py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
+            [disabled]="state.busy"
             (click)="reject()">
             Reject
           </button>

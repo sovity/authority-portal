@@ -26,12 +26,12 @@ export class AuthorityOrganizationListPageStateImpl {
     return this.apiService.getOrganizations().pipe(
       map((result) => result.organizations),
       Fetched.wrap({failureMessage: 'Failed loading organizations'}),
-      tap((organizations) => this.onOrganizationsRefreshed(ctx, organizations)),
+      tap((organizations) => this.organizationsRefreshed(ctx, organizations)),
       ignoreElements(),
     );
   }
 
-  private onOrganizationsRefreshed(
+  private organizationsRefreshed(
     ctx: StateContext<AuthorityOrganizationListPageState>,
     newOrganizations: Fetched<OrganizationOverviewEntryDto[]>,
   ) {

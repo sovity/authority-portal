@@ -28,7 +28,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   toggleMenuSize() {
-    console.log('this.smallDisplayCompactMenu', this.smallDisplayExpandedMenu);
     this.smallDisplayExpandedMenu = !this.smallDisplayExpandedMenu;
   }
 
