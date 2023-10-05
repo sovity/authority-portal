@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
+import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
 import {PortalLayoutModule} from 'src/app/common/layouts/portal-layout/portal-layout.module';
 import {ParticipantOwnConnectorListPageComponent} from './participant-own-connector-list-page/participant-own-connector-list-page.component';
@@ -20,6 +21,7 @@ import {ParticipantOwnConnectorListPageStateImpl} from './state/participant-own-
     // Authority Portal
     PortalLayoutModule,
     PipesAndDirectivesModule,
+    LoadingElementModule,
   ],
 })
 export class ParticipantOwnConnectorListPageModule {}

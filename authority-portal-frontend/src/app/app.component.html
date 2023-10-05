@@ -5,5 +5,7 @@
   style="z-index: 9999">
   <app-fake-backend-user-switcher></app-fake-backend-user-switcher>
 </div>
+<app-e2e-dev-user-switcher
+  *ngIf="config.useLocalBackend"></app-e2e-dev-user-switcher>
 
 <router-outlet></router-outlet>

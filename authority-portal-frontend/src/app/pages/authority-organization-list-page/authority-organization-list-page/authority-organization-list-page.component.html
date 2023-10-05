@@ -145,6 +145,9 @@
                 </tr>
               </tbody>
             </ng-container>
+            <ng-container *ngIf="state.organizations.isLoading">
+              <app-loading-element></app-loading-element>
+            </ng-container>
           </table>
         </div>
       </div>

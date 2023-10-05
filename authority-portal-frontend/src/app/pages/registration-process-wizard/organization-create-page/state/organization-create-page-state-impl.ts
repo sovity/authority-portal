@@ -4,7 +4,6 @@ import {catchError, ignoreElements, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {ApiService} from '../../../../core/api/api.service';
-import {Fetched} from '../../../../core/utils/fetched';
 import {CreateOrganization} from './organization-create-page-action';
 import {
   DEFAULT_ORGANIZATION_CREATE_PAGE_STATE,

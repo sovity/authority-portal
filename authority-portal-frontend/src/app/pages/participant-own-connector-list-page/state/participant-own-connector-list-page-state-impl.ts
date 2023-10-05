@@ -26,12 +26,12 @@ export class ParticipantOwnConnectorListPageStateImpl {
     return this.apiService.getOwnOrganizationConnectors().pipe(
       map((result) => result.connectors),
       Fetched.wrap({failureMessage: 'Failed loading connectors'}),
-      tap((connectors) => this.onConnectorsRefreshed(ctx, connectors)),
+      tap((connectors) => this.connectorsRefreshed(ctx, connectors)),
       ignoreElements(),
     );
   }
 
-  private onConnectorsRefreshed(
+  private connectorsRefreshed(
     ctx: StateContext<ParticipantOwnConnectorListPageState>,
     newConnectors: Fetched<ConnectorOverviewEntryDto[]>,
   ) {

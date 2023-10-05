@@ -14,7 +14,7 @@ export interface AppConfig {
   logoutUrl: string;
   invalidateSessionCookiesUrl: string;
   useFakeBackend: boolean;
-  localDevBasicAuth?: LocalDevBasicAuthConfig;
+  useLocalBackend: boolean;
 }
 
 /**
@@ -26,8 +26,7 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_BACKEND_URL: string;
   AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: string;
   AUTHORITY_PORTAL_FRONTEND_USE_FAKE_BACKEND: string;
-  AUTHORITY_PORTAL_FRONTEND_LOCAL_DEV_BASIC_AUTH_USER: string;
-  AUTHORITY_PORTAL_FRONTEND_LOCAL_DEV_BASIC_AUTH_PASSWORD: string;
+  AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND: string;
   AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: string;
 }
 
@@ -43,24 +42,12 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
       envVars.AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL,
     useFakeBackend:
       envVars.AUTHORITY_PORTAL_FRONTEND_USE_FAKE_BACKEND === 'true',
-    localDevBasicAuth: readLocalDevBasicAuthConfig(envVars),
+    useLocalBackend:
+      envVars.AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND === 'true',
   };
 }
 
 export interface LocalDevBasicAuthConfig {
   user: string;
   password: string;
-}
-
-function readLocalDevBasicAuthConfig(
-  envVars: AppConfigEnv,
-): LocalDevBasicAuthConfig | undefined {
-  if (!envVars.AUTHORITY_PORTAL_FRONTEND_LOCAL_DEV_BASIC_AUTH_USER) {
-    return;
-  }
-
-  return {
-    user: envVars.AUTHORITY_PORTAL_FRONTEND_LOCAL_DEV_BASIC_AUTH_USER,
-    password: envVars.AUTHORITY_PORTAL_FRONTEND_LOCAL_DEV_BASIC_AUTH_PASSWORD,
-  };
 }

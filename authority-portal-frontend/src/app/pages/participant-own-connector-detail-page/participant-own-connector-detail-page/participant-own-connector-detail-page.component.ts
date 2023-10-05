@@ -2,7 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {RefreshConnector} from '../state/participant-own-connector-detail-page-actions';
+import {
+  RefreshConnector,
+  SetConnectorId,
+} from '../state/participant-own-connector-detail-page-actions';
 import {
   DEFAULT_PARTICIPANT_OWN_CONNECTOR_DETAIL_PAGE_STATE,
   ParticipantOwnConnectorDetailPageState,
@@ -23,7 +26,8 @@ export class ParticipantOwnConnectorDetailPageComponent
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       let connectorId = params.get('connectorId')!!;
-      this.store.dispatch(new RefreshConnector(connectorId));
+      this.store.dispatch(new SetConnectorId(connectorId));
+      this.store.dispatch(RefreshConnector);
     });
 
     this.startListeningToState();
@@ -38,6 +42,10 @@ export class ParticipantOwnConnectorDetailPageComponent
       .subscribe((state) => {
         this.state = state;
       });
+  }
+
+  refresh() {
+    this.store.dispatch(RefreshConnector);
   }
 
   ngOnDestroy$ = new Subject();

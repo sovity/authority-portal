@@ -32,7 +32,7 @@ export class RouteConfigService {
     this.forceRefreshCurrentRoute();
   }
 
-  private forceRefreshCurrentRoute() {
+  forceRefreshCurrentRoute() {
     const currentUrl = this.router.url;
     this.router
       .navigateByUrl('/random-redirect-for-force-refresh', {

@@ -1,11 +1,11 @@
 <div class="bg-gray-50 flex flex-col py-24">
   <div class="flex flex-col items-center justify-center mb-6 text-gray-700">
-    <ng-container *ngIf="!state.connector.isReady">
-      <p
-        class="inline-block p-3 m-6 text-2xl font-semibold text-center tracking-wider text-teal-900 uppercase bg-teal-accent-400">
-        ...loading...
-      </p>
-    </ng-container>
+    <app-loading-element
+      *ngIf="state.connector.isLoading"></app-loading-element>
+
+    <app-error-element
+      *ngIf="state.connector.isError"
+      errorMessage="connector"></app-error-element>
 
     <ng-container *ngIf="state.connector.isReady">
       <div

@@ -29,13 +29,13 @@ export class SpConnectorDetailPageStateImpl {
       .pipe(
         Fetched.wrap({failureMessage: 'Failed loading Connector'}),
         tap((connector) =>
-          this.onConnectorRefreshed(ctx, action.connectorId, connector),
+          this.connectorRefreshed(ctx, action.connectorId, connector),
         ),
         ignoreElements(),
       );
   }
 
-  private onConnectorRefreshed(
+  private connectorRefreshed(
     ctx: StateContext<SpConnectorDetailPageState>,
     connectorId: string,
     connector: Fetched<ConnectorDetailDto>,

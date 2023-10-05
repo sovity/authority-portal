@@ -5,7 +5,6 @@ export interface SpConnectorListPageState {
   connectors: Fetched<ConnectorOverviewEntryDto[]>;
 }
 
-export const DEFAULT_SP_CONNECTOR_LIST_PAGE_STATE: SpConnectorListPageState =
-  {
-    connectors: Fetched.empty(),
-  };
+export const DEFAULT_SP_CONNECTOR_LIST_PAGE_STATE: SpConnectorListPageState = {
+  connectors: Fetched.empty(),
+};
