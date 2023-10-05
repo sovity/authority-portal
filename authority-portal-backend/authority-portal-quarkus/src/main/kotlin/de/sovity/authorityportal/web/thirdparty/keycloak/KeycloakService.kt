@@ -7,7 +7,9 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.keycloak.admin.client.Keycloak
+import org.keycloak.models.UserModel.RequiredAction
 import org.keycloak.representations.idm.GroupRepresentation
+import org.keycloak.representations.idm.UserRepresentation
 
 @ApplicationScoped
 class KeycloakService {
@@ -20,6 +22,24 @@ class KeycloakService {
 
     @ConfigProperty(name = "quarkus.keycloak.admin-client.realm")
     lateinit var keycloakRealm: String
+
+    fun createUser(email: String, firstName: String, lastName: String): String {
+        val user = UserRepresentation().also {
+            it.isEnabled = true
+            it.requiredActions = listOf(
+                RequiredAction.UPDATE_PASSWORD.toString(),
+                RequiredAction.CONFIGURE_TOTP.toString(),
+                RequiredAction.VERIFY_EMAIL.toString()
+            )
+            it.email = email
+            it.firstName = firstName
+            it.lastName = lastName
+        }
+
+        keycloak.realm(keycloakRealm).users().create(user)
+
+        return keycloak.realm(keycloakRealm).users().search(email).first().id
+    }
 
     fun listUsers(): List<KeycloakUserDto> {
         val users = keycloak.realm(keycloakRealm).users().list()
@@ -119,6 +139,15 @@ class KeycloakService {
 
     fun forceLogout(userId: String) {
         keycloak.realm(keycloakRealm).users().get(userId).logout()
+    }
+
+    fun sendInvitationEmail(userId: String) {
+        val actions = listOf(
+            RequiredAction.UPDATE_PASSWORD.toString(),
+            RequiredAction.CONFIGURE_TOTP.toString(),
+            RequiredAction.VERIFY_EMAIL.toString()
+        )
+        keycloak.realm(keycloakRealm).users().get(userId).executeActionsEmail(actions)
     }
 }
 

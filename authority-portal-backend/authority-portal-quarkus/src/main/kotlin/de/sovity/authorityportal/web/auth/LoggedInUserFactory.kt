@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.web.auth
 
+import de.sovity.authorityportal.web.services.FirstLoginService
 import de.sovity.authorityportal.web.services.FirstUserService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.utils.unauthorized
@@ -26,6 +27,9 @@ class LoggedInUserFactory {
     lateinit var userService: UserService
 
     @Inject
+    lateinit var firstLoginService: FirstLoginService
+
+    @Inject
     lateinit var firstUserService: FirstUserService
 
     @Inject
@@ -44,8 +48,11 @@ class LoggedInUserFactory {
     private fun buildLoggedInUser(jwt: JsonWebToken): LoggedInUser {
         val userId = getUserId(jwt)
         val roles = getRoles(jwt)
-        val organizationMdsId: String? = userService.getUserOrCreate(userId).organizationMdsId
+        val user = userService.getUserOrCreate(userId)
+        val organizationMdsId: String? = user.organizationMdsId
+
         firstUserService.setupFirstUserIfRequired(userId)
+        firstLoginService.approveIfInvited(user)
 
         return LoggedInUser(userId, organizationMdsId, roles)
     }

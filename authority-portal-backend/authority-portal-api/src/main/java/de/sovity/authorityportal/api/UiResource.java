@@ -5,6 +5,7 @@ import de.sovity.authorityportal.api.model.ConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.CreateConnectorRequest;
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest;
 import de.sovity.authorityportal.api.model.IdResponse;
+import de.sovity.authorityportal.api.model.InviteParticipantUserRequest;
 import de.sovity.authorityportal.api.model.OrganizationDetailResult;
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult;
 import de.sovity.authorityportal.api.model.UserInfo;
@@ -52,13 +53,22 @@ public interface UiResource {
     @Path("/organizations/my-org/users/{userId}/role")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Change a user's participant role (PARTICIPANT_*) within their organization.")
     IdResponse changeParticipantRole(@PathParam("userId") String userId, UserRoleDto role);
+
+    @POST
+    @Path("/organizations/my-org/users/invite")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Invite new user to a participating organization.")
+    IdResponse inviteUser(InviteParticipantUserRequest invitationInformation);
 
     // Organization management (Authority)
     @PUT
     @Path("/authority/users/{userId}/role")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Change a user's authority role (AUTHORITY_*).")
     IdResponse changeAuthorityRole(@PathParam("userId") String userId, UserRoleDto role);
 
     @GET
