@@ -60,14 +60,16 @@ class AuthUtils {
         }
     }
 
-    fun requiresMemberOfOrganization() {
+    fun requiresMemberOfAnyOrganization() {
         if (loggedInUser.organizationMdsId.isNullOrEmpty()) {
             Log.error("User is not associated with any organization. userId=${loggedInUser.userId}.")
             unauthorized("User is not associated with any organization")
         }
     }
 
-    fun assertLoggedInUserInSameOrgAs(userId: String) {
+    fun requiresMemberOfSameOrganizationAs(userId: String) {
+        requiresMemberOfAnyOrganization()
+
         val user = userService.getUserOrThrow(userId)
         if (user.organizationMdsId != loggedInUser.organizationMdsId) {
             Log.error("User is not part of logged in/executing user's organization. userId=$userId, loggedInUserMdsId=${loggedInUser.organizationMdsId}, loggedInUserId=${loggedInUser.userId}.")

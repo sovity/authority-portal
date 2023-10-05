@@ -148,9 +148,6 @@ class ConnectorManagementApiService {
         return IdResponse(connectorId)
     }
 
-    /**
-     * Not yet working. Wait for Broker API.
-     */
     fun deleteOwnConnector(
         connectorId: String,
         mdsId: String,

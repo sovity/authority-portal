@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v2.0.0] - 2023-09-29
+## Unreleased - YYYY-MM-DD
 
 ### Overview
 
@@ -17,6 +17,7 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 
 #### Minor
 
+- Add endpoint to invite new users to an organization
 - Add endpoints for role changing for authority and participants
 - Unregister own connectors
 
