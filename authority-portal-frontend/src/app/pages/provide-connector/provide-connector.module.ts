@@ -6,11 +6,11 @@ import {RouterModule} from '@angular/router';
 import {NgxsFormPluginModule} from '@ngxs/form-plugin';
 import {NgxsModule} from '@ngxs/store';
 import {PortalLayoutModule} from 'src/app/common/layouts/portal-layout/portal-layout.module';
-import {SpRegisterConnectorPageComponent} from './sp-register-connector/sp-register-connector-page.component';
-import {SpRegisterConnectorPageStateImpl} from './state/sp-register-connector-page-state-impl';
+import {ProvideConnectorPageComponent} from './provide-connector/provide-connector-page.component';
+import {ProvideConnectorPageStateImpl} from './state/provide-connector-page-state-impl';
 
 @NgModule({
-  declarations: [SpRegisterConnectorPageComponent],
+  declarations: [ProvideConnectorPageComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -20,7 +20,7 @@ import {SpRegisterConnectorPageStateImpl} from './state/sp-register-connector-pa
     FormsModule,
     ReactiveFormsModule,
     NgxsFormPluginModule,
-    NgxsModule.forFeature([SpRegisterConnectorPageStateImpl]),
+    NgxsModule.forFeature([ProvideConnectorPageStateImpl]),
   ],
 })
-export class SpRegisterConnectorModule {}
+export class ProvideConnectorModule {}

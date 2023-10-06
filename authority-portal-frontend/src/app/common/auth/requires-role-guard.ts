@@ -1,7 +1,7 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivateFn, Router} from '@angular/router';
 import {map} from 'rxjs/operators';
-import {UserInfoRolesEnum} from '../../../../../authority-portal-backend/authority-portal-api-client-ts';
+import {UserRoleDto} from '../../../../../authority-portal-backend/authority-portal-api-client-ts';
 import {GlobalStateUtils} from '../../core/global-state/global-state-utils';
 
 export const requiresRole: CanActivateFn = (route: ActivatedRouteSnapshot) => {
@@ -28,14 +28,12 @@ export const requiresRole: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   );
 };
 
-const getAllowedRoles = (
-  value: UserInfoRolesEnum | UserInfoRolesEnum[],
-): UserInfoRolesEnum[] => {
+const getAllowedRoles = (value: UserRoleDto | UserRoleDto[]): UserRoleDto[] => {
   if (typeof value === 'string') {
-    return [value as UserInfoRolesEnum];
+    return [value as UserRoleDto];
   }
   if (Array.isArray(value)) {
-    return value as UserInfoRolesEnum[];
+    return value as UserRoleDto[];
   }
   return [];
 };

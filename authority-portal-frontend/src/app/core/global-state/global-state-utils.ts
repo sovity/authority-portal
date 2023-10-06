@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, distinctUntilChanged, filter, first, share} from 'rxjs';
 import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {Select, Store, createSelector} from '@ngxs/store';
-import {UserInfo, UserInfoRolesEnum} from '@sovity.de/authority-portal-client';
+import {UserInfo, UserRoleDto} from '@sovity.de/authority-portal-client';
 import {GlobalState} from './global-state';
 import {GlobalStateImpl} from './global-state-impl';
 
@@ -19,11 +19,11 @@ export class GlobalStateUtils {
     );
 
   @Select(GlobalStateImpl.roles)
-  userRoles$!: Observable<Set<UserInfoRolesEnum>>;
+  userRoles$!: Observable<Set<UserRoleDto>>;
 
   constructor(private store: Store) {}
 
-  public awaitLoadedUserRoles(): Observable<Set<UserInfoRolesEnum>> {
+  public awaitLoadedUserRoles(): Observable<Set<UserRoleDto>> {
     return this.userInfo$.pipe(first()).pipe(
       switchMap(() => this.userRoles$),
       first(),

@@ -26,6 +26,7 @@
 <div class="sidebar-section">
   <sidebar-dashboard-element
     class="sidebar-item-container"
+    title="Dashboard"
     rLink="/dashboard"
     [smallDisplayExpandedMenu]="
       smallDisplayExpandedMenu
@@ -45,6 +46,7 @@
 
   <sidebar-my-connectors-element
     class="sidebar-item-container"
+    title="Connectors"
     rLink="/my-organization/connectors"
     [smallDisplayExpandedMenu]="
       smallDisplayExpandedMenu
@@ -65,6 +67,7 @@
 
   <sidebar-organizations-element
     class="sidebar-item-container"
+    title="Organizations"
     rLink="/authority/organizations"
     [smallDisplayExpandedMenu]="smallDisplayExpandedMenu">
   </sidebar-organizations-element>
@@ -85,6 +88,7 @@
   <div class="sidebar-item-container">
     <a
       class="sidebar-item"
+      title="Prod Catalog"
       target="_blank"
       href="https://catalog.mobility-dataspace.eu/">
       <svg
@@ -111,6 +115,7 @@
   <div class="sidebar-item-container">
     <a
       class="sidebar-item"
+      title="Test Catalog"
       target="_blank"
       href="https://catalog.test.mobility-dataspace.eu/">
       <svg
@@ -137,6 +142,7 @@
   <div class="sidebar-item-container">
     <a
       class="sidebar-item"
+      title="Support"
       target="_blank"
       href="https://mobility-dataspace.online/">
       <svg
@@ -173,6 +179,7 @@
   </div>
   <a
     class="fixed self-center flex flex-row justify-center items-center bottom-3 text-white border border-gray-500 py-2 px-3 rounded-md"
+    title="Logout"
     [href]="config.logoutUrl"
     ><svg
       class="h-6 w-6 inline-block align-middle mr-2"

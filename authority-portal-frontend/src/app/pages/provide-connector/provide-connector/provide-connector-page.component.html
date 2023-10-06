@@ -1,7 +1,6 @@
-<div class="bg-gray-50 py-10 flex flex-col items-center justify-center w-full">
+<div class="bg-gray-200 py-10 flex flex-col items-center justify-center w-full">
   <form
     class="flex flex-col bg-white shadow-lg w-2/3 md:w-4/5 xl:w-3/5 2xl:w-1/2 p-10 rounded-3xl"
-    ngxsForm="organization.organizationCreateForm"
     [formGroup]="group"
     (ngSubmit)="submit()">
     <p
@@ -11,11 +10,11 @@
     </p>
     <div class="select-none flex flex-col justify-between items-center my-2">
       <div class="flex flex-col justify-between items-center w-full">
-        <label class="label w-full mb-2" for="formRegConName"
+        <label class="label w-full mb-2" for="formProvConName"
           >Connector's Name</label
         >
         <input
-          id="formRegConName"
+          id="formProvConName"
           class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
           type="text"
           formControlName="name"
@@ -35,11 +34,11 @@
 
     <div class="select-none flex flex-col justify-between items-center my-2">
       <div class="flex flex-col justify-between items-center w-full">
-        <label class="label w-full mb-2" for="formRegConLocation"
+        <label class="label w-full mb-2" for="formProvConLocation"
           >Connector's Location</label
         >
         <input
-          id="formRegConLocation"
+          id="formProvConLocation"
           class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2 resize-none"
           type="text"
           formControlName="location"
@@ -59,11 +58,11 @@
 
     <div class="select-none flex flex-col justify-between items-center my-2">
       <div class="flex flex-col justify-between items-center w-full">
-        <label class="label w-full mb-2" for="formRegConUrl"
+        <label class="label w-full mb-2" for="formProvConUrl"
           >Endpoint URL</label
         >
         <input
-          id="formRegConUrl"
+          id="formProvConUrl"
           class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
           type="text"
           formControlName="url"
@@ -83,11 +82,11 @@
 
     <div class="select-none flex flex-col justify-between items-center my-2">
       <div class="flex flex-col justify-between items-center w-full">
-        <label class="label w-full mb-2" for="formRegConMdsId"
+        <label class="label w-full mb-2" for="formProvConMdsId"
           >MDS ID of client Organization</label
         >
         <input
-          id="formRegConUrl"
+          id="formProvConUrl"
           class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
           type="text"
           formControlName="mdsId"
@@ -107,11 +106,11 @@
 
     <div class="select-none flex flex-col justify-between items-center my-2">
       <div class="flex flex-col justify-between items-center w-full">
-        <label class="label w-full mb-2" for="formRegConPubCertKey"
+        <label class="label w-full mb-2" for="formProvConPubCertKey"
           >Public key of your certificate</label
         >
         <textarea
-          id="formRegConPubCertKey"
+          id="formProvConPubCertKey"
           class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-1 h-48 resize-none"
           type="text"
           formControlName="certificate"
@@ -135,45 +134,18 @@
     </div>
 
     <div class="border-gray-400 inline-flex mt-4 justify-evenly w-full">
-      <a
-        class="select-none cursor-pointer bg-red-200 rounded-md text-center active:bg-red-300 hover:bg-red-300 hover:text-black my-auto w-2/5 p-3 focus:text-black focus:bg-red-300 disabled:bg-slate-500"
+      <button
+        class="select-none cursor-pointer bg-red-200 rounded-md text-center active:bg-red-300 hover:bg-red-300 hover:text-black my-auto w-2/5 p-3 focus:text-black focus:bg-red-300 disabled:bg-slate-500 disabled:text-gray-200"
         routerLink="/my-organization/connectors"
-        [ngClass]="{
-          hidden: state.state === 'success' ? true : false,
-        }">
+        [disabled]="state.state === 'submitting' || state.state === 'success'">
         Cancel
-      </a>
+      </button>
       <button
         class="select-none cursor-pointer bg-green-200 rounded-md text-center active:bg-green-300 hover:bg-green-300 hover:text-black my-auto w-2/5 p-3 focus:text-black focus:bg-green-300 disabled:bg-slate-500 disabled:text-gray-200"
         type="submit"
-        [ngClass]="{
-          hidden: state.state === 'success'   ? true : false,
-        }"
         [disabled]="!group.valid || state.state === 'submitting'">
-        Register
+        Provide
       </button>
-    </div>
-
-    <div *ngIf="state.state === 'success'" class="mt-6">
-      <div
-        class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
-        role="alert">
-        <strong class="font-bold">Success!</strong>
-        <span class="block sm:inline"
-          >&nbsp;You successfully registered provided connector.</span
-        >
-      </div>
-    </div>
-
-    <div *ngIf="state.state === 'error'" class="mt-6">
-      <div
-        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-        role="alert">
-        <strong class="font-bold">Error!</strong>
-        <span class="block sm:inline"
-          >&nbsp; Connector wasn't provided. Please try again.</span
-        >
-      </div>
     </div>
   </form>
 </div>

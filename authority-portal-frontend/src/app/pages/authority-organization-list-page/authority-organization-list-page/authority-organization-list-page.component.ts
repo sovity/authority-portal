@@ -2,8 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
-import {OrganizationOverviewEntryDtoRegistrationStatusEnum} from '@sovity.de/authority-portal-client';
-import {ApiService} from '../../../core/api/api.service';
+import {OrganizationRegistrationStatusDto} from '@sovity.de/authority-portal-client';
 import {getOrganizationRegistrationStatusClasses} from '../../../core/utils/ui-utils';
 import {RefreshOrganizations} from '../state/authority-organization-list-page-actions';
 import {
@@ -20,13 +19,13 @@ export class AuthorityOrganizationListPageComponent
   implements OnInit, OnDestroy
 {
   state = DEFAULT_AUTHORITY_ORGANIZATION_LIST_PAGE_STATE;
-  filter: OrganizationOverviewEntryDtoRegistrationStatusEnum | null = null;
+  filter: OrganizationRegistrationStatusDto | null = null;
 
   // html doesn't see this function if it's just imported
   getOrganizationRegistrationStatusClasses =
     getOrganizationRegistrationStatusClasses;
 
-  constructor(private store: Store, private apiService: ApiService) {}
+  constructor(private store: Store) {}
 
   ngOnInit() {
     this.refresh();
@@ -48,7 +47,7 @@ export class AuthorityOrganizationListPageComponent
       });
   }
 
-  filterBy(filter: OrganizationOverviewEntryDtoRegistrationStatusEnum | null) {
+  filterBy(filter: OrganizationRegistrationStatusDto | null) {
     this.filter = filter;
   }
 

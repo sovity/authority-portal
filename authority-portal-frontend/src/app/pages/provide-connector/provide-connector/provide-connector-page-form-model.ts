@@ -1,9 +1,9 @@
 import {FormControl, ɵFormGroupValue} from '@angular/forms';
 
-export type SpRegisterConnectorPageFormValue =
-  ɵFormGroupValue<SpRegisterConnectorPageFormModel>;
+export type ProvideConnectorPageFormValue =
+  ɵFormGroupValue<ProvideConnectorPageFormModel>;
 
-export interface SpRegisterConnectorPageFormModel {
+export interface ProvideConnectorPageFormModel {
   name: FormControl<string>;
   location: FormControl<string>;
   url: FormControl<string>;

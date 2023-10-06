@@ -1,14 +1,14 @@
-import {OrganizationDetailResultRegistrationStatusEnum} from '@sovity.de/authority-portal-client';
+import {OrganizationRegistrationStatusDto} from '@sovity.de/authority-portal-client';
 
 export const getOrganizationRegistrationStatusClasses = (
-  status: OrganizationDetailResultRegistrationStatusEnum,
+  status: OrganizationRegistrationStatusDto,
 ): string => {
   switch (status) {
-    case OrganizationDetailResultRegistrationStatusEnum.Approved:
+    case OrganizationRegistrationStatusDto.Approved:
       return 'text-emerald-700 bg-emerald-100/60';
-    case OrganizationDetailResultRegistrationStatusEnum.Rejected:
+    case OrganizationRegistrationStatusDto.Rejected:
       return 'text-red-700 bg-red-100/60';
-    case OrganizationDetailResultRegistrationStatusEnum.Pending:
+    case OrganizationRegistrationStatusDto.Pending:
       return 'bg-gray-100/90';
     default:
       return '';

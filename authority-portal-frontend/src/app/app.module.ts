@@ -18,6 +18,9 @@ import {ApiClientFactory} from './core/api/api-client-factory';
 import {ApiService} from './core/api/api.service';
 import {provideAppConfig} from './core/config/app-config-initializer';
 import {GlobalStateImpl} from './core/global-state/global-state-impl';
+import {NgxsInZoneExecutionStrategy} from './core/global-state/ngxs-in-zone-execution-strategy';
+import {ToastNotificationsModule} from './core/toast-notifications/toast-notifications.module';
+import {ToastService} from './core/toast-notifications/toast.service';
 import {AuthorityOrganizationDetailPageModule} from './pages/authority-organization-detail-page/authority-organization-detail-page.module';
 import {AuthorityOrganizationListPageModule} from './pages/authority-organization-list-page/authority-organization-list-page.module';
 import {DashboardPageModule} from './pages/dashboard-page/dashboard-page.module';
@@ -27,13 +30,15 @@ import {PageNotFoundPageModule} from './pages/page-not-found-page/page-not-found
 import {ParticipantOwnConnectorDetailPageModule} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page.module';
 import {ParticipantOwnConnectorListPageModule} from './pages/participant-own-connector-list-page/participant-own-connector-list-page.module';
 import {ParticipantRegisterOwnConnectorPageModule} from './pages/participant-register-own-connector-page/participant-register-own-connector-page.module';
+import {ProvideConnectorModule} from './pages/provide-connector/provide-connector.module';
 import {RegistrationProcessWizardModule} from './pages/registration-process-wizard/registration-process-wizard.module';
 import {SpConnectorDetailPageModule} from './pages/sp-connector-detail-page/sp-connector-detail-page.module';
 import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-connector-list-page.module';
-import {SpRegisterConnectorModule} from './pages/sp-register-connector/sp-register-connector.module';
 
 @NgModule({
   declarations: [AppComponent],
+  providers: [provideAppConfig(), ApiService, ApiClientFactory],
+  bootstrap: [AppComponent],
   imports: [
     // Angular
     CommonModule,
@@ -42,15 +47,15 @@ import {SpRegisterConnectorModule} from './pages/sp-register-connector/sp-regist
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-
     // Angular Material
     MatButtonModule,
-
     // Ngxs
-    NgxsModule.forRoot([GlobalStateImpl], {developmentMode: true}),
+    NgxsModule.forRoot([GlobalStateImpl], {
+      developmentMode: true,
+      executionStrategy: NgxsInZoneExecutionStrategy,
+    }),
     // NgxsFormPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-
     // Authority Portal
     PortalLayoutModule,
     DashboardPageModule,
@@ -62,16 +67,15 @@ import {SpRegisterConnectorModule} from './pages/sp-register-connector/sp-regist
     ParticipantRegisterOwnConnectorPageModule,
     ParticipantOwnConnectorListPageModule,
     ParticipantOwnConnectorDetailPageModule,
-    SpRegisterConnectorModule,
+    ProvideConnectorModule,
     SpConnectorDetailPageModule,
     SpConnectorListPageModule,
     PageNotFoundPageModule,
     RegistrationProcessWizardModule,
+    ToastNotificationsModule,
 
     // Routing Module
     AppRoutingModule,
   ],
-  providers: [provideAppConfig(), ApiService, ApiClientFactory],
-  bootstrap: [AppComponent],
 })
 export class AppModule {}

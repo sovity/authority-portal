@@ -1,12 +1,11 @@
-import {Injectable} from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
+import {Router} from '@angular/router';
 import {EMPTY, Observable} from 'rxjs';
 import {catchError, ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
-import {IdResponse} from '@sovity.de/authority-portal-client';
-import {INITIAL_GLOBAL_STATE_MODEL} from 'src/app/core/global-state/global-state';
+import {ErrorService} from 'src/app/core/error.service';
+import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
-import {Fetched} from '../../../core/utils/fetched';
-import {DEFAULT_ORGANIZATION_CREATE_PAGE_STATE} from '../../registration-process-wizard/organization-create-page/state/organization-create-page-state';
 import {Reset, Submit} from './participant-register-own-connector-page-actions';
 import {
   DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_STATE,
@@ -19,7 +18,13 @@ import {
 })
 @Injectable()
 export class ParticipantRegisterOwnConnectorPageStateImpl {
-  constructor(private apiService: ApiService, private actions$: Actions) {}
+  constructor(
+    private apiService: ApiService,
+    private actions$: Actions,
+    private toast: ToastService,
+    private router: Router,
+    private errorService: ErrorService,
+  ) {}
 
   @Action(Reset)
   onReset(ctx: StateContext<ParticipantRegisterOwnConnectorPageState>): void {
@@ -35,13 +40,18 @@ export class ParticipantRegisterOwnConnectorPageStateImpl {
     action.disableForm();
 
     return this.apiService.createOwnConnector(action.request).pipe(
-      tap(() => ctx.patchState({state: 'success'})),
+      tap(() => {
+        this.toast.showSuccess(
+          `Connector ${action.request.name} created successfully`,
+        );
+        ctx.patchState({state: 'success'});
+
+        this.router.navigate(['/my-organization', 'connectors']);
+      }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      catchError((error) => {
-        console.error('Failed registering connector', error);
+      this.errorService.toastFailureRxjs('Failed registering connector', () => {
         ctx.patchState({state: 'error'});
         action.enableForm();
-        return EMPTY;
       }),
       ignoreElements(),
     );

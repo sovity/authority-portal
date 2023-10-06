@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
+import {Router} from '@angular/router';
 import {EMPTY, Observable} from 'rxjs';
 import {
-  catchError,
   filter,
   finalize,
   ignoreElements,
@@ -12,6 +12,7 @@ import {
 import {Action, Actions, State, StateContext} from '@ngxs/store';
 import {OrganizationDetailResult} from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
+import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
 import {
@@ -35,6 +36,9 @@ export class AuthorityOrganizationDetailPageStateImpl {
     private apiService: ApiService,
     private actions$: Actions,
     private errorService: ErrorService,
+    private toast: ToastService,
+    private router: Router,
+    private ngZone: NgZone,
   ) {}
 
   @Action(SetOrganizationMdsId)
@@ -78,6 +82,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
     ctx.patchState({busy: true});
     return this.apiService
       .approveOrganization(ctx.getState().organizationMdsId)
+
       .pipe(
         switchMap(() =>
           this.apiService.getOrganizationDetails(
@@ -89,8 +94,16 @@ export class AuthorityOrganizationDetailPageStateImpl {
             filter((action) => action instanceof RefreshOrganization),
           ),
         ),
-        this.errorService.toastFailureRxjs('Failed approving organization'),
-        tap((data) => this.organizationRefreshed(ctx, Fetched.ready(data))),
+        this.errorService.toastFailureRxjs("Organization wasn't approved"),
+        tap((data) => {
+          this.organizationRefreshed(ctx, Fetched.ready(data));
+          this.toast.showSuccess(
+            `Organization ${
+              ctx.getState().organizationMdsId
+            } was successfully approved`,
+          );
+          this.router.navigate(['/authority', 'organizations']);
+        }),
         finalize(() => ctx.patchState({busy: false})),
         ignoreElements(),
       );
@@ -118,8 +131,17 @@ export class AuthorityOrganizationDetailPageStateImpl {
             filter((action) => action instanceof RefreshOrganization),
           ),
         ),
-        this.errorService.toastFailureRxjs('Failed rejecting organization'),
-        tap((data) => this.organizationRefreshed(ctx, Fetched.ready(data))),
+        this.errorService.toastFailureRxjs("Organization wasn't rejected"),
+        tap((data) => {
+          this.toast.showSuccess(
+            `Organization ${
+              ctx.getState().organizationMdsId
+            } was successfully rejected`,
+          );
+          this.organizationRefreshed(ctx, Fetched.ready(data));
+
+          this.router.navigate(['/authority', 'organizations']);
+        }),
         finalize(() => ctx.patchState({busy: false})),
         ignoreElements(),
       );
