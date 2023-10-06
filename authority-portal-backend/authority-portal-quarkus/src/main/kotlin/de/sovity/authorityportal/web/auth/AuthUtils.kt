@@ -76,4 +76,11 @@ class AuthUtils {
             unauthorized("User is not part of logged in/executing user's organization")
         }
     }
+
+    fun requiresTargetNotSelf(userId: String) {
+        if (userId == loggedInUser.userId) {
+            Log.error("User is not allowed to perform requested action on self. userId=$userId, loggedInUserId=${loggedInUser.userId}.")
+            unauthorized("User is not allowed to perform requested action on self")
+        }
+    }
 }

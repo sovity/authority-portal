@@ -69,6 +69,12 @@ public interface UiResource {
     @Operation(description = "Deactivate a user of a participating organization.")
     IdResponse deactivateParticipantUser(@PathParam("userId") String userId);
 
+    @PUT
+    @Path("/organizations/my-org/users/{userId}/reactivate")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Reactivate a user of a participating organization.")
+    IdResponse reactivateParticipantUser(@PathParam("userId") String userId);
+
     // Organization management (Authority)
     @PUT
     @Path("/authority/users/{userId}/role")
@@ -82,6 +88,12 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Deactivate a user of the authority organization.")
     IdResponse deactivateAnyUser(@PathParam("userId") String userId);
+
+    @PUT
+    @Path("/authority/users/{userId}/reactivate")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Reactivate a user of the authority organization.")
+    IdResponse reactivateAnyUser(@PathParam("userId") String userId);
 
     @GET
     @Path("/authority/organizations")

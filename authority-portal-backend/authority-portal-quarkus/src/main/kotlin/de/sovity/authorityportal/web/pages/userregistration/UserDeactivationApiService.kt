@@ -19,15 +19,29 @@ class UserDeactivationApiService {
 
     fun deactivateUser(userId: String, adminUserId: String): IdResponse {
         keycloakService.deactivateUser(userId)
-
-        val user = userService.getUserOrThrow(userId)
-        user.registrationStatus = UserRegistrationStatus.DEACTIVATED
-        user.update()
+        setUserActivationStatus(userId, UserRegistrationStatus.DEACTIVATED)
 
         keycloakService.forceLogout(userId)
 
         Log.info("User deactivated. userId=$userId, adminUserId=$adminUserId.")
 
         return IdResponse(userId)
+    }
+
+    fun reactivateUser(userId: String, adminUserId: String): IdResponse {
+        keycloakService.reactivateUser(userId)
+        setUserActivationStatus(userId, UserRegistrationStatus.ACTIVE)
+
+        keycloakService.forceLogout(userId)
+
+        Log.info("User reactivated. userId=$userId, adminUserId=$adminUserId.")
+
+        return IdResponse(userId)
+    }
+
+    private fun setUserActivationStatus(userId: String, status: UserRegistrationStatus) {
+        val user = userService.getUserOrThrow(userId)
+        user.registrationStatus = status
+        user.update()
     }
 }

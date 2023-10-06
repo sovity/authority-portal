@@ -92,8 +92,16 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun deactivateParticipantUser(userId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
+        authUtils.requiresTargetNotSelf(userId)
         authUtils.requiresMemberOfSameOrganizationAs(userId)
         return userDeactivationApiService.deactivateUser(userId, loggedInUser.userId)
+    }
+
+    @Transactional
+    override fun reactivateParticipantUser(userId: String): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
+        authUtils.requiresMemberOfSameOrganizationAs(userId)
+        return userDeactivationApiService.reactivateUser(userId, loggedInUser.userId)
     }
 
     // Organization management (Authority)
@@ -107,7 +115,14 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun deactivateAnyUser(userId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        authUtils.requiresTargetNotSelf(userId)
         return userDeactivationApiService.deactivateUser(userId, loggedInUser.userId)
+    }
+
+    @Transactional
+    override fun reactivateAnyUser(userId: String): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        return userDeactivationApiService.reactivateUser(userId, loggedInUser.userId)
     }
 
     @Transactional

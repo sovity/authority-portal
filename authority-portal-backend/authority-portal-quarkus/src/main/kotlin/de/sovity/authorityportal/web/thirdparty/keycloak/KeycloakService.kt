@@ -42,8 +42,16 @@ class KeycloakService {
     }
 
     fun deactivateUser(userId: String) {
+        setUserEnabled(userId, false)
+    }
+
+    fun reactivateUser(userId: String) {
+        setUserEnabled(userId, true)
+    }
+
+    private fun setUserEnabled(userId: String, enabled: Boolean) {
         val user = keycloak.realm(keycloakRealm).users().get(userId).toRepresentation()
-        user.isEnabled = false
+        user.isEnabled = enabled
         keycloak.realm(keycloakRealm).users().get(userId).update(user)
     }
 
