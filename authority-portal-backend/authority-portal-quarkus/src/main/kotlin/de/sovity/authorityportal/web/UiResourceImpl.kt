@@ -19,6 +19,7 @@ import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManageme
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationManagementApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserInfoApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
+import de.sovity.authorityportal.web.pages.userregistration.UserDeactivationApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserInvitationApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import jakarta.inject.Inject
@@ -42,6 +43,9 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var userInvitationApiService: UserInvitationApiService
+
+    @Inject
+    lateinit var userDeactivationApiService: UserDeactivationApiService
 
     @Inject
     lateinit var organizationManagementApiService: OrganizationManagementApiService
@@ -85,12 +89,25 @@ class UiResourceImpl : UiResource {
         return userInvitationApiService.inviteParticipantUser(invitationInformation, loggedInUser.organizationMdsId!!, loggedInUser.userId)
     }
 
+    @Transactional
+    override fun deactivateParticipantUser(userId: String): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
+        authUtils.requiresMemberOfSameOrganizationAs(userId)
+        return userDeactivationApiService.deactivateUser(userId, loggedInUser.userId)
+    }
+
     // Organization management (Authority)
     @Transactional
     override fun changeAuthorityRole(userId: String, roleDto: UserRoleDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
         authUtils.requiresMemberOfSameOrganizationAs(userId)
         return userRoleApiService.changeAuthorityRole(userId, roleDto, loggedInUser.userId)
+    }
+
+    @Transactional
+    override fun deactivateAnyUser(userId: String): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        return userDeactivationApiService.deactivateUser(userId, loggedInUser.userId)
     }
 
     @Transactional

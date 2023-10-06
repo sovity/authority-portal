@@ -63,7 +63,7 @@ class OrganizationManagementApiService {
         org.update()
 
         val user = userService.getUserOrThrow(org.createdBy)
-        user.registrationStatus = UserRegistrationStatus.APPROVED
+        user.registrationStatus = UserRegistrationStatus.ACTIVE
         user.update()
 
         Log.info("Approved organization and user. mdsId=$mdsId, userId=$userId.")

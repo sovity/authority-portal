@@ -96,6 +96,11 @@ flyway {
     cleanDisabled = false
     cleanOnValidationError = true
     baselineOnMigrate = true
+
+    // We need to mix transactional and non-transactional transactions in migrations,
+    // because we want to change enum values in migrations
+    mixed = true
+
     locations = arrayOf("filesystem:${migrationsDir}", "filesystem:${testDataDir}")
     configurations = arrayOf("flywayMigration")
 }

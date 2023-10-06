@@ -8,7 +8,8 @@ public enum UserRegistrationStatusDto {
     INVITED,
     CREATED,
     PENDING,
-    APPROVED,
+    ACTIVE,
     REJECTED,
+    DEACTIVATED
 }
 

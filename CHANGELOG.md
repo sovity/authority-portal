@@ -19,6 +19,7 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 
 - Add endpoint to invite new users to an organization
 - Add endpoints for role changing for authority and participants
+- Add endpoints to deactivate users
 - Unregister own connectors
 
 #### Patch

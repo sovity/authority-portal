@@ -16,7 +16,7 @@ export const createOrganization = (
   // Emulate approval after 10 seconds
   setTimeout(() => {
     updateLoggedInUser(() => ({
-      registrationStatus: 'APPROVED',
+      registrationStatus: 'ACTIVE',
       organizationName: request.name,
     }));
   }, 4_000);
