@@ -63,6 +63,12 @@ public interface UiResource {
     @Operation(description = "Invite new user to a participating organization.")
     IdResponse inviteUser(InviteParticipantUserRequest invitationInformation);
 
+    @PUT
+    @Path("/organizations/my-org/users/{userId}/deactivate")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Deactivate a user of a participating organization.")
+    IdResponse deactivateParticipantUser(@PathParam("userId") String userId);
+
     // Organization management (Authority)
     @PUT
     @Path("/authority/users/{userId}/role")
@@ -70,6 +76,12 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Change a user's authority role (AUTHORITY_*).")
     IdResponse changeAuthorityRole(@PathParam("userId") String userId, UserRoleDto role);
+
+    @PUT
+    @Path("/authority/users/{userId}/deactivate")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Deactivate a user of the authority organization.")
+    IdResponse deactivateAnyUser(@PathParam("userId") String userId);
 
     @GET
     @Path("/authority/organizations")

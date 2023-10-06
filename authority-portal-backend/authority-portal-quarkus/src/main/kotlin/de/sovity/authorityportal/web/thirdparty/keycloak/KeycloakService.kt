@@ -41,6 +41,12 @@ class KeycloakService {
         return keycloak.realm(keycloakRealm).users().search(email).first().id
     }
 
+    fun deactivateUser(userId: String) {
+        val user = keycloak.realm(keycloakRealm).users().get(userId).toRepresentation()
+        user.isEnabled = false
+        keycloak.realm(keycloakRealm).users().get(userId).update(user)
+    }
+
     fun listUsers(): List<KeycloakUserDto> {
         val users = keycloak.realm(keycloakRealm).users().list()
 

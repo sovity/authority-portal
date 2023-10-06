@@ -64,7 +64,7 @@ export class GlobalStateImpl implements NgxsOnInit {
         .map((it) => it.registrationStatus)
         .ifReadyElse(
           (it) =>
-            it === 'APPROVED' ? 'AUTHORITY_PORTAL' : 'REGISTRATION_PROCESS',
+            it === 'ACTIVE' ? 'AUTHORITY_PORTAL' : 'REGISTRATION_PROCESS',
           'LOADING',
         );
 

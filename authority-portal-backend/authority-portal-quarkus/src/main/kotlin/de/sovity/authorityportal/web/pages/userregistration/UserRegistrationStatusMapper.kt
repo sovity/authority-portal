@@ -8,8 +8,10 @@ fun UserRegistrationStatus.toDto(): UserRegistrationStatusDto = when (this) {
     UserRegistrationStatus.INVITED -> UserRegistrationStatusDto.INVITED
     UserRegistrationStatus.CREATED -> UserRegistrationStatusDto.CREATED
     UserRegistrationStatus.PENDING -> UserRegistrationStatusDto.PENDING
-    UserRegistrationStatus.APPROVED -> UserRegistrationStatusDto.APPROVED
+    UserRegistrationStatus.ACTIVE -> UserRegistrationStatusDto.ACTIVE
     UserRegistrationStatus.REJECTED -> UserRegistrationStatusDto.REJECTED
+    UserRegistrationStatus.DEACTIVATED -> UserRegistrationStatusDto.DEACTIVATED
+    else -> UserRegistrationStatusDto.REJECTED
 }
 
 fun UserRegistrationStatusDto.toDb(): UserRegistrationStatus = when (this) {
@@ -17,7 +19,8 @@ fun UserRegistrationStatusDto.toDb(): UserRegistrationStatus = when (this) {
     UserRegistrationStatusDto.INVITED -> UserRegistrationStatus.INVITED
     UserRegistrationStatusDto.CREATED -> UserRegistrationStatus.CREATED
     UserRegistrationStatusDto.PENDING -> UserRegistrationStatus.PENDING
-    UserRegistrationStatusDto.APPROVED -> UserRegistrationStatus.APPROVED
+    UserRegistrationStatusDto.ACTIVE -> UserRegistrationStatus.ACTIVE
     UserRegistrationStatusDto.REJECTED -> UserRegistrationStatus.REJECTED
+    UserRegistrationStatusDto.DEACTIVATED -> UserRegistrationStatus.DEACTIVATED
     else -> UserRegistrationStatus.REJECTED
 }

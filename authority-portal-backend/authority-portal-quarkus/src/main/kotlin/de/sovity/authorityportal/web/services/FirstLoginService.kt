@@ -9,7 +9,7 @@ class FirstLoginService {
 
     fun approveIfInvited(user: UserRecord) {
         if (user.registrationStatus == UserRegistrationStatus.INVITED) {
-            user.registrationStatus = UserRegistrationStatus.APPROVED
+            user.registrationStatus = UserRegistrationStatus.ACTIVE
             user.update()
         }
     }

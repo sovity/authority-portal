@@ -4,7 +4,6 @@ import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.ApplicationRole
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
-import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped

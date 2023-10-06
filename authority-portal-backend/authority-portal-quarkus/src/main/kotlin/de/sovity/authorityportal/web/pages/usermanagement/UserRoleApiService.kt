@@ -3,8 +3,6 @@ package de.sovity.authorityportal.web.pages.usermanagement
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.thirdparty.keycloak.model.ApplicationRole
-import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
