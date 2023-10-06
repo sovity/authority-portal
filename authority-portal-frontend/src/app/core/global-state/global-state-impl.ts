@@ -2,7 +2,7 @@ import {Inject, Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ignoreElements, tap} from 'rxjs/operators';
 import {Action, NgxsOnInit, Selector, State, StateContext} from '@ngxs/store';
-import {UserInfo, UserInfoRolesEnum} from '@sovity.de/authority-portal-client';
+import {UserInfo, UserRoleDto} from '@sovity.de/authority-portal-client';
 import {E2E_DEV_USERS} from 'src/app/common/components/dev-utils/e2e-dev-user-switcher/e2e-dev-users';
 import {ApiService} from '../api/api.service';
 import {isEqualSets} from '../api/fake-backend/utils/set-utils';
@@ -34,7 +34,7 @@ export class GlobalStateImpl implements NgxsOnInit {
   }
 
   @Selector()
-  static roles(state: GlobalState): Set<UserInfoRolesEnum> {
+  static roles(state: GlobalState): Set<UserRoleDto> {
     return state.roles;
   }
 

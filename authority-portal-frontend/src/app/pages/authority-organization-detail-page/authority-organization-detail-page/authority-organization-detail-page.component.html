@@ -1,4 +1,4 @@
-<div class="bg-gray-50 flex flex-col py-24">
+<div class="bg-gray-200 flex flex-col py-10">
   <div class="flex flex-col items-center justify-center mb-6 text-gray-700">
     <app-loading-element
       *ngIf="state.organization.isLoading"></app-loading-element>
@@ -19,9 +19,9 @@
           <label class="organization-profile-label">MDS ID:</label>
 
           <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
+            class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
             type="text"
-            [placeholder]="state.organization.data.mdsId"
+            [value]="state.organization.data.mdsId"
             [disabled]="true" />
         </div>
 
@@ -30,9 +30,9 @@
           <label class="organization-profile-label">Legal Name:</label>
 
           <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
+            class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
             type="text"
-            [placeholder]="state.organization.data.name"
+            [value]="state.organization.data.name"
             [disabled]="true" />
         </div>
 
@@ -41,9 +41,9 @@
           <label class="organization-profile-label">Address:</label>
 
           <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
+            class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
             type="text"
-            [placeholder]="state.organization.data.address"
+            [value]="state.organization.data.address"
             [disabled]="true" />
         </div>
 
@@ -52,9 +52,9 @@
           <label class="organization-profile-label">DUNS Number:</label>
 
           <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
+            class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
             type="text"
-            [placeholder]="state.organization.data.duns"
+            [value]="state.organization.data.duns"
             [disabled]="true" />
         </div>
 
@@ -63,9 +63,9 @@
           <label class="organization-profile-label">Web Page:</label>
 
           <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
+            class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
             type="text"
-            [placeholder]="state.organization.data.url"
+            [value]="state.organization.data.url"
             [disabled]="true" />
         </div>
 
@@ -74,9 +74,9 @@
           <label class="organization-profile-label">Security Email:</label>
 
           <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
+            class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
             type="text"
-            [placeholder]="state.organization.data.securityEmail"
+            [value]="state.organization.data.securityEmail"
             [disabled]="true" />
         </div>
 
@@ -85,23 +85,29 @@
           <label class="organization-profile-label">Registration Status:</label>
 
           <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
+            class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
             type="text"
-            [placeholder]="state.organization.data.registrationStatus"
+            [value]="state.organization.data.registrationStatus"
             [disabled]="true" />
         </div>
         <div
-          *ngIf="state.organization.data.registrationStatus === 'PENDING'"
+          *ngIf="state.organization.data.registrationStatus == 'PENDING'"
           class="flex flex-row justify-evenly items-center my-4">
           <button
             class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
-            [disabled]="state.busy"
+            [disabled]="
+              state.busy ||
+              state.organization.data.registrationStatus !== 'PENDING'
+            "
             (click)="approve()">
             Approve
           </button>
           <button
             class="bg-white hover:bg-red-50 text-red-600 border-gray-500 border py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
-            [disabled]="state.busy"
+            [disabled]="
+              state.busy ||
+              state.organization.data.registrationStatus !== 'PENDING'
+            "
             (click)="reject()">
             Reject
           </button>

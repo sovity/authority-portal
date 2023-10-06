@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {
   OrganizationOverviewEntryDto,
-  OrganizationOverviewEntryDtoRegistrationStatusEnum,
+  OrganizationRegistrationStatusDto,
 } from '@sovity.de/authority-portal-client';
 
 @Pipe({
@@ -10,7 +10,7 @@ import {
 export class FilterByRegistrationStatusPipe implements PipeTransform {
   transform(
     items: OrganizationOverviewEntryDto[],
-    filter: OrganizationOverviewEntryDtoRegistrationStatusEnum | null,
+    filter: OrganizationRegistrationStatusDto | null,
   ): OrganizationOverviewEntryDto[] {
     if (!items || !filter || filter == null) {
       return items;

@@ -33,8 +33,7 @@ export class OrganizationCreatePageStateImpl {
         ctx.patchState({state: 'success'});
         window.location.replace(this.config.invalidateSessionCookiesUrl);
       }),
-      catchError((error) => {
-        console.error('Failed creating organization', error);
+      catchError(() => {
         ctx.patchState({state: 'error'});
         action.enableForm();
         return EMPTY;

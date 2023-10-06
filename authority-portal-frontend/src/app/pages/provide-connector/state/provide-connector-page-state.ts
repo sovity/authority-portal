@@ -4,7 +4,7 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {Fetched} from 'src/app/core/utils/fetched';
 
-export interface SpRegisterConnectorPageState {
+export interface ProvideConnectorPageState {
   registerConnectorForm: {
     model?: CreateProvidedConnectorRequest;
     dirty: boolean;
@@ -14,13 +14,12 @@ export interface SpRegisterConnectorPageState {
   state: 'editing' | 'submitting' | 'success' | 'error';
 }
 
-export const DEFAULT_SP_REGISTER_CONNECTOR_STATE: SpRegisterConnectorPageState =
-  {
-    registerConnectorForm: {
-      model: undefined,
-      dirty: false,
-      status: '',
-      errors: {},
-    },
-    state: 'editing',
-  };
+export const DEFAULT_PROVIDE_CONNECTOR_STATE: ProvideConnectorPageState = {
+  registerConnectorForm: {
+    model: undefined,
+    dirty: false,
+    status: '',
+    errors: {},
+  },
+  state: 'editing',
+};

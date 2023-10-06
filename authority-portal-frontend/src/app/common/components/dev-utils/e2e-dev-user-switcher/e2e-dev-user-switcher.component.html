@@ -18,9 +18,9 @@
       (click)="hide()">
       <span class="sr-only">{{ minimize ? 'Expand' : 'Minimize' }}</span>
       <svg
-        class="w-6 h-6 text-gray-700 transform transition-transform duration-300 ease-in-out"
+        class="w-6 h-6 text-gray-700 transform transition-transform duration-100 ease-linear"
         viewBox="0 0 24 24"
-        [class.rotate-90]="minimize">
+        [ngClass]="minimize ? 'rotate-90' : '-rotate-90'">
         <path fill="currentColor" d="M7 10l5 5 5-5z"></path>
       </svg>
     </button>

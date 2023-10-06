@@ -1,4 +1,4 @@
-import {UserInfo, UserInfoRolesEnum} from '@sovity.de/authority-portal-client';
+import {UserInfo, UserRoleDto} from '@sovity.de/authority-portal-client';
 import {E2eDevUser} from 'src/app/common/components/dev-utils/e2e-dev-user-switcher/e2e-dev-user';
 import {Fetched} from '../utils/fetched';
 import {AuthorityPortalPageSet} from './routes/authority-portal-page-set';
@@ -6,7 +6,7 @@ import {AuthorityPortalPageSet} from './routes/authority-portal-page-set';
 export interface GlobalState {
   pageSet: AuthorityPortalPageSet;
   userInfo: Fetched<UserInfo>;
-  roles: Set<UserInfoRolesEnum>;
+  roles: Set<UserRoleDto>;
 
   e2eDevUser: E2eDevUser | null;
 }
