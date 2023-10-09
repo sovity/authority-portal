@@ -7,6 +7,7 @@ import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
+import java.time.OffsetDateTime
 
 @ApplicationScoped
 class OrganizationService {
@@ -33,7 +34,12 @@ class OrganizationService {
             .fetch()
     }
 
-    fun createOrganization(userId: String, mdsId: String, organization: CreateOrganizationRequest) {
+    fun createOrganization(
+        userId: String,
+        mdsId: String,
+        organization: CreateOrganizationRequest,
+        registrationStatus: OrganizationRegistrationStatus
+    ) {
         dsl.newRecord(Tables.ORGANIZATION).also {
             it.mdsId = mdsId
             it.name = organization.name
@@ -42,7 +48,8 @@ class OrganizationService {
             it.url = organization.url
             it.securityEmail = organization.securityEmail
             it.createdBy = userId
-            it.registrationStatus = OrganizationRegistrationStatus.PENDING
+            it.registrationStatus = registrationStatus
+            it.createdAt = OffsetDateTime.now()
 
             it.insert()
         }

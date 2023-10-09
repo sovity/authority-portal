@@ -1,4 +1,4 @@
-package de.sovity.authorityportal.web.pages.userregistration
+package de.sovity.authorityportal.web.pages.usermanagement
 
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest

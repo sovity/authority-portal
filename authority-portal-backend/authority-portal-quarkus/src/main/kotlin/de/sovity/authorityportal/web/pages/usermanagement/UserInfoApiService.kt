@@ -4,7 +4,6 @@ import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.web.pages.userregistration.toDto
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetailService
-import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
@@ -24,8 +23,6 @@ class UserInfoApiService {
         val user = userDetailService.getUserData(userId)
         val organizationName = getOrganization(mdsId)
         val roleDtos = userRoleMapper.getUserRoles(roles)
-
-        Log.info("User info requested. userId=$userId.")
 
         return UserInfo(
             user.firstName,

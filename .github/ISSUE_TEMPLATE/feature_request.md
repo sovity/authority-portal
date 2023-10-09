@@ -26,4 +26,5 @@ _If possible, provide a (brief!) solution proposal._
 - [ ] Step 1
 - [ ] Step 2
 - [ ] ...
+- [ ] Adjust **CHANGELOG.md**
 ```

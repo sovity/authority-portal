@@ -25,9 +25,16 @@
 
       <button
         class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-        [ngClass]="filter === 'APPROVED' ? 'bg-gray-100' : 'bg-white'"
-        (click)="filterBy('APPROVED')">
-        Approved
+        [ngClass]="filter === 'ACTIVE' ? 'bg-gray-100' : 'bg-white'"
+        (click)="filterBy('ACTIVE')">
+        Active
+      </button>
+
+      <button
+        class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+        [ngClass]="filter === 'INVITED' ? 'bg-gray-100' : 'bg-white'"
+        (click)="filterBy('INVITED')">
+        Invited
       </button>
 
       <button

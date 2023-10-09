@@ -55,8 +55,6 @@ class ConnectorManagementApiService {
 
         val connector = connectorService.getConnectorDetailOrThrow(connectorId)
 
-        Log.info("Connector details requested. connectorId=$connectorId, userId=$userId.")
-
         return ConnectorDetailDto(
             connector.connectorId,
             connector.type.toDto(),
@@ -71,10 +69,7 @@ class ConnectorManagementApiService {
         )
     }
 
-    fun listOwnOrganizationConnectors(mdsId: String, userId: String): ConnectorOverviewResult =
-        listOrganizationConnectors(mdsId, userId)
-
-    fun listOrganizationConnectors(mdsId: String, userId: String): ConnectorOverviewResult {
+    fun listOrganizationConnectors(mdsId: String): ConnectorOverviewResult {
         val connectors = connectorService.getConnectorsByMdsId(mdsId)
 
         val connectorDtos = connectors.map {
@@ -86,8 +81,6 @@ class ConnectorManagementApiService {
                 it.name
             )
         }
-
-        Log.info("Connector list of certain organization requested. mdsId=$mdsId, userId=$userId.")
 
         return ConnectorOverviewResult(connectorDtos)
     }

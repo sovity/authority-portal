@@ -17,6 +17,8 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 
 #### Minor
 
+- Add endpoint to invite new participating organizations
+  - Provide invitation time stamp in org details
 - Add endpoint to invite new users to an organization
 - Add endpoints for role changing for authority and participants
 - Add endpoints to deactivate users

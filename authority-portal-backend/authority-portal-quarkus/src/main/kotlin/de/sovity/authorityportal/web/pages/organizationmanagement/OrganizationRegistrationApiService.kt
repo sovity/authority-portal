@@ -1,9 +1,6 @@
 package de.sovity.authorityportal.web.pages.organizationmanagement
 
 import de.sovity.authorityportal.api.model.IdResponse
-import de.sovity.authorityportal.api.model.OrganizationDetailResult
-import de.sovity.authorityportal.api.model.OrganizationOverviewEntryDto
-import de.sovity.authorityportal.api.model.OrganizationOverviewResult
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.OrganizationService
@@ -14,7 +11,7 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
 @ApplicationScoped
-class OrganizationManagementApiService {
+class OrganizationRegistrationApiService {
 
     @Inject
     lateinit var organizationService: OrganizationService
@@ -22,44 +19,11 @@ class OrganizationManagementApiService {
     @Inject
     lateinit var userService: UserService
 
-    fun organizationsOverview(userId: String): OrganizationOverviewResult {
-        val organizations = organizationService.getOrganizations()
-
-        val organizationDtos = organizations.map {
-            OrganizationOverviewEntryDto(
-                it.mdsId,
-                it.name,
-                it.url,
-                it.registrationStatus.toDto()
-            )
-        }
-
-        Log.info("Organization list requested. userId=$userId.")
-
-        return OrganizationOverviewResult(organizationDtos)
-    }
-
-    fun organizationDetails(mdsId: String, userId: String): OrganizationDetailResult {
-        val organization = organizationService.getOrganizationOrThrow(mdsId)
-
-        Log.info("Organization details requested. mdsId=$mdsId, userId=$userId.")
-
-        return OrganizationDetailResult(
-            organization.mdsId,
-            organization.name,
-            organization.address,
-            organization.duns,
-            organization.url,
-            organization.securityEmail,
-            organization.registrationStatus.toDto()
-        )
-    }
-
     fun approveOrganization(mdsId: String, userId: String): IdResponse {
         requirePending(mdsId, userId)
 
         val org = organizationService.getOrganizationOrThrow(mdsId)
-        org.registrationStatus = OrganizationRegistrationStatus.APPROVED
+        org.registrationStatus = OrganizationRegistrationStatus.ACTIVE
         org.update()
 
         val user = userService.getUserOrThrow(org.createdBy)

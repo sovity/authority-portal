@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.OffsetDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -28,4 +30,6 @@ public class OrganizationDetailResult {
     private String securityEmail;
     @Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
     private OrganizationRegistrationStatusDto registrationStatus;
+    @Schema(description = "Creation date of organization or organization invite", requiredMode = Schema.RequiredMode.REQUIRED)
+    private OffsetDateTime createdAt;
 }

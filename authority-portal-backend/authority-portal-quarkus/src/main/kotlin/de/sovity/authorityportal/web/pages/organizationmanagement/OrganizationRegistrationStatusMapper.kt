@@ -4,14 +4,16 @@ import de.sovity.authorityportal.api.model.OrganizationRegistrationStatusDto
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 
 fun OrganizationRegistrationStatus.toDto(): OrganizationRegistrationStatusDto = when (this) {
+    OrganizationRegistrationStatus.INVITED -> OrganizationRegistrationStatusDto.INVITED
     OrganizationRegistrationStatus.PENDING -> OrganizationRegistrationStatusDto.PENDING
-    OrganizationRegistrationStatus.APPROVED -> OrganizationRegistrationStatusDto.APPROVED
+    OrganizationRegistrationStatus.ACTIVE -> OrganizationRegistrationStatusDto.ACTIVE
     OrganizationRegistrationStatus.REJECTED -> OrganizationRegistrationStatusDto.REJECTED
 }
 
 fun OrganizationRegistrationStatusDto.toDb(): OrganizationRegistrationStatus = when (this) {
+    OrganizationRegistrationStatusDto.INVITED -> OrganizationRegistrationStatus.INVITED
     OrganizationRegistrationStatusDto.PENDING -> OrganizationRegistrationStatus.PENDING
-    OrganizationRegistrationStatusDto.APPROVED -> OrganizationRegistrationStatus.APPROVED
+    OrganizationRegistrationStatusDto.ACTIVE -> OrganizationRegistrationStatus.ACTIVE
     OrganizationRegistrationStatusDto.REJECTED -> OrganizationRegistrationStatus.REJECTED
     else -> OrganizationRegistrationStatus.REJECTED
 }

@@ -5,6 +5,7 @@ import de.sovity.authorityportal.api.model.ConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.CreateConnectorRequest;
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest;
 import de.sovity.authorityportal.api.model.IdResponse;
+import de.sovity.authorityportal.api.model.InviteOrganizationRequest;
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest;
 import de.sovity.authorityportal.api.model.OrganizationDetailResult;
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult;
@@ -106,6 +107,13 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get an organization's detail information with their status.")
     OrganizationDetailResult organizationDetails(@PathParam("mdsId") String mdsId);
+
+    @POST
+    @Path("/authority/organizations/invite")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(description = "Invite a new organization via a new Participant Admin.")
+    IdResponse inviteOrganization(InviteOrganizationRequest invitationInformation);
 
     @PUT
     @Path("/authority/organizations/{mdsId}/approve")
