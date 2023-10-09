@@ -6,6 +6,7 @@ import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
+import java.time.OffsetDateTime
 
 @ApplicationScoped
 class UserService {
@@ -34,6 +35,7 @@ class UserService {
             it.id = userId
             it.organizationMdsId = mdsId
             it.registrationStatus = registrationStatus
+            it.createdAt = OffsetDateTime.now()
 
             it.insert()
         }

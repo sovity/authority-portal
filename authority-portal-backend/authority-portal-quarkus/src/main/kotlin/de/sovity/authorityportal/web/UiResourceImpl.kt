@@ -6,6 +6,7 @@ import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.api.model.IdResponse
+import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.OrganizationDetailResult
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
@@ -16,11 +17,13 @@ import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.auth.AuthUtils
 import de.sovity.authorityportal.web.auth.LoggedInUser
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
-import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationManagementApiService
+import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
+import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
+import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationRegistrationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserInfoApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
-import de.sovity.authorityportal.web.pages.userregistration.UserDeactivationApiService
-import de.sovity.authorityportal.web.pages.userregistration.UserInvitationApiService
+import de.sovity.authorityportal.web.pages.usermanagement.UserDeactivationApiService
+import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
@@ -48,7 +51,13 @@ class UiResourceImpl : UiResource {
     lateinit var userDeactivationApiService: UserDeactivationApiService
 
     @Inject
-    lateinit var organizationManagementApiService: OrganizationManagementApiService
+    lateinit var organizationInfoApiService: OrganizationInfoApiService
+
+    @Inject
+    lateinit var organizationRegistrationApiService: OrganizationRegistrationApiService
+
+    @Inject
+    lateinit var organizationInvitationApiService: OrganizationInvitationApiService
 
     @Inject
     lateinit var connectorManagementApiService: ConnectorManagementApiService
@@ -128,25 +137,31 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun organizationsOverview(): OrganizationOverviewResult {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationManagementApiService.organizationsOverview(loggedInUser.userId)
+        return organizationInfoApiService.organizationsOverview()
     }
 
     @Transactional
     override fun organizationDetails(mdsId: String): OrganizationDetailResult {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationManagementApiService.organizationDetails(mdsId, loggedInUser.userId)
+        return organizationInfoApiService.organizationDetails(mdsId)
+    }
+
+    @Transactional
+    override fun inviteOrganization(invitationInformation: InviteOrganizationRequest): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
+        return organizationInvitationApiService.inviteOrganization(invitationInformation, loggedInUser.userId)
     }
 
     @Transactional
     override fun approveOrganization(mdsId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationManagementApiService.approveOrganization(mdsId, loggedInUser.userId)
+        return organizationRegistrationApiService.approveOrganization(mdsId, loggedInUser.userId)
     }
 
     @Transactional
     override fun rejectOrganization(mdsId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationManagementApiService.rejectOrganization(mdsId, loggedInUser.userId)
+        return organizationRegistrationApiService.rejectOrganization(mdsId, loggedInUser.userId)
     }
 
     // Connector management
@@ -154,7 +169,7 @@ class UiResourceImpl : UiResource {
     override fun ownOrganizationConnectors(): ConnectorOverviewResult {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.listOwnOrganizationConnectors(loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return connectorManagementApiService.listOrganizationConnectors(loggedInUser.organizationMdsId!!)
     }
 
     @Transactional
@@ -167,7 +182,7 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun organizationConnectors(mdsId: String): ConnectorOverviewResult {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
-        return connectorManagementApiService.listOrganizationConnectors(mdsId, loggedInUser.userId)
+        return connectorManagementApiService.listOrganizationConnectors(mdsId)
     }
 
     @Transactional
