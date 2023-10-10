@@ -2,26 +2,58 @@
 
 <a name="readme-top"></a>
 
+<!-- PROJECT SHIELDS -->
+
+
+[![Static Badge][webpage-shield]][webpage-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
 <!-- PROJECT LOGO -->
 <br />
+<br />
+
 <div align="center">
 <a href="https://github.com/sovity/authority-portal">
 <img src="https://raw.githubusercontent.com/sovity/edc-ui/main/src/assets/images/sovity_logo.svg" alt="Logo" width="300">
 </a>
 
 <h3 align="center">Authority Portal</h3>
-<p align="center" style="padding-bottom:16px">
-Angular Frontend
-<br />
-<a href="https://github.com/sovity/authority-portal/issues/new?template=bug_report.md">Report Bug</a>
-·
-<a href="https://github.com/sovity/authority-portal/issues/new?template=feature_request.md">Request Feature</a>
-</p>
+
+  <p align="center">
+    Frontend (UI) of Authority Portal
+    <br />
+    <a href="https://github.com/sovity/authority-portal/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/sovity/authority-portal/issues">Request Feature</a>
+    <br />
+    <br />
+    <a href="https://angular.io"><img src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="angular.io" /></a>
+    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-3178c6?style=for-the-badge&logo=typescript&logoColor=white" alt="typescriptlang.org"></a>
+    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/TailwindCSS-00AAEE?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="tailwindcss.com"></a>
+    <a href="https://www.ngxs.io/"><img src="https://img.shields.io/badge/NGXS-1d00ff?style=for-the-badge&logo=ngxs&logoColor=white" alt="ngxs.io"></a>
+  </p>
+
 </div>
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#compatibility">Compatibility</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#configuration">Configuration</a></li>
+    <li><a href="#running-dev-mode">Running dev mode</a></li>
+    <li><a href="#build-docker-image">Build docker image</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
 ## About This Component
 
-Frontend for sovity's Dataspace Authority Portal, written in Angular.
+Frontend for sovity's Dataspace Authority Portal, written in Angular with TypeScript, NGXS State Management and TailwindCSS Framework.
 
 <p align="right">(<a href="#readme-top">back to top</a>)
 
@@ -120,38 +152,12 @@ contact@sovity.de
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Users and their options
+<!-- MARKDOWN LINKS & IMAGES -->
 
-### Authority Admin:
 
-#### My Organization Section
+[webpage-shield]: https://img.shields.io/badge/Sovity-black.svg?style=for-the-badge&colorB=09254d
+[webpage-url]: https://www.sovity.de
 
-- Connectors
-- - List of all connectors
-- - Details Page of each connector
-- - Provide Connector for another organization
-
-#### Authority Section
-
-- Organizations
-- - List of organizations with statuses
-- - Details Page of each Organization (Approval/Rejection if Pending Status)
-
-### Participant Admin:
-
-#### My Organization Section
-
-- Connectors
-- - List of all connectors
-- - Details Page of each connector
-- - Register Connector for own organization
-
-### Service Partner Admin:
-
-#### My Organization Section
-
-- Connectors
-- - List of all connectors
-- - Details Page of each connector
-- - Register Connector for own organization
-- - Provide Connector for another organization
+[linkedin-shield]:
+  https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0a66c2
+[linkedin-url]: https://www.linkedin.com/company/sovity

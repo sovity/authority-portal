@@ -35,6 +35,27 @@ To start the backend in development mode, a JDK17 and docker are required.
 ./gradlew clean quarkusDev
 ```
 
+### Local Development Hints
+
+- To simplify local development there are dev users available, whose properties can be found in the [application.properties](./src/main/resources/application.properties)
+  - These may not work with all endpoints, since roles are assigned statically instead of via Keycloak
+- In order to develop and test endpoints with a "real" user follow these steps
+  - Start the BE
+  - Go to [localhost:8081](http://localhost:8081) and switch to admin console
+  - Enter credentials (admin/admin)
+  - Switch to `authority-portal` realm
+  - Go to `Clients` > `authority-portal-client` > Tick `Direct access grants`
+  - Use postman (or anything similar to build your requests)
+    - Authorization: OAuth 2.0
+    - Under `Configure New Token` enter the following
+      - Grant Type: `Client Credentials`
+      - Client ID: `authority-portal-client`
+      - Client Secret: `NKV91vM0KfWeXzaNGaH6fF2z4o01tugl`
+      - Client Authentication: `Send as Basic Auth header`
+    - At the bottom, click `Get New Access Token`
+    - When done, click `Proceed` and `Use Token`
+    - Perform your request(s)
+
 ### Writing Tests
 
 This Codebase contains different kinds of tests.
@@ -49,13 +70,11 @@ One might argue all the these types of tests to be unit tests:
     - These tests need to manually clean the database after themselves, since the transaction breaks from "making a call
       to the backend via REST", so `@TestTransaction` is unavailable.
     - You can still use Quarkus' `@InjectMock` to mock parts of the running application, e.g. a KeycloakService.
-    - Example: [GetExampleTableIdsE2eTest](./src/test/kotlin/de/sovity/authorityportal/GetExampleTableIdsE2eTest.kt)
 - __Integration Tests__:
     - These tests test ApiServices of a running backend started by `@QuarkusTest`
     - They are faster than E2E Tests due to being able to use `@TestTransaction` which allows them to not dirty the DB.
     - They might not test for HTTP-Related things such as additional headers as the above E2E Tests do.
     - You can still use Quarkus' `@InjectMock` to mock parts of the running application, e.g. a KeycloakService.
-    - Example: [GetExampleTableIdsIntegrationTest](./src/test/kotlin/de/sovity/authorityportal/GetExampleTableIdsIntegrationTest.kt)
 - __Unit Tests__:
     - These tests should not be annotated with `@QuarkusTest` and should not require a DB.
     - If the unit under test is a CDI unit (e.g. a Service), Mockito will be used to create mocks for all the unit's dependencies.
@@ -67,7 +86,6 @@ One might argue all the these types of tests to be unit tests:
       can be tested locally, allowing both code and tests to stay simple and manageable.
     - Unit test don't work well when the unit under test contains db concerns.
       For testing code that uses JooQ Integration Tests are recommended.
-    - Example: [GetExampleTableIdsUnitTest](./src/test/kotlin/de/sovity/authorityportal/GetExampleTableIdsUnitTest.kt)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

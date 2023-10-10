@@ -28,6 +28,7 @@ TODO
 ## Local E2E Development
 
 Local E2E Development requires:
+
 - JDK17
 - Docker Environment
 - Node 16 / NPM 7
@@ -39,8 +40,14 @@ Local E2E Development requires:
 # Build TS API Client Library
 (cd authority-portal-backend && ./gradlew :authority-portal-api:clean :authority-portal-api:build -x test && cd authority-portal-api-client-ts && npm i && npm run build)
 
-# Build + Run Frontend
-(cd authority-portal-frontend && npm i && npm run start)
+# Build + Run Frontend (basic version with fake Backend*)
+bash:
+    (cd authority-portal-frontend && npm i && npm run cold-start)
+powershell:
+    cd authority-portal-frontend ; npm i ; npm run cold-start
+
+* other ways to start frontend are available in
+README in "authority-portal-frontend" folder
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
