@@ -1,12 +1,12 @@
 ---
-name: Feature Request
+name: Implementation Task
 about: Help us with new features
 title: ""
 labels: "kind/enhancement"
 assignees: ""
 ---
 
-# Feature Request
+# Implementation Task
 
 ## Description
 

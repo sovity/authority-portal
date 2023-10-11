@@ -1,9 +1,7 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+For documentation on how to update this changelog, 
+please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ## Unreleased - YYYY-MM-DD
 
@@ -29,13 +27,11 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 
 ### Deployment Migration Notes
 
-Please view the [Deployment Section in the README.md](README.md#deployment) for initial deployment instructions.
-
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:1.0.0`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:1.0.0`
-- Broker most recent version (delete connectors)
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ release version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ release version }}`
+- Broker Server: `{{ broker server version }}`
 
 
 ## [v1.0.0] - 2023-09-29
