@@ -1,10 +1,9 @@
 import {Component, HostBinding} from '@angular/core';
+import {Router} from '@angular/router';
 import {Store} from '@ngxs/store';
 import {UserInfo} from '@sovity.de/authority-portal-client';
-import {
-  DUMMY_USERS,
-  updateLoggedInUser,
-} from '../../../../core/api/fake-backend/impl/user-info-fake';
+import {TEST_USERS} from 'src/app/core/api/fake-backend/impl/fake-users';
+import {updateLoggedInUser} from '../../../../core/api/fake-backend/impl/user-info-fake';
 import {RefreshUserInfo} from '../../../../core/global-state/global-state-actions';
 
 @Component({
@@ -19,27 +18,28 @@ export class FakeBackendUserSwitcherComponent {
   @HostBinding('class.shadow-lg')
   @HostBinding('class.text-xs')
   @HostBinding('class.fixed')
-  @HostBinding('class.top-0')
+  @HostBinding('class.bottom-0')
   @HostBinding('class.right-0')
-  @HostBinding('class.m-2')
+  @HostBinding('class.m-1')
   @HostBinding('class.px-4')
   @HostBinding('class.py-3')
   @HostBinding('class.space-x-2')
-  cls = true;
   @HostBinding('class.z-50')
-  @HostBinding('class.hidden')
-  hidden = false;
+  cls = true;
+  users: UserInfo[] = Object.values(TEST_USERS);
+  switcherMinimized = false;
+  activeUser = 0;
 
-  users: UserInfo[] = DUMMY_USERS;
+  constructor(private store: Store, private router: Router) {}
 
-  constructor(private store: Store) {}
-
-  setUser(user: UserInfo) {
+  setUser(user: UserInfo, idx: number) {
+    this.activeUser = idx;
     updateLoggedInUser(() => user);
     this.store.dispatch(RefreshUserInfo);
+    this.router.navigate(['dashboard']);
   }
 
-  hide() {
-    this.hidden = true;
+  toggleMinimize() {
+    this.switcherMinimized = !this.switcherMinimized;
   }
 }

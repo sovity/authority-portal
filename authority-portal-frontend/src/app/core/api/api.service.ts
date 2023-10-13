@@ -5,7 +5,6 @@ import {
   ConnectorOverviewResult,
   CreateConnectorRequest,
   CreateOrganizationRequest,
-  CreateOwnConnectorRequest,
   IdResponse,
   OrganizationDetailResult,
   OrganizationOverviewResult,

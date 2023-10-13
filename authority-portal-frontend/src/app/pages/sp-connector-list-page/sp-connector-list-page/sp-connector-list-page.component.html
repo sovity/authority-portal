@@ -2,19 +2,17 @@
   <div class="sm:flex sm:items-center sm:justify-between">
     <div>
       <div class="flex items-center gap-x-3">
-        <h2 class="text-lg font-medium text-gray-800 dark:text-white">
-          Connectors
-        </h2>
+        <h2 class="text-lg font-medium text-gray-800">Connectors</h2>
       </div>
 
-      <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
+      <p class="mt-1 text-sm text-gray-700">
         List of all connectors of your organization
       </p>
     </div>
 
     <div class="flex items-center mt-4 gap-x-3">
       <button
-        class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+        class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
         routerLink="/my-organization/connectors/register">
         <svg
           class="w-5 h-5"
@@ -38,14 +36,12 @@
   <div class="flex flex-col mt-6">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-        <div
-          class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-          <table
-            class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead class="bg-gray-200 dark:bg-gray-800">
+        <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-200">
               <tr class="bg-brand-400">
                 <th
-                  class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-700"
                   scope="col">
                   <button class="flex items-center gap-x-3 focus:outline-none">
                     <span>Connector ID</span>
@@ -53,30 +49,30 @@
                 </th>
 
                 <th
-                  class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700"
                   scope="col">
                   Host
                 </th>
 
                 <th
-                  class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700"
                   scope="col">
                   Type
                 </th>
 
                 <th
-                  class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700"
                   scope="col">
                   Environment
                 </th>
 
                 <th
-                  class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700"
                   scope="col">
                   Name
                 </th>
                 <th
-                  class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700 dark:text-gray-400"
+                  class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-700"
                   scope="col">
                   Details
                 </th>
@@ -86,45 +82,45 @@
             <ng-container *ngIf="state.connectors.isReady">
               <tbody
                 *ngFor="let connector of state.connectors.data"
-                class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                class="bg-white divide-y divide-gray-200">
                 <tr>
                   <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
                     <div>
-                      <h2 class="font-medium text-gray-800 dark:text-white">
+                      <h2 class="font-medium text-gray-800">
                         {{ connector.id }}
                       </h2>
                     </div>
                   </td>
                   <td class="px-4 py-4 text-sm whitespace-nowrap">
                     <div>
-                      <h4 class="text-gray-700 dark:text-gray-200">
+                      <h4 class="text-gray-700">
                         {{ connector.hostName }}
                       </h4>
                     </div>
                   </td>
                   <td class="px-4 py-4 text-sm whitespace-nowrap">
                     <div>
-                      <h4 class="text-gray-700 dark:text-gray-200">
+                      <h4 class="text-gray-700">
                         {{ connector.type }}
                       </h4>
                     </div>
                   </td>
                   <td class="px-4 py-4 text-sm whitespace-nowrap">
                     <div>
-                      <h4 class="text-gray-700 dark:text-gray-200">
+                      <h4 class="text-gray-700">
                         {{ connector.environment.title }}
                       </h4>
                     </div>
                   </td>
                   <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
                     <div
-                      class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2 dark:bg-gray-800">
+                      class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2">
                       {{ connector.name }}
                     </div>
                   </td>
                   <td class="px-4 py-4 text-sm whitespace-nowrap">
                     <a
-                      class="px-1 py-1 text-gray-600 transition-colors duration-200 rounded-lg dark:text-gray-300"
+                      class="px-1 py-1 text-gray-600 transition-colors duration-200 rounded-lg"
                       routerLink="/my-organization/connectors/{{
                         connector.id
                       }}">

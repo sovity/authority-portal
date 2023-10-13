@@ -1,9 +1,15 @@
 <span>Override user:</span>
-<button
-  *ngFor="let user of users; let i = index"
-  class="hover:underline cursor-pointer"
-  [value]="i"
-  (click)="setUser(user)">
-  {{ user.firstName }} {{ user.lastName }}
+
+<div [ngClass]="{hidden: switcherMinimized}">
+  <button
+    *ngFor="let user of users; let i = index"
+    class="hover:underline mx-2 cursor-pointer"
+    [ngClass]="{'text-blue-600 font-bold': i === activeUser}"
+    [value]="i"
+    (click)="setUser(user, i)">
+    {{ user.firstName }} {{ user.lastName }}
+  </button>
+</div>
+<button class="hover:underline cursor-pointer" (click)="toggleMinimize()">
+  {{ switcherMinimized ? 'Maximize' : 'Minimize' }}
 </button>
-<button class="hover:underline cursor-pointer" (click)="hide()">Hide</button>
