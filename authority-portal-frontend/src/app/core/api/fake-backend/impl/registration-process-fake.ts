@@ -7,19 +7,11 @@ import {updateLoggedInUser} from './user-info-fake';
 export const createOrganization = (
   request: CreateOrganizationRequest,
 ): IdResponse => {
-  // save info for a following "getCurrentUserPendingOrganizationCreateRequest" call
-  // TODO
-
   // User is now pending
-  updateLoggedInUser(() => ({registrationStatus: 'PENDING'}));
-
-  // Emulate approval after 10 seconds
-  setTimeout(() => {
-    updateLoggedInUser(() => ({
-      registrationStatus: 'ACTIVE',
-      organizationName: request.name,
-    }));
-  }, 4_000);
+  updateLoggedInUser(() => ({
+    organizationName: request.name,
+    registrationStatus: 'PENDING',
+  }));
 
   return {id: 'test-organization-id', changedDate: new Date()};
 };

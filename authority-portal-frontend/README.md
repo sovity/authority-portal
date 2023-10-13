@@ -4,7 +4,6 @@
 
 <!-- PROJECT SHIELDS -->
 
-
 [![Static Badge][webpage-shield]][webpage-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
@@ -53,7 +52,8 @@
 
 ## About This Component
 
-Frontend for sovity's Dataspace Authority Portal, written in Angular with TypeScript, NGXS State Management and TailwindCSS Framework.
+Frontend for sovity's Dataspace Authority Portal, written in Angular with
+TypeScript, NGXS State Management and TailwindCSS Framework.
 
 <p align="right">(<a href="#readme-top">back to top</a>)
 
@@ -154,10 +154,9 @@ contact@sovity.de
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-
-[webpage-shield]: https://img.shields.io/badge/Sovity-black.svg?style=for-the-badge&colorB=09254d
+[webpage-shield]:
+  https://img.shields.io/badge/Sovity-black.svg?style=for-the-badge&colorB=09254d
 [webpage-url]: https://www.sovity.de
-
 [linkedin-shield]:
   https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0a66c2
 [linkedin-url]: https://www.linkedin.com/company/sovity

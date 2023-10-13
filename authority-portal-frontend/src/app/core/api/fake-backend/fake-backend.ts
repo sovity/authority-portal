@@ -1,9 +1,28 @@
 import {
+  ConnectorDetailDtoToJSON,
+  ConnectorOverviewResultToJSON,
+  CreateConnectorRequestFromJSON,
   CreateOrganizationRequestFromJSON,
   FetchAPI,
   IdResponseToJSON,
+  OrganizationDetailResult,
+  OrganizationDetailResultToJSON,
+  OrganizationOverviewResultToJSON,
   UserInfoToJSON,
+  UserRegistrationStatusResultFromJSON,
 } from '@sovity.de/authority-portal-client';
+import {
+  approveOrganization,
+  rejectOrganization,
+} from './impl/authority-manage-organization-fake';
+import {
+  createOwnConnector,
+  createProvidedConnector,
+  getFullConnectorDetails,
+  getListOfConnectorsForTable,
+} from './impl/fake-connectors';
+import {getOrganizationDetails} from './impl/organization-details-fake';
+import {getListOfOrganizationsForTable} from './impl/organization-list-fake';
 import {createOrganization} from './impl/registration-process-fake';
 import {getUserInfo} from './impl/user-info-fake';
 import {getBody, getMethod, getUrl} from './utils/request-utils';
@@ -24,14 +43,126 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('user-info')
     .on('GET', () => {
-      let result = getUserInfo();
+      const result = getUserInfo();
       return ok(UserInfoToJSON(result));
+    })
+
+    .url('authority/organizations')
+    .on('GET', () => {
+      const result = getListOfOrganizationsForTable();
+      return ok(OrganizationOverviewResultToJSON(result));
+    })
+
+    .url('authority/organizations/invite')
+    .on('POST', () => {
+      throw new Error('TODO');
+    })
+
+    .url('authority/organizations/*')
+    .on('GET', (mdsId) => {
+      const result = getOrganizationDetails(mdsId);
+      return ok(OrganizationDetailResultToJSON(result));
+    })
+
+    .url('authority/organizations/*/connectors')
+    .on('GET', (mdsId: string) => {
+      const result = getListOfConnectorsForTable(mdsId);
+      return ok(ConnectorOverviewResultToJSON(result));
+    })
+
+    .url('authority/organizations/*/approve')
+    .on('PUT', (mdsId) => {
+      const result = approveOrganization(mdsId);
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('authority/organizations/*/reject')
+    .on('PUT', (mdsId) => {
+      const result = rejectOrganization(mdsId);
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('authority/users/*/role')
+    .on('PUT', (userId) => {
+      throw new Error('TODO');
+    })
+
+    .url('authority/users/*/deactivate')
+    .on('PUT', (userId) => {
+      throw new Error('TODO');
+    })
+
+    .url('authority/users/*/reactivate')
+    .on('PUT', (userId) => {
+      throw new Error('TODO');
+    })
+
+    .url('organizations/my-org/connectors')
+    .on('GET', () => {
+      const mdsId = getUserInfo().organizationMdsId;
+      const result = getListOfConnectorsForTable(mdsId);
+      return ok(ConnectorOverviewResultToJSON(result));
+    })
+
+    .url('organizations/my-org/connectors/*')
+    .on('GET', (connectorId: string) => {
+      const mdsId = getUserInfo().organizationMdsId;
+      const result = getFullConnectorDetails(mdsId, connectorId);
+      return ok(ConnectorDetailDtoToJSON(result));
+    })
+    .on('DELETE', () => {
+      throw new Error('TODO');
+    })
+
+    .url('organizations/my-org/connectors/create-on-premise')
+    .on('POST', () => {
+      const request = CreateConnectorRequestFromJSON(body);
+      const result = createOwnConnector(request);
+
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('organizations/my-org/users/invite')
+    .on('POST', () => {
+      throw new Error('TODO');
+    })
+
+    .url('organizations/my-org/users/*/role')
+    .on('PUT', (userId) => {
+      throw new Error('TODO');
+    })
+
+    .url('organizations/my-org/users/*/deactivate')
+    .on('PUT', (userId) => {
+      throw new Error('TODO');
+    })
+
+    .url('organizations/my-org/users/*/reactivate')
+    .on('PUT', (userId) => {
+      throw new Error('TODO');
+    })
+
+    .url('organizations/*/connectors/*')
+    .on('GET', (mdsId: string, connectorId: string) => {
+      const result = getFullConnectorDetails(mdsId, connectorId);
+      return ok(ConnectorDetailDtoToJSON(result));
+    })
+    .on('DELETE', (mdsId, connectorId) => {
+      throw new Error('TODO');
+    })
+
+    .url('organizations/*/connectors/create-service-provided')
+    .on('POST', (clientMdsId) => {
+      const request = CreateConnectorRequestFromJSON(body);
+      const result = createProvidedConnector(request, clientMdsId);
+
+      return ok(IdResponseToJSON(result));
     })
 
     .url('registration/organization')
     .on('POST', () => {
-      let request = CreateOrganizationRequestFromJSON(body);
-      let result = createOrganization(request);
+      const request = CreateOrganizationRequestFromJSON(body);
+      const result = createOrganization(request);
       return ok(IdResponseToJSON(result));
     })
 
