@@ -25,6 +25,7 @@ class UserInfoApiService {
         val roleDtos = userRoleMapper.getUserRoles(roles)
 
         return UserInfo(
+            userId,
             user.firstName,
             user.lastName,
             organizationName,
