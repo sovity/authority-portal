@@ -10,6 +10,7 @@ import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.OrganizationDetailResult
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
+import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.api.model.UserRoleDto
@@ -20,10 +21,10 @@ import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManageme
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationRegistrationApiService
-import de.sovity.authorityportal.web.pages.usermanagement.UserInfoApiService
-import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeactivationApiService
+import de.sovity.authorityportal.web.pages.usermanagement.UserInfoApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiService
+import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
@@ -67,6 +68,19 @@ class UiResourceImpl : UiResource {
     override fun userInfo(): UserInfo {
         authUtils.requiresAuthenticated()
         return userInfoApiService.userInfo(loggedInUser.userId, loggedInUser.organizationMdsId, loggedInUser.roles)
+    }
+
+    /**
+     * Retrieves user details for the specified user ID.
+     *
+     * @param userId The ID of the user for whom to retrieve details.
+     * @return [UserDetailDto] object containing the user's details.
+     */
+    @Transactional
+    override fun userDetails(userId: String): UserDetailDto {
+        authUtils.requires(authUtils.hasRole(Roles.UserRoles.AUTHORITY_USER) ||
+            (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_USER) && authUtils.isMemberOfSameOrganizationAs(userId)), userId);
+        return userInfoApiService.userDetails(userId);
     }
 
     // Registration

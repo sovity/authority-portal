@@ -16,6 +16,7 @@ class UserDetailService {
     fun getUserData(userId: String): UserDetail {
         val kcUser = keycloakService.getUser(userId)
         val dbUser = userService.getUserOrThrow(userId)
+        val roles = keycloakService.getUserRoles(userId)
 
         return UserDetail(
             kcUser.userId,
@@ -25,7 +26,9 @@ class UserDetailService {
             kcUser.position,
             kcUser.phoneNumber,
             dbUser.organizationMdsId,
-            dbUser.registrationStatus
+            dbUser.registrationStatus,
+            dbUser.createdAt,
+            roles
         )
     }
 }

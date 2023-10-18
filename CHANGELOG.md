@@ -23,6 +23,8 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 - Add endpoints to reactivate users
 - Unregister own connectors
 - Add userId to /api/user-info endpoint
+- Add endpoint to retrieve user data
+
 
 #### Patch
 
