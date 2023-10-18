@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.web.pages.usermanagement
 
+import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.web.pages.userregistration.toDto
 import de.sovity.authorityportal.web.services.OrganizationService
@@ -32,6 +33,29 @@ class UserInfoApiService {
             mdsId,
             roleDtos.toList(),
             user.registrationStatus.toDto()
+        )
+    }
+
+    /**
+     * Retrieves user details for the specified user ID.
+     *
+     * @param userId The ID of the user for whom to retrieve details.
+     * @return [UserDetailDto] object containing the user's details.
+     * @see userDetailService.getUserData
+     * @see userRoleMapper.getUserRoles
+     * @see UserDetailDto
+     */
+    fun userDetails(userId: String): UserDetailDto {
+        val user = userDetailService.getUserData(userId)
+        val roleDtos = userRoleMapper.getUserRoles(user.roles)
+
+        return UserDetailDto(
+            user.firstName,
+            user.lastName,
+            user.email,
+            roleDtos.toList(),
+            user.registrationStatus.toDto(),
+            user.createdAt
         )
     }
 

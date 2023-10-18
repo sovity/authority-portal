@@ -9,6 +9,7 @@ import de.sovity.authorityportal.api.model.InviteOrganizationRequest;
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest;
 import de.sovity.authorityportal.api.model.OrganizationDetailResult;
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult;
+import de.sovity.authorityportal.api.model.UserDetailDto;
 import de.sovity.authorityportal.api.model.UserInfo;
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
 import de.sovity.authorityportal.api.model.UserRoleDto;
@@ -34,6 +35,12 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get the current user's info.")
     UserInfo userInfo();
+
+    @GET
+    @Path("/users/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get the user's details.")
+    UserDetailDto userDetails(@PathParam("userId") String userId);
 
     // Registration
     @GET

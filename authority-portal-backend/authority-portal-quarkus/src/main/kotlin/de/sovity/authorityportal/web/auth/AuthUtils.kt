@@ -83,4 +83,25 @@ class AuthUtils {
             unauthorized("User is not allowed to perform requested action on self")
         }
     }
+
+    fun requires(authorized: Boolean, userId: String) {
+        if (!authorized) {
+            Log.error("User is not authorized. userId=$userId, loggedInUserMdsId=${loggedInUser.organizationMdsId}, " +
+                "loggedInUserId=${loggedInUser.userId}.")
+            unauthorized()
+        }
+    }
+
+    fun hasRole(role: String): Boolean {
+        return loggedInUser.roles.contains(role);
+    }
+
+    fun isMemberOfSameOrganizationAs(userId: String): Boolean {
+        if (loggedInUser.organizationMdsId.isNullOrEmpty()) {
+            return false;
+        }
+
+        val user = userService.getUserOrThrow(userId)
+        return user.organizationMdsId == loggedInUser.organizationMdsId;
+    }
 }

@@ -70,6 +70,25 @@ class KeycloakService {
         return keycloakUserMapper.buildKeycloakUserDto(user)
     }
 
+    /**
+     * Retrieves the effective realm-level roles for a user specified by [userId].
+     *
+     * This function uses Keycloak to retrieve the effective realm-level roles for the specified user.
+     * It filters the roles to include only those starting with "UR_" or "AR_".
+     *
+     * @param userId The ID of the user for whom to retrieve roles.
+     * @return A set of strings representing the effective realm-level roles for the user.
+     * @see keycloak.realm
+     * @see RoleRepresentation
+     */
+    fun getUserRoles(userId: String): Set<String> {
+        return keycloak.realm(keycloakRealm).users().get(userId).roles().realmLevel()
+            .listEffective()
+            .filter { it.name.startsWith("UR_") || it.name.startsWith("AR_") }
+            .map { it.name }
+            .toSet()
+    }
+
     fun createOrganization(mdsId: String) {
         val organization = GroupRepresentation().apply {
             name = mdsId
