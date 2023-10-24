@@ -1,8 +1,10 @@
 package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.api.model.MemberInfo
+import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleMapper
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
+import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
@@ -45,11 +47,16 @@ class UserDetailService {
                     it.userId,
                     it.firstName,
                     it.lastName,
-                    userRoleMapper.getUserRoles(
-                        keycloakService.getUserRoles(it.userId)
-                    ).toList()
+                    getHighestUserRoles(it)
                 )
             }
         }
+    }
+
+    private fun getHighestUserRoles(user: KeycloakUserDto): List<UserRoleDto> {
+        // TODO: n + 1 calls to Keycloak => improve
+        val keycloakRoles = keycloakService.getUserRoles(user.userId)
+        val roles = userRoleMapper.getUserRoles(keycloakRoles)
+        return userRoleMapper.getHighestRoles(roles)
     }
 }

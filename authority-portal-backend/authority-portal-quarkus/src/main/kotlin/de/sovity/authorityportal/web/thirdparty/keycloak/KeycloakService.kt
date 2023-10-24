@@ -91,11 +91,19 @@ class KeycloakService {
 
     fun getOrganizationMembers(mdsId: String): List<KeycloakUserDto> {
         val groups = keycloak.realm(keycloakRealm).groups()
-        val organizationGroupId = groups.groups().find { it.name == mdsId }?.id ?: return emptyList()
+        val orgGroupId = groups.groups().find { it.name == mdsId }?.id ?: return emptyList()
+        val subGroupIds = keycloak.realm(keycloakRealm).groups()
+            .group(orgGroupId).toRepresentation().subGroups.associate { it.name to it.id }.values
 
-        return groups.group(organizationGroupId).members().mapNotNull {
-            keycloakUserMapper.buildKeycloakUserDto(it)
+        var orgMembers: List<KeycloakUserDto> = emptyList()
+        subGroupIds.forEach() { subGroupId ->
+            val subGroupMembers = groups.group(subGroupId).members().mapNotNull {
+                keycloakUserMapper.buildKeycloakUserDto(it)
+            }
+            orgMembers = orgMembers.plus(subGroupMembers)
         }
+
+        return orgMembers
     }
 
 

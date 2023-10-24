@@ -8,7 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class UserRoleMapper {
-    val mapping = mapOf(
+    private val mapping = mapOf(
         Roles.UserRoles.OPERATOR_ADMIN to UserRoleDto.OPERATOR_ADMIN,
         Roles.UserRoles.SERVICE_PARTNER_ADMIN to UserRoleDto.SERVICE_PARTNER_ADMIN,
         Roles.UserRoles.AUTHORITY_ADMIN to UserRoleDto.AUTHORITY_ADMIN,
@@ -18,9 +18,41 @@ class UserRoleMapper {
         Roles.UserRoles.PARTICIPANT_USER to UserRoleDto.PARTICIPANT_USER,
     )
 
+    private val participantRoles = listOf(
+        UserRoleDto.PARTICIPANT_ADMIN,
+        UserRoleDto.PARTICIPANT_CURATOR,
+        UserRoleDto.PARTICIPANT_USER
+    )
+
+    private val authorityRoles = listOf(
+        UserRoleDto.AUTHORITY_ADMIN,
+        UserRoleDto.AUTHORITY_USER
+    )
+
     fun getUserRoles(roles: Set<String>): Set<UserRoleDto> {
         return roles.mapNotNull { mapping[it] }.toSet()
     }
+
+    /**
+     * Reduces roles to visible roles for the UI.
+     */
+    fun getHighestRoles(roles: Set<UserRoleDto>): List<UserRoleDto> {
+        val highestRoles = mutableListOf<UserRoleDto>()
+        getHighestAuthorityRole(roles)?.let { highestRoles.add(it) }
+        highestRoles.addAll(getRemainingRoles(roles).sorted())
+        getHighestParticipantRole(roles)?.let { highestRoles.add(it) }
+
+        return highestRoles
+    }
+
+    private fun getRemainingRoles(roles: Set<UserRoleDto>): Set<UserRoleDto> =
+        roles - authorityRoles - participantRoles
+
+    private fun getHighestParticipantRole(roles: Set<UserRoleDto>): UserRoleDto? =
+        participantRoles.firstOrNull { roles.contains(it) }
+
+    private fun getHighestAuthorityRole(roles: Set<UserRoleDto>): UserRoleDto? =
+        authorityRoles.firstOrNull { roles.contains(it) }
 
     fun toOrganizationRole(role: UserRoleDto, userId: String, adminUserId: String): OrganizationRole {
         return when (role) {
