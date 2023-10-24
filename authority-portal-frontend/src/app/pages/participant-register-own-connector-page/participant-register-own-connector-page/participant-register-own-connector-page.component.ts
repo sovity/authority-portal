@@ -14,6 +14,7 @@ import {
 } from '../state/participant-register-own-connector-page-state';
 import {ParticipantRegisterOwnConnectorPageStateImpl} from '../state/participant-register-own-connector-page-state-impl';
 import {
+  DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE,
   ParticipantRegisterOwnConnectorPageFormModel,
   ParticipantRegisterOwnConnectorPageFormValue,
 } from './participant-register-own-connector-page-form-model';
@@ -52,16 +53,17 @@ export class ParticipantRegisterOwnConnectorPageComponent
   }
 
   buildFormGroup(): FormGroup<ParticipantRegisterOwnConnectorPageFormModel> {
+    const initial = DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE;
     return this.formBuilder.nonNullable.group({
-      name: ['', [Validators.required]],
-      location: ['', [Validators.required]],
-      url: ['', [Validators.required]],
-      certificate: ['', [Validators.required]],
+      name: [initial.name, [Validators.required]],
+      location: [initial.location, [Validators.required]],
+      url: [initial.url, [Validators.required]],
+      certificate: [initial.certificate, [Validators.required]],
     });
   }
 
   get value(): ParticipantRegisterOwnConnectorPageFormValue {
-    return this.group.value;
+    return this.group.value as ParticipantRegisterOwnConnectorPageFormValue;
   }
 
   submit(): void {

@@ -1,6 +1,6 @@
 # Changelog
 
-For documentation on how to update this changelog, 
+For documentation on how to update this changelog,
 please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ## Unreleased - YYYY-MM-DD
@@ -15,16 +15,17 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 
 #### Minor
 
-- Add endpoint to invite new participating organizations
-  - Provide invitation time stamp in org details
-- Add endpoint to invite new users to an organization
-- Add endpoints for role changing for authority and participants
-- Add endpoints to deactivate users
-- Add endpoints to reactivate users
+- Added endpoint to invite new participating organizations
+  - Provided invitation time stamp in org details
+- Added endpoint to invite new users to an organization
+- Added endpoints for role changing for authority and participants
+- Added endpoints to deactivate users
+- Added endpoints to reactivate users
 - Unregister own connectors
-- Add userId to /api/user-info endpoint
-- Add endpoint to retrieve user data
+- Added userId to /api/user-info endpoint
+- Added endpoint to retrieve user data
 
+- Added page to invite new users to an existing organization.
 
 #### Patch
 
@@ -35,7 +36,6 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ release version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ release version }}`
 - Broker Server: `{{ broker server version }}`
-
 
 ## [v1.0.0] - 2023-09-29
 

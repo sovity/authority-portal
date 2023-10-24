@@ -1,7 +1,7 @@
-import {FormControl, ɵFormGroupValue} from '@angular/forms';
+import {FormControl, ɵFormGroupRawValue} from '@angular/forms';
 
 export type ProvideConnectorPageFormValue =
-  ɵFormGroupValue<ProvideConnectorPageFormModel>;
+  ɵFormGroupRawValue<ProvideConnectorPageFormModel>;
 
 export interface ProvideConnectorPageFormModel {
   name: FormControl<string>;
@@ -10,3 +10,12 @@ export interface ProvideConnectorPageFormModel {
   mdsId: FormControl<string>;
   certificate: FormControl<string>;
 }
+
+export const DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE: ProvideConnectorPageFormValue =
+  {
+    name: '',
+    location: '',
+    url: '',
+    mdsId: '',
+    certificate: '',
+  };

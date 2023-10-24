@@ -5,6 +5,7 @@ import {Store} from '@ngxs/store';
 import {CreateOrganizationRequest} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from '../../../core/config/app-config';
 import {
+  DEFAULT_ORGANIZATION_CREATE_FORM_VALUE,
   OrganizationCreatePageFormModel,
   OrganizationCreatePageFormValue,
 } from './organization-create-page-form-model';
@@ -38,14 +39,15 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
   }
 
   buildFormGroup(): FormGroup<OrganizationCreatePageFormModel> {
+    const initial = DEFAULT_ORGANIZATION_CREATE_FORM_VALUE;
     const organizationCreateForm: FormGroup<OrganizationCreatePageFormModel> =
       this.formBuilder.nonNullable.group({
-        name: ['', [Validators.required]],
-        address: ['', [Validators.required]],
-        duns: ['', [Validators.required]],
-        url: ['', [Validators.required]],
-        securityEmail: ['', [Validators.required]],
-        authorizedCheck: ['', [Validators.required]],
+        name: [initial.name, [Validators.required]],
+        address: [initial.address, [Validators.required]],
+        duns: [initial.duns, [Validators.required]],
+        url: [initial.url, [Validators.required]],
+        securityEmail: [initial.securityEmail, [Validators.required]],
+        authorizedCheck: [initial.authorizedCheck, [Validators.required]],
       });
     return organizationCreateForm;
   }
@@ -80,7 +82,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
   }
 
   get value(): OrganizationCreatePageFormValue {
-    return this.group.value;
+    return this.group.value as OrganizationCreatePageFormValue;
   }
 
   ngOnDestroy$ = new Subject();

@@ -1,7 +1,7 @@
-import {FormControl, ɵFormGroupValue} from '@angular/forms';
+import {FormControl, ɵFormGroupRawValue} from '@angular/forms';
 
 export type OrganizationCreatePageFormValue =
-  ɵFormGroupValue<OrganizationCreatePageFormModel>;
+  ɵFormGroupRawValue<OrganizationCreatePageFormModel>;
 
 export interface OrganizationCreatePageFormModel {
   name: FormControl<string>;
@@ -9,5 +9,15 @@ export interface OrganizationCreatePageFormModel {
   duns: FormControl<string>;
   url: FormControl<string>;
   securityEmail: FormControl<string>;
-  authorizedCheck: FormControl<string>;
+  authorizedCheck: FormControl<boolean>;
 }
+
+export const DEFAULT_ORGANIZATION_CREATE_FORM_VALUE: OrganizationCreatePageFormValue =
+  {
+    name: '',
+    address: '',
+    duns: '',
+    url: '',
+    securityEmail: '',
+    authorizedCheck: false,
+  };

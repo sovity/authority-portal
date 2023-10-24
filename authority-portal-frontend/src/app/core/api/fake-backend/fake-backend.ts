@@ -5,11 +5,10 @@ import {
   CreateOrganizationRequestFromJSON,
   FetchAPI,
   IdResponseToJSON,
-  OrganizationDetailResult,
+  InviteParticipantUserRequestFromJSON,
   OrganizationDetailResultToJSON,
   OrganizationOverviewResultToJSON,
   UserInfoToJSON,
-  UserRegistrationStatusResultFromJSON,
 } from '@sovity.de/authority-portal-client';
 import {
   approveOrganization,
@@ -21,6 +20,7 @@ import {
   getFullConnectorDetails,
   getListOfConnectorsForTable,
 } from './impl/fake-connectors';
+import {inviteUser} from './impl/fake-users';
 import {getOrganizationDetails} from './impl/organization-details-fake';
 import {getListOfOrganizationsForTable} from './impl/organization-list-fake';
 import {createOrganization} from './impl/registration-process-fake';
@@ -124,7 +124,10 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('organizations/my-org/users/invite')
     .on('POST', () => {
-      throw new Error('TODO');
+      const request = InviteParticipantUserRequestFromJSON(body);
+      const result = inviteUser(request);
+
+      return ok(IdResponseToJSON(result));
     })
 
     .url('organizations/my-org/users/*/role')

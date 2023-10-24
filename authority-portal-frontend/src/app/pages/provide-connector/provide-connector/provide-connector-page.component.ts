@@ -11,6 +11,7 @@ import {
 } from '../state/provide-connector-page-state';
 import {ProvideConnectorPageStateImpl} from '../state/provide-connector-page-state-impl';
 import {
+  DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE,
   ProvideConnectorPageFormModel,
   ProvideConnectorPageFormValue,
 } from './provide-connector-page-form-model';
@@ -45,17 +46,20 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   }
 
   buildFormGroup(): FormGroup<ProvideConnectorPageFormModel> {
+    const initial = DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE;
+
     return this.formBuilder.nonNullable.group({
-      name: ['', [Validators.required]],
-      location: ['', [Validators.required]],
-      url: ['', [Validators.required]],
-      mdsId: ['', [Validators.required]],
-      certificate: ['', [Validators.required]],
+      name: [initial.name, [Validators.required]],
+      location: [initial.location, [Validators.required]],
+      url: [initial.url, [Validators.required]],
+      mdsId: [initial.mdsId, [Validators.required]],
+      certificate: [initial.certificate, [Validators.required]],
     });
   }
 
   submit(): void {
-    let formValue: ProvideConnectorPageFormValue = this.group.value;
+    let formValue: ProvideConnectorPageFormValue = this.group
+      .value as ProvideConnectorPageFormValue;
     let mdsId = formValue.mdsId!;
     let request: CreateConnectorRequest = {
       certificate: formValue.certificate!,

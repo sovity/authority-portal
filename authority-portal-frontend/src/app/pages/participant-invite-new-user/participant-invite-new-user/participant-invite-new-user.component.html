@@ -1,0 +1,144 @@
+<div
+  class="flex flex-col items-center justify-center bg-gray-200 text-gray-700 !overflow-hidden">
+  <p
+    class="inline-block p-3 my-12 text-2xl font-semibold text-center tracking-wider text-teal-900 uppercase bg-teal-accent-400">
+    Invite new User to Your Organization
+  </p>
+
+  <div class="container flex items-center justify-center">
+    <form
+      class="flex flex-col bg-white shadow-xl w-2/3 md:w-4/5 xl:w-3/5 2xl:w-1/2 p-10 rounded-3xl mb-16"
+      ngxsForm="group"
+      [formGroup]="group"
+      (ngSubmit)="submit()">
+      <div class="select-none flex flex-col justify-between items-center my-2">
+        <div class="flex flex-col justify-between items-center w-full">
+          <label class="label w-full mb-2" for="formInviteUserFirstName"
+            >First Name</label
+          >
+          <input
+            id="formInviteUserFirstName"
+            class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
+            type="text"
+            formControlName="firstName"
+            placeholder="First Name of the New User" />
+        </div>
+
+        <div
+          *ngIf="
+            group.controls.firstName.touched &&
+            group.controls.firstName.dirty &&
+            group.controls.firstName.hasError('required')
+          "
+          class="mt-3 text-red-600">
+          First Name is a required field
+        </div>
+      </div>
+
+      <div class="select-none flex flex-col justify-between items-center my-2">
+        <div class="flex flex-col justify-between items-center w-full">
+          <label class="label w-full mb-2" for="formInviteUserLastName"
+            >Last Name</label
+          >
+          <input
+            id="formInviteUserLastName"
+            class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
+            type="text"
+            formControlName="lastName"
+            placeholder="Last Name of the New User" />
+        </div>
+
+        <div
+          *ngIf="
+            group.controls.lastName.touched &&
+            group.controls.lastName.dirty &&
+            group.controls.lastName.hasError('required')
+          "
+          class="mt-3 text-red-600">
+          Last Name is a required field
+        </div>
+      </div>
+
+      <div class="select-none flex flex-col justify-between items-center my-2">
+        <div class="flex flex-col justify-between items-center w-full">
+          <label class="label w-full mb-2" for="formInviteUserDuns"
+            >Email</label
+          >
+          <input
+            id="formInviteUserDuns"
+            class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
+            type="text"
+            formControlName="email"
+            placeholder="The Email Address of the new User" />
+        </div>
+
+        <div
+          *ngIf="
+            group.controls.email.touched &&
+            group.controls.email.dirty &&
+            group.controls.email.hasError('required')
+          "
+          class="mt-3 text-red-600">
+          Email is a required field
+        </div>
+      </div>
+
+      <div class="select-none flex flex-col justify-between items-center my-2">
+        <div class="flex flex-col justify-between items-start w-full">
+          <div class="flex flex-row">
+            <label class="label w-full mb-2" for="formInviteUserUrl"
+              >Role</label
+            >
+          </div>
+          <select
+            id="formInviteUserRole"
+            class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
+            formControlName="role"
+            placeholder="Role of the new User">
+            <option *ngFor="let role of getAllowedUserRoles()" [value]="role">
+              {{ role }}
+            </option>
+          </select>
+        </div>
+
+        <div
+          *ngIf="
+            group.controls.role.touched &&
+            group.controls.role.dirty &&
+            group.controls.role.hasError('required')
+          "
+          class="mt-3 text-red-600">
+          User role is a required field
+        </div>
+        <div class="flex flex-col p-3 text-sm text-gray-500">
+          <p>
+            *<span class="text-gray-600">PARTICIPANT_USER</span>
+            is the basic role that allows a person to open multiple participant
+            related sections in portal but basically cannot change anything.
+          </p>
+          <p>
+            <span class="text-gray-600">PARTICIPANT_CURATOR</span>
+            role allows creating and editing of organization's connectors and
+            data offerings/requests.
+          </p>
+          <p>
+            <span class="text-gray-600">PARTICIPANT_ADMIN</span>
+            can additionally manage users, invite new users and update
+            organization's profile.
+          </p>
+        </div>
+      </div>
+
+      <li class="border-gray-400 flex flex-row mt-4">
+        <button
+          class="btn-green w-28 p-3 flex flex-1 items-center transition duration-100 ease-linear transform"
+          type="submit"
+          [disabled]="!group.valid || state.state === 'submitting'">
+          <div class="flex-1">
+            <div class="text-base">Submit</div>
+          </div>
+        </button>
+      </li>
+    </form>
+  </div>
+</div>
