@@ -89,6 +89,16 @@ class KeycloakService {
             .toSet()
     }
 
+    fun getOrganizationMembers(mdsId: String): List<KeycloakUserDto> {
+        val groups = keycloak.realm(keycloakRealm).groups()
+        val organizationGroupId = groups.groups().find { it.name == mdsId }?.id ?: return emptyList()
+
+        return groups.group(organizationGroupId).members().mapNotNull {
+            keycloakUserMapper.buildKeycloakUserDto(it)
+        }
+    }
+
+
     fun createOrganization(mdsId: String) {
         val organization = GroupRepresentation().apply {
             name = mdsId

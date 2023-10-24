@@ -7,7 +7,7 @@ import {
   CreateOrganizationRequest,
   IdResponse,
   InviteParticipantUserRequest,
-  OrganizationDetailResult,
+  OrganizationDetailsDto,
   OrganizationOverviewResult,
   UiApi,
   UserInfo,
@@ -32,7 +32,7 @@ export class ApiService {
     return from(this.api().organizationsOverview());
   }
 
-  getOrganizationDetails(mdsId: string): Observable<OrganizationDetailResult> {
+  getOrganizationDetails(mdsId: string): Observable<OrganizationDetailsDto> {
     return from(this.api().organizationDetails({mdsId}));
   }
 

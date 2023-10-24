@@ -8,14 +8,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Organization information in organization detail page.")
-public class OrganizationDetailResult {
+@Schema(description = "Own organization information.")
+public class OwnOrganizationDetailsDto {
+
     @Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
     private String mdsId;
     @Schema(description = "Legal name", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -32,4 +34,7 @@ public class OrganizationDetailResult {
     private OrganizationRegistrationStatusDto registrationStatus;
     @Schema(description = "Creation date of organization or organization invite", requiredMode = Schema.RequiredMode.REQUIRED)
     private OffsetDateTime createdAt;
+    @Schema(description = "Member information", requiredMode = Schema.RequiredMode.REQUIRED)
+    private List<MemberInfo> memberInfos;
+
 }

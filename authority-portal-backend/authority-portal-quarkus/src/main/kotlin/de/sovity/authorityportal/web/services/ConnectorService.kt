@@ -76,6 +76,12 @@ class ConnectorService {
             .fetch()
     }
 
+    fun getConnectorsCountByMdsId(mdsId: String): Int {
+        val c = Tables.CONNECTOR
+        return dsl.fetchCount(dsl.selectFrom(c)
+            .where(c.MDS_ID.eq(mdsId)))
+    }
+
     fun createOwnConnector(
         connectorId: String,
         mdsId: String,
