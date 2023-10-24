@@ -10,7 +10,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import {Action, Actions, State, StateContext} from '@ngxs/store';
-import {OrganizationDetailResult} from '@sovity.de/authority-portal-client';
+import {OrganizationDetailsDto} from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
@@ -66,7 +66,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
 
   private organizationRefreshed(
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    organization: Fetched<OrganizationDetailResult>,
+    organization: Fetched<OrganizationDetailsDto>,
   ) {
     ctx.patchState({organization});
   }

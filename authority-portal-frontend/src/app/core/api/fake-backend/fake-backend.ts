@@ -6,8 +6,9 @@ import {
   FetchAPI,
   IdResponseToJSON,
   InviteParticipantUserRequestFromJSON,
-  OrganizationDetailResultToJSON,
+  OrganizationDetailsDtoToJSON,
   OrganizationOverviewResultToJSON,
+  OwnOrganizationDetailsDtoToJSON,
   UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
 import {
@@ -61,7 +62,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('authority/organizations/*')
     .on('GET', (mdsId) => {
       const result = getOrganizationDetails(mdsId);
-      return ok(OrganizationDetailResultToJSON(result));
+      return ok(OwnOrganizationDetailsDtoToJSON(result));
     })
 
     .url('authority/organizations/*/connectors')

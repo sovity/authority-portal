@@ -7,8 +7,9 @@ import de.sovity.authorityportal.api.model.CreateOrganizationRequest;
 import de.sovity.authorityportal.api.model.IdResponse;
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest;
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest;
-import de.sovity.authorityportal.api.model.OrganizationDetailResult;
+import de.sovity.authorityportal.api.model.OrganizationDetailsDto;
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult;
+import de.sovity.authorityportal.api.model.OwnOrganizationDetailsDto;
 import de.sovity.authorityportal.api.model.UserDetailDto;
 import de.sovity.authorityportal.api.model.UserInfo;
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
@@ -110,10 +111,16 @@ public interface UiResource {
     OrganizationOverviewResult organizationsOverview();
 
     @GET
+    @Path("/organizations/my-org")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get details of own organization.")
+    OwnOrganizationDetailsDto ownOrganizationDetails();
+
+    @GET
     @Path("/authority/organizations/{mdsId}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Get an organization's detail information with their status.")
-    OrganizationDetailResult organizationDetails(@PathParam("mdsId") String mdsId);
+    @Operation(description = "Get details of any organization.")
+    OrganizationDetailsDto organizationDetails(@PathParam("mdsId") String mdsId);
 
     @POST
     @Path("/authority/organizations/invite")

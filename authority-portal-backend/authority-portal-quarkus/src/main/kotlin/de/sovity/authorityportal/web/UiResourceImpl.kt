@@ -8,8 +8,9 @@ import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
-import de.sovity.authorityportal.api.model.OrganizationDetailResult
+import de.sovity.authorityportal.api.model.OrganizationDetailsDto
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
+import de.sovity.authorityportal.api.model.OwnOrganizationDetailsDto
 import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
@@ -155,9 +156,16 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun organizationDetails(mdsId: String): OrganizationDetailResult {
+    override fun ownOrganizationDetails(): OwnOrganizationDetailsDto {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
+        authUtils.requiresMemberOfAnyOrganization()
+        return organizationInfoApiService.ownOrganizationDetails(loggedInUser.organizationMdsId!!);
+    }
+
+    @Transactional
+    override fun organizationDetails(mdsId: String): OrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationInfoApiService.organizationDetails(mdsId)
+        return organizationInfoApiService.getOrganizationInformation(mdsId);
     }
 
     @Transactional

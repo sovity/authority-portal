@@ -1,7 +1,7 @@
-import {OrganizationDetailResult} from '@sovity.de/authority-portal-client';
+import {OwnOrganizationDetailsDto} from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 
-export let TEST_ORGANIZATIONS: OrganizationDetailResult[] = [
+export let TEST_ORGANIZATIONS: OwnOrganizationDetailsDto[] = [
   {
     mdsId: 'MDSL1111AA',
     name: 'Dev Organization 1',
@@ -11,6 +11,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailResult[] = [
     url: 'https://example1.com',
     securityEmail: 'security@example1.com',
     createdAt: new Date('2023-08-05T00:00:00.000Z'),
+    memberInfos: [],
   },
 
   {
@@ -22,6 +23,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailResult[] = [
     url: 'https://example2.com',
     securityEmail: 'security@example2.com',
     createdAt: new Date('2023-08-06T00:00:00.000Z'),
+    memberInfos: [],
   },
 
   {
@@ -33,6 +35,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailResult[] = [
     url: 'https://www.test.org',
     securityEmail: 'security@test.org',
     createdAt: new Date('2023-08-01T00:00:00.000Z'),
+    memberInfos: [],
   },
 
   {
@@ -44,6 +47,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailResult[] = [
     url: 'https://example31.com',
     securityEmail: 'security@example31.com',
     createdAt: new Date('2022-10-01T00:00:00.000Z'),
+    memberInfos: [],
   },
   {
     mdsId: 'MDSL3332C2',
@@ -54,6 +58,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailResult[] = [
     url: 'https://example32.com',
     securityEmail: 'security@example32.com',
     createdAt: new Date('2022-10-02T00:00:00.000Z'),
+    memberInfos: [],
   },
   {
     mdsId: 'MDSL3333C3',
@@ -64,6 +69,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailResult[] = [
     url: 'https://example33.com',
     securityEmail: 'security@example33.com',
     createdAt: new Date('2022-10-03T00:00:00.000Z'),
+    memberInfos: [],
   },
   {
     mdsId: 'MDSL3334C4',
@@ -74,12 +80,13 @@ export let TEST_ORGANIZATIONS: OrganizationDetailResult[] = [
     url: 'https://example34.com',
     securityEmail: 'security@example34.com',
     createdAt: new Date('2022-10-04T00:00:00.000Z'),
+    memberInfos: [],
   },
 ];
 
 export const updateOrganization = (
   mdsId: string,
-  patcher: Patcher<OrganizationDetailResult>,
+  patcher: Patcher<OwnOrganizationDetailsDto>,
 ) => {
   TEST_ORGANIZATIONS = TEST_ORGANIZATIONS.map((organization) => {
     return organization.mdsId === mdsId
