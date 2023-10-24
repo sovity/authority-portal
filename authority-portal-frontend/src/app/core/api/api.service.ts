@@ -6,6 +6,7 @@ import {
   CreateConnectorRequest,
   CreateOrganizationRequest,
   IdResponse,
+  InviteParticipantUserRequest,
   OrganizationDetailResult,
   OrganizationOverviewResult,
   UiApi,
@@ -71,6 +72,10 @@ export class ApiService {
         mdsId,
       }),
     );
+  }
+
+  inviteUser(request: InviteParticipantUserRequest): Observable<IdResponse> {
+    return from(this.api().inviteUser({inviteParticipantUserRequest: request}));
   }
 
   private api(): UiApi {

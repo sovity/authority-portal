@@ -1,4 +1,10 @@
-import {UserInfo} from '@sovity.de/authority-portal-client';
+import {
+  InviteParticipantUserRequest,
+  UserInfo,
+} from '@sovity.de/authority-portal-client';
+import {UserRoleDto} from '@sovity.de/authority-portal-client';
+import {IdResponse} from '@sovity.de/authority-portal-client';
+import {getUserInfo} from './user-info-fake';
 
 export let TEST_USERS: {[key: string]: UserInfo} = {
   '00000000-0000-0000-0000-00000001': {
@@ -60,4 +66,33 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: '',
     organizationMdsId: 'MDSL5555EE',
   },
+};
+
+export const inviteUser = (
+  request: InviteParticipantUserRequest,
+): IdResponse => {
+  let newUserId = generateNewId();
+
+  TEST_USERS[newUserId] = {
+    userId: newUserId,
+    firstName: request.firstName,
+    lastName: request.lastName,
+    roles: generateRoles(request.role),
+    registrationStatus: 'INVITED',
+    organizationMdsId: getUserInfo().organizationMdsId,
+    organizationName: getUserInfo().organizationName,
+  } satisfies UserInfo;
+
+  return {id: newUserId, changedDate: new Date()};
+};
+
+const generateNewId = (): string => {
+  const usersCounter = Object.keys(TEST_USERS).length;
+  const counterStr = usersCounter.toString().padStart(8, '0');
+  const uuid = `00000000-0000-0000-0000-${counterStr}`;
+  return uuid;
+};
+
+const generateRoles = (userRole: UserRoleDto): UserRoleDto[] => {
+  return [userRole];
 };

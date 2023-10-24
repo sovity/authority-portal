@@ -1,7 +1,7 @@
-import {FormControl, ɵFormGroupValue} from '@angular/forms';
+import {FormControl, ɵFormGroupRawValue} from '@angular/forms';
 
 export type ParticipantRegisterOwnConnectorPageFormValue =
-  ɵFormGroupValue<ParticipantRegisterOwnConnectorPageFormModel>;
+  ɵFormGroupRawValue<ParticipantRegisterOwnConnectorPageFormModel>;
 
 export interface ParticipantRegisterOwnConnectorPageFormModel {
   name: FormControl<string>;
@@ -9,3 +9,11 @@ export interface ParticipantRegisterOwnConnectorPageFormModel {
   url: FormControl<string>;
   certificate: FormControl<string>;
 }
+
+export const DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE: ParticipantRegisterOwnConnectorPageFormValue =
+  {
+    name: '',
+    location: '',
+    url: '',
+    certificate: '',
+  };

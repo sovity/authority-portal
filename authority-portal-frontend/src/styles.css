@@ -72,6 +72,11 @@ a {
   @apply text-black font-bold;
 }
 
+.btn-green {
+  @apply select-none cursor-pointer bg-green-200 rounded-md text-center active:bg-green-300 hover:bg-green-300 hover:text-black 
+  focus:text-black focus:bg-green-300 disabled:bg-slate-500 disabled:text-gray-300 disabled:cursor-default;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
