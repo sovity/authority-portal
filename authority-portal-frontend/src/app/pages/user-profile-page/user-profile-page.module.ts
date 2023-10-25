@@ -4,30 +4,28 @@ import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
 import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
+import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
 import {PortalLayoutModule} from 'src/app/common/layouts/portal-layout/portal-layout.module';
-import {MaterialModule} from 'src/app/common/material/material.module';
+import {UserProfilePageStateImpl} from 'src/app/pages/user-profile-page/state/user-profile-page-state-impl';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {AuthorityOrganizationDetailPageComponent} from './authority-organization-detail-page/authority-organization-detail-page.component';
-import {AuthorityOrganizationDetailPageStateImpl} from './state/authority-organization-detail-page-state-impl';
+import {UserProfilePageComponent} from './user-profile-page/user-profile-page.component';
 
 @NgModule({
-  declarations: [AuthorityOrganizationDetailPageComponent],
+  declarations: [UserProfilePageComponent],
   imports: [
     // Angular
     CommonModule,
     RouterModule,
 
-    // Angular Material
-    MaterialModule,
-
     // NGXS
-    NgxsModule.forFeature([AuthorityOrganizationDetailPageStateImpl]),
+    NgxsModule.forFeature([UserProfilePageStateImpl]),
 
     // Authority Portal
     SharedModule,
     PortalLayoutModule,
+    PipesAndDirectivesModule,
     LoadingElementModule,
     ErrorElementModule,
   ],
 })
-export class AuthorityOrganizationDetailPageModule {}
+export class UserProfilePageModule {}

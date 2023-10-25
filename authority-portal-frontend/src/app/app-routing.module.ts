@@ -1,5 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {AuthorityOrganizationUserDetailPageComponent} from 'src/app/pages/authority-organization-user-detail-page/authority-organization-user-detail-page/authority-organization-user-detail-page.component';
+import {ParticipantOrganizationProfilePageComponent} from 'src/app/pages/participant-organization-profile-page/participant-organization-profile-page/participant-organization-profile-page.component';
+import {ParticipantUserDetailPageComponent} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page/participant-user-detail-page.component';
+import {UserProfilePageComponent} from 'src/app/pages/user-profile-page/user-profile-page/user-profile-page.component';
 import {UserRoleDto} from '../../../authority-portal-backend/authority-portal-api-client-ts';
 import {requiresRole} from './common/auth/requires-role-guard';
 import {PortalLayoutComponent} from './common/layouts/portal-layout/portal-layout/portal-layout.component';
@@ -47,7 +51,31 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         },
         canActivate: [requiresRole],
       },
+      {
+        path: 'profile',
+        component: UserProfilePageComponent,
+        data: {
+          requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
       // My Organization Section
+      {
+        path: 'my-organization/profile',
+        component: ParticipantOrganizationProfilePageComponent,
+        data: {
+          requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
+        path: 'my-organization/user/:userId',
+        component: ParticipantUserDetailPageComponent,
+        data: {
+          requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
       {
         path: 'my-organization/connectors',
         component: ParticipantOwnConnectorListPageComponent,
@@ -108,6 +136,14 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
       {
         path: 'authority/organizations/:mdsId',
         component: AuthorityOrganizationDetailPageComponent,
+        data: {
+          requiresRole: ['AUTHORITY_USER'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
+        path: 'authority/organizations/:mdsId/users/:userId',
+        component: AuthorityOrganizationUserDetailPageComponent,
         data: {
           requiresRole: ['AUTHORITY_USER'] satisfies UserRoleDto[],
         },

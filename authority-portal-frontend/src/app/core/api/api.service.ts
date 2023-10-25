@@ -10,6 +10,7 @@ import {
   OrganizationDetailsDto,
   OrganizationOverviewResult,
   UiApi,
+  UserDetailDto,
   UserInfo,
 } from '@sovity.de/authority-portal-client';
 import {ApiClientFactory} from './api-client-factory';
@@ -20,6 +21,10 @@ export class ApiService {
 
   userProfile(): Observable<UserInfo> {
     return from(this.api().userInfo());
+  }
+
+  getUserDetailDto(userId: string): Observable<UserDetailDto> {
+    return from(this.api().userDetails({userId}));
   }
 
   createOrganization(
@@ -34,6 +39,10 @@ export class ApiService {
 
   getOrganizationDetails(mdsId: string): Observable<OrganizationDetailsDto> {
     return from(this.api().organizationDetails({mdsId}));
+  }
+
+  getOrganizationUser(userId: string): Observable<UserDetailDto> {
+    return from(this.api().userDetails({userId}));
   }
 
   approveOrganization(mdsId: string): Observable<IdResponse> {

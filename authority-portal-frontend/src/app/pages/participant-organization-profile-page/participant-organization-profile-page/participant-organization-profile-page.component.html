@@ -9,9 +9,7 @@
 
     <app-organization-detail
       *ngIf="state.organization.isReady"
-      class="flex p-8 lg:w-10/12 my-8 gap-4 justify-between"
-      type="Authority"
-      [organization]="state.organization.data"
-      (actions)="actionHandler($event)"></app-organization-detail>
+      type="Participant"
+      [organization]="state.organization.data"></app-organization-detail>
   </div>
 </div>

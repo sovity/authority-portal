@@ -6,12 +6,12 @@ import {ErrorElementModule} from 'src/app/common/components/error-element/error-
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {PortalLayoutModule} from 'src/app/common/layouts/portal-layout/portal-layout.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
+import {ParticipantOrganizationProfilePageComponent} from 'src/app/pages/participant-organization-profile-page/participant-organization-profile-page/participant-organization-profile-page.component';
+import {ParticipantOrganizationProfilePageStateImpl} from 'src/app/pages/participant-organization-profile-page/state/participant-organization-profile-page-state-impl';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {AuthorityOrganizationDetailPageComponent} from './authority-organization-detail-page/authority-organization-detail-page.component';
-import {AuthorityOrganizationDetailPageStateImpl} from './state/authority-organization-detail-page-state-impl';
 
 @NgModule({
-  declarations: [AuthorityOrganizationDetailPageComponent],
+  declarations: [ParticipantOrganizationProfilePageComponent],
   imports: [
     // Angular
     CommonModule,
@@ -21,7 +21,7 @@ import {AuthorityOrganizationDetailPageStateImpl} from './state/authority-organi
     MaterialModule,
 
     // NGXS
-    NgxsModule.forFeature([AuthorityOrganizationDetailPageStateImpl]),
+    NgxsModule.forFeature([ParticipantOrganizationProfilePageStateImpl]),
 
     // Authority Portal
     SharedModule,
@@ -30,4 +30,4 @@ import {AuthorityOrganizationDetailPageStateImpl} from './state/authority-organi
     ErrorElementModule,
   ],
 })
-export class AuthorityOrganizationDetailPageModule {}
+export class ParticipantOrganizationProfileModule {}

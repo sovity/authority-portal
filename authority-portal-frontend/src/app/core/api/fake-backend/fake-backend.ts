@@ -9,8 +9,10 @@ import {
   OrganizationDetailsDtoToJSON,
   OrganizationOverviewResultToJSON,
   OwnOrganizationDetailsDtoToJSON,
+  UserDetailDtoToJSON,
   UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
+import {userDetails} from 'src/app/core/api/fake-backend/impl/user-detail-fake';
 import {
   approveOrganization,
   rejectOrganization,
@@ -62,7 +64,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('authority/organizations/*')
     .on('GET', (mdsId) => {
       const result = getOrganizationDetails(mdsId);
-      return ok(OwnOrganizationDetailsDtoToJSON(result));
+      return ok(OrganizationDetailsDtoToJSON(result));
     })
 
     .url('authority/organizations/*/connectors')
@@ -168,6 +170,12 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       const request = CreateOrganizationRequestFromJSON(body);
       const result = createOrganization(request);
       return ok(IdResponseToJSON(result));
+    })
+
+    .url('users/*')
+    .on('GET', (userId) => {
+      const result = userDetails(userId);
+      return ok(UserDetailDtoToJSON(result));
     })
 
     .tryMatch();

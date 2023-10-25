@@ -1,0 +1,34 @@
+<div
+  class="grid py-2 bg-black px-2"
+  [ngClass]="
+    smallDisplayExpandedMenu ? 'lg:grid-cols-4 grid-cols-1' : 'grid-cols-1  '
+  ">
+  <div class="col-span-1">
+    <a
+      class="hover:border-white hover:shadow-lg flex justify-center"
+      [routerLink]="'/profile'">
+      <app-avatar [name]="userAvatar"></app-avatar>
+    </a>
+  </div>
+  <div
+    class="col-span-2 lg:flex flex-col justify-center hidden"
+    [ngClass]="smallDisplayExpandedMenu ? 'block' : 'hidden'">
+    <a
+      class="cursor-pointer font-bold text-sm text-white text-left m-0 text-ellipsis overflow-hidden"
+      [routerLink]="'/profile'">
+      {{ userData.firstName + ' ' + userData.lastName }}
+    </a>
+    <p
+      class="text-xs text-white text-left m-0 text-ellipsis overflow-hidden"
+      aria-label="displays a tooltip to show all user mail if truncated">
+      {{ userData.role }}
+    </p>
+  </div>
+  <div
+    class="col-span-1 text-center lg:flex justify-center hidden"
+    [ngClass]="smallDisplayExpandedMenu ? 'block' : 'hidden'">
+    <a class="text-white hover:text-yellow-400" [href]="logoutUrl">
+      <mat-icon>power_settings_new</mat-icon>
+    </a>
+  </div>
+</div>

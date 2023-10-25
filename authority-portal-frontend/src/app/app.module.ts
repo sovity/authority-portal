@@ -2,11 +2,15 @@ import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsModule} from '@ngxs/store';
+import {MaterialModule} from 'src/app/common/material/material.module';
+import {AuthorityOrganizationUserDetailPageModule} from 'src/app/pages/authority-organization-user-detail-page/authority-organization-user-detail-page.module';
+import {ParticipantOrganizationProfileModule} from 'src/app/pages/participant-organization-profile-page/participant-organization-profile.module';
+import {ParticipantUserDetailPageModule} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page.module';
+import {UserProfilePageModule} from 'src/app/pages/user-profile-page/user-profile-page.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DevUtilsModule} from './common/components/dev-utils/dev-utils.module';
@@ -45,7 +49,7 @@ import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-conne
     HttpClientModule,
     ReactiveFormsModule,
     // Angular Material
-    MatButtonModule,
+    MaterialModule,
     // Ngxs
     NgxsModule.forRoot([GlobalStateImpl], {
       developmentMode: true,
@@ -61,10 +65,14 @@ import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-conne
     ErrorPageModule,
     AuthorityOrganizationListPageModule,
     AuthorityOrganizationDetailPageModule,
+    AuthorityOrganizationUserDetailPageModule,
+    ParticipantOrganizationProfileModule,
+    ParticipantUserDetailPageModule,
     ParticipantInviteNewUserModule,
     ParticipantRegisterOwnConnectorPageModule,
     ParticipantOwnConnectorListPageModule,
     ParticipantOwnConnectorDetailPageModule,
+    UserProfilePageModule,
     ProvideConnectorModule,
     SpConnectorDetailPageModule,
     SpConnectorListPageModule,

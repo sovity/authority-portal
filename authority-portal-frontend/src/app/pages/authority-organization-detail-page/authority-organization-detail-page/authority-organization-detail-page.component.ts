@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {getOrganizationRegistrationStatusClasses} from 'src/app/core/utils/ui-utils';
+import {OrganizationActions} from 'src/app/shared/components/organization-detail/organization-detail.component';
 import {
   ApproveOrganization,
   RefreshOrganization,
@@ -23,10 +23,6 @@ export class AuthorityOrganizationDetailPageComponent
   implements OnInit, OnDestroy
 {
   state = DEFAULT_AUTHORITY_ORGANIZATION_DETAIL_PAGE_STATE;
-
-  // html doesn't see this function if it's just imported
-  getOrganizationRegistrationStatusClasses =
-    getOrganizationRegistrationStatusClasses;
 
   constructor(private store: Store, private route: ActivatedRoute) {}
 
@@ -71,5 +67,18 @@ export class AuthorityOrganizationDetailPageComponent
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
+  }
+
+  actionHandler(action: OrganizationActions) {
+    switch (action) {
+      case OrganizationActions.APPROVE: {
+        this.approve();
+        break;
+      }
+      case OrganizationActions.REJECT: {
+        this.reject();
+        break;
+      }
+    }
   }
 }
