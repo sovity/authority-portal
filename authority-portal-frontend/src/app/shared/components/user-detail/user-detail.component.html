@@ -1,0 +1,66 @@
+<div class="flex flex-col bg-white shadow-lg w-full p-8 rounded-3xl">
+  <div class="flex flex-row justify-start my-3 text-xl font-bold">
+    User Profile:
+  </div>
+
+  <div
+    class="select-none flex flex-col justify-start items-start p-2 my-1 w-full">
+    <label class="organization-profile-label">User ID:</label>
+
+    <input
+      class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+      type="text"
+      [value]="userId"
+      [disabled]="true" />
+  </div>
+
+  <div class="select-none flex flex-col justify-start items-start p-2 my-1">
+    <label class="organization-profile-label">Full Name:</label>
+
+    <input
+      class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+      type="text"
+      [value]="user.firstName + ' ' + user.firstName"
+      [disabled]="true" />
+  </div>
+
+  <div class="select-none flex flex-col justify-start items-start p-2 my-1">
+    <label class="organization-profile-label">Email:</label>
+
+    <input
+      class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+      type="text"
+      [value]="user.email"
+      [disabled]="true" />
+  </div>
+
+  <div class="select-none flex flex-col justify-start items-start p-2 my-1">
+    <label class="organization-profile-label">Role in the Company</label>
+
+    <input
+      class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+      type="text"
+      [value]="user.roles"
+      [disabled]="true" />
+  </div>
+
+  <div class="select-none flex flex-col justify-start items-start p-2 my-1">
+    <label class="organization-profile-label">Registration Status:</label>
+
+    <input
+      class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+      type="text"
+      [value]="user.registrationStatus"
+      [disabled]="true" />
+  </div>
+
+  <div class="select-none flex flex-col justify-start items-start p-2 my-1">
+    <label class="organization-profile-label">Registered On</label>
+
+    <input
+      class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+      type="text"
+      [value]="user.creationDate | date : 'mediumDate'"
+      [disabled]="true" />
+  </div>
+</div>

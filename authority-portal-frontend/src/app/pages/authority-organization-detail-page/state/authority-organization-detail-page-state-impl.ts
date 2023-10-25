@@ -38,7 +38,6 @@ export class AuthorityOrganizationDetailPageStateImpl {
     private errorService: ErrorService,
     private toast: ToastService,
     private router: Router,
-    private ngZone: NgZone,
   ) {}
 
   @Action(SetOrganizationMdsId)
@@ -53,7 +52,6 @@ export class AuthorityOrganizationDetailPageStateImpl {
   @Action(RefreshOrganization, {cancelUncompleted: true})
   onRefreshOrganization(
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    action: RefreshOrganization,
   ): Observable<never> {
     return this.apiService
       .getOrganizationDetails(ctx.getState().organizationMdsId)

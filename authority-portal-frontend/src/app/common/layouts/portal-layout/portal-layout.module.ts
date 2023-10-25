@@ -1,7 +1,9 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {MatIconModule} from '@angular/material/icon';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
+import {SharedModule} from 'src/app/shared/shared.module';
 import {PipesAndDirectivesModule} from '../../components/pipes-and-directives/pipes-and-directives.module';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {FooterComponent} from './footer/footer.component';
@@ -14,6 +16,7 @@ import {NotificationsElementComponent} from './sidebar-elements/notifications-el
 import {OrganizationsElementComponent} from './sidebar-elements/organizations-element.component';
 import {UsersElementComponent} from './sidebar-elements/users-element.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
+import {UserAvatarComponent} from './user-avatar/user-avatar.component';
 
 @NgModule({
   imports: [
@@ -22,8 +25,11 @@ import {SidebarComponent} from './sidebar/sidebar.component';
     BrowserModule,
     RouterModule,
 
+    MatIconModule,
+
     PipesAndDirectivesModule,
     // Authority Portal
+    SharedModule,
   ],
   declarations: [
     PortalLayoutComponent,
@@ -37,6 +43,7 @@ import {SidebarComponent} from './sidebar/sidebar.component';
     OrganizationsElementComponent,
     SidebarComponent,
     UsersElementComponent,
+    UserAvatarComponent,
   ],
   exports: [
     PortalLayoutComponent,

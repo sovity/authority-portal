@@ -26,7 +26,10 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 - Added endpoint to retrieve user data
 - Added page to invite new users to an existing organization.
 - Added endpoint to retrieve organization details
+- Updated organization detail page to show user list and some stats regarding the organization
+- Added page for showing User's details
 - Added endpoint to retrieve available deployment environments
+
 
 #### Patch
 

@@ -11,7 +11,32 @@ export let TEST_ORGANIZATIONS: OwnOrganizationDetailsDto[] = [
     url: 'https://example1.com',
     securityEmail: 'security@example1.com',
     createdAt: new Date('2023-08-05T00:00:00.000Z'),
-    memberInfos: [],
+    memberInfos: [
+      {
+        userId: '00000000-0000-0000-0000-00000001',
+        firstName: 'John',
+        lastName: 'Doe',
+        roles: ['AUTHORITY_ADMIN', 'AUTHORITY_USER'],
+      },
+      {
+        userId: '00000000-0000-0000-0000-00000002',
+        firstName: 'John',
+        lastName: 'Doe',
+        roles: ['PARTICIPANT_ADMIN'],
+      },
+      {
+        userId: '00000000-0000-0000-0000-00000003',
+        firstName: 'Alice',
+        lastName: 'Smith',
+        roles: ['PARTICIPANT_ADMIN'],
+      },
+      {
+        userId: '00000000-0000-0000-0000-00000004',
+        firstName: 'Bob',
+        lastName: 'Johnson',
+        roles: ['PARTICIPANT_USER'],
+      },
+    ],
   },
 
   {
@@ -23,7 +48,32 @@ export let TEST_ORGANIZATIONS: OwnOrganizationDetailsDto[] = [
     url: 'https://example2.com',
     securityEmail: 'security@example2.com',
     createdAt: new Date('2023-08-06T00:00:00.000Z'),
-    memberInfos: [],
+    memberInfos: [
+      {
+        userId: '00000000-0000-0000-0000-00000001',
+        firstName: 'John',
+        lastName: 'Doe',
+        roles: ['AUTHORITY_ADMIN', 'AUTHORITY_USER'],
+      },
+      {
+        userId: '00000000-0000-0000-0000-00000002',
+        firstName: 'John',
+        lastName: 'Doe',
+        roles: ['PARTICIPANT_ADMIN'],
+      },
+      {
+        userId: '00000000-0000-0000-0000-00000003',
+        firstName: 'Alice',
+        lastName: 'Smith',
+        roles: ['PARTICIPANT_ADMIN'],
+      },
+      {
+        userId: '00000000-0000-0000-0000-00000004',
+        firstName: 'Bob',
+        lastName: 'Johnson',
+        roles: ['PARTICIPANT_USER'],
+      },
+    ],
   },
 
   {
@@ -35,7 +85,32 @@ export let TEST_ORGANIZATIONS: OwnOrganizationDetailsDto[] = [
     url: 'https://www.test.org',
     securityEmail: 'security@test.org',
     createdAt: new Date('2023-08-01T00:00:00.000Z'),
-    memberInfos: [],
+    memberInfos: [
+      {
+        userId: '00000000-0000-0000-0000-00000001',
+        firstName: 'John',
+        lastName: 'Doe',
+        roles: ['AUTHORITY_ADMIN', 'AUTHORITY_USER'],
+      },
+      {
+        userId: '00000000-0000-0000-0000-00000002',
+        firstName: 'John',
+        lastName: 'Doe',
+        roles: ['PARTICIPANT_ADMIN'],
+      },
+      {
+        userId: '00000000-0000-0000-0000-00000003',
+        firstName: 'Alice',
+        lastName: 'Smith',
+        roles: ['PARTICIPANT_ADMIN'],
+      },
+      {
+        userId: '00000000-0000-0000-0000-00000004',
+        firstName: 'Bob',
+        lastName: 'Johnson',
+        roles: ['PARTICIPANT_USER'],
+      },
+    ],
   },
 
   {
