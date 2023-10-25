@@ -4,6 +4,7 @@ import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
@@ -163,6 +164,10 @@ class ConnectorManagementApiService {
         Log.info("Connector unregistered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
 
         return IdResponse(connectorId)
+    }
+
+    fun getAllDeploymentEnvironment(): List<DeploymentEnvironmentDto> {
+        return deploymentEnvironmentDtoService.findAll()
     }
 
     private fun registerConnectorAtDaps(
