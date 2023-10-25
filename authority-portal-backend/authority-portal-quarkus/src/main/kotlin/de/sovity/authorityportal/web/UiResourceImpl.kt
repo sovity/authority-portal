@@ -5,6 +5,7 @@ import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest
+import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
@@ -237,5 +238,10 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun deleteProvidedConnector(mdsId: String, connectorId: String): IdResponse {
         TODO("Not yet implemented")
+    }
+
+    @Transactional
+    override fun deploymentEnvironmentList(): List<DeploymentEnvironmentDto> {
+        return connectorManagementApiService.getAllDeploymentEnvironment();
     }
 }

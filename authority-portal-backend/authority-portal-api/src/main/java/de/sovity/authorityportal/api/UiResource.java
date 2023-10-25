@@ -4,6 +4,7 @@ import de.sovity.authorityportal.api.model.ConnectorDetailDto;
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.CreateConnectorRequest;
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest;
+import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto;
 import de.sovity.authorityportal.api.model.IdResponse;
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest;
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest;
@@ -25,6 +26,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+
+import java.util.List;
 
 @Path("/api/")
 @Tag(name = "Ui", description = "Authority Portal UI API Endpoints.")
@@ -191,4 +194,10 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Unregister a connector for another organization as a service provider.")
     IdResponse deleteProvidedConnector(@PathParam("mdsId") String mdsId, @PathParam("connectorId") String connectorId);
+
+    @GET
+    @Path("/deployment-environments")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get list of all deployment environment.")
+    List<DeploymentEnvironmentDto> deploymentEnvironmentList();
 }

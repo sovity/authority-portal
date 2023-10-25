@@ -14,6 +14,9 @@ class DeploymentEnvironmentDtoService {
     fun findByIdOrThrow(envId: String): DeploymentEnvironmentDto =
         buildDto(envId, deploymentEnvironmentService.findByIdOrThrow(envId))
 
+    fun findAll(): List<DeploymentEnvironmentDto> =
+        deploymentEnvironmentService.findAll().map { buildDto(it.key, it.value) }.toList()
+
     private fun buildDto(envId: String, deploymentEnvironment: DeploymentEnvironment): DeploymentEnvironmentDto {
         return DeploymentEnvironmentDto(
             envId,
