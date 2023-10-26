@@ -6,6 +6,7 @@ import {
   CreateConnectorRequest,
   CreateOrganizationRequest,
   IdResponse,
+  InviteOrganizationRequest,
   InviteParticipantUserRequest,
   OrganizationDetailsDto,
   OrganizationOverviewResult,
@@ -63,6 +64,14 @@ export class ApiService {
     connectorId: string,
   ): Observable<ConnectorDetailDto> {
     return from(this.api().ownOrganizationConnectorDetails({connectorId}));
+  }
+
+  inviteOrganization(
+    request: InviteOrganizationRequest,
+  ): Observable<IdResponse> {
+    return from(
+      this.api().inviteOrganization({inviteOrganizationRequest: request}),
+    );
   }
 
   createOwnConnector(

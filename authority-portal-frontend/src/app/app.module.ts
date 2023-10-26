@@ -7,6 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsModule} from '@ngxs/store';
 import {MaterialModule} from 'src/app/common/material/material.module';
+import {AuthorityInviteNewOrganizationModule} from 'src/app/pages/authority-invite-new-organization/authority-invite-new-organization.module';
 import {AuthorityOrganizationUserDetailPageModule} from 'src/app/pages/authority-organization-user-detail-page/authority-organization-user-detail-page.module';
 import {ParticipantOrganizationProfileModule} from 'src/app/pages/participant-organization-profile-page/participant-organization-profile.module';
 import {ParticipantUserDetailPageModule} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page.module';
@@ -66,6 +67,7 @@ import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-conne
     AuthorityOrganizationListPageModule,
     AuthorityOrganizationDetailPageModule,
     AuthorityOrganizationUserDetailPageModule,
+    AuthorityInviteNewOrganizationModule,
     ParticipantOrganizationProfileModule,
     ParticipantUserDetailPageModule,
     ParticipantInviteNewUserModule,
