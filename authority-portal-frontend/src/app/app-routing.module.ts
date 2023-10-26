@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {AuthorityInviteNewOrganizationComponent} from 'src/app/pages/authority-invite-new-organization/authority-invite-new-organization/authority-invite-new-organization.component';
 import {AuthorityOrganizationUserDetailPageComponent} from 'src/app/pages/authority-organization-user-detail-page/authority-organization-user-detail-page/authority-organization-user-detail-page.component';
 import {ParticipantOrganizationProfilePageComponent} from 'src/app/pages/participant-organization-profile-page/participant-organization-profile-page/participant-organization-profile-page.component';
 import {ParticipantUserDetailPageComponent} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page/participant-user-detail-page.component';
@@ -146,6 +147,14 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         component: AuthorityOrganizationUserDetailPageComponent,
         data: {
           requiresRole: ['AUTHORITY_USER'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
+        path: 'authority/organization/invite-new-organization',
+        component: AuthorityInviteNewOrganizationComponent,
+        data: {
+          requiresRole: ['AUTHORITY_ADMIN'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
       },
