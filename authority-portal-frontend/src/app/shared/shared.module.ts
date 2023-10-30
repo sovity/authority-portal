@@ -7,11 +7,14 @@ import {ErrorElementModule} from 'src/app/common/components/error-element/error-
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
 import {OrganizationDetailComponent} from 'src/app/shared/components/organization-detail/organization-detail.component';
+import {UserRoleFormComponent} from 'src/app/shared/components/user-role-form/user-role-form.component';
+import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
 import {AvatarComponent} from './components/avatar/avatar.component';
 import {UserDetailComponent} from './components/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
+    UserRoleFormComponent,
     OrganizationDetailComponent,
     UserDetailComponent,
     AvatarComponent,
@@ -25,9 +28,9 @@ import {UserDetailComponent} from './components/user-detail/user-detail.componen
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-
     LoadingElementModule,
     ErrorElementModule,
+    PipesAndDirectivesModule,
   ],
   exports: [OrganizationDetailComponent, UserDetailComponent, AvatarComponent],
 })

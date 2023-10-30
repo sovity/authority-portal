@@ -4,10 +4,10 @@
     <app-error-element
       *ngIf="state.user.isError"
       errorMessage="user"></app-error-element>
-
     <app-user-detail
       *ngIf="state.user.isReady"
       class="flex p-8 w-full lg:w-10/12 my-8 gap-4 justify-between"
+      type="PARTICIPANT"
       [user]="state.user.data"
       [userId]="state.userId"></app-user-detail>
   </div>

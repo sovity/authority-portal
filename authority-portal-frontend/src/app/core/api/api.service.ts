@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable, from} from 'rxjs';
 import {
+  ChangeAuthorityRoleRequest,
+  ChangeParticipantRoleRequest,
   ConnectorDetailDto,
   ConnectorOverviewResult,
   CreateConnectorRequest,
@@ -15,6 +17,7 @@ import {
   UiApi,
   UserDetailDto,
   UserInfo,
+  UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {ApiClientFactory} from './api-client-factory';
 
@@ -24,6 +27,14 @@ export class ApiService {
 
   userProfile(): Observable<UserInfo> {
     return from(this.api().userInfo());
+  }
+
+  updateUserRoles(request: ChangeParticipantRoleRequest) {
+    return from(this.api().changeParticipantRole(request));
+  }
+
+  updateAuthorityUserRoles(request: ChangeAuthorityRoleRequest) {
+    return from(this.api().changeAuthorityRole(request));
   }
 
   getUserDetailDto(userId: string): Observable<UserDetailDto> {

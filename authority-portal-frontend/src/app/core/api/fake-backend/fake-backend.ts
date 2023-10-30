@@ -96,7 +96,8 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('authority/users/*/role')
     .on('PUT', (userId) => {
-      throw new Error('TODO');
+      const result = approveOrganization(userId);
+      return ok(IdResponseToJSON(result));
     })
 
     .url('authority/users/*/deactivate')
@@ -144,7 +145,8 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('organizations/my-org/users/*/role')
     .on('PUT', (userId) => {
-      throw new Error('TODO');
+      const result = approveOrganization(userId);
+      return ok(IdResponseToJSON(result));
     })
 
     .url('organizations/my-org/users/*/deactivate')

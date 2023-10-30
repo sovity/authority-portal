@@ -1,5 +1,5 @@
-import {CommonModule} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
+import {CommonModule, NgFor} from '@angular/common';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
@@ -51,6 +51,7 @@ import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-conne
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgFor,
     // Angular Material
     MaterialModule,
     // Ngxs
