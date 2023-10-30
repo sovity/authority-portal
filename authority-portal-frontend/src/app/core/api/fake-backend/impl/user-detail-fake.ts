@@ -7,7 +7,7 @@ let user: UserDetailDto = {
   firstName: 'John',
   lastName: 'Doe',
   email: 'johndoe@example.com',
-  roles: [],
+  roles: ['PARTICIPANT_USER', 'AUTHORITY_ADMIN'],
   registrationStatus: 'ACTIVE',
   creationDate: new Date(),
 };

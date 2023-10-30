@@ -3,11 +3,12 @@ import {
   OrganizationDetailsDto,
   OwnOrganizationDetailsDto,
 } from '@sovity.de/authority-portal-client';
-import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {Fetched} from 'src/app/core/utils/fetched';
 import {
   getOrganizationRegistrationStatusClasses,
   getOrganizationUserRegistrationStatusClasses,
 } from 'src/app/core/utils/ui-utils';
+import {mapRolesToReadableFormat} from 'src/app/core/utils/user-role-utils';
 
 export enum OrganizationActions {
   REJECT = 'reject',
@@ -52,5 +53,9 @@ export class OrganizationDetailComponent implements OnInit {
 
   reject() {
     this.actions.emit(OrganizationActions.REJECT);
+  }
+
+  mapToReadable(role: string): string {
+    return mapRolesToReadableFormat(role);
   }
 }

@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {mapRolesToReadableFormat} from 'src/app/core/utils/user-role-utils';
 import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {OrganizationActions} from 'src/app/shared/components/organization-detail/organization-detail.component';
@@ -76,6 +77,10 @@ export class AuthorityOrganizationDetailPageComponent
 
   reject() {
     this.store.dispatch(RejectOrganization);
+  }
+
+  mapToReadable(role: string): string {
+    return mapRolesToReadableFormat(role);
   }
 
   actionHandler(action: OrganizationActions) {

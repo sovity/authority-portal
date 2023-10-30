@@ -13,7 +13,6 @@ import {GlobalStateUtils} from '../../../../core/global-state/global-state-utils
 export class SidebarComponent implements OnInit, OnDestroy {
   userInfo: UserInfo | null = null;
   userAvatarData!: UserAvatarModel;
-
   smallDisplayExpandedMenu: boolean = false;
 
   constructor(

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
@@ -20,13 +20,20 @@ export class AuthorityOrganizationUserDetailPageComponent
   implements OnInit, OnDestroy
 {
   state = DEFAULT_AUTHORITY_ORGANIZATION_USER_DETAIL_PAGE_STATE;
+  roleFormLoading: boolean = false;
+  pageData!: {mdsId: string; userId: string};
+
   ngOnDestroy$ = new Subject();
 
   constructor(private store: Store, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.setOrganizationUserId(params.get('mdsId')!!, params.get('userId')!!);
+      this.pageData = {
+        mdsId: params.get('mdsId')!!,
+        userId: params.get('userId')!!,
+      };
+      this.setOrganizationUserId(this.pageData.mdsId!!, this.pageData.userId!!);
       this.refresh();
     });
     this.startListeningToState();
@@ -40,6 +47,9 @@ export class AuthorityOrganizationUserDetailPageComponent
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
+        this.roleFormLoading =
+          this.state.userRolesForm.state === 'submitting' ||
+          this.state.userAuthorityRoles.state === 'submitting';
       });
   }
 
@@ -50,6 +60,7 @@ export class AuthorityOrganizationUserDetailPageComponent
   refresh() {
     this.store.dispatch(RefreshOrganizationUser);
   }
+
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();

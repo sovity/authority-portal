@@ -6,6 +6,14 @@ export interface AuthorityOrganizationUserDetailPageState {
   organizationMdsId: string;
   user: Fetched<UserDetailDto>;
   busy: boolean;
+  userRolesForm: {
+    state: 'editing' | 'submitting' | 'success' | 'error';
+    errors: {[key: string]: string};
+  };
+  userAuthorityRoles: {
+    state: 'editing' | 'submitting' | 'success' | 'error';
+    errors: {[key: string]: string};
+  };
 }
 
 export const DEFAULT_AUTHORITY_ORGANIZATION_USER_DETAIL_PAGE_STATE: AuthorityOrganizationUserDetailPageState =
@@ -14,4 +22,6 @@ export const DEFAULT_AUTHORITY_ORGANIZATION_USER_DETAIL_PAGE_STATE: AuthorityOrg
     organizationMdsId: '',
     user: Fetched.empty(),
     busy: false,
+    userRolesForm: {state: 'editing', errors: {}},
+    userAuthorityRoles: {state: 'editing', errors: {}},
   };

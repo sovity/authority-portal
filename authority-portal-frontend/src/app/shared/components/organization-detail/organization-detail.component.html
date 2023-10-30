@@ -182,7 +182,7 @@
             <th
               class="organization-profile-label py-3.5 font-normal text-left rtl:text-right"
               scope="col">
-              Role In Company
+              User Role
             </th>
             <th
               class="organization-profile-label py-3.5 font-normal text-left rtl:text-right"
@@ -208,7 +208,9 @@
                 <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
                   <div>
                     <h2 class="font-medium text-gray-800">
-                      <span *ngFor="let item of user.roles">{{ item }},</span>
+                      <span *ngFor="let item of user.roles"
+                        >{{ mapToReadable(item) }},</span
+                      >
                     </h2>
                   </div>
                 </td>

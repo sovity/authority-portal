@@ -33,9 +33,10 @@
       [value]="user.email"
       [disabled]="true" />
   </div>
-
-  <div class="select-none flex flex-col justify-start items-start p-2 my-1">
-    <label class="organization-profile-label">Role in the Company</label>
+  <div
+    *ngIf="type === 'PROFILE_PAGE'"
+    class="select-none flex flex-col justify-start items-start p-2 my-1">
+    <label class="organization-profile-label">User Role</label>
 
     <input
       class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
@@ -44,6 +45,55 @@
       [disabled]="true" />
   </div>
 
+  <div
+    *ngIf="type !== 'PROFILE_PAGE'"
+    class="select-none flex flex-col justify-start items-start p-2 my-1">
+    <div class="w-full items-center flex justify-between">
+      <label class="organization-profile-label">Roles Management</label>
+      <button
+        *ngIf="'PARTICIPANT_ADMIN' | hasRole | async"
+        mat-icon-button
+        aria-label="edit button"
+        (click)="toggleRoleForm()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+
+    <input
+      *ngIf="!roleFormEnable"
+      class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+      type="text"
+      [value]="rolesToList(user.roles)"
+      [disabled]="true" />
+
+    <mat-form-field *ngIf="roleFormEnable" class="w-full">
+      <mat-label>Choose an Organization Role</mat-label>
+      <mat-select (selectionChange)="roleChangeHandled($event, 'PARTICIPANT')">
+        <mat-option
+          *ngFor="let role of participantRoles.allRoles"
+          se
+          value="option1"
+          [disabled]="role === participantsUserRole"
+          >{{ mapToReadable(role) }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <ng-container *ngIf="'AUTHORITY_ADMIN' | hasRole | async">
+      <mat-form-field *ngIf="roleFormEnable" class="w-full">
+        <mat-label>Choose an Authority Role</mat-label>
+        <mat-select (selectionChange)="roleChangeHandled($event, 'AUTHORITY')">
+          <mat-option
+            *ngFor="let role of authorityRoles.allRoles"
+            se
+            value="option1"
+            [disabled]="role === authorityUserRole"
+            >{{ mapToReadable(role) }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+  </div>
   <div class="select-none flex flex-col justify-start items-start p-2 my-1">
     <label class="organization-profile-label">Registration Status:</label>
 
@@ -62,5 +112,19 @@
       type="text"
       [value]="user.creationDate | date : 'mediumDate'"
       [disabled]="true" />
+  </div>
+
+  <div *ngIf="type !== 'PROFILE_PAGE'" class="w-full flex justify-end">
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="!isUpdateRoleActive"
+      (click)="updateUserRoles()">
+      <mat-icon
+        fontIcon="save"
+        aria-hidden="false"
+        aria-label="Example Save icon"></mat-icon>
+      Save
+    </button>
   </div>
 </div>
