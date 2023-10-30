@@ -26,6 +26,7 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
     this.globalStateUtils.userInfo$
       .pipe(distinctUntilChanged(), takeUntil(this.ngOnDestroy$))
       .subscribe((userInfo) => {
+        if (this.state.userId === userInfo.userId) return;
         this.setUserId(userInfo.userId);
       });
 
