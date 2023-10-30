@@ -32,6 +32,7 @@ class OrganizationInfoApiServiceTest {
     lateinit var organizationService: OrganizationService
 
     private val mdsId = "testMdsId"
+    private val environmentId = "testEnvironmentId"
     private val organizationRecord: OrganizationRecord = mock(OrganizationRecord::class.java)
     private val memberInfos = listOf(mock(MemberInfo::class.java))
     private val connectorCount = 5
@@ -46,10 +47,10 @@ class OrganizationInfoApiServiceTest {
     @Test
     fun testOrganizationDetails() {
         // arrange
-        `when`(connectorService.getConnectorsCountByMdsId(mdsId)).thenReturn(connectorCount)
+        `when`(connectorService.getConnectorCountByMdsId(mdsId, environmentId)).thenReturn(connectorCount)
 
         // act
-        val result = organizationInfoApiService.getOrganizationInformation(mdsId)
+        val result = organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)
 
         // assert
         assertEquals(OrganizationRegistrationStatus.ACTIVE.toDto(), result.registrationStatus)

@@ -36,7 +36,7 @@ class OrganizationInfoApiService {
     }
 
     fun ownOrganizationDetails(mdsId: String): OwnOrganizationDetailsDto {
-        val organizationDetails = getOrganizationDetailsDto(mdsId, false)
+        val organizationDetails = getOrganizationDetailsDto(mdsId)
         return OwnOrganizationDetailsDto(
             organizationDetails.mdsId,
             organizationDetails.name,
@@ -50,11 +50,15 @@ class OrganizationInfoApiService {
         )
     }
 
-    fun getOrganizationInformation(mdsId: String): OrganizationDetailsDto {
-        return getOrganizationDetailsDto(mdsId, true);
+    fun getOrganizationInformation(mdsId: String, environmentId: String): OrganizationDetailsDto {
+        val organizationDetailsDto = getOrganizationDetailsDto(mdsId)
+        organizationDetailsDto.memberCount = organizationDetailsDto.memberInfos.size
+        organizationDetailsDto.connectorCount = connectorService.getConnectorCountByMdsId(mdsId, environmentId)
+
+        return organizationDetailsDto;
     }
 
-    private fun getOrganizationDetailsDto(mdsId: String, includeCounts: Boolean): OrganizationDetailsDto {
+    private fun getOrganizationDetailsDto(mdsId: String): OrganizationDetailsDto {
         val organization = organizationService.getOrganizationOrThrow(mdsId)
         val organizationDetailsDto = OrganizationDetailsDto().apply {
             this.mdsId = organization.mdsId
@@ -67,10 +71,7 @@ class OrganizationInfoApiService {
             createdAt = organization.createdAt
         }
         organizationDetailsDto.memberInfos = userDetailService.getOrganizationMembers(mdsId)
-        if (includeCounts) {
-            organizationDetailsDto.memberCount = organizationDetailsDto.memberInfos.size
-            organizationDetailsDto.connectorCount = connectorService.getConnectorsCountByMdsId(mdsId)
-        }
+
         return organizationDetailsDto
     }
 }

@@ -1,9 +1,9 @@
 import {
+  IdResponse,
   InviteParticipantUserRequest,
   UserInfo,
+  UserRoleDto,
 } from '@sovity.de/authority-portal-client';
-import {UserRoleDto} from '@sovity.de/authority-portal-client';
-import {IdResponse} from '@sovity.de/authority-portal-client';
 import {getUserInfo} from './user-info-fake';
 
 export let TEST_USERS: {[key: string]: UserInfo} = {

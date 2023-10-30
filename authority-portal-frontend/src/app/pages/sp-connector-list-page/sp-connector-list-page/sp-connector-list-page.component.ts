@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
+import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ApiService} from '../../../core/api/api.service';
 import {GetOwnOrganizationConnectors} from '../state/sp-connector-list-page-actions';
 import {
@@ -17,12 +19,18 @@ import {SpConnectorListPageStateImpl} from '../state/sp-connector-list-page-stat
 export class SpConnectorListPageComponent implements OnInit, OnDestroy {
   state = DEFAULT_SP_CONNECTOR_LIST_PAGE_STATE;
   filter = 'ALL';
+  selectedEnvironment!: DeploymentEnvironmentDto;
 
-  constructor(private store: Store, private apiService: ApiService) {}
+  constructor(
+    private store: Store,
+    private apiService: ApiService,
+    private globalStateUtils: GlobalStateUtils,
+  ) {}
 
   ngOnInit() {
     this.refresh();
     this.startListeningToState();
+    this.startListeningToGlobalState();
   }
 
   refresh() {
@@ -36,6 +44,18 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
       .subscribe((state) => {
         this.state = state;
       });
+  }
+
+  startListeningToGlobalState() {
+    this.globalStateUtils.deploymentEnvironment$
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe((selectedEnvironment) => {
+        this.selectedEnvironment = selectedEnvironment;
+      });
+  }
+
+  setOrganizationMdsId(organizationMdsId: any): void {
+    throw new Error('Method not implemented.');
   }
 
   filterBy(filter: string) {

@@ -70,8 +70,10 @@ class ConnectorManagementApiService {
         )
     }
 
-    fun listOrganizationConnectors(mdsId: String): ConnectorOverviewResult {
-        val connectors = connectorService.getConnectorsByMdsId(mdsId)
+    fun listOrganizationConnectors(mdsId: String, environmentId: String): ConnectorOverviewResult {
+        deploymentEnvironmentService.assertValidEnvId(environmentId)
+
+        val connectors = connectorService.getConnectorsByMdsId(mdsId, environmentId)
 
         val connectorDtos = connectors.map {
             ConnectorOverviewEntryDto(

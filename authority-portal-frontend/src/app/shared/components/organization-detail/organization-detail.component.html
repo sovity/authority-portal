@@ -1,5 +1,8 @@
 <div class="flex flex-col gap-8 justify-center items-center p-8">
-  <div class="flex flex-col w-full lg:flex-row gap-4">
+  <app-env-banner class="w-full"></app-env-banner>
+  <div
+    *ngIf="type === 'Authority'"
+    class="flex flex-col w-full lg:flex-row gap-4">
     <a
       class="flex-1 block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow hover:bg-yellow-50"
       href="#">
@@ -16,10 +19,10 @@
       <h5 class="mb-2 text-4xl font-bold tracking-tight text-brand-500">
         <span
           *ngIf="
-            organization.memberCount || organization.memberCount === 0;
+            dashboard.memberCount || dashboard.memberCount === 0;
             else notAvailable
           ">
-          {{ organization.memberCount }}
+          {{ dashboard.memberCount }}
         </span>
         <ng-template #notAvailable> N/A </ng-template>
       </h5>
@@ -33,15 +36,15 @@
       <h5 class="mb-2 text-4xl font-bold tracking-tight text-brand-500">
         <span
           *ngIf="
-            organization.connectorCount || organization.connectorCount === 0;
+            dashboard.connectorCount || dashboard.connectorCount === 0;
             else notAvailable
           ">
-          {{ organization.connectorCount }}
+          {{ dashboard.connectorCount }}
         </span>
         <ng-template #notAvailable> N/A </ng-template>
       </h5>
       <p class="font-normal text-1xl text-gray-700 dark:text-gray-400">
-        Connectors in Organization
+        Connectors in Organization for
       </p>
     </a>
     <a
@@ -50,10 +53,10 @@
       <h5 class="mb-2 text-4xl font-bold tracking-tight text-brand-500">
         <span
           *ngIf="
-            organization.dataOfferCount || organization.dataOfferCount === 0;
+            dashboard.dataOfferCount || dashboard.dataOfferCount === 0;
             else notAvailable
           ">
-          {{ organization.dataOfferCount }}
+          {{ dashboard.dataOfferCount }}
         </span>
         <ng-template #notAvailable> N/A </ng-template>
       </h5>
@@ -62,6 +65,7 @@
       </p>
     </a>
   </div>
+
   <mat-tab-group
     class="flex flex-col bg-white shadow-lg w-full p-8 rounded-3xl"
     mat-stretch-tabs>

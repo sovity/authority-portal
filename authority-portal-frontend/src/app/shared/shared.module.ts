@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.module';
 import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
@@ -18,6 +19,7 @@ import {UserDetailComponent} from './components/user-detail/user-detail.componen
   imports: [
     CommonModule,
     RouterModule,
+    DevUtilsModule,
 
     // Angular Material
     MaterialModule,

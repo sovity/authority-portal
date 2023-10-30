@@ -25,6 +25,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
@@ -123,7 +124,7 @@ public interface UiResource {
     @Path("/authority/organizations/{mdsId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any organization.")
-    OrganizationDetailsDto organizationDetails(@PathParam("mdsId") String mdsId);
+    OrganizationDetailsDto organizationDetails(@PathParam("mdsId") String mdsId, @QueryParam("environmentId") String environmentId);
 
     @POST
     @Path("/authority/organizations/invite")
@@ -149,7 +150,7 @@ public interface UiResource {
     @Path("/organizations/my-org/connectors")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all connectors of a user's own organization.")
-    ConnectorOverviewResult ownOrganizationConnectors();
+    ConnectorOverviewResult ownOrganizationConnectors(@QueryParam("environmentId") String environmentId);
 
     @GET
     @Path("/organizations/my-org/connectors/{connectorId}")
@@ -161,7 +162,7 @@ public interface UiResource {
     @Path("/organizations/{mdsId}/connectors")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all connectors of any organization.")
-    ConnectorOverviewResult organizationConnectors(@PathParam("mdsId") String mdsId);
+    ConnectorOverviewResult organizationConnectors(@PathParam("mdsId") String mdsId, @QueryParam("environmentId") String environmentId);
 
     @GET
     @Path("/organizations/{mdsId}/connectors/{connectorId}")
@@ -174,7 +175,7 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a self-hosted connector.")
-    IdResponse createOwnConnector(CreateConnectorRequest connector);
+    IdResponse createOwnConnector(@QueryParam("environmentId") String environmentId, CreateConnectorRequest connector);
 
     @DELETE
     @Path("/organizations/my-org/connectors/{connectorId}")
@@ -187,7 +188,7 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a connector for another organization as a service provider.")
-    IdResponse createProvidedConnector(@PathParam("mdsId") String mdsId, CreateConnectorRequest connector);
+    IdResponse createProvidedConnector(@PathParam("mdsId") String mdsId, @QueryParam("environmentId") String environmentId, CreateConnectorRequest connector);
 
     @DELETE
     @Path("/organizations/{mdsId}/connectors/{connectorId}")
@@ -198,6 +199,6 @@ public interface UiResource {
     @GET
     @Path("/deployment-environments")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Get list of all deployment environment.")
+    @Operation(description = "Get a list of all deployment environment.")
     List<DeploymentEnvironmentDto> deploymentEnvironmentList();
 }

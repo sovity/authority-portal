@@ -7,5 +7,11 @@
 </div>
 <app-e2e-dev-user-switcher
   *ngIf="config.useLocalBackend"></app-e2e-dev-user-switcher>
+
+<app-env-switcher
+  *ngIf="state.deploymentEnvironments.isReady && state.selectedEnvironment"
+  [deploymentEnvironments]="
+    state.deploymentEnvironments.data
+  "></app-env-switcher>
 <app-toast-notifications></app-toast-notifications>
 <router-outlet></router-outlet>

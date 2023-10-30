@@ -9,6 +9,7 @@ export interface ProvideConnectorPageFormModel {
   url: FormControl<string>;
   mdsId: FormControl<string>;
   certificate: FormControl<string>;
+  environmentId: FormControl<string>;
 }
 
 export const DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE: ProvideConnectorPageFormValue =
@@ -18,4 +19,5 @@ export const DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE: ProvideConnectorPageFormValue
     url: '',
     mdsId: '',
     certificate: '',
+    environmentId: 'Production',
   };

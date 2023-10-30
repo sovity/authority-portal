@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 import {GlobalState} from 'src/app/core/global-state/global-state';
 import {GlobalStateImpl} from 'src/app/core/global-state/global-state-impl';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
   RefreshOrganization,
   SetOrganizationMdsId,
@@ -21,7 +23,10 @@ export class ParticipantOrganizationProfilePageComponent {
   state = DEFAULT_PARTICIPANT_ORGANIZATION_PROFILE_PAGE_STATE;
   ngOnDestroy$ = new Subject();
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private globalStateUtils: GlobalStateUtils,
+  ) {}
 
   ngOnInit() {
     this.store
@@ -32,8 +37,8 @@ export class ParticipantOrganizationProfilePageComponent {
       );
 
     this.refresh();
-
     this.startListeningToState();
+    this.startRefreshingOnEnvChange();
   }
 
   private startListeningToState() {
@@ -45,6 +50,15 @@ export class ParticipantOrganizationProfilePageComponent {
       .subscribe((state) => {
         this.state = state;
       });
+  }
+
+  startRefreshingOnEnvChange() {
+    this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
+      ngOnDestroy$: this.ngOnDestroy$,
+      onChanged: (selectedEnvironment) => {
+        this.refresh();
+      },
+    });
   }
 
   setOrganizationMdsId(mdsId: string) {

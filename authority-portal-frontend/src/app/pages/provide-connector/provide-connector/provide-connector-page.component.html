@@ -3,6 +3,10 @@
     class="flex flex-col bg-white shadow-lg w-2/3 md:w-4/5 xl:w-3/5 2xl:w-1/2 p-10 rounded-3xl"
     [formGroup]="group"
     (ngSubmit)="submit()">
+    <app-env-banner class="w-full"></app-env-banner>
+    <div *ngIf="environmentId" class="w-full bg-brand-400 text-center">
+      You are in <strong>{{ environmentId }}</strong> environment.
+    </div>
     <p
       class="inline-block p-3 m-6 text-2xl font-semibold text-center tracking-wider text-teal-900 uppercase bg-teal-accent-400">
       Provide new Connector <br />

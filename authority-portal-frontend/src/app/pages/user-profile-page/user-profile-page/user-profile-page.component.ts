@@ -1,8 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subject, takeUntil} from 'rxjs';
+import {Subject, distinctUntilChanged, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {GlobalState} from 'src/app/core/global-state/global-state';
-import {GlobalStateImpl} from 'src/app/core/global-state/global-state-impl';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {RefreshUserProfile} from 'src/app/pages/user-profile-page/state/user-profile-page-actions';
 import {
   DEFAULT_USER_PROFILE_PAGE_STATE,
@@ -18,15 +17,18 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
   state = DEFAULT_USER_PROFILE_PAGE_STATE;
   ngOnDestroy$ = new Subject();
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private globalStateUtils: GlobalStateUtils,
+  ) {}
 
   ngOnInit(): void {
-    this.store
-      .select<GlobalState>(GlobalStateImpl)
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((globalState) =>
-        this.setUserId(globalState.userInfo.data.userId),
-      );
+    this.globalStateUtils.userInfo$
+      .pipe(distinctUntilChanged(), takeUntil(this.ngOnDestroy$))
+      .subscribe((userInfo) => {
+        this.setUserId(userInfo.userId);
+      });
+
     this.startListeningToState();
   }
 

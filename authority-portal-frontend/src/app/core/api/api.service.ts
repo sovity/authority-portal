@@ -5,11 +5,13 @@ import {
   ConnectorOverviewResult,
   CreateConnectorRequest,
   CreateOrganizationRequest,
+  DeploymentEnvironmentDto,
   IdResponse,
   InviteOrganizationRequest,
   InviteParticipantUserRequest,
   OrganizationDetailsDto,
   OrganizationOverviewResult,
+  OwnOrganizationDetailsDto,
   UiApi,
   UserDetailDto,
   UserInfo,
@@ -38,8 +40,15 @@ export class ApiService {
     return from(this.api().organizationsOverview());
   }
 
-  getOrganizationDetails(mdsId: string): Observable<OrganizationDetailsDto> {
-    return from(this.api().organizationDetails({mdsId}));
+  getOrganizationDetails(
+    mdsId: string,
+    environmentId?: string,
+  ): Observable<OrganizationDetailsDto> {
+    return from(this.api().organizationDetails({mdsId, environmentId}));
+  }
+
+  getMyOrganizationDetails(): Observable<OwnOrganizationDetailsDto> {
+    return from(this.api().ownOrganizationDetails());
   }
 
   getOrganizationUser(userId: string): Observable<UserDetailDto> {
@@ -56,8 +65,10 @@ export class ApiService {
 
   // Connectors
   // Own Connectors
-  getOwnOrganizationConnectors(): Observable<ConnectorOverviewResult> {
-    return from(this.api().ownOrganizationConnectors());
+  getOwnOrganizationConnectors(
+    environmentId?: string,
+  ): Observable<ConnectorOverviewResult> {
+    return from(this.api().ownOrganizationConnectors({environmentId}));
   }
 
   getOwnOrganizationConnectorDetails(
@@ -76,24 +87,33 @@ export class ApiService {
 
   createOwnConnector(
     createConnectorRequest: CreateConnectorRequest,
+    environmentId?: string,
   ): Observable<IdResponse> {
-    return from(this.api().createOwnConnector({createConnectorRequest}));
+    return from(
+      this.api().createOwnConnector({createConnectorRequest, environmentId}),
+    );
   }
 
   createProvidedConnector(
     connector: CreateConnectorRequest,
     mdsId: string,
+    environmentId?: string,
   ): Observable<IdResponse> {
     return from(
       this.api().createProvidedConnector({
         createConnectorRequest: connector,
         mdsId,
+        environmentId,
       }),
     );
   }
 
   inviteUser(request: InviteParticipantUserRequest): Observable<IdResponse> {
     return from(this.api().inviteUser({inviteParticipantUserRequest: request}));
+  }
+
+  getDeploymentEnvironments(): Observable<DeploymentEnvironmentDto[]> {
+    return from(this.api().deploymentEnvironmentList());
   }
 
   private api(): UiApi {

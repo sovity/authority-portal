@@ -1,5 +1,5 @@
+import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 import {E2eDevUser} from 'src/app/common/components/dev-utils/e2e-dev-user-switcher/e2e-dev-user';
-import {LocalDevBasicAuthConfig} from '../config/app-config';
 
 const tag = 'GlobalState';
 
@@ -11,4 +11,14 @@ export class SwitchE2eDevUser {
   static readonly type = `[${tag}] Set Local Backend Basic Auth`;
 
   constructor(public readonly user: E2eDevUser) {}
+}
+
+export class RefreshDeploymentEnvironments {
+  static readonly type = `[${tag}] Refresh Deployment Environments`;
+}
+
+export class SwitchEnvironment {
+  static readonly type = `[${tag}] Switch Environment`;
+
+  constructor(public readonly selectedEnvironment: DeploymentEnvironmentDto) {}
 }

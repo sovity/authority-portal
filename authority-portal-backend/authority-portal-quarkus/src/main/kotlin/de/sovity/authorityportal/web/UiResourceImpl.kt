@@ -164,9 +164,9 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun organizationDetails(mdsId: String): OrganizationDetailsDto {
+    override fun organizationDetails(mdsId: String, environmentId: String): OrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationInfoApiService.getOrganizationInformation(mdsId);
+        return organizationInfoApiService.getOrganizationInformation(mdsId, environmentId);
     }
 
     @Transactional
@@ -189,10 +189,10 @@ class UiResourceImpl : UiResource {
 
     // Connector management
     @Transactional
-    override fun ownOrganizationConnectors(): ConnectorOverviewResult {
+    override fun ownOrganizationConnectors(environmentId: String): ConnectorOverviewResult {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.listOrganizationConnectors(loggedInUser.organizationMdsId!!)
+        return connectorManagementApiService.listOrganizationConnectors(loggedInUser.organizationMdsId!!, environmentId)
     }
 
     @Transactional
@@ -203,9 +203,9 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun organizationConnectors(mdsId: String): ConnectorOverviewResult {
+    override fun organizationConnectors(mdsId: String, environmentId: String): ConnectorOverviewResult {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
-        return connectorManagementApiService.listOrganizationConnectors(mdsId)
+        return connectorManagementApiService.listOrganizationConnectors(mdsId, environmentId)
     }
 
     @Transactional
@@ -215,10 +215,10 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun createOwnConnector(connector: CreateConnectorRequest): IdResponse {
+    override fun createOwnConnector(environmentId: String, connector: CreateConnectorRequest): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.createOwnConnector(connector, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return connectorManagementApiService.createOwnConnector(connector, loggedInUser.organizationMdsId!!, loggedInUser.userId, environmentId)
     }
 
     @Transactional
@@ -229,10 +229,10 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun createProvidedConnector(mdsId: String, connector: CreateConnectorRequest): IdResponse {
+    override fun createProvidedConnector(mdsId: String, environmentId: String, connector: CreateConnectorRequest): IdResponse {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.createProvidedConnector(connector, mdsId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return connectorManagementApiService.createProvidedConnector(connector, mdsId, loggedInUser.organizationMdsId!!, loggedInUser.userId, environmentId)
     }
 
     @Transactional

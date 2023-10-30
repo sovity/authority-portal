@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {OrganizationActions} from 'src/app/shared/components/organization-detail/organization-detail.component';
 import {
   ApproveOrganization,
@@ -24,7 +26,11 @@ export class AuthorityOrganizationDetailPageComponent
 {
   state = DEFAULT_AUTHORITY_ORGANIZATION_DETAIL_PAGE_STATE;
 
-  constructor(private store: Store, private route: ActivatedRoute) {}
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private globalStateUtils: GlobalStateUtils,
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -33,6 +39,7 @@ export class AuthorityOrganizationDetailPageComponent
     });
 
     this.startListeningToState();
+    this.startRefreshingOnEnvChange();
   }
 
   private startListeningToState() {
@@ -44,6 +51,15 @@ export class AuthorityOrganizationDetailPageComponent
       .subscribe((state) => {
         this.state = state;
       });
+  }
+
+  startRefreshingOnEnvChange() {
+    this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
+      ngOnDestroy$: this.ngOnDestroy$,
+      onChanged: () => {
+        this.refresh();
+      },
+    });
   }
 
   setOrganizationMdsId(mdsId: string) {
@@ -62,13 +78,6 @@ export class AuthorityOrganizationDetailPageComponent
     this.store.dispatch(RejectOrganization);
   }
 
-  ngOnDestroy$ = new Subject();
-
-  ngOnDestroy(): void {
-    this.ngOnDestroy$.next(null);
-    this.ngOnDestroy$.complete();
-  }
-
   actionHandler(action: OrganizationActions) {
     switch (action) {
       case OrganizationActions.APPROVE: {
@@ -80,5 +89,12 @@ export class AuthorityOrganizationDetailPageComponent
         break;
       }
     }
+  }
+
+  ngOnDestroy$ = new Subject();
+
+  ngOnDestroy(): void {
+    this.ngOnDestroy$.next(null);
+    this.ngOnDestroy$.complete();
   }
 }
