@@ -25,9 +25,7 @@ export class UserProfilePageStateImpl {
   ): Observable<never> {
     return this.apiService.getUserDetailDto(action.userId).pipe(
       Fetched.wrap({failureMessage: 'Failed loading user'}),
-      tap((user) =>
-        this.UserProfileRefreshed(ctx, user, ctx.getState().userId),
-      ),
+      tap((user) => this.UserProfileRefreshed(ctx, user, action.userId)),
       ignoreElements(),
     );
   }
