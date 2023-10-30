@@ -1,8 +1,12 @@
 import {Inject, Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ignoreElements, tap} from 'rxjs/operators';
+import {ignoreElements, map, tap} from 'rxjs/operators';
 import {Action, NgxsOnInit, Selector, State, StateContext} from '@ngxs/store';
-import {UserInfo, UserRoleDto} from '@sovity.de/authority-portal-client';
+import {
+  DeploymentEnvironmentDto,
+  UserInfo,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
 import {E2E_DEV_USERS} from 'src/app/common/components/dev-utils/e2e-dev-user-switcher/e2e-dev-users';
 import {ApiService} from '../api/api.service';
 import {isEqualSets} from '../api/fake-backend/utils/set-utils';
@@ -10,7 +14,12 @@ import {APP_CONFIG, AppConfig} from '../config/app-config';
 import {Fetched} from '../utils/fetched';
 import {patchState} from '../utils/state-utils';
 import {GlobalState, INITIAL_GLOBAL_STATE_MODEL} from './global-state';
-import {RefreshUserInfo, SwitchE2eDevUser} from './global-state-actions';
+import {
+  RefreshDeploymentEnvironments,
+  RefreshUserInfo,
+  SwitchE2eDevUser,
+  SwitchEnvironment,
+} from './global-state-actions';
 import {AuthorityPortalPageSet} from './routes/authority-portal-page-set';
 import {RouteConfigService} from './routes/route-config-service';
 
@@ -31,6 +40,7 @@ export class GlobalStateImpl implements NgxsOnInit {
     if (this.config.useLocalBackend) {
       ctx.dispatch(new SwitchE2eDevUser(E2E_DEV_USERS[0]));
     }
+    ctx.dispatch(RefreshDeploymentEnvironments);
   }
 
   @Selector()
@@ -50,6 +60,29 @@ export class GlobalStateImpl implements NgxsOnInit {
       tap((userInfo) => this.onUserInfoRefreshed(ctx, userInfo)),
       ignoreElements(),
     );
+  }
+
+  @Action(RefreshDeploymentEnvironments, {cancelUncompleted: true})
+  onRefreshDeploymentEnvironments(
+    ctx: StateContext<GlobalState>,
+  ): Observable<never> {
+    return this.apiService.getDeploymentEnvironments().pipe(
+      map((result) => result),
+      tap((result) => ctx.patchState({selectedEnvironment: result[0]})),
+      Fetched.wrap({failureMessage: 'Failed loading deployment environments'}),
+      tap((deploymentEnvironment) =>
+        this.deploymentEnvironmentRefreshed(ctx, deploymentEnvironment),
+      ),
+      ignoreElements(),
+    );
+  }
+
+  @Action(SwitchEnvironment)
+  onSwitchEnvironment(
+    ctx: StateContext<GlobalState>,
+    action: SwitchEnvironment,
+  ) {
+    ctx.patchState({selectedEnvironment: action.selectedEnvironment});
   }
 
   private onUserInfoRefreshed(
@@ -78,5 +111,12 @@ export class GlobalStateImpl implements NgxsOnInit {
 
       return {userInfo, pageSet, roles};
     });
+  }
+
+  private deploymentEnvironmentRefreshed(
+    ctx: StateContext<GlobalState>,
+    deploymentEnvironments: Fetched<DeploymentEnvironmentDto[]>,
+  ) {
+    ctx.patchState({deploymentEnvironments: deploymentEnvironments});
   }
 }

@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
-import {ignoreElements, tap} from 'rxjs/operators';
-import {Action, State, StateContext} from '@ngxs/store';
-import {OrganizationDetailsDto} from '@sovity.de/authority-portal-client';
+import {ignoreElements, map, switchMap, take, tap} from 'rxjs/operators';
+import {Action, State, StateContext, Store} from '@ngxs/store';
+import {OwnOrganizationDetailsDto} from '@sovity.de/authority-portal-client';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
 import {
@@ -20,7 +21,10 @@ import {
 })
 @Injectable()
 export class ParticipantOrganizationProfilePageStateImpl {
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private globalStateUtils: GlobalStateUtils,
+  ) {}
 
   @Action(SetOrganizationMdsId)
   onSetOrganizationMdsId(
@@ -34,20 +38,22 @@ export class ParticipantOrganizationProfilePageStateImpl {
   @Action(RefreshOrganization, {cancelUncompleted: true})
   onRefreshOrganization(
     ctx: StateContext<ParticipantOrganizationProfilePageState>,
+
     action: RefreshOrganization,
   ): Observable<never> {
-    return this.apiService
-      .getOrganizationDetails(ctx.getState().organizationMdsId)
-      .pipe(
-        Fetched.wrap({failureMessage: 'Failed loading organizations'}),
-        tap((organization) => this.organizationRefreshed(ctx, organization)),
-        ignoreElements(),
-      );
+    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
+      switchMap((deploymentEnvironmentId) =>
+        this.apiService.getMyOrganizationDetails(),
+      ),
+      Fetched.wrap({failureMessage: 'Failed loading organizations'}),
+      tap((organization) => this.organizationRefreshed(ctx, organization)),
+      ignoreElements(),
+    );
   }
 
   private organizationRefreshed(
     ctx: StateContext<ParticipantOrganizationProfilePageState>,
-    organization: Fetched<OrganizationDetailsDto>,
+    organization: Fetched<OwnOrganizationDetailsDto>,
   ) {
     ctx.patchState({organization});
   }

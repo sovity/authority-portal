@@ -24,6 +24,7 @@ import {
 export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   state = DEFAULT_PROVIDE_CONNECTOR_STATE;
   group = this.buildFormGroup();
+  environmentId!: string;
 
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
@@ -54,6 +55,7 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
       url: [initial.url, [Validators.required]],
       mdsId: [initial.mdsId, [Validators.required]],
       certificate: [initial.certificate, [Validators.required]],
+      environmentId: [initial.environmentId, [Validators.required]],
     });
   }
 

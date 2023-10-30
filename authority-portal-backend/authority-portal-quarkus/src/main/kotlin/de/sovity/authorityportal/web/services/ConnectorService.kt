@@ -68,18 +68,20 @@ class ConnectorService {
             .fetchOneInto(ConnectorDetailRs::class.java)
     }
 
-    fun getConnectorsByMdsId(mdsId: String): List<ConnectorRecord> {
+    fun getConnectorsByMdsId(mdsId: String, environmentId: String): List<ConnectorRecord> {
         val c = Tables.CONNECTOR
 
         return dsl.selectFrom(c)
-            .where(c.MDS_ID.eq(mdsId))
+            .where(c.MDS_ID.eq(mdsId).and(c.ENVIRONMENT.eq(environmentId)))
             .fetch()
     }
 
-    fun getConnectorsCountByMdsId(mdsId: String): Int {
+    fun getConnectorCountByMdsId(mdsId: String, environmentId: String): Int {
         val c = Tables.CONNECTOR
-        return dsl.fetchCount(dsl.selectFrom(c)
-            .where(c.MDS_ID.eq(mdsId)))
+        return dsl.fetchCount(
+            dsl.selectFrom(c)
+                .where(c.MDS_ID.eq(mdsId), c.ENVIRONMENT.eq(environmentId))
+        )
     }
 
     fun createOwnConnector(

@@ -1,9 +1,9 @@
-import {OrganizationDetailsDto} from '@sovity.de/authority-portal-client';
+import {OwnOrganizationDetailsDto} from '@sovity.de/authority-portal-client';
 import {Fetched} from '../../../core/utils/fetched';
 
 export interface ParticipantOrganizationProfilePageState {
   organizationMdsId: string;
-  organization: Fetched<OrganizationDetailsDto>;
+  organization: Fetched<OwnOrganizationDetailsDto>;
   busy: boolean;
 }
 

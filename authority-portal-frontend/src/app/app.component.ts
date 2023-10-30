@@ -24,9 +24,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private startListeningToGlobalState() {
-    this.store
-      .select<GlobalState>(GlobalStateImpl)
-      .subscribe((state) => (this.state = state));
+    this.store.select<GlobalState>(GlobalStateImpl).subscribe((state) => {
+      this.state = state;
+    });
   }
 
   ngOnDestroy$ = new Subject();

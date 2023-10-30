@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
+import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ApiService} from '../../../core/api/api.service';
 import {GetOwnOrganizationConnectors} from '../state/participant-own-connector-list-page-actions';
 import {
@@ -19,11 +21,16 @@ export class ParticipantOwnConnectorListPageComponent
 {
   state = DEFAULT_PARTICIPANT_OWN_CONNECTOR_LIST_PAGE_STATE;
 
-  constructor(private store: Store, private apiService: ApiService) {}
+  constructor(
+    private store: Store,
+    private apiService: ApiService,
+    private globalStateUtils: GlobalStateUtils,
+  ) {}
 
   ngOnInit() {
     this.refresh();
     this.startListeningToState();
+    this.startRefreshingOnEnvChange();
   }
 
   refresh() {
@@ -39,6 +46,15 @@ export class ParticipantOwnConnectorListPageComponent
       .subscribe((state) => {
         this.state = state;
       });
+  }
+
+  startRefreshingOnEnvChange() {
+    this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
+      ngOnDestroy$: this.ngOnDestroy$,
+      onChanged: () => {
+        this.refresh();
+      },
+    });
   }
 
   ngOnDestroy$ = new Subject();

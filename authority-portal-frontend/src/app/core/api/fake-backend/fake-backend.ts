@@ -3,6 +3,7 @@ import {
   ConnectorOverviewResultToJSON,
   CreateConnectorRequestFromJSON,
   CreateOrganizationRequestFromJSON,
+  DeploymentEnvironmentDtoToJSON,
   FetchAPI,
   IdResponseToJSON,
   InviteParticipantUserRequestFromJSON,
@@ -12,6 +13,8 @@ import {
   UserDetailDtoToJSON,
   UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
+import {deploymentEnvironmentList} from 'src/app/core/api/fake-backend/impl/deploymentEnvironment-list-fake';
+import {getMyOrganizationDetails} from 'src/app/core/api/fake-backend/impl/my-organization-details-fake';
 import {userDetails} from 'src/app/core/api/fake-backend/impl/user-detail-fake';
 import {
   approveOrganization,
@@ -48,6 +51,12 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('GET', () => {
       const result = getUserInfo();
       return ok(UserInfoToJSON(result));
+    })
+
+    .url('organizations/my-org')
+    .on('GET', (mdsId) => {
+      const result = getMyOrganizationDetails();
+      return ok(OwnOrganizationDetailsDtoToJSON(result));
     })
 
     .url('authority/organizations')
@@ -176,6 +185,12 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('GET', (userId) => {
       const result = userDetails(userId);
       return ok(UserDetailDtoToJSON(result));
+    })
+
+    .url('deployment-environments')
+    .on('GET', () => {
+      const result = deploymentEnvironmentList();
+      return ok(result.map(DeploymentEnvironmentDtoToJSON));
     })
 
     .tryMatch();
