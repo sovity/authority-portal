@@ -3,12 +3,25 @@ import {
   ConnectorOverviewResult,
   ConnectorTypeDto,
   CreateConnectorRequest,
+  DeleteOwnConnectorRequest,
   IdResponse,
 } from '@sovity.de/authority-portal-client';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
-import {getUserInfo} from './user-info-fake';
+import {getUserInfo} from './fake-users';
 
-export const TEST_CONNECTORS: ConnectorDetailDto[] = [
+export let TEST_CONNECTORS: ConnectorDetailDto[] = [
+  {
+    connectorId: 'MDSL1111AA.AP12I3U',
+    type: ConnectorTypeDto.Own,
+    orgName: 'Example Organization',
+    orgMdsId: 'MDSL1111AA',
+    hostName: 'Example Host',
+    hostMdsId: 'MDSL1111AA',
+    environment: {environmentId: '123', title: 'test'},
+    connectorName: 'Example Connector 1',
+    location: 'Germany, EU',
+    url: 'https://xample.test1/connector',
+  },
   {
     connectorId: 'MDSL2222BB.CP59I8U',
     type: ConnectorTypeDto.Own,
@@ -18,7 +31,7 @@ export const TEST_CONNECTORS: ConnectorDetailDto[] = [
     hostMdsId: 'MDSL2222BB',
     environment: {environmentId: '123', title: 'test'},
     connectorName: 'Example Connector 1',
-    location: 'Here',
+    location: 'Germany, EU',
     url: 'https://xample.test1/connector',
   },
   {
@@ -30,7 +43,7 @@ export const TEST_CONNECTORS: ConnectorDetailDto[] = [
     hostName: 'Example Organization',
     environment: {environmentId: '123', title: 'test'},
     connectorName: 'Example Connector 2',
-    location: 'Here',
+    location: 'Germany, EU',
     url: 'https://xample.test2/connector',
   },
   {
@@ -42,7 +55,7 @@ export const TEST_CONNECTORS: ConnectorDetailDto[] = [
     type: ConnectorTypeDto.Own,
     environment: {environmentId: '123', title: 'test'},
     connectorName: 'Example Connector',
-    location: 'Here',
+    location: 'Germany, EU',
     url: 'https://xample.test3/connector',
   },
 ];
@@ -117,6 +130,21 @@ export const createProvidedConnector = (
     url: request.url,
   });
   return {id: randomId, changedDate: new Date()};
+};
+
+export const deleteOwnConnector = (
+  request: DeleteOwnConnectorRequest,
+): IdResponse => {
+  TEST_CONNECTORS = TEST_CONNECTORS.filter(
+    (c) => c.connectorId !== request.connectorId,
+  );
+
+  return {id: request.connectorId, changedDate: new Date()};
+};
+
+export const getNumberOfOrganizationConnectors = (mdsId: string): number => {
+  return TEST_CONNECTORS.filter((connector) => connector.orgMdsId === mdsId)
+    .length;
 };
 
 const generateRandomId = (mdsId: string): string => {

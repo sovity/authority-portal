@@ -1,14 +1,25 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ignoreElements, map, switchMap, take, tap} from 'rxjs/operators';
-import {Action, State, StateContext, Store} from '@ngxs/store';
+import {EMPTY, Observable} from 'rxjs';
+import {
+  filter,
+  finalize,
+  ignoreElements,
+  map,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
+import {Action, Actions, State, StateContext} from '@ngxs/store';
 import {ConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
-import {GlobalState} from 'src/app/core/global-state/global-state';
-import {GlobalStateImpl} from 'src/app/core/global-state/global-state-impl';
+import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {Fetched} from 'src/app/core/utils/fetched';
-import {GetOwnOrganizationConnectors} from './participant-own-connector-list-page-actions';
+import {
+  DeleteOwnConnector,
+  GetOwnOrganizationConnectors,
+} from './participant-own-connector-list-page-actions';
 import {
   DEFAULT_PARTICIPANT_OWN_CONNECTOR_LIST_PAGE_STATE,
   ParticipantOwnConnectorListPageState,
@@ -22,7 +33,9 @@ import {
 export class ParticipantOwnConnectorListPageStateImpl {
   constructor(
     private apiService: ApiService,
-    private store: Store,
+    private actions$: Actions,
+    private toast: ToastService,
+    private errorService: ErrorService,
     private globalStateUtils: GlobalStateUtils,
   ) {}
 
@@ -46,5 +59,35 @@ export class ParticipantOwnConnectorListPageStateImpl {
     newConnectors: Fetched<ConnectorOverviewEntryDto[]>,
   ) {
     ctx.patchState({connectors: newConnectors});
+  }
+
+  @Action(DeleteOwnConnector)
+  onDeleteOwnConnector(
+    ctx: StateContext<ParticipantOwnConnectorListPageState>,
+    action: DeleteOwnConnector,
+  ): Observable<never> {
+    if (ctx.getState().busy) {
+      return EMPTY;
+    }
+    ctx.patchState({busy: true});
+
+    return this.apiService.deleteOwnConnector(action.connectorId).pipe(
+      switchMap(() => this.apiService.getOwnOrganizationConnectors()),
+      takeUntil(
+        this.actions$.pipe(
+          filter((action) => action instanceof GetOwnOrganizationConnectors),
+        ),
+      ),
+      this.errorService.toastFailureRxjs("Connector wasn't deleted"),
+      map((result) => result.connectors),
+      tap((data) => {
+        this.connectorsRefreshed(ctx, Fetched.ready(data));
+        this.toast.showSuccess(
+          `Connector ${action.connectorId} was successfully deleted`,
+        );
+      }),
+      finalize(() => ctx.patchState({busy: false})),
+      ignoreElements(),
+    );
   }
 }
