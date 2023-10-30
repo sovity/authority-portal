@@ -9,31 +9,31 @@ import {
   InviteParticipantUserRequestFromJSON,
   OrganizationDetailsDtoToJSON,
   OrganizationOverviewResultToJSON,
-  OwnOrganizationDetailsDtoToJSON,
   UserDetailDtoToJSON,
-  UserInfoToJSON,
+  UserInfoToJSON
 } from '@sovity.de/authority-portal-client';
 import {deploymentEnvironmentList} from 'src/app/core/api/fake-backend/impl/deploymentEnvironment-list-fake';
 import {getMyOrganizationDetails} from 'src/app/core/api/fake-backend/impl/my-organization-details-fake';
 import {userDetails} from 'src/app/core/api/fake-backend/impl/user-detail-fake';
-import {
-  approveOrganization,
-  rejectOrganization,
-} from './impl/authority-manage-organization-fake';
+
 import {
   createOwnConnector,
   createProvidedConnector,
+  deleteOwnConnector,
   getFullConnectorDetails,
   getListOfConnectorsForTable,
 } from './impl/fake-connectors';
-import {inviteUser} from './impl/fake-users';
-import {getOrganizationDetails} from './impl/organization-details-fake';
-import {getListOfOrganizationsForTable} from './impl/organization-list-fake';
-import {createOrganization} from './impl/registration-process-fake';
-import {getUserInfo} from './impl/user-info-fake';
-import {getBody, getMethod, getUrl} from './utils/request-utils';
-import {ok} from './utils/response-utils';
-import {UrlInterceptor} from './utils/url-interceptor';
+import {
+  approveOrganization,
+  getListOfOrganizationsForTable,
+  getOrganizationDetails,
+  rejectOrganization,
+} from './impl/fake-organizations';
+import { getUserInfo, inviteUser } from './impl/fake-users';
+import { createOrganization } from './impl/registration-process-fake';
+import { getBody, getMethod, getUrl } from './utils/request-utils';
+import { ok } from './utils/response-utils';
+import { UrlInterceptor } from './utils/url-interceptor';
 
 export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
   input: RequestInfo,
@@ -56,7 +56,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('organizations/my-org')
     .on('GET', (mdsId) => {
       const result = getMyOrganizationDetails();
-      return ok(OwnOrganizationDetailsDtoToJSON(result));
+      return ok(OrganizationDetailsDtoToJSON(result));
     })
 
     .url('authority/organizations')
@@ -123,8 +123,9 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       const result = getFullConnectorDetails(mdsId, connectorId);
       return ok(ConnectorDetailDtoToJSON(result));
     })
-    .on('DELETE', () => {
-      throw new Error('TODO');
+    .on('DELETE', (connectorId: string) => {
+      const result = deleteOwnConnector({connectorId});
+      return ok(IdResponseToJSON(result));
     })
 
     .url('organizations/my-org/connectors/create-on-premise')

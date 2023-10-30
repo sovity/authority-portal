@@ -27,12 +27,12 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 - Added page to invite new users to an existing organization.
 - Added page to invite a new organization.
 - Added endpoint to retrieve organization details
+- Added option to delete existing connectors of own organization.
 - Updated organization detail page to show user list and some stats regarding the organization
 - Added page for showing User's details
 - Added endpoint to retrieve available deployment environments
 - Updated page to give possibility of updating users' role
 - Added support for multiple environments
-
 
 #### Patch
 

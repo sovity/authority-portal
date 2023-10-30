@@ -1,10 +1,11 @@
 import {
   IdResponse,
   InviteParticipantUserRequest,
+  MemberInfo,
   UserInfo,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
-import {getUserInfo} from './user-info-fake';
+import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 
 export let TEST_USERS: {[key: string]: UserInfo} = {
   '00000000-0000-0000-0000-00000001': {
@@ -68,6 +69,24 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
   },
 };
 
+/**
+ * Currently "logged-in user" for local dev UI
+ */
+let currentlyLoggedInUser: UserInfo =
+  TEST_USERS['00000000-0000-0000-0000-00000001'];
+
+/**
+ * Update currently logged-in User for local dev UI
+ */
+export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
+  currentlyLoggedInUser = patchObj<UserInfo>(currentlyLoggedInUser, patcher);
+};
+
+/**
+ * Fake implementation for "userInfo" endpoint
+ */
+export const getUserInfo = (): UserInfo => currentlyLoggedInUser;
+
 export const inviteUser = (
   request: InviteParticipantUserRequest,
 ): IdResponse => {
@@ -84,6 +103,25 @@ export const inviteUser = (
   } satisfies UserInfo;
 
   return {id: newUserId, changedDate: new Date()};
+};
+
+export const getOrganizationMembers = (mdsId: string): MemberInfo[] => {
+  return Object.values(TEST_USERS)
+    .filter((user) => user.organizationMdsId === mdsId)
+    .map((user) => {
+      return {
+        userId: user.userId,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        roles: user.roles,
+      };
+    });
+};
+
+export const getNumberOfOrganizationMembers = (mdsId: string): number => {
+  return Object.values(TEST_USERS).filter(
+    (user) => user.organizationMdsId === mdsId,
+  ).length;
 };
 
 const generateNewId = (): string => {

@@ -2,7 +2,7 @@ import {
   CreateOrganizationRequest,
   IdResponse,
 } from '@sovity.de/authority-portal-client';
-import {updateLoggedInUser} from './user-info-fake';
+import {updateLoggedInUser} from './fake-users';
 
 export const createOrganization = (
   request: CreateOrganizationRequest,

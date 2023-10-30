@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {Store} from '@ngxs/store';
 import {UserInfo} from '@sovity.de/authority-portal-client';
 import {TEST_USERS} from 'src/app/core/api/fake-backend/impl/fake-users';
-import {updateLoggedInUser} from '../../../../core/api/fake-backend/impl/user-info-fake';
+import {updateLoggedInUser} from '../../../../core/api/fake-backend/impl/fake-users';
 import {RefreshUserInfo} from '../../../../core/global-state/global-state-actions';
 
 @Component({

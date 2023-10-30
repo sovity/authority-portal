@@ -119,6 +119,10 @@ export class ApiService {
     );
   }
 
+  deleteOwnConnector(connectorId: string): Observable<IdResponse> {
+    return from(this.api().deleteOwnConnector({connectorId}));
+  }
+
   inviteUser(request: InviteParticipantUserRequest): Observable<IdResponse> {
     return from(this.api().inviteUser({inviteParticipantUserRequest: request}));
   }
