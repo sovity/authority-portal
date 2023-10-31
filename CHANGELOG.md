@@ -7,33 +7,11 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ### Overview
 
-Initial Authority Portal MVP Release with a minimalistic feature set.
-
 ### Detailed Changes
 
 #### Major
 
 #### Minor
-
-- Added endpoint to invite new participating organizations
-- Provided invitation time stamp in org details
-- Added endpoint to invite new users to an organization
-- Added endpoints for role changing for authority and participants
-- Added endpoints to deactivate users
-- Added endpoints to reactivate users
-- Unregister own connectors
-- Added userId to /api/user-info endpoint
-- Added endpoint to retrieve user data
-- Added page to invite new users to an existing organization.
-- Added page to invite a new organization.
-- Added endpoint to retrieve organization details
-- Added option to delete existing connectors of own organization.
-- Updated organization detail page to show user list and some stats regarding the organization
-- Added page for showing User's details
-- Added endpoint to retrieve available deployment environments
-- Added a feature to generate a connector certificates in browser
-- Updated page to give possibility of updating users' role
-- Added support for multiple environments
 
 #### Patch
 
@@ -41,9 +19,42 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ release version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ release version }}`
-- Broker Server: `{{ broker server version }}`
+## [v0.1.0] - 2023-10-31
+
+### Overview
+
+Second Authority Portal MVP Release, providing extended features, mainly to enable participant management.
+
+### Detailed Changes
+
+#### Major
+
+- Added invitation of new participating organizations
+- Added invitation of new users to an organization (Frontend missing)
+- Added user deactivation (Frontend missing)
+- Added support for multiple deployment environments
+
+#### Minor
+
+- Added possibility to change user roles
+- Added unregistering of own (company intern) connectors
+- Updated organization detail page to show statistics for Authority Admins
+- Updated organization detail page to show more information (including user list)
+- Added user detail pages
+- Added possibility to generate a connector certificate in browser
+
+### Deployment Migration Notes
+
+- Upgrade Broker to version 1.2.0
+- Upgrade Authority Portal to this version
+  - Shut down current version
+  - Restart with new images
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:0.1.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:0.1.0`
+- Broker Server: `1.2.0`
 
 ## [v1.0.0] - 2023-09-29
 
