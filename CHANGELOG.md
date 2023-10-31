@@ -31,6 +31,7 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 - Updated organization detail page to show user list and some stats regarding the organization
 - Added page for showing User's details
 - Added endpoint to retrieve available deployment environments
+- Added a feature to generate a connector certificates in browser
 - Updated page to give possibility of updating users' role
 - Added support for multiple environments
 
