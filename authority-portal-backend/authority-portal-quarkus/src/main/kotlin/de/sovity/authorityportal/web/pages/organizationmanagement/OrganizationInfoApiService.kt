@@ -54,6 +54,7 @@ class OrganizationInfoApiService {
             organizationDetails.securityEmail,
             organizationDetails.registrationStatus,
             organizationDetails.createdAt,
+            organizationDetails.createdBy,
             organizationDetails.memberInfos
         )
     }
@@ -80,6 +81,7 @@ class OrganizationInfoApiService {
             securityEmail = organization.securityEmail
             registrationStatus = organization.registrationStatus.toDto()
             createdAt = organization.createdAt
+            createdBy = organization.createdBy
         }
         organizationDetailsDto.memberInfos = userDetailService.getOrganizationMembers(mdsId)
 

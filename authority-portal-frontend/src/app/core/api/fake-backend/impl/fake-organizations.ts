@@ -28,6 +28,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     url: 'https://example1.com',
     securityEmail: 'security@example1.com',
     createdAt: new Date('2023-08-05T00:00:00.000Z'),
+    createdBy: 'Admin',
     memberInfos: [
       {
         userId: '00000000-0000-0000-0000-00000001',
@@ -61,6 +62,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     url: 'https://example2.com',
     securityEmail: 'security@example2.com',
     createdAt: new Date('2023-08-06T00:00:00.000Z'),
+    createdBy: 'Admin',
     memberInfos: [
       {
         userId: '00000000-0000-0000-0000-00000003',
@@ -88,6 +90,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     url: 'https://www.test.org',
     securityEmail: 'security@test.org',
     createdAt: new Date('2023-08-01T00:00:00.000Z'),
+    createdBy: 'Admin',
     memberInfos: [
       {
         userId: '00000000-0000-0000-0000-00000012',
@@ -116,6 +119,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     url: 'https://example31.com',
     securityEmail: 'security@example31.com',
     createdAt: new Date('2022-10-01T00:00:00.000Z'),
+    createdBy: 'Admin',
     memberInfos: [
       {
         userId: '00000000-0000-0000-0000-00000022',
@@ -143,6 +147,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     url: 'https://example32.com',
     securityEmail: 'security@example32.com',
     createdAt: new Date('2022-10-02T00:00:00.000Z'),
+    createdBy: 'Admin',
     memberInfos: [
       {
         userId: '00000000-0000-0000-0000-00000032',
@@ -170,6 +175,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     url: 'https://example33.com',
     securityEmail: 'security@example33.com',
     createdAt: new Date('2022-10-03T00:00:00.000Z'),
+    createdBy: 'Admin',
     memberInfos: [
       {
         userId: '00000000-0000-0000-0000-00000042',
@@ -197,6 +203,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     url: 'https://example34.com',
     securityEmail: 'security@example34.com',
     createdAt: new Date('2022-10-04T00:00:00.000Z'),
+    createdBy: 'Admin',
     memberInfos: [
       {
         userId: '00000000-0000-0000-0000-00000052',

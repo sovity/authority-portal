@@ -147,6 +147,28 @@
             [value]="organization.registrationStatus"
             [disabled]="true" />
         </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="organization-profile-label">Created On:</label>
+
+          <input
+            class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+            type="text"
+            [value]="organization.createdAt | date : 'mediumDate'"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="organization-profile-label">Created By:</label>
+
+          <input
+            class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+            type="text"
+            [value]="organization.createdBy"
+            [disabled]="true" />
+        </div>
         <div
           *ngIf="organization.registrationStatus == 'PENDING'"
           class="flex flex-row justify-evenly items-center my-4">
