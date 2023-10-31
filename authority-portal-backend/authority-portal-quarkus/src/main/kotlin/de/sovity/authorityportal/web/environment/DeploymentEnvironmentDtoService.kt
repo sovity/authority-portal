@@ -15,7 +15,11 @@ class DeploymentEnvironmentDtoService {
         buildDto(envId, deploymentEnvironmentService.findByIdOrThrow(envId))
 
     fun findAll(): List<DeploymentEnvironmentDto> =
-        deploymentEnvironmentService.findAll().map { buildDto(it.key, it.value) }.toList()
+        deploymentEnvironmentService.findAll()
+            .map { it.value.position() to buildDto(it.key, it.value) }
+            .sortedBy { it.first }
+            .map { it.second }
+            .toList()
 
     private fun buildDto(envId: String, deploymentEnvironment: DeploymentEnvironment): DeploymentEnvironmentDto {
         return DeploymentEnvironmentDto(

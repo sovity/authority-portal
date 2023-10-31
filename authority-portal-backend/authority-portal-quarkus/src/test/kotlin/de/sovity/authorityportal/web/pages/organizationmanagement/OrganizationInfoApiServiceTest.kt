@@ -3,7 +3,9 @@ package de.sovity.authorityportal.web.pages.organizationmanagement
 import de.sovity.authorityportal.api.model.MemberInfo
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
+import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.services.ConnectorService
+import de.sovity.authorityportal.web.services.DataOfferCountService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetailService
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -31,11 +33,18 @@ class OrganizationInfoApiServiceTest {
     @Mock
     lateinit var organizationService: OrganizationService
 
+    @Mock
+    lateinit var dataOfferCountService: DataOfferCountService
+
+    @Mock
+    lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
+
     private val mdsId = "testMdsId"
     private val environmentId = "testEnvironmentId"
     private val organizationRecord: OrganizationRecord = mock(OrganizationRecord::class.java)
     private val memberInfos = listOf(mock(MemberInfo::class.java))
     private val connectorCount = 5
+    private val dataOfferCount = 14
 
     @BeforeEach
     fun before() {
@@ -47,7 +56,9 @@ class OrganizationInfoApiServiceTest {
     @Test
     fun testOrganizationDetails() {
         // arrange
+        `when`(deploymentEnvironmentService.assertValidEnvId(environmentId)).then {}
         `when`(connectorService.getConnectorCountByMdsId(mdsId, environmentId)).thenReturn(connectorCount)
+        `when`(dataOfferCountService.getTotalDataOffersByMdsId(mdsId, environmentId)).thenReturn(dataOfferCount)
 
         // act
         val result = organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)
@@ -57,6 +68,7 @@ class OrganizationInfoApiServiceTest {
         assertEquals(memberInfos, result.memberInfos)
         assertEquals(memberInfos.size, result.memberCount)
         assertEquals(connectorCount, result.connectorCount)
+        assertEquals(dataOfferCount, result.dataOfferCount)
     }
 
     @Test

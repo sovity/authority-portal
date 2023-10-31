@@ -17,7 +17,7 @@ class DeploymentEnvironmentService {
         assertValidEnvId("test")
     }
 
-    fun findAll() = deploymentEnvironmentConfiguration.environments()
+    fun findAll(): Map<String, DeploymentEnvironment> = deploymentEnvironmentConfiguration.environments()
 
     fun findByIdOrThrow(envId: String): DeploymentEnvironment =
         deploymentEnvironmentConfiguration.environments()[envId] ?: error("Environment $envId not found")

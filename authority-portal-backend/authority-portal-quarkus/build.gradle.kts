@@ -15,6 +15,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.28")
 
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    implementation("io.quarkus:quarkus-scheduler")
     implementation("io.quarkus:quarkus-oidc")
     implementation("io.quarkus:quarkus-keycloak-authorization")
     implementation("io.quarkus:quarkus-keycloak-admin-client-reactive")

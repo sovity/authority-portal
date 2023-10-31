@@ -76,6 +76,14 @@ class ConnectorService {
             .fetch()
     }
 
+    fun getConnectorsByEnvironment(environment: String): List<ConnectorRecord> {
+        val c = Tables.CONNECTOR
+
+        return dsl.selectFrom(c)
+            .where(c.ENVIRONMENT.eq(environment))
+            .fetch()
+    }
+
     fun getConnectorCountByMdsId(mdsId: String, environmentId: String): Int {
         val c = Tables.CONNECTOR
         return dsl.fetchCount(

@@ -27,6 +27,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -157,6 +158,12 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of a user's own organization's connector.")
     ConnectorDetailDto ownOrganizationConnectorDetails(@PathParam("connectorId") String connectorId);
+
+    @GET
+    @Path("/organizations/my-org/redirects/data-offers")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Redirect to the environment specific broker, with filters for connector endpoints of the own organization preselected.")
+    Response redirectToOwnOrganizationCatalog(@QueryParam("environmentId") String environmentId);
 
     @GET
     @Path("/organizations/{mdsId}/connectors")

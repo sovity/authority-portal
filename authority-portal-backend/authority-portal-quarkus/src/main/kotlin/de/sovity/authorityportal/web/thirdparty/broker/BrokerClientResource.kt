@@ -1,8 +1,10 @@
 package de.sovity.authorityportal.web.thirdparty.broker
 
+import de.sovity.authorityportal.web.thirdparty.broker.model.DataOfferCountResult
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.HeaderParam
+import jakarta.ws.rs.POST
 import jakarta.ws.rs.PUT
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.QueryParam
@@ -29,4 +31,12 @@ interface BrokerClientResource {
         @QueryParam("adminApiKey") adminApiKey: String,
         connectors: List<String>
     ): Response
+
+    @POST
+    @Path("authority-portal-api/data-offer-counts")
+    @Consumes(MediaType.APPLICATION_JSON)
+    fun getDataOfferCounts(
+        @HeaderParam("X-Api-Key") apiKey: String,
+        connectors: List<String>
+    ): DataOfferCountResult
 }
