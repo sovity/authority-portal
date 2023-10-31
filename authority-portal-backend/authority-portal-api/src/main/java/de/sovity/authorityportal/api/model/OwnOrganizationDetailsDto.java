@@ -34,6 +34,8 @@ public class OwnOrganizationDetailsDto {
     private OrganizationRegistrationStatusDto registrationStatus;
     @Schema(description = "Creation date of organization or organization invite", requiredMode = Schema.RequiredMode.REQUIRED)
     private OffsetDateTime createdAt;
+    @Schema(description = "Creator of organization or organization invite", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String createdBy;
     @Schema(description = "Member information", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<MemberInfo> memberInfos;
 

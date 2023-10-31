@@ -1,9 +1,16 @@
 import {Injectable, NgZone} from '@angular/core';
 import {Router} from '@angular/router';
 import {EMPTY, Observable} from 'rxjs';
-import {catchError, ignoreElements, takeUntil, tap} from 'rxjs/operators';
+import {
+  catchError,
+  ignoreElements,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {ErrorService} from 'src/app/core/error.service';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
 import {Reset, Submit} from './participant-register-own-connector-page-actions';
@@ -24,6 +31,7 @@ export class ParticipantRegisterOwnConnectorPageStateImpl {
     private toast: ToastService,
     private router: Router,
     private errorService: ErrorService,
+    private globalStateUtils: GlobalStateUtils,
   ) {}
 
   @Action(Reset)
@@ -39,7 +47,13 @@ export class ParticipantRegisterOwnConnectorPageStateImpl {
     ctx.patchState({state: 'submitting'});
     action.disableForm();
 
-    return this.apiService.createOwnConnector(action.request).pipe(
+    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
+      switchMap((deploymentEnvironmentId) =>
+        this.apiService.createOwnConnector(
+          action.request,
+          deploymentEnvironmentId,
+        ),
+      ),
       tap(() => {
         this.toast.showSuccess(
           `Connector ${action.request.name} created successfully`,

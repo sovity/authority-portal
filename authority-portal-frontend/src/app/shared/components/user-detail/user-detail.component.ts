@@ -79,13 +79,13 @@ export class UserDetailComponent implements OnInit {
       this.store.dispatch(
         new UpdateAuthorityUserRoles(
           this.userId,
-          this.authorityRoles.updatedRole!,
+          this.authorityRoles.updatedRole,
         ),
       );
     }
     if (this.participantRoles?.updatedRole) {
       this.store.dispatch(
-        new UpdateUserRoles(this.userId, this.participantRoles.updatedRole!),
+        new UpdateUserRoles(this.userId, this.participantRoles.updatedRole),
       );
     }
   }
