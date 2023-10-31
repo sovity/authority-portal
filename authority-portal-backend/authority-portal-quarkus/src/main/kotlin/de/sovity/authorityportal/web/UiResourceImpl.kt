@@ -23,6 +23,7 @@ import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManageme
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationRegistrationApiService
+import de.sovity.authorityportal.web.pages.redirects.BrokerRedirectApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeactivationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserInfoApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiService
@@ -30,6 +31,7 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
+import jakarta.ws.rs.core.Response
 
 class UiResourceImpl : UiResource {
     @Inject
@@ -64,6 +66,9 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var connectorManagementApiService: ConnectorManagementApiService
+
+    @Inject
+    lateinit var brokerRedirectApiService: BrokerRedirectApiService
 
     // User info
     @Transactional
@@ -200,6 +205,12 @@ class UiResourceImpl : UiResource {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.ownOrganizationConnectorDetails(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+    }
+
+    override fun redirectToOwnOrganizationCatalog(environmentId: String): Response {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
+        authUtils.requiresMemberOfAnyOrganization()
+        return brokerRedirectApiService.buildCatalogRedirectWithConnectorFilter(loggedInUser.organizationMdsId!!, environmentId)
     }
 
     @Transactional

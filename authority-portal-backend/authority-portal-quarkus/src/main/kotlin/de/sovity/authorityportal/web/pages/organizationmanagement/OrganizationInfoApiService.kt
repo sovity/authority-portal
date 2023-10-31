@@ -4,7 +4,9 @@ import de.sovity.authorityportal.api.model.OrganizationDetailsDto
 import de.sovity.authorityportal.api.model.OrganizationOverviewEntryDto
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.OwnOrganizationDetailsDto
+import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.services.ConnectorService
+import de.sovity.authorityportal.web.services.DataOfferCountService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetailService
 import jakarta.enterprise.context.ApplicationScoped
@@ -17,10 +19,16 @@ class OrganizationInfoApiService {
     lateinit var organizationService: OrganizationService
 
     @Inject
+    lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
+
+    @Inject
     lateinit var userDetailService: UserDetailService
 
     @Inject
     lateinit var connectorService: ConnectorService
+
+    @Inject
+    lateinit var dataOfferCountService: DataOfferCountService
 
     fun organizationsOverview(): OrganizationOverviewResult {
         val organizations = organizationService.getOrganizations()
@@ -51,9 +59,12 @@ class OrganizationInfoApiService {
     }
 
     fun getOrganizationInformation(mdsId: String, environmentId: String): OrganizationDetailsDto {
+        deploymentEnvironmentService.assertValidEnvId(environmentId)
+
         val organizationDetailsDto = getOrganizationDetailsDto(mdsId)
         organizationDetailsDto.memberCount = organizationDetailsDto.memberInfos.size
         organizationDetailsDto.connectorCount = connectorService.getConnectorCountByMdsId(mdsId, environmentId)
+        organizationDetailsDto.dataOfferCount = dataOfferCountService.getTotalDataOffersByMdsId(mdsId, environmentId)
 
         return organizationDetailsDto;
     }

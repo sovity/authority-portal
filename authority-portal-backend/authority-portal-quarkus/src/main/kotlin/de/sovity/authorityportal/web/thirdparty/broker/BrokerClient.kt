@@ -34,4 +34,13 @@ class BrokerClient(private val brokerConfig: BrokerConfig) {
             error("Broker API returned unexpected status code: ${response.status}. Expected: ${Response.Status.NO_CONTENT.statusCode}")
         }
     }
+
+    fun getDataOfferCounts(connectorUrls: List<String>): Map<String, Int> {
+        val response = brokerClientResource.getDataOfferCounts(
+            brokerConfig.apiKey(),
+            connectorUrls
+        )
+
+        return response.dataOfferCount
+    }
 }
