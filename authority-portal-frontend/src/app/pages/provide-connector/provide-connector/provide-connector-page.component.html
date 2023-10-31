@@ -108,33 +108,80 @@
       </ng-container>
     </div>
 
-    <div class="select-none flex flex-col justify-between items-center my-2">
-      <div class="flex flex-col justify-between items-center w-full">
-        <label class="label w-full mb-2" for="formProvConPubCertKey"
-          >Public key of your certificate</label
-        >
-        <textarea
-          id="formProvConPubCertKey"
-          class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-1 h-48 resize-none"
-          type="text"
-          formControlName="certificate"
-          placeholder="
-          -----BEGIN CERTIFICATE-----
-          MIICqjCCAhOgAwIBAgIBADANBgk
-          ...
-          AkmFH0MPvGNeUum02F0=
-          -----END CERTIFICATE-----"></textarea>
-      </div>
+    <div class="flex gap-4 w-full">
+      <div
+        class="select-none flex-1 flex flex-col justify-between items-center my-2">
+        <div class="flex flex-col justify-between items-center w-full">
+          <div class="w-full flex justify-between">
+            <label class="label mb-2 w-full" for="formRegOConPubCertKey"
+              >Public key of your certificate</label
+            >
+          </div>
 
-      <ng-container
-        *ngIf="
-          group.controls.certificate.touched &&
-          group.controls.certificate.dirty &&
-          group.controls.certificate.hasError('required')
-        "
-        class="mt-3 text-red-600">
-        Public key of your certificate is a required field
-      </ng-container>
+          <textarea
+            id="formRegOConPubCertKey"
+            class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-1 h-48 resize-none"
+            type="text"
+            formControlName="certificate"
+            placeholder="
+            -----BEGIN CERTIFICATE-----
+            MIICqjCCAhOgAwIBAgIBADANBgk
+            ...
+            AkmFH0MPvGNeUum02F0=
+            -----END CERTIFICATE-----"></textarea>
+        </div>
+
+        <ng-container
+          *ngIf="
+            group.controls.certificate.touched &&
+            group.controls.certificate.dirty &&
+            group.controls.certificate.hasError('required')
+          "
+          class="mt-3 text-red-600">
+          Public key of your certificate is a required field
+        </ng-container>
+      </div>
+      <div class="flex flex-none gap-4 flex-col justify-start my-8">
+        <button
+          class="flex cursor-pointer items-center justify-start w-1/2 px-5 py-2 text-sm tracking-wide transition-colors duration-200 border text-blue-500 border-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 enabled:hover:bg-blue-500 hover:text-white disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed"
+          type="button"
+          (click)="generateCertificate()">
+          <svg
+            class="w-5 h-5"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+
+          <span>Generate Key</span>
+        </button>
+        <button
+          class="flex cursor-pointer items-center justify-start w-1/2 px-5 py-2 text-sm tracking-wide transition-colors duration-200 border text-blue-500 border-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 enabled:hover:bg-blue-500 hover:text-white disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed"
+          type="button"
+          [disabled]="!isDownloadActive"
+          (click)="downloadPrivateKey()">
+          <svg
+            class="w-5 h-5"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 5v9m0 0l-3-3m3 3l3-3M12 14v4m0 0H7m5 0h5" />
+          </svg>
+
+          <span>Download Private Key</span>
+        </button>
+      </div>
     </div>
 
     <div class="border-gray-400 inline-flex mt-4 justify-evenly w-full">

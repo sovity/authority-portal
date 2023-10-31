@@ -3,7 +3,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {CreateConnectorRequest} from '@sovity.de/authority-portal-client';
+import * as forge from 'node-forge';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
+import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
 import {Reset, Submit} from '../state/provide-connector-page-actions';
 import {
   DEFAULT_PROVIDE_CONNECTOR_STATE,
@@ -24,12 +26,18 @@ import {
 export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   state = DEFAULT_PROVIDE_CONNECTOR_STATE;
   group = this.buildFormGroup();
+  keyPair!: forge.pki.rsa.KeyPair;
+  publicKeyPem!: string;
+  privateKeyPem!: string;
+  isDownloadActive: boolean = false;
+  hasDownloadedKey: boolean = false;
   environmentId!: string;
 
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
     private store: Store,
     private formBuilder: FormBuilder,
+    private certificateGenerateService: CertificateGenerateService,
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +65,33 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
       certificate: [initial.certificate, [Validators.required]],
       environmentId: [initial.environmentId, [Validators.required]],
     });
+  }
+
+  generateCertificate() {
+    this.keyPair = this.certificateGenerateService.generateKeyPair(2048);
+    this.publicKeyPem = this.certificateGenerateService.publicKeyToPem(
+      this.keyPair.publicKey,
+    );
+    this.privateKeyPem = this.certificateGenerateService.privateKeyToPem(
+      this.keyPair.privateKey,
+    );
+    this.group.controls['certificate'].setValue(this.publicKeyPem);
+    this.isDownloadActive = true;
+  }
+
+  downloadPrivateKey() {
+    this.hasDownloadedKey = true;
+    const blob = new Blob([this.privateKeyPem], {type: 'text/plain'});
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'private_key.pem';
+
+    // Trigger the download
+    a.click();
+
+    window.URL.revokeObjectURL(url);
   }
 
   submit(): void {
