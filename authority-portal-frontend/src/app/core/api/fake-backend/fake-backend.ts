@@ -10,12 +10,9 @@ import {
   OrganizationDetailsDtoToJSON,
   OrganizationOverviewResultToJSON,
   UserDetailDtoToJSON,
-  UserInfoToJSON
+  UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
-import {deploymentEnvironmentList} from 'src/app/core/api/fake-backend/impl/deploymentEnvironment-list-fake';
-import {getMyOrganizationDetails} from 'src/app/core/api/fake-backend/impl/my-organization-details-fake';
-import {userDetails} from 'src/app/core/api/fake-backend/impl/user-detail-fake';
-
+import {deploymentEnvironmentList} from './impl/deployment-environment-list-fake';
 import {
   createOwnConnector,
   createProvidedConnector,
@@ -26,14 +23,16 @@ import {
 import {
   approveOrganization,
   getListOfOrganizationsForTable,
+  getMyOrganizationDetails,
   getOrganizationDetails,
   rejectOrganization,
 } from './impl/fake-organizations';
-import { getUserInfo, inviteUser } from './impl/fake-users';
-import { createOrganization } from './impl/registration-process-fake';
-import { getBody, getMethod, getUrl } from './utils/request-utils';
-import { ok } from './utils/response-utils';
-import { UrlInterceptor } from './utils/url-interceptor';
+import {getUserInfo, inviteUser} from './impl/fake-users';
+import {createOrganization} from './impl/registration-process-fake';
+import {userDetails} from './impl/user-detail-fake';
+import {getBody, getMethod, getUrl} from './utils/request-utils';
+import {ok} from './utils/response-utils';
+import {UrlInterceptor} from './utils/url-interceptor';
 
 export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
   input: RequestInfo,

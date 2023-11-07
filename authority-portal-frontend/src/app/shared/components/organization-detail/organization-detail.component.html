@@ -308,6 +308,12 @@
           </ng-template>
         </ng-container>
       </table>
+      <button
+        *ngIf="'PARTICIPANT_ADMIN' | hasRole | async"
+        class="border border-black bg-black text-white rounded-md p-2 m-2"
+        routerLink="/my-organization/users/invite">
+        Invite new User
+      </button>
     </mat-tab>
   </mat-tab-group>
 </div>

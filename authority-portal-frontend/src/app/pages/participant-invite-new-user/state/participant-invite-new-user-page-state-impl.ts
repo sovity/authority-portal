@@ -44,7 +44,7 @@ export class ParticipantInviteNewUserPageStateImpl {
           `The invitation for ${action.request.firstName} ${action.request.lastName} was sent.`,
         );
         ctx.patchState({state: 'success'});
-        this.router.navigate(['/my-organization', 'users']);
+        this.router.navigate(['/my-organization', 'profile']);
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
       this.errorService.toastFailureRxjs('Failed inviting user', () => {
