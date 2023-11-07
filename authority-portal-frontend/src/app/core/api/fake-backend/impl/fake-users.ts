@@ -6,6 +6,7 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
+import {updateOrganization} from './fake-organizations';
 
 export let TEST_USERS: {[key: string]: UserInfo} = {
   '00000000-0000-0000-0000-00000001': {
@@ -90,9 +91,9 @@ export const getUserInfo = (): UserInfo => currentlyLoggedInUser;
 export const inviteUser = (
   request: InviteParticipantUserRequest,
 ): IdResponse => {
-  let newUserId = generateNewId();
+  const newUserId = generateNewId();
 
-  TEST_USERS[newUserId] = {
+  const newUser = {
     userId: newUserId,
     firstName: request.firstName,
     lastName: request.lastName,
@@ -101,6 +102,13 @@ export const inviteUser = (
     organizationMdsId: getUserInfo().organizationMdsId,
     organizationName: getUserInfo().organizationName,
   } satisfies UserInfo;
+
+  updateOrganization(getUserInfo().organizationMdsId, (organization) => {
+    return {
+      ...organization,
+      memberInfos: [...organization.memberInfos, newUser],
+    };
+  });
 
   return {id: newUserId, changedDate: new Date()};
 };
