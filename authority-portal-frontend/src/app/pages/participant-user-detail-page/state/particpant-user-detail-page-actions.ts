@@ -8,3 +8,13 @@ export class SetOrganizationUserId {
 export class RefreshOrganizationUser {
   static readonly type = `[${tag}] Refresh Organization User`;
 }
+
+export class DeactivateUser {
+  static readonly type = `[${tag}] Deactivate User`;
+  constructor(public userId: string) {}
+}
+
+export class ReactivateUser {
+  static readonly type = `[${tag}] Deactivate User`;
+  constructor(public userId: string) {}
+}

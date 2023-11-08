@@ -14,6 +14,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Minor
 
 #### Patch
+- Added user deactivation/re-activation feature on the user details page 
 
 ### Deployment Migration Notes
 

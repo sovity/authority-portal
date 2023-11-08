@@ -9,6 +9,7 @@
       class="flex p-8 w-full lg:w-10/12 my-8 gap-4 justify-between"
       type="PARTICIPANT"
       [user]="state.user.data"
-      [userId]="state.userId"></app-user-detail>
+      [userId]="state.userId"
+      (userAction)="userActionHandler($event)"></app-user-detail>
   </div>
 </div>

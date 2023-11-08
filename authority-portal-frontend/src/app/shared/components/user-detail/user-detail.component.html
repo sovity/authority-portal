@@ -116,16 +116,36 @@
       [disabled]="true" />
   </div>
 
-  <div *ngIf="type !== 'PROFILE_PAGE'" class="w-full flex justify-end">
+  <div
+    *ngIf="
+      [
+        'AUTHORITY_ADMIN',
+        'AUTHORITY_USER',
+        'PARTICIPANT_ADMIN',
+        'SERVICE_PARTNER_ADMIN'
+      ]
+        | hasAnyRole
+        | async
+    "
+    class="flex flex-row justify-end gap-6 items-center my-4">
     <button
-      mat-flat-button
-      color="primary"
+      *ngIf="user.registrationStatus === 'DEACTIVATED'"
+      class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
+      (click)="updateUserStatus('REACTIVATE')">
+      Re-Activate
+    </button>
+    <button
+      *ngIf="user.registrationStatus === 'ACTIVE'"
+      class="bg-white hover:bg-red-50 text-red-600 border-gray-500 border py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
+      (click)="updateUserStatus('DEACTIVATE')">
+      Deactivate
+    </button>
+
+    <button
+      *ngIf="type !== 'PROFILE_PAGE' && roleFormEnable"
+      class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
       [disabled]="!isUpdateRoleActive"
       (click)="updateUserRoles()">
-      <mat-icon
-        fontIcon="save"
-        aria-hidden="false"
-        aria-label="Example Save icon"></mat-icon>
       Save
     </button>
   </div>

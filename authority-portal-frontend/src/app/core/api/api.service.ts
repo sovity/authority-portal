@@ -17,7 +17,6 @@ import {
   UiApi,
   UserDetailDto,
   UserInfo,
-  UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {ApiClientFactory} from './api-client-factory';
 
@@ -31,6 +30,22 @@ export class ApiService {
 
   updateUserRoles(request: ChangeParticipantRoleRequest) {
     return from(this.api().changeParticipantRole(request));
+  }
+
+  deactivateAnyUser(userId: string) {
+    return from(this.api().deactivateAnyUser({userId}));
+  }
+
+  deactivateUser(userId: string) {
+    return from(this.api().deactivateParticipantUser({userId}));
+  }
+
+  reactivateAnyUser(userId: string) {
+    return from(this.api().reactivateAnyUser({userId}));
+  }
+
+  reactivateUser(userId: string) {
+    return from(this.api().reactivateParticipantUser({userId}));
   }
 
   updateAuthorityUserRoles(request: ChangeAuthorityRoleRequest) {

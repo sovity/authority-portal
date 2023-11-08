@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 import {EMPTY, Observable} from 'rxjs';
-import {ignoreElements, tap} from 'rxjs/operators';
-import {Action, State, StateContext} from '@ngxs/store';
+import {filter, finalize, ignoreElements, takeUntil, tap} from 'rxjs/operators';
+import {Action, Actions, State, StateContext} from '@ngxs/store';
+import {ErrorService} from 'src/app/core/error.service';
+import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
 import {
@@ -9,6 +12,8 @@ import {
   ParticipantUserDetailPageState,
 } from './participant-user-detail-page-state';
 import {
+  DeactivateUser,
+  ReactivateUser,
   RefreshOrganizationUser,
   SetOrganizationUserId,
 } from './particpant-user-detail-page-actions';
@@ -19,7 +24,13 @@ import {
 })
 @Injectable()
 export class ParticipantUserDetailPageStateImpl {
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private actions$: Actions,
+    private errorService: ErrorService,
+    private toast: ToastService,
+    private router: Router,
+  ) {}
 
   @Action(SetOrganizationUserId)
   onSetOrganizationMdsId(
@@ -39,14 +50,59 @@ export class ParticipantUserDetailPageStateImpl {
   ): Observable<never> {
     return this.apiService.getOrganizationUser(ctx.getState().userId).pipe(
       Fetched.wrap({failureMessage: 'Failed loading user'}),
-      tap((user) =>
-        this.organizationUserRefreshed(
-          ctx,
-          user,
-          ctx.getState().organizationMdsId,
-          ctx.getState().userId,
+      tap((user) => this.organizationUserRefreshed(ctx, user)),
+      ignoreElements(),
+    );
+  }
+
+  @Action(DeactivateUser)
+  onDeactivateUser(
+    ctx: StateContext<ParticipantUserDetailPageState>,
+    action: DeactivateUser,
+  ) {
+    if (ctx.getState().busy) {
+      return EMPTY;
+    }
+    ctx.patchState({busy: true});
+    return this.apiService.deactivateUser(action.userId).pipe(
+      takeUntil(
+        this.actions$.pipe(
+          filter((action) => action instanceof RefreshOrganizationUser),
         ),
       ),
+      this.errorService.toastFailureRxjs('Failed deactivating user'),
+      tap((data) => {
+        this.toast.showSuccess(`User deactivated successfully`);
+        this.organizationUserRefreshed(ctx, Fetched.ready(data));
+        this.router.navigate(['/my-organization', 'profile']);
+      }),
+      finalize(() => ctx.patchState({busy: false})),
+      ignoreElements(),
+    );
+  }
+
+  @Action(ReactivateUser)
+  onReactivateUser(
+    ctx: StateContext<ParticipantUserDetailPageState>,
+    action: DeactivateUser,
+  ) {
+    if (ctx.getState().busy) {
+      return EMPTY;
+    }
+    ctx.patchState({busy: true});
+    return this.apiService.reactivateUser(action.userId).pipe(
+      takeUntil(
+        this.actions$.pipe(
+          filter((action) => action instanceof RefreshOrganizationUser),
+        ),
+      ),
+      this.errorService.toastFailureRxjs('Failed re-activating user'),
+      tap((data) => {
+        this.toast.showSuccess(`User re-activated successfully`);
+        this.organizationUserRefreshed(ctx, Fetched.ready(data));
+        this.router.navigate(['/my-organization', 'profile']);
+      }),
+      finalize(() => ctx.patchState({busy: false})),
       ignoreElements(),
     );
   }
@@ -54,9 +110,7 @@ export class ParticipantUserDetailPageStateImpl {
   private organizationUserRefreshed(
     ctx: StateContext<ParticipantUserDetailPageState>,
     user: Fetched<any>,
-    organizationMdsId: string,
-    userId: string,
   ) {
-    ctx.patchState({organizationMdsId, userId, user});
+    ctx.patchState({user});
   }
 }

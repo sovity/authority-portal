@@ -101,12 +101,12 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('authority/users/*/deactivate')
     .on('PUT', (userId) => {
-      throw new Error('TODO');
+      return ok(userId);
     })
 
     .url('authority/users/*/reactivate')
     .on('PUT', (userId) => {
-      throw new Error('TODO');
+      return ok(userId);
     })
 
     .url('organizations/my-org/connectors')
@@ -140,6 +140,26 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       const request = InviteParticipantUserRequestFromJSON(body);
       const result = inviteUser(request);
 
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('organizations/my-org/users/invite')
+    .on('POST', () => {
+      const request = InviteParticipantUserRequestFromJSON(body);
+      const result = inviteUser(request);
+
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('organizations/my-org/users/*/deactivate')
+    .on('PUT', (userId) => {
+      const result = approveOrganization(userId);
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('organizations/my-org/users/*/reactivate')
+    .on('PUT', (userId) => {
+      const result = approveOrganization(userId);
       return ok(IdResponseToJSON(result));
     })
 

@@ -22,3 +22,13 @@ export class UpdateAuthorityUserRoles {
   request: any;
   constructor(public userId: string, public roles: UserRoleDto) {}
 }
+
+export class DeactivateUser {
+  static readonly type = `[${tag}] Deactivate User`;
+  constructor(public userId: string) {}
+}
+
+export class ReactivateUser {
+  static readonly type = `[${tag}] Deactivate User`;
+  constructor(public userId: string) {}
+}

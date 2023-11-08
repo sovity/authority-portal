@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {UserDetailDto, UserRoleDto} from '@sovity.de/authority-portal-client';
 import {
@@ -17,6 +17,10 @@ export interface UserRolesMgmt {
   updatedRole?: UserRoleDto;
 }
 
+export interface UserAction {
+  type: 'REACTIVATE' | 'DEACTIVATE';
+}
+
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -25,6 +29,7 @@ export class UserDetailComponent implements OnInit {
   @Input() userId!: string;
   @Input() user!: UserDetailDto;
   @Input() type!: 'AUTHORITY' | 'PARTICIPANT' | 'PROFILE_PAGE';
+  @Output() userAction = new EventEmitter<UserAction>();
 
   roleFormEnable: boolean = false;
   isUpdateRoleActive: boolean = false;
@@ -88,5 +93,13 @@ export class UserDetailComponent implements OnInit {
         new UpdateUserRoles(this.userId, this.participantRoles.updatedRole),
       );
     }
+  }
+
+  /**
+   * To update user status
+   * @param type REACTIVATE | DEACTIVATE
+   */
+  updateUserStatus(type: 'REACTIVATE' | 'DEACTIVATE') {
+    this.userAction.emit({type});
   }
 }
