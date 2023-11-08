@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-8 justify-center items-center p-8">
   <app-env-banner class="w-full"></app-env-banner>
   <div
-    *ngIf="type === 'Authority'"
+    *ngIf="type === 'AUTHORITY'"
     class="flex flex-col w-full lg:flex-row gap-4">
     <a
       class="flex-1 block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow hover:bg-yellow-50"
@@ -70,7 +70,7 @@
     class="flex flex-col bg-white shadow-lg w-full p-8 rounded-3xl"
     mat-stretch-tabs>
     <mat-tab label="Organization Profile:">
-      <div *ngIf="organization as organization" class="mt-8">
+      <div class="mt-8">
         <div
           class="select-none flex flex-col justify-start items-start p-2 my-1 w-full">
           <label class="organization-profile-label">MDS ID:</label>
@@ -169,22 +169,28 @@
             [value]="organization.createdBy"
             [disabled]="true" />
         </div>
-        <div
-          *ngIf="organization.registrationStatus == 'PENDING'"
-          class="flex flex-row justify-evenly items-center my-4">
-          <button
-            class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
-            [disabled]="organization.registrationStatus !== 'PENDING'"
-            (click)="approve()">
-            Approve
-          </button>
-          <button
-            class="bg-white hover:bg-red-50 text-red-600 border-gray-500 border py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
-            [disabled]="organization.registrationStatus !== 'PENDING'"
-            (click)="reject()">
-            Reject
-          </button>
-        </div>
+        <ng-container
+          *ngIf="
+            (['AUTHORITY_ADMIN', 'AUTHORITY_USER'] | hasAnyRole | async) &&
+            type === 'AUTHORITY'
+          ">
+          <div
+            *ngIf="organization.registrationStatus == 'PENDING'"
+            class="flex flex-row justify-evenly items-center my-4">
+            <button
+              class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
+              [disabled]="organization.registrationStatus !== 'PENDING'"
+              (click)="approve()">
+              Approve
+            </button>
+            <button
+              class="bg-white hover:bg-red-50 text-red-600 border-gray-500 border py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
+              [disabled]="organization.registrationStatus !== 'PENDING'"
+              (click)="reject()">
+              Reject
+            </button>
+          </div>
+        </ng-container>
       </div>
     </mat-tab>
     <mat-tab label="Users list">
@@ -239,7 +245,7 @@
 
                 <td class="flex px-4 py-4 text-sm whitespace-nowrap">
                   <a
-                    *ngIf="type === 'Authority'"
+                    *ngIf="type === 'AUTHORITY'"
                     class="px-1 py-1 text-gray-600 transition-colors duration-200 rounded-lg"
                     [routerLink]="[
                       '/authority/organizations',
@@ -269,7 +275,7 @@
                     </svg>
                   </a>
                   <a
-                    *ngIf="type === 'Participant'"
+                    *ngIf="type === 'PROFILE_PAGE'"
                     class="px-1 py-1 text-gray-600 transition-colors duration-200 rounded-lg"
                     [routerLink]="['/my-organization/user', user.userId]">
                     <svg

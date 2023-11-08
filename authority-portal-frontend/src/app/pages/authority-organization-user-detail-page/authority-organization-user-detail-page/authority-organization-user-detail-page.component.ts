@@ -1,8 +1,10 @@
-import {Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {
+  DeactivateUser,
+  ReactivateUser,
   RefreshOrganizationUser,
   SetOrganizationUserId,
 } from 'src/app/pages/authority-organization-user-detail-page/state/authority-organization-user-detail-page-actions';
@@ -33,7 +35,7 @@ export class AuthorityOrganizationUserDetailPageComponent
         mdsId: params.get('mdsId')!!,
         userId: params.get('userId')!!,
       };
-      this.setOrganizationUserId(this.pageData.mdsId!!, this.pageData.userId!!);
+      this.setOrganizationUserId(this.pageData.mdsId, this.pageData.userId);
       this.refresh();
     });
     this.startListeningToState();
@@ -55,6 +57,17 @@ export class AuthorityOrganizationUserDetailPageComponent
 
   setOrganizationUserId(mdsId: string, userId: string) {
     this.store.dispatch(new SetOrganizationUserId(mdsId, userId));
+  }
+
+  userActionHandler($event: any) {
+    switch ($event.type) {
+      case 'REACTIVATE':
+        this.store.dispatch(new ReactivateUser(this.state.userId));
+        break;
+      case 'DEACTIVATE':
+        this.store.dispatch(new DeactivateUser(this.state.userId));
+        break;
+    }
   }
 
   refresh() {

@@ -5,10 +5,8 @@ import * as forge from 'node-forge';
   providedIn: 'root',
 })
 export class CertificateGenerateService {
-  constructor() {}
-
   /**
-   * generate ke ypair
+   * generate key pair
    * @param bits
    * @returns
    */

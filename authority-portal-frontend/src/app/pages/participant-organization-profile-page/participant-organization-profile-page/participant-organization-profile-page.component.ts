@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 import {GlobalState} from 'src/app/core/global-state/global-state';
 import {GlobalStateImpl} from 'src/app/core/global-state/global-state-impl';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';

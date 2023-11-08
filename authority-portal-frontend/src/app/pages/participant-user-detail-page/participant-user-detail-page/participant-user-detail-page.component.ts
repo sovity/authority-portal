@@ -8,6 +8,8 @@ import {
 } from 'src/app/pages/participant-user-detail-page/state/participant-user-detail-page-state';
 import {ParticipantUserDetailPageStateImpl} from 'src/app/pages/participant-user-detail-page/state/participant-user-detail-page-state-impl';
 import {
+  DeactivateUser,
+  ReactivateUser,
   RefreshOrganizationUser,
   SetOrganizationUserId,
 } from 'src/app/pages/participant-user-detail-page/state/particpant-user-detail-page-actions';
@@ -43,6 +45,17 @@ export class ParticipantUserDetailPageComponent implements OnInit {
 
   setOrganizationUserId(mdsId: string, userId: string) {
     this.store.dispatch(new SetOrganizationUserId(mdsId, userId));
+  }
+
+  userActionHandler($event: any) {
+    switch ($event.type) {
+      case 'REACTIVATE':
+        this.store.dispatch(new ReactivateUser(this.state.userId));
+        break;
+      case 'DEACTIVATE':
+        this.store.dispatch(new DeactivateUser(this.state.userId));
+        break;
+    }
   }
 
   refresh() {

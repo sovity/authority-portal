@@ -3,7 +3,6 @@ import {
   OrganizationDetailsDto,
   OwnOrganizationDetailsDto,
 } from '@sovity.de/authority-portal-client';
-import {Fetched} from 'src/app/core/utils/fetched';
 import {
   getOrganizationRegistrationStatusClasses,
   getOrganizationUserRegistrationStatusClasses,
@@ -21,7 +20,7 @@ export enum OrganizationActions {
 })
 export class OrganizationDetailComponent implements OnInit {
   @Input() organization!: OrganizationDetailsDto | OwnOrganizationDetailsDto;
-  @Input() type!: 'Participant' | 'Authority';
+  @Input() type!: 'AUTHORITY' | 'PROFILE_PAGE';
   @Output() actions = new EventEmitter<OrganizationActions>();
 
   dashboard!: {
