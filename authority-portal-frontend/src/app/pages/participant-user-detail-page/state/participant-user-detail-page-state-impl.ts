@@ -84,7 +84,7 @@ export class ParticipantUserDetailPageStateImpl {
   @Action(ReactivateUser)
   onReactivateUser(
     ctx: StateContext<ParticipantUserDetailPageState>,
-    action: DeactivateUser,
+    action: ReactivateUser,
   ) {
     if (ctx.getState().busy) {
       return EMPTY;

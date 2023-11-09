@@ -29,6 +29,6 @@ export class DeactivateUser {
 }
 
 export class ReactivateUser {
-  static readonly type = `[${tag}] Deactivate User`;
+  static readonly type = `[${tag}] Reactivate User`;
   constructor(public userId: string) {}
 }
