@@ -12,6 +12,7 @@ import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.OrganizationDetailsDto
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.OwnOrganizationDetailsDto
+import de.sovity.authorityportal.api.model.RegistrationRequestDto
 import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
@@ -24,6 +25,7 @@ import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationIn
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationRegistrationApiService
 import de.sovity.authorityportal.web.pages.redirects.BrokerRedirectApiService
+import de.sovity.authorityportal.web.pages.registration.RegistrationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeactivationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserInfoApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiService
@@ -69,6 +71,9 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var brokerRedirectApiService: BrokerRedirectApiService
+
+    @Inject
+    lateinit var registrationApiService: RegistrationApiService
 
     // User info
     @Transactional
@@ -254,5 +259,10 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun deploymentEnvironmentList(): List<DeploymentEnvironmentDto> {
         return connectorManagementApiService.getAllDeploymentEnvironment();
+    }
+
+    @Transactional
+    override fun registerUser(registrationRequest: RegistrationRequestDto): IdResponse {
+        return registrationApiService.registerUserAndOrganization(registrationRequest);
     }
 }

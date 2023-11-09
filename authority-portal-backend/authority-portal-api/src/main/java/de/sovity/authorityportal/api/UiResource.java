@@ -11,6 +11,7 @@ import de.sovity.authorityportal.api.model.InviteParticipantUserRequest;
 import de.sovity.authorityportal.api.model.OrganizationDetailsDto;
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult;
 import de.sovity.authorityportal.api.model.OwnOrganizationDetailsDto;
+import de.sovity.authorityportal.api.model.RegistrationRequestDto;
 import de.sovity.authorityportal.api.model.UserDetailDto;
 import de.sovity.authorityportal.api.model.UserInfo;
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
@@ -208,4 +209,11 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get a list of all deployment environment.")
     List<DeploymentEnvironmentDto> deploymentEnvironmentList();
+
+    @POST
+    @Path("/registration")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(description = "Register user and organization.")
+    IdResponse registerUser(RegistrationRequestDto registrationRequest);
 }

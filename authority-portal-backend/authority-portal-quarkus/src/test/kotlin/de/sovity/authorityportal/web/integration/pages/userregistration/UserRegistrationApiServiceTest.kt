@@ -5,9 +5,9 @@ import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_ADDRESS
-import de.sovity.authorityportal.web.integration.pages.TestData.ORG_DUNS
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_SECURITY_EMAIL
+import de.sovity.authorityportal.web.integration.pages.TestData.ORG_TAX_ID
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_URL
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import de.sovity.authorityportal.web.services.OrganizationService
@@ -53,7 +53,7 @@ class UserRegistrationApiServiceTest {
     @Test
     fun testCreateOrganization() {
         // arrange
-        val organizationRequest = CreateOrganizationRequest(ORG_NAME, ORG_ADDRESS, ORG_DUNS, ORG_URL, ORG_SECURITY_EMAIL)
+        val organizationRequest = CreateOrganizationRequest(ORG_NAME, ORG_ADDRESS, ORG_TAX_ID, ORG_URL, ORG_SECURITY_EMAIL)
         val keyCloakService = Mockito.mock(KeycloakService::class.java)
         QuarkusMock.installMockForType(keyCloakService, KeycloakService::class.java)
 
@@ -73,9 +73,9 @@ class UserRegistrationApiServiceTest {
         assertThat(organization).isNotNull()
         assertThat(organization.name).isEqualTo(ORG_NAME)
         assertThat(organization.address).isEqualTo(ORG_ADDRESS)
-        assertThat(organization.duns).isEqualTo(ORG_DUNS)
+        assertThat(organization.taxId).isEqualTo(ORG_TAX_ID)
         assertThat(organization.url).isEqualTo(ORG_URL)
-        assertThat(organization.securityEmail).isEqualTo(ORG_SECURITY_EMAIL)
+        assertThat(organization.mainContactEmail).isEqualTo(ORG_SECURITY_EMAIL)
         assertThat(organization.createdBy).isEqualTo(userId)
         assertThat(organization.createdAt).isNotNull()
         assertThat(organization.registrationStatus).isEqualTo(OrganizationRegistrationStatus.PENDING)

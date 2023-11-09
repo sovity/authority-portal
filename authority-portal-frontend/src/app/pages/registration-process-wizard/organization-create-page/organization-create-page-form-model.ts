@@ -6,7 +6,7 @@ export type OrganizationCreatePageFormValue =
 export interface OrganizationCreatePageFormModel {
   name: FormControl<string>;
   address: FormControl<string>;
-  duns: FormControl<string>;
+  taxId: FormControl<string>;
   url: FormControl<string>;
   securityEmail: FormControl<string>;
   authorizedCheck: FormControl<boolean>;
@@ -16,7 +16,7 @@ export const DEFAULT_ORGANIZATION_CREATE_FORM_VALUE: OrganizationCreatePageFormV
   {
     name: '',
     address: '',
-    duns: '',
+    taxId: '',
     url: '',
     securityEmail: '',
     authorizedCheck: false,

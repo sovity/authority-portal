@@ -18,8 +18,8 @@ public class CreateOrganizationRequest {
     private String name;
     @Schema(description = "Address", requiredMode = Schema.RequiredMode.REQUIRED)
     private String address;
-    @Schema(description = "DUNS number", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String duns;
+    @Schema(description = "Tax Id", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String taxId;
     @Schema(description = "URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
     private String url;
     @Schema(description = "Email address for security related issues", requiredMode = Schema.RequiredMode.REQUIRED)
