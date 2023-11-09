@@ -160,7 +160,7 @@ export class AuthorityOrganizationUserDetailPageStateImpl {
   @Action(ReactivateUser)
   onReactivateUser(
     ctx: StateContext<AuthorityOrganizationUserDetailPageState>,
-    action: DeactivateUser,
+    action: ReactivateUser,
   ) {
     if (ctx.getState().busy) {
       return EMPTY;
