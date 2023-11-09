@@ -14,11 +14,34 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Minor
 
 #### Patch
-- Added user deactivation/re-activation feature on the user details page 
 
 ### Deployment Migration Notes
 
 #### Compatible Versions
+
+## [v0.1.1] - 2023-11-09
+
+### Overview
+
+Patch release, adding messing buttons.
+
+### Detailed Changes
+
+#### Patch
+- Added button for user de-/reactivation on the user details page
+- Added button for user invitation on the organization details page
+
+### Deployment Migration Notes
+
+- Upgrade Authority Portal to this version
+  - Shut down current version
+  - Restart with new images
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:0.1.1`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:0.1.1`
+- Broker Server: `1.2.0`
 
 ## [v0.1.0] - 2023-10-31
 
