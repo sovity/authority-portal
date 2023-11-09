@@ -23,7 +23,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ### Overview
 
-Patch release, adding messing buttons.
+Patch release, adding missing buttons.
 
 ### Detailed Changes
 
