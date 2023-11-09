@@ -4,9 +4,9 @@ import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_ADDRESS
-import de.sovity.authorityportal.web.integration.pages.TestData.ORG_DUNS
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_SECURITY_EMAIL
+import de.sovity.authorityportal.web.integration.pages.TestData.ORG_TAX_ID
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_URL
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_EMAIL
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_FIRST_NAME
@@ -61,7 +61,7 @@ class OrganizationInvitationApiServiceTest {
             USER_LAST_NAME,
             ORG_NAME,
             ORG_ADDRESS,
-            ORG_DUNS,
+            ORG_TAX_ID,
             ORG_URL,
             ORG_SECURITY_EMAIL
         )
@@ -76,9 +76,9 @@ class OrganizationInvitationApiServiceTest {
         assertThat(organization.registrationStatus).isEqualTo(OrganizationRegistrationStatus.INVITED)
         assertThat(organization.name).isEqualTo(ORG_NAME)
         assertThat(organization.address).isEqualTo(ORG_ADDRESS)
-        assertThat(organization.duns).isEqualTo(ORG_DUNS)
+        assertThat(organization.taxId).isEqualTo(ORG_TAX_ID)
         assertThat(organization.url).isEqualTo(ORG_URL)
-        assertThat(organization.securityEmail).isEqualTo(ORG_SECURITY_EMAIL)
+        assertThat(organization.mainContactEmail).isEqualTo(ORG_SECURITY_EMAIL)
         assertThat(user.registrationStatus).isEqualTo(UserRegistrationStatus.INVITED)
 
         // verify

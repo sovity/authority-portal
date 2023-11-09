@@ -49,7 +49,7 @@ class OrganizationInfoApiService {
             organizationDetails.mdsId,
             organizationDetails.name,
             organizationDetails.address,
-            organizationDetails.duns,
+            organizationDetails.taxId,
             organizationDetails.url,
             organizationDetails.securityEmail,
             organizationDetails.registrationStatus,
@@ -76,9 +76,9 @@ class OrganizationInfoApiService {
             this.mdsId = organization.mdsId
             name = organization.name
             address = organization.address
-            duns = organization.duns
+            taxId = organization.taxId
             url = organization.url
-            securityEmail = organization.securityEmail
+            securityEmail = organization.mainContactEmail
             registrationStatus = organization.registrationStatus.toDto()
             createdAt = organization.createdAt
             createdBy = organization.createdBy

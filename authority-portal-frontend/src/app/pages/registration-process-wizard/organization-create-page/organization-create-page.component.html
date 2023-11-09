@@ -66,10 +66,10 @@
             id="formOrgDuns"
             class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
             type="text"
-            formControlName="duns"
-            placeholder="The DUNS number is a nine-digit number" />
+            formControlName="taxId"
+            placeholder="The Tax ID number is a nine-digit number" />
           <div>
-            *You can find the DUNS number here:
+            *You can find the Tax ID number here:
             <a
               class="text-blue-500"
               target="blank"
@@ -82,12 +82,12 @@
 
         <div
           *ngIf="
-            group.controls.duns.touched &&
-            group.controls.duns.dirty &&
-            group.controls.duns.hasError('required')
+            group.controls.taxId.touched &&
+            group.controls.taxId.dirty &&
+            group.controls.taxId.hasError('required')
           "
           class="mt-3 text-red-600">
-          DUNS is a required field
+          Tax ID is a required field
         </div>
       </div>
 

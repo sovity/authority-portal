@@ -3,6 +3,7 @@ package de.sovity.authorityportal.web.services
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
+import de.sovity.authorityportal.web.model.CreateUserData
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
@@ -33,6 +34,23 @@ class UserService {
     fun createUser(userId: String, registrationStatus: UserRegistrationStatus, mdsId: String? = null): UserRecord {
         return dsl.newRecord(Tables.USER).also {
             it.id = userId
+            it.organizationMdsId = mdsId
+            it.registrationStatus = registrationStatus
+            it.createdAt = OffsetDateTime.now()
+
+            it.insert()
+        }
+    }
+
+    fun createUser(userId: String, registrationStatus: UserRegistrationStatus,
+                   userData: CreateUserData, mdsId: String? = null): UserRecord {
+        return dsl.newRecord(Tables.USER).also {
+            it.id = userId
+            it.email = userData.email
+            it.firstName = userData.firstName
+            it.lastName = userData.lastName
+            it.jobTitle = userData.jobTitle
+            it.phone = userData.phone
             it.organizationMdsId = mdsId
             it.registrationStatus = registrationStatus
             it.createdAt = OffsetDateTime.now()

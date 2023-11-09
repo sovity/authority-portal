@@ -44,7 +44,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
       this.formBuilder.nonNullable.group({
         name: [initial.name, [Validators.required]],
         address: [initial.address, [Validators.required]],
-        duns: [initial.duns, [Validators.required]],
+        taxId: [initial.taxId, [Validators.required]],
         url: [initial.url, [Validators.required]],
         securityEmail: [initial.securityEmail, [Validators.required]],
         authorizedCheck: [initial.authorizedCheck, [Validators.required]],
@@ -67,7 +67,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
       url: formValue.url!,
       name: formValue.name!,
       address: formValue.address!,
-      duns: formValue.duns!,
+      taxId: formValue.taxId!,
       securityEmail: formValue.securityEmail!,
     };
 

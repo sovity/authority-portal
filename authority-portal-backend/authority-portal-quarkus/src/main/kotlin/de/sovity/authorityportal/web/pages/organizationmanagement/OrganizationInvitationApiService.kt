@@ -68,7 +68,7 @@ class OrganizationInvitationApiService {
         return CreateOrganizationRequest().apply {
             name = invitationInformation.orgName
             address = invitationInformation.orgAddress
-            duns = invitationInformation.orgDuns
+            taxId = invitationInformation.orgDuns
             url = invitationInformation.orgUrl
             securityEmail = invitationInformation.orgSecurityEmail
         }
