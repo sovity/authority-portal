@@ -42,6 +42,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:${mockitoVersion}")
     testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
     testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
 }
 
 configurations.all {
@@ -71,3 +72,4 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
     kotlinOptions.javaParameters = true
 }
+
