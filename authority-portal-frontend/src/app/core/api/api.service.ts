@@ -7,6 +7,7 @@ import {
   ConnectorOverviewResult,
   CreateConnectorRequest,
   CreateOrganizationRequest,
+  CreateProvidedConnectorRequest,
   DeploymentEnvironmentDto,
   IdResponse,
   InviteOrganizationRequest,
@@ -68,7 +69,7 @@ export class ApiService {
 
   getOrganizationDetails(
     mdsId: string,
-    environmentId?: string,
+    environmentId: string,
   ): Observable<OrganizationDetailsDto> {
     return from(this.api().organizationDetails({mdsId, environmentId}));
   }
@@ -92,7 +93,7 @@ export class ApiService {
   // Connectors
   // Own Connectors
   getOwnOrganizationConnectors(
-    environmentId?: string,
+    environmentId: string,
   ): Observable<ConnectorOverviewResult> {
     return from(this.api().ownOrganizationConnectors({environmentId}));
   }
@@ -113,7 +114,7 @@ export class ApiService {
 
   createOwnConnector(
     createConnectorRequest: CreateConnectorRequest,
-    environmentId?: string,
+    environmentId: string,
   ): Observable<IdResponse> {
     return from(
       this.api().createOwnConnector({createConnectorRequest, environmentId}),
@@ -121,15 +122,13 @@ export class ApiService {
   }
 
   createProvidedConnector(
-    connector: CreateConnectorRequest,
-    mdsId: string,
-    environmentId?: string,
+    connector: CreateProvidedConnectorRequest,
   ): Observable<IdResponse> {
     return from(
       this.api().createProvidedConnector({
-        createConnectorRequest: connector,
-        mdsId,
-        environmentId,
+        createConnectorRequest: connector.createConnectorRequest,
+        environmentId: connector.environmentId,
+        mdsId: connector.mdsId,
       }),
     );
   }

@@ -18,6 +18,9 @@ import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
 import de.sovity.authorityportal.api.model.UserRoleDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -61,7 +64,11 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Create an organization for a user.")
-    IdResponse createOrganization(CreateOrganizationRequest organization);
+    IdResponse createOrganization(
+        @Valid
+        @NotNull(message = "Organization cannot be null")
+        CreateOrganizationRequest organization
+    );
 
     // Organization management (Internal)
     @PUT
@@ -69,14 +76,25 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Change a user's participant role (PARTICIPANT_*) within their organization.")
-    IdResponse changeParticipantRole(@PathParam("userId") String userId, UserRoleDto role);
+    IdResponse changeParticipantRole(
+        @PathParam("userId")
+        String userId,
+
+        @Valid
+        @NotNull(message = "Role cannot be null")
+        UserRoleDto role
+    );
 
     @POST
     @Path("/organizations/my-org/users/invite")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Invite new user to a participating organization.")
-    IdResponse inviteUser(InviteParticipantUserRequest invitationInformation);
+    IdResponse inviteUser(
+        @Valid
+        @NotNull(message = "Invitation information cannot be null")
+        InviteParticipantUserRequest invitationInformation
+    );
 
     @PUT
     @Path("/organizations/my-org/users/{userId}/deactivate")
@@ -96,7 +114,14 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Change a user's authority role (AUTHORITY_*).")
-    IdResponse changeAuthorityRole(@PathParam("userId") String userId, UserRoleDto role);
+    IdResponse changeAuthorityRole(
+        @PathParam("userId")
+        String userId,
+
+        @Valid
+        @NotNull(message = "Role cannot be null")
+        UserRoleDto role
+    );
 
     @PUT
     @Path("/authority/users/{userId}/deactivate")
@@ -126,14 +151,26 @@ public interface UiResource {
     @Path("/authority/organizations/{mdsId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any organization.")
-    OrganizationDetailsDto organizationDetails(@PathParam("mdsId") String mdsId, @QueryParam("environmentId") String environmentId);
+    OrganizationDetailsDto organizationDetails(
+        @PathParam("mdsId")
+        String mdsId,
+
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
 
     @POST
     @Path("/authority/organizations/invite")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Invite a new organization via a new Participant Admin.")
-    IdResponse inviteOrganization(InviteOrganizationRequest invitationInformation);
+    IdResponse inviteOrganization(
+        @Valid
+        @NotNull(message = "Invitation information cannot be null")
+        InviteOrganizationRequest invitationInformation
+    );
 
     @PUT
     @Path("/authority/organizations/{mdsId}/approve")
@@ -152,7 +189,12 @@ public interface UiResource {
     @Path("/organizations/my-org/connectors")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all connectors of a user's own organization.")
-    ConnectorOverviewResult ownOrganizationConnectors(@QueryParam("environmentId") String environmentId);
+    ConnectorOverviewResult ownOrganizationConnectors(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
 
     @GET
     @Path("/organizations/my-org/connectors/{connectorId}")
@@ -164,26 +206,54 @@ public interface UiResource {
     @Path("/organizations/my-org/redirects/data-offers")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Redirect to the environment specific broker, with filters for connector endpoints of the own organization preselected.")
-    Response redirectToOwnOrganizationCatalog(@QueryParam("environmentId") String environmentId);
+    Response redirectToOwnOrganizationCatalog(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
 
     @GET
     @Path("/organizations/{mdsId}/connectors")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all connectors of any organization.")
-    ConnectorOverviewResult organizationConnectors(@PathParam("mdsId") String mdsId, @QueryParam("environmentId") String environmentId);
+    ConnectorOverviewResult organizationConnectors(
+        @PathParam("mdsId")
+        String mdsId,
+
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
 
     @GET
     @Path("/organizations/{mdsId}/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any connector of any organization.")
-    ConnectorDetailDto connectorDetails(@PathParam("mdsId") String mdsId, @PathParam("connectorId") String connectorId);
+    ConnectorDetailDto connectorDetails(
+        @PathParam("mdsId")
+        String mdsId,
+
+        @PathParam("connectorId")
+        String connectorId
+    );
 
     @POST
     @Path("/organizations/my-org/connectors/create-on-premise")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a self-hosted connector.")
-    IdResponse createOwnConnector(@QueryParam("environmentId") String environmentId, CreateConnectorRequest connector);
+    IdResponse createOwnConnector(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId,
+
+        @Valid
+        @NotNull(message = "Connector cannot be null")
+        CreateConnectorRequest connector
+    );
 
     @DELETE
     @Path("/organizations/my-org/connectors/{connectorId}")
@@ -196,13 +266,31 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a connector for another organization as a service provider.")
-    IdResponse createProvidedConnector(@PathParam("mdsId") String mdsId, @QueryParam("environmentId") String environmentId, CreateConnectorRequest connector);
+    IdResponse createProvidedConnector(
+        @PathParam("mdsId")
+        String mdsId,
+
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId,
+
+        @Valid
+        @NotNull(message = "Connector cannot be null")
+        CreateConnectorRequest connector
+    );
 
     @DELETE
     @Path("/organizations/{mdsId}/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Unregister a connector for another organization as a service provider.")
-    IdResponse deleteProvidedConnector(@PathParam("mdsId") String mdsId, @PathParam("connectorId") String connectorId);
+    IdResponse deleteProvidedConnector(
+        @PathParam("mdsId")
+        String mdsId,
+
+        @PathParam("connectorId")
+        String connectorId
+    );
 
     @GET
     @Path("/deployment-environments")
@@ -215,5 +303,9 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Register user and organization.")
-    IdResponse registerUser(RegistrationRequestDto registrationRequest);
+    IdResponse registerUser(
+        @Valid
+        @NotNull(message = "Registration request cannot be null")
+        RegistrationRequestDto registrationRequest
+    );
 }

@@ -19,5 +19,5 @@ export const DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE: ProvideConnectorPageFormValue
     url: '',
     mdsId: '',
     certificate: '',
-    environmentId: 'Production',
+    environmentId: '',
   };
