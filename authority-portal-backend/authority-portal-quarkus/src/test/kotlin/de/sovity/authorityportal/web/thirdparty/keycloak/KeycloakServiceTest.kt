@@ -1,6 +1,9 @@
 package de.sovity.authorityportal.web.thirdparty.keycloak
 
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
+import jakarta.ws.rs.WebApplicationException
+import jakarta.ws.rs.core.Response
+import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -19,6 +22,8 @@ import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.anyVararg
+import org.mockito.kotlin.verify
 
 
 @ExtendWith(MockitoExtension::class)
@@ -99,6 +104,20 @@ class KeycloakServiceTest {
         // assert
         assert(userRoles.contains("UR_AUTHORITY-PORTAL_AUTHORITY-USER"))
         assert(userRoles.contains("UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"))
+    }
+
+    @Test
+    fun testExceptionForCreatingExistingUser() {
+        // arrange
+        `when`(usersResource.create(anyVararg(UserRepresentation::class))).thenReturn(Response.status(Response.Status.CONFLICT).build())
+
+        // assert
+        Assertions.assertThatThrownBy { keycloakService.createUser("testEmail", "testName", "testLastName") }
+            .isInstanceOf(WebApplicationException::class.java)
+            .hasMessage("User already exists")
+
+        // verify
+        verify(usersResource).create(anyVararg(UserRepresentation::class))
     }
 
     private fun mockUserResource(representation: UserRepresentation): UserResource {
