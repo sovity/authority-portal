@@ -1,8 +1,4 @@
-import {
-  CreateProvidedConnectorRequest,
-  IdResponse,
-} from '@sovity.de/authority-portal-client';
-import {Fetched} from 'src/app/core/utils/fetched';
+import {CreateProvidedConnectorRequest} from '@sovity.de/authority-portal-client';
 import {
   NgxsFormState,
   initialFormState,
@@ -16,6 +12,15 @@ export interface ProvideConnectorPageState {
 }
 
 export const DEFAULT_PROVIDE_CONNECTOR_STATE: ProvideConnectorPageState = {
-  registerConnectorForm: initialFormState(DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE),
+  registerConnectorForm: initialFormState<CreateProvidedConnectorRequest>({
+    mdsId: DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE.mdsId,
+    environmentId: DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE.environmentId,
+    createConnectorRequest: {
+      name: DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE.name,
+      location: DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE.location,
+      url: DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE.url,
+      certificate: DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE.certificate,
+    },
+  }),
   state: 'editing',
 };

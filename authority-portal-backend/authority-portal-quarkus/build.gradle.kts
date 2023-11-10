@@ -34,10 +34,12 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk15on:1.68")
     implementation(project(":authority-portal-api"))
     implementation(project(":authority-portal-db"))
+    implementation("io.quarkus:quarkus-hibernate-validator")
+    implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
 
 
     testImplementation(project(":authority-portal-api-client"))
-
+    testImplementation("io.rest-assured:rest-assured:3.0.0")
     testImplementation("org.assertj:assertj-core:${assertjVersion}")
     testImplementation("org.mockito:mockito-core:${mockitoVersion}")
     testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")

@@ -72,7 +72,10 @@ export class ParticipantOwnConnectorListPageStateImpl {
     ctx.patchState({busy: true});
 
     return this.apiService.deleteOwnConnector(action.connectorId).pipe(
-      switchMap(() => this.apiService.getOwnOrganizationConnectors()),
+      switchMap(() => this.globalStateUtils.getDeploymentEnvironmentId()),
+      switchMap((deploymentEnvironmentId) =>
+        this.apiService.getOwnOrganizationConnectors(deploymentEnvironmentId),
+      ),
       takeUntil(
         this.actions$.pipe(
           filter((action) => action instanceof GetOwnOrganizationConnectors),

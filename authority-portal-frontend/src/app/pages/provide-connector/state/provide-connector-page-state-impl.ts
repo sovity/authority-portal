@@ -37,15 +37,14 @@ export class ProvideConnectorPageStateImpl {
     action.disableForm();
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
-        this.apiService.createProvidedConnector(
-          action.request,
-          action.mdsId,
-          deploymentEnvironmentId,
-        ),
+        this.apiService.createProvidedConnector({
+          ...action.request,
+          environmentId: deploymentEnvironmentId,
+        }),
       ),
       tap(() => {
         this.toast.showSuccess(
-          `Connector ${action.request.name} was successfully provided`,
+          `Connector ${action.request.createConnectorRequest.name} was successfully provided`,
         );
         ctx.patchState({state: 'success'});
         this.router.navigate(['/my-organization', 'connectors']);

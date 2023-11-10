@@ -2,7 +2,10 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {CreateConnectorRequest} from '@sovity.de/authority-portal-client';
+import {
+  CreateConnectorRequest,
+  CreateProvidedConnectorRequest,
+} from '@sovity.de/authority-portal-client';
 import * as forge from 'node-forge';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
@@ -63,7 +66,7 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
       url: [initial.url, [Validators.required]],
       mdsId: [initial.mdsId, [Validators.required]],
       certificate: [initial.certificate, [Validators.required]],
-      environmentId: [initial.environmentId, [Validators.required]],
+      environmentId: [initial.environmentId],
     });
   }
 
@@ -97,18 +100,20 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   submit(): void {
     let formValue: ProvideConnectorPageFormValue = this.group
       .value as ProvideConnectorPageFormValue;
-    let mdsId = formValue.mdsId!;
-    let request: CreateConnectorRequest = {
-      certificate: formValue.certificate!,
-      location: formValue.location!,
-      name: formValue.name!,
-      url: formValue.url!,
+    let request: CreateProvidedConnectorRequest = {
+      mdsId: formValue.mdsId,
+      environmentId: formValue.environmentId,
+      createConnectorRequest: {
+        name: formValue.name,
+        location: formValue.location,
+        url: formValue.url,
+        certificate: formValue.certificate,
+      },
     };
 
     this.store.dispatch(
       new Submit(
         request,
-        mdsId,
         () => this.group.enable(),
         () => this.group.disable(),
       ),

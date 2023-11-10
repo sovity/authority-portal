@@ -7,8 +7,8 @@ import {ErrorElementModule} from 'src/app/common/components/error-element/error-
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
 import {OrganizationDetailComponent} from 'src/app/shared/components/organization-detail/organization-detail.component';
-import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
 import {UserRoleFormComponent} from 'src/app/shared/components/user-role-form/user-role-form.component';
+import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
 import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
 import {AvatarComponent} from './components/avatar/avatar.component';
 import {UserDetailComponent} from './components/user-detail/user-detail.component';
