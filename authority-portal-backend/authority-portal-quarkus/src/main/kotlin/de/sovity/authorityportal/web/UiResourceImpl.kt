@@ -142,9 +142,12 @@ class UiResourceImpl : UiResource {
     // Organization management (Authority)
     @Transactional
     override fun changeAuthorityRole(userId: String, roleDto: UserRoleDto): IdResponse {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
-        authUtils.requiresMemberOfSameOrganizationAs(userId)
-        return userRoleApiService.changeAuthorityRole(userId, roleDto, loggedInUser.userId)
+        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN,
+            Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
+            authUtils.requiresMemberOfSameOrganizationAs(userId)
+        }
+        return userRoleApiService.changeAuthorityRole(userId, roleDto, loggedInUser.userId, loggedInUser.roles)
     }
 
     @Transactional
