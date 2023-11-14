@@ -69,6 +69,8 @@ class UserRoleMapper {
         return when (role) {
             UserRoleDto.AUTHORITY_ADMIN -> ApplicationRole.AUTHORITY_ADMIN
             UserRoleDto.AUTHORITY_USER -> ApplicationRole.AUTHORITY_USER
+            UserRoleDto.OPERATOR_ADMIN -> ApplicationRole.OPERATOR_ADMIN
+            UserRoleDto.SERVICE_PARTNER_ADMIN -> ApplicationRole.SERVICE_PARTNER_ADMIN
             else -> { error("Authority Admin can only change role to Authority Admin or Authority User. role=$role, userId=$userId, adminUserId=$adminUserId.") }
         }
     }
