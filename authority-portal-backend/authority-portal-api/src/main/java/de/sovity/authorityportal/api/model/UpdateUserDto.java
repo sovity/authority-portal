@@ -16,7 +16,6 @@ import lombok.ToString;
 @Schema(description = "Information about the user.")
 public class UpdateUserDto {
 
-    @NotBlank(message = "User's First name cannot be blank")
     @Schema(description = "User's First name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String firstName;
 
