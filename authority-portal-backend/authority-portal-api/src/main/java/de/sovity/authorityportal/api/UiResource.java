@@ -12,6 +12,7 @@ import de.sovity.authorityportal.api.model.OrganizationDetailsDto;
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult;
 import de.sovity.authorityportal.api.model.OwnOrganizationDetailsDto;
 import de.sovity.authorityportal.api.model.RegistrationRequestDto;
+import de.sovity.authorityportal.api.model.UpdateUserDto;
 import de.sovity.authorityportal.api.model.UserDetailDto;
 import de.sovity.authorityportal.api.model.UserInfo;
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
@@ -307,5 +308,19 @@ public interface UiResource {
         @Valid
         @NotNull(message = "Registration request cannot be null")
         RegistrationRequestDto registrationRequest
+    );
+
+    @PUT
+    @Path("/users/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(description = "Update user information")
+    IdResponse updateUser(
+        @PathParam("userId")
+        String userId,
+
+        @Valid
+        @NotNull(message = "Update user request cannot be null")
+        UpdateUserDto updateUserDto
     );
 }

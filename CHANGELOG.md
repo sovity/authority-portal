@@ -68,6 +68,7 @@ Second Authority Portal MVP Release, providing extended features, mainly to enab
 - Added possibility to generate a connector certificate in browser
 - Added button with link to the invite new users page
 - Added possibility to register user and organization
+- Added possibility to update user details
 
 ### Deployment Migration Notes
 
