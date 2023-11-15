@@ -13,6 +13,7 @@ import de.sovity.authorityportal.api.model.OrganizationDetailsDto
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.OwnOrganizationDetailsDto
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
+import de.sovity.authorityportal.api.model.UpdateUserDto
 import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
@@ -30,6 +31,7 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserDeactivationApiSer
 import de.sovity.authorityportal.web.pages.usermanagement.UserInfoApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
+import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
@@ -74,6 +76,9 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var registrationApiService: RegistrationApiService
+
+    @Inject
+    lateinit var userUpdateApiService: UserUpdateApiService
 
     // User info
     @Transactional
@@ -267,5 +272,11 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun registerUser(registrationRequest: RegistrationRequestDto): IdResponse {
         return registrationApiService.registerUserAndOrganization(registrationRequest);
+    }
+
+    @Transactional
+    override fun updateUser(userId: String, updateUserDto: UpdateUserDto): IdResponse {
+        authUtils.requiresSelfOrRole(userId, Roles.UserRoles.AUTHORITY_ADMIN)
+        return userUpdateApiService.updateUserDetails(userId, updateUserDto)
     }
 }

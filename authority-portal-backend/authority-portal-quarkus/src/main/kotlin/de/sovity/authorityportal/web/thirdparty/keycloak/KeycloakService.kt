@@ -75,6 +75,14 @@ class KeycloakService {
         return keycloakUserMapper.buildKeycloakUserDto(user)
     }
 
+    fun updateUser(userId: String, firstName: String, lastName: String) {
+        val userResource = keycloak.realm(keycloakRealm).users().get(userId)
+        val user = userResource.toRepresentation()
+        user.firstName = firstName
+        user.lastName = lastName
+        keycloak.realm(keycloakRealm).users().get(userId).update(user)
+    }
+
     /**
      * Retrieves the effective realm-level roles for a user specified by [userId].
      *

@@ -92,6 +92,13 @@ class AuthUtils {
         }
     }
 
+    fun requiresSelfOrRole(userId: String, role: String) {
+        if (userId != loggedInUser.userId && !loggedInUser.roles.contains(role)) {
+            Log.error("User is not allowed to perform requested action. userId=$userId, loggedInUserId=${loggedInUser.userId}.")
+            unauthorized("User is not allowed to perform requested action")
+        }
+    }
+
     fun hasRole(role: String): Boolean {
         return loggedInUser.roles.contains(role);
     }
