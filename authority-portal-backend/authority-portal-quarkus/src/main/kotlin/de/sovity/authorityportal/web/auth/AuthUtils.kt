@@ -86,17 +86,15 @@ class AuthUtils {
 
     fun requires(authorized: Boolean, userId: String) {
         if (!authorized) {
-            Log.error("User is not authorized. userId=$userId, loggedInUserMdsId=${loggedInUser.organizationMdsId}, " +
-                "loggedInUserId=${loggedInUser.userId}.")
+            Log.error("User is not authorized. userId=$userId, loggedInUserMdsId=${loggedInUser.organizationMdsId}, loggedInUserId=${loggedInUser.userId}.")
             unauthorized()
         }
     }
 
     fun requiresSelfOrRole(userId: String, role: String) {
         if (userId != loggedInUser.userId && !loggedInUser.roles.contains(role)) {
-            Log.error("Unauthorized attempt: User with ID $userId attempted an action that requires self or role $role. " +
-                "loggedInUserId=${loggedInUser.userId}, Roles=${loggedInUser.roles}.")
-            unauthorized("User is not allowed to perform requested action")
+            Log.error("User can only perform the requested action on themself or needs the desired role. userRoles=${loggedInUser.roles}, requiredRole=$role, userId=$userId, loggedInUserId=${loggedInUser.userId}.")
+            unauthorized("User can only perform the requested action on themself or needs the desired role")
         }
     }
 
