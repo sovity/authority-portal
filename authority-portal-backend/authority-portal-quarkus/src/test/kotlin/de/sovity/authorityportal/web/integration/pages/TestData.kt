@@ -11,4 +11,12 @@ object TestData {
     const val ORG_TAX_ID = "123456789"
     const val ORG_URL = "https://organization-abc.com"
     const val ORG_SECURITY_EMAIL = "security@organization-abc.com"
+    const val ORG_BUSINESS_UNIT = "Tech Division"
+    const val ORG_BILLING_ADDRESS = "456 Billing Street"
+    const val ORG_MAIN_CONTACT_NAME = "John Doe"
+    const val ORG_MAIN_CONTACT_EMAIL = "john.doe@example.com"
+    const val ORG_MAIN_CONTACT_PHONE = "123-456-7890"
+    const val ORG_TECH_CONTACT_NAME = "Jane Smith"
+    const val ORG_TECH_CONTACT_EMAIL = "jane.smith@example.com"
+    const val ORG_TECH_CONTACT_PHONE = "987-654-3210"
 }

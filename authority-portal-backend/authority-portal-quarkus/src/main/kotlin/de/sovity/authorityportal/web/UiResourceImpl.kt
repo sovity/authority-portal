@@ -13,6 +13,7 @@ import de.sovity.authorityportal.api.model.OrganizationDetailsDto
 import de.sovity.authorityportal.api.model.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.OwnOrganizationDetailsDto
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
+import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.UpdateUserDto
 import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
@@ -25,6 +26,7 @@ import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManageme
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationRegistrationApiService
+import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationUpdateApiService
 import de.sovity.authorityportal.web.pages.redirects.BrokerRedirectApiService
 import de.sovity.authorityportal.web.pages.registration.RegistrationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeactivationApiService
@@ -79,6 +81,9 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var userUpdateApiService: UserUpdateApiService
+
+    @Inject
+    lateinit var organizationUpdateApiService: OrganizationUpdateApiService
 
     // User info
     @Transactional
@@ -278,5 +283,18 @@ class UiResourceImpl : UiResource {
     override fun updateUser(userId: String, updateUserDto: UpdateUserDto): IdResponse {
         authUtils.requiresSelfOrRole(userId, Roles.UserRoles.AUTHORITY_ADMIN)
         return userUpdateApiService.updateUserDetails(userId, updateUserDto)
+    }
+
+    @Transactional
+    override fun updateOwnOrganizationDeatils(organizationDto: UpdateOrganizationDto): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
+        authUtils.requiresMemberOfAnyOrganization()
+        return organizationUpdateApiService.updateOrganizationDetails(loggedInUser.organizationMdsId!!, organizationDto)
+    }
+
+    @Transactional
+    override fun updateOrganizationDeatils(mdsId: String, organizationDto: UpdateOrganizationDto): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        return organizationUpdateApiService.updateOrganizationDetails(mdsId, organizationDto)
     }
 }
