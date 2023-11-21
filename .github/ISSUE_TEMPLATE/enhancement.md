@@ -1,12 +1,12 @@
 ---
-name: Implementation Task
-about: Help us with new features
+name: Enhancement
+about: Implement a task / improve something
 title: ""
-labels: "kind/enhancement"
+labels: ["kind/enhancement", "scope/mds"]
 assignees: ""
 ---
 
-# Implementation Task
+# Enhancement
 
 ## Description
 
@@ -20,11 +20,8 @@ _Add more on who asked for this, i.e. company, person, how much they pay us, wha
 
 ## Solution Proposal and Work Breakdown
 
-_If possible, provide a (brief!) solution proposal._
-
 ```[tasklist]
-- [ ] Step 1
-- [ ] Step 2
-- [ ] ...
-- [ ] Adjust **CHANGELOG.md**
+- [ ] Fix the GitHub Projects Labels, Sprint and other Metadata
+- [ ] Refine a Solution Proposal / Work Breakdown
 ```
+
