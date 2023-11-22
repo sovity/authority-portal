@@ -3,7 +3,13 @@ module.exports = {
   content: ['./src/**/*.{html,ts}'],
   theme: {
     extend: {
-      colors: {'brand-400': '#FFEE00', 'brand-500': '#FFC000'},
+      colors: {
+        'brand-400': '#FFEE00',
+        'brand-500': '#FFC000',
+        'brand-yellow': '#FFFE00',
+        'brand-black': '#000000',
+        'brand-golden': '#BD7D00',
+      },
       animation: {
         fadeIn: 'fadeIn 0.3s ease-in-out',
         fadeOut: 'fadeOut 0.3s ease-in-out',

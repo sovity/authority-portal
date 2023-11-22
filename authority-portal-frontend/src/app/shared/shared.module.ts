@@ -6,19 +6,29 @@ import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.modu
 import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
-import {OrganizationDetailComponent} from 'src/app/shared/components/organization-detail/organization-detail.component';
-import {UserRoleFormComponent} from 'src/app/shared/components/user-role-form/user-role-form.component';
+import {OrganizationDetailComponent} from 'src/app/shared/components/business/organization-detail/organization-detail.component';
+import {UserRoleFormComponent} from 'src/app/shared/components/business/user-role-form/user-role-form.component';
 import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
 import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
-import {AvatarComponent} from './components/avatar/avatar.component';
-import {UserDetailComponent} from './components/user-detail/user-detail.component';
+import {UserDetailComponent} from './components/business/user-detail/user-detail.component';
+import {AvatarComponent} from './components/common/avatar/avatar.component';
+import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
+import {HeaderBarComponent} from './components/common/header-bar/header-bar.component';
+import {SelectionBoxComponent} from './components/common/selection-box/selection-box.component';
+import {SlideOverComponent} from './components/common/slide-over/slide-over.component';
+import {SvgIconServiceService} from './services/svg-icon.service.service';
 
 @NgModule({
   declarations: [
+    //components
     UserRoleFormComponent,
     OrganizationDetailComponent,
     UserDetailComponent,
     AvatarComponent,
+    HeaderBarComponent,
+    FilterBarComponent,
+    SlideOverComponent,
+    SelectionBoxComponent,
   ],
   imports: [
     CommonModule,
@@ -33,7 +43,32 @@ import {UserDetailComponent} from './components/user-detail/user-detail.componen
     ErrorElementModule,
     PipesAndDirectivesModule,
   ],
-  exports: [OrganizationDetailComponent, UserDetailComponent, AvatarComponent],
-  providers: [CertificateGenerateService],
+  exports: [
+    //components
+    OrganizationDetailComponent,
+    UserDetailComponent,
+    AvatarComponent,
+    HeaderBarComponent,
+    FilterBarComponent,
+    SlideOverComponent,
+    SelectionBoxComponent,
+  ],
+  providers: [CertificateGenerateService, SvgIconServiceService],
 })
-export class SharedModule {}
+export class SharedModule {
+  constructor(private svgIconServiceService: SvgIconServiceService) {
+    const iconsList = [
+      'connector',
+      'search',
+      'tag',
+      'status',
+      'chevron-up',
+      'chevron-down',
+      'pencil',
+      'ellipsis-horizontal',
+      'checkbox',
+      'arrow-down-tray',
+    ];
+    this.svgIconServiceService.initializeIcons(iconsList); // to registers all the SVG icons in matIconRegistry
+  }
+}

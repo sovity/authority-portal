@@ -18,6 +18,7 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
       'AUTHORITY_USER',
       'PARTICIPANT_ADMIN',
       'PARTICIPANT_USER',
+      'PARTICIPANT_CURATOR',
     ],
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',
@@ -61,6 +62,15 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
   },
   '00000000-0000-0000-0000-00000006': {
     userId: '00000000-0000-0000-0000-00000006',
+    firstName: 'Pending',
+    lastName: 'User',
+    roles: [],
+    registrationStatus: 'PENDING',
+    organizationName: '',
+    organizationMdsId: 'MDSL5555EE',
+  },
+  '00000000-0000-0000-0000-00000007': {
+    userId: '00000000-0000-0000-0000-00000007',
     firstName: 'Pending',
     lastName: 'User',
     roles: [],

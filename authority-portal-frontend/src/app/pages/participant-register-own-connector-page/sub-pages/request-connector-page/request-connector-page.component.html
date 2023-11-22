@@ -1,0 +1,152 @@
+<div class="py-10 flex flex-col items-center justify-center w-full">
+  <form
+    class="flex flex-col w-full md:w-2/5 p-10"
+    ngxsForm="organization.organizationCreateForm"
+    [formGroup]="form.group"
+    (ngSubmit)="submit()">
+    <div class="text-center">
+      <h1>Connector Details</h1>
+      <p>Please check and fill the fields below before proceeding</p>
+    </div>
+    <div class="select-none flex flex-col justify-between items-center my-10">
+      <!-- Organization Name -->
+      <div class="flex flex-col justify-between items-center w-full">
+        <label class="w-full mb-2 text-sm" for="formOrgName"
+          >Organization Legal Name</label
+        >
+        <mat-form-field
+          class="w-full text-s"
+          appearance="outline"
+          color="accent">
+          <input
+            id="formOrgName"
+            matInput
+            formControlName="organizationName"
+            placeholder="Example GmbH" />
+          <mat-error
+            *ngIf="
+              form.group.controls.organizationName.touched &&
+              form.group.controls.organizationName.dirty &&
+              form.group.controls.organizationName.hasError('required')
+            "
+            class="text-xs">
+            Organization Legal Name is a required field</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <!-- Organization Name -->
+
+      <!-- Curator Name -->
+      <div class="flex flex-col justify-between items-center w-full">
+        <label class="w-full mb-2 text-sm" for="formOrgName"
+          >Connector Curator</label
+        >
+        <mat-form-field
+          class="w-full text-s"
+          appearance="outline"
+          color="accent">
+          <input
+            id="formOrgName"
+            matInput
+            formControlName="curator"
+            placeholder="Organization name"
+            [disabled]="true" />
+          <mat-error
+            *ngIf="
+              form.group.controls.curator.touched &&
+              form.group.controls.curator.dirty &&
+              form.group.controls.curator.hasError('required')
+            "
+            class="text-xs">
+            Organization Legal Name is a required field</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <!-- Curator Name -->
+
+      <!-- Curator Email -->
+      <div class="flex flex-col justify-between items-center w-full">
+        <label class="w-full mb-2 text-sm" for="formCuratorEmail"
+          >Curator Email</label
+        >
+        <mat-form-field
+          class="w-full text-s"
+          appearance="outline"
+          color="accent">
+          <input
+            id="formCuratorEmail"
+            matInput
+            type="email"
+            formControlName="curatorEmail"
+            placeholder="example@email.com"
+            [disabled]="true" />
+          <mat-error
+            *ngIf="
+              form.group.controls.curatorEmail.touched &&
+              form.group.controls.curatorEmail.dirty &&
+              form.group.controls.curatorEmail.hasError('required')
+            "
+            class="text-xs">
+            Curator Email Address is a required field</mat-error
+          >
+          <mat-error
+            *ngIf="
+              form.group.controls.curatorEmail.touched &&
+              form.group.controls.curatorEmail.dirty &&
+              form.group.controls.curatorEmail.hasError('email')
+            "
+            class="text-xs">
+            Invalid Curator Email Address
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <!-- Curator Email -->
+
+      <!-- Subdomain -->
+      <div class="flex flex-col justify-between items-center w-full">
+        <label class="w-full mb-2 text-sm" for="formSubdomain"
+          >Connector Sub-domain</label
+        >
+        <mat-form-field
+          class="w-full text-s"
+          appearance="outline"
+          color="accent">
+          <input
+            id="formSubdomain"
+            matInput
+            formControlName="subdomain"
+            placeholder="https://subdomain.domain.com" />
+          <mat-error
+            *ngIf="
+              form.group.controls.subdomain.touched &&
+              form.group.controls.subdomain.dirty &&
+              form.group.controls.subdomain.hasError('required')
+            "
+            class="text-xs">
+            Connector Sub-domain is a required field</mat-error
+          >
+          <mat-error
+            *ngIf="
+              form.group.controls.subdomain.touched &&
+              form.group.controls.subdomain.dirty &&
+              form.group.controls.subdomain.hasError('pattern')
+            "
+            class="text-xs">
+            Invalid Connector Sub-domain</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <!-- Curator Email -->
+    </div>
+
+    <div class="mt-6 flex items-center justify-end gap-x-6">
+      <button
+        class="btn-accent-outline"
+        type="button"
+        routerLink="/my-organization/connectors/registration/setup">
+        Cancel
+      </button>
+      <button class="btn-accent" type="submit">Request Now</button>
+    </div>
+  </form>
+</div>

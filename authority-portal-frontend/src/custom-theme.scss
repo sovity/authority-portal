@@ -46,8 +46,43 @@ $md-primary-palette: (
   ),
 );
 
+$md-black-palette: (
+  50: #e0e0e0,
+  100: #bdbdbd,
+  200: #9e9e9e,
+  300: #757575,
+  400: #616161,
+  500: #000000,
+  // Primary black
+  600: #3a3a3a,
+  700: #333333,
+  800: #2c2c2c,
+  900: #262626,
+  A100: #ffffff,
+  A200: #f5f5f5,
+  A400: #cccccc,
+  A700: #b2b2b2,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    // High contrast for readability
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
 $app-primary: mat.define-palette($md-primary-palette);
-$app-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$app-accent: mat.define-palette($md-black-palette);
 
 // The warn palette is optional (defaults to red).
 $app-warn: mat.define-palette(mat.$red-palette);

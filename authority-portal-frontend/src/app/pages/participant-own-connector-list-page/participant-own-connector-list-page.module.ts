@@ -1,5 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
 import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.module';
@@ -7,6 +8,8 @@ import {LoadingElementModule} from 'src/app/common/components/loading-element/lo
 import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
 import {PortalLayoutModule} from 'src/app/common/layouts/portal-layout/portal-layout.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {ParticipantOwnConnectorDetailPageModule} from '../participant-own-connector-detail-page/participant-own-connector-detail-page.module';
 import {ParticipantOwnConnectorListPageComponent} from './participant-own-connector-list-page/participant-own-connector-list-page.component';
 import {ParticipantOwnConnectorListPageStateImpl} from './state/participant-own-connector-list-page-state-impl';
 
@@ -16,8 +19,11 @@ import {ParticipantOwnConnectorListPageStateImpl} from './state/participant-own-
     // Angular
     CommonModule,
     RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     DevUtilsModule,
+    SharedModule,
 
     // NGXS
     NgxsModule.forFeature([ParticipantOwnConnectorListPageStateImpl]),
@@ -26,6 +32,7 @@ import {ParticipantOwnConnectorListPageStateImpl} from './state/participant-own-
     PortalLayoutModule,
     PipesAndDirectivesModule,
     LoadingElementModule,
+    ParticipantOwnConnectorDetailPageModule,
   ],
 })
 export class ParticipantOwnConnectorListPageModule {}

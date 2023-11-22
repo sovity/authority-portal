@@ -1,0 +1,480 @@
+<div class="flex flex-col justify-start mt-14 items-center h-screen">
+  <mat-stepper
+    class="w-auto p-8"
+    #stepper
+    [linear]="isLinear"
+    (selectedIndexChange)="onStepChange($event)">
+    <!-- connector details Step-->
+    <mat-step color="accent" [stepControl]="connectorDetailsFormGroup">
+      <form
+        class="flex flex-col w-full justify-center"
+        [formGroup]="connectorDetailsFormGroup">
+        <ng-template matStepLabel>Add Connector Details</ng-template>
+        <div
+          class="select-none flex flex-col justify-center items-center my-10 w-2/3">
+          <!-- Connector's Name -->
+          <div class="flex flex-col justify-between items-center w-full">
+            <label class="w-full mb-2 text-sm" for="formRegOConName"
+              >Connector's Name</label
+            >
+            <mat-form-field
+              class="w-full text-s"
+              appearance="outline"
+              color="accent">
+              <input
+                id="formRegOConName"
+                matInput
+                formControlName="name"
+                placeholder="Example GmbH" />
+              <mat-error
+                *ngIf="
+                  connectorDetailsFormGroup.controls['name'].touched &&
+                  connectorDetailsFormGroup.controls['name'].dirty &&
+                  connectorDetailsFormGroup.controls['name'].hasError(
+                    'required'
+                  )
+                "
+                class="text-xs">
+                Name is a required field</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <!-- Connector's Name -->
+
+          <!-- Connector's Location -->
+          <div class="flex flex-col justify-between items-center w-full">
+            <label class="w-full mb-2 text-sm" for="formRegOConLocation"
+              >Connector's Location</label
+            >
+            <mat-form-field
+              class="w-full text-s"
+              appearance="outline"
+              color="accent">
+              <input
+                id="formRegOConLocation"
+                matInput
+                formControlName="location"
+                placeholder="DE, UK, FR etc." />
+              <mat-error
+                *ngIf="
+                  connectorDetailsFormGroup.controls['location'].touched &&
+                  connectorDetailsFormGroup.controls['location'].dirty &&
+                  connectorDetailsFormGroup.controls['location'].hasError(
+                    'required'
+                  )
+                "
+                class="text-xs">
+                Connector's Location is a required field</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <!-- Connector's Location -->
+
+          <!-- Endpoint URL -->
+          <div class="flex flex-col justify-between items-center w-full">
+            <label class="w-full mb-2 text-sm" for="formRegOConUrl"
+              >Endpoint URL</label
+            >
+            <mat-form-field
+              class="w-full text-s"
+              appearance="outline"
+              color="accent">
+              <input
+                id="formRegOConUrl"
+                matInput
+                formControlName="url"
+                placeholder="https://..." />
+              <mat-error
+                *ngIf="
+                  connectorDetailsFormGroup.controls['url'].touched &&
+                  connectorDetailsFormGroup.controls['url'].dirty &&
+                  connectorDetailsFormGroup.controls['url'].hasError('required')
+                "
+                class="text-xs">
+                Endpoint URL is a required field</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  connectorDetailsFormGroup.controls['url'].touched &&
+                  connectorDetailsFormGroup.controls['url'].dirty &&
+                  connectorDetailsFormGroup.controls['url'].hasError('pattern')
+                "
+                class="text-xs">
+                Invalid Endpoint URL
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Endpoint URL -->
+        </div>
+
+        <div
+          class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+          <button
+            class="btn-accent-outline"
+            type="button"
+            routerLink="/my-organization/connectors/registration">
+            Cancel
+          </button>
+          <button
+            class="btn-accent"
+            matStepperNext
+            [ngClass]="{
+              'opacity-50 cursor-not-allowed': connectorDetailsFormGroup.invalid
+            }"
+            [disabled]="connectorDetailsFormGroup.invalid">
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- connector details Step -->
+
+    <!-- Generate Certificate Step-->
+    <mat-step
+      color="accent"
+      [stepControl]="certificateFormGroup"
+      [optional]="hasCertificate">
+      <form [formGroup]="certificateFormGroup">
+        <ng-template matStepLabel>Generate Certificate</ng-template>
+        <div class="flex justify-center items-center">
+          <app-loading-element
+            *ngIf="isGenerating"
+            class="my-24"></app-loading-element>
+          <div
+            *ngIf="!isGenerating"
+            class="flex flex-col sm:flex-row w-full gap-8 my-10 h-full overflow-y-scroll">
+            <!-- Certificate Details -->
+            <div class="flex-auto">
+              <label class="mb-2 text-sm">
+                Fill the information below to generate a certificate:
+              </label>
+              <div class="h-96 overflow-y-scroll p-4">
+                <!-- Country-->
+                <div class="flex flex-col justify-between items-center w-full">
+                  <label class="w-full mb-2 text-sm" for="formRegOConCountry"
+                    >Country</label
+                  >
+                  <mat-form-field
+                    class="w-full text-s"
+                    appearance="outline"
+                    color="accent">
+                    <input
+                      id="formRegOConCountry"
+                      matInput
+                      formControlName="country"
+                      placeholder="NL,DE,FR..." />
+                    <mat-error
+                      *ngIf="
+                        certificateFormGroup.controls['country'].touched &&
+                        certificateFormGroup.controls['country'].dirty &&
+                        certificateFormGroup.controls['country'].hasError(
+                          'required'
+                        )
+                      "
+                      class="text-xs">
+                      Country is a required field</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <!-- Country-->
+
+                <!-- State/Province -->
+                <div class="flex flex-col justify-between items-center w-full">
+                  <label class="w-full mb-2 text-sm" for="formRegOConState"
+                    >State/Province</label
+                  >
+                  <mat-form-field
+                    class="w-full text-s"
+                    appearance="outline"
+                    color="accent">
+                    <input
+                      id="formRegOConState"
+                      matInput
+                      formControlName="state"
+                      placeholder="State" />
+                    <mat-error
+                      *ngIf="
+                        certificateFormGroup.controls['state'].touched &&
+                        certificateFormGroup.controls['state'].dirty &&
+                        certificateFormGroup.controls['state'].hasError(
+                          'required'
+                        )
+                      "
+                      class="text-xs">
+                      State/Province is a required field</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <!-- State/Province-->
+
+                <!-- City/Locality -->
+                <div class="flex flex-col justify-between items-center w-full">
+                  <label class="w-full mb-2 text-sm" for="formRegOConCity"
+                    >City/Locality</label
+                  >
+                  <mat-form-field
+                    class="w-full text-s"
+                    appearance="outline"
+                    color="accent">
+                    <input
+                      id="formRegOConCity"
+                      matInput
+                      formControlName="city"
+                      placeholder="City" />
+                    <mat-error
+                      *ngIf="
+                        certificateFormGroup.controls['city'].touched &&
+                        certificateFormGroup.controls['city'].dirty &&
+                        certificateFormGroup.controls['city'].hasError(
+                          'required'
+                        )
+                      "
+                      class="text-xs">
+                      City/Locality is a required field</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <!-- City/Locality-->
+
+                <!-- Organizational Unit -->
+                <div class="flex flex-col justify-between items-center w-full">
+                  <label
+                    class="w-full mb-2 text-sm"
+                    for="formRegOConOrganizationalUnit"
+                    >Organizational Unit</label
+                  >
+                  <mat-form-field
+                    class="w-full text-s"
+                    appearance="outline"
+                    color="accent">
+                    <input
+                      id="formRegOConOrganizationalUnit"
+                      matInput
+                      formControlName="organizationalUnit"
+                      placeholder="Organizational Unit" />
+                    <mat-error
+                      *ngIf="
+                        certificateFormGroup.controls['organizationalUnit']
+                          .touched &&
+                        certificateFormGroup.controls['organizationalUnit']
+                          .dirty &&
+                        certificateFormGroup.controls[
+                          'organizationalUnit'
+                        ].hasError('required')
+                      "
+                      class="text-xs">
+                      Organizational Unit is a required field</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <!-- Organizational Unit-->
+
+                <!-- Common Name  -->
+                <div class="flex flex-col justify-between items-center w-full">
+                  <label class="w-full mb-2 text-sm" for="formRegOConCommonName"
+                    >Common Name</label
+                  >
+                  <mat-form-field
+                    class="w-full text-s"
+                    appearance="outline"
+                    color="accent">
+                    <input
+                      id="formRegOConCommonName"
+                      matInput
+                      formControlName="commonName"
+                      placeholder="Participant name" />
+                    <mat-error
+                      *ngIf="
+                        certificateFormGroup.controls['commonName'].touched &&
+                        certificateFormGroup.controls['commonName'].dirty &&
+                        certificateFormGroup.controls['commonName'].hasError(
+                          'required'
+                        )
+                      "
+                      class="text-xs">
+                      Common Name is a required field</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <!-- Common Name  -->
+              </div>
+
+              <div class="pt-6 flex items-center justify-center gap-x-6">
+                <button
+                  class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                  type="button"
+                  [disabled]="certificateFormGroup.invalid || isGenerating"
+                  [ngClass]="{
+                    'opacity-50 cursor-not-allowed':
+                      certificateFormGroup.invalid
+                  }"
+                  (click)="generateCertificate()">
+                  Generate
+                </button>
+              </div>
+            </div>
+            <!-- Certificate Details -->
+
+            <!-- Certificate -->
+            <div class="flex-auto">
+              <!-- Certificate -->
+              <div class="flex flex-col justify-between items-center w-full">
+                <label class="w-full mb-2 text-sm" for="formRegOConPubCertKey"
+                  >Public key of your certificate</label
+                >
+                <mat-form-field
+                  class="w-full text-s"
+                  appearance="outline"
+                  color="accent">
+                  <textarea
+                    id="formRegOConPubCertKey"
+                    matInput
+                    matTextareaAutosize
+                    matAutosizeMaxRows="5"
+                    formControlName="certificate"
+                    placeholder="
+          -----BEGIN CERTIFICATE-----
+          MIICqjCCAhOgAwIBAgIBADANBgk
+          ...
+          AkmFH0MPvGNeUum02F0=
+          -----END CERTIFICATE-----"></textarea>
+                </mat-form-field>
+              </div>
+              <!-- Certificate -->
+
+              <div class="pt-6 flex items-center justify-center gap-x-6">
+                <button
+                  class="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                  type="button"
+                  [disabled]="!isDownloadActive"
+                  [ngClass]="{
+                    'opacity-50 cursor-not-allowed': !isDownloadActive
+                  }"
+                  (click)="downloadKey('PRIVATE_KEY')">
+                  <mat-icon svgIcon="arrow-down-tray"></mat-icon>
+                  Private Key
+                </button>
+                <button
+                  class="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                  type="button"
+                  [disabled]="!isDownloadActive"
+                  [ngClass]="{
+                    'opacity-50 cursor-not-allowed': !isDownloadActive
+                  }"
+                  (click)="downloadKey('PUBLIC_KEY')">
+                  <mat-icon svgIcon="arrow-down-tray"></mat-icon>
+                  Public Key
+                </button>
+              </div>
+            </div>
+            <!-- Certificate -->
+          </div>
+        </div>
+
+        <div
+          class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-between gap-x-6">
+          <form #form="ngForm">
+            <mat-checkbox
+              name="hasCertificate"
+              [(ngModel)]="hasCertificate"
+              (ngModelChange)="clearCertificate()"
+              >I already have a certificate</mat-checkbox
+            >
+          </form>
+
+          <div class="flex gap-4">
+            <button class="btn-accent-outline" type="button" matStepperPrevious>
+              Back
+            </button>
+            <button
+              class="btn-accent"
+              matStepperNext
+              [ngClass]="{
+                'opacity-50 cursor-not-allowed': certificateFormGroup.invalid
+              }"
+              [disabled]="certificateFormGroup.invalid">
+              Next
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Generate Certificate Step-->
+
+    <!-- Certificate Step -->
+    <mat-step color="accent" [stepControl]="connectorDetailsFormGroup">
+      <form [formGroup]="connectorDetailsFormGroup">
+        <ng-template matStepLabel>Add Certificate</ng-template>
+        <div
+          class="select-none flex flex-col justify-center items-center my-10 w-2/3">
+          <!-- Certificate -->
+          <div class="flex flex-col justify-between items-center w-full">
+            <label class="w-full mb-2 text-sm" for="formRegOConPubCertKey"
+              >Public key of your certificate</label
+            >
+            <mat-form-field
+              class="w-full text-s"
+              appearance="outline"
+              color="accent">
+              <textarea
+                id="formRegOConPubCertKey"
+                class="h-fit"
+                matInput
+                formControlName="certificate"
+                placeholder="
+          -----BEGIN CERTIFICATE-----
+          MIICqjCCAhOgAwIBAgIBADANBgk
+          ...
+          AkmFH0MPvGNeUum02F0=
+          -----END CERTIFICATE-----"></textarea>
+
+              <mat-error
+                *ngIf="
+                  connectorDetailsFormGroup.controls['certificate'].touched &&
+                  connectorDetailsFormGroup.controls['certificate'].dirty &&
+                  connectorDetailsFormGroup.controls['certificate'].hasError(
+                    'required'
+                  )
+                "
+                class="text-xs">
+                Certificate is a required field</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  connectorDetailsFormGroup.controls['certificate'].touched &&
+                  connectorDetailsFormGroup.controls['certificate'].dirty &&
+                  connectorDetailsFormGroup.controls['certificate'].hasError(
+                    'pattern'
+                  )
+                "
+                class="text-xs">
+                Invalid Public Key Format
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Certificate -->
+        </div>
+        <div
+          class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+          <button class="btn-accent-outline" type="button" matStepperPrevious>
+            Back
+          </button>
+          <button
+            class="btn-accent"
+            [disabled]="
+              connectorDetailsFormGroup.invalid || state.state === 'submitting'
+            "
+            [ngClass]="{
+              'opacity-50 cursor-not-allowed':
+                connectorDetailsFormGroup.invalid ||
+                state.state === 'submitting'
+            }"
+            (click)="submit()">
+            Add Connector
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Certificate Step -->
+  </mat-stepper>
+</div>
