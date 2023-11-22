@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {PipesAndDirectivesModule} from '../../components/pipes-and-directives/pipes-and-directives.module';
+import {MaterialModule} from '../../material/material.module';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {FooterComponent} from './footer/footer.component';
 import {PortalLayoutComponent} from './portal-layout/portal-layout.component';
@@ -25,7 +26,7 @@ import {UserAvatarComponent} from './user-avatar/user-avatar.component';
     BrowserModule,
     RouterModule,
 
-    MatIconModule,
+    MaterialModule,
 
     PipesAndDirectivesModule,
     // Authority Portal

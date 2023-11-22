@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {mapRolesToReadableFormat} from 'src/app/core/utils/user-role-utils';
-import {AvatarConfig} from 'src/app/shared/components/avatar/avatar.component';
+import {AvatarConfig} from 'src/app/shared/components/common/avatar/avatar.component';
 
 export interface UserAvatarModel {
   firstName: string;

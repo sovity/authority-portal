@@ -1,0 +1,40 @@
+<form [formGroup]="filterForm">
+  <div class="bg-white py-5">
+    <div
+      class="-ml-4 -mt-4 flex flex-wrap justify-between items-center justify between sm:flex-nowrap">
+      <div class="ml-4 mt-4 flex flex-shrink-0 gap-4">
+        <!-- filters -->
+        <div *ngFor="let filter of filterBarConfig.filters" class="relative">
+          <button
+            class="btn-dropdown-menu"
+            type="button"
+            [id]="filter.id"
+            [disabled]="filter.options.length === 0"
+            (click)="openMenu(filter.id)">
+            <mat-icon
+              *ngIf="filter.icon"
+              class="hover:text-brand-golden"
+              [svgIcon]="filter.icon"></mat-icon>
+
+            <span>{{ filter.label }}</span>
+            <mat-icon svgIcon="chevron-down"></mat-icon>
+          </button>
+          <div
+            *ngIf="menuVisible[filter.id]"
+            class="absolute min-w-min whitespace-nowrap bg-white border border-gray-300 py-2 pl-1 pr-2 shadow-lg mt-2">
+            <p class="text-gray-500 text-xs ml-3 mb-2 mx-4">
+              Filter by {{ filter.label }}
+            </p>
+            <p *ngFor="let option of filter.options" class="mr-4">
+              <mat-checkbox
+                (change)="onFilterChange($event, filter.id, option.id)"
+                >{{ option.label }}</mat-checkbox
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="ml-4 mt-4 flex"></div>
+    </div>
+  </div>
+</form>

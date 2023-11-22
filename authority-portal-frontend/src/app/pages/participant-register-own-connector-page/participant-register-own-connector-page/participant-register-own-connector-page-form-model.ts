@@ -17,3 +17,36 @@ export const DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE: ParticipantR
     url: '',
     certificate: '',
   };
+
+export type GenerateCertificateFormValue =
+  ɵFormGroupRawValue<GenerateCertificateFormModel>;
+
+export interface GenerateCertificateFormModel {
+  country: FormControl<string>;
+  state: FormControl<string>;
+  city: FormControl<string>;
+  organizationalUnit: FormControl<string>;
+  commonName: FormControl<string>;
+  certificate: FormControl<string>;
+}
+
+export const DEFAULT_GENERATE_CERTIFICATE_FORM_VALUE: GenerateCertificateFormValue =
+  {
+    country: '',
+    state: '',
+    city: '',
+    organizationalUnit: '',
+    commonName: '',
+    certificate: '',
+  };
+
+export interface ParticipantRegisterOwnConnectorPageParentForm {
+  connectorDetails: ParticipantRegisterOwnConnectorPageFormValue;
+  certificate: GenerateCertificateFormValue;
+}
+
+export const DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_PARENT_FORM_VALUE: ParticipantRegisterOwnConnectorPageParentForm =
+  {
+    connectorDetails: DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE,
+    certificate: DEFAULT_GENERATE_CERTIFICATE_FORM_VALUE,
+  };

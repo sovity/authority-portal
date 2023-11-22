@@ -1,13 +1,7 @@
 import {Injectable, NgZone} from '@angular/core';
 import {Router} from '@angular/router';
-import {EMPTY, Observable} from 'rxjs';
-import {
-  catchError,
-  ignoreElements,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {ignoreElements, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';

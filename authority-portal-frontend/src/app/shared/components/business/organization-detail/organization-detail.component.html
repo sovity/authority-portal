@@ -226,21 +226,15 @@
               class="bg-white divide-y divide-gray-200">
               <tr>
                 <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                  <div>
-                    <h2 class="font-medium text-gray-800">
-                      {{ user.firstName }} {{ user.lastName }}
-                    </h2>
-                  </div>
+                  <h4>{{ user.firstName }} {{ user.lastName }}</h4>
                 </td>
 
                 <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                  <div>
-                    <h2 class="font-medium text-gray-800">
-                      <span *ngFor="let item of user.roles"
-                        >{{ mapToReadable(item) }},</span
-                      >
-                    </h2>
-                  </div>
+                  <h4>
+                    <span *ngFor="let item of user.roles"
+                      >{{ mapToReadable(item) }},</span
+                    >
+                  </h4>
                 </td>
 
                 <td class="flex px-4 py-4 text-sm whitespace-nowrap">

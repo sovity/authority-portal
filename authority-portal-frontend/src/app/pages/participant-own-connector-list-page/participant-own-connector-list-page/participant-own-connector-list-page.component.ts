@@ -1,10 +1,21 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
-import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
+import {
+  ConnectorOverviewEntryDto,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ApiService} from '../../../core/api/api.service';
+import {sliderOverNavigation} from 'src/app/core/utils/helper';
+import {FilterBarConfig} from 'src/app/shared/components/common/filter-bar/filter-bar.model';
+import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
+import {
+  SlideOverAction,
+  SlideOverConfig,
+} from 'src/app/shared/components/common/slide-over/slide-over.model';
+import {ParticipantOwnConnectorDetailPageComponent} from '../../participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {
   DeleteOwnConnector,
   GetOwnOrganizationConnectors,
@@ -14,6 +25,7 @@ import {
   ParticipantOwnConnectorListPageState,
 } from '../state/participant-own-connector-list-page-state';
 import {ParticipantOwnConnectorListPageStateImpl} from '../state/participant-own-connector-list-page-state-impl';
+import {ParticipantOwnConnectorListHeaderActions} from './participant-own-connector-list-page.model';
 
 @Component({
   selector: 'app-participant-own-connector-list-page',
@@ -24,18 +36,69 @@ export class ParticipantOwnConnectorListPageComponent
 {
   state = DEFAULT_PARTICIPANT_OWN_CONNECTOR_LIST_PAGE_STATE;
   connectorToDelete = '';
+  showDetail: boolean = false;
+  slideOverConfig!: SlideOverConfig;
+  componentToRender = ParticipantOwnConnectorDetailPageComponent;
+  headerConfig!: HeaderBarConfig;
+  filterBarConfig!: FilterBarConfig;
+
   showModal = false;
 
   constructor(
     private store: Store,
-    private apiService: ApiService,
     private globalStateUtils: GlobalStateUtils,
+    private router: Router,
   ) {}
 
   ngOnInit() {
+    this.initializeHeaderBar();
+    this.initializeFilterBar();
     this.refresh();
     this.startListeningToState();
     this.startRefreshingOnEnvChange();
+  }
+
+  initializeFilterBar() {
+    this.filterBarConfig = {
+      filters: [
+        {
+          id: 'type',
+          label: 'Type',
+          icon: 'tag',
+          type: 'MULTISELECT',
+          options: [],
+        },
+        {
+          id: 'status',
+          label: 'Status',
+          type: 'SELECT',
+          icon: 'status',
+          options: [],
+        },
+      ],
+    };
+  }
+
+  initializeHeaderBar() {
+    this.headerConfig = {
+      title: 'Connectors',
+      subtitle: 'List of all connectors of your organization',
+      headerActions: [
+        {
+          label: 'Provide Connector',
+          action: ParticipantOwnConnectorListHeaderActions.PROVIDE_CONNECTOR,
+          permissions: [
+            UserRoleDto.AuthorityAdmin,
+            UserRoleDto.ServicePartnerAdmin,
+          ],
+        },
+        {
+          label: 'Add Connector',
+          action: ParticipantOwnConnectorListHeaderActions.ADD_CONNECTOR,
+          permissions: [UserRoleDto.ParticipantCurator],
+        },
+      ],
+    };
   }
 
   refresh() {
@@ -67,6 +130,7 @@ export class ParticipantOwnConnectorListPageComponent
     this.connectorToDelete = '';
     this.showModal = false;
   }
+
   startRefreshingOnEnvChange() {
     this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
       ngOnDestroy$: this.ngOnDestroy$,
@@ -74,6 +138,59 @@ export class ParticipantOwnConnectorListPageComponent
         this.refresh();
       },
     });
+  }
+
+  headerActionHandler(action: string) {
+    switch (action) {
+      case ParticipantOwnConnectorListHeaderActions.ADD_CONNECTOR: {
+        this.router.navigate(['/my-organization/connectors/registration']);
+        break;
+      }
+      case ParticipantOwnConnectorListHeaderActions.PROVIDE_CONNECTOR: {
+        this.router.navigate(['my-organization/connectors/provide-connector']);
+        break;
+      }
+    }
+  }
+
+  handleFilter(filterQuery: any) {
+    //TODO:implement filter handler
+  }
+
+  handleNavigation(direction: SlideOverAction, currentConnectorId: string) {
+    let totalConnectors = this.state.connectors.data.length;
+    let currentIndex = this.state.connectors.data.findIndex(
+      (connector) => connector.id === currentConnectorId,
+    );
+    let nextIndex = sliderOverNavigation(
+      direction,
+      currentIndex,
+      totalConnectors,
+    );
+
+    this.slideOverConfig = {
+      ...this.slideOverConfig,
+      childComponentInput: {
+        id: this.state.connectors.data[nextIndex].id,
+      },
+      label: this.state.connectors.data[nextIndex].name,
+    };
+  }
+
+  closeDetailPage() {
+    this.showDetail = false;
+  }
+
+  openDetailPage(connector: ConnectorOverviewEntryDto) {
+    this.slideOverConfig = {
+      childComponentInput: {
+        id: connector.id,
+      },
+      label: connector.name,
+      icon: 'connector',
+      showNavigation: this.state.connectors.data.length > 1,
+    };
+    this.showDetail = true;
   }
 
   ngOnDestroy$ = new Subject();

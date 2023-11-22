@@ -1,132 +1,26 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Subject, takeUntil} from 'rxjs';
-import {Store} from '@ngxs/store';
-import {CreateConnectorRequest} from '@sovity.de/authority-portal-client';
-import * as forge from 'node-forge';
-import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
-import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
-import {
-  Reset,
-  Submit,
-} from '../state/participant-register-own-connector-page-actions';
-import {
-  DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_STATE,
-  ParticipantRegisterOwnConnectorPageState,
-} from '../state/participant-register-own-connector-page-state';
-import {ParticipantRegisterOwnConnectorPageStateImpl} from '../state/participant-register-own-connector-page-state-impl';
-import {
-  DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE,
-  ParticipantRegisterOwnConnectorPageFormModel,
-  ParticipantRegisterOwnConnectorPageFormValue,
-} from './participant-register-own-connector-page-form-model';
+import {Component} from '@angular/core';
+import {SelectionBoxModel} from 'src/app/shared/components/common/selection-box/selection-box.model';
 
 @Component({
   selector: 'app-participant-register-own-connector-page',
   templateUrl: './participant-register-own-connector-page.component.html',
   styles: [],
 })
-export class ParticipantRegisterOwnConnectorPageComponent
-  implements OnInit, OnDestroy
-{
-  state = DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_STATE;
-  group = this.buildFormGroup();
-  keyPair!: forge.pki.rsa.KeyPair;
-  publicKeyPem!: string;
-  privateKeyPem!: string;
-  isDownloadActive: boolean = false;
-  hasDownloadedKey: boolean = false;
-
-  constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
-    private store: Store,
-    private formBuilder: FormBuilder,
-    private certificateGenerateService: CertificateGenerateService,
-  ) {}
-
-  ngOnInit(): void {
-    this.store.dispatch(Reset);
-    this.startListeningToState();
-  }
-
-  private startListeningToState() {
-    this.store
-      .select<ParticipantRegisterOwnConnectorPageState>(
-        ParticipantRegisterOwnConnectorPageStateImpl,
-      )
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((state) => {
-        this.state = state;
-      });
-  }
-
-  buildFormGroup(): FormGroup<ParticipantRegisterOwnConnectorPageFormModel> {
-    const initial = DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE;
-    return this.formBuilder.nonNullable.group({
-      name: [initial.name, [Validators.required]],
-      location: [initial.location, [Validators.required]],
-      url: [initial.url, [Validators.required]],
-      certificate: [initial.certificate, [Validators.required]],
-    });
-  }
-
-  get value(): ParticipantRegisterOwnConnectorPageFormValue {
-    return this.group.value as ParticipantRegisterOwnConnectorPageFormValue;
-  }
-
-  generateCertificate() {
-    this.keyPair = this.certificateGenerateService.generateKeyPair(2048);
-    this.publicKeyPem = this.certificateGenerateService.publicKeyToPem(
-      this.keyPair.publicKey,
-    );
-    this.privateKeyPem = this.certificateGenerateService.privateKeyToPem(
-      this.keyPair.privateKey,
-    );
-    this.group.controls['certificate'].setValue(this.publicKeyPem);
-    this.isDownloadActive = true;
-  }
-
-  downloadPrivateKey() {
-    this.hasDownloadedKey = true;
-    const blob = new Blob([this.privateKeyPem], {type: 'text/plain'});
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'private_key.pem';
-
-    // Trigger the download
-    a.click();
-
-    window.URL.revokeObjectURL(url);
-  }
-
-  submit(): void {
-    if (!this.hasDownloadedKey) {
-      this.downloadPrivateKey();
-    }
-    const formValue: ParticipantRegisterOwnConnectorPageFormValue = this.value;
-    const request: CreateConnectorRequest = {
-      name: formValue.name!,
-      location: formValue.location!,
-      url: formValue.url!,
-      certificate: formValue.certificate!,
-    };
-
-    this.group.disable();
-    this.store.dispatch(
-      new Submit(
-        request,
-        () => this.group.enable(),
-        () => this.group.disable(),
-      ),
-    );
-  }
-
-  ngOnDestroy$ = new Subject();
-
-  ngOnDestroy() {
-    this.ngOnDestroy$.next(null);
-    this.ngOnDestroy$.complete();
-  }
+export class ParticipantRegisterOwnConnectorPageComponent {
+  options: SelectionBoxModel[] = [
+    {
+      title: 'I need a connector',
+      subTitle: 'request a connector as a service',
+      icon: 'hand_connector_logo.svg',
+      action: {url: '/my-organization/connectors/registration/setup'},
+    },
+    {
+      title: 'I have a connector',
+      subTitle: 'get your endpoint URL & certificate ready',
+      icon: 'connector_logo.svg',
+      action: {
+        url: '/my-organization/connectors/registration/register',
+      },
+    },
+  ];
 }

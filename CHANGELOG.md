@@ -11,6 +11,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Major
 
+- Redesigned Connectors list, detail and related sub-pages
+
 #### Minor
 
 #### Patch
@@ -28,6 +30,7 @@ Patch release, adding missing buttons.
 ### Detailed Changes
 
 #### Patch
+
 - Added button for user de-/reactivation on the user details page
 - Added button for user invitation on the organization details page
 

@@ -1,0 +1,22 @@
+<div class="flex flex-col h-screen w-screen">
+  <div class="flex justify-end p-8">
+    <button mat-icon-button routerLink="/my-organization/connectors">
+      <mat-icon class="justify-end z-50">close</mat-icon>
+    </button>
+  </div>
+  <div class="flex flex-col justify-center items-center flex-auto">
+    <div class="w-full p-4 lg:p-0 lg:w-5/12 text-center">
+      <h2 class="mb-2">Need a connector?</h2>
+      <p>
+        You can either download one from GitHub and host it yourself or request
+        a Connector-as-a-Service from MDS
+      </p>
+      <div class="flex flex-col lg:flex-row mt-8 gap-8">
+        <app-selection-box
+          *ngFor="let option of options"
+          class="flex-grow"
+          [config]="option"></app-selection-box>
+      </div>
+    </div>
+  </div>
+</div>
