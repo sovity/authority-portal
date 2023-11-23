@@ -4,7 +4,7 @@ import {EMPTY, Observable} from 'rxjs';
 import {filter, finalize, ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext} from '@ngxs/store';
 import {
-  ChangeAuthorityRoleRequest,
+  ChangeApplicationRoleRequest,
   ChangeParticipantRoleRequest,
 } from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
@@ -101,7 +101,7 @@ export class AuthorityOrganizationUserDetailPageStateImpl {
     ctx: StateContext<AuthorityOrganizationUserDetailPageState>,
     action: UpdateUserRoles,
   ): Observable<never> {
-    let request: ChangeAuthorityRoleRequest = {
+    let request: ChangeApplicationRoleRequest = {
       userId: action.userId,
       body: action.roles[0],
     };

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, from} from 'rxjs';
 import {
-  ChangeAuthorityRoleRequest,
+  ChangeApplicationRoleRequest,
   ChangeParticipantRoleRequest,
   ConnectorDetailDto,
   ConnectorOverviewResult,
@@ -49,8 +49,8 @@ export class ApiService {
     return from(this.api().reactivateParticipantUser({userId}));
   }
 
-  updateAuthorityUserRoles(request: ChangeAuthorityRoleRequest) {
-    return from(this.api().changeAuthorityRole(request));
+  updateAuthorityUserRoles(request: ChangeApplicationRoleRequest) {
+    return from(this.api().changeApplicationRole(request));
   }
 
   getUserDetailDto(userId: string): Observable<UserDetailDto> {

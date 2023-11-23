@@ -115,8 +115,8 @@ public interface UiResource {
     @Path("/authority/users/{userId}/role")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Change a user's authority role (AUTHORITY_*).")
-    IdResponse changeAuthorityRole(
+    @Operation(description = "Change a user's application role.")
+    IdResponse changeApplicationRole(
         @PathParam("userId")
         String userId,
 
