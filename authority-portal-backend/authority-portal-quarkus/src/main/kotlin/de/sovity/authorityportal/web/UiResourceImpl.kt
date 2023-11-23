@@ -151,7 +151,7 @@ class UiResourceImpl : UiResource {
 
     // Organization management (Authority)
     @Transactional
-    override fun changeAuthorityRole(userId: String, roleDto: UserRoleDto): IdResponse {
+    override fun changeApplicationRole(userId: String, roleDto: UserRoleDto): IdResponse {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN,
             Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
