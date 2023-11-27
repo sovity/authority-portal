@@ -14,6 +14,7 @@ import {UserDetailComponent} from './components/business/user-detail/user-detail
 import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
 import {HeaderBarComponent} from './components/common/header-bar/header-bar.component';
+import {IframeComponent} from './components/common/iframe/iframe.component';
 import {SelectionBoxComponent} from './components/common/selection-box/selection-box.component';
 import {SlideOverComponent} from './components/common/slide-over/slide-over.component';
 import {SvgIconServiceService} from './services/svg-icon.service.service';
@@ -29,13 +30,13 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     FilterBarComponent,
     SlideOverComponent,
     SelectionBoxComponent,
+    IframeComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     DevUtilsModule,
 
-    // Angular Material
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
@@ -52,6 +53,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     FilterBarComponent,
     SlideOverComponent,
     SelectionBoxComponent,
+    IframeComponent,
   ],
   providers: [CertificateGenerateService, SvgIconServiceService],
 })

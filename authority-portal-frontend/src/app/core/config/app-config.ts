@@ -1,7 +1,6 @@
 import {InjectionToken} from '@angular/core';
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
-
 /**
  * App Config
  *
@@ -15,6 +14,7 @@ export interface AppConfig {
   invalidateSessionCookiesUrl: string;
   useFakeBackend: boolean;
   useLocalBackend: boolean;
+  iframeUrl: string;
 }
 
 /**
@@ -28,6 +28,7 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_USE_FAKE_BACKEND: string;
   AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND: string;
   AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: string;
+  AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: string;
 }
 
 /**
@@ -44,6 +45,7 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
       envVars.AUTHORITY_PORTAL_FRONTEND_USE_FAKE_BACKEND === 'true',
     useLocalBackend:
       envVars.AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND === 'true',
+    iframeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_IFRAME_URL,
   };
 }
 
