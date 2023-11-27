@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {MatIconModule} from '@angular/material/icon';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
@@ -9,15 +8,10 @@ import {MaterialModule} from '../../material/material.module';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {FooterComponent} from './footer/footer.component';
 import {PortalLayoutComponent} from './portal-layout/portal-layout.component';
-import {ConnectorsElementComponent} from './sidebar-elements/connectors-element.component';
-import {DashboardElementComponent} from './sidebar-elements/dashboard-element.component';
-import {MyConnectorsElementComponent} from './sidebar-elements/my-connectors-element.component';
-import {MyOrganizationElementComponent} from './sidebar-elements/my-organization-element.component';
-import {NotificationsElementComponent} from './sidebar-elements/notifications-element.component';
-import {OrganizationsElementComponent} from './sidebar-elements/organizations-element.component';
-import {UsersElementComponent} from './sidebar-elements/users-element.component';
+import {SidebarElementComponent} from './sidebar-element/sidebar-element.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
-import {UserAvatarComponent} from './user-avatar/user-avatar.component';
+import {ToolbarComponent} from './toolbar/toolbar.component';
+import {UserSettingsComponent} from './user-settings/user-settings.component';
 
 @NgModule({
   imports: [
@@ -35,29 +29,17 @@ import {UserAvatarComponent} from './user-avatar/user-avatar.component';
   declarations: [
     PortalLayoutComponent,
     BreadcrumbComponent,
-    ConnectorsElementComponent,
-    MyConnectorsElementComponent,
-    DashboardElementComponent,
     FooterComponent,
-    NotificationsElementComponent,
-    MyOrganizationElementComponent,
-    OrganizationsElementComponent,
     SidebarComponent,
-    UsersElementComponent,
-    UserAvatarComponent,
+    UserSettingsComponent,
+    ToolbarComponent,
+    SidebarElementComponent,
   ],
   exports: [
     PortalLayoutComponent,
     BreadcrumbComponent,
-    MyConnectorsElementComponent,
-    ConnectorsElementComponent,
-    DashboardElementComponent,
     FooterComponent,
-    NotificationsElementComponent,
-    MyOrganizationElementComponent,
-    OrganizationsElementComponent,
     SidebarComponent,
-    UsersElementComponent,
   ],
 })
 export class PortalLayoutModule {}

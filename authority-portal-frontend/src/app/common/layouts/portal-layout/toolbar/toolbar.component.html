@@ -1,0 +1,18 @@
+<mat-toolbar class="bg-white border-b border-gray-100">
+  <app-breadcrumb
+    class="flex flex-row justify-start align-center"></app-breadcrumb>
+
+  <span class="flex flex-1"></span>
+  <button
+    class="mx-4"
+    mat-icon-button
+    aria-label="Example icon-button with heart icon">
+    <mat-icon>notifications</mat-icon>
+  </button>
+
+  <app-user-avatar
+    class="flex h-full items-center border-l border-gray-100"
+    [userData]="userAvatarData"
+    [logoutUrl]="config.logoutUrl">
+  </app-user-avatar>
+</mat-toolbar>

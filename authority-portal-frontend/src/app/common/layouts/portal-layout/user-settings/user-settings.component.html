@@ -1,0 +1,72 @@
+<div
+  class="flex gap-4 py-2 px-4 items-center h-full cursor-pointer hover:text-brand-golden"
+  [matMenuTriggerFor]="menu"
+  (menuOpened)="onMenuAction('OPENED')"
+  (menuClosed)="onMenuAction('CLOSED')">
+  <div class="col-span-1 flex justify-center">
+    <app-avatar [name]="userAvatar"></app-avatar>
+  </div>
+  <div class="col-span-2 lg:flex flex-col justify-center">
+    {{ userData.firstName + ' ' + userData.lastName }}
+  </div>
+  <div class="col-span-1 text-center justify-center">
+    <mat-icon
+      svgIcon="{{ userMenuOpen ? 'chevron-up' : 'chevron-down' }}"></mat-icon>
+  </div>
+</div>
+
+<mat-menu class="min-w-max m-4 px-4" #menu="matMenu" xPosition="before">
+  <div class="flex gap-4 my-4">
+    <app-avatar [name]="userAvatar"></app-avatar>
+    <div>
+      <p class="font-bold">
+        {{ userData.firstName + ' ' + userData.lastName }}
+      </p>
+      <p>{{ userData.role }}</p>
+    </div>
+  </div>
+
+  <p class="my-4 px-2">PERSONAL</p>
+  <div>
+    <button
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
+      [routerLink]="'/profile'">
+      <mat-icon svgIcon="user"></mat-icon>
+      <span>My Profile</span>
+    </button>
+    <button
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden">
+      <mat-icon svgIcon="bell"></mat-icon>
+      <span>Notification Preferences</span>
+    </button>
+    <button
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden">
+      <mat-icon>language</mat-icon>
+      <span>Language Preferences</span>
+    </button>
+  </div>
+  <hr class="my-2" />
+  <p class="my-4">ORGANIZATION</p>
+  <div>
+    <button
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden">
+      <mat-icon svgIcon="briefcase"></mat-icon>
+      <span>Organization Profile</span>
+    </button>
+    <button
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden">
+      <mat-icon svgIcon="users"></mat-icon>
+      <span>Users & Roles </span>
+    </button>
+  </div>
+  <hr class="my-2" />
+
+  <div>
+    <a
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
+      [href]="logoutUrl">
+      <mat-icon svgIcon="arrow-left-on-rectangle"></mat-icon>
+      <span>Logout</span>
+    </a>
+  </div>
+</mat-menu>
