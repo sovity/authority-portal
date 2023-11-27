@@ -13,6 +13,7 @@ For documentation on how to update this changelog, please see
 
 - Redesigned Connectors list, detail and related sub-pages
 - Redesigned Portal Sidebar, Header and other general layouts
+- Added an IFrame for MDS on the start page
 
 #### Minor
 
