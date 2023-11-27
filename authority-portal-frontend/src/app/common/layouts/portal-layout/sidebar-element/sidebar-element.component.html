@@ -1,0 +1,29 @@
+<ng-container *ngIf="!sidebarMenu.isExternalLink; else externalLinkTemplate">
+  <a
+    class="p-5 my-1 w-auto rounded-md hover:bg-gray-700 flex items-center text-white cursor-pointer"
+    routerLinkActive="bg-gray-700"
+    [ngClass]="isExpandedMenu ? 'w-auto space-x-6' : ' w-fit space-x-0'"
+    [routerLink]="sidebarMenu.rLink">
+    <mat-icon class="text-white" [svgIcon]="sidebarMenu.icon"></mat-icon>
+    <p
+      class="text-sm leading-4 text-white group-hover:blockDisable"
+      [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
+      {{ sidebarMenu.title }}
+    </p>
+  </a>
+</ng-container>
+
+<ng-template #externalLinkTemplate>
+  <a
+    class="p-5 my-1 rounded-md hover:bg-gray-700 flex items-center text-white cursor-pointer"
+    target="_blank"
+    [ngClass]="isExpandedMenu ? 'w-auto space-x-6' : 'w-fit space-x-0'"
+    [href]="sidebarMenu.rLink">
+    <mat-icon class="text-white" [svgIcon]="sidebarMenu.icon"></mat-icon>
+    <p
+      class="text-sm leading-4 text-white group-hover:blockDisable"
+      [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
+      {{ sidebarMenu.title }}
+    </p>
+  </a>
+</ng-template>

@@ -1,45 +1,84 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {UserAvatarModel} from 'src/app/common/layouts/portal-layout/user-avatar/user-avatar.component';
-import {UserInfo} from '../../../../../../../authority-portal-backend/authority-portal-api-client-ts';
-import {APP_CONFIG, AppConfig} from '../../../../core/config/app-config';
-import {GlobalStateUtils} from '../../../../core/global-state/global-state-utils';
+import {Component, HostListener} from '@angular/core';
+import {SidebarSection} from './sidebar.model';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
 })
-export class SidebarComponent implements OnInit, OnDestroy {
-  userInfo: UserInfo | null = null;
-  userAvatarData!: UserAvatarModel;
-  smallDisplayExpandedMenu: boolean = false;
+export class SidebarComponent {
+  isExpandedMenu: boolean = true;
+  sidebarSections: SidebarSection[] = [];
 
-  constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
-    private globalStateUtils: GlobalStateUtils,
-  ) {}
+  constructor() {
+    this.sidebarSections = [
+      {
+        title: 'My Organization',
+        userRoles: ['PARTICIPANT_USER'],
+        menus: [
+          {
+            title: 'Dashboard',
+            icon: 'home',
+            rLink: '/dashboard',
+          },
+          {
+            title: 'Profile',
+            icon: 'building-office',
+            rLink: '/my-organization/profile',
+          },
+          {
+            title: 'Connectors',
+            icon: 'connector',
+            rLink: '/my-organization/connectors',
+          },
+        ],
+      },
+      {
+        title: 'Authority Section',
+        userRoles: ['AUTHORITY_USER'],
+        menus: [
+          {
+            title: 'Organizations',
+            icon: 'building-office-2',
+            rLink: '/authority/organizations',
+          },
+        ],
+      },
+      {
+        title: 'External Links',
+        userRoles: ['PARTICIPANT_USER'],
+        menus: [
+          {
+            title: 'Prod Catalog',
+            icon: 'document-text',
+            rLink: 'https://catalog.mobility-dataspace.eu/',
+            isExternalLink: true,
+          },
+          {
+            title: 'Test Catalog',
+            icon: 'document-text',
+            rLink: 'https://catalog.test.mobility-dataspace.eu/',
+            isExternalLink: true,
+          },
+        ],
+      },
+    ];
+  }
+  // Listen for window resize events
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkWindowWidth();
+  }
 
-  ngOnInit() {
-    this.globalStateUtils.userInfo$
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((userInfo) => {
-        this.userInfo = userInfo;
-        this.userAvatarData = {
-          firstName: userInfo.firstName,
-          lastName: userInfo.lastName,
-          role: userInfo.roles.length ? userInfo.roles[0] : '',
-        };
-      });
+  // Function to check window width and update isExpandedMenu accordingly
+  checkWindowWidth(): void {
+    this.isExpandedMenu = window.innerWidth > 768; // Set the breakpoint as per your design
+  }
+
+  openNewTab() {
+    window.open('https://mobility-dataspace.eu/de', '_blank');
   }
 
   toggleMenuSize() {
-    this.smallDisplayExpandedMenu = !this.smallDisplayExpandedMenu;
-  }
-
-  ngOnDestroy$ = new Subject();
-  ngOnDestroy() {
-    this.ngOnDestroy$.next(null);
-    this.ngOnDestroy$.complete();
+    this.isExpandedMenu = !this.isExpandedMenu;
   }
 }

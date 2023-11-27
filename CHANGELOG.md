@@ -1,7 +1,7 @@
 # Changelog
 
-For documentation on how to update this changelog,
-please see [changelog_updates.md](docs/dev/changelog_updates.md).
+For documentation on how to update this changelog, please see
+[changelog_updates.md](docs/dev/changelog_updates.md).
 
 ## Unreleased - YYYY-MM-DD
 
@@ -12,10 +12,16 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Major
 
 - Redesigned Connectors list, detail and related sub-pages
+- Redesigned Portal Sidebar, Header and other general layouts
 
 #### Minor
 
+- Changed font from Inter to Arial
+
 #### Patch
+
+- Fix logo text and alignment
+- Moved breadcrumbs to the toolbar
 
 ### Deployment Migration Notes
 
@@ -42,15 +48,18 @@ Patch release, adding missing buttons.
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:0.1.1`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:0.1.1`
+- Authority Portal Backend Docker Image:
+  `ghcr.io/sovity/authority-portal-backend:0.1.1`
+- Authority Portal Frontend Docker Image:
+  `ghcr.io/sovity/authority-portal-frontend:0.1.1`
 - Broker Server: `1.2.0`
 
 ## [v0.1.0] - 2023-10-31
 
 ### Overview
 
-Second Authority Portal MVP Release, providing extended features, mainly to enable participant management.
+Second Authority Portal MVP Release, providing extended features, mainly to
+enable participant management.
 
 ### Detailed Changes
 
@@ -66,7 +75,8 @@ Second Authority Portal MVP Release, providing extended features, mainly to enab
 - Added possibility to change user roles
 - Added unregistering of own (company intern) connectors
 - Updated organization detail page to show statistics for Authority Admins
-- Updated organization detail page to show more information (including user list)
+- Updated organization detail page to show more information (including user
+  list)
 - Added user detail pages
 - Added possibility to generate a connector certificate in browser
 - Added button with link to the invite new users page
@@ -83,8 +93,10 @@ Second Authority Portal MVP Release, providing extended features, mainly to enab
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:0.1.0`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:0.1.0`
+- Authority Portal Backend Docker Image:
+  `ghcr.io/sovity/authority-portal-backend:0.1.0`
+- Authority Portal Frontend Docker Image:
+  `ghcr.io/sovity/authority-portal-frontend:0.1.0`
 - Broker Server: `1.2.0`
 
 ## [v1.0.0] - 2023-09-29
@@ -113,9 +125,12 @@ Initial Authority Portal MVP Release with a minimalistic feature set.
 
 ### Deployment Migration Notes
 
-Please view the [Deployment Section in the README.md](README.md#deployment) for initial deployment instructions.
+Please view the [Deployment Section in the README.md](README.md#deployment) for
+initial deployment instructions.
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:1.0.0`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:1.0.0`
+- Authority Portal Backend Docker Image:
+  `ghcr.io/sovity/authority-portal-backend:1.0.0`
+- Authority Portal Frontend Docker Image:
+  `ghcr.io/sovity/authority-portal-frontend:1.0.0`
