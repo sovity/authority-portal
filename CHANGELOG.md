@@ -17,6 +17,8 @@ For documentation on how to update this changelog, please see
 
 #### Minor
 
+- Added possibility to download own organization connectors as csv
+- Added possibility to download connectors as csv
 - Changed font from Inter to Arial
 
 #### Patch

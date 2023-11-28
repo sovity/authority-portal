@@ -326,7 +326,7 @@ public interface UiResource {
     );
 
     @PUT
-    @Path("/api/organizations/my-org")
+    @Path("/organizations/my-org")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Update own organization information")
@@ -337,16 +337,41 @@ public interface UiResource {
     );
 
     @PUT
-    @Path("/api/authority/organizations/{mdsId}")
+    @Path("/authority/organizations/{mdsId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Update organization information")
-    IdResponse updateOrganizationDeatils(
+    IdResponse updateOrganizationDetails(
         @PathParam("mdsId")
         String mdsId,
 
         @Valid
         @NotNull(message = "Update organization request cannot be null")
         UpdateOrganizationDto organizationDto
+    );
+
+    @GET
+    @Path("/reporting/my-org/connectors/download")
+    @Produces("text/csv")
+    @Operation(description = "Download own organization connectors information as csv")
+    Response downloadOwnOrganizationConnectorsCsv(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
+
+    @GET
+    @Path("/reporting/{mdsId}/connectors/download")
+    @Produces("text/csv")
+    @Operation(description = "Download organization connectors information as csv")
+    Response downloadConnectorsCsv(
+        @PathParam("mdsId")
+        String mdsId,
+
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
     );
 }
