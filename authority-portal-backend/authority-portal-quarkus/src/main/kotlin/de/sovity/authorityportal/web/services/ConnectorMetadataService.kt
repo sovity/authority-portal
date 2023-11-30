@@ -2,14 +2,14 @@ package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
+import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
 import io.quarkus.logging.Log
 import io.quarkus.scheduler.Scheduled
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
-import lombok.Getter
 
 @ApplicationScoped
-class DataOfferCountService {
+class ConnectorMetadataService {
 
     @Inject
     lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
@@ -20,28 +20,28 @@ class DataOfferCountService {
     @Inject
     lateinit var connectorService: ConnectorService
 
-    private val dataOfferCountsByEnvironment = mutableMapOf<String, Map<String, Int>>()
+    private val connectorMetadataByEnvironment = mutableMapOf<String, List<AuthorityPortalConnectorInfo>>()
 
     @Scheduled(every="5m")
-    fun fetchDataOfferCounts() {
+    fun fetchConnectorMetadata() {
         val environments = deploymentEnvironmentService.findAll().keys
 
         environments.forEach { env ->
-            val dataOfferCounts = fetchDataOfferCountsByEnvironment(env)
-            dataOfferCountsByEnvironment[env] = dataOfferCounts
+            val connectorMetadata = fetchDataOfferCountsByEnvironment(env)
+            connectorMetadataByEnvironment[env] = connectorMetadata
         }
 
-        Log.info("Data offer counts fetched. environmentIds=$environments.")
+        Log.info("Connector metadata fetched. environmentIds=$environments.")
     }
 
     fun getTotalDataOffersByMdsId(mdsId: String, environmentId: String): Int {
         val connectorEndpoints = connectorService.getConnectorsByMdsId(mdsId, environmentId).map { it.url }
-        val organizationDataOffers = dataOfferCountsByEnvironment[environmentId]?.filter { connectorEndpoints.contains(it.key) } ?: emptyMap()
-        return organizationDataOffers.values.sum()
+        val organizationConnectorMetadata = connectorMetadataByEnvironment[environmentId]?.filter { connectorEndpoints.contains(it.connectorEndpoint) } ?: emptyList()
+        return organizationConnectorMetadata.sumOf { it.dataOfferCount }
     }
 
-    private fun fetchDataOfferCountsByEnvironment(environmentId: String): Map<String, Int> {
+    private fun fetchDataOfferCountsByEnvironment(environmentId: String): List<AuthorityPortalConnectorInfo> {
         val connectorEndpoints = connectorService.getConnectorsByEnvironment(environmentId).map { it.url }
-        return brokerClientService.forEnvironment(environmentId).getDataOfferCounts(connectorEndpoints)
+        return brokerClientService.forEnvironment(environmentId).getConnectorMetadata(connectorEndpoints)
     }
 }

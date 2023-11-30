@@ -5,7 +5,7 @@ import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.services.ConnectorService
-import de.sovity.authorityportal.web.services.DataOfferCountService
+import de.sovity.authorityportal.web.services.ConnectorMetadataService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetailService
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -34,7 +34,7 @@ class OrganizationInfoApiServiceTest {
     lateinit var organizationService: OrganizationService
 
     @Mock
-    lateinit var dataOfferCountService: DataOfferCountService
+    lateinit var connectorMetadataService: ConnectorMetadataService
 
     @Mock
     lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
@@ -58,7 +58,7 @@ class OrganizationInfoApiServiceTest {
         // arrange
         `when`(deploymentEnvironmentService.assertValidEnvId(environmentId)).then {}
         `when`(connectorService.getConnectorCountByMdsId(mdsId, environmentId)).thenReturn(connectorCount)
-        `when`(dataOfferCountService.getTotalDataOffersByMdsId(mdsId, environmentId)).thenReturn(dataOfferCount)
+        `when`(connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)).thenReturn(dataOfferCount)
 
         // act
         val result = organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)

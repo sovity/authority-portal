@@ -1,6 +1,7 @@
 package de.sovity.authorityportal.web.thirdparty.broker
 
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment.BrokerConfig
+import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
 import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder
 import jakarta.ws.rs.core.Response
 import java.net.URI
@@ -35,12 +36,10 @@ class BrokerClient(private val brokerConfig: BrokerConfig) {
         }
     }
 
-    fun getDataOfferCounts(connectorUrls: List<String>): Map<String, Int> {
-        val response = brokerClientResource.getDataOfferCounts(
+    fun getConnectorMetadata(connectorUrls: List<String>): List<AuthorityPortalConnectorInfo> =
+        brokerClientResource.getConnectorMetadata(
             brokerConfig.apiKey(),
+            brokerConfig.adminApiKey(),
             connectorUrls
         )
-
-        return response.dataOfferCount
-    }
 }
