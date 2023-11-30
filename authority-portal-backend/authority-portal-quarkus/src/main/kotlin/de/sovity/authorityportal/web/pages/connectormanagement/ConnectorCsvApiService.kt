@@ -21,11 +21,11 @@ class ConnectorCsvApiService {
 
         val connectors = connectorService.getConnectorsByMdsId(mdsId, environmentId)
 
-        val csvHeaders = arrayOf("Name", "Type", "MDS ID", "Environment", "URL", "Status")
+        val csvHeaders = arrayOf("Name", "Type", "MDS ID", "Environment", "URL")
         val csvData = mutableListOf(csvHeaders)
 
         connectors.forEach {
-            csvData.add(arrayOf(it.name, it.type.toString(), it.mdsId, it.environment, it.url, ""))
+            csvData.add(arrayOf(it.name, it.type.toString(), it.mdsId, it.environment, it.url))
         }
 
         val outputStream = ByteArrayOutputStream()
