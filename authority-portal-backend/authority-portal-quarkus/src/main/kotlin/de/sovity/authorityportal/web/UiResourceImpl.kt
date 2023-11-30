@@ -22,7 +22,6 @@ import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.auth.AuthUtils
 import de.sovity.authorityportal.web.auth.LoggedInUser
-import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorCsvApiService
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
@@ -38,7 +37,6 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
-import jakarta.ws.rs.core.HttpHeaders.CONTENT_DISPOSITION
 import jakarta.ws.rs.core.Response
 
 class UiResourceImpl : UiResource {
@@ -86,9 +84,6 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var organizationUpdateApiService: OrganizationUpdateApiService
-
-    @Inject
-    lateinit var connectorCsvApiService: ConnectorCsvApiService
 
     // User info
     @Transactional
@@ -301,24 +296,5 @@ class UiResourceImpl : UiResource {
     override fun updateOrganizationDetails(mdsId: String, organizationDto: UpdateOrganizationDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
         return organizationUpdateApiService.updateOrganizationDetails(mdsId, organizationDto)
-    }
-
-    @Transactional
-    override fun downloadOwnOrganizationConnectorsCsv(environmentId: String): Response {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.AUTHORITY_USER)
-        val mdsId = loggedInUser.organizationMdsId!!
-        return Response
-            .ok(connectorCsvApiService.generateConnectorCsv(mdsId, environmentId))
-            .header(CONTENT_DISPOSITION, "attachment; filename=$mdsId" + "_$environmentId.csv")
-            .build()
-    }
-
-    @Transactional
-    override fun downloadConnectorsCsv(mdsId: String, environmentId: String): Response {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.AUTHORITY_USER)
-        return Response
-            .ok(connectorCsvApiService.generateConnectorCsv(mdsId, environmentId))
-            .header(CONTENT_DISPOSITION, "attachment; filename=$mdsId" + "_$environmentId.csv")
-            .build()
     }
 }

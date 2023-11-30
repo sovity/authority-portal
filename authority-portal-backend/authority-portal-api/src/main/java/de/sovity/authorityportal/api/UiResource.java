@@ -349,29 +349,4 @@ public interface UiResource {
         @NotNull(message = "Update organization request cannot be null")
         UpdateOrganizationDto organizationDto
     );
-
-    @GET
-    @Path("/reporting/my-org/connectors/download")
-    @Produces("text/csv")
-    @Operation(description = "Download own organization connectors information as csv")
-    Response downloadOwnOrganizationConnectorsCsv(
-        @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
-
-    @GET
-    @Path("/reporting/{mdsId}/connectors/download")
-    @Produces("text/csv")
-    @Operation(description = "Download organization connectors information as csv")
-    Response downloadConnectorsCsv(
-        @PathParam("mdsId")
-        String mdsId,
-
-        @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
 }
