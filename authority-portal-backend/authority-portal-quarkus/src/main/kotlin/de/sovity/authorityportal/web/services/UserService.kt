@@ -6,8 +6,8 @@ import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.authorityportal.web.model.CreateUserData
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
-import org.jooq.DSLContext
 import java.time.OffsetDateTime
+import org.jooq.DSLContext
 
 @ApplicationScoped
 class UserService {
@@ -21,6 +21,15 @@ class UserService {
 
     fun getUserOrCreate(userId: String): UserRecord {
         return getUser(userId) ?: createUser(userId, UserRegistrationStatus.CREATED)
+    }
+
+    fun getUsersByOrganization(mdsId: String): List<UserRecord> {
+        val u = Tables.USER
+
+        return dsl.selectFrom(u)
+            .where(u.ORGANIZATION_MDS_ID.eq(mdsId))
+            .fetch()
+            .toList()
     }
 
     private fun getUser(userId: String): UserRecord? {

@@ -25,6 +25,8 @@ insert into "user" (id, organization_mds_id, registration_status)
 values ('00000000-0000-0000-0000-00000008', null, 'PENDING');
 insert into "user" (id, organization_mds_id, registration_status)
 values ('00000000-0000-0000-0000-00000009', null, 'PENDING');
+insert into "user" (id, organization_mds_id, registration_status)
+values ('00000000-0000-0000-0000-00000010', null, 'PENDING');
 
 insert into "organization" (mds_id, name, address, duns, url, security_email, created_by, registration_status)
 values ('MDSL1111AA', 'Dev Organization 1', '111 Main St, Anytown, USA', '11-111-1111', 'https://example1.com',
@@ -57,6 +59,7 @@ update "user" set organization_mds_id = 'MDSL2222BB' where id = '00000000-0000-0
 update "user" set organization_mds_id = 'MDSL2222BB' where id = '00000000-0000-0000-0000-00000004';
 update "user" set organization_mds_id = 'MDSL3333CC' where id = '00000000-0000-0000-0000-00000005';
 update "user" set organization_mds_id = 'MDSL2222BB' where id = '00000000-0000-0000-0000-00000007';
+update "user" set organization_mds_id = 'MDSL3334C4' where id = '00000000-0000-0000-0000-00000010';
 
 insert into "connector" (connector_id, mds_id, provider_mds_id, type, environment, client_id, name, location, url, created_by, created_at)
 values ('MDSL2222BB.CP59I8U', 'MDSL2222BB', 'MDSL2222BB', 'OWN', 'test', 'F3:64:FD:0B:CD:B9:E1:E3:3F:29:C2:32:7F:15:AE:E3:8F:76:88:58:keyid:93:37:7D:FE:04:F3:A8:82:47:89:09:E9:1D:B3:3A:E1:92:1D:B1:4C', 'Example Connector', 'Here', 'https://xample.test1/connector', '00000000-0000-0000-0000-00000003', '2023-09-21 07:24:19.644647 +00:00');

@@ -14,12 +14,16 @@ For documentation on how to update this changelog, please see
 - Redesigned Connectors list, detail and related sub-pages
 - Redesigned Portal Sidebar, Header and other general layouts
 - Added an IFrame for MDS on the start page
+- Moved registration process from Keycloak into the portal
 
 #### Minor
 
 - Added possibility to download own organization connectors as csv
 - Added possibility to download connectors as csv
 - Changed font from Inter to Arial
+- Added possibility to update user details
+- Added possibility to update organization details
+- Added possibility to download user details as csv
 
 #### Patch
 
@@ -83,9 +87,6 @@ enable participant management.
 - Added user detail pages
 - Added possibility to generate a connector certificate in browser
 - Added button with link to the invite new users page
-- Added possibility to register user and organization
-- Added possibility to update user details
-- Added possibility to update organization details
 
 ### Deployment Migration Notes
 

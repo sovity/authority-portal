@@ -39,6 +39,27 @@ class UserDetailService {
         )
     }
 
+    fun getUserDetailsByOrganization(mdsId: String): List<UserDetail> {
+        val dbUsers = userService.getUsersByOrganization(mdsId)
+        return dbUsers.let { user ->
+            user.map {
+                val kcUser = keycloakService.getUser(it.id)
+                UserDetail(
+                    it.id,
+                    kcUser.firstName,
+                    kcUser.lastName,
+                    kcUser.email,
+                    kcUser.position,
+                    kcUser.phoneNumber,
+                    mdsId,
+                    it.registrationStatus,
+                    it.createdAt,
+                    keycloakService.getUserRoles(it.id)
+                )
+            }
+        }
+    }
+
     fun getOrganizationMembers(mdsId: String): List<MemberInfo> {
         val members = keycloakService.getOrganizationMembers(mdsId)
         return members.let { user ->
