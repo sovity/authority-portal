@@ -1,9 +1,10 @@
 ---
 name: Enhancement
 about: Implement a task / improve something
-title: ""
-labels: ["kind/enhancement", "scope/mds"]
-assignees: ""
+title: ''
+labels: kind/enhancement
+assignees: ''
+
 ---
 
 # Enhancement
@@ -24,4 +25,3 @@ _Add more on who asked for this, i.e. company, person, how much they pay us, wha
 - [ ] Fix the GitHub Projects Labels, Sprint and other Metadata
 - [ ] Refine a Solution Proposal / Work Breakdown
 ```
-
