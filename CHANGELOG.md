@@ -32,6 +32,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Moved breadcrumbs to the toolbar
 - Fix role assignment functionality
 - Check for existing users (collisions of mail addresses) during invitation
+- Start page Iframe wont show if url is not set in the app-config.json
 
 ### Deployment Migration Notes
 

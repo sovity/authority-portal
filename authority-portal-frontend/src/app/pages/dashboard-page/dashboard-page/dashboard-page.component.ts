@@ -8,18 +8,20 @@ import {IframeConfig} from 'src/app/shared/components/common/iframe/iframe.model
   templateUrl: './dashboard-page.component.html',
 })
 export class DashboardPageComponent {
-  iframeConfigData: IframeConfig;
+  iframeConfigData: IframeConfig | null | undefined;
 
   constructor(
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private sanitizer: DomSanitizer,
   ) {
-    this.iframeConfigData = {
-      srcUrl: this.sanitizer.bypassSecurityTrustResourceUrl(
-        this.appConfig.iframeUrl,
-      ),
-      width: '100%',
-      height: '100%',
-    };
+    if (this.appConfig.iframeUrl) {
+      this.iframeConfigData = {
+        srcUrl: this.sanitizer.bypassSecurityTrustResourceUrl(
+          this.appConfig.iframeUrl,
+        ),
+        width: '100%',
+        height: '100%',
+      };
+    }
   }
 }
