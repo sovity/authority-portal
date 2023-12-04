@@ -6,9 +6,5 @@ import {IframeConfig} from './iframe.model';
   templateUrl: './iframe.component.html',
 })
 export class IframeComponent {
-  @Input() iframeConfig: IframeConfig = {
-    srcUrl: '#',
-    width: '100%',
-    height: '100%',
-  };
+  @Input() iframeConfig!: IframeConfig;
 }

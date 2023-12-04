@@ -1,5 +1,7 @@
 <div class="h-screen flex flex-col">
-  <div class="w-auto h-2/5 border border-brand-500 rounded-md m-4 p-4">
+  <div
+    *ngIf="iframeConfigData"
+    class="w-auto h-2/5 border border-brand-500 rounded-md m-4 p-4">
     <app-iframe [iframeConfig]="iframeConfigData"></app-iframe>
   </div>
 
