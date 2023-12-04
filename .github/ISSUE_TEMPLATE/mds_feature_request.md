@@ -1,9 +1,10 @@
 ---
 name: MDS Feature Request
 about: Help us improve your product experience with new features suggestions
-title: ""
-labels: ["kind/enhancement", "scope/mds"]
-assignees: "jkbquabeck"
+title: ''
+labels: kind/enhancement
+assignees: jkbquabeck
+
 ---
 
 # Feature Request
@@ -36,4 +37,3 @@ _Add more on who asked for this, i.e. company, person, how much they pay us, wha
 - [ ] Fix the GitHub Projects Labels, Sprint and other Metadata
 - [ ] Refine further action items for this feature request
 ```
-

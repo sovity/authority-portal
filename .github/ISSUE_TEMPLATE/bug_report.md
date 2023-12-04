@@ -1,9 +1,10 @@
 ---
 name: Bug Report
 about: Create a report to help us improve
-title: ""
-labels: "kind/bug"
-assignees: ""
+title: ''
+labels: kind/bug, scope/mds, task/release
+assignees: ''
+
 ---
 
 # Bug Report
