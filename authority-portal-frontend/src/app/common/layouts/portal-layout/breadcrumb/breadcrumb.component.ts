@@ -25,7 +25,10 @@ export class BreadcrumbComponent implements OnDestroy {
           .toString()
           .split('/')
           .forEach((r, idx) => {
-            r = r.charAt(0).toUpperCase() + r.slice(1);
+            r = r
+              .split('-')
+              .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+              .join(' ');
             if (r.toLowerCase() != 'dashboard') {
               this.fullRoute.push(
                 r === '' ? 'Home' : r.replace('_', ' ').replace('-', ' '),

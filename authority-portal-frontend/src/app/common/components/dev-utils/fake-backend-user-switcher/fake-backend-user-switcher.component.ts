@@ -27,7 +27,7 @@ export class FakeBackendUserSwitcherComponent {
   @HostBinding('class.z-50')
   cls = true;
   users: UserInfo[] = Object.values(TEST_USERS);
-  switcherMinimized = false;
+  switcherMinimized = true;
   activeUser = 0;
 
   constructor(private store: Store, private router: Router) {}
