@@ -12,6 +12,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Major
 
 - Redesigned Connectors list, detail and related sub-pages
+- Redesigned Portal Sidebar, Header and other general layouts
 - Moved registration process from Keycloak into the portal
 
 #### Minor
@@ -33,6 +34,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fix role assignment functionality
 - Check for existing users (collisions of mail addresses) during invitation
 - Start page Iframe wont show if url is not set in the app-config.json
+- Reworked Sirius Deployment Guide
 
 ### Deployment Migration Notes
 

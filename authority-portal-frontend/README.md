@@ -92,51 +92,49 @@ npm run test
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Starting the UI
+## Development
 
-### Local Development with the Fake Backend
+### Local Development
 
-Developing with the Fake Backend requries only the API definitions for new
-endpoints to be present, as the data will be filled in by the UI Fake Backend.
+For local development Node16 and NPM are required.
+
+Local Development uses a type-safe [Fake Backend](src/app/core/api/fake-backend/fake-backend.ts).
+
+This requires the API definitions for new and changed endpoints to be ready, as the data will be
+filled in by the UI Fake Backend.
 
 To start the frontend with the fake backend, please either run:
 
-- Expects the API Client Library to be built
-- Starts a Dev Server
-
 ```shell
+# Expects the API Client Library to be built
 npm run start
 ```
 
-- Re-Builds the API Client Library
-- Starts a Dev Server
+or
 
 ```shell
+# Always re-builds the API Client Library
 npm run cold-start
 ```
 
-### Local Development with the Backend
+### Local E2E Development
 
-Local E2E Development allows manual testing of the UI + Backend without having
-to wait for docker images to be built. This requires a running backend in local
-development mode (Port 8080).
+Requires Node16 and NPM and a running backend in local development mode (Port 8080).
 
-This can be used to manually test done backend implementations in interaction
+This can use this to manually test backend implementations in interaction
 with the UI.
 
-To run the frontend against alocally running backend, please either run:
-
-- Expects the API Client Library to be built
-- Starts a Dev Server
+To run the frontend against a locally running backend, please either run:
 
 ```shell
+# Expects the API Client Library to be built
 npm run start-e2e-dev
 ```
 
-- Re-Builds the API Client Library
-- Starts a Dev Server
+or
 
 ```shell
+# Always re-builds the API Client Library
 npm run cold-start-e2e-dev
 ```
 
@@ -155,8 +153,11 @@ contact@sovity.de
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [webpage-shield]:
-  https://img.shields.io/badge/Sovity-black.svg?style=for-the-badge&colorB=09254d
+https://img.shields.io/badge/Sovity-black.svg?style=for-the-badge&colorB=09254d
+
 [webpage-url]: https://www.sovity.de
+
 [linkedin-shield]:
-  https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0a66c2
+https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0a66c2
+
 [linkedin-url]: https://www.linkedin.com/company/sovity

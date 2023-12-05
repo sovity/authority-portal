@@ -907,9 +907,9 @@
       "clientId": "oauth2-proxy",
       "name": "OAuth2 Proxy Client",
       "description": "",
-      "rootUrl": "https://authority-portal.example.com",
+      "rootUrl": "https://authority-portal.sirius.sovity.io",
       "adminUrl": "",
-      "baseUrl": "https://authority-portal.example.com",
+      "baseUrl": "https://authority-portal.sirius.sovity.io",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -1620,6 +1620,10 @@
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {},
+  "loginTheme": "mds-theme",
+  "accountTheme": "",
+  "adminTheme": "",
+  "emailTheme": "",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
