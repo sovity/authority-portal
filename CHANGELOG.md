@@ -35,6 +35,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Check for existing users (collisions of mail addresses) during invitation
 - Start page Iframe wont show if url is not set in the app-config.json
 - Reworked Sirius Deployment Guide
+- Added automated tests for testing parts of Sirius Deployments
+- Fixed a bug causing errors on logout.
 
 ### Deployment Migration Notes
 

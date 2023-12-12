@@ -26,6 +26,7 @@ Feel free to edit this release checklist in-progress depending on what tasks nee
         - [ ] Remove empty sections from the patch notes.
     - [ ] Merge the `release-prep` PR.
 - [ ] Wait for the main branch to be green.
+- [ ] Deploy a version with "latest" tags to sirius and test the deployment.
 - [ ] Create a release and re-use the changelog section as release description, and the version as title.
 - [ ] Check if the pipeline built the release versions in the Actions-Section (or you won't see it).
 - [ ] Check the contents of the Deployment Docs Zip from the GitHub Release.
