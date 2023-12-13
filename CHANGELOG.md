@@ -26,6 +26,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added possibility to update organization details
 - Added possibility to download user details as csv
 - Adapted to new Broker API
+- Add health check endpoint (BE)
 
 #### Patch
 

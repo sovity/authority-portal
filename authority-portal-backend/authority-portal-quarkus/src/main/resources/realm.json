@@ -1619,7 +1619,13 @@
     "xXSSProtection": "1; mode=block",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
-  "smtpServer": {},
+  "smtpServer": {
+    "host": "keycloak-mailserver",
+    "from": "admin@keycloak.local",
+    "starttls": "false",
+    "port": "1025",
+    "ssl": "false"
+    },
   "loginTheme": "mds-theme",
   "accountTheme": "",
   "adminTheme": "",
