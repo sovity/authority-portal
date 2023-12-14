@@ -3,6 +3,7 @@ package de.sovity.authorityportal.api;
 import de.sovity.authorityportal.api.model.ConnectorDetailDto;
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.CreateConnectorRequest;
+import de.sovity.authorityportal.api.model.CreateConnectorResponse;
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest;
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto;
 import de.sovity.authorityportal.api.model.IdResponse;
@@ -246,7 +247,7 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a self-hosted connector.")
-    IdResponse createOwnConnector(
+    CreateConnectorResponse createOwnConnector(
         @QueryParam("environmentId")
         @Valid
         @NotBlank(message = "EnvironmentId cannot be blank")
@@ -268,7 +269,7 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a connector for another organization as a service provider.")
-    IdResponse createProvidedConnector(
+    CreateConnectorResponse createProvidedConnector(
         @PathParam("mdsId")
         String mdsId,
 

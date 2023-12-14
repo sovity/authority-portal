@@ -92,6 +92,15 @@ class ConnectorService {
         )
     }
 
+    fun hasConnectorWithClientId(clientId: String): Boolean {
+        val c = Tables.CONNECTOR
+        val count = dsl.fetchCount(
+            dsl.selectFrom(c)
+                .where(c.CLIENT_ID.eq(clientId))
+        )
+        return count > 0
+    }
+
     fun createOwnConnector(
         connectorId: String,
         mdsId: String,
@@ -165,13 +174,5 @@ class ConnectorService {
         dsl.deleteFrom(c)
             .where(c.CONNECTOR_ID.eq(connectorId))
             .execute()
-    }
-
-    fun getClientIdByConnectorId(connectorId: String): String {
-        val c = Tables.CONNECTOR
-        return dsl.select(c.CLIENT_ID)
-            .from(c)
-            .where(c.CONNECTOR_ID.eq(connectorId))
-            .fetchOne(c.CLIENT_ID) ?: error("Connector with id $connectorId not found")
     }
 }
