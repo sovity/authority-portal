@@ -14,6 +14,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Redesigned Connectors list, detail and related sub-pages
 - Redesigned Portal Sidebar, Header and other general layouts
 - Moved registration process from Keycloak into the portal
+- Changed the response format for the following endpoints:
+  - `POST /api/organizations/my-org/connectors/create-on-premise`
+  - `POST /api/organizations/{mds-id}/connectors/create-service-provided`
 
 #### Minor
 
@@ -27,6 +30,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added possibility to download user details as csv
 - Adapted to new Broker API
 - Add health check endpoint (BE)
+- Connector registration now fails when attempting to use a certificate that is already in use
+- Connector registration no longer fails when an error occurs while registering it to the Broker
 
 #### Patch
 

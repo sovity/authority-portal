@@ -4,6 +4,7 @@ import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
@@ -93,11 +94,16 @@ class ConnectorManagementApiService {
         mdsId: String,
         userId: String,
         deploymentEnvId: String = "test"
-    ): IdResponse {
+    ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
         val connectorId = connectorIdUtils.generateConnectorId(mdsId)
         val clientId = clientIdUtils.generateClientId(connector.certificate)
+
+        if (connectorService.hasConnectorWithClientId(clientId)) {
+            Log.error("Connector with this certificate already exists. connectorId=$connectorId, mdsId=$mdsId, userId=$userId, clientId=$clientId.")
+            return CreateConnectorResponse.error("Connector with this certificate already exists.")
+        }
 
         connectorService.createOwnConnector(
             connectorId = connectorId,
@@ -105,14 +111,16 @@ class ConnectorManagementApiService {
             environment = deploymentEnvId,
             clientId = clientId,
             connector = connector,
-            createdBy =  userId
+            createdBy = userId
         )
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
-        brokerClientService.forEnvironment(deploymentEnvId).addConnector(connector.url)
+
+        if (!registerConnectorInBroker(deploymentEnvId, connector, connectorId, mdsId, userId)) {
+            return CreateConnectorResponse.warning(connectorId, "Connector successfully registered. There were some problems with the broker registration.")
+        }
 
         Log.info("Connector for own organization registered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
-
-        return IdResponse(connectorId)
+        return CreateConnectorResponse.ok(connectorId)
     }
 
     fun createProvidedConnector(
@@ -121,11 +129,16 @@ class ConnectorManagementApiService {
         providerMdsId: String,
         userId: String,
         deploymentEnvId: String = "test"
-    ): IdResponse {
+    ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
         val connectorId = connectorIdUtils.generateConnectorId(customerMdsId)
         val clientId = clientIdUtils.generateClientId(connector.certificate)
+
+        if (connectorService.hasConnectorWithClientId(clientId)) {
+            Log.error("Connector with this certificate already exists. connectorId=$connectorId, customerMdsId=$customerMdsId, userId=$userId, clientId=$clientId.")
+            return CreateConnectorResponse.error("Connector with this certificate already exists.")
+        }
 
         connectorService.createProvidedConnector(
             connectorId = connectorId,
@@ -137,11 +150,23 @@ class ConnectorManagementApiService {
             createdBy = userId
         )
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
-        brokerClientService.forEnvironment(deploymentEnvId).addConnector(connector.url)
+
+        if (!registerConnectorInBroker(deploymentEnvId, connector, connectorId, customerMdsId, userId)) {
+            return CreateConnectorResponse.warning(connectorId, "Connector successfully registered. There were some problems with the broker registration.")
+        }
 
         Log.info("Connector for foreign organization registered. connectorId=$connectorId, customerMdsId=$customerMdsId, userId=$userId.")
+        return CreateConnectorResponse.ok(connectorId)
+    }
 
-        return IdResponse(connectorId)
+    private fun registerConnectorInBroker(deploymentEnvId: String, connector: CreateConnectorRequest, connectorId: String, mdsId: String, userId: String): Boolean {
+        try {
+            brokerClientService.forEnvironment(deploymentEnvId).addConnector(connector.url)
+        } catch (e: Exception) {
+            Log.warn("Broker registration for connector unsuccessful. Connector was registered in DAPS & AP regardless. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.", e)
+            return false
+        }
+        return true
     }
 
     fun deleteOwnConnector(

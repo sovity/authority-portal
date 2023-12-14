@@ -6,6 +6,7 @@ import {
   ConnectorDetailDto,
   ConnectorOverviewResult,
   CreateConnectorRequest,
+  CreateConnectorResponse,
   CreateOrganizationRequest,
   CreateProvidedConnectorRequest,
   DeploymentEnvironmentDto,
@@ -115,7 +116,7 @@ export class ApiService {
   createOwnConnector(
     createConnectorRequest: CreateConnectorRequest,
     environmentId: string,
-  ): Observable<IdResponse> {
+  ): Observable<CreateConnectorResponse> {
     return from(
       this.api().createOwnConnector({createConnectorRequest, environmentId}),
     );
@@ -123,7 +124,7 @@ export class ApiService {
 
   createProvidedConnector(
     connector: CreateProvidedConnectorRequest,
-  ): Observable<IdResponse> {
+  ): Observable<CreateConnectorResponse> {
     return from(
       this.api().createProvidedConnector({
         createConnectorRequest: connector.createConnectorRequest,

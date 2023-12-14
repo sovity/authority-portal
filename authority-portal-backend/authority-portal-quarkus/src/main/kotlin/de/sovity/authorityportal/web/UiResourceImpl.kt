@@ -4,6 +4,7 @@ import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
@@ -244,7 +245,7 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun createOwnConnector(environmentId: String, connector: CreateConnectorRequest): IdResponse {
+    override fun createOwnConnector(environmentId: String, connector: CreateConnectorRequest): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.createOwnConnector(connector, loggedInUser.organizationMdsId!!, loggedInUser.userId, environmentId)
@@ -258,7 +259,7 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun createProvidedConnector(mdsId: String, environmentId: String, connector: CreateConnectorRequest): IdResponse {
+    override fun createProvidedConnector(mdsId: String, environmentId: String, connector: CreateConnectorRequest): CreateConnectorResponse {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.createProvidedConnector(connector, mdsId, loggedInUser.organizationMdsId!!, loggedInUser.userId, environmentId)
