@@ -1,10 +1,7 @@
 package de.sovity.authorityportal.web.utils.idmanagement
 
 import jakarta.enterprise.context.ApplicationScoped
-import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier
-import org.bouncycastle.asn1.x509.Extension
-import org.bouncycastle.asn1.x509.SubjectKeyIdentifier
-import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder
+import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
@@ -14,16 +11,14 @@ class ClientIdUtils {
     fun generateClientId(certString: String): String {
         val certInputStream = certString.byteInputStream()
         val certFactory = CertificateFactory.getInstance("X.509")
-        val cert = certFactory.generateCertificate(certInputStream) as X509Certificate // TODO: error?
+        val cert = certFactory.generateCertificate(certInputStream) as X509Certificate
 
-        val certHolder = JcaX509CertificateHolder(cert)
+        val extUtils = JcaX509ExtensionUtils()
 
-        val skiExtension = certHolder.getExtension(Extension.subjectKeyIdentifier)
-        val ski = SubjectKeyIdentifier.getInstance(skiExtension.parsedValue)
+        val ski = extUtils.createSubjectKeyIdentifier(cert.publicKey)
         val skiHex = ski.keyIdentifier.toHexString()
 
-        val akiExtension = certHolder.getExtension(Extension.authorityKeyIdentifier)
-        val aki = AuthorityKeyIdentifier.getInstance(akiExtension.parsedValue)
+        val aki = extUtils.createAuthorityKeyIdentifier(cert.publicKey)
         val akiHex = aki.keyIdentifier.toHexString()
 
         return "$skiHex:keyid:$akiHex"

@@ -29,24 +29,104 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added possibility to update organization details
 - Added possibility to download user details as csv
 - Adapted to new Broker API
-- Add health check endpoint (BE)
 - Connector registration now fails when attempting to use a certificate that is already in use
 - Connector registration no longer fails when an error occurs while registering it to the Broker
 
 #### Patch
 
-- Fix logo text and alignment
-- Moved breadcrumbs to the toolbar
-- Fix role assignment functionality
-- Check for existing users (collisions of mail addresses) during invitation
-- Start page Iframe wont show if url is not set in the app-config.json
-- Reworked Sirius Deployment Guide
-- Added automated tests for testing parts of Sirius Deployments
-- Fixed a bug causing errors on logout.
+- Start page Iframe won't show if url is not set in the app-config.json
 
 ### Deployment Migration Notes
 
 #### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Broker Server: `{{ broker version }}`
+
+## [v0.2.0] - 2023-12-18
+
+### Overview
+
+Reworked initial deployment guide, fixed many bugs and styling issues.
+
+### Detailed Changes
+
+#### Minor
+
+- Added a health check endpoint `backend:8080/q/health` (closes [#318](https://github.com/sovity/authority-portal/issues/318))
+- Updated Connector form to generate self-signed certificates instead of key pairs (closes [#275](https://github.com/sovity/authority-portal/issues/275))
+
+#### Patch
+
+**Bugfixes**
+
+- Hardened the first user registration to prevent duplicate users (closes [#311](https://github.com/sovity/authority-portal/issues/311))
+- Hardened user invitation to prevent duplicate users (closes [#311](https://github.com/sovity/authority-portal/issues/311))
+- Fixed the registration form not showing validation messages. (closes [#311](https://github.com/sovity/authority-portal/issues/311))
+- Fixed a bug causing white screens on session expiration (closes [#251](https://github.com/sovity/authority-portal/issues/251), [#237](https://github.com/sovity/authority-portal/issues/237))
+- Fixed a bug causing errors on logout (closes [#237](https://github.com/sovity/authority-portal/issues/237))
+- Fixed "Remember me" not working (closes [#258](https://github.com/sovity/authority-portal/issues/258))
+- Fixed an issue with updating user roles (closes [#327](https://github.com/sovity/authority-portal/issues/327))
+- Fixed calculation of the highest user role, shown below the username in the sidebar (closes [#326](https://github.com/sovity/authority-portal/issues/326))
+- Fixed a bug where users can submit Organization profile without confirming they are eligible to create profile (closes [#374](https://github.com/sovity/authority-portal/issues/374))
+- Refactored breadcrumbs to distinguish between clickable and non-clickable steps (closes [#369](https://github.com/sovity/authority-portal/issues/369))
+
+**Styling**
+
+- Made Inter and Material Icon Fonts locally available (closes [#320](https://github.com/sovity/authority-portal/issues/320))
+- Redesigned the footer section (closes [#257](https://github.com/sovity/authority-portal/issues/257))
+- Fixed an issue with sidebar elements getting cropped out (closes [#252](https://github.com/sovity/authority-portal/issues/252))
+- Fixed cursor design, when hovering over items that are not clickable (closes [#256](https://github.com/sovity/authority-portal/issues/256))
+- Improved mobile responsiveness on login and registration page (closes [#369](https://github.com/sovity/authority-portal/issues/369))
+- Fixed styling issues on the OTP verification form page (closes [#259](https://github.com/sovity/authority-portal/issues/259))
+- Binding username issue on user profile page fixed (closes [#336](https://github.com/sovity/authority-portal/issues/336))
+- Updated overall Keycloak theme styling misalignment (closes [#369](https://github.com/sovity/authority-portal/issues/369), [#254](https://github.com/sovity/authority-portal/issues/254), [#259](https://github.com/sovity/authority-portal/issues/259))
+- Replaced "Registered On" by "Created On" at the user profile page (closes [#332](https://github.com/sovity/authority-portal/issues/332))
+
+**Documentation**
+
+- Added an internal dev deployment to Sirius with E2E tests for automated set-up. (closes [#290](https://github.com/sovity/authority-portal/issues/290))
+- Reworked Initial Productive Deployment Guide that further materializes the interactions with the Auth Proxy. (done by [#364](https://github.com/sovity/authority-portal/pull/364))
+
+### Deployment Migration Notes
+
+- Please check out the reworked [Initial Deployment Guide](README.md#productive-deployment-guide).
+  - Please check if everything is configured as intended.
+- Keycloak
+  - Replace [MDS theme](authority-portal-keycloak/mds-theme) with new version
+  - Add "Remember me" settings (Realm settings > Sessions)
+    - SSO Session Idle Remember Me: `7 days`
+    - SSO Session Max Remember Me: `7 days`
+- OAuth2 Proxy
+  - Add environment variable `OAUTH2_PROXY_COOKIE_REFRESH: 4m` (Access Token Lifespan - 1 minute)
+  - Add environment variable `OAUTH2_PROXY_COOKIE_EXPIRE: 30m` (Client Session Idle / SSO Session Idle)
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:0.2.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:0.2.0`
+- Broker Server: `3.1.0`
+
+## [v0.1.2] - 2023-12-08
+
+### Overview
+
+Patch release for EDC 0.2.x Broker.
+
+#### Patch
+
+- Adjusted Broker URL for Broker version `3.1.0`
+
+### Deployment Migration Notes
+
+_No special migration steps required._
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:0.1.2`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:0.1.2`
+- Broker Server: `3.1.0`
 
 ## [v0.1.1] - 2023-11-09
 

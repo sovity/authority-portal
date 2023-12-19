@@ -1,10 +1,9 @@
 ---
 name: Epic
 about: Help us with new ideas
-title: ''
-labels: kind/epic
-assignees: ''
-
+title: ""
+labels: "kind/epic"
+assignees: "jkbquabeck"
 ---
 
 # Epic

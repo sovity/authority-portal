@@ -51,7 +51,7 @@ export class AuthorityOrganizationUserDetailPageComponent
         this.state = state;
         this.roleFormLoading =
           this.state.userRolesForm.state === 'submitting' ||
-          this.state.userAuthorityRoles.state === 'submitting';
+          this.state.userApplicationRoles.state === 'submitting';
       });
   }
 

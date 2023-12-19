@@ -82,10 +82,10 @@
 
     <ng-container *ngIf="'AUTHORITY_ADMIN' | hasRole | async">
       <mat-form-field *ngIf="roleFormEnable" class="w-full">
-        <mat-label>Choose an Authority Role</mat-label>
+        <mat-label>Choose an Application Role</mat-label>
         <mat-select
           [(ngModel)]="authorityUserRole"
-          (selectionChange)="roleChangeHandled($event, 'AUTHORITY')">
+          (selectionChange)="roleChangeHandled($event, 'APPLICATION')">
           <mat-option
             *ngFor="let role of authorityRoles.allRoles"
             [value]="role"

@@ -50,7 +50,7 @@ export class ApiService {
     return from(this.api().reactivateParticipantUser({userId}));
   }
 
-  updateAuthorityUserRoles(request: ChangeApplicationRoleRequest) {
+  updateApplicationUserRoles(request: ChangeApplicationRoleRequest) {
     return from(this.api().changeApplicationRole(request));
   }
 

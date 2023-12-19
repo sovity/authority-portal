@@ -105,22 +105,22 @@ export class AuthorityOrganizationUserDetailPageStateImpl {
       userId: action.userId,
       body: action.roles[0],
     };
-    return this.apiService.updateUserRoles(request).pipe(
+    return this.apiService.updateApplicationUserRoles(request).pipe(
       tap(() => {
-        this.toast.showSuccess(`User's Authority Roles updated successfully`);
+        this.toast.showSuccess(`User's Application Roles updated successfully`);
         ctx.patchState({
-          userAuthorityRoles: {
-            ...ctx.getState().userAuthorityRoles,
+          userApplicationRoles: {
+            ...ctx.getState().userApplicationRoles,
             state: 'success',
           },
         });
       }),
       this.errorService.toastFailureRxjs(
-        'Failed updating user Authority roles',
+        'Failed updating user Application roles',
         () => {
           ctx.patchState({
-            userAuthorityRoles: {
-              ...ctx.getState().userAuthorityRoles,
+            userApplicationRoles: {
+              ...ctx.getState().userApplicationRoles,
               state: 'error',
             },
           });
