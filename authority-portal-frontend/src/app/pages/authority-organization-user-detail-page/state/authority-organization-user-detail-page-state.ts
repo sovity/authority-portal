@@ -10,7 +10,7 @@ export interface AuthorityOrganizationUserDetailPageState {
     state: 'editing' | 'submitting' | 'success' | 'error';
     errors: {[key: string]: string};
   };
-  userAuthorityRoles: {
+  userApplicationRoles: {
     state: 'editing' | 'submitting' | 'success' | 'error';
     errors: {[key: string]: string};
   };
@@ -23,5 +23,5 @@ export const DEFAULT_AUTHORITY_ORGANIZATION_USER_DETAIL_PAGE_STATE: AuthorityOrg
     user: Fetched.empty(),
     busy: false,
     userRolesForm: {state: 'editing', errors: {}},
-    userAuthorityRoles: {state: 'editing', errors: {}},
+    userApplicationRoles: {state: 'editing', errors: {}},
   };

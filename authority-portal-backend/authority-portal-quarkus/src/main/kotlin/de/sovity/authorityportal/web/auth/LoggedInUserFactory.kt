@@ -51,7 +51,9 @@ class LoggedInUserFactory {
         val user = userService.getUserOrCreate(userId)
         val organizationMdsId: String? = user.organizationMdsId
 
-        firstUserService.setupFirstUserIfRequired(userId)
+        if (organizationMdsId == null) {
+            firstUserService.setupFirstUserIfRequired(userId)
+        }
         firstLoginService.approveIfInvited(user)
 
         return LoggedInUser(userId, organizationMdsId, roles)

@@ -7,7 +7,7 @@ export function mapRolesToReadableFormat(role: string | UserRoleDto): string {
   return words.join(' ');
 }
 
-export function roleSelectConfig(type: 'AUTHORITY' | 'PARTICIPANT') {
+export function roleSelectConfig(type: 'APPLICATION' | 'PARTICIPANT') {
   if (type === 'PARTICIPANT') {
     return Object.values(UserRoleDto).filter((it) => it.startsWith(type));
   }
@@ -18,9 +18,9 @@ export function roleSelectConfig(type: 'AUTHORITY' | 'PARTICIPANT') {
 
 export function buildRoleSelectConfig(
   currentUserRoles: UserRoleDto[],
-  type: 'AUTHORITY' | 'PARTICIPANT',
+  type: 'APPLICATION' | 'PARTICIPANT',
 ) {
-  if (type === 'AUTHORITY') {
+  if (type === 'APPLICATION') {
     return currentUserRoles.find((it) => !it.startsWith('PARTICIPANT')) ?? '';
   }
   return currentUserRoles.find((it) => it.startsWith('PARTICIPANT')) ?? '';

@@ -41,7 +41,7 @@ export class UserDetailComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.authorityRoles.allRoles = roleSelectConfig('AUTHORITY');
+    this.authorityRoles.allRoles = roleSelectConfig('APPLICATION');
     this.participantRoles.allRoles = roleSelectConfig('PARTICIPANT');
     this.participantsUserRole = buildRoleSelectConfig(
       this.user.roles,
@@ -49,7 +49,7 @@ export class UserDetailComponent implements OnInit {
     );
     this.authorityUserRole = buildRoleSelectConfig(
       this.user.roles,
-      'AUTHORITY',
+      'APPLICATION',
     );
   }
 
@@ -67,11 +67,11 @@ export class UserDetailComponent implements OnInit {
 
   roleChangeHandled(
     role: UserRoleDto | any,
-    type: 'AUTHORITY' | 'PARTICIPANT',
+    type: 'APPLICATION' | 'PARTICIPANT',
   ) {
     this.isUpdateRoleActive = true;
 
-    if (type === 'AUTHORITY') {
+    if (type === 'APPLICATION') {
       this.authorityRoles.updatedRole = role;
     } else if (type === 'PARTICIPANT') {
       this.participantRoles.updatedRole = role;

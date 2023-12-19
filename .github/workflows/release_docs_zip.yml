@@ -17,7 +17,14 @@ jobs:
         run: |
           ARCHIVE_FILE_NAME="authority-portal-release-${GITHUB_REF#refs/tags/v}-deployment-docs.zip"
           echo "ARCHIVE_FILE_NAME=$ARCHIVE_FILE_NAME" >> $GITHUB_ENV
-          zip -r -q $ARCHIVE_FILE_NAME README.md CHANGELOG.md deployment-prod/DEPLOYMENT_INSTRUCTIONS.md deployment-prod/FEATURE_LIST.md
+          zip -r -q $ARCHIVE_FILE_NAME \
+            README.md \
+            CHANGELOG.md \
+            docs/deployment-guide/goals/production/* \
+            docs/deployment-guide/goals/sirius/remote/Caddyfile \
+            docs/deployment-guide/goals/sirius/remote/docker-compose.yaml \
+            authority-portal-keycloak/mds-theme/* \
+            authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json
       - name: Upload deployment-relevant documentation
         uses: svenstaro/upload-release-action@v2
         with:
