@@ -7,6 +7,7 @@ import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
+import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.services.ConnectorService
@@ -116,7 +117,7 @@ class ConnectorManagementApiService {
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
 
         if (!registerConnectorInBroker(deploymentEnvId, connector, connectorId, mdsId, userId)) {
-            return CreateConnectorResponse.warning(connectorId, "Connector successfully registered. There were some problems with the broker registration.")
+            return CreateConnectorResponse.warning(connectorId, "Connector successfully registered. There were some problems with the broker registration, we will try again later.")
         }
 
         Log.info("Connector for own organization registered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
@@ -152,7 +153,7 @@ class ConnectorManagementApiService {
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
 
         if (!registerConnectorInBroker(deploymentEnvId, connector, connectorId, customerMdsId, userId)) {
-            return CreateConnectorResponse.warning(connectorId, "Connector successfully registered. There were some problems with the broker registration.")
+            return CreateConnectorResponse.warning(connectorId, "Connector successfully registered. There were some problems with the broker registration, we will try again later.")
         }
 
         Log.info("Connector for foreign organization registered. connectorId=$connectorId, customerMdsId=$customerMdsId, userId=$userId.")
@@ -162,6 +163,7 @@ class ConnectorManagementApiService {
     private fun registerConnectorInBroker(deploymentEnvId: String, connector: CreateConnectorRequest, connectorId: String, mdsId: String, userId: String): Boolean {
         try {
             brokerClientService.forEnvironment(deploymentEnvId).addConnector(connector.url)
+            connectorService.setBrokerRegistrationStatus(connectorId, ConnectorBrokerRegistrationStatus.REGISTERED)
         } catch (e: Exception) {
             Log.warn("Broker registration for connector unsuccessful. Connector was registered in DAPS & AP regardless. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.", e)
             return false
