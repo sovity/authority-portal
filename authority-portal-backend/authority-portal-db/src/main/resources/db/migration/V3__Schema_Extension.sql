@@ -26,3 +26,9 @@ ALTER TABLE "organization"
     DROP COLUMN duns,
     DROP COLUMN security_email;
 
+-- Connector
+CREATE TYPE connector_broker_registration_status as ENUM ('REGISTERED', 'UNREGISTERED');
+
+ALTER TABLE "connector"
+    ADD COLUMN broker_registration_status connector_broker_registration_status NOT NULL DEFAULT 'UNREGISTERED';
+

@@ -31,6 +31,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Adapted to new Broker API
 - Connector registration now fails when attempting to use a certificate that is already in use
 - Connector registration no longer fails when an error occurs while registering it to the Broker
+- Connectors now regularly try to re-register to Broker if previous attempts failed
 
 #### Patch
 

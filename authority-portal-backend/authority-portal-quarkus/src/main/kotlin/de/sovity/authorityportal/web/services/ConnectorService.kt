@@ -2,6 +2,7 @@ package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import jakarta.enterprise.context.ApplicationScoped
@@ -152,7 +153,7 @@ class ConnectorService {
         connector: CreateConnectorRequest,
         createdBy: String
     ) {
-        dsl.newRecord(Tables.CONNECTOR). also {
+        dsl.newRecord(Tables.CONNECTOR).also {
             it.connectorId = connectorId
             it.mdsId = mdsId
             it.providerMdsId = providerMdsId
@@ -164,6 +165,7 @@ class ConnectorService {
             it.url = connector.url
             it.createdBy = createdBy
             it.createdAt = OffsetDateTime.now()
+            it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
 
             it.insert()
         }
@@ -175,4 +177,34 @@ class ConnectorService {
             .where(c.CONNECTOR_ID.eq(connectorId))
             .execute()
     }
+
+    fun setBrokerRegistrationStatus(connectorIds: List<String>, status: ConnectorBrokerRegistrationStatus) {
+        val c = Tables.CONNECTOR
+        dsl.update(c)
+            .set(c.BROKER_REGISTRATION_STATUS, status)
+            .where(c.CONNECTOR_ID.`in`(connectorIds))
+            .execute()
+    }
+
+    fun setBrokerRegistrationStatus(connectorId: String, status: ConnectorBrokerRegistrationStatus) {
+        setBrokerRegistrationStatus(listOf(connectorId), status)
+    }
+
+    fun getUnregisteredBrokerConnectors(): List<UnregisteredBrokerConnector> {
+        val c = Tables.CONNECTOR
+        return dsl.select(
+            c.CONNECTOR_ID.`as`("connectorId"),
+            c.URL.`as`("connectorUrl"),
+            c.ENVIRONMENT.`as`("environmentId")
+        )
+            .from(c)
+            .where(c.BROKER_REGISTRATION_STATUS.eq(ConnectorBrokerRegistrationStatus.UNREGISTERED))
+            .fetchInto(UnregisteredBrokerConnector::class.java)
+    }
+
+    data class UnregisteredBrokerConnector(
+        val connectorId: String,
+        val connectorUrl: String,
+        val environmentId: String
+    )
 }

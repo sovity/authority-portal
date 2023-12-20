@@ -13,10 +13,14 @@ class BrokerClient(private val brokerConfig: BrokerConfig) {
         .build(BrokerClientResource::class.java)!!
 
     fun addConnector(connectorUrl: String) {
+        addConnectors(listOf(connectorUrl))
+    }
+
+    fun addConnectors(connectorUrls: List<String>) {
         val response = brokerClientResource.addConnectors(
             brokerConfig.apiKey(),
             brokerConfig.adminApiKey(),
-            listOf(connectorUrl)
+            connectorUrls
         )
 
         if (response.status != Response.Status.NO_CONTENT.statusCode) {
