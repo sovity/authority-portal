@@ -64,8 +64,10 @@ export class ApiService {
     return from(this.api().createOrganization({createOrganizationRequest}));
   }
 
-  getOrganizations(): Observable<OrganizationOverviewResult> {
-    return from(this.api().organizationsOverview());
+  getOrganizations(
+    environmentId: string,
+  ): Observable<OrganizationOverviewResult> {
+    return from(this.api().organizationsOverview({environmentId}));
   }
 
   getOrganizationDetails(

@@ -4,7 +4,6 @@ import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.authorityportal.web.services.UserService
-import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

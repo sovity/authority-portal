@@ -1,6 +1,6 @@
 package de.sovity.authorityportal.web.services
 
-import de.sovity.authorityportal.api.model.CreateOrganizationRequest
+import de.sovity.authorityportal.api.model.organization.CreateOrganizationRequest
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord

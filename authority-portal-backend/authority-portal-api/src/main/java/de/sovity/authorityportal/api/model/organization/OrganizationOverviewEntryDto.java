@@ -1,4 +1,4 @@
-package de.sovity.authorityportal.api.model;
+package de.sovity.authorityportal.api.model.organization;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -16,10 +16,22 @@ import lombok.ToString;
 public class OrganizationOverviewEntryDto {
     @Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
     private String mdsId;
+
     @Schema(description = "Legal Name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
-    @Schema(description = "URL", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String url;
+
+    @Schema(description = "Main Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String mainContactEmail;
+
+    @Schema(description = "Number of Users", requiredMode = Schema.RequiredMode.REQUIRED)
+    private Integer numberOfUsers;
+
+    @Schema(description = "Number of Connectors", requiredMode = Schema.RequiredMode.REQUIRED)
+    private Integer numberOfConnectors;
+
+    @Schema(description = "Number of Data Offers", requiredMode = Schema.RequiredMode.REQUIRED)
+    private Integer numberOfDataOffers;
+
     @Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
     private OrganizationRegistrationStatusDto registrationStatus;
 }

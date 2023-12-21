@@ -1,14 +1,15 @@
 package de.sovity.authorityportal.web.pages.organizationmanagement
 
-import de.sovity.authorityportal.api.model.OrganizationDetailsDto
-import de.sovity.authorityportal.api.model.OrganizationOverviewEntryDto
-import de.sovity.authorityportal.api.model.OrganizationOverviewResult
-import de.sovity.authorityportal.api.model.OwnOrganizationDetailsDto
+import de.sovity.authorityportal.api.model.organization.OrganizationDetailsDto
+import de.sovity.authorityportal.api.model.organization.OrganizationOverviewEntryDto
+import de.sovity.authorityportal.api.model.organization.OrganizationOverviewResult
+import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDto
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
-import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.ConnectorMetadataService
+import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetailService
+import de.sovity.authorityportal.web.services.UserService
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
@@ -25,45 +26,63 @@ class OrganizationInfoApiService {
     lateinit var userDetailService: UserDetailService
 
     @Inject
+    lateinit var userService: UserService
+
+    @Inject
     lateinit var connectorService: ConnectorService
 
     @Inject
     lateinit var connectorMetadataService: ConnectorMetadataService
 
-    fun organizationsOverview(): OrganizationOverviewResult {
+    fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
         val organizations = organizationService.getOrganizations()
-
+        val connectorCounts = connectorService.getConnectorCountsByMdsIds(environmentId)
+        val userCounts = userService.getUserCountsByMdsIds()
         return OrganizationOverviewResult(organizations.map {
             OrganizationOverviewEntryDto().apply {
                 mdsId = it.mdsId
                 name = it.name
-                url = it.url
+                mainContactEmail = it.mainContactEmail
+                numberOfUsers = userCounts[it.mdsId] ?: 0
+                numberOfConnectors = connectorCounts[it.mdsId] ?: 0
+                numberOfDataOffers = connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)
                 registrationStatus = it.registrationStatus.toDto()
             }
         })
     }
 
-    fun ownOrganizationDetails(mdsId: String): OwnOrganizationDetailsDto {
+    fun getOwnOrganizationInformation(mdsId: String): OwnOrganizationDetailsDto {
         val organizationDetails = getOrganizationDetailsDto(mdsId)
-        return OwnOrganizationDetailsDto(
-            organizationDetails.mdsId,
-            organizationDetails.name,
-            organizationDetails.address,
-            organizationDetails.taxId,
-            organizationDetails.url,
-            organizationDetails.securityEmail,
-            organizationDetails.registrationStatus,
-            organizationDetails.createdAt,
-            organizationDetails.createdBy,
-            organizationDetails.memberInfos
-        )
+        return OwnOrganizationDetailsDto().apply {
+            this.mdsId = organizationDetails.mdsId
+            name = organizationDetails.name
+            businessUnit = organizationDetails.businessUnit
+            mainAddress = organizationDetails.mainAddress
+            billingAddress = organizationDetails.billingAddress
+            taxId = organizationDetails.taxId
+            url = organizationDetails.url
+            description = organizationDetails.description
+            registrationStatus = organizationDetails.registrationStatus
+            memberList = organizationDetails.memberList
+            adminUserId = organizationDetails.adminUserId
+            adminFirstName = organizationDetails.adminFirstName
+            adminLastName = organizationDetails.adminLastName
+            mainContactName = organizationDetails.mainContactName
+            mainContactEmail = organizationDetails.mainContactEmail
+            mainContactPhone = organizationDetails.mainContactPhone
+            techContactName = organizationDetails.techContactName
+            techContactEmail = organizationDetails.techContactEmail
+            techContactPhone = organizationDetails.techContactPhone
+            createdAt = organizationDetails.createdAt
+            createdBy = organizationDetails.createdBy
+        }
     }
 
     fun getOrganizationInformation(mdsId: String, environmentId: String): OrganizationDetailsDto {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
         val organizationDetailsDto = getOrganizationDetailsDto(mdsId)
-        organizationDetailsDto.memberCount = organizationDetailsDto.memberInfos.size
+        organizationDetailsDto.memberCount = organizationDetailsDto.memberList.size
         organizationDetailsDto.connectorCount = connectorService.getConnectorCountByMdsId(mdsId, environmentId)
         organizationDetailsDto.dataOfferCount = connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)
 
@@ -75,15 +94,26 @@ class OrganizationInfoApiService {
         val organizationDetailsDto = OrganizationDetailsDto().apply {
             this.mdsId = organization.mdsId
             name = organization.name
-            address = organization.address
+            businessUnit = organization.businessUnit
+            mainAddress = organization.address
+            billingAddress = organization.billingAddress
             taxId = organization.taxId
             url = organization.url
-            securityEmail = organization.mainContactEmail
+            description = "[Placeholder]"
             registrationStatus = organization.registrationStatus.toDto()
+            memberList = userDetailService.getOrganizationMembers(mdsId)
+            adminUserId = "[Placeholder]"
+            adminFirstName = "[Placeholder]"
+            adminLastName = "[Placeholder]"
+            mainContactName = organization.mainContactName
+            mainContactEmail = organization.mainContactEmail
+            mainContactPhone = organization.mainContactPhone
+            techContactName = organization.techContactName
+            techContactEmail = organization.techContactEmail
+            techContactPhone = organization.techContactPhone
             createdAt = organization.createdAt
             createdBy = organization.createdBy
         }
-        organizationDetailsDto.memberInfos = userDetailService.getOrganizationMembers(mdsId)
 
         return organizationDetailsDto
     }

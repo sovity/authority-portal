@@ -9,7 +9,6 @@ import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import io.quarkus.test.junit.QuarkusMock
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
-import java.util.UUID
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -20,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.verify
+import java.util.UUID
 
 @QuarkusTest
 @ExtendWith(MockitoExtension::class)

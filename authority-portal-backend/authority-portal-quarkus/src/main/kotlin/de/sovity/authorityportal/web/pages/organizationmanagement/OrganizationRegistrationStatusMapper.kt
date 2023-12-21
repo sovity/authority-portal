@@ -1,6 +1,6 @@
 package de.sovity.authorityportal.web.pages.organizationmanagement
 
-import de.sovity.authorityportal.api.model.OrganizationRegistrationStatusDto
+import de.sovity.authorityportal.api.model.organization.OrganizationRegistrationStatusDto
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 
 fun OrganizationRegistrationStatus.toDto(): OrganizationRegistrationStatusDto = when (this) {

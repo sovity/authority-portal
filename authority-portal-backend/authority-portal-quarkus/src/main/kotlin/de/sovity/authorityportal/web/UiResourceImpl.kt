@@ -5,14 +5,10 @@ import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
-import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
-import de.sovity.authorityportal.api.model.OrganizationDetailsDto
-import de.sovity.authorityportal.api.model.OrganizationOverviewResult
-import de.sovity.authorityportal.api.model.OwnOrganizationDetailsDto
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.UpdateUserDto
@@ -20,6 +16,10 @@ import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.api.model.UserRoleDto
+import de.sovity.authorityportal.api.model.organization.CreateOrganizationRequest
+import de.sovity.authorityportal.api.model.organization.OrganizationDetailsDto
+import de.sovity.authorityportal.api.model.organization.OrganizationOverviewResult
+import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDto
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.auth.AuthUtils
 import de.sovity.authorityportal.web.auth.LoggedInUser
@@ -175,16 +175,16 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun organizationsOverview(): OrganizationOverviewResult {
+    override fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationInfoApiService.organizationsOverview()
+        return organizationInfoApiService.organizationsOverview(environmentId)
     }
 
     @Transactional
     override fun ownOrganizationDetails(): OwnOrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
-        return organizationInfoApiService.ownOrganizationDetails(loggedInUser.organizationMdsId!!);
+        return organizationInfoApiService.getOwnOrganizationInformation(loggedInUser.organizationMdsId!!);
     }
 
     @Transactional

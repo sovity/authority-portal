@@ -116,7 +116,7 @@ export const inviteUser = (
   updateOrganization(getUserInfo().organizationMdsId, (organization) => {
     return {
       ...organization,
-      memberInfos: [...organization.memberInfos, newUser],
+      memberInfos: [...organization.memberList, newUser],
     };
   });
 
