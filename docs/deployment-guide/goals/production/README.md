@@ -116,6 +116,8 @@ This client must have the following settings:
 - Section `Authentication flow` (Tab `Settings`)
   - Everything disabled
   - `Service accounts roles` enabled
+- Tab `Client scopes`
+  - Add client scope `roles` as a default scope to the client
 - Service account roles (Tab `Service Account Roles`)
   - `realm-management` > `manage-clients` enabled
   - `realm-management` > `create-client` enabled
