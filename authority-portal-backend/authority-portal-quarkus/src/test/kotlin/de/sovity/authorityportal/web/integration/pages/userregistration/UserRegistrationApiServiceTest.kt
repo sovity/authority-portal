@@ -1,7 +1,7 @@
 package de.sovity.authorityportal.web.integration.pages.userregistration
 
-import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
+import de.sovity.authorityportal.api.model.organization.CreateOrganizationRequest
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_ADDRESS

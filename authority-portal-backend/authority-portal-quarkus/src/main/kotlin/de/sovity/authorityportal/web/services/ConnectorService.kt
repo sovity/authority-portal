@@ -8,6 +8,7 @@ import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
+import org.jooq.impl.DSL
 import java.time.OffsetDateTime
 
 @ApplicationScoped
@@ -91,6 +92,16 @@ class ConnectorService {
             dsl.selectFrom(c)
                 .where(c.MDS_ID.eq(mdsId), c.ENVIRONMENT.eq(environmentId))
         )
+    }
+
+    fun getConnectorCountsByMdsIds(environment: String): Map<String, Int> {
+        val c = Tables.CONNECTOR
+
+        return dsl.select(c.MDS_ID, DSL.count())
+            .from(c)
+            .where(c.ENVIRONMENT.eq(environment))
+            .groupBy(c.MDS_ID)
+            .fetchMap(c.MDS_ID, DSL.count())
     }
 
     fun hasConnectorWithClientId(clientId: String): Boolean {

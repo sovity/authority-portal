@@ -1,6 +1,5 @@
 package de.sovity.authorityportal.web.thirdparty.keycloak
 
-import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakUserMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

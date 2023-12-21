@@ -100,7 +100,7 @@
           <input
             class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
             type="text"
-            [value]="organization.address"
+            [value]="organization.mainAddress"
             [disabled]="true" />
         </div>
 
@@ -128,12 +128,12 @@
 
         <div
           class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="organization-profile-label">Security Email:</label>
+          <label class="organization-profile-label">Main Contact Email:</label>
 
           <input
             class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
             type="text"
-            [value]="organization.securityEmail"
+            [value]="organization.mainContactEmail"
             [disabled]="true" />
         </div>
 
@@ -195,7 +195,7 @@
     </mat-tab>
     <mat-tab label="Users list">
       <table
-        *ngIf="organization.memberInfos as members"
+        *ngIf="organization.memberList as members"
         class="min-w-full divide-y divide-gray-200 mt-8">
         <thead>
           <tr>

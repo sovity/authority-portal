@@ -1,8 +1,8 @@
 package de.sovity.authorityportal.web.pages.organizationmanagement
 
-import de.sovity.authorityportal.api.model.CreateOrganizationRequest
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest
+import de.sovity.authorityportal.api.model.organization.CreateOrganizationRequest
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.OrganizationService

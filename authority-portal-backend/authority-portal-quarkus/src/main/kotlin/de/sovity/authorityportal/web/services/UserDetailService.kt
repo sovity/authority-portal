@@ -40,7 +40,7 @@ class UserDetailService {
     }
 
     fun getUserDetailsByOrganization(mdsId: String): List<UserDetail> {
-        val dbUsers = userService.getUsersByOrganization(mdsId)
+        val dbUsers = userService.getUsersByMdsId(mdsId)
         return dbUsers.let { user ->
             user.map {
                 val kcUser = keycloakService.getUser(it.id)

@@ -1,34 +1,34 @@
 -- User
-ALTER TABLE "user"
-    ADD COLUMN email text,
-    ADD COLUMN first_name text,
-    ADD COLUMN last_name text,
-    ADD COLUMN job_title text,
-    ADD COLUMN phone text;
+alter table "user"
+    add column email text,
+    add column first_name text,
+    add column last_name text,
+    add column job_title text,
+    add column phone text;
 
 -- Organization
-ALTER TABLE "organization"
-    ADD COLUMN business_unit text,
-    ADD COLUMN billing_address text,
-    ADD COLUMN tax_id text,
-    ADD COLUMN commerce_register_number text,
-    ADD COLUMN commerce_register_location text,
-    ADD COLUMN main_contact_name text,
-    ADD COLUMN main_contact_email text,
-    ADD COLUMN main_contact_phone text,
-    ADD COLUMN tech_contact_name text,
-    ADD COLUMN tech_contact_email text,
-    ADD COLUMN tech_contact_phone text;
+alter table "organization"
+    add column business_unit text,
+    add column billing_address text,
+    add column tax_id text,
+    add column commerce_register_number text,
+    add column commerce_register_location text,
+    add column main_contact_name text,
+    add column main_contact_email text,
+    add column main_contact_phone text,
+    add column tech_contact_name text,
+    add column tech_contact_email text,
+    add column tech_contact_phone text;
 
-UPDATE "organization" SET main_contact_email = security_email;
+update "organization" set main_contact_email = security_email;
 
-ALTER TABLE "organization"
-    DROP COLUMN duns,
-    DROP COLUMN security_email;
+alter table "organization"
+    drop column duns,
+    drop column security_email;
 
 -- Connector
-CREATE TYPE connector_broker_registration_status as ENUM ('REGISTERED', 'UNREGISTERED');
+create type connector_broker_registration_status as enum ('REGISTERED', 'UNREGISTERED');
 
-ALTER TABLE "connector"
-    ADD COLUMN broker_registration_status connector_broker_registration_status NOT NULL DEFAULT 'UNREGISTERED';
+alter table "connector"
+    add column broker_registration_status connector_broker_registration_status not null default 'UNREGISTERED';
 

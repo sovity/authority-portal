@@ -96,13 +96,25 @@
                 <th
                   class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
                   scope="col">
-                  Status
+                  Number of Users
                 </th>
 
                 <th
-                  class="px-4 py-3.5 text-sm font-normal text-left text-gray-700"
+                  class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
                   scope="col">
-                  Web Page
+                  Number of Connectors
+                </th>
+
+                <th
+                  class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
+                  scope="col">
+                  Number of Data offers
+                </th>
+
+                <th
+                  class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
+                  scope="col">
+                  Status
                 </th>
 
                 <th
@@ -127,6 +139,28 @@
                         {{ organization.name }}
                       </h4>
                     </td>
+
+                    <td
+                      class="text-sm text-center font-medium whitespace-nowrap">
+                      <h4>
+                        {{ organization.numberOfUsers }}
+                      </h4>
+                    </td>
+
+                    <td
+                      class="text-sm text-center font-medium whitespace-nowrap">
+                      <h4>
+                        {{ organization.numberOfConnectors }}
+                      </h4>
+                    </td>
+
+                    <td
+                      class="text-sm text-center font-medium whitespace-nowrap">
+                      <h4>
+                        {{ organization.numberOfDataOffers }}
+                      </h4>
+                    </td>
+
                     <td
                       class="px-12 py-4 text-sm font-medium whitespace-nowrap">
                       <div
@@ -138,12 +172,6 @@
                         ">
                         {{ organization.registrationStatus }}
                       </div>
-                    </td>
-
-                    <td class="px-4 py-4 text-sm whitespace-nowrap">
-                      <h4 class="text-gray-700">
-                        {{ organization.url }}
-                      </h4>
                     </td>
 
                     <td class="flex px-4 py-4 text-sm whitespace-nowrap">
