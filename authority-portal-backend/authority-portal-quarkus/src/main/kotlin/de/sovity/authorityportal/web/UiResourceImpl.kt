@@ -260,7 +260,7 @@ class UiResourceImpl : UiResource {
 
     @Transactional
     override fun createProvidedConnector(mdsId: String, environmentId: String, connector: CreateConnectorRequest): CreateConnectorResponse {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.createProvidedConnector(connector, mdsId, loggedInUser.organizationMdsId!!, loggedInUser.userId, environmentId)
     }
