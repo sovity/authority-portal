@@ -41,17 +41,15 @@ class OrganizationInfoApiServiceTest {
     private val testUrl = "https://example.com"
     private val testDescription = "[Placeholder]"
     private val testRegistrationStatus = OrganizationRegistrationStatusDto.ACTIVE
-    private val testAdminUserId = "[Placeholder]"
-    private val testAdminFirstName = "[Placeholder]"
-    private val testAdminLastName = "[Placeholder]"
+    private val testAdminUserId = "9525c6ea-34d5-4c11-b9f8-133dc2086f00"
+    private val testAdminFirstName = "Admin"
+    private val testAdminLastName = "Adnub"
     private val testMainContactName = "Main Contact"
     private val testMainContactEmail = "main.contact@example.com"
     private val testMainPhone = "0123456789"
     private val testTechContactName = "Tech Contact"
     private val testTechContactEmail = "tech.contact@example.com"
     private val testTechPhone = "9876543210"
-
-    private val testUserId = "9525c6ea-34d5-4c11-b9f8-133dc2086f00"
 
     @Test
     fun testOrganizationsOverview() {
@@ -78,6 +76,8 @@ class OrganizationInfoApiServiceTest {
         val keycloakService = mock(KeycloakService::class.java)
         `when`(keycloakService.getOrganizationMembers(eq(testMdsId))).thenReturn(listOf(members))
         `when`(keycloakService.getUserRoles(eq(userId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
+        `when`(keycloakService.getUserRoles(eq(testAdminUserId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_ADMIN))
+        `when`(keycloakService.getUser(testAdminUserId)).thenReturn(KeycloakUserDto(testAdminUserId, testAdminFirstName, testAdminLastName, USER_EMAIL, USER_POSITION, USER_PHONE_NUMBER))
         QuarkusMock.installMockForType(keycloakService, KeycloakService::class.java)
 
         // act
@@ -105,7 +105,7 @@ class OrganizationInfoApiServiceTest {
         assertThat(result.techContactName).isEqualTo(testTechContactName)
         assertThat(result.techContactEmail).isEqualTo(testTechContactEmail)
         assertThat(result.techContactPhone).isEqualTo(testTechPhone)
-        assertThat(result.createdBy).isEqualTo(testUserId)
+        assertThat(result.createdBy).isEqualTo(testAdminUserId)
         verify(keycloakService).getOrganizationMembers(eq(testMdsId))
         verify(keycloakService).getUserRoles(eq(userId))
     }
@@ -118,6 +118,8 @@ class OrganizationInfoApiServiceTest {
         val keycloakService = mock(KeycloakService::class.java)
         `when`(keycloakService.getOrganizationMembers(eq(testMdsId))).thenReturn(listOf(members))
         `when`(keycloakService.getUserRoles(eq(userId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
+        `when`(keycloakService.getUserRoles(eq(testAdminUserId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_ADMIN))
+        `when`(keycloakService.getUser(testAdminUserId)).thenReturn(KeycloakUserDto(testAdminUserId, testAdminFirstName, testAdminLastName, USER_EMAIL, USER_POSITION, USER_PHONE_NUMBER))
         QuarkusMock.installMockForType(keycloakService, KeycloakService::class.java)
 
         // act
@@ -148,7 +150,7 @@ class OrganizationInfoApiServiceTest {
         assertThat(result.techContactName).isEqualTo(testTechContactName)
         assertThat(result.techContactEmail).isEqualTo(testTechContactEmail)
         assertThat(result.techContactPhone).isEqualTo(testTechPhone)
-        assertThat(result.createdBy).isEqualTo(testUserId)
+        assertThat(result.createdBy).isEqualTo(testAdminUserId)
         verify(keycloakService).getOrganizationMembers(eq(testMdsId))
         verify(keycloakService).getUserRoles(eq(userId))
     }

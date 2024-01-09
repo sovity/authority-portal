@@ -7,6 +7,7 @@ import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.services.ConnectorMetadataService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
+import de.sovity.authorityportal.web.services.UserDetail
 import de.sovity.authorityportal.web.services.UserDetailService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
@@ -49,8 +51,10 @@ class OrganizationInfoApiServiceTest {
     @BeforeEach
     fun before() {
         `when`(organizationRecord.registrationStatus).thenReturn(OrganizationRegistrationStatus.ACTIVE)
+        `when`(organizationRecord.createdBy).thenReturn("testCreatedBy")
         `when`(organizationService.getOrganizationOrThrow(mdsId)).thenReturn(organizationRecord)
         `when`(userDetailService.getOrganizationMembers(mdsId)).thenReturn(memberInfos)
+        `when`(userDetailService.getUserData(anyString())).thenReturn(mock(UserDetail::class.java))
     }
 
     @Test
