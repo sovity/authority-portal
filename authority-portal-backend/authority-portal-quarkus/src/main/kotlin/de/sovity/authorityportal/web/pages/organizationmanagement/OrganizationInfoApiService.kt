@@ -86,11 +86,12 @@ class OrganizationInfoApiService {
         organizationDetailsDto.connectorCount = connectorService.getConnectorCountByMdsId(mdsId, environmentId)
         organizationDetailsDto.dataOfferCount = connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)
 
-        return organizationDetailsDto;
+        return organizationDetailsDto
     }
 
     private fun getOrganizationDetailsDto(mdsId: String): OrganizationDetailsDto {
         val organization = organizationService.getOrganizationOrThrow(mdsId)
+        val organizationAdmin = userDetailService.getUserData(organization.createdBy)
         val organizationDetailsDto = OrganizationDetailsDto().apply {
             this.mdsId = organization.mdsId
             name = organization.name
@@ -102,9 +103,9 @@ class OrganizationInfoApiService {
             description = "[Placeholder]"
             registrationStatus = organization.registrationStatus.toDto()
             memberList = userDetailService.getOrganizationMembers(mdsId)
-            adminUserId = "[Placeholder]"
-            adminFirstName = "[Placeholder]"
-            adminLastName = "[Placeholder]"
+            adminUserId = organizationAdmin.userId
+            adminFirstName = organizationAdmin.firstName
+            adminLastName = organizationAdmin.lastName
             mainContactName = organization.mainContactName
             mainContactEmail = organization.mainContactEmail
             mainContactPhone = organization.mainContactPhone
