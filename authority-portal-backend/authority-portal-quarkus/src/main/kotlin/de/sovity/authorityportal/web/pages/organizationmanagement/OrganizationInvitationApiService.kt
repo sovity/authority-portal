@@ -41,19 +41,25 @@ class OrganizationInvitationApiService {
     }
 
     private fun createKeycloakUserAndOrganization(mdsId: String, invitationInformation: InviteOrganizationRequest): String {
-        val userId = keycloakService.createUser(
+        val keycloakUser = keycloakService.createUser(
             invitationInformation.userEmail,
             invitationInformation.userFirstName,
             invitationInformation.userLastName
         )
         keycloakService.createOrganization(mdsId)
-        keycloakService.joinOrganization(userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
+        keycloakService.joinOrganization(keycloakUser.userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
 
-        return userId
+        return keycloakUser.userId
     }
 
     private fun createDbUserAndOrganization(userId: String, mdsId: String, invitationInformation: InviteOrganizationRequest) {
-        val user = userService.createUser(userId, UserRegistrationStatus.INVITED)
+        val user = userService.registerUserWithDetails(
+            userId = userId,
+            registrationStatus = UserRegistrationStatus.INVITED,
+            email = invitationInformation.userEmail,
+            firstName = invitationInformation.userFirstName,
+            lastName = invitationInformation.userLastName
+        )
         organizationService.createOrganization(
             userId,
             mdsId,

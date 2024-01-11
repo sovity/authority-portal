@@ -4,7 +4,6 @@ import de.sovity.authorityportal.api.model.MemberInfo
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleMapper
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
@@ -20,18 +19,17 @@ class UserDetailService {
     @Inject
     lateinit var userRoleMapper: UserRoleMapper
 
-    fun getUserData(userId: String): UserDetail {
-        val kcUser = keycloakService.getUser(userId)
+    fun getUserDetails(userId: String): UserDetail {
         val dbUser = userService.getUserOrThrow(userId)
         val roles = keycloakService.getUserRoles(userId)
 
         return UserDetail(
-            kcUser.userId,
-            kcUser.firstName,
-            kcUser.lastName,
-            kcUser.email,
-            kcUser.position,
-            kcUser.phoneNumber,
+            dbUser.id,
+            dbUser.firstName,
+            dbUser.lastName,
+            dbUser.email,
+            dbUser.jobTitle,
+            dbUser.phone,
             dbUser.organizationMdsId,
             dbUser.registrationStatus,
             dbUser.createdAt,
@@ -43,15 +41,14 @@ class UserDetailService {
         val dbUsers = userService.getUsersByMdsId(mdsId)
         return dbUsers.let { user ->
             user.map {
-                val kcUser = keycloakService.getUser(it.id)
                 UserDetail(
                     it.id,
-                    kcUser.firstName,
-                    kcUser.lastName,
-                    kcUser.email,
-                    kcUser.position,
-                    kcUser.phoneNumber,
-                    mdsId,
+                    it.firstName,
+                    it.lastName,
+                    it.email,
+                    it.jobTitle,
+                    it.phone,
+                    it.organizationMdsId,
                     it.registrationStatus,
                     it.createdAt,
                     keycloakService.getUserRoles(it.id)
@@ -61,22 +58,23 @@ class UserDetailService {
     }
 
     fun getOrganizationMembers(mdsId: String): List<MemberInfo> {
-        val members = keycloakService.getOrganizationMembers(mdsId)
+        val members = userService.getUsersByMdsId(mdsId)
         return members.let { user ->
             user.map {
                 MemberInfo(
-                    it.userId,
+                    it.id,
+                    it.email,
                     it.firstName,
                     it.lastName,
-                    getHighestUserRoles(it)
+                    getHighestUserRoles(it.id)
                 )
             }
         }
     }
 
-    private fun getHighestUserRoles(user: KeycloakUserDto): List<UserRoleDto> {
+    private fun getHighestUserRoles(userId: String): List<UserRoleDto> {
         // TODO: n + 1 calls to Keycloak => improve
-        val keycloakRoles = keycloakService.getUserRoles(user.userId)
+        val keycloakRoles = keycloakService.getUserRoles(userId)
         val roles = userRoleMapper.getUserRoles(keycloakRoles)
         return userRoleMapper.getHighestRoles(roles)
     }

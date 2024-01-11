@@ -54,7 +54,7 @@ class OrganizationInfoApiServiceTest {
         `when`(organizationRecord.createdBy).thenReturn("testCreatedBy")
         `when`(organizationService.getOrganizationOrThrow(mdsId)).thenReturn(organizationRecord)
         `when`(userDetailService.getOrganizationMembers(mdsId)).thenReturn(memberInfos)
-        `when`(userDetailService.getUserData(anyString())).thenReturn(mock(UserDetail::class.java))
+        `when`(userDetailService.getUserDetails(anyString())).thenReturn(mock(UserDetail::class.java))
     }
 
     @Test

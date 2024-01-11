@@ -38,7 +38,7 @@ class UserRegistrationApiServiceTest {
     @Inject
     lateinit var organizationService: OrganizationService
 
-    val userId = "00000000-0000-0000-0000-00000001";
+    val userId = "00000000-0000-0000-0000-00000001"
 
     @Test
     fun testUserRegistrationStatus() {

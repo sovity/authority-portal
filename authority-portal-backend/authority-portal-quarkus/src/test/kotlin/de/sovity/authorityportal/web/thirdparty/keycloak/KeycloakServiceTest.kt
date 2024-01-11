@@ -66,22 +66,6 @@ class KeycloakServiceTest {
     }
 
     @Test
-    fun testGetUser() {
-        // arrange
-        val userId = "123"
-        val representation = UserRepresentation().apply { id = userId }
-        mockUserResource(representation)
-        val expected = mock(KeycloakUserDto::class.java)
-        `when`(keycloakUserMapper.buildKeycloakUserDto(representation)).thenReturn(expected)
-
-        // act
-        val actual = keycloakService.getUser(userId)
-
-        // assert
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
     fun testGetUserRoles() {
         // arrange
         val userId = "123"
@@ -112,7 +96,7 @@ class KeycloakServiceTest {
         `when`(usersResource.create(anyVararg(UserRepresentation::class))).thenReturn(Response.status(Response.Status.CONFLICT).build())
 
         // assert
-        Assertions.assertThatThrownBy { keycloakService.createUser("testEmail", "testName", "testLastName") }
+        Assertions.assertThatThrownBy { keycloakService.createUser("testEmail", "first", "last") }
             .isInstanceOf(WebApplicationException::class.java)
             .hasMessage("User already exists")
 

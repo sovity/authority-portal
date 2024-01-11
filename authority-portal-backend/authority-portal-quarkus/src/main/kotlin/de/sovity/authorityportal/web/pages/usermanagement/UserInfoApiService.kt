@@ -21,7 +21,7 @@ class UserInfoApiService {
     lateinit var userRoleMapper: UserRoleMapper
 
     fun userInfo(userId: String, mdsId: String?, roles: Set<String>): UserInfo {
-        val user = userDetailService.getUserData(userId)
+        val user = userDetailService.getUserDetails(userId)
         val organizationName = getOrganization(mdsId)
         val roleDtos = userRoleMapper.getUserRoles(roles)
 
@@ -29,6 +29,7 @@ class UserInfoApiService {
             userId,
             user.firstName,
             user.lastName,
+            user.email,
             organizationName,
             mdsId,
             roleDtos.toList(),
@@ -36,17 +37,8 @@ class UserInfoApiService {
         )
     }
 
-    /**
-     * Retrieves user details for the specified user ID.
-     *
-     * @param userId The ID of the user for whom to retrieve details.
-     * @return [UserDetailDto] object containing the user's details.
-     * @see userDetailService.getUserData
-     * @see userRoleMapper.getUserRoles
-     * @see UserDetailDto
-     */
     fun userDetails(userId: String): UserDetailDto {
-        val user = userDetailService.getUserData(userId)
+        val user = userDetailService.getUserDetails(userId)
         val roleDtos = userRoleMapper.getUserRoles(user.roles)
 
         return UserDetailDto(

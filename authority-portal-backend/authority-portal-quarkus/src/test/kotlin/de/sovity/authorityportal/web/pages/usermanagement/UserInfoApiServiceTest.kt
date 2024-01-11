@@ -29,10 +29,10 @@ class UserInfoApiServiceTest {
     fun testUserDetails() {
         // arrange
         val userId = "123"
-        val userEmail = "john.doe@example.com";
+        val userEmail = "john.doe@example.com"
         val user = UserDetail(userId, "Test", "Test", userEmail, null, null, null,
-            UserRegistrationStatus.ACTIVE, OffsetDateTime.now(), setOf("UR_AUTHORITY-PORTAL_AUTHORITY-USER", "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"));
-        `when`(userDetailService.getUserData(userId)).thenReturn(user)
+            UserRegistrationStatus.ACTIVE, OffsetDateTime.now(), setOf("UR_AUTHORITY-PORTAL_AUTHORITY-USER", "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"))
+        `when`(userDetailService.getUserDetails(userId)).thenReturn(user)
 
         // act
         val userDetails = userInfoApiService.userDetails(userId)
