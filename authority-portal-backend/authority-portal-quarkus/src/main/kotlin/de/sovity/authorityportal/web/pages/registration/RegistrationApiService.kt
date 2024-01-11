@@ -5,7 +5,6 @@ import de.sovity.authorityportal.api.model.RegistrationRequestDto
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.model.CreateOrganizationData
-import de.sovity.authorityportal.web.model.CreateUserData
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
@@ -42,19 +41,27 @@ class RegistrationApiService {
     }
 
     private fun createKeycloakUserAndOrganization(mdsId: String, registrationRequest: RegistrationRequestDto): String {
-        val userId = keycloakService.createUser(
+        val user = keycloakService.createUser(
             registrationRequest.userEmail,
             registrationRequest.userFirstName,
             registrationRequest.userLastName
         )
         keycloakService.createOrganization(mdsId)
-        keycloakService.joinOrganization(userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
+        keycloakService.joinOrganization(user.userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
 
-        return userId
+        return user.userId
     }
 
     private fun createDbUserAndOrganization(userId: String, mdsId: String, registrationRequest: RegistrationRequestDto) {
-        val user = userService.createUser(userId, UserRegistrationStatus.INVITED, buildUserData(registrationRequest))
+        val user = userService.registerUserWithDetails(
+            userId = userId,
+            registrationStatus = UserRegistrationStatus.INVITED,
+            email = registrationRequest.userEmail,
+            firstName = registrationRequest.userFirstName,
+            lastName = registrationRequest.userLastName,
+            jobTitle = registrationRequest.userJobTitle,
+            phone = registrationRequest.userPhone
+        )
         organizationService.createOrganization(
             userId,
             mdsId,
@@ -63,16 +70,6 @@ class RegistrationApiService {
         )
         user.organizationMdsId = mdsId
         user.update()
-    }
-
-    private fun buildUserData(registrationRequest: RegistrationRequestDto): CreateUserData {
-        return CreateUserData().apply {
-            email = registrationRequest.userEmail
-            firstName = registrationRequest.userFirstName
-            lastName = registrationRequest.userLastName
-            jobTitle = registrationRequest.userJobTitle
-            phone = registrationRequest.userPhone
-        }
     }
 
     private fun buildOrganizationData(registrationRequest: RegistrationRequestDto): CreateOrganizationData {

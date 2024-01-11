@@ -22,8 +22,9 @@ class UserUpdateApiService {
         user.lastName = updateUserDto.lastName
         user.phone = updateUserDto.phone
         user.jobTitle = updateUserDto.jobTitle
+
         user.update()
-        keycloakService.updateUser(userId, updateUserDto.firstName, updateUserDto.lastName)
+        keycloakService.updateUser(userId, user.firstName, user.lastName)
         return IdResponse(userId)
     }
 }

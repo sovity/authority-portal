@@ -102,8 +102,8 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun userDetails(userId: String): UserDetailDto {
         authUtils.requires(authUtils.hasRole(Roles.UserRoles.AUTHORITY_USER) ||
-            (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_USER) && authUtils.isMemberOfSameOrganizationAs(userId)), userId);
-        return userInfoApiService.userDetails(userId);
+            (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_USER) && authUtils.isMemberOfSameOrganizationAs(userId)), userId)
+        return userInfoApiService.userDetails(userId)
     }
 
     // Registration
@@ -184,13 +184,13 @@ class UiResourceImpl : UiResource {
     override fun ownOrganizationDetails(): OwnOrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
-        return organizationInfoApiService.getOwnOrganizationInformation(loggedInUser.organizationMdsId!!);
+        return organizationInfoApiService.getOwnOrganizationInformation(loggedInUser.organizationMdsId!!)
     }
 
     @Transactional
     override fun organizationDetails(mdsId: String, environmentId: String): OrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationInfoApiService.getOrganizationInformation(mdsId, environmentId);
+        return organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)
     }
 
     @Transactional
@@ -272,12 +272,12 @@ class UiResourceImpl : UiResource {
 
     @Transactional
     override fun deploymentEnvironmentList(): List<DeploymentEnvironmentDto> {
-        return connectorManagementApiService.getAllDeploymentEnvironment();
+        return connectorManagementApiService.getAllDeploymentEnvironment()
     }
 
     @Transactional
     override fun registerUser(registrationRequest: RegistrationRequestDto): IdResponse {
-        return registrationApiService.registerUserAndOrganization(registrationRequest);
+        return registrationApiService.registerUserAndOrganization(registrationRequest)
     }
 
     @Transactional

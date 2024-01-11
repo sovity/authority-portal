@@ -44,12 +44,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
           'PARTICIPANT_ADMIN',
           'PARTICIPANT_USER',
         ],
+        email: 'user1@example.com'
       },
       {
         userId: '00000000-0000-0000-0000-00000002',
         firstName: 'Authority',
         lastName: 'User',
         roles: ['AUTHORITY_USER', 'PARTICIPANT_USER'],
+        email: 'user2@example.com'
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000001',
@@ -84,12 +86,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'Participant',
         lastName: 'Admin',
         roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_CURATOR', 'PARTICIPANT_USER'],
+        email: 'user3@example.com'
       },
       {
         userId: '00000000-0000-0000-0000-00000004',
         firstName: 'Participant',
         lastName: 'User',
         roles: ['PARTICIPANT_USER'],
+        email: 'user4@example.com'
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000003',
@@ -124,12 +128,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'John',
         lastName: 'Doe',
         roles: ['PARTICIPANT_ADMIN'],
+        email: 'user12@example.com'
       },
       {
         userId: '00000000-0000-0000-0000-00000013',
         firstName: 'Jack',
         lastName: 'Doe',
         roles: ['PARTICIPANT_USER'],
+        email: 'user13@example.com'
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000012',
@@ -164,12 +170,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'John',
         lastName: 'Doe',
         roles: ['PARTICIPANT_ADMIN'],
+        email: 'user22@example.com'
       },
       {
         userId: '00000000-0000-0000-0000-00000023',
         firstName: 'Jack',
         lastName: 'Doe',
         roles: ['PARTICIPANT_USER'],
+        email: 'user23@example.com'
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000022',
@@ -204,12 +212,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'John',
         lastName: 'Doe',
         roles: ['PARTICIPANT_ADMIN'],
+        email: 'user32@example.com'
       },
       {
         userId: '00000000-0000-0000-0000-00000033',
         firstName: 'Jack',
         lastName: 'Doe',
         roles: ['PARTICIPANT_USER'],
+        email: 'user33@example.com'
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000032',
@@ -244,12 +254,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'John',
         lastName: 'Doe',
         roles: ['PARTICIPANT_ADMIN'],
+        email: 'user42@example.com'
       },
       {
         userId: '00000000-0000-0000-0000-00000043',
         firstName: 'Jack',
         lastName: 'Doe',
         roles: ['PARTICIPANT_USER'],
+        email: 'user43@example.com'
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000042',
@@ -284,12 +296,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'John',
         lastName: 'Doe',
         roles: ['PARTICIPANT_ADMIN'],
+        email: 'user52@example.com'
       },
       {
         userId: '00000000-0000-0000-0000-00000053',
         firstName: 'Jack',
         lastName: 'Doe',
         roles: ['PARTICIPANT_USER'],
+        email: 'user53@example.com'
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000052',

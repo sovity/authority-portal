@@ -18,13 +18,13 @@ class UserRoleMapper {
         Roles.UserRoles.PARTICIPANT_USER to UserRoleDto.PARTICIPANT_USER,
     )
 
-    private val participantRoles = listOf(
+    private val participantRoles = setOf(
         UserRoleDto.PARTICIPANT_ADMIN,
         UserRoleDto.PARTICIPANT_CURATOR,
         UserRoleDto.PARTICIPANT_USER
     )
 
-    private val authorityRoles = listOf(
+    private val authorityRoles = setOf(
         UserRoleDto.AUTHORITY_ADMIN,
         UserRoleDto.AUTHORITY_USER
     )

@@ -91,7 +91,7 @@ class OrganizationInfoApiService {
 
     private fun getOrganizationDetailsDto(mdsId: String): OrganizationDetailsDto {
         val organization = organizationService.getOrganizationOrThrow(mdsId)
-        val organizationAdmin = userDetailService.getUserData(organization.createdBy)
+        val organizationAdmin = userDetailService.getUserDetails(organization.createdBy)
         val organizationDetailsDto = OrganizationDetailsDto().apply {
             this.mdsId = organization.mdsId
             name = organization.name

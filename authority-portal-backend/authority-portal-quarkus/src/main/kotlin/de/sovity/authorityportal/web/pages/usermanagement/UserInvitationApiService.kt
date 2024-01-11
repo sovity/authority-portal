@@ -26,14 +26,23 @@ class UserInvitationApiService {
         mdsId: String,
         adminUserId: String
     ): IdResponse {
-        val userId = keycloakService.createUser(userInformation.email, userInformation.firstName, userInformation.lastName)
-        keycloakService.sendInvitationEmail(userId)
-        keycloakService.joinOrganization(userId, mdsId, userRoleMapper.toOrganizationRole(userInformation.role, userId, adminUserId))
+        val keycloakUser = keycloakService.createUser(userInformation.email, userInformation.firstName, userInformation.lastName)
+        keycloakService.sendInvitationEmail(keycloakUser.userId)
+        keycloakService.joinOrganization(keycloakUser.userId, mdsId, userRoleMapper.toOrganizationRole(userInformation.role, keycloakUser.userId, adminUserId))
 
-        userService.createUser(userId, UserRegistrationStatus.INVITED, mdsId)
+        userService.registerUserWithDetails(
+            userId = keycloakUser.userId,
+            registrationStatus = UserRegistrationStatus.INVITED,
+            email = userInformation.email,
+            firstName = userInformation.firstName,
+            lastName = userInformation.lastName,
+            jobTitle = null,
+            phone = null,
+            mdsId = mdsId
+        )
 
-        Log.info("New participant account invited. userId=$userId, role=${userInformation.role}, mdsId=$mdsId, adminUserId=$adminUserId")
+        Log.info("New participant account invited. userId=${keycloakUser.userId}, role=${userInformation.role}, mdsId=$mdsId, adminUserId=$adminUserId")
 
-        return IdResponse(userId)
+        return IdResponse(keycloakUser.userId)
     }
 }

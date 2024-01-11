@@ -22,6 +22,8 @@ public class UserInfo {
     private String firstName;
     @Schema(description = "Last name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String lastName;
+    @Schema(description = "Email address", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String email;
     @Schema(description = "Name of the user's organization", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationName;
     @Schema(description = "MDS-ID of the user's organization", requiredMode = Schema.RequiredMode.REQUIRED)
