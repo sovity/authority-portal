@@ -11,16 +11,19 @@ export class RefreshOrganizationUser {
   static readonly type = `[${tag}] Refresh Organization User`;
 }
 
-export class UpdateUserRoles {
-  static readonly type = `[${tag}] Update Organization User's Roles`;
-  request: any;
-  constructor(public userId: string, public roles: UserRoleDto) {}
+export class UpdateUserParticipantRoleAsAuthority {
+  static readonly type = `[${tag}] Update User's Participant Role as Authority`;
+  constructor(public userId: string, public role: UserRoleDto) {}
 }
 
-export class UpdateAuthorityUserRoles {
-  static readonly type = `[${tag}] Update Authority User's Roles`;
-  request: any;
-  constructor(public userId: string, public roles: UserRoleDto) {}
+export class UpdateUserApplicationRoleAsAuthority {
+  static readonly type = `[${tag}] Update User's Application Role as Authority`;
+  constructor(public userId: string, public role: UserRoleDto) {}
+}
+
+export class ClearUserApplicationRoleAsAuthority {
+  static readonly type = `[${tag}] Remove User's Application Role as Authority`;
+  constructor(public userId: string) {}
 }
 
 export class DeactivateUser {

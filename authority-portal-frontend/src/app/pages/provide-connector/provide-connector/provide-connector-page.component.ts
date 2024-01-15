@@ -1,14 +1,15 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {
-  CreateConnectorRequest,
-  CreateProvidedConnectorRequest,
-} from '@sovity.de/authority-portal-client';
-import * as forge from 'node-forge';
+import {CreateProvidedConnectorRequest} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
-import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
+import {CertificateGeneratorComponent} from 'src/app/shared/components/certificate-generator/certificate-generator.component';
+import {
+  CertificateGeneratorConfig,
+  CertificateResult,
+} from 'src/app/shared/components/certificate-generator/certificate-generator.model';
 import {Reset, Submit} from '../state/provide-connector-page-actions';
 import {
   DEFAULT_PROVIDE_CONNECTOR_STATE,
@@ -29,18 +30,16 @@ import {
 export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   state = DEFAULT_PROVIDE_CONNECTOR_STATE;
   group = this.buildFormGroup();
-  keyPair!: forge.pki.rsa.KeyPair;
-  publicKeyPem!: string;
-  privateKeyPem!: string;
+  p12Certificate!: string;
   isDownloadActive: boolean = false;
-  hasDownloadedKey: boolean = false;
+  fileUrl!: string | null;
   environmentId!: string;
 
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
     private store: Store,
     private formBuilder: FormBuilder,
-    private certificateGenerateService: CertificateGenerateService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -65,35 +64,61 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
       location: [initial.location, [Validators.required]],
       url: [initial.url, [Validators.required]],
       mdsId: [initial.mdsId, [Validators.required]],
-      certificate: [initial.certificate, [Validators.required]],
+      certificate: [
+        initial.certificate,
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(-----BEGIN CERTIFICATE-----)[\s\S]*?(-----END CERTIFICATE-----)\s*$/m,
+          ),
+        ],
+      ],
       environmentId: [initial.environmentId],
     });
   }
 
-  generateCertificate() {
-    this.keyPair = this.certificateGenerateService.generateKeyPair(2048);
-    this.publicKeyPem = this.certificateGenerateService.publicKeyToPem(
-      this.keyPair.publicKey,
-    );
-    this.privateKeyPem = this.certificateGenerateService.privateKeyToPem(
-      this.keyPair.privateKey,
-    );
-    this.group.controls['certificate'].setValue(this.publicKeyPem);
-    this.isDownloadActive = true;
+  get value(): ProvideConnectorPageFormValue {
+    return this.group.value as ProvideConnectorPageFormValue;
   }
 
-  downloadPrivateKey() {
-    this.hasDownloadedKey = true;
-    const blob = new Blob([this.privateKeyPem], {type: 'text/plain'});
-    const url = window.URL.createObjectURL(blob);
+  openCertificateDialog() {
+    const config: CertificateGeneratorConfig = {
+      country: this.group.controls['location'].value,
+      legalName: '',
+      commonName: this.group.controls['url'].value,
+      email: '',
+    };
+    const dialogRef = this.dialog.open(CertificateGeneratorComponent, {
+      data: config,
+      width: '50%',
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe((result: CertificateResult) => {
+        if (result) {
+          this.group.controls['certificate'].setValue(result.pemCertificate);
+          this.p12Certificate = result.p12FormatCertificate;
+          this.fileUrl = result.certificateBlob
+            ? window.URL.createObjectURL(result.certificateBlob)
+            : null;
 
+          if (this.fileUrl) {
+            this.isDownloadActive = true;
+            this.downloadCertificate(this.fileUrl);
+          }
+        }
+      });
+  }
+
+  downloadCertificate(url: string | null) {
+    if (!url) {
+      return;
+    }
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'private_key.pem';
-
-    // Trigger the download
+    a.download = 'generated-certificate.p12';
     a.click();
-
     window.URL.revokeObjectURL(url);
   }
 

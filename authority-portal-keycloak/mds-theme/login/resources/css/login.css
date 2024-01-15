@@ -1,395 +1,383 @@
-html{
-    margin: 0;
-    padding: 0;
+html {
+  margin: 0;
+  padding: 0;
 }
-body{
-    max-height: 100vh !important;
-    overflow: auto !important;
+
+form {
+  width: 100%;
+}
+
+.login-pf {
+  background: white !important;
 }
 
 .login-pf body {
-    background: #FFFFFF !important;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  background: white repeat-x 50% 0 !important;
 }
-
 
 /* default - IE compatibility */
 .pf-m-primary {
-    display: block;
-    background-color: #FDFD09 !important;
-    text-transform: uppercase;
-    line-height: 1;
-    border-radius: 50px;
-    height: 2.5em;
-    margin: 0 auto;
-    padding: 0 2em;
-    border: none;
-    cursor: pointer;
-    transition: all .2s ease-in-out;
+  display: block;
+  background-color: #fdfd09 !important;
+  text-transform: uppercase;
+  line-height: 1;
+  border-radius: 50px;
+  height: 2.5em;
+  margin: 0 auto;
+  padding: 0 2em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 /* default - IE compatibility */
 .pf-c-button.pf-m-control {
-    border: solid 1px;
-    border-color: rgba(230, 230, 230, 0.5);
-    width: 211px;
-    height: 41px;
-    margin-bottom: 70px;
-    border-radius: 30px;
-    color: #202020;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 17px;
-    margin-left: 53px;
+  border: solid 1px;
+  border-color: rgba(230, 230, 230, 0.5);
+  width: 211px;
+  height: 41px;
+  margin-bottom: 70px;
+  border-radius: 30px;
+  color: #202020;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  margin-left: 53px;
 }
 /*End of IE compatibility*/
 h1#kc-page-title {
-    margin-top: 10px;
+  display: none;
+  margin-top: 10px;
 }
 
 #kc-locale:hover ul {
-    display: block;
+  display: block;
 }
 
 .login-pf .container {
-    padding-top: 40px;
+  padding-top: 40px;
 }
 
 .login-pf a:hover {
-    color: #0099d3;
+  color: #0099d3;
 }
 
 #kc-logo {
-    width: 100%;
-    margin: 5px;
+  width: 100%;
+  margin: 5px;
 }
 
 #kc-header-wrapper {
-    font-size: 29px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    line-height: 0.1em;
-    padding: 10px 10px 20px;
-    white-space: normal;
+  font-size: 29px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  line-height: 0.1em;
+  padding: 10px 10px 20px;
+  white-space: normal;
 }
 
 #kc-content {
-    width: 100%;
+  width: 100%;
 }
 
 #kc-attempted-username {
-    font-size: 20px;
-    font-family: inherit;
-    font-weight: normal;
-    padding-right: 10px;
+  font-size: 20px;
+  font-family: inherit;
+  font-weight: normal;
+  padding-right: 10px;
 }
 
 #kc-username {
-    text-align: center;
-    margin-bottom:-10px;
+  display: flex;
+  flex-direction: column;
+  margin: 70px 0 10px 0;
 }
 
 #kc-webauthn-settings-form {
-    padding-top: 8px;
+  padding-top: 8px;
 }
 
 #kc-content-wrapper {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 #kc-form-wrapper {
-    margin-top: 10px;
-}
-
-#kc-info {
-    margin: 20px -40px -30px;
+  margin-top: 10px;
 }
 
 #kc-info-wrapper {
-    font-size: 13px;
-    padding: 15px 35px;
-    width: 309px;
-    margin-left: 126px;
+  font-size: 13px;
 }
 
 #kc-form-options span {
-    display: block;
+  margin-bottom: 12px;
+  display: block;
 }
 
 #kc-form-options .checkbox {
-    color: #72767b;
+  color: #72767b;
 }
 
 #kc-terms-text {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 #kc-registration {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 /* TOTP */
 
 .subtitle {
-    text-align: right;
-    margin-top: 30px;
-    color: #909090;
+  text-align: right;
+  margin-top: 30px;
+  color: #909090;
 }
 
 .required {
-    color: #A30000;
+  color: #a30000;
 }
 
 ol#kc-totp-settings {
-    margin: 0;
-    padding-left: 20px;
+  margin: 0;
+  padding-left: 20px;
 }
 
 ul#kc-totp-supported-apps {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 #kc-totp-secret-qr-code {
-    max-width: 150px;
-    max-height: 150px;
-    margin-top: -83px;
-    margin-left: 370px;
+  max-width: 150px;
+  max-height: 150px;
 }
 
 .login-pf-page .login-pf-brand {
-    margin-top: 20px;
-    max-width: 360px;
-    width: 40%;
-    min-height: 100vh !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh !important;
 }
 
 /* Internet Explorer 11 compatibility workaround for select-authenticator screen */
 
-@media all and (-ms-high-contrast: none),
-(-ms-high-contrast: active) {
-
-    .login-pf body {
-        object-fit: cover;
-        background: #FFFFFF no-repeat center center fixed;
-        background-size: cover;
-    }
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .login-pf body {
+    object-fit: cover;
+    background: #ffffff no-repeat center center fixed;
+    background-size: cover;
+  }
 }
 
 /*media screen for small mobiles*/
-@media only screen and (max-height: 810px) ,
-(-ms-high-contrast: active) {
+@media only screen and (max-height: 810px), (-ms-high-contrast: active) {
+  .login-pf body {
+    object-fit: cover;
+    background: #ffffff no-repeat center center fixed;
+    background-size: cover;
+  }
 
-    .login-pf body {
-        object-fit: cover;
-        background: #FFFFFF no-repeat center center fixed;
-        background-size: cover;
-    }
-
-    .login-pf-page {
-        padding-top: 0px;
-        max-height: 100vh !important;
-        min-height: 100vh;
-        overflow: auto;
-    }
+  .login-pf-page {
+    padding-top: 0px;
+    min-height: 100vh;
+    overflow: auto;
+  }
 }
 
 .card-pff {
-    margin: 0 auto;
-    padding: 10px 20px !important;
-    max-width: 500px;
-    border-radius: 25px;
-    height: auto;
-    rgba(#282F49,.8) 80%,
-    rgba(#282F49,.8)); 
-    margin-top: 40px;
-    margin-bottom: 100px;
+  margin: 0 auto;
+  padding: 10px 20px !important;
+  max-width: 500px;
+  border-radius: 25px;
+  height: auto;
+  margin-top: 40px;
+  margin-bottom: 100px;
 }
 
 .login-pf-page .login-pf-signup {
-    font-size: 15px;
-    color: #72767b;
+  font-size: 15px;
+  color: #72767b;
 }
 #kc-content-wrapper .row {
-    margin-left: 0;
-    margin-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .login-pf-page.login-pf-page-accounts {
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .login-pf-page .btn-primary {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .login-pf-page .list-view-pf .list-group-item {
-    border-bottom: 1px solid #00ff62;
+  border-bottom: 1px solid #00ff62;
 }
 
 .login-pf-page .list-view-pf-description {
-    width: 100%;
+  width: 100%;
 }
 
 #kc-form-login div.form-group:last-of-type,
 #kc-update-profile-form div.form-group:last-of-type {
-    margin-bottom: 0px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    color: rgb(0, 0, 0);
-    width: 80% !important;
-
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  color: rgb(0, 0, 0);
 }
 
 .form-group {
-    align-items: center;
-    margin: -9px auto;
-    display: flex;
-    justify-content: center;
-    color: black;
-    width: 315px;
-    height: 61px;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  margin-bottom: 0;
 }
 
 .no-bottom-margin {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 #kc-back {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .cardContainer {
-    background-color: #f2f2f2;
-    padding: 20px;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    width: 500px;
-    margin: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .formContainer {
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .formHeader {
-    text-align: center;
-    margin-bottom: 30px;
+  text-align: center;
 }
 
-.formBody{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+.formBody {
+  text-align: center;
 }
 
 .text-input {
-    border: 1px solid #474747;
-    margin: 10px;
-    color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, .1);
-    text-align: center;
-    border-radius: .5rem;
-    padding: 0.5rem;
-    flex-grow: 2;
+  width: 100%;
+  border: 1px solid #474747;
+  margin: 10px auto;
+  color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
 
 .text-input::placeholder {
-    font-size: small;
-    color: black;
+  font-size: small;
+  color: black;
 }
 
 .login-pf-header {
-    background-image: url(../img/truzzt.png);
-    height: 30px;
-    max-width: 150px;
-    margin: 62px auto 0;
-    margin-left: 29% !important;
-    z-index: 950;
-    background-image: url(../img/truzzt.png);
-    background-repeat: no-repeat;
-    height: 89px;
-    background-size: cover;
-    max-width: 350px;
-    margin: 1px auto 0;
-    background-size: 63%;
+  margin: 10px auto;
+  background-image: url(../img/truzzt.png);
+  background-repeat: no-repeat;
+  background-position: top;
+  height: 110px;
+  max-width: 350px;
+  background-size: 63%;
 }
 
 div.form-group.login-pf-settings {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    margin-right: 0px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  margin-right: 0px !important;
 }
 
 .col-xs-12.col-sm-12.col-md-12.col-lg-12 {
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    min-height: 1px;
-    width: 1000000%;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  min-height: 1px;
 }
 
 .col-xs-12.col-sm-12.col-md-12.col-lg-12::placeholder {
-    color: black;
+  color: black;
 }
 
 .pf-c-button.pf-m-primary.pf-m-block.btn-lg {
-    width: 74% !important; 
-    margin-top: 10px !important;
-    margin-bottom: 10px !important;
-    width: 211px;
-    height: 40px;
-    margin-bottom: 70px;
-    border-radius: 30px;
-    color: #202020;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 17px;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  max-width: 211px;
+  height: 40px;
+  margin-bottom: 70px;
+  border-radius: 30px;
+  color: #202020;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pf-c-button.pf-m-primary.pf-m-block.btn-lg:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .kc-registration-container.a:link {
-    color: white !important
+  color: white !important;
 }
 
 .kc-registration.a:link {
-    color: white !important
+  color: white !important;
 }
 
 .kc-form.a:link {
-    color: white !important
+  color: white !important;
 }
 
 .kc-content-wrapper.a:link {
-    color: white !important
+  color: white !important;
 }
-
 
 .kc-content.a:link {
-    color: white !important
+  color: white !important;
 }
 
-
 .card-pff.a:link {
-    color: white !important
+  color: white !important;
 }
 
 /*HIEr */
 .kc-info.a:link {
-    color: white !important
+  color: white !important;
 }
 
 .kc-info-wrapper.a:link {
-    color: white !important
+  color: white !important;
 }
 
 .a:link {
-    color: white !important
+  color: white !important;
+}
+
+.alert-warning,
+.alert-error,
+.alert-info {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 425px) {
+  .login-pf-header {
+    margin-left: 5% !important;
+  }
 }

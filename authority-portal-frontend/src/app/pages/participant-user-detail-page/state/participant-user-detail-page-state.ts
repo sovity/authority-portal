@@ -6,6 +6,14 @@ export interface ParticipantUserDetailPageState {
   organizationMdsId: string;
   user: Fetched<UserDetailDto>;
   busy: boolean;
+  userParticipantRolesForm: {
+    state: 'editing' | 'submitting' | 'success' | 'error';
+    errors: {[key: string]: string};
+  };
+  userApplicationRolesForm: {
+    state: 'editing' | 'submitting' | 'success' | 'error';
+    errors: {[key: string]: string};
+  };
 }
 
 export const DEFAULT_PARTICIPANT_USER_DETAIL_PAGE_STATE: ParticipantUserDetailPageState =
@@ -14,4 +22,6 @@ export const DEFAULT_PARTICIPANT_USER_DETAIL_PAGE_STATE: ParticipantUserDetailPa
     organizationMdsId: '',
     user: Fetched.empty(),
     busy: false,
+    userParticipantRolesForm: {state: 'editing', errors: {}},
+    userApplicationRolesForm: {state: 'editing', errors: {}},
   };

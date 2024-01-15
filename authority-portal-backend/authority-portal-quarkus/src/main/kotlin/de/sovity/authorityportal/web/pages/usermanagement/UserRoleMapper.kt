@@ -24,7 +24,7 @@ class UserRoleMapper {
         UserRoleDto.PARTICIPANT_USER
     )
 
-    private val authorityRoles = setOf(
+    private val applicationRoles = setOf(
         UserRoleDto.AUTHORITY_ADMIN,
         UserRoleDto.AUTHORITY_USER
     )
@@ -38,7 +38,7 @@ class UserRoleMapper {
      */
     fun getHighestRoles(roles: Set<UserRoleDto>): List<UserRoleDto> {
         val highestRoles = mutableListOf<UserRoleDto>()
-        getHighestAuthorityRole(roles)?.let { highestRoles.add(it) }
+        getHighestApplicationRole(roles)?.let { highestRoles.add(it) }
         highestRoles.addAll(getRemainingRoles(roles).sorted())
         getHighestParticipantRole(roles)?.let { highestRoles.add(it) }
 
@@ -46,13 +46,13 @@ class UserRoleMapper {
     }
 
     private fun getRemainingRoles(roles: Set<UserRoleDto>): Set<UserRoleDto> =
-        roles - authorityRoles - participantRoles
+        roles - applicationRoles - participantRoles
 
     private fun getHighestParticipantRole(roles: Set<UserRoleDto>): UserRoleDto? =
         participantRoles.firstOrNull { roles.contains(it) }
 
-    private fun getHighestAuthorityRole(roles: Set<UserRoleDto>): UserRoleDto? =
-        authorityRoles.firstOrNull { roles.contains(it) }
+    private fun getHighestApplicationRole(roles: Set<UserRoleDto>): UserRoleDto? =
+        applicationRoles.firstOrNull { roles.contains(it) }
 
     fun toOrganizationRole(role: UserRoleDto, userId: String, adminUserId: String): OrganizationRole {
         return when (role) {
@@ -65,7 +65,7 @@ class UserRoleMapper {
         }
     }
 
-    fun toAuthorityRole(role: UserRoleDto, userId: String, adminUserId: String): ApplicationRole {
+    fun toApplicationRole(role: UserRoleDto, userId: String, adminUserId: String): ApplicationRole {
         return when (role) {
             UserRoleDto.AUTHORITY_ADMIN -> ApplicationRole.AUTHORITY_ADMIN
             UserRoleDto.AUTHORITY_USER -> ApplicationRole.AUTHORITY_USER

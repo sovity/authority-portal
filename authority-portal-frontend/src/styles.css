@@ -3,7 +3,25 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+/* inter-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/inter-v13-latin-regular.woff2') format('woff2');
+}
+
+/* material-icons-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'),
+    url('./assets/fonts/material-icons-v140-latin-regular.woff2')
+      format('woff2');
+}
 
 html {
   box-sizing: border-box;
@@ -54,6 +72,20 @@ p {
   @apply text-sm font-normal text-gray-500 leading-5;
 }
 
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* Set your desired size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -91,6 +123,26 @@ p {
 
 .btn-dropdown-menu:disabled:hover {
   @apply opacity-100 ring-0 text-gray-900 bg-white;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 0.35rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #777;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
 }
 
 input:-webkit-autofill,

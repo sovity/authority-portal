@@ -27,9 +27,15 @@ import {
   getOrganizationDetails,
   rejectOrganization,
 } from './impl/fake-organizations';
-import {getUserInfo, inviteUser} from './impl/fake-users';
+import {
+  changeApplicationRole,
+  changeParticipantRole,
+  clearApplicationRole,
+  getUserInfo,
+  inviteUser,
+} from './impl/fake-users';
+import {userDetails} from './impl/fake-users';
 import {createOrganization} from './impl/registration-process-fake';
-import {userDetails} from './impl/user-detail-fake';
 import {getBody, getMethod, getUrl} from './utils/request-utils';
 import {ok} from './utils/response-utils';
 import {UrlInterceptor} from './utils/url-interceptor';
@@ -93,12 +99,6 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(IdResponseToJSON(result));
     })
 
-    .url('authority/users/*/role')
-    .on('PUT', (userId) => {
-      const result = approveOrganization(userId);
-      return ok(IdResponseToJSON(result));
-    })
-
     .url('authority/users/*/deactivate')
     .on('PUT', (userId) => {
       return ok(userId);
@@ -143,10 +143,23 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(IdResponseToJSON(result));
     })
 
-    .url('organizations/my-org/users/invite')
-    .on('POST', () => {
-      const request = InviteParticipantUserRequestFromJSON(body);
-      const result = inviteUser(request);
+    .url('organizations/my-org/users/*/role')
+    .on('PUT', (userId: string) => {
+      const result = changeParticipantRole({body: body, userId});
+
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('authority/users/*/role')
+    .on('PUT', (userId: string) => {
+      const result = changeApplicationRole({body: body, userId});
+
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('authority/users/*/role')
+    .on('DELETE', (userId: string) => {
+      const result = clearApplicationRole({userId});
 
       return ok(IdResponseToJSON(result));
     })
@@ -158,12 +171,6 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     })
 
     .url('organizations/my-org/users/*/reactivate')
-    .on('PUT', (userId) => {
-      const result = approveOrganization(userId);
-      return ok(IdResponseToJSON(result));
-    })
-
-    .url('organizations/my-org/users/*/role')
     .on('PUT', (userId) => {
       const result = approveOrganization(userId);
       return ok(IdResponseToJSON(result));

@@ -29,14 +29,23 @@ class UserRoleApiService {
         return IdResponse(userId)
     }
 
-    fun changeAuthorityRole(userId: String, roleDto: UserRoleDto, adminUserId: String, userRoles: Set<String>): IdResponse {
+    fun clearApplicationRole(userId: String, adminUserId: String): IdResponse {
+        keycloakService.clearApplicationRole(userId)
+        keycloakService.forceLogout(userId)
+
+        Log.info("Application role cleared. userId=$userId, adminUserId=$adminUserId.")
+
+        return IdResponse(userId)
+    }
+
+    fun changeApplicationRole(userId: String, roleDto: UserRoleDto, adminUserId: String, userRoles: Set<String>): IdResponse {
         validateUserRole(userRoles, roleDto, adminUserId)
-        val role = userRoleMapper.toAuthorityRole(roleDto, userId, adminUserId)
+        val role = userRoleMapper.toApplicationRole(roleDto, userId, adminUserId)
 
         keycloakService.joinApplicationRole(userId, role)
         keycloakService.forceLogout(userId)
 
-        Log.info("Authority role changed. role=$role, userId=$userId, adminUserId=$adminUserId.")
+        Log.info("Application role changed. role=$role, userId=$userId, adminUserId=$adminUserId.")
 
         return IdResponse(userId)
     }

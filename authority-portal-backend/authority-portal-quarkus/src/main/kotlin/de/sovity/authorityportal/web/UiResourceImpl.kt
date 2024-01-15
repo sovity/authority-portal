@@ -158,7 +158,17 @@ class UiResourceImpl : UiResource {
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
             authUtils.requiresMemberOfSameOrganizationAs(userId)
         }
-        return userRoleApiService.changeAuthorityRole(userId, roleDto, loggedInUser.userId, loggedInUser.roles)
+        return userRoleApiService.changeApplicationRole(userId, roleDto, loggedInUser.userId, loggedInUser.roles)
+    }
+
+    @Transactional
+    override fun clearApplicationRole(userId: String): IdResponse {
+        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN,
+            Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
+            authUtils.requiresMemberOfSameOrganizationAs(userId)
+        }
+        return userRoleApiService.clearApplicationRole(userId, loggedInUser.userId)
     }
 
     @Transactional

@@ -20,7 +20,7 @@
     <input
       class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
       type="text"
-      [value]="user.firstName + ' ' + user.firstName"
+      [value]="user.firstName + ' ' + user.lastName"
       [disabled]="true" />
   </div>
 
@@ -33,69 +33,74 @@
       [value]="user.email"
       [disabled]="true" />
   </div>
-  <div
-    *ngIf="type === 'PROFILE_PAGE'"
-    class="select-none flex flex-col justify-start items-start p-2 my-1">
-    <label class="organization-profile-label">User Role</label>
 
-    <input
-      class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
-      type="text"
-      [value]="user.roles"
-      [disabled]="true" />
-  </div>
+  <ng-container>
+    <div class="select-none flex flex-col justify-start items-start p-2 my-1">
+      <div class="w-full items-center flex justify-between">
+        <label class="organization-profile-label">Roles Management</label>
+        <button
+          *ngIf="
+            ((sameOrganization && ('PARTICIPANT_ADMIN' | hasRole | async)) ||
+              (!sameOrganization && ('AUTHORITY_ADMIN' | hasRole | async))) &&
+            (userId | CheckIfNotCurrentUser | async)
+          "
+          mat-icon-button
+          aria-label="edit button"
+          (click)="toggleRoleForm()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
 
-  <div
-    *ngIf="type !== 'PROFILE_PAGE'"
-    class="select-none flex flex-col justify-start items-start p-2 my-1">
-    <div class="w-full items-center flex justify-between">
-      <label class="organization-profile-label">Roles Management</label>
-      <button
-        *ngIf="'PARTICIPANT_ADMIN' | hasRole | async"
-        mat-icon-button
-        aria-label="edit button"
-        (click)="toggleRoleForm()">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </div>
+      <input
+        *ngIf="!roleFormEnable"
+        class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+        type="text"
+        [value]="rolesToList(user.roles)"
+        [disabled]="true" />
 
-    <input
-      *ngIf="!roleFormEnable"
-      class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
-      type="text"
-      [value]="rolesToList(user.roles)"
-      [disabled]="true" />
-
-    <mat-form-field *ngIf="roleFormEnable" class="w-full">
-      <mat-label>Choose an Organization Role</mat-label>
-      <mat-select
-        [(ngModel)]="participantsUserRole"
-        (selectionChange)="roleChangeHandled($event, 'PARTICIPANT')">
-        <mat-option
-          *ngFor="let role of participantRoles.allRoles"
-          [value]="role"
-          [disabled]="role === participantsUserRole"
-          >{{ mapToReadable(role) }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-
-    <ng-container *ngIf="'AUTHORITY_ADMIN' | hasRole | async">
       <mat-form-field *ngIf="roleFormEnable" class="w-full">
-        <mat-label>Choose an Application Role</mat-label>
+        <mat-label>Choose an Organization Role</mat-label>
         <mat-select
-          [(ngModel)]="authorityUserRole"
-          (selectionChange)="roleChangeHandled($event, 'APPLICATION')">
+          [disabled]="
+            !(sameOrganization && ('PARTICIPANT_ADMIN' | hasRole | async))
+          "
+          [(ngModel)]="newTopParticipantRole"
+          (selectionChange)="roleChangeHandled($event, 'PARTICIPANT')">
           <mat-option
-            *ngFor="let role of authorityRoles.allRoles"
+            *ngFor="let role of availableParticipantRoles"
             [value]="role"
-            [disabled]="role === authorityUserRole"
+            [disabled]="role === currentTopParticipantRole"
             >{{ mapToReadable(role) }}</mat-option
           >
         </mat-select>
       </mat-form-field>
-    </ng-container>
-  </div>
+
+      <mat-form-field
+        *ngIf="
+          roleFormEnable &&
+          (['AUTHORITY_ADMIN', 'SERVICE_PARTNER_ADMIN', 'OPERATOR_ADMIN']
+            | hasAnyRole
+            | async)
+        "
+        class="w-full">
+        <mat-label>Choose an Application Role</mat-label>
+        <mat-select
+          [(ngModel)]="newTopApplicationRole"
+          (selectionChange)="roleChangeHandled($event, 'APPLICATION')">
+          <mat-option
+            *ngFor="let role of ['NONE'].concat(availableApplicationRoles)"
+            [value]="role"
+            [disabled]="
+              role === currentTopApplicationRole ||
+              (currentTopApplicationRole === undefined && role === 'NONE')
+            "
+            >{{ mapToReadable(role) }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </ng-container>
+
   <div class="select-none flex flex-col justify-start items-start p-2 my-1">
     <label class="organization-profile-label">Registration Status:</label>
 
@@ -107,7 +112,7 @@
   </div>
 
   <div class="select-none flex flex-col justify-start items-start p-2 my-1">
-    <label class="organization-profile-label">Registered On</label>
+    <label class="organization-profile-label">Created on</label>
 
     <input
       class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
@@ -117,36 +122,31 @@
   </div>
 
   <div
-    *ngIf="
-      [
-        'AUTHORITY_ADMIN',
-        'AUTHORITY_USER',
-        'PARTICIPANT_ADMIN',
-        'SERVICE_PARTNER_ADMIN'
-      ]
-        | hasAnyRole
-        | async
-    "
+    *ngIf="userId | CheckIfNotCurrentUser | async"
     class="flex flex-row justify-end gap-6 items-center my-4">
-    <button
-      *ngIf="user.registrationStatus === 'DEACTIVATED'"
-      class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
-      (click)="updateUserStatus('REACTIVATE')">
-      Re-Activate
-    </button>
-    <button
-      *ngIf="user.registrationStatus === 'ACTIVE'"
-      class="bg-white hover:bg-red-50 text-red-600 border-gray-500 border py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
-      (click)="updateUserStatus('DEACTIVATE')">
-      Deactivate
-    </button>
+    <ng-container
+      *ngIf="['PARTICIPANT_ADMIN', 'AUTHORITY_ADMIN'] | hasAnyRole | async">
+      <button
+        *ngIf="user.registrationStatus === 'DEACTIVATED'"
+        class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
+        (click)="updateUserStatus('REACTIVATE')">
+        Re-Activate
+      </button>
 
-    <button
-      *ngIf="type !== 'PROFILE_PAGE' && roleFormEnable"
-      class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
-      [disabled]="!isUpdateRoleActive"
-      (click)="updateUserRoles()">
-      Save
-    </button>
+      <button
+        *ngIf="user.registrationStatus === 'ACTIVE'"
+        class="bg-white hover:bg-red-50 text-red-600 border-gray-500 border py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
+        (click)="updateUserStatus('DEACTIVATE')">
+        Deactivate
+      </button>
+
+      <button
+        *ngIf="roleFormEnable"
+        class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"
+        [disabled]="!isUpdateRoleActive"
+        (click)="updateUserRoles()">
+        Save
+      </button>
+    </ng-container>
   </div>
 </div>

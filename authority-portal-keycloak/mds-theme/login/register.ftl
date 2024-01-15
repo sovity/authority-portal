@@ -2,16 +2,15 @@
 <#import "register-commons.ftl" as registerCommons>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('firstName','lastName','email','username','password','password-confirm','termsAccepted'); section>
     <#if section = "header">
-        <h1 id="kc-page-title"></h1>
+       
     <#elseif section = "form">
-        <div class="cardContainer">
-            <div class="formContainer">
-                <div class="formHeader">
+        <div class="formContainer">
+            <div class="formHeader">
                     <h3>REGISTRATION FORM</h3>
-                </div>
-                <div class="formBody">
+            </div>
+            <div class="formBody">
                     <div id="kc-form">
-                        <form id="kc-register-form" action="${url.registrationAction}" method="post">
+                        <form id="kc-register-form" action="${url.registrationAction}" class="formContainer" method="post">
                         <#-- First name -->
                         <div class="${properties.kcFormGroupClass!}">
                             <div class="${properties.kcInputWrapperClass!}">
@@ -22,7 +21,7 @@
                                 />
                             </div>
                         </div>
-                        <span id="input-error-first-name" class="${properties.kcInputErrorMessageClass!}">
+                        <span id="fe-input-error-first-name" class="${properties.kcInputErrorMessageClass!}">
                             Please specify first name.
                         </span>
 
@@ -35,7 +34,7 @@
                                 />
                             </div>
                         </div>
-                        <span id="input-error-last-name" class="${properties.kcInputErrorMessageClass!}">
+                        <span id="fe-input-error-last-name" class="${properties.kcInputErrorMessageClass!}">
                             Please specify last name.
                         </span>
 
@@ -46,11 +45,15 @@
                                        value="${(register.formData.email!'')}" autocomplete="email"
                                 />
                             </div>
+                            <#if messagesPerField.existsError('email')>
+                                <span id="input-error-email" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+                                    ${kcSanitize(messagesPerField.get('email'))?no_esc}
+                                </span>
+                            </#if>
                         </div>
-                            <span id="input-error-email" class="${properties.kcInputErrorMessageClass!}">
+                            <span id="fe-input-error-email" class="${properties.kcInputErrorMessageClass!}">
                                 Please specify a valid email address.
                             </span>
-
 
 
                         <#-- User name -->
@@ -72,12 +75,15 @@
                                            value="${(register.formData['password']!'')}"
                                     />
                                 </div>
+                                <#if messagesPerField.existsError('password')>
+                                    <span id="input-error-password" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+                                        ${kcSanitize(messagesPerField.get('password'))?no_esc}
+                                    </span>
+                                </#if>
                             </div>
-                            <#if messagesPerField.existsError('password')>
-                                <span id="input-error-password" class="${properties.kcInputErrorMessageClass!}">
-                                            ${kcSanitize(messagesPerField.get('password'))?no_esc}
+                                <span id="fe-input-error-password" class="${properties.kcInputErrorMessageClass!}">
+                                           Please specify a password.
                                 </span>
-                            </#if>
 
                             <div class="${properties.kcFormGroupClass!}">
                                 <div class="${properties.kcInputWrapperClass!}">
@@ -88,7 +94,7 @@
                                 </div>
                             </div>
                             <#if messagesPerField.existsError('password-confirm')>
-                                <span id="input-error-password-confirm" class="${properties.kcInputErrorMessageClass!}">
+                                <span id="fe-input-error-password-confirm" class="${properties.kcInputErrorMessageClass!}">
                                             ${kcSanitize(messagesPerField.get('password-confirm'))?no_esc}
                                 </span>
                             </#if>
@@ -124,13 +130,12 @@
                         </div>
                     </form>
                     </div>
-                </div>
             </div>
         </div>
         <script type="application/javascript">
             'use strict'
 
-            const errorMessage = (id) => document.getElementById('input-error-' + id);
+            const errorMessage = (id) => document.getElementById('fe-input-error-' + id);
 
             const inputElement = (id) => document.getElementById(id);
 
@@ -147,20 +152,27 @@
             const fields = [
                 ['first-name', it => it?.trim()?.length],
                 ['last-name', it => it?.trim()?.length],
-                ['email', it => it?.trim()?.length]
+                ['email', it => it?.trim()?.length],
+                ['password', it => it?.trim()?.length],
             ];
-
             const validateForm = (event) => {
-                let valid = true;
+                let invalidFields = [];
+                
                 fields.forEach(([id, validationFn]) => {
-                    valid = valid && validateField(id, validationFn);
+                    const valid = validateField(id, validationFn);
+                    if (!valid) {
+                        invalidFields.push(id);
+                    }
                 });
 
-                if (!valid) {
+                if (invalidFields.length > 0) {
+                    invalidFields.forEach((id) => {
+                        errorMessage(id)?.classList?.remove('hidden');
+                    });
                     event.preventDefault();
                 }
-                return valid;
             };
+            
 
             addEventListener('load', () => {
                 let form = document.getElementById('kc-register-form');

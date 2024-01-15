@@ -13,6 +13,7 @@ import {AuthorityOrganizationListPageComponent} from './pages/authority-organiza
 import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dashboard-page.component';
 import {LoadingPageComponent} from './pages/loading-page/loading-page/loading-page.component';
 import {ParticipantInviteNewUserComponent} from './pages/participant-invite-new-user/participant-invite-new-user/participant-invite-new-user.component';
+import {ParticipantOwnConnectorDetailPageComponent} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {ParticipantOwnConnectorListPageComponent} from './pages/participant-own-connector-list-page/participant-own-connector-list-page/participant-own-connector-list-page.component';
 import {ParticipantRegisterOwnConnectorPageComponent} from './pages/participant-register-own-connector-page/participant-register-own-connector-page/participant-register-own-connector-page.component';
 import {RegisterConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/register-connector-page/register-connector-page.component';
@@ -106,7 +107,15 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
       {
-        path: 'my-organization/user/:userId',
+        path: 'my-organization/users/invite',
+        component: ParticipantInviteNewUserComponent,
+        data: {
+          requiresRole: ['PARTICIPANT_ADMIN'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
+        path: 'my-organization/users/:userId',
         component: ParticipantUserDetailPageComponent,
         data: {
           requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
@@ -140,12 +149,34 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         },
         canActivate: [requiresRole],
       },
+      {
+        path: 'my-organization/connectors/:connectorId',
+        component: ParticipantOwnConnectorDetailPageComponent,
+        data: {
+          requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+
+      {
+        path: 'my-organization',
+        redirectTo: 'my-organization/profile',
+        pathMatch: 'full',
+      },
 
       // Service Provider Section
 
       // Participant Section
 
       // Authority Section
+      {
+        path: 'authority/organizations/invite-new-organization',
+        component: AuthorityInviteNewOrganizationComponent,
+        data: {
+          requiresRole: ['AUTHORITY_USER'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
       {
         path: 'authority/organizations',
         component: AuthorityOrganizationListPageComponent,
@@ -170,14 +201,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         },
         canActivate: [requiresRole],
       },
-      {
-        path: 'authority/organization/invite-new-organization',
-        component: AuthorityInviteNewOrganizationComponent,
-        data: {
-          requiresRole: ['AUTHORITY_ADMIN'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
+
       {
         path: '**',
         redirectTo: 'dashboard',

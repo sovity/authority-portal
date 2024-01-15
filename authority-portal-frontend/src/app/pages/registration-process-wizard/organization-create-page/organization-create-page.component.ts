@@ -47,7 +47,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
         taxId: [initial.taxId, [Validators.required]],
         url: [initial.url, [Validators.required]],
         securityEmail: [initial.securityEmail, [Validators.required]],
-        authorizedCheck: [initial.authorizedCheck, [Validators.required]],
+        authorizedCheck: [initial.authorizedCheck, [Validators.requiredTrue]],
       });
     return organizationCreateForm;
   }
