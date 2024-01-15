@@ -23,6 +23,7 @@ import {OrganizationCreatePageStateImpl} from './state/organization-create-page-
 export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
   state = DEFAULT_ORGANIZATION_CREATE_PAGE_STATE;
   group = this.buildFormGroup();
+  addressGroup = this.buildAddressFormGroup();
 
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
@@ -36,6 +37,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.startListeningToState();
+    this.startUpdatingAddress();
   }
 
   buildFormGroup(): FormGroup<OrganizationCreatePageFormModel> {
@@ -52,12 +54,36 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
     return organizationCreateForm;
   }
 
+  buildAddressFormGroup(): FormGroup {
+    const addressForm = this.formBuilder.nonNullable.group({
+      street: ['', [Validators.required]],
+      houseNo: ['', [Validators.required]],
+      zip: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+    });
+
+    return addressForm;
+  }
+
   private startListeningToState() {
     this.store
       .select<OrganizationCreatePageState>(OrganizationCreatePageStateImpl)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
+      });
+  }
+
+  /**
+   * this method, updates the address field based on the addressGroup value changes
+   */
+  startUpdatingAddress() {
+    this.addressGroup.valueChanges
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe((value) => {
+        this.group.patchValue({
+          address: `${value.street}, ${value.houseNo}, ${value.zip}, ${value.city}`,
+        });
       });
   }
 

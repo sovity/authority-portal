@@ -140,6 +140,9 @@ quarkus.keycloak.admin-client.client-id: authority-portal-client # Keycloak Admi
 quarkus.keycloak.admin-client.client-secret: [AP_CLIENT_SECRET] # Keycloak Admin Client: Client secret
 quarkus.keycloak.admin-client.grant-type: CLIENT_CREDENTIALS # Keycloak Admin Client: Grant type
 quarkus.log.level: INFO # Log level for backend logging (ERROR, INFO, DEBUG, etc). Docs: https://quarkus.io/guides/logging
+authority-portal.connectors.url.frontend: / # Connector base URL extension: Frontend path
+authority-portal.connectors.url.management: /api/management # Connector base URL exception: Managemant API path
+authority-portal.connectors.url.endpoint: /api/dsp # Connector base URL extension: Endpoint path (primarly used by broker)
 # Following is **one** deployment environment configuration. (See hint below)
 authority-portal.deployment.environments.test.title: Test # Env: Title of the deployment environment configuration
 authority-portal.deployment.environments.test.position: 0  # Env: Order of environments, from 0 (default) to n (least important)
