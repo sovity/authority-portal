@@ -3,6 +3,7 @@ import {Observable, from} from 'rxjs';
 import {
   ChangeApplicationRoleRequest,
   ChangeParticipantRoleRequest,
+  ClearApplicationRoleRequest,
   ConnectorDetailDto,
   ConnectorOverviewResult,
   CreateConnectorRequest,
@@ -34,6 +35,14 @@ export class ApiService {
     return from(this.api().changeParticipantRole(request));
   }
 
+  updateApplicationUserRoles(request: ChangeApplicationRoleRequest) {
+    return from(this.api().changeApplicationRole(request));
+  }
+
+  clearApplicationRole(request: ClearApplicationRoleRequest) {
+    return from(this.api().clearApplicationRole(request));
+  }
+
   deactivateAnyUser(userId: string) {
     return from(this.api().deactivateAnyUser({userId}));
   }
@@ -48,10 +57,6 @@ export class ApiService {
 
   reactivateUser(userId: string) {
     return from(this.api().reactivateParticipantUser({userId}));
-  }
-
-  updateApplicationUserRoles(request: ChangeApplicationRoleRequest) {
-    return from(this.api().changeApplicationRole(request));
   }
 
   getUserDetailDto(userId: string): Observable<UserDetailDto> {

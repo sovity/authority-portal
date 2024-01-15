@@ -11,6 +11,7 @@ import {UserRoleFormComponent} from 'src/app/shared/components/business/user-rol
 import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
 import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
 import {UserDetailComponent} from './components/business/user-detail/user-detail.component';
+import {CertificateGeneratorComponent} from './components/certificate-generator/certificate-generator.component';
 import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
 import {HeaderBarComponent} from './components/common/header-bar/header-bar.component';
@@ -31,6 +32,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SlideOverComponent,
     SelectionBoxComponent,
     IframeComponent,
+    CertificateGeneratorComponent,
   ],
   imports: [
     CommonModule,
@@ -55,7 +57,14 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SelectionBoxComponent,
     IframeComponent,
   ],
-  providers: [CertificateGenerateService, SvgIconServiceService],
+  providers: [
+    CertificateGenerateService,
+    SvgIconServiceService,
+    OrganizationDetailComponent,
+    UserDetailComponent,
+    AvatarComponent,
+    CertificateGeneratorComponent,
+  ],
 })
 export class SharedModule {
   constructor(private svgIconServiceService: SvgIconServiceService) {

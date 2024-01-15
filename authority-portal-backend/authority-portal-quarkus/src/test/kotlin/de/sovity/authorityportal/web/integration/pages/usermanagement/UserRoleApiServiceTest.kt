@@ -59,13 +59,13 @@ class UserRoleApiServiceTest {
     }
 
     @Test
-    fun testChangeAuthorityRole() {
+    fun testChangeApplicationRole() {
         // arrange
         doNothing().`when`(keycloakService).forceLogout(eq(userId))
         doNothing().`when`(keycloakService).joinApplicationRole(eq(userId), eq(ApplicationRole.AUTHORITY_ADMIN))
 
         // act
-        val result = userRoleApiService.changeAuthorityRole(userId, UserRoleDto.AUTHORITY_ADMIN, userId,
+        val result = userRoleApiService.changeApplicationRole(userId, UserRoleDto.AUTHORITY_ADMIN, userId,
             setOf(Roles.UserRoles.AUTHORITY_ADMIN))
 
         // assert
@@ -77,13 +77,13 @@ class UserRoleApiServiceTest {
     }
 
     @Test
-    fun testChangeAuthorityRoleToOperatorAdmin() {
+    fun testChangeApplicationRoleToOperatorAdmin() {
         // arrange
         doNothing().`when`(keycloakService).forceLogout(eq(userId))
         doNothing().`when`(keycloakService).joinApplicationRole(eq(userId), eq(ApplicationRole.OPERATOR_ADMIN))
 
         // act
-        val result = userRoleApiService.changeAuthorityRole(userId, UserRoleDto.OPERATOR_ADMIN, userId,
+        val result = userRoleApiService.changeApplicationRole(userId, UserRoleDto.OPERATOR_ADMIN, userId,
             setOf(Roles.UserRoles.OPERATOR_ADMIN))
 
         // assert
@@ -95,13 +95,13 @@ class UserRoleApiServiceTest {
     }
 
     @Test
-    fun testExceptiontoChangeAuthorityRole() {
+    fun testExceptiontoChangeApplicationRole() {
         // arrange
         val errorMessage = "User with ID $userId does not have permission to change role to OPERATOR_ADMIN"
 
         // act
         assertThatThrownBy {
-            userRoleApiService.changeAuthorityRole(userId, UserRoleDto.OPERATOR_ADMIN, userId,
+            userRoleApiService.changeApplicationRole(userId, UserRoleDto.OPERATOR_ADMIN, userId,
                 setOf(Roles.UserRoles.SERVICE_PARTNER_ADMIN))
         }
             .isInstanceOf(WebApplicationException::class.java)

@@ -126,6 +126,13 @@ public interface UiResource {
         UserRoleDto role
     );
 
+    @DELETE
+    @Path("/authority/users/{userId}/role")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Clear a user's application role.")
+    IdResponse clearApplicationRole(@PathParam("userId") String userId);
+
     @PUT
     @Path("/authority/users/{userId}/deactivate")
     @Produces(MediaType.APPLICATION_JSON)

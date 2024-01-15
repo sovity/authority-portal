@@ -41,6 +41,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Start page Iframe won't show if url is not set in the app-config.json
 
+**Styling**
+
+- Changed links to legal documents to english versions
+
 ### Deployment Migration Notes
 
 - Added environment variable `authority-portal.sync-users` which defaults to `true`and enables synchronization of users between the Authority Portal and Keycloak

@@ -50,8 +50,8 @@ export class AuthorityOrganizationUserDetailPageComponent
       .subscribe((state) => {
         this.state = state;
         this.roleFormLoading =
-          this.state.userRolesForm.state === 'submitting' ||
-          this.state.userApplicationRoles.state === 'submitting';
+          this.state.userParticipantRolesForm.state === 'submitting' ||
+          this.state.userApplicationRolesForm.state === 'submitting';
       });
   }
 

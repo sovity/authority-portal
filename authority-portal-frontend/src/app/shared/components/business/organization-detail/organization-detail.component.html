@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-8 justify-center items-center p-8">
+<div class="flex flex-col gap-8 justify-center items-center p-8 bg-slate-200">
   <app-env-banner class="w-full"></app-env-banner>
   <div
     *ngIf="type === 'AUTHORITY'"
     class="flex flex-col w-full lg:flex-row gap-4">
-    <a
-      class="flex-1 block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow hover:bg-yellow-50"
+    <div
+      class="flex-1 block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow"
       href="#">
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-brand-500">
         {{ organization.registrationStatus || 'N/A' }}
@@ -12,9 +12,9 @@
       <p class="font-normal text-1xl text-gray-700 dark:text-gray-400">
         Organization Status
       </p>
-    </a>
-    <a
-      class="flex-1 block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow hover:bg-yellow-50"
+    </div>
+    <div
+      class="flex-1 block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow"
       href="#">
       <h5 class="mb-2 text-4xl font-bold tracking-tight text-brand-500">
         <span
@@ -27,11 +27,15 @@
         <ng-template #notAvailable> N/A </ng-template>
       </h5>
       <p class="font-normal text-1xl text-gray-700 dark:text-gray-400">
-        Members in Organization
+        {{
+          dashboard.memberCount > 1
+            ? 'Members in Organization'
+            : 'Member in Organization'
+        }}
       </p>
-    </a>
-    <a
-      class="flex-1 block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow hover:bg-yellow-50"
+    </div>
+    <div
+      class="flex-1 block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow"
       href="#">
       <h5 class="mb-2 text-4xl font-bold tracking-tight text-brand-500">
         <span
@@ -44,11 +48,15 @@
         <ng-template #notAvailable> N/A </ng-template>
       </h5>
       <p class="font-normal text-1xl text-gray-700 dark:text-gray-400">
-        Connectors in Organization for
+        {{
+          dashboard.connectorCount > 1
+            ? 'Connectors in Organization'
+            : 'Connector in Organization'
+        }}
       </p>
-    </a>
-    <a
-      class="flex-1 block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow hover:bg-yellow-50"
+    </div>
+    <div
+      class="flex-1 block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow"
       href="#">
       <h5 class="mb-2 text-4xl font-bold tracking-tight text-brand-500">
         <span
@@ -61,9 +69,9 @@
         <ng-template #notAvailable> N/A </ng-template>
       </h5>
       <p class="font-normal text-1xl text-gray-700 dark:text-gray-400">
-        Data Offers
+        {{ dashboard.dataOfferCount > 1 ? 'Data Offers' : 'Data Offer' }}
       </p>
-    </a>
+    </div>
   </div>
 
   <mat-tab-group
@@ -170,10 +178,7 @@
             [disabled]="true" />
         </div>
         <ng-container
-          *ngIf="
-            (['AUTHORITY_ADMIN', 'AUTHORITY_USER'] | hasAnyRole | async) &&
-            type === 'AUTHORITY'
-          ">
+          *ngIf="('AUTHORITY_ADMIN' | hasRole | async) && type === 'AUTHORITY'">
           <div
             *ngIf="organization.registrationStatus == 'PENDING'"
             class="flex flex-row justify-evenly items-center my-4">
@@ -210,7 +215,7 @@
             <th
               class="organization-profile-label py-3.5 font-normal text-left rtl:text-right"
               scope="col">
-              User Role
+              User Roles
             </th>
             <th
               class="organization-profile-label py-3.5 font-normal text-left rtl:text-right"
@@ -231,9 +236,9 @@
 
                 <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
                   <h4>
-                    <span *ngFor="let item of user.roles"
-                      >{{ mapToReadable(item) }},</span
-                    >
+                    <span *ngFor="let item of user.roles; let isLast = last">
+                      {{ mapToReadable(item) }}{{ isLast ? '' : ', ' }}
+                    </span>
                   </h4>
                 </td>
 
@@ -271,7 +276,7 @@
                   <a
                     *ngIf="type === 'PROFILE_PAGE'"
                     class="px-1 py-1 text-gray-600 transition-colors duration-200 rounded-lg"
-                    [routerLink]="['/my-organization/user', user.userId]">
+                    [routerLink]="['/my-organization/users', user.userId]">
                     <svg
                       class="w-6 h-6"
                       xmlns="http://www.w3.org/2000/svg"

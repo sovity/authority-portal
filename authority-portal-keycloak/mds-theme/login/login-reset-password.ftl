@@ -1,9 +1,7 @@
 <#import "template.ftl" as layout>
 <@layout.registrationLayout displayInfo=true displayMessage=!messagesPerField.existsError('username'); section>
     <#if section = "header">
-        ${msg("emailForgotTitle")}
     <#elseif section = "form">
-        <div class="cardContainer">
             <div class="formContainer">
                 <div class="formHeader">
                     <h3>UPDATE PASSWORD</h3>
@@ -15,7 +13,7 @@
                                 <#if auth?has_content && auth.showUsername()>
                                     <input type="text" id="username" name="username" placeholder="Email" class="text-input" autofocus value="${auth.attemptedUsername}" aria-invalid="<#if messagesPerField.existsError('username')>true</#if>"/>
                                 <#else>
-                                    <input type="text" style="color:white" id="username" name="username" placeholder="Email" class="text-input" autofocus aria-invalid="<#if messagesPerField.existsError('username')>true</#if>"/>
+                                    <input type="text" style="color:black" id="username" name="username" placeholder="Email" class="text-input" autofocus aria-invalid="<#if messagesPerField.existsError('username')>true</#if>"/>
                                 </#if>
                             </div>
                         </div>
@@ -39,7 +37,6 @@
                     </form>
                 </div>
             </div>
-        </div>
     <#elseif section = "info" >
         ${msg("emailInstruction")}
     </#if>

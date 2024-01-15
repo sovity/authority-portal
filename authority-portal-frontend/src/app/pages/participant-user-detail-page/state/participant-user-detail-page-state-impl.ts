@@ -3,6 +3,11 @@ import {Router} from '@angular/router';
 import {EMPTY, Observable} from 'rxjs';
 import {filter, finalize, ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext} from '@ngxs/store';
+import {
+  ChangeApplicationRoleRequest,
+  ChangeParticipantRoleRequest,
+  ClearApplicationRoleRequest,
+} from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
@@ -12,10 +17,13 @@ import {
   ParticipantUserDetailPageState,
 } from './participant-user-detail-page-state';
 import {
+  ClearUserApplicationRole,
   DeactivateUser,
   ReactivateUser,
   RefreshOrganizationUser,
   SetOrganizationUserId,
+  UpdateUserApplicationRole,
+  UpdateUserParticipantRole,
 } from './particpant-user-detail-page-actions';
 
 @State<ParticipantUserDetailPageState>({
@@ -51,6 +59,131 @@ export class ParticipantUserDetailPageStateImpl {
     return this.apiService.getOrganizationUser(ctx.getState().userId).pipe(
       Fetched.wrap({failureMessage: 'Failed loading user'}),
       tap((user) => this.organizationUserRefreshed(ctx, user)),
+      ignoreElements(),
+    );
+  }
+
+  @Action(UpdateUserParticipantRole)
+  onUpdateUserParticipantRole(
+    ctx: StateContext<ParticipantUserDetailPageState>,
+    action: UpdateUserParticipantRole,
+  ): Observable<never> {
+    ctx.patchState({
+      userParticipantRolesForm: {
+        ...ctx.getState().userParticipantRolesForm,
+        state: 'submitting',
+      },
+    });
+    let request: ChangeParticipantRoleRequest = {
+      userId: action.userId,
+      body: action.role,
+    };
+    return this.apiService.updateUserRoles(request).pipe(
+      this.errorService.toastFailureRxjs(
+        `Failed updating user's participant roles`,
+        () => {
+          ctx.patchState({
+            userParticipantRolesForm: {
+              ...ctx.getState().userParticipantRolesForm,
+              state: 'error',
+            },
+          });
+        },
+      ),
+      tap(() => {
+        this.toast.showSuccess(`User's Participant Roles updated successfully`);
+        ctx.dispatch(new RefreshOrganizationUser());
+        ctx.patchState({
+          userParticipantRolesForm: {
+            ...ctx.getState().userParticipantRolesForm,
+            state: 'success',
+          },
+        });
+      }),
+
+      ignoreElements(),
+    );
+  }
+
+  @Action(UpdateUserApplicationRole)
+  onUpdateUserApplicationRole(
+    ctx: StateContext<ParticipantUserDetailPageState>,
+    action: UpdateUserApplicationRole,
+  ): Observable<never> {
+    ctx.patchState({
+      userApplicationRolesForm: {
+        ...ctx.getState().userApplicationRolesForm,
+        state: 'submitting',
+      },
+    });
+    let request: ChangeApplicationRoleRequest = {
+      userId: action.userId,
+      body: action.role,
+    };
+    return this.apiService.updateApplicationUserRoles(request).pipe(
+      tap(() => {
+        this.toast.showSuccess(`User's Application Roles updated successfully`);
+        ctx.dispatch(new RefreshOrganizationUser());
+
+        ctx.patchState({
+          userApplicationRolesForm: {
+            ...ctx.getState().userApplicationRolesForm,
+            state: 'success',
+          },
+        });
+      }),
+      this.errorService.toastFailureRxjs(
+        `Failed updating user's application roles`,
+        () => {
+          ctx.patchState({
+            userApplicationRolesForm: {
+              ...ctx.getState().userApplicationRolesForm,
+              state: 'error',
+            },
+          });
+        },
+      ),
+      ignoreElements(),
+    );
+  }
+
+  @Action(ClearUserApplicationRole)
+  onClearUserApplicationRole(
+    ctx: StateContext<ParticipantUserDetailPageState>,
+    action: ClearUserApplicationRole,
+  ): Observable<never> {
+    ctx.patchState({
+      userApplicationRolesForm: {
+        ...ctx.getState().userApplicationRolesForm,
+        state: 'submitting',
+      },
+    });
+    let request: ClearApplicationRoleRequest = {
+      userId: action.userId,
+    };
+    return this.apiService.clearApplicationRole(request).pipe(
+      tap(() => {
+        this.toast.showSuccess(`User's Application Roles cleared successfully`);
+        ctx.dispatch(new RefreshOrganizationUser());
+
+        ctx.patchState({
+          userApplicationRolesForm: {
+            ...ctx.getState().userApplicationRolesForm,
+            state: 'success',
+          },
+        });
+      }),
+      this.errorService.toastFailureRxjs(
+        `Failed clearing user's application roles`,
+        () => {
+          ctx.patchState({
+            userApplicationRolesForm: {
+              ...ctx.getState().userApplicationRolesForm,
+              state: 'error',
+            },
+          });
+        },
+      ),
       ignoreElements(),
     );
   }

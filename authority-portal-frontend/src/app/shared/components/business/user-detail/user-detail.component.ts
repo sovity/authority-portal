@@ -1,20 +1,29 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {MatSelectChange} from '@angular/material/select';
+import {ActivatedRoute} from '@angular/router';
 import {Store} from '@ngxs/store';
 import {UserDetailDto, UserRoleDto} from '@sovity.de/authority-portal-client';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
-  buildRoleSelectConfig,
+  getHighestApplicationRole,
+  getHighestParticipantRole,
   mapRolesToReadableFormat,
-  roleSelectConfig,
 } from 'src/app/core/utils/user-role-utils';
 import {
-  UpdateAuthorityUserRoles,
-  UpdateUserRoles,
+  ClearUserApplicationRoleAsAuthority,
+  UpdateUserApplicationRoleAsAuthority,
+  UpdateUserParticipantRoleAsAuthority,
 } from 'src/app/pages/authority-organization-user-detail-page/state/authority-organization-user-detail-page-actions';
+import {
+  ClearUserApplicationRole,
+  UpdateUserApplicationRole,
+  UpdateUserParticipantRole,
+} from 'src/app/pages/participant-user-detail-page/state/particpant-user-detail-page-actions';
 
 export interface UserRolesMgmt {
-  allRoles: UserRoleDto[];
-  userRoles: UserRoleDto[];
-  updatedRole?: UserRoleDto;
+  allRoles: (UserRoleDto | null)[];
+  userRoles: (UserRoleDto | null)[];
+  updatedRole?: UserRoleDto | null;
 }
 
 export interface UserAction {
@@ -28,29 +37,107 @@ export interface UserAction {
 export class UserDetailComponent implements OnInit {
   @Input() userId!: string;
   @Input() user!: UserDetailDto;
-  @Input() type!: 'AUTHORITY' | 'PARTICIPANT' | 'PROFILE_PAGE';
+  @Input() type!: 'AUTHORITY_VIEW' | 'INTERNAL_VIEW' | 'OWN';
   @Output() userAction = new EventEmitter<UserAction>();
+
+  ownerMdsId: string = '';
+  userMdsId: string = '';
+  sameOrganization: boolean = false;
 
   roleFormEnable: boolean = false;
   isUpdateRoleActive: boolean = false;
-  participantsUserRole!: string;
-  authorityUserRole!: string;
-  authorityRoles: UserRolesMgmt = {allRoles: [], userRoles: []};
-  participantRoles: UserRolesMgmt = {allRoles: [], userRoles: []};
 
-  constructor(private store: Store) {}
+  updatePermittedRoles: UserRoleDto[] = ['PARTICIPANT_USER'];
+
+  availableApplicationRoles: string[] = [];
+  availableParticipantRoles: string[] = Object.values(UserRoleDto).filter(
+    (role: UserRoleDto) => role.startsWith('PARTICIPANT'),
+  ) as string[];
+
+  currentTopApplicationRole: UserRoleDto | null = null;
+  currentTopParticipantRole: UserRoleDto | null = null;
+
+  newTopApplicationRole: UserRoleDto | null = null;
+  newTopParticipantRole: UserRoleDto | null = null;
+
+  constructor(
+    private store: Store,
+    private globalStateUtils: GlobalStateUtils,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
-    this.authorityRoles.allRoles = roleSelectConfig('APPLICATION');
-    this.participantRoles.allRoles = roleSelectConfig('PARTICIPANT');
-    this.participantsUserRole = buildRoleSelectConfig(
-      this.user.roles,
-      'PARTICIPANT',
-    );
-    this.authorityUserRole = buildRoleSelectConfig(
-      this.user.roles,
-      'APPLICATION',
-    );
+    this.setUpUpdatePermittedRoles(this.type);
+
+    this.globalStateUtils.userInfo$.subscribe((userInfo) => {
+      this.ownerMdsId = userInfo.organizationMdsId;
+
+      this.availableApplicationRoles = this.getAvailableApplicationRoles(
+        Array.from(userInfo.roles),
+      );
+    });
+
+    this.route.url.subscribe((segments) => {
+      if (
+        segments[1].path === 'organizations' &&
+        segments[2].path.startsWith('MDSL')
+      ) {
+        this.userMdsId = segments[2].path;
+      }
+
+      if (segments[0].path === 'my-organization') {
+        this.userMdsId = this.ownerMdsId;
+      }
+
+      if (this.userMdsId === this.ownerMdsId) {
+        this.sameOrganization = true;
+      }
+    });
+
+    if (this.user) {
+      this.currentTopApplicationRole = getHighestApplicationRole(
+        this.user.roles,
+      );
+      this.currentTopParticipantRole = getHighestParticipantRole(
+        this.user.roles,
+      );
+
+      this.newTopApplicationRole = this.currentTopApplicationRole;
+      this.newTopParticipantRole = this.currentTopParticipantRole;
+    }
+  }
+
+  getAvailableApplicationRoles(ownerUserRoles: string[]): string[] {
+    if (ownerUserRoles.includes('AUTHORITY_ADMIN')) {
+      return [
+        'AUTHORITY_ADMIN',
+        'AUTHORITY_USER',
+        'SERVICE_PARTNER_ADMIN',
+        'OPERATOR_ADMIN',
+      ];
+    } else if (ownerUserRoles.includes('SERVICE_PARTNER_ADMIN')) {
+      return ['SERVICE_PARTNER_ADMIN'];
+    } else if (ownerUserRoles.includes('OPERATOR_ADMIN')) {
+      return ['OPERATOR_ADMIN'];
+    } else {
+      return [];
+    }
+  }
+
+  setUpUpdatePermittedRoles(
+    pageType: 'AUTHORITY_VIEW' | 'INTERNAL_VIEW' | 'OWN',
+  ) {
+    switch (pageType) {
+      case 'AUTHORITY_VIEW':
+        this.updatePermittedRoles = ['AUTHORITY_ADMIN'];
+        break;
+      case 'INTERNAL_VIEW':
+        this.updatePermittedRoles = ['PARTICIPANT_ADMIN'];
+        break;
+      case 'OWN':
+        this.updatePermittedRoles = ['PARTICIPANT_USER'];
+        break;
+    }
   }
 
   toggleRoleForm() {
@@ -62,36 +149,108 @@ export class UserDetailComponent implements OnInit {
   }
 
   rolesToList(array: string[]): string {
-    return array.map((element) => this.mapToReadable(element)).join(', ');
+    return array
+      .map((element) => this.mapToReadable(element))
+      .sort()
+      .join(', ');
   }
 
   roleChangeHandled(
-    role: UserRoleDto | any,
+    event: MatSelectChange,
     type: 'APPLICATION' | 'PARTICIPANT',
   ) {
     this.isUpdateRoleActive = true;
 
     if (type === 'APPLICATION') {
-      this.authorityRoles.updatedRole = role;
+      if (event.value === 'NONE') {
+        this.newTopApplicationRole = null;
+        return;
+      }
+
+      this.newTopApplicationRole = event.value;
     } else if (type === 'PARTICIPANT') {
-      this.participantRoles.updatedRole = role;
+      this.newTopParticipantRole = event.value as UserRoleDto;
     }
   }
 
   updateUserRoles() {
     this.isUpdateRoleActive = false;
-    if (this.authorityRoles?.updatedRole) {
-      this.store.dispatch(
-        new UpdateAuthorityUserRoles(
-          this.userId,
-          this.authorityRoles.updatedRole,
-        ),
-      );
+
+    // Same Organization
+    if (this.sameOrganization) {
+      if (
+        this.newTopParticipantRole &&
+        this.newTopParticipantRole !== this.currentTopParticipantRole
+      ) {
+        if (this.type === 'INTERNAL_VIEW') {
+          this.store.dispatch(
+            new UpdateUserParticipantRole(
+              this.userId,
+              this.newTopParticipantRole,
+            ),
+          );
+        }
+        if (this.type === 'AUTHORITY_VIEW') {
+          this.store.dispatch(
+            new UpdateUserParticipantRoleAsAuthority(
+              this.userId,
+              this.newTopParticipantRole,
+            ),
+          );
+        }
+      }
+
+      if (
+        this.newTopApplicationRole &&
+        this.newTopApplicationRole !== this.currentTopApplicationRole &&
+        this.newTopApplicationRole !== null
+      ) {
+        if (this.type === 'INTERNAL_VIEW') {
+          this.store.dispatch(
+            new UpdateUserApplicationRole(
+              this.userId,
+              this.newTopApplicationRole as UserRoleDto,
+            ),
+          );
+        }
+
+        if (this.type === 'AUTHORITY_VIEW') {
+          this.store.dispatch(
+            new UpdateUserApplicationRoleAsAuthority(
+              this.userId,
+              this.newTopApplicationRole as UserRoleDto,
+            ),
+          );
+        }
+      }
     }
-    if (this.participantRoles?.updatedRole) {
-      this.store.dispatch(
-        new UpdateUserRoles(this.userId, this.participantRoles.updatedRole),
-      );
+
+    // Another Organization
+    if (!this.sameOrganization) {
+      if (
+        this.newTopApplicationRole &&
+        this.newTopApplicationRole !== this.currentTopApplicationRole &&
+        this.newTopApplicationRole !== null
+      ) {
+        this.store.dispatch(
+          new UpdateUserApplicationRoleAsAuthority(
+            this.userId,
+            this.newTopApplicationRole as UserRoleDto,
+          ),
+        );
+      }
+    }
+
+    if (this.newTopApplicationRole === null) {
+      if (this.type === 'INTERNAL_VIEW') {
+        this.store.dispatch(new ClearUserApplicationRole(this.userId));
+      }
+      if (this.type === 'AUTHORITY_VIEW') {
+        this.store.dispatch(
+          new ClearUserApplicationRoleAsAuthority(this.userId),
+        );
+      }
+      return;
     }
   }
 

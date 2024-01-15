@@ -1,10 +1,14 @@
 import {
+  ClearApplicationRoleRequest,
   IdResponse,
   InviteParticipantUserRequest,
   MemberInfo,
+  UserDetailDto,
   UserInfo,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
+import {ChangeParticipantRoleRequest} from '@sovity.de/authority-portal-client';
+import {ChangeApplicationRoleRequest} from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {updateOrganization} from './fake-organizations';
 
@@ -18,6 +22,7 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
       'AUTHORITY_ADMIN',
       'AUTHORITY_USER',
       'PARTICIPANT_ADMIN',
+      'PARTICIPANT_CURATOR',
       'PARTICIPANT_USER',
       'PARTICIPANT_CURATOR',
     ],
@@ -77,13 +82,53 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
   },
   '00000000-0000-0000-0000-00000007': {
     userId: '00000000-0000-0000-0000-00000007',
-    firstName: 'Pending',
+    firstName: 'Service Partner',
+    lastName: 'PartAdmin',
+    email: 'spa@mdsl7777aa.com',
+    roles: [
+      'SERVICE_PARTNER_ADMIN',
+      'PARTICIPANT_ADMIN',
+      'PARTICIPANT_CURATOR',
+      'PARTICIPANT_USER',
+    ],
+    registrationStatus: 'ACTIVE',
+    organizationName: 'Service Partner Organization',
+    organizationMdsId: 'MDSL7777AA',
+  },
+  '00000000-0000-0000-0000-00000008': {
+    userId: '00000000-0000-0000-0000-00000008',
+    firstName: 'Service Partner',
+    lastName: 'PartUser',
+    email: 'spu@mdsl7777aa.com',
+    roles: ['PARTICIPANT_USER'],
+    registrationStatus: 'ACTIVE',
+    organizationName: 'Service Partner Organization',
+    organizationMdsId: 'MDSL7777AA',
+  },
+  '00000000-0000-0000-0000-00000009': {
+    userId: '00000000-0000-0000-0000-00000009',
+    firstName: 'Operator',
+    lastName: 'Admin',
+    email: 'oa@mdsl8888ee.com',
+    roles: [
+      'OPERATOR_ADMIN',
+      'PARTICIPANT_ADMIN',
+      'PARTICIPANT_CURATOR',
+      'PARTICIPANT_USER',
+    ],
+    registrationStatus: 'ACTIVE',
+    organizationName: 'Operator Organization',
+    organizationMdsId: 'MDSL8888EE',
+  },
+  '00000000-0000-0000-0000-00000010': {
+    userId: '00000000-0000-0000-0000-00000010',
+    firstName: 'Operator',
     lastName: 'User',
-    email: 'pending2@user.com',
-    roles: [],
-    registrationStatus: 'PENDING',
-    organizationName: '',
-    organizationMdsId: 'MDSL5555EE',
+    email: 'ou@mdsl8888ee.com',
+    roles: ['PARTICIPANT_USER'],
+    registrationStatus: 'ACTIVE',
+    organizationName: 'Operator Organization',
+    organizationMdsId: 'MDSL8888EE',
   },
 };
 
@@ -104,6 +149,18 @@ export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
  * Fake implementation for "userInfo" endpoint
  */
 export const getUserInfo = (): UserInfo => currentlyLoggedInUser;
+
+export const userDetails = (userId: string): UserDetailDto => {
+  const user = TEST_USERS[userId];
+  return {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: 'email@example.com',
+    roles: user.roles,
+    registrationStatus: user.registrationStatus,
+    creationDate: new Date(),
+  };
+};
 
 export const inviteUser = (
   request: InviteParticipantUserRequest,
@@ -140,7 +197,7 @@ export const getOrganizationMembers = (mdsId: string): MemberInfo[] => {
         firstName: user.firstName,
         lastName: user.lastName,
         roles: user.roles,
-        email: user.email
+        email: user.email,
       };
     });
 };
@@ -160,4 +217,83 @@ const generateNewId = (): string => {
 
 const generateRoles = (userRole: UserRoleDto): UserRoleDto[] => {
   return [userRole];
+};
+
+export const changeParticipantRole = (
+  request: ChangeParticipantRoleRequest,
+): IdResponse => {
+  const user = TEST_USERS[request.userId];
+  const newRole = request.body;
+
+  let new_participant_roles: UserRoleDto[] = [];
+
+  if (newRole === 'PARTICIPANT_ADMIN') {
+    new_participant_roles = [
+      'PARTICIPANT_ADMIN',
+      'PARTICIPANT_CURATOR',
+      'PARTICIPANT_USER',
+    ];
+  } else if (newRole === 'PARTICIPANT_CURATOR') {
+    new_participant_roles = ['PARTICIPANT_CURATOR', 'PARTICIPANT_USER'];
+  } else if (newRole === 'PARTICIPANT_USER') {
+    new_participant_roles = ['PARTICIPANT_USER'];
+  }
+
+  let oldApplicationRoles = user.roles.filter(
+    (role: UserRoleDto) => !role.startsWith('PARTICIPANT_'),
+  );
+
+  TEST_USERS[request.userId] = {
+    ...user,
+    roles: [...oldApplicationRoles, ...new_participant_roles],
+  };
+
+  return {id: request.userId, changedDate: new Date()};
+};
+
+export const changeApplicationRole = (
+  request: ChangeApplicationRoleRequest,
+): IdResponse => {
+  const user = TEST_USERS[request.userId];
+  const newRole = request.body;
+
+  let new_application_roles: UserRoleDto[] = [];
+
+  if (newRole === 'AUTHORITY_ADMIN') {
+    new_application_roles = ['AUTHORITY_ADMIN', 'AUTHORITY_USER'];
+  } else if (newRole === 'AUTHORITY_USER') {
+    new_application_roles = ['AUTHORITY_USER'];
+  } else if (newRole === 'SERVICE_PARTNER_ADMIN') {
+    new_application_roles = ['SERVICE_PARTNER_ADMIN'];
+  } else if (newRole === 'OPERATOR_ADMIN') {
+    new_application_roles = ['OPERATOR_ADMIN'];
+  }
+
+  let oldParticipantRoles = user.roles.filter((role: UserRoleDto) =>
+    role.startsWith('PARTICIPANT_'),
+  );
+
+  TEST_USERS[request.userId] = {
+    ...user,
+    roles: [...new_application_roles, ...oldParticipantRoles],
+  };
+
+  return {id: request.userId, changedDate: new Date()};
+};
+
+export const clearApplicationRole = (
+  request: ClearApplicationRoleRequest,
+): IdResponse => {
+  const user = TEST_USERS[request.userId];
+
+  let oldParticipantRoles = user.roles.filter((role: UserRoleDto) =>
+    role.startsWith('PARTICIPANT_'),
+  );
+
+  TEST_USERS[request.userId] = {
+    ...user,
+    roles: [...oldParticipantRoles],
+  };
+
+  return {id: request.userId, changedDate: new Date()};
 };

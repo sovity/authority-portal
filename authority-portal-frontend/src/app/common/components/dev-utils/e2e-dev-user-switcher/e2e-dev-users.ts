@@ -42,6 +42,12 @@ export const E2E_DEV_USERS: E2eDevUser[] = [
     user: '00000000-0000-0000-0000-00000007',
     password: '777',
     role: 'Service Partner Admin',
-    organization: 'Company 2',
+    organization: 'Company 5',
+  },
+  {
+    user: '00000000-0000-0000-0000-00000008',
+    password: '888',
+    role: 'Operator Admin',
+    organization: 'Company 6',
   },
 ];

@@ -1,12 +1,11 @@
-<div class="bg-gray-200 py-10 flex flex-col items-center justify-center w-full">
+<div
+  class="bg-gray-200 py-1 lg:py-10 flex flex-col items-center justify-center w-full">
   <form
-    class="flex flex-col bg-white shadow-lg w-2/3 md:w-4/5 xl:w-3/5 2xl:w-1/2 p-10 rounded-3xl"
+    class="flex flex-col bg-white shadow-lg w-full md:w-4/5 xl:w-3/5 2xl:w-1/2 p-4 lg:p-10 md:rounded-3xl"
     [formGroup]="group"
     (ngSubmit)="submit()">
     <app-env-banner class="w-full"></app-env-banner>
-    <div *ngIf="environmentId" class="w-full bg-brand-400 text-center">
-      You are in <strong>{{ environmentId }}</strong> environment.
-    </div>
+
     <p
       class="inline-block p-3 m-6 text-2xl font-semibold text-center tracking-wider text-teal-900 uppercase bg-teal-accent-400">
       Provide new Connector <br />
@@ -30,9 +29,8 @@
           group.controls.name.touched &&
           group.controls.name.dirty &&
           group.controls.name.hasError('required')
-        "
-        class="mt-3 text-red-600">
-        Name is a required field
+        ">
+        <small class="text-red-600"> Name is a required field </small>
       </ng-container>
     </div>
 
@@ -54,9 +52,10 @@
           group.controls.location.touched &&
           group.controls.location.dirty &&
           group.controls.location.hasError('required')
-        "
-        class="mt-3 text-red-600">
-        Connector's Location is a required field
+        ">
+        <small class="text-red-600"
+          >Connector's Location is a required field
+        </small>
       </ng-container>
     </div>
 
@@ -78,9 +77,8 @@
           group.controls.url.touched &&
           group.controls.url.dirty &&
           group.controls.url.hasError('required')
-        "
-        class="mt-3 text-red-600">
-        Endpoint URL is a required field
+        ">
+        <small class="text-red-600">Endpoint URL is a required field</small>
       </ng-container>
     </div>
 
@@ -102,19 +100,18 @@
           group.controls.mdsId.touched &&
           group.controls.mdsId.dirty &&
           group.controls.mdsId.hasError('required')
-        "
-        class="mt-3 text-red-600">
-        MDS ID is a required field
+        ">
+        <small class="text-red-600">MDS ID is a required field</small>
       </ng-container>
     </div>
 
-    <div class="flex gap-4 w-full">
+    <div class="flex flex-col w-full">
       <div
         class="select-none flex-1 flex flex-col justify-between items-center my-2">
         <div class="flex flex-col justify-between items-center w-full">
           <div class="w-full flex justify-between">
             <label class="label mb-2 w-full" for="formRegOConPubCertKey"
-              >Public key of your certificate</label
+              >Certificate</label
             >
           </div>
 
@@ -136,16 +133,26 @@
             group.controls.certificate.touched &&
             group.controls.certificate.dirty &&
             group.controls.certificate.hasError('required')
-          "
-          class="mt-3 text-red-600">
-          Public key of your certificate is a required field
+          ">
+          <small class="text-red-600">Certificate is a required field</small>
+        </ng-container>
+        <ng-container
+          *ngIf="
+            group.controls.certificate.touched &&
+            group.controls.certificate.dirty &&
+            group.controls.certificate.hasError('pattern')
+          ">
+          <small class="text-red-600">Certificate format is invalid</small>
         </ng-container>
       </div>
-      <div class="flex flex-none gap-4 flex-col justify-start my-8">
+      <div class="flex flex-wrap gap-4 justify-start mb-8">
         <button
           class="flex cursor-pointer items-center justify-start w-1/2 px-5 py-2 text-sm tracking-wide transition-colors duration-200 border text-blue-500 border-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 enabled:hover:bg-blue-500 hover:text-white disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed"
           type="button"
-          (click)="generateCertificate()">
+          [disabled]="
+            group.controls['url'].invalid || group.controls['location'].invalid
+          "
+          (click)="openCertificateDialog()">
           <svg
             class="w-5 h-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -159,13 +166,14 @@
               d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
 
-          <span>Generate Key</span>
+          <span>Generate & Download Certificate</span>
         </button>
         <button
+          *ngIf="fileUrl"
           class="flex cursor-pointer items-center justify-start w-1/2 px-5 py-2 text-sm tracking-wide transition-colors duration-200 border text-blue-500 border-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 enabled:hover:bg-blue-500 hover:text-white disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed"
           type="button"
-          [disabled]="!isDownloadActive"
-          (click)="downloadPrivateKey()">
+          [disabled]="!isDownloadActive || !fileUrl"
+          (click)="downloadCertificate(fileUrl)">
           <svg
             class="w-5 h-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +187,11 @@
               d="M12 5v9m0 0l-3-3m3 3l3-3M12 14v4m0 0H7m5 0h5" />
           </svg>
 
-          <span>Download Private Key</span>
+          <span>{{
+            fileUrl
+              ? 'Download Certificate'
+              : 'Failed to Generate Download Link'
+          }}</span>
         </button>
       </div>
     </div>

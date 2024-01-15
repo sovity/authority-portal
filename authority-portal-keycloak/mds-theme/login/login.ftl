@@ -2,7 +2,6 @@
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=realm.password && realm.registrationAllowed && !registrationDisabled??; section>
     <#if section = "header">
     <#elseif section = "form">
-        <div class="cardContainer">
             <div class="formContainer">
                 <div class="formHeader">
                     <h3>USER LOGIN</h3>
@@ -70,7 +69,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     <#elseif section = "info" >
         <#if realm.password && realm.registrationAllowed && !registrationDisabled??>
             <div id="kc-registration-container">

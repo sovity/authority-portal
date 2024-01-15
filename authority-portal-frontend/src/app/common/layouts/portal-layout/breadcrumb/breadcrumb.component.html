@@ -4,13 +4,17 @@
     class="bg-grey-light">
     <ol class="list-reset inline-flex items-center">
       <li>
-        <a
-          *ngIf="step.toLowerCase() !== 'dashboard'"
-          class="text-sm transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700"
-          [routerLink]="getLink(i)"
-          [ngClass]="{'font-bold': isLast}"
-          >{{ step }}</a
-        >
+        <span
+          *ngIf="step.link !== 'dashboard'"
+          class="text-sm"
+          [routerLink]="step.isLinkable && !isLast ? getLink(i) : null"
+          [ngClass]="{
+            'font-bold': isLast,
+            'cursor-pointer transition duration-150 ease-in-out hover:text-brand-500 focus:text-brand-500 active:text-brand-500':
+              step.isLinkable && !isLast,
+          }">
+          {{ step.label }}
+        </span>
       </li>
       <li *ngIf="!isLast">
         <svg

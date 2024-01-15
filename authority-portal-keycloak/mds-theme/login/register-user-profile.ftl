@@ -11,7 +11,7 @@
                 </div>
                 <div class="formBody">
                     <div id="kc-form">
-                        <form id="kc-register-form" class="${properties.kcFormClass!}" action="${url.registrationAction}" method="post">
+                        <form id="kc-register-form" class="${properties.kcFormClass!} formContainer" action="${url.registrationAction}" method="post">
                             <@userProfileCommons.userProfileFormFields; callback, attribute>
                                 <#if callback = "afterField">
                             <#-- render password fields just under the username or email (if used as username) -->

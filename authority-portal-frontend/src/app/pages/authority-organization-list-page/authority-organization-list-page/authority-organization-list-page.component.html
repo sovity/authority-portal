@@ -12,13 +12,11 @@
 
     <div class="inline-flex gap-x-3">
       <div
-        *ngIf="
-          ['AUTHORITY_ADMIN', 'SERVICE_PARTNER_ADMIN'] | hasAnyRole | async
-        "
+        *ngIf="'AUTHORITY_USER' | hasRole | async"
         class="flex items-center mt-4 gap-x-3">
         <button
           class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-          routerLink="/authority/organization/invite-new-organization">
+          routerLink="/authority/organizations/invite-new-organization">
           <svg
             class="w-5 h-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -88,9 +86,7 @@
                 <th
                   class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
                   scope="col">
-                  <button class="flex items-center gap-x-3 focus:outline-none">
-                    <span>Organization</span>
-                  </button>
+                  Organization
                 </th>
 
                 <th

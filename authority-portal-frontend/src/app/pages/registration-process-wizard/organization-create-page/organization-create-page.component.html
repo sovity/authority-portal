@@ -147,16 +147,28 @@
         </div>
       </div>
 
-      <div class="flex flex-row justify-start mb-2">
-        <input
-          id="authorizedCheck"
-          class="mr-6"
-          type="checkbox"
-          formControlName="authorizedCheck" />
-        <label for="authorizedCheck"
-          >I hereby confirm that I am authorized and eligible to create a
-          profile of this organization.</label
-        >
+      <div class="select-none flex flex-col justify-between items-center my-2">
+        <div class="flex flex-row justify-start mb-2">
+          <input
+            id="authorizedCheck"
+            class="mr-6"
+            type="checkbox"
+            formControlName="authorizedCheck" />
+          <label for="authorizedCheck"
+            >I hereby confirm that I am authorized and eligible to create a
+            profile of this organization.</label
+          >
+        </div>
+
+        <div
+          *ngIf="
+            group.controls.authorizedCheck.touched &&
+            group.controls.authorizedCheck.hasError('required')
+          "
+          class="mt-3 text-red-600">
+          Please confirm that you are authorized to create a profile for this
+          organization
+        </div>
       </div>
       <li class="border-gray-400 flex flex-row mt-4">
         <button
