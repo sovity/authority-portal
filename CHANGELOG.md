@@ -41,10 +41,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Start page Iframe won't show if url is not set in the app-config.json
 
-**Styling**
-
-- Changed links to legal documents to english versions
-
 ### Deployment Migration Notes
 
 - Added environment variable `authority-portal.sync-users` which defaults to `true`and enables synchronization of users between the Authority Portal and Keycloak
@@ -54,6 +50,43 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
 - Broker Server: `{{ broker version }}`
+
+## [v0.2.1] - 2024-01-09
+
+### Overview
+
+Patch release, regarding bugfixes and styling issues.
+
+### Detailed Changes
+
+#### Patch
+
+**Bugfixes**
+
+- Fix role management system (Application roles)
+- Include subject and authority key identifier in generated certificates (closes [#400](https://github.com/sovity/authority-portal/issues/400))
+- Sign certificates with SHA256 instead of default SHA1
+- Fixed URL mapping for broker interactions (closes [#303](https://github.com/sovity/authority-portal/issues/303))
+- Fix bug during connector deletion
+
+**Styling**
+
+- Split address field into street, house no., zip and city during organization registration (closes [#406](https://github.com/sovity/authority-portal/issues/406))
+- Changed links to legal documents to english versions (closes [#269](https://github.com/sovity/authority-portal/issues/269))
+
+### Deployment Migration Notes
+
+- Portal Backend
+  - Add environment variable `authority-portal.connectors.url.frontend: /`
+  - Add environment variable `authority-portal.connectors.url.management: /api/management`
+  - Add environment variable `authority-portal.connectors.url.endpoint: /api/dsp`
+    _For further information check out our [Productive Deployment Guide](README.md#productive-deployment-guide)._
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:0.2.1`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:0.2.1`
+- Broker Server: `3.1.0`
 
 ## [v0.2.0] - 2023-12-18
 
