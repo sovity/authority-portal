@@ -9,7 +9,6 @@ import jakarta.ws.rs.WebApplicationException
 import jakarta.ws.rs.core.Response
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.keycloak.admin.client.Keycloak
-import org.keycloak.admin.client.resource.UserResource
 import org.keycloak.models.UserModel.RequiredAction
 import org.keycloak.representations.idm.GroupRepresentation
 import org.keycloak.representations.idm.UserRepresentation
@@ -26,7 +25,7 @@ class KeycloakService {
     @ConfigProperty(name = "quarkus.keycloak.admin-client.realm")
     lateinit var keycloakRealm: String
 
-    fun createUser(email: String, firstName: String, lastName: String): KeycloakUserDto {
+    fun createUser(email: String, firstName: String, lastName: String): String {
         val user = UserRepresentation().also {
             it.isEnabled = true
             it.requiredActions = listOf(
@@ -44,8 +43,7 @@ class KeycloakService {
         if (response.status == Response.Status.CONFLICT.statusCode) {
             throw WebApplicationException("User already exists", response.status)
         }
-        return keycloak.realm(keycloakRealm).users().search(email).first()
-            .let { keycloakUserMapper.buildKeycloakUserDto(it) }
+        return keycloak.realm(keycloakRealm).users().search(email).first().id
     }
 
     fun deactivateUser(userId: String) {
@@ -57,9 +55,9 @@ class KeycloakService {
     }
 
     private fun setUserEnabled(userId: String, enabled: Boolean) {
-        val user = getUserResource(userId).toRepresentation()
+        val user = keycloak.realm(keycloakRealm).users().get(userId).toRepresentation()
         user.isEnabled = enabled
-        getUserResource(userId).update(user)
+        keycloak.realm(keycloakRealm).users().get(userId).update(user)
     }
 
     fun listUsers(): List<KeycloakUserDto> {
@@ -70,21 +68,19 @@ class KeycloakService {
         }
     }
 
-    fun getUsers(): List<KeycloakUserDto> {
-        val users = keycloak.realm(keycloakRealm).users().list()
+    fun getUser(userId: String): KeycloakUserDto {
+        // TODO: handle not found (maybe try/catch => User?)
+        val user = keycloak.realm(keycloakRealm).users().get(userId).toRepresentation()
 
-        return users.map {
-            keycloakUserMapper.buildKeycloakUserDto(it)
-        }
+        return keycloakUserMapper.buildKeycloakUserDto(user)
     }
 
     fun updateUser(userId: String, firstName: String, lastName: String) {
-        val keycloakUserResource = getUserResource(userId)
-        val keycloakUser = keycloakUserResource.toRepresentation()
-        keycloakUser.firstName = firstName
-        keycloakUser.lastName = lastName
-
-        keycloakUserResource.update(keycloakUser)
+        val userResource = keycloak.realm(keycloakRealm).users().get(userId)
+        val user = userResource.toRepresentation()
+        user.firstName = firstName
+        user.lastName = lastName
+        keycloak.realm(keycloakRealm).users().get(userId).update(user)
     }
 
     /**
@@ -99,12 +95,30 @@ class KeycloakService {
      * @see RoleRepresentation
      */
     fun getUserRoles(userId: String): Set<String> {
-        return getUserResource(userId).roles().realmLevel()
+        return keycloak.realm(keycloakRealm).users().get(userId).roles().realmLevel()
             .listEffective()
             .filter { it.name.startsWith("UR_") || it.name.startsWith("AR_") }
             .map { it.name }
             .toSet()
     }
+
+    fun getOrganizationMembers(mdsId: String): List<KeycloakUserDto> {
+        val groups = keycloak.realm(keycloakRealm).groups()
+        val orgGroupId = groups.groups().find { it.name == mdsId }?.id ?: return emptyList()
+        val subGroupIds = keycloak.realm(keycloakRealm).groups()
+            .group(orgGroupId).toRepresentation().subGroups.associate { it.name to it.id }.values
+
+        var orgMembers: List<KeycloakUserDto> = emptyList()
+        subGroupIds.forEach() { subGroupId ->
+            val subGroupMembers = groups.group(subGroupId).members().mapNotNull {
+                keycloakUserMapper.buildKeycloakUserDto(it)
+            }
+            orgMembers = orgMembers.plus(subGroupMembers)
+        }
+
+        return orgMembers
+    }
+
 
     fun createOrganization(mdsId: String) {
         val organization = GroupRepresentation().apply {
@@ -148,7 +162,7 @@ class KeycloakService {
      * @param role The user's role in the organization
      */
     fun joinOrganization(userId: String, mdsId: String, role: OrganizationRole) {
-        val user = getUserResource(userId)
+        val user = keycloak.realm(keycloakRealm).users().get(userId)
         val orgGroupId = keycloak.realm(keycloakRealm).groups()
             .groups(mdsId, 0, 1).firstOrNull()!!.id
         val subGroupIds = keycloak.realm(keycloakRealm).groups()
@@ -173,7 +187,7 @@ class KeycloakService {
      * @param role The user's role in the authority
      */
     fun joinApplicationRole(userId: String, role: ApplicationRole) {
-        val user = getUserResource(userId)
+        val user = keycloak.realm(keycloakRealm).users().get(userId)
 
         ApplicationRole.values().forEach {
             val roleGroupId = keycloak.realm(keycloakRealm).groups()
@@ -199,7 +213,7 @@ class KeycloakService {
     }
 
     fun forceLogout(userId: String) {
-        getUserResource(userId).logout()
+        keycloak.realm(keycloakRealm).users().get(userId).logout()
     }
 
     fun sendInvitationEmail(userId: String) {
@@ -208,11 +222,8 @@ class KeycloakService {
             RequiredAction.CONFIGURE_TOTP.toString(),
             RequiredAction.VERIFY_EMAIL.toString()
         )
-        getUserResource(userId).executeActionsEmail(actions)
+        keycloak.realm(keycloakRealm).users().get(userId).executeActionsEmail(actions)
     }
-
-    private fun getUserResource(userId: String): UserResource =
-        keycloak.realm(keycloakRealm).users().get(userId)
 }
 
 

@@ -1,4 +1,6 @@
 import {
+  ChangeApplicationRoleRequest,
+  ChangeParticipantRoleRequest,
   ClearApplicationRoleRequest,
   IdResponse,
   InviteParticipantUserRequest,
@@ -7,8 +9,6 @@ import {
   UserInfo,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
-import {ChangeParticipantRoleRequest} from '@sovity.de/authority-portal-client';
-import {ChangeApplicationRoleRequest} from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {updateOrganization} from './fake-organizations';
 
@@ -17,7 +17,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000001',
     firstName: 'Authority',
     lastName: 'Admin',
-    email: 'authority@admin.com',
     roles: [
       'AUTHORITY_ADMIN',
       'AUTHORITY_USER',
@@ -34,7 +33,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000002',
     firstName: 'Authority',
     lastName: 'User',
-    email: 'authority@user.com',
     roles: ['AUTHORITY_USER', 'PARTICIPANT_USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',
@@ -44,7 +42,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000003',
     firstName: 'Participant',
     lastName: 'Admin',
-    email: 'participant@admin.com',
     roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_CURATOR', 'PARTICIPANT_USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Participant Organization',
@@ -54,7 +51,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000004',
     firstName: 'Participant',
     lastName: 'User',
-    email: 'participant@user.com',
     roles: ['PARTICIPANT_USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Participant Organization',
@@ -64,7 +60,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000005',
     firstName: 'Created',
     lastName: 'User',
-    email: 'created@user.com',
     roles: [],
     registrationStatus: 'CREATED',
     organizationName: '',
@@ -74,7 +69,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000006',
     firstName: 'Pending',
     lastName: 'User',
-    email: 'pending@user.com',
     roles: [],
     registrationStatus: 'PENDING',
     organizationName: '',
@@ -84,7 +78,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000007',
     firstName: 'Service Partner',
     lastName: 'PartAdmin',
-    email: 'spa@mdsl7777aa.com',
     roles: [
       'SERVICE_PARTNER_ADMIN',
       'PARTICIPANT_ADMIN',
@@ -99,7 +92,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000008',
     firstName: 'Service Partner',
     lastName: 'PartUser',
-    email: 'spu@mdsl7777aa.com',
     roles: ['PARTICIPANT_USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Service Partner Organization',
@@ -109,7 +101,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000009',
     firstName: 'Operator',
     lastName: 'Admin',
-    email: 'oa@mdsl8888ee.com',
     roles: [
       'OPERATOR_ADMIN',
       'PARTICIPANT_ADMIN',
@@ -124,7 +115,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000010',
     firstName: 'Operator',
     lastName: 'User',
-    email: 'ou@mdsl8888ee.com',
     roles: ['PARTICIPANT_USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Operator Organization',
@@ -171,7 +161,6 @@ export const inviteUser = (
     userId: newUserId,
     firstName: request.firstName,
     lastName: request.lastName,
-    email: request.email,
     roles: generateRoles(request.role),
     registrationStatus: 'INVITED',
     organizationMdsId: getUserInfo().organizationMdsId,
@@ -197,7 +186,6 @@ export const getOrganizationMembers = (mdsId: string): MemberInfo[] => {
         firstName: user.firstName,
         lastName: user.lastName,
         roles: user.roles,
-        email: user.email,
       };
     });
 };

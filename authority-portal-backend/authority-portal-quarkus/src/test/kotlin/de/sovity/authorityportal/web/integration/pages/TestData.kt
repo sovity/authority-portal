@@ -1,7 +1,7 @@
 package de.sovity.authorityportal.web.integration.pages
 
 object TestData {
-    const val USER_EMAIL = "john.doe@example.com"
+    const val USER_EMAIL = "user@example.com"
     const val USER_FIRST_NAME = "John"
     const val USER_LAST_NAME = "Doe"
     const val USER_POSITION = "Software Engineer"

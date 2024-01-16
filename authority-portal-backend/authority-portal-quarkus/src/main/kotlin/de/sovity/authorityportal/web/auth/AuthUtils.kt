@@ -99,15 +99,15 @@ class AuthUtils {
     }
 
     fun hasRole(role: String): Boolean {
-        return loggedInUser.roles.contains(role)
+        return loggedInUser.roles.contains(role);
     }
 
     fun isMemberOfSameOrganizationAs(userId: String): Boolean {
         if (loggedInUser.organizationMdsId.isNullOrEmpty()) {
-            return false
+            return false;
         }
 
         val user = userService.getUserOrThrow(userId)
-        return user.organizationMdsId == loggedInUser.organizationMdsId
+        return user.organizationMdsId == loggedInUser.organizationMdsId;
     }
 }

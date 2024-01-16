@@ -97,7 +97,7 @@ class UserRoleApiServiceTest {
     @Test
     fun testExceptiontoChangeApplicationRole() {
         // arrange
-        val errorMessage = "User with ID $userId does not have permission to change role to OPERATOR_ADMIN"
+        val errorMessage = "User with ID $userId does not have permission to change role to OPERATOR_ADMIN";
 
         // act
         assertThatThrownBy {

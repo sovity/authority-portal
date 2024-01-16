@@ -1,7 +1,6 @@
 package de.sovity.authorityportal.web.integration.pages.usermanagement
 
 import de.sovity.authorityportal.api.model.UpdateUserDto
-import de.sovity.authorityportal.web.integration.pages.TestData
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_FIRST_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_LAST_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_PHONE_NUMBER
@@ -9,7 +8,6 @@ import de.sovity.authorityportal.web.integration.pages.TestData.USER_POSITION
 import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import io.quarkus.test.junit.QuarkusMock
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
@@ -45,7 +43,7 @@ class UserUpdateApiServiceTest {
     @Test
     fun testUpdateUser() {
         // arrange
-        val updateUserDto = UpdateUserDto(USER_FIRST_NAME, USER_LAST_NAME, USER_POSITION, USER_PHONE_NUMBER)
+        doNothing().`when`(keycloakService).updateUser(userId, USER_FIRST_NAME, USER_LAST_NAME)
 
         // act
         val result = userUpdateApiService.updateUserDetails(userId, UpdateUserDto(USER_FIRST_NAME, USER_LAST_NAME,
@@ -58,5 +56,8 @@ class UserUpdateApiServiceTest {
         assertThat(user.lastName).isEqualTo(USER_LAST_NAME)
         assertThat(user.jobTitle).isEqualTo(USER_POSITION)
         assertThat(user.phone).isEqualTo(USER_PHONE_NUMBER)
+
+        // verify
+        verify(keycloakService).updateUser(userId, USER_FIRST_NAME, USER_LAST_NAME)
     }
 }

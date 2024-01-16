@@ -1,6 +1,6 @@
 -- User
 alter table "user"
-    add column email text unique,
+    add column email text,
     add column first_name text,
     add column last_name text,
     add column job_title text,

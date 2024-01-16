@@ -14,9 +14,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Redesigned Connectors list, detail and related sub-pages
 - Redesigned Portal Sidebar, Header and other general layouts
 - Moved registration process from Keycloak into the portal
-- Added functionality to migrate user data from keycloak to database
-- Added functionality to retrieve and store user details from database
-- Added synchronization between Keycloak and the Authority Portal database
 - Changed the response format for the following endpoints:
   - `POST /api/organizations/my-org/connectors/create-on-premise`
   - `POST /api/organizations/{mds-id}/connectors/create-service-provided`
@@ -42,8 +39,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Start page Iframe won't show if url is not set in the app-config.json
 
 ### Deployment Migration Notes
-
-- Added environment variable `authority-portal.sync-users` which defaults to `true`and enables synchronization of users between the Authority Portal and Keycloak
 
 #### Compatible Versions
 

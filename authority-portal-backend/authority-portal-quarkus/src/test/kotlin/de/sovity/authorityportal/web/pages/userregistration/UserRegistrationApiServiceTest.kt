@@ -37,4 +37,8 @@ class UserRegistrationApiServiceTest {
         assertThat(actual.registrationStatus).isEqualTo(expected)
     }
 
+    @Test
+    fun testUserRegistrationStatusUnknown() {
+
+    }
 }

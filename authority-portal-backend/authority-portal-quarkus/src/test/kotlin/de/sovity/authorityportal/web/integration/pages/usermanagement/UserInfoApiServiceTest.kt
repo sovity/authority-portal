@@ -33,7 +33,7 @@ class UserInfoApiServiceTest {
 
     lateinit var keycloakService: KeycloakService
 
-    val userId = "9525c6ea-34d5-4c11-b9f8-133dc2086f00"
+    val userId = "00000000-0000-0000-0000-00000001";
 
 
     @BeforeEach
@@ -42,13 +42,14 @@ class UserInfoApiServiceTest {
         keycloakService = Mockito.mock(KeycloakService::class.java)
         QuarkusMock.installMockForType(keycloakService, KeycloakService::class.java)
 
+        `when`(keycloakService.getUser(eq(userId))).thenReturn(user)
         `when`(keycloakService.getUserRoles(eq(userId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
     }
 
     @Test
     fun testUserInfo() {
         // arrange
-        val mdsId = "MDSL1111AA"
+        val mdsId = "MDSL1111AA";
 
         // act
         val result = userInfoApiService.userInfo(userId, mdsId, setOf(Roles.UserRoles.PARTICIPANT_ADMIN))
@@ -63,6 +64,7 @@ class UserInfoApiServiceTest {
         assertThat(result.registrationStatus).isEqualTo(UserRegistrationStatusDto.ACTIVE)
 
         // verify
+        verify(keycloakService).getUser(eq(userId))
         verify(keycloakService).getUserRoles(eq(userId))
     }
 
@@ -80,6 +82,7 @@ class UserInfoApiServiceTest {
         assertThat(result.creationDate).isNotNull()
 
         // verify
+        verify(keycloakService).getUser(eq(userId))
         verify(keycloakService).getUserRoles(eq(userId))
     }
 }

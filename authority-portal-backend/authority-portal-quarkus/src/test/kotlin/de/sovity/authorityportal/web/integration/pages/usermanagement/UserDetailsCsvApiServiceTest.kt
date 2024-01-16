@@ -29,7 +29,7 @@ class UserDetailsCsvApiServiceTest {
 
     lateinit var keycloakService: KeycloakService
 
-    private val userId = "9525c6ea-34d5-4c11-b9f8-133dc2086f00"
+    private val userId = "00000000-0000-0000-0000-00000010";
 
     @BeforeEach
     fun before() {
@@ -37,6 +37,7 @@ class UserDetailsCsvApiServiceTest {
         keycloakService = Mockito.mock(KeycloakService::class.java)
         QuarkusMock.installMockForType(keycloakService, KeycloakService::class.java)
 
+        Mockito.`when`(keycloakService.getUser(eq(userId))).thenReturn(user)
         Mockito.`when`(keycloakService.getUserRoles(eq(userId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
     }
 
@@ -44,14 +45,14 @@ class UserDetailsCsvApiServiceTest {
     fun generateConnectorCsv() {
         // arrange
         val expectedCsvContent = "\"USER ID\",\"Organization Name\",\"Last Name\",\"First Name\",\"Roles\",\"Email\",\"Job Title\",\"Registration Status\"\n" +
-            "\"$userId\",\"Example Organization\",\"$USER_LAST_NAME\",\"$USER_FIRST_NAME\",\"[PARTICIPANT_USER]\",\"$USER_EMAIL\",\"$USER_POSITION\",\"ACTIVE\"\n"
+            "\"$userId\",\"Dev Organization 3.4\",\"$USER_LAST_NAME\",\"$USER_FIRST_NAME\",\"[PARTICIPANT_USER]\",\"$USER_EMAIL\",\"$USER_POSITION\",\"PENDING\"\n";
 
         // act
-        val inputStream = userDetailsCsvApiService.generateUserDetailsCsv("MDSL1234ZZ")
+        val inputStream = userDetailsCsvApiService.generateUserDetailsCsv("MDSL3334C4");
         val content = inputStream.bufferedReader().use { it.readText() }
 
         // assert
-        assertThat(inputStream).isNotNull()
+        assertThat(inputStream).isNotNull();
         assertThat(content).isEqualTo(expectedCsvContent)
     }
 }

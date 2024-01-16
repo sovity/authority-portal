@@ -141,21 +141,3 @@ set
     tech_contact_email = 'sophia.clark@example.com',
     tech_contact_phone = '+1 (555) 876-5432'
 where mds_id  = 'MDSL2222CC';
-
-update "user"
-set first_name = 'John',
-    last_name  = 'Doe',
-    email      = 'john.doe@example.com',
-    job_title  = 'Software Engineer',
-    phone      = '+1234567890'
-where id = '9525c6ea-34d5-4c11-b9f8-133dc2086f00';
-
-update "user" set email = 'email1@example.com', first_name = 'firstName', last_name = 'lastName' where id = '00000000-0000-0000-0000-00000001';
-update "user" set email = 'email2@example.com', first_name = 'firstName', last_name = 'lastName' where id = '00000000-0000-0000-0000-00000002';
-update "user" set email = 'email3@example.com', first_name = 'firstName', last_name = 'lastName' where id = '00000000-0000-0000-0000-00000003';
-update "user" set email = 'email4@example.com', first_name = 'firstName', last_name = 'lastName' where id = '00000000-0000-0000-0000-00000004';
-update "user" set email = 'email5@example.com', first_name = 'firstName', last_name = 'lastName' where id = '00000000-0000-0000-0000-00000005';
-update "user" set email = 'email7@example.com', first_name = 'firstName', last_name = 'lastName' where id = '00000000-0000-0000-0000-00000007';
-update "user" set email = 'email8@example.com', first_name = 'firstName', last_name = 'lastName' where id = '00000000-0000-0000-0000-00000008';
-update "user" set email = 'email9@example.com', first_name = 'firstName', last_name = 'lastName' where id = '00000000-0000-0000-0000-00000009';
-update "user" set email = 'email10@example.com', first_name = 'firstName', last_name = 'lastName' where id = '00000000-0000-0000-0000-00000010';

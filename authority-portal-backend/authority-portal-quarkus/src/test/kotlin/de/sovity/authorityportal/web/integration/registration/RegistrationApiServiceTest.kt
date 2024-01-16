@@ -1,12 +1,10 @@
 package de.sovity.authorityportal.web.integration.registration
 
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
-import de.sovity.authorityportal.web.integration.pages.TestData
 import de.sovity.authorityportal.web.pages.registration.RegistrationApiService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import io.quarkus.test.junit.QuarkusMock
 import io.quarkus.test.junit.QuarkusTest
@@ -37,19 +35,12 @@ class RegistrationApiServiceTest {
     @Test
     fun testRegisterUserAndOrganization() {
         // arrange
-        val userId = UUID.randomUUID().toString()
-        val keycloakUser = KeycloakUserDto(
-            userId = userId,
-            email = TestData.USER_EMAIL,
-            firstName = TestData.USER_FIRST_NAME,
-            lastName = TestData.USER_LAST_NAME,
-            position = TestData.USER_POSITION,
-            phoneNumber = TestData.USER_PHONE_NUMBER
-        )
+        val userId = UUID.randomUUID().toString();
         val keyCloakService = Mockito.mock(KeycloakService::class.java)
         QuarkusMock.installMockForType(keyCloakService, KeycloakService::class.java)
 
-        `when`(keyCloakService.createUser(eq(TestRegistrationData.userEmail), eq(TestRegistrationData.userFirstName), eq(TestRegistrationData.userLastName))).thenReturn(keycloakUser)
+        `when`(keyCloakService.createUser(eq(TestRegistrationData.userEmail), eq(TestRegistrationData.userFirstName),
+            eq(TestRegistrationData.userLastName))).thenReturn(userId)
         doNothing().`when`(keyCloakService).createOrganization(anyString())
         doNothing().`when`(keyCloakService).joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
         doNothing().`when`(keyCloakService).sendInvitationEmail(eq(userId))
@@ -86,7 +77,8 @@ class RegistrationApiServiceTest {
         assertThat(organization.techContactPhone).isEqualTo(TestRegistrationData.organizationTechContactPhone)
 
         // verify
-        verify(keyCloakService).createUser(eq(TestRegistrationData.userEmail), eq(TestRegistrationData.userFirstName), eq(TestRegistrationData.userLastName))
+        verify(keyCloakService).createUser(eq(TestRegistrationData.userEmail), eq(TestRegistrationData.userFirstName),
+            eq(TestRegistrationData.userLastName))
         verify(keyCloakService).createOrganization(anyString())
         verify(keyCloakService).joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
         verify(keyCloakService).sendInvitationEmail(eq(userId))
