@@ -3,7 +3,7 @@ package de.sovity.authorityportal.web.services
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
-import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
+import de.sovity.authorityportal.web.model.CreateUserData
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
@@ -33,13 +33,6 @@ class UserService {
             .toList()
     }
 
-    fun getUsers(): List<UserRecord> {
-        val u = Tables.USER
-
-        return dsl.selectFrom(u)
-            .toList()
-    }
-
     fun getUserCountsByMdsIds(): Map<String, Int> {
         val u = Tables.USER
 
@@ -57,14 +50,6 @@ class UserService {
             .fetchOne()
     }
 
-    fun getOrCreateUserFromKeycloak(keycloakUser: KeycloakUserDto): UserRecord {
-        return getUser(keycloakUser.userId)
-            ?: createUser(keycloakUser.userId, UserRegistrationStatus.CREATED).also {
-                it.email = keycloakUser.email
-                it.update()
-            }
-    }
-
     fun createUser(userId: String, registrationStatus: UserRegistrationStatus, mdsId: String? = null): UserRecord {
         return dsl.newRecord(Tables.USER).also {
             it.id = userId
@@ -76,24 +61,20 @@ class UserService {
         }
     }
 
-    fun registerUserWithDetails(
-        userId: String,
-        registrationStatus: UserRegistrationStatus,
-        email: String,
-        firstName: String,
-        lastName: String,
-        jobTitle: String? = null,
-        phone: String? = null,
-        mdsId: String? = null
-    ): UserRecord {
-        return createUser(userId, registrationStatus, mdsId).also {
-            it.email = email
-            it.firstName = firstName
-            it.lastName = lastName
-            it.jobTitle = jobTitle
-            it.phone = phone
+    fun createUser(userId: String, registrationStatus: UserRegistrationStatus,
+                   userData: CreateUserData, mdsId: String? = null): UserRecord {
+        return dsl.newRecord(Tables.USER).also {
+            it.id = userId
+            it.email = userData.email
+            it.firstName = userData.firstName
+            it.lastName = userData.lastName
+            it.jobTitle = userData.jobTitle
+            it.phone = userData.phone
+            it.organizationMdsId = mdsId
+            it.registrationStatus = registrationStatus
+            it.createdAt = OffsetDateTime.now()
 
-            it.update()
+            it.insert()
         }
     }
 }

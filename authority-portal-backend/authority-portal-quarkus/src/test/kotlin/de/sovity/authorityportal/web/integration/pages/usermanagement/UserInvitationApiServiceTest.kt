@@ -3,14 +3,12 @@ package de.sovity.authorityportal.web.integration.pages.usermanagement
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
+import de.sovity.authorityportal.web.integration.pages.TestData.USER_EMAIL
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_FIRST_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_LAST_NAME
-import de.sovity.authorityportal.web.integration.pages.TestData.USER_PHONE_NUMBER
-import de.sovity.authorityportal.web.integration.pages.TestData.USER_POSITION
 import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import io.quarkus.test.junit.QuarkusMock.installMockForType
 import io.quarkus.test.junit.QuarkusTest
@@ -39,22 +37,13 @@ class UserInvitationApiServiceTest {
     fun testInviteParticipantUser() {
         // arrange
         val userId = UUID.randomUUID().toString()
-        val email = UUID.randomUUID().toString() // Generate a random email to avoid DB constraints with existing users
-        val keycloakUser = KeycloakUserDto(
-            userId = userId,
-            email = email,
-            firstName = USER_FIRST_NAME,
-            lastName = USER_LAST_NAME,
-            position = USER_POSITION,
-            phoneNumber = USER_PHONE_NUMBER
-        )
-        val request = InviteParticipantUserRequest(email, USER_FIRST_NAME, USER_LAST_NAME, UserRoleDto.PARTICIPANT_USER)
-        val mdsId = "MDSL1111AA"
+        val request = InviteParticipantUserRequest(USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME, UserRoleDto.PARTICIPANT_USER)
+        val mdsId = "MDSL1111AA";
 
         val keyCloakService = mock(KeycloakService::class.java)
         installMockForType(keyCloakService, KeycloakService::class.java)
 
-        `when`(keyCloakService.createUser(eq(email), eq(USER_FIRST_NAME), eq(USER_LAST_NAME))).thenReturn(keycloakUser)
+        `when`(keyCloakService.createUser(eq(USER_EMAIL), eq(USER_FIRST_NAME), eq(USER_LAST_NAME))).thenReturn(userId)
         doNothing().`when`(keyCloakService).sendInvitationEmail(eq(userId))
         doNothing().`when`(keyCloakService).joinOrganization(eq(userId), eq(mdsId), eq(OrganizationRole.PARTICIPANT_USER))
 
@@ -70,7 +59,7 @@ class UserInvitationApiServiceTest {
         assertThat(user.createdAt).isNotNull()
 
         // verify
-        verify(keyCloakService).createUser(eq(email), eq(USER_FIRST_NAME), eq(USER_LAST_NAME))
+        verify(keyCloakService).createUser(eq(USER_EMAIL), eq(USER_FIRST_NAME), eq(USER_LAST_NAME))
         verify(keyCloakService).sendInvitationEmail(eq(userId))
         verify(keyCloakService).joinOrganization(eq(userId), eq(mdsId), eq(OrganizationRole.PARTICIPANT_USER))
     }

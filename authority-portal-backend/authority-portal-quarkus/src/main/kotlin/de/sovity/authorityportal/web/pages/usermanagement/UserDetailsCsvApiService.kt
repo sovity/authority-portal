@@ -29,8 +29,8 @@ class UserDetailsCsvApiService {
 
         userDetails.forEach {
             csvData.add(arrayOf(
-                it.userId, organization.name, it.lastName.orEmpty(), it.firstName.orEmpty(), userRoleMapper.getUserRoles(it.roles).toString(),
-                it.email, it.position.orEmpty(), it.registrationStatus.literal,
+                it.userId, organization.name, it.lastName, it.firstName, userRoleMapper.getUserRoles(it.roles).toString(),
+                it.email, it.position ?: "", it.registrationStatus.literal,
             ))
         }
 

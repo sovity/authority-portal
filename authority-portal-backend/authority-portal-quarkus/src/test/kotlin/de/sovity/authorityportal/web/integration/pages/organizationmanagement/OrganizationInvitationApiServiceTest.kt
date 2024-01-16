@@ -3,19 +3,18 @@ package de.sovity.authorityportal.web.integration.pages.organizationmanagement
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
-import de.sovity.authorityportal.web.integration.pages.TestData
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_ADDRESS
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_SECURITY_EMAIL
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_TAX_ID
 import de.sovity.authorityportal.web.integration.pages.TestData.ORG_URL
+import de.sovity.authorityportal.web.integration.pages.TestData.USER_EMAIL
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_FIRST_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_LAST_NAME
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import io.quarkus.test.junit.QuarkusMock
 import io.quarkus.test.junit.QuarkusTest
@@ -48,24 +47,16 @@ class OrganizationInvitationApiServiceTest {
     fun shouldInviteOrganization() {
         // arrange
         val userId = UUID.randomUUID().toString()
-        val email = UUID.randomUUID().toString() // Generate a random email to avoid DB constraints with existing users
-        val keycloakUser = KeycloakUserDto(
-            userId = userId,
-            email = email,
-            firstName = USER_FIRST_NAME,
-            lastName = USER_LAST_NAME,
-            position = TestData.USER_POSITION,
-            phoneNumber = TestData.USER_PHONE_NUMBER
-        )
         val keyCloakService = Mockito.mock(KeycloakService::class.java)
         QuarkusMock.installMockForType(keyCloakService, KeycloakService::class.java)
 
-        `when`(keyCloakService.createUser(eq(email), eq(USER_FIRST_NAME), eq(USER_LAST_NAME))).thenReturn(keycloakUser)
+        `when`(keyCloakService.createUser(eq(USER_EMAIL), eq(USER_FIRST_NAME),
+            eq(USER_LAST_NAME))).thenReturn(userId)
         doNothing().`when`(keyCloakService).createOrganization(anyString())
         doNothing().`when`(keyCloakService).joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
         doNothing().`when`(keyCloakService).sendInvitationEmail(eq(userId))
         val request = InviteOrganizationRequest(
-            email,
+            USER_EMAIL,
             USER_FIRST_NAME,
             USER_LAST_NAME,
             ORG_NAME,
@@ -91,7 +82,8 @@ class OrganizationInvitationApiServiceTest {
         assertThat(user.registrationStatus).isEqualTo(UserRegistrationStatus.INVITED)
 
         // verify
-        verify(keyCloakService).createUser(eq(email), eq(USER_FIRST_NAME), eq(USER_LAST_NAME))
+        verify(keyCloakService).createUser(eq(USER_EMAIL), eq(USER_FIRST_NAME),
+            eq(USER_LAST_NAME))
         verify(keyCloakService).createOrganization(anyString())
         verify(keyCloakService).joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
         verify(keyCloakService).sendInvitationEmail(eq(userId))
