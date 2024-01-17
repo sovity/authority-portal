@@ -25,4 +25,6 @@ public class MemberInfo {
     private String lastName;
     @Schema(description = "Roles of the user", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<UserRoleDto> roles;
+    @Schema(description = "User account status", requiredMode = Schema.RequiredMode.REQUIRED)
+    private UserRegistrationStatusDto registrationStatus;
 }

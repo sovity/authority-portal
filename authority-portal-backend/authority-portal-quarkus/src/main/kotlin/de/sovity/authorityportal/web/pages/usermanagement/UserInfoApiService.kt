@@ -47,6 +47,7 @@ class UserInfoApiService {
      */
     fun userDetails(userId: String): UserDetailDto {
         val user = userDetailService.getUserData(userId)
+        val invitingUser = user.invitedBy?.let { userDetailService.getUserData(it) }
         val roleDtos = userRoleMapper.getUserRoles(user.roles)
 
         return UserDetailDto(
@@ -55,7 +56,14 @@ class UserInfoApiService {
             user.email,
             roleDtos.toList(),
             user.registrationStatus.toDto(),
-            user.createdAt
+            user.createdAt,
+            getOrganization(user.organizationMdsId),
+            user.phoneNumber,
+            user.position,
+            user.onboardingType.toDto(),
+            invitingUser?.userId,
+            invitingUser?.firstName,
+            invitingUser?.lastName
         )
     }
 

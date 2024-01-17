@@ -1,6 +1,7 @@
 package de.sovity.authorityportal.web.pages.usermanagement
 
 import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
+import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.UserDetail
 import de.sovity.authorityportal.web.services.UserDetailService
@@ -30,8 +31,19 @@ class UserInfoApiServiceTest {
         // arrange
         val userId = "123"
         val userEmail = "john.doe@example.com";
-        val user = UserDetail(userId, "Test", "Test", userEmail, null, null, null,
-            UserRegistrationStatus.ACTIVE, OffsetDateTime.now(), setOf("UR_AUTHORITY-PORTAL_AUTHORITY-USER", "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"));
+        val user = UserDetail(userId = userId,
+            firstName = "Test",
+            lastName = "Test",
+            email = userEmail,
+            position = null,
+            phoneNumber = null,
+            organizationMdsId = null,
+            registrationStatus = UserRegistrationStatus.ACTIVE,
+            createdAt = OffsetDateTime.now(),
+            roles = setOf("UR_AUTHORITY-PORTAL_AUTHORITY-USER", "UR_AUTHORITY-PORTAL_PARTICIPANT-CURATOR"),
+            onboardingType = UserOnboardingType.SELF_REGISTRATION,
+            invitedBy = "456"
+        )
         `when`(userDetailService.getUserData(userId)).thenReturn(user)
 
         // act

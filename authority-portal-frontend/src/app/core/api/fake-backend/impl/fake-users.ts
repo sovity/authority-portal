@@ -28,6 +28,7 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',
     organizationMdsId: 'MDSL1111AA',
+
   },
   '00000000-0000-0000-0000-00000002': {
     userId: '00000000-0000-0000-0000-00000002',
@@ -149,6 +150,10 @@ export const userDetails = (userId: string): UserDetailDto => {
     roles: user.roles,
     registrationStatus: user.registrationStatus,
     creationDate: new Date(),
+    organizationName: user.organizationName,
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION'
   };
 };
 
@@ -186,6 +191,7 @@ export const getOrganizationMembers = (mdsId: string): MemberInfo[] => {
         firstName: user.firstName,
         lastName: user.lastName,
         roles: user.roles,
+        registrationStatus: user.registrationStatus
       };
     });
 };

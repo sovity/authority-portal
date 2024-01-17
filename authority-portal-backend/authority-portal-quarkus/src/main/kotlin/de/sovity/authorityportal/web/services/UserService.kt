@@ -1,6 +1,7 @@
 package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.authorityportal.web.model.CreateUserData
@@ -20,8 +21,8 @@ class UserService {
         return getUser(userId) ?: error("User with id $userId not found")
     }
 
-    fun getUserOrCreate(userId: String): UserRecord {
-        return getUser(userId) ?: createUser(userId, UserRegistrationStatus.CREATED)
+    fun getUserOrCreate(userId: String, userOnboardingType: UserOnboardingType): UserRecord {
+        return getUser(userId) ?: createUser(userId, UserRegistrationStatus.CREATED, onboardingType = userOnboardingType)
     }
 
     fun getUsersByMdsId(mdsId: String): List<UserRecord> {
@@ -50,19 +51,21 @@ class UserService {
             .fetchOne()
     }
 
-    fun createUser(userId: String, registrationStatus: UserRegistrationStatus, mdsId: String? = null): UserRecord {
+    fun createUser(userId: String, registrationStatus: UserRegistrationStatus, mdsId: String? = null, onboardingType: UserOnboardingType, invitedBy: String? = null): UserRecord {
         return dsl.newRecord(Tables.USER).also {
             it.id = userId
             it.organizationMdsId = mdsId
             it.registrationStatus = registrationStatus
             it.createdAt = OffsetDateTime.now()
+            it.onboardingType = onboardingType
+            it.invitedBy = invitedBy
 
             it.insert()
         }
     }
 
     fun createUser(userId: String, registrationStatus: UserRegistrationStatus,
-                   userData: CreateUserData, mdsId: String? = null): UserRecord {
+                   userData: CreateUserData, mdsId: String? = null, onboardingType: UserOnboardingType): UserRecord {
         return dsl.newRecord(Tables.USER).also {
             it.id = userId
             it.email = userData.email
@@ -73,6 +76,7 @@ class UserService {
             it.organizationMdsId = mdsId
             it.registrationStatus = registrationStatus
             it.createdAt = OffsetDateTime.now()
+            it.onboardingType = onboardingType
 
             it.insert()
         }

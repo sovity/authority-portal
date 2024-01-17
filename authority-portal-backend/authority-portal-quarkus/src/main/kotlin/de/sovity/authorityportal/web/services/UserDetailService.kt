@@ -3,6 +3,7 @@ package de.sovity.authorityportal.web.services
 import de.sovity.authorityportal.api.model.MemberInfo
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleMapper
+import de.sovity.authorityportal.web.pages.userregistration.toDto
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import jakarta.enterprise.context.ApplicationScoped
@@ -26,16 +27,18 @@ class UserDetailService {
         val roles = keycloakService.getUserRoles(userId)
 
         return UserDetail(
-            kcUser.userId,
-            kcUser.firstName,
-            kcUser.lastName,
-            kcUser.email,
-            kcUser.position,
-            kcUser.phoneNumber,
-            dbUser.organizationMdsId,
-            dbUser.registrationStatus,
-            dbUser.createdAt,
-            roles
+            userId = kcUser.userId,
+            firstName = kcUser.firstName,
+            lastName = kcUser.lastName,
+            email = kcUser.email,
+            position = kcUser.position,
+            phoneNumber = kcUser.phoneNumber,
+            organizationMdsId = dbUser.organizationMdsId,
+            registrationStatus = dbUser.registrationStatus,
+            createdAt = dbUser.createdAt,
+            roles = roles,
+            onboardingType = dbUser.onboardingType,
+            invitedBy = dbUser.invitedBy
         )
     }
 
@@ -45,16 +48,18 @@ class UserDetailService {
             user.map {
                 val kcUser = keycloakService.getUser(it.id)
                 UserDetail(
-                    it.id,
-                    kcUser.firstName,
-                    kcUser.lastName,
-                    kcUser.email,
-                    kcUser.position,
-                    kcUser.phoneNumber,
-                    mdsId,
-                    it.registrationStatus,
-                    it.createdAt,
-                    keycloakService.getUserRoles(it.id)
+                    userId = it.id,
+                    firstName = kcUser.firstName,
+                    lastName = kcUser.lastName,
+                    email = kcUser.email,
+                    position = kcUser.position,
+                    phoneNumber = kcUser.phoneNumber,
+                    organizationMdsId = mdsId,
+                    registrationStatus = it.registrationStatus,
+                    createdAt = it.createdAt,
+                    roles = keycloakService.getUserRoles(it.id),
+                    onboardingType = it.onboardingType,
+                    invitedBy = it.invitedBy
                 )
             }
         }
@@ -64,11 +69,13 @@ class UserDetailService {
         val members = keycloakService.getOrganizationMembers(mdsId)
         return members.let { user ->
             user.map {
+                val dbUser = userService.getUserOrThrow(it.userId)
                 MemberInfo(
                     it.userId,
                     it.firstName,
                     it.lastName,
-                    getHighestUserRoles(it)
+                    getHighestUserRoles(it),
+                    dbUser.registrationStatus.toDto(),
                 )
             }
         }

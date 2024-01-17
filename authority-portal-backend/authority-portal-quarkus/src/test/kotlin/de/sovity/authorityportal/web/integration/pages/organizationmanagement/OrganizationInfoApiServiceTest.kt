@@ -2,6 +2,8 @@ package de.sovity.authorityportal.web.integration.pages.organizationmanagement
 
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.api.model.organization.OrganizationRegistrationStatusDto
+import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
+import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_EMAIL
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_FIRST_NAME
@@ -9,6 +11,7 @@ import de.sovity.authorityportal.web.integration.pages.TestData.USER_LAST_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_PHONE_NUMBER
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_POSITION
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
+import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import io.quarkus.test.junit.QuarkusMock
@@ -31,6 +34,9 @@ class OrganizationInfoApiServiceTest {
 
     @Inject
     lateinit var organizationInfoApiService: OrganizationInfoApiService
+
+    @Inject
+    lateinit var userService: UserService
 
     private val testMdsId = "MDSL1234ZZ"
     private val testOrganizationName = "Example Organization"
@@ -73,6 +79,12 @@ class OrganizationInfoApiServiceTest {
         // arrange
         val userId = UUID.randomUUID().toString()
         val members = KeycloakUserDto(userId, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL, USER_POSITION, USER_PHONE_NUMBER)
+        userService.createUser(
+            userId,
+            UserRegistrationStatus.ACTIVE,
+            testMdsId,
+            UserOnboardingType.SELF_REGISTRATION
+        )
         val keycloakService = mock(KeycloakService::class.java)
         `when`(keycloakService.getOrganizationMembers(eq(testMdsId))).thenReturn(listOf(members))
         `when`(keycloakService.getUserRoles(eq(userId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
@@ -115,6 +127,12 @@ class OrganizationInfoApiServiceTest {
         // arrange
         val userId = UUID.randomUUID().toString()
         val members = KeycloakUserDto(userId, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL, USER_POSITION, USER_PHONE_NUMBER)
+        userService.createUser(
+            userId,
+            UserRegistrationStatus.ACTIVE,
+            testMdsId,
+            UserOnboardingType.SELF_REGISTRATION
+        )
         val keycloakService = mock(KeycloakService::class.java)
         `when`(keycloakService.getOrganizationMembers(eq(testMdsId))).thenReturn(listOf(members))
         `when`(keycloakService.getUserRoles(eq(userId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))

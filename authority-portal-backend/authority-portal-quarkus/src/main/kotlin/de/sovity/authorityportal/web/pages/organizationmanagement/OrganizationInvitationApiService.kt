@@ -4,6 +4,7 @@ import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.api.model.organization.CreateOrganizationRequest
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
+import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
@@ -53,7 +54,11 @@ class OrganizationInvitationApiService {
     }
 
     private fun createDbUserAndOrganization(userId: String, mdsId: String, invitationInformation: InviteOrganizationRequest) {
-        val user = userService.createUser(userId, UserRegistrationStatus.INVITED)
+        val user = userService.createUser(
+            userId = userId,
+            registrationStatus = UserRegistrationStatus.INVITED,
+            onboardingType = UserOnboardingType.INVITATION
+        )
         organizationService.createOrganization(
             userId,
             mdsId,

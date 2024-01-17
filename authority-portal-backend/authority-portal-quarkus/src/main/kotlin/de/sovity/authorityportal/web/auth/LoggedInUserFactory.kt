@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.web.auth
 
+import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.web.services.FirstLoginService
 import de.sovity.authorityportal.web.services.FirstUserService
 import de.sovity.authorityportal.web.services.UserService
@@ -48,7 +49,7 @@ class LoggedInUserFactory {
     private fun buildLoggedInUser(jwt: JsonWebToken): LoggedInUser {
         val userId = getUserId(jwt)
         val roles = getRoles(jwt)
-        val user = userService.getUserOrCreate(userId)
+        val user = userService.getUserOrCreate(userId, UserOnboardingType.SELF_REGISTRATION)
         val organizationMdsId: String? = user.organizationMdsId
 
         if (organizationMdsId == null) {

@@ -2,6 +2,7 @@ package de.sovity.authorityportal.web.pages.usermanagement
 
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
+import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
@@ -30,7 +31,13 @@ class UserInvitationApiService {
         keycloakService.sendInvitationEmail(userId)
         keycloakService.joinOrganization(userId, mdsId, userRoleMapper.toOrganizationRole(userInformation.role, userId, adminUserId))
 
-        userService.createUser(userId, UserRegistrationStatus.INVITED, mdsId)
+        userService.createUser(
+            userId = userId,
+            registrationStatus = UserRegistrationStatus.INVITED,
+            mdsId = mdsId,
+            onboardingType = UserOnboardingType.INVITATION,
+            invitedBy = adminUserId
+        )
 
         Log.info("New participant account invited. userId=$userId, role=${userInformation.role}, mdsId=$mdsId, adminUserId=$adminUserId")
 
