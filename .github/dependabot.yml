@@ -6,47 +6,97 @@ updates:
     schedule:
       interval: "weekly"
     target-branch: "main"
-    open-pull-requests-limit: 30
+    open-pull-requests-limit: 50
     labels:
       - "area/dependency"
       - "area/github"
   # Docker
   - package-ecosystem: "docker"
-    directory: "/"
+    directory: "/authority-portal-frontend/docker/"
     schedule:
       interval: "daily"
     target-branch: "main"
-    open-pull-requests-limit: 30
+    open-pull-requests-limit: 50
     labels:
       - "area/dependency"
       - "area/docker"
   # Gradle
   - package-ecosystem: "gradle"
-    directory: "/"
+    directory: "/authority-portal-backend/"
     schedule:
       interval: "daily"
     target-branch: "main"
-    open-pull-requests-limit: 30
+    open-pull-requests-limit: 50
     labels:
       - "area/dependency"
       - "area/java"
-  # Maven
-  - package-ecosystem: "maven"
-    directory: "/"
+  # Gradle
+  - package-ecosystem: "gradle"
+    directory: "/authority-portal-backend/authority-portal-api-client/"
     schedule:
       interval: "daily"
     target-branch: "main"
-    open-pull-requests-limit: 30
+    open-pull-requests-limit: 50
+    labels:
+      - "area/dependency"
+      - "area/java"
+  # Gradle
+  - package-ecosystem: "gradle"
+    directory: "/authority-portal-backend/authority-portal-api/"
+    schedule:
+      interval: "daily"
+    target-branch: "main"
+    open-pull-requests-limit: 50
+    labels:
+      - "area/dependency"
+      - "area/java"
+  # Gradle
+  - package-ecosystem: "gradle"
+    directory: "/authority-portal-backend/authority-portal-db/"
+    schedule:
+      interval: "daily"
+    target-branch: "main"
+    open-pull-requests-limit: 50
+    labels:
+      - "area/dependency"
+      - "area/java"
+  # Gradle
+  - package-ecosystem: "gradle"
+    directory: "/authority-portal-backend/authority-portal-quarkus/"
+    schedule:
+      interval: "daily"
+    target-branch: "main"
+    open-pull-requests-limit: 50
     labels:
       - "area/dependency"
       - "area/java"
   # NPM
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/authority-portal-frontend/"
     schedule:
       interval: "daily"
     target-branch: "main"
-    open-pull-requests-limit: 30
+    open-pull-requests-limit: 50
+    labels:
+      - "area/dependency"
+      - "area/javascript"
+  # NPM
+  - package-ecosystem: "npm"
+    directory: "/authority-portal-backend/authority-portal-api-client-ts/"
+    schedule:
+      interval: "daily"
+    target-branch: "main"
+    open-pull-requests-limit: 50
+    labels:
+      - "area/dependency"
+      - "area/javascript"
+  # NPM
+  - package-ecosystem: "npm"
+    directory: "/authority-portal-e2e-tests/"
+    schedule:
+      interval: "daily"
+    target-branch: "main"
+    open-pull-requests-limit: 50
     labels:
       - "area/dependency"
       - "area/javascript"
