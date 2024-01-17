@@ -19,7 +19,6 @@ import java.util.List;
 @Schema(description = "Own organization information.")
 public class OwnOrganizationDetailsDto {
 
-
     @Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
     private String mdsId;
     @Schema(description = "Legal name", requiredMode = Schema.RequiredMode.REQUIRED)

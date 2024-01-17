@@ -1,10 +1,17 @@
 -- User
+create type user_onboarding_type as enum ('INVITATION', 'SELF_REGISTRATION');
+
 alter table "user"
     add column email text,
     add column first_name text,
     add column last_name text,
     add column job_title text,
-    add column phone text;
+    add column phone text,
+    add column onboarding_type user_onboarding_type,
+    add column invited_by text,
+    add constraint fk_invited_by foreign key (invited_by) references "user" (id);
+
+update "user" set onboarding_type = 'SELF_REGISTRATION' where onboarding_type is null;
 
 -- Organization
 alter table "organization"

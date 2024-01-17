@@ -29,4 +29,18 @@ public class UserDetailDto {
     private UserRegistrationStatusDto registrationStatus;
     @Schema(description = "Creation date of the user", requiredMode = Schema.RequiredMode.REQUIRED)
     private OffsetDateTime creationDate;
+    @Schema(description = "Organization name", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String organizationName;
+    @Schema(description = "Phone number", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String phone;
+    @Schema(description = "Job description", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String position;
+    @Schema(description = "Onboarding type", requiredMode = Schema.RequiredMode.REQUIRED)
+    private UserOnboardingTypeDto onboardingType;
+    @Schema(description = "Inviting user's id if applicable", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String invitingUserId;
+    @Schema(description = "Inviting user's first name if applicable", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String invitingUserFirstName;
+    @Schema(description = "Inviting user's last name if applicable", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String invitingUserLastName;
 }

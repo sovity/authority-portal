@@ -3,6 +3,7 @@ package de.sovity.authorityportal.web.pages.registration
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
+import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.model.CreateOrganizationData
 import de.sovity.authorityportal.web.model.CreateUserData
@@ -54,7 +55,12 @@ class RegistrationApiService {
     }
 
     private fun createDbUserAndOrganization(userId: String, mdsId: String, registrationRequest: RegistrationRequestDto) {
-        val user = userService.createUser(userId, UserRegistrationStatus.INVITED, buildUserData(registrationRequest))
+        val user = userService.createUser(
+            userId = userId,
+            registrationStatus = UserRegistrationStatus.INVITED,
+            userData = buildUserData(registrationRequest),
+            onboardingType = UserOnboardingType.SELF_REGISTRATION
+        )
         organizationService.createOrganization(
             userId,
             mdsId,

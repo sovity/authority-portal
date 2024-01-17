@@ -2,6 +2,7 @@ package de.sovity.authorityportal.web.integration.pages.usermanagement
 
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.UserRoleDto
+import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_EMAIL
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_FIRST_NAME
@@ -38,7 +39,9 @@ class UserInvitationApiServiceTest {
         // arrange
         val userId = UUID.randomUUID().toString()
         val request = InviteParticipantUserRequest(USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME, UserRoleDto.PARTICIPANT_USER)
-        val mdsId = "MDSL1111AA";
+        val mdsId = "MDSL1111AA"
+
+        userService.getUserOrCreate("test", UserOnboardingType.SELF_REGISTRATION)
 
         val keyCloakService = mock(KeycloakService::class.java)
         installMockForType(keyCloakService, KeycloakService::class.java)

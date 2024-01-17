@@ -32,6 +32,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Connector registration now fails when attempting to use a certificate that is already in use
 - Connector registration no longer fails when an error occurs while registering it to the Broker
 - Connectors now regularly try to re-register to Broker if previous attempts failed
+- User details in the organization member list can now show more details
 - Authority admins can no longer provide connectors for other organizations
 
 #### Patch

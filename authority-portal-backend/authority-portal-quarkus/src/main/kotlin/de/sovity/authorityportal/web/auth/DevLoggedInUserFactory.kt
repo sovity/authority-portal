@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.web.auth
 
+import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.utils.unauthorized
 import jakarta.enterprise.context.ApplicationScoped
@@ -31,7 +32,7 @@ class DevLoggedInUserFactory {
     fun buildDevLoggedInUser(): LoggedInUser {
         val userId = getUserId()
         val roles = getRoles(userId)
-        val organizationMdsId: String? = userService.getUserOrCreate(userId).organizationMdsId
+        val organizationMdsId: String? = userService.getUserOrCreate(userId, UserOnboardingType.SELF_REGISTRATION).organizationMdsId
 
         return LoggedInUser(userId, organizationMdsId, roles)
     }
