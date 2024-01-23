@@ -23,6 +23,7 @@ jobs:
             docs/deployment-guide/goals/production/* \
             docs/deployment-guide/goals/sirius/remote/Caddyfile \
             docs/deployment-guide/goals/sirius/remote/docker-compose.yaml \
+            docs/product/* \
             authority-portal-keycloak/mds-theme/* \
             authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json
       - name: Upload deployment-relevant documentation

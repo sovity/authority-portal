@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
-import org.mockito.Mockito.times
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.doNothing
@@ -44,7 +43,7 @@ class ConnectorManagementApiServiceTest {
     private val userId = "00000000-0000-0000-0000-00000001"
     private val connectorName = "testName"
     private val connectorLocation = "testLocation"
-    private val connectorUrl = "testUrl"
+    private val connectorUrl = "https://test.url"
     private val connectorCertificate = "testCertificate"
 
     @BeforeEach
@@ -147,39 +146,6 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
-    fun testCreateOwnConnectorFailure() {
-        // arrange
-        val clientIdUtilsMock = mock(ClientIdUtils::class.java)
-        doReturn(test).`when`(clientIdUtilsMock).generateClientId(eq(connectorCertificate))
-
-        val dapsClient = mock(DapsClient::class.java)
-        val dapsClientService = mock(DapsClientService::class.java)
-        `when`(dapsClientService.forEnvironment(eq(test))).thenReturn(dapsClient)
-
-        val brokerClient = mock(BrokerClient::class.java)
-        val brokerClientService = mock(BrokerClientService::class.java)
-        `when`(brokerClientService.forEnvironment(eq(test))).thenReturn(brokerClient)
-        doNothing().`when`(brokerClient).addConnector(eq(connectorUrl))
-
-        QuarkusMock.installMockForType(clientIdUtilsMock, ClientIdUtils::class.java)
-        QuarkusMock.installMockForType(brokerClientService, BrokerClientService::class.java)
-        QuarkusMock.installMockForType(dapsClientService, DapsClientService::class.java)
-        val connectorRequest = CreateConnectorRequest(connectorName, connectorLocation, connectorUrl, connectorCertificate)
-
-        // act
-        connectorManagementApiService.createOwnConnector(connectorRequest, mdsId, userId)
-        val response = connectorManagementApiService.createOwnConnector(connectorRequest, mdsId, userId)
-
-        // assert
-        verify(clientIdUtilsMock, times(2)).generateClientId(eq(connectorCertificate))
-        verify(brokerClientService).forEnvironment(eq(test))
-        verify(brokerClient).addConnector(eq(connectorUrl))
-        verify(dapsClientService).forEnvironment(eq(test))
-        assertThat(response.status).isEqualTo(CreateConnectorStatusDto.ERROR)
-        assertThat(response.id).isBlank()
-    }
-
-    @Test
     fun testCreateProvidedConnector() {
         // arrange
         val clientIdUtilsMock = mock(ClientIdUtils::class.java)
@@ -212,39 +178,6 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
-    fun testCreateProvidedConnectorFailure() {
-        // arrange
-        val clientIdUtilsMock = mock(ClientIdUtils::class.java)
-        doReturn(test).`when`(clientIdUtilsMock).generateClientId(eq(connectorCertificate))
-
-        val dapsClient = mock(DapsClient::class.java)
-        val dapsClientService = mock(DapsClientService::class.java)
-        `when`(dapsClientService.forEnvironment(eq(test))).thenReturn(dapsClient)
-
-        val brokerClient = mock(BrokerClient::class.java)
-        val brokerClientService = mock(BrokerClientService::class.java)
-        `when`(brokerClientService.forEnvironment(eq(test))).thenReturn(brokerClient)
-        doNothing().`when`(brokerClient).addConnector(eq(connectorUrl))
-
-        QuarkusMock.installMockForType(clientIdUtilsMock, ClientIdUtils::class.java)
-        QuarkusMock.installMockForType(brokerClientService, BrokerClientService::class.java)
-        QuarkusMock.installMockForType(dapsClientService, DapsClientService::class.java)
-        val connectorRequest = CreateConnectorRequest(connectorName, connectorLocation, connectorUrl, connectorCertificate)
-
-        // act
-        connectorManagementApiService.createProvidedConnector(connectorRequest, mdsId, mdsId, userId, test)
-        val response = connectorManagementApiService.createOwnConnector(connectorRequest, mdsId, userId)
-
-        // assert
-        verify(clientIdUtilsMock, times(2)).generateClientId(eq(connectorCertificate))
-        verify(brokerClientService).forEnvironment(eq(test))
-        verify(brokerClient).addConnector(eq(connectorUrl))
-        verify(dapsClientService).forEnvironment(eq(test))
-        assertThat(response.status).isEqualTo(CreateConnectorStatusDto.ERROR)
-        assertThat(response.id).isBlank()
-    }
-
-    @Test
     fun testDeleteOwnConnector() {
         // arrange
         val connectorUrl = "https://xample.test4/connector"
@@ -273,6 +206,19 @@ class ConnectorManagementApiServiceTest {
         verify(brokerClientService).forEnvironment(test)
         verify(dapsClient).deleteClient(anyString())
         verify(brokerClient).removeConnector(eq(connectorUrl))
+    }
+
+    @Test
+    fun testUrlValidation() {
+        // arrange
+        val connectorRequest = CreateConnectorRequest(connectorName, connectorLocation, "invalid.url", connectorCertificate)
+
+        // act
+        val response = connectorManagementApiService.createOwnConnector(connectorRequest, mdsId, userId)
+
+        // assert
+        assertThat(response.status).isEqualTo(CreateConnectorStatusDto.ERROR)
+        assertThat(response.id).isBlank()
     }
 
     private fun assertConnector(id: String, connectorType: ConnectorType) {

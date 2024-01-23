@@ -1,6 +1,5 @@
 package de.sovity.authorityportal.web.thirdparty.daps
 
-import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment.DapsConfig
 import de.sovity.authorityportal.web.thirdparty.daps.ext.CustomKeycloakResource
 import de.sovity.authorityportal.web.thirdparty.daps.ext.instantiateResource
@@ -51,7 +50,7 @@ class DapsClient(private val dapsConfig: DapsConfig): AutoCloseable {
         )
     }
 
-    fun configureMappers(clientId: String, connectorId: String, connector: CreateConnectorRequest) {
+    fun configureMappers(clientId: String, connectorId: String, certificate: String) {
         val client = getClientById(clientId)
 
         keycloak.realm(realmName).clients().get(client.id).protocolMappers.mappers.forEach {
@@ -59,7 +58,7 @@ class DapsClient(private val dapsConfig: DapsConfig): AutoCloseable {
             keycloak.realm(realmName).clients().get(client.id).protocolMappers.update(it.id, it)
         }
 
-        val certSha256 = generateSha256(connector.certificate)
+        val certSha256 = generateSha256(certificate)
         val datMapper = ProtocolMapperRepresentation().apply {
             protocol = "openid-connect"
             protocolMapper = "dat-mapper"

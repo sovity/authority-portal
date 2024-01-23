@@ -765,9 +765,9 @@
       "clientId": "authority-portal-client",
       "name": "Authority Portal Client",
       "description": "",
-      "rootUrl": "",
+      "rootUrl": "https://authority-portal.sirius.sovity.io",
       "adminUrl": "",
-      "baseUrl": "",
+      "baseUrl": "https://authority-portal.sirius.sovity.io",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -1622,6 +1622,7 @@
   "smtpServer": {
     "host": "keycloak-mailserver",
     "from": "admin@keycloak.local",
+    "fromDisplayName": "MDS Portal",
     "starttls": "false",
     "port": "1025",
     "ssl": "false"
@@ -1629,7 +1630,7 @@
   "loginTheme": "mds-theme",
   "accountTheme": "",
   "adminTheme": "",
-  "emailTheme": "",
+  "emailTheme": "mds-theme",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"

@@ -25,6 +25,12 @@ class KeycloakService {
     @ConfigProperty(name = "quarkus.keycloak.admin-client.realm")
     lateinit var keycloakRealm: String
 
+    @ConfigProperty(name = "quarkus.keycloak.admin-client.client-id")
+    lateinit var keycloakClientId: String
+
+    @ConfigProperty(name = "authority-portal.base-url")
+    lateinit var baseUrl: String
+
     fun createUser(email: String, firstName: String, lastName: String): String {
         val user = UserRepresentation().also {
             it.isEnabled = true
@@ -44,6 +50,10 @@ class KeycloakService {
             throw WebApplicationException("User already exists", response.status)
         }
         return keycloak.realm(keycloakRealm).users().search(email).first().id
+    }
+
+    fun deleteUser(userId: String) {
+        keycloak.realm(keycloakRealm).users().delete(userId)
     }
 
     fun deactivateUser(userId: String) {
@@ -153,6 +163,12 @@ class KeycloakService {
         }
     }
 
+    fun deleteOrganization(mdsId: String) {
+        keycloak.realm(keycloakRealm).groups().groups(mdsId, 0, 1).firstOrNull()?.let {
+            keycloak.realm(keycloakRealm).groups().group(it.id).remove()
+        }
+    }
+
     /**
      * Join the user to the organization.
      * Can also be used to change the user's role in the organization.
@@ -222,7 +238,7 @@ class KeycloakService {
             RequiredAction.CONFIGURE_TOTP.toString(),
             RequiredAction.VERIFY_EMAIL.toString()
         )
-        keycloak.realm(keycloakRealm).users().get(userId).executeActionsEmail(actions)
+        keycloak.realm(keycloakRealm).users().get(userId).executeActionsEmail(keycloakClientId, baseUrl, actions)
     }
 }
 

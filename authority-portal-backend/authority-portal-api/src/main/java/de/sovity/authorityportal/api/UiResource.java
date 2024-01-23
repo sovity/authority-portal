@@ -1,5 +1,7 @@
 package de.sovity.authorityportal.api;
 
+import de.sovity.authorityportal.api.model.CentralComponentCreateRequest;
+import de.sovity.authorityportal.api.model.CentralComponentDto;
 import de.sovity.authorityportal.api.model.ConnectorDetailDto;
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.CreateConnectorRequest;
@@ -361,5 +363,35 @@ public interface UiResource {
         @Valid
         @NotNull(message = "Update organization request cannot be null")
         UpdateOrganizationDto organizationDto
+    );
+
+    @GET
+    @Path("/authority/central-components")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "List central components (e.g. a broker or logging house)")
+    List<CentralComponentDto> getCentralComponents(
+        @QueryParam("environmentId")
+        String environmentId
+    );
+
+    @POST
+    @Path("/authority/central-components")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(description = "Register a central component (e.g. a broker or logging house)")
+    IdResponse createCentralComponent(
+        @QueryParam("environmentId")
+        String environmentId,
+
+        CentralComponentCreateRequest componentRegistrationRequest
+    );
+
+    @DELETE
+    @Path("/authority/central-components/{centralComponentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Delete a central component (e.g. a broker or logging house)")
+    IdResponse deleteCentralComponent(
+        @PathParam("centralComponentId")
+        String centralComponentId
     );
 }

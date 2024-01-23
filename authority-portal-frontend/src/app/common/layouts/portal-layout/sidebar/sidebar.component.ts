@@ -33,6 +33,17 @@ export class SidebarComponent {
         ],
       },
       {
+        title: 'Operator Section',
+        userRoles: ['OPERATOR_ADMIN'],
+        menus: [
+          {
+            title: 'Central Components',
+            icon: 'extension',
+            rLink: '/operator/central-components',
+          },
+        ],
+      },
+      {
         title: 'Authority Section',
         userRoles: ['AUTHORITY_USER'],
         menus: [

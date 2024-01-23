@@ -1,6 +1,8 @@
 package de.sovity.authorityportal.web
 
 import de.sovity.authorityportal.api.UiResource
+import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
+import de.sovity.authorityportal.api.model.CentralComponentDto
 import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
@@ -23,6 +25,7 @@ import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDt
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.auth.AuthUtils
 import de.sovity.authorityportal.web.auth.LoggedInUser
+import de.sovity.authorityportal.web.pages.centralcomponentmanagement.CentralComponentManagementApiService
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
@@ -86,6 +89,9 @@ class UiResourceImpl : UiResource {
     @Inject
     lateinit var organizationUpdateApiService: OrganizationUpdateApiService
 
+    @Inject
+    lateinit var centralComponentManagementApiService: CentralComponentManagementApiService
+
     // User info
     @Transactional
     override fun userInfo(): UserInfo {
@@ -102,8 +108,8 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun userDetails(userId: String): UserDetailDto {
         authUtils.requires(authUtils.hasRole(Roles.UserRoles.AUTHORITY_USER) ||
-            (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_USER) && authUtils.isMemberOfSameOrganizationAs(userId)), userId);
-        return userInfoApiService.userDetails(userId);
+            (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_USER) && authUtils.isMemberOfSameOrganizationAs(userId)), userId)
+        return userInfoApiService.userDetails(userId)
     }
 
     // Registration
@@ -200,7 +206,7 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun organizationDetails(mdsId: String, environmentId: String): OrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationInfoApiService.getOrganizationInformation(mdsId, environmentId);
+        return organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)
     }
 
     @Transactional
@@ -282,12 +288,30 @@ class UiResourceImpl : UiResource {
 
     @Transactional
     override fun deploymentEnvironmentList(): List<DeploymentEnvironmentDto> {
-        return connectorManagementApiService.getAllDeploymentEnvironment();
+        return connectorManagementApiService.getAllDeploymentEnvironment()
     }
 
     @Transactional
     override fun registerUser(registrationRequest: RegistrationRequestDto): IdResponse {
-        return registrationApiService.registerUserAndOrganization(registrationRequest);
+        return registrationApiService.registerUserAndOrganization(registrationRequest)
+    }
+
+    override fun getCentralComponents(environmentId: String): List<CentralComponentDto> {
+        authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
+        authUtils.requiresMemberOfAnyOrganization()
+        return centralComponentManagementApiService.listCentralComponents(environmentId)
+    }
+
+    override fun createCentralComponent(environmentId: String, centralComponentCreateRequest: CentralComponentCreateRequest): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
+        authUtils.requiresMemberOfAnyOrganization()
+        return centralComponentManagementApiService.registerCentralComponent(centralComponentCreateRequest, loggedInUser.userId, loggedInUser.organizationMdsId!!, environmentId)
+    }
+
+    override fun deleteCentralComponent(centralComponentId: String): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
+        authUtils.requiresMemberOfAnyOrganization()
+        return centralComponentManagementApiService.deleteCentralComponent(centralComponentId, loggedInUser.userId)
     }
 
     @Transactional

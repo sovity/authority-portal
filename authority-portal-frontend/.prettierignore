@@ -4,6 +4,7 @@ e2e
 node_modules
 .angular
 .github
+dist
 
 openapi
 src/assets/config/app-config.json

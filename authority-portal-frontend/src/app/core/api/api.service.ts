@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable, from} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {
+  CentralComponentCreateRequest,
+  CentralComponentDto,
   ChangeApplicationRoleRequest,
   ChangeParticipantRoleRequest,
   ClearApplicationRoleRequest,
@@ -151,6 +153,32 @@ export class ApiService {
 
   getDeploymentEnvironments(): Observable<DeploymentEnvironmentDto[]> {
     return from(this.api().deploymentEnvironmentList());
+  }
+
+  getCentralComponents(
+    environmentId: string,
+  ): Observable<CentralComponentDto[]> {
+    return from(this.api().getCentralComponents({environmentId}));
+  }
+
+  createCentralComponent(
+    environmentId: string,
+    centralComponentCreateRequest: CentralComponentCreateRequest,
+  ): Observable<IdResponse> {
+    return from(
+      this.api().createCentralComponent({
+        environmentId,
+        centralComponentCreateRequest,
+      }),
+    );
+  }
+
+  deleteCentralComponent(centralComponentId: string): Observable<IdResponse> {
+    return from(
+      this.api().deleteCentralComponent({
+        centralComponentId,
+      }),
+    );
   }
 
   private api(): UiApi {

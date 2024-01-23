@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {EMPTY, Observable} from 'rxjs';
 import {catchError, ignoreElements, takeUntil, tap} from 'rxjs/operators';
-import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
+import {Action, Actions, ofAction, State, StateContext} from '@ngxs/store';
+import {ResponseError} from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
@@ -11,7 +12,6 @@ import {
   DEFAULT_PARTICIPANT_INVITE_NEW_USER_PAGE_STATE,
   ParticipantInviteNewUserPageState,
 } from './participant-invite-new-user-page-state';
-import { ResponseError } from '@sovity.de/authority-portal-client';
 
 @State<ParticipantInviteNewUserPageState>({
   name: 'ParticipantInviteNewUserPageState',
@@ -54,8 +54,8 @@ export class ParticipantInviteNewUserPageStateImpl {
         } else {
           this.errorService.toastFailure('Failed inviting user');
         }
-        ctx.patchState({ state: 'error' });
-        action.enableForm()
+        ctx.patchState({state: 'error'});
+        action.enableForm();
         return EMPTY;
       }),
       ignoreElements(),

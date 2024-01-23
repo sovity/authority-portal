@@ -104,15 +104,6 @@ class ConnectorService {
             .fetchMap(c.MDS_ID, DSL.count())
     }
 
-    fun hasConnectorWithClientId(clientId: String): Boolean {
-        val c = Tables.CONNECTOR
-        val count = dsl.fetchCount(
-            dsl.selectFrom(c)
-                .where(c.CLIENT_ID.eq(clientId))
-        )
-        return count > 0
-    }
-
     fun createOwnConnector(
         connectorId: String,
         mdsId: String,

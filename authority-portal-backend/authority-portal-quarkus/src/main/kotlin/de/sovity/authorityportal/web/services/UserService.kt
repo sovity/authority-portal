@@ -81,4 +81,32 @@ class UserService {
             it.insert()
         }
     }
+
+    fun getUnconfirmedUserIds(expirationTime: OffsetDateTime): List<String> {
+        val u = Tables.USER
+
+        return dsl.select(u.ID)
+            .from(u)
+            .where(u.REGISTRATION_STATUS.eq(UserRegistrationStatus.INVITED))
+            .and(u.CREATED_AT.lt(expirationTime))
+            .fetch(u.ID)
+    }
+
+    fun removeMdsIdFromUnconfirmedUsers(expirationCutoffTime: OffsetDateTime) {
+        val u = Tables.USER
+
+        dsl.update(u)
+            .setNull(u.ORGANIZATION_MDS_ID)
+            .where(u.REGISTRATION_STATUS.eq(UserRegistrationStatus.INVITED))
+            .and(u.CREATED_AT.lt(expirationCutoffTime))
+            .execute()
+    }
+
+    fun deleteUnconfirmedUsers(userIds: List<String>): Int {
+        val u = Tables.USER
+
+        return dsl.deleteFrom(u)
+            .where(u.ID.`in`(userIds))
+            .execute()
+    }
 }

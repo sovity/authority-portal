@@ -3,26 +3,32 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {NgxsFormPluginModule} from '@ngxs/form-plugin';
 import {NgxsModule} from '@ngxs/store';
 import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.module';
 import {PortalLayoutModule} from 'src/app/common/layouts/portal-layout/portal-layout.module';
-import {ProvideConnectorPageComponent} from './provide-connector/provide-connector-page.component';
-import {ProvideConnectorPageStateImpl} from './state/provide-connector-page-state-impl';
+import {FormElementsModule} from '../../common/components/form-elements/form-elements.module';
+import {
+  CentralComponentCreatePageComponent
+} from './central-component-create-page/central-component-create-page.component';
+import {CentralComponentCreatePageStateImpl} from './state/central-component-create-page-state-impl';
 
 @NgModule({
-  declarations: [ProvideConnectorPageComponent],
+  declarations: [CentralComponentCreatePageComponent],
   imports: [
+    // Angular
     CommonModule,
     BrowserModule,
     RouterModule,
-
-    PortalLayoutModule,
-    DevUtilsModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxsFormPluginModule,
-    NgxsModule.forFeature([ProvideConnectorPageStateImpl]),
+
+    // Ngxs
+    NgxsModule.forFeature([CentralComponentCreatePageStateImpl]),
+
+    // AP
+    PortalLayoutModule,
+    FormElementsModule,
+    DevUtilsModule,
   ],
 })
-export class ProvideConnectorModule {}
+export class CentralComponentCreatePageModule {}

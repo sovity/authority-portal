@@ -10,6 +10,8 @@ import {requiresRole} from './common/auth/requires-role-guard';
 import {PortalLayoutComponent} from './common/layouts/portal-layout/portal-layout/portal-layout.component';
 import {AuthorityOrganizationDetailPageComponent} from './pages/authority-organization-detail-page/authority-organization-detail-page/authority-organization-detail-page.component';
 import {AuthorityOrganizationListPageComponent} from './pages/authority-organization-list-page/authority-organization-list-page/authority-organization-list-page.component';
+import {CentralComponentCreatePageComponent} from './pages/central-component-create-page/central-component-create-page/central-component-create-page.component';
+import {CentralComponentListPageComponent} from './pages/central-component-list-page/central-component-list-page/central-component-list-page.component';
 import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dashboard-page.component';
 import {LoadingPageComponent} from './pages/loading-page/loading-page/loading-page.component';
 import {ParticipantInviteNewUserComponent} from './pages/participant-invite-new-user/participant-invite-new-user/participant-invite-new-user.component';
@@ -19,7 +21,6 @@ import {ParticipantRegisterOwnConnectorPageComponent} from './pages/participant-
 import {RegisterConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/register-connector-page/register-connector-page.component';
 import {RequestConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/request-connector-page/request-connector-page.component';
 import {SetupConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/setup-connector-page/setup-connector-page.component';
-import {ProvideConnectorPageComponent} from './pages/provide-connector/provide-connector/provide-connector-page.component';
 import {RegistrationProcessWizardComponent} from './pages/registration-process-wizard/registration-process-wizard.component';
 
 export const REGISTRATION_PROCESS_ROUTES: Routes = [
@@ -131,21 +132,10 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
       {
-        path: 'my-organization/connectors/provide-connector',
-        component: ProvideConnectorPageComponent,
+        path: 'my-organization/connectors/register',
+        component: ParticipantRegisterOwnConnectorPageComponent,
         data: {
-          requiresRole: [
-            'AUTHORITY_ADMIN',
-            'SERVICE_PARTNER_ADMIN',
-          ] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
-      {
-        path: 'my-organization/users/invite',
-        component: ParticipantInviteNewUserComponent,
-        data: {
-          requiresRole: ['PARTICIPANT_ADMIN'] satisfies UserRoleDto[],
+          requiresRole: ['PARTICIPANT_CURATOR'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
       },
@@ -162,6 +152,24 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         path: 'my-organization',
         redirectTo: 'my-organization/profile',
         pathMatch: 'full',
+      },
+
+      // Operator Admin Section
+      {
+        path: 'operator/central-components',
+        component: CentralComponentListPageComponent,
+        data: {
+          requiresRole: ['OPERATOR_ADMIN'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
+        path: 'operator/central-components/provide',
+        component: CentralComponentCreatePageComponent,
+        data: {
+          requiresRole: ['OPERATOR_ADMIN'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
       },
 
       // Service Provider Section

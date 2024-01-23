@@ -15,10 +15,13 @@ import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
-import de.sovity.authorityportal.web.utils.idmanagement.ConnectorIdUtils
+import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtils
+import de.sovity.authorityportal.web.utils.urlmanagement.ConnectorUrlUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import java.net.MalformedURLException
+import java.net.URL
 
 @ApplicationScoped
 class ConnectorManagementApiService {
@@ -30,7 +33,7 @@ class ConnectorManagementApiService {
     lateinit var deploymentEnvironmentDtoService: DeploymentEnvironmentDtoService
 
     @Inject
-    lateinit var connectorIdUtils: ConnectorIdUtils
+    lateinit var dataspaceComponentIdUtils: DataspaceComponentIdUtils
 
     @Inject
     lateinit var clientIdUtils: ClientIdUtils
@@ -46,6 +49,9 @@ class ConnectorManagementApiService {
 
     @Inject
     lateinit var brokerClientService: BrokerClientService
+
+    @Inject
+    lateinit var connectorUrlUtils: ConnectorUrlUtils
 
     fun ownOrganizationConnectorDetails(connectorId: String, mdsId: String, userId: String): ConnectorDetailDto =
         getConnectorDetails(connectorId, mdsId, userId)
@@ -98,10 +104,17 @@ class ConnectorManagementApiService {
     ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
-        val connectorId = connectorIdUtils.generateConnectorId(mdsId)
+        if (!isValidConnectorUrl(connector.url)) {
+            Log.error("Connector URL is not valid. url=${connector.url}, userId=$userId, mdsId=$mdsId.")
+            return CreateConnectorResponse.error("Connector URL is not valid.")
+        }
+
+        connector.url = removeUrlTrailingSlash(connector.url)
+
+        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(mdsId)
         val clientId = clientIdUtils.generateClientId(connector.certificate)
 
-        if (connectorService.hasConnectorWithClientId(clientId)) {
+        if (clientIdUtils.exists(clientId)) {
             Log.error("Connector with this certificate already exists. connectorId=$connectorId, mdsId=$mdsId, userId=$userId, clientId=$clientId.")
             return CreateConnectorResponse.error("Connector with this certificate already exists.")
         }
@@ -133,10 +146,17 @@ class ConnectorManagementApiService {
     ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
-        val connectorId = connectorIdUtils.generateConnectorId(customerMdsId)
+        if (!isValidConnectorUrl(connector.url)) {
+            Log.error("Connector URL is not valid. url=${connector.url}, userId=$userId, customerMdsId=$customerMdsId.")
+            return CreateConnectorResponse.error("Connector URL is not valid.")
+        }
+
+        connector.url = removeUrlTrailingSlash(connector.url)
+
+        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(customerMdsId)
         val clientId = clientIdUtils.generateClientId(connector.certificate)
 
-        if (connectorService.hasConnectorWithClientId(clientId)) {
+        if (clientIdUtils.exists(clientId)) {
             Log.error("Connector with this certificate already exists. connectorId=$connectorId, customerMdsId=$customerMdsId, userId=$userId, clientId=$clientId.")
             return CreateConnectorResponse.error("Connector with this certificate already exists.")
         }
@@ -169,6 +189,23 @@ class ConnectorManagementApiService {
             return false
         }
         return true
+    }
+
+    private fun isValidConnectorUrl(urlString: String): Boolean {
+        try {
+            val url = URL(urlString)
+            return (url.protocol == "https" && !url.path.endsWith(connectorUrlUtils.managementUrl) && !url.path.endsWith(connectorUrlUtils.managementUrl))
+        } catch (e: MalformedURLException) {
+            return false
+        }
+    }
+
+    private fun removeUrlTrailingSlash(url: String): String {
+        return if (url.endsWith("/")) {
+            url.dropLast(1)
+        } else {
+            url
+        }
     }
 
     fun deleteOwnConnector(
@@ -208,6 +245,6 @@ class ConnectorManagementApiService {
         val dapsClient = dapsClientService.forEnvironment(deploymentEnvId)
         dapsClient.createClient(clientId)
         dapsClient.addCertificate(clientId, connector.certificate)
-        dapsClient.configureMappers(clientId, connectorId, connector)
+        dapsClient.configureMappers(clientId, connectorId, connector.certificate)
     }
 }

@@ -1,6 +1,7 @@
 package de.sovity.authorityportal.web.thirdparty.broker
 
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
+import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadataRequest
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.HeaderParam
@@ -42,4 +43,13 @@ interface BrokerClientResource {
         @QueryParam("adminApiKey") adminApiKey: String,
         connectors: List<String>
     ): List<AuthorityPortalConnectorInfo>
+
+    @POST
+    @Path("authority-portal-api/organization-metadata")
+    @Consumes(MediaType.APPLICATION_JSON)
+    fun setOrganizationMetadata(
+        @HeaderParam("X-Api-Key") apiKey: String,
+        @QueryParam("adminApiKey") adminApiKey: String,
+        orgMetadata: AuthorityPortalOrganizationMetadataRequest
+    ): Response
 }

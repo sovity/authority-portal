@@ -1,16 +1,25 @@
 package de.sovity.authorityportal.web.utils.idmanagement
 
+import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.db.jooq.enums.ConnectorType
+import io.quarkus.test.junit.QuarkusTest
+import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
+import org.jooq.DSLContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
 import org.mockito.junit.jupiter.MockitoExtension
+import java.time.OffsetDateTime
 
+@QuarkusTest
 @ExtendWith(MockitoExtension::class)
 class ClientIdUtilsTest {
 
-    @InjectMocks
+    @Inject
     lateinit var clientIdUtils: ClientIdUtils
+
+    @Inject
+    lateinit var dsl: DSLContext
 
     @Test
     fun testGenerateClientId() {
@@ -22,5 +31,47 @@ class ClientIdUtilsTest {
 
         // assert
         assertThat(result).isEqualTo("84:94:E5:E8:52:A7:B9:79:E3:B5:0F:E3:D9:7F:A2:D7:E8:71:15:0F:keyid:84:94:E5:E8:52:A7:B9:79:E3:B5:0F:E3:D9:7F:A2:D7:E8:71:15:0F")
+    }
+
+    @Test
+    fun doesClientIdExistTest() {
+        // arrange
+        setupDb()
+
+        // act
+        val result1 = clientIdUtils.exists("connectorClientId")
+        val result2 = clientIdUtils.exists("componentClientId")
+
+        // assert
+        assertThat(result1).isTrue()
+        assertThat(result2).isTrue()
+    }
+
+    private fun setupDb() {
+        dsl.insertInto(Tables.CONNECTOR)
+            .set(Tables.CONNECTOR.CONNECTOR_ID, "connectorId")
+            .set(Tables.CONNECTOR.MDS_ID, "MDSL1111AA")
+            .set(Tables.CONNECTOR.ENVIRONMENT, "envId")
+            .set(Tables.CONNECTOR.CLIENT_ID, "connectorClientId")
+            .set(Tables.CONNECTOR.CREATED_BY, "00000000-0000-0000-0000-00000001")
+            .set(Tables.CONNECTOR.NAME, "connectorName")
+            .set(Tables.CONNECTOR.URL, "connectorUrl")
+            .set(Tables.CONNECTOR.LOCATION, "connectorLocation")
+            .set(Tables.CONNECTOR.PROVIDER_MDS_ID, "MDSL2222BB")
+            .set(Tables.CONNECTOR.TYPE, ConnectorType.OWN)
+            .set(Tables.CONNECTOR.CREATED_AT, OffsetDateTime.now())
+            .execute()
+
+        dsl.insertInto(Tables.COMPONENT)
+            .set(Tables.COMPONENT.ID, "componentId")
+            .set(Tables.COMPONENT.MDS_ID, "MDSL1111AA")
+            .set(Tables.COMPONENT.ENVIRONMENT, "envId")
+            .set(Tables.COMPONENT.CLIENT_ID, "componentClientId")
+            .set(Tables.COMPONENT.CREATED_BY, "00000000-0000-0000-0000-00000001")
+            .set(Tables.COMPONENT.NAME, "componentName")
+            .set(Tables.COMPONENT.HOMEPAGE_URL, "componentUrl")
+            .set(Tables.COMPONENT.ENDPOINT_URL, "componentEndpointUrl")
+            .set(Tables.COMPONENT.CREATED_AT, OffsetDateTime.now())
+            .execute()
     }
 }
