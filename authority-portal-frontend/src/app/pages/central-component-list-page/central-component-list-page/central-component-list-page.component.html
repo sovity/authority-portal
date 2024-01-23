@@ -1,0 +1,186 @@
+<section class="container px-4 mt-10 mb-20 mx-auto">
+  <div class="sm:flex sm:items-center sm:justify-between">
+    <div>
+      <div class="flex items-center gap-x-3">
+        <h2 class="text-lg font-medium text-gray-800">Central Components</h2>
+      </div>
+
+      <p class="mt-1 text-sm text-gray-700">
+        List of Central Dataspace Components registered at the DAPS.
+      </p>
+    </div>
+
+    <div class="inline-flex gap-x-3">
+      <div class="flex items-center mt-4 gap-x-3">
+        <button
+          class="flex items-center justify-center px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
+          routerLink="/operator/central-components/provide">
+          <svg
+            class="w-5 h-5"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+
+          <span>Provide Central Component</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="flex flex-col mt-6">
+    <app-env-banner class="w-full"></app-env-banner>
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-200">
+              <tr class="bg-gray-100">
+                <th
+                  class="py-3.5 pl-3 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Name
+                </th>
+
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Homepage URL
+                </th>
+
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Endpoint URL
+                </th>
+
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Created By
+                </th>
+
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  More
+                </th>
+              </tr>
+            </thead>
+
+            <ng-container *ngIf="state.centralComponents.isReady">
+              <ng-container
+                *ngIf="state.centralComponents.data.length > 0; else noRows">
+                <tbody
+                  *ngFor="
+                    let component of state.centralComponents.data;
+                    let i = index
+                  "
+                  class="bg-white divide-y divide-gray-200">
+                  <tr class="text-sm font-medium">
+                    <td class="pl-3 py-8 whitespace-nowrap">
+                      {{ component.name }}
+                    </td>
+                    <td class="py-8 whitespace-nowrap">
+                      <a
+                        *ngIf="component.homepageUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        [attr.href]="component.homepageUrl">
+                        {{ component.homepageUrl }}
+                      </a>
+                    </td>
+                    <td class="py-8 whitespace-nowrap">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        [attr.href]="component.endpointUrl">
+                        {{ component.endpointUrl }}
+                      </a>
+                    </td>
+                    <td class="py-8 whitespace-nowrap">
+                      {{ component.createdByOrgName }}<br />
+                      <span class="text-xs tracking-wide">{{
+                        component.createdByOrgMdsId
+                      }}</span>
+                    </td>
+                    <td class="py-8 whitespace-nowrap">
+                      <app-delete-icon-button
+                        [disabled]="state.busy"
+                        [loading]="
+                          state.busyDeletingComponentId ===
+                          component.centralComponentId
+                        "
+                        (deleteClick)="
+                          showDeleteModal(component)
+                        "></app-delete-icon-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+              <ng-template #noRows>
+                <tr>
+                  <td
+                    class="py-5 mx-auto text-sm font-normal text-center text-gray-700"
+                    colspan="6">
+                    No central components registered in this environment yet.
+                  </td>
+                </tr>
+              </ng-template>
+            </ng-container>
+
+            <tr *ngIf="state.centralComponents.isLoading">
+              <td colspan="6">
+                <div class="flex justify-center items-center">
+                  <app-loading-element></app-loading-element>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal -->
+<div
+  *ngIf="state.deleteConfirmation"
+  class="fixed z-50 inset-0 overflow-y-auto">
+  <div class="flex items-center justify-center min-h-screen">
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity"></div>
+    <div
+      class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+      <div class="bg-gray-400 px-4 py-3">
+        <h2 class="font-medium text-white">DELETE CENTRAL COMPONENT</h2>
+      </div>
+      <div class="px-4 py-3">
+        <p class="text-gray-700">
+          Are you sure you want to delete the central component '{{
+            state.deleteConfirmation.name
+          }}'?
+        </p>
+      </div>
+      <div class="px-4 py-3 flex justify-end">
+        <button
+          class="px-4 py-2 bg-red-400 text-white rounded-lg mr-2 hover:bg-red-500"
+          (click)="confirmDeleteModal()">
+          Delete
+        </button>
+        <button
+          class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+          (click)="dismissDeleteModal()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

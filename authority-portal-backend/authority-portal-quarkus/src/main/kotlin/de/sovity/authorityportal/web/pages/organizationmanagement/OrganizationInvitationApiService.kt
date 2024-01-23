@@ -6,6 +6,7 @@ import de.sovity.authorityportal.api.model.organization.CreateOrganizationReques
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
+import de.sovity.authorityportal.web.services.OrganizationMetadataService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
@@ -26,6 +27,9 @@ class OrganizationInvitationApiService {
 
     @Inject
     lateinit var userService: UserService
+
+    @Inject
+    lateinit var organizationMetadataService: OrganizationMetadataService
 
     @Inject
     lateinit var mdsIdUtils: MdsIdUtils
@@ -67,6 +71,8 @@ class OrganizationInvitationApiService {
         )
         user.organizationMdsId = mdsId
         user.update()
+
+        organizationMetadataService.pushOrganizationMetadataToBroker()
     }
 
     private fun buildCreateOrganizationRequest(invitationInformation: InviteOrganizationRequest): CreateOrganizationRequest {

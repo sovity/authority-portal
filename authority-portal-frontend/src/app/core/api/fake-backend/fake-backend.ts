@@ -1,4 +1,6 @@
 import {
+  CentralComponentCreateRequestFromJSON,
+  CentralComponentDtoToJSON,
   ConnectorDetailDtoToJSON,
   ConnectorOverviewResultToJSON,
   CreateConnectorRequestFromJSON,
@@ -12,6 +14,7 @@ import {
   UserDetailDtoToJSON,
   UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
+import {centralComponentList, createCentralComponent, deleteCentralComponent,} from './impl/central-component-fake';
 import {deploymentEnvironmentList} from './impl/deployment-environment-list-fake';
 import {
   createOwnConnector,
@@ -33,8 +36,8 @@ import {
   clearApplicationRole,
   getUserInfo,
   inviteUser,
+  userDetails,
 } from './impl/fake-users';
-import {userDetails} from './impl/fake-users';
 import {createOrganization} from './impl/registration-process-fake';
 import {getBody, getMethod, getUrl} from './utils/request-utils';
 import {ok} from './utils/response-utils';
@@ -44,11 +47,20 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
   input: RequestInfo,
   init?: RequestInit,
 ): Promise<Response> => {
-  let url = getUrl(input, 'http://authority-portal.fake-backend/api/');
-  let method = getMethod(init);
-  let body = getBody(init);
+  const {url, queryParams} = getUrl(
+    input,
+    'http://authority-portal.fake-backend/api/',
+  );
+  const method = getMethod(init);
+  const body = getBody(init);
 
-  console.log(...['Fake Backend:', method, url, body].filter((it) => !!it));
+  console.log(
+    ...['Fake Backend:', method, url, queryParams.toString(), body].filter(
+      (it) => !!it,
+    ),
+  );
+
+  const environmentId = queryParams.get('environmentId');
 
   return new UrlInterceptor(url, method)
 
@@ -220,6 +232,23 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('GET', () => {
       const result = deploymentEnvironmentList();
       return ok(result.map(DeploymentEnvironmentDtoToJSON));
+    })
+
+    .url('authority/central-components')
+    .on('GET', () => {
+      const result = centralComponentList(environmentId!);
+      return ok(result.map(CentralComponentDtoToJSON));
+    })
+    .on('POST', () => {
+      const request = CentralComponentCreateRequestFromJSON(body);
+      const result = createCentralComponent(request, environmentId!);
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('authority/central-components/*')
+    .on('DELETE', (centralComponentId) => {
+      const result = deleteCentralComponent(centralComponentId);
+      return ok(IdResponseToJSON(result));
     })
 
     .tryMatch();

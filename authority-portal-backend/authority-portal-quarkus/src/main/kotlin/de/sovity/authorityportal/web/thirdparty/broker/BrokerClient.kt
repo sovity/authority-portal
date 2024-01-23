@@ -2,6 +2,8 @@ package de.sovity.authorityportal.web.thirdparty.broker
 
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment.BrokerConfig
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
+import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadata
+import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadataRequest
 import de.sovity.authorityportal.web.utils.urlmanagement.ConnectorUrlUtils
 import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder
 import jakarta.ws.rs.core.Response
@@ -24,9 +26,7 @@ class BrokerClient(private val brokerConfig: BrokerConfig, private val connector
             connectorUrlUtils.getConnectorEndpoints(connectorBaseUrls)
         )
 
-        if (response.status != Response.Status.NO_CONTENT.statusCode) {
-            error("Broker API returned unexpected status code: ${response.status}. Expected: ${Response.Status.NO_CONTENT.statusCode}")
-        }
+        expectStatusCode(response, Response.Status.NO_CONTENT.statusCode, "addConnectors")
     }
 
     fun removeConnector(connectorBaseUrl: String) {
@@ -36,9 +36,7 @@ class BrokerClient(private val brokerConfig: BrokerConfig, private val connector
             listOf(connectorUrlUtils.getConnectorEndpoint(connectorBaseUrl))
         )
 
-        if (response.status != Response.Status.NO_CONTENT.statusCode) {
-            error("Broker API returned unexpected status code: ${response.status}. Expected: ${Response.Status.NO_CONTENT.statusCode}")
-        }
+        expectStatusCode(response, Response.Status.NO_CONTENT.statusCode, "removeConnectors")
     }
 
     fun getConnectorMetadata(connectorUrls: List<String>): List<AuthorityPortalConnectorInfo> =
@@ -47,4 +45,22 @@ class BrokerClient(private val brokerConfig: BrokerConfig, private val connector
             brokerConfig.adminApiKey(),
             connectorUrlUtils.getConnectorEndpoints(connectorUrls)
         )
+
+    fun setOrganizationMetadata(orgMetadata: List<AuthorityPortalOrganizationMetadata>) {
+        val response = brokerClientResource.setOrganizationMetadata(
+            brokerConfig.apiKey(),
+            brokerConfig.adminApiKey(),
+            AuthorityPortalOrganizationMetadataRequest().apply {
+                organizations = orgMetadata
+            }
+        )
+
+        expectStatusCode(response, Response.Status.NO_CONTENT.statusCode, "setOrganizationMetadata")
+    }
+
+    private fun expectStatusCode(response: Response, expectedStatusCode: Int, operationName: String) {
+        if (response.status != expectedStatusCode) {
+            error("Broker API returned unexpected status code, when trying to call \"$operationName\" endpoint. Actual: ${response.status}, Expected: $expectedStatusCode")
+        }
+    }
 }

@@ -40,7 +40,7 @@ export class GlobalStateUtils {
           environment !== null,
       ),
       distinctUntilKeyChanged('environmentId'),
-      shareReplay(),
+      shareReplay(1),
     );
 
   @Select(GlobalStateImpl.roles)

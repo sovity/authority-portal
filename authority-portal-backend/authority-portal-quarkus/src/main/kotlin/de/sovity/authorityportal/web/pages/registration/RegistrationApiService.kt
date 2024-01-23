@@ -7,6 +7,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.model.CreateOrganizationData
 import de.sovity.authorityportal.web.model.CreateUserData
+import de.sovity.authorityportal.web.services.OrganizationMetadataService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
@@ -27,6 +28,9 @@ class RegistrationApiService {
 
     @Inject
     lateinit var userService: UserService
+
+    @Inject
+    lateinit var organizationMetadataService: OrganizationMetadataService
 
     @Inject
     lateinit var mdsIdUtils: MdsIdUtils
@@ -69,6 +73,8 @@ class RegistrationApiService {
         )
         user.organizationMdsId = mdsId
         user.update()
+
+        organizationMetadataService.pushOrganizationMetadataToBroker()
     }
 
     private fun buildUserData(registrationRequest: RegistrationRequestDto): CreateUserData {

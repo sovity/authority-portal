@@ -85,14 +85,6 @@ export class ParticipantOwnConnectorListPageComponent
       subtitle: 'List of all connectors of your organization',
       headerActions: [
         {
-          label: 'Provide Connector',
-          action: ParticipantOwnConnectorListHeaderActions.PROVIDE_CONNECTOR,
-          permissions: [
-            UserRoleDto.AuthorityAdmin,
-            UserRoleDto.ServicePartnerAdmin,
-          ],
-        },
-        {
           label: 'Add Connector',
           action: ParticipantOwnConnectorListHeaderActions.ADD_CONNECTOR,
           permissions: [UserRoleDto.ParticipantCurator],

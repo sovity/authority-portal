@@ -85,4 +85,22 @@ class OrganizationService {
             it.insert()
         }
     }
+
+    fun getUnconfirmedOrganizationMdsIds(expirationCutoffTime: OffsetDateTime): List<String> {
+        val o = Tables.ORGANIZATION
+
+        return dsl.select(o.MDS_ID)
+            .from(o)
+            .where(o.REGISTRATION_STATUS.eq(OrganizationRegistrationStatus.INVITED))
+            .and(o.CREATED_AT.lt(expirationCutoffTime))
+            .fetch(o.MDS_ID)
+    }
+
+    fun deleteUnconfirmedOrganizations(mdsIds: List<String>): Int {
+        val o = Tables.ORGANIZATION
+
+        return dsl.deleteFrom(o)
+            .where(o.MDS_ID.`in`(mdsIds))
+            .execute()
+    }
 }

@@ -64,9 +64,10 @@ We are awaiting a working Test Process with Sirius, which we can base the produc
       - `Valid post logout redirect URIs`: `/*`
    4. Regenerate client secret for `oauth2-proxy` and `authority-portal-client` clients
       - Clients > `[client]` > Credentials > Regenerate (Client secret)
-   5. Select MDS theme for login
+   5. Select MDS theme for login & email templates
       - Select `authority-portal` realm
       - Realm settings > Themes > Login theme: Select `mds-theme`
+      - Realm settings > Themes > Email theme: Select `mds-theme`
    6. Add email settings (Realm settings > Email)
       - At least `From` and `Host` are required
 
@@ -116,6 +117,9 @@ This client must have the following settings:
 - Section `Authentication flow` (Tab `Settings`)
   - Everything disabled
   - `Service accounts roles` enabled
+- Section `Access Settings` (Tab `Settings`)
+  - `Root URL` set to the base URL of the Authority Portal Frontend (e.g. `https://authority-portal.my-org.com`)
+  - `Home URL` set to the same value as `Root URL`
 - Tab `Client scopes`
   - Add client scope `roles` as a default scope to the client
 - Service account roles (Tab `Service Account Roles`)
@@ -143,6 +147,8 @@ quarkus.log.level: INFO # Log level for backend logging (ERROR, INFO, DEBUG, etc
 authority-portal.connectors.url.frontend: / # Connector base URL extension: Frontend path
 authority-portal.connectors.url.management: /api/management # Connector base URL exception: Managemant API path
 authority-portal.connectors.url.endpoint: /api/dsp # Connector base URL extension: Endpoint path (primarly used by broker)
+authority-portal.invitation.expiration: 43200 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
+authority-portal.base-url: https://authority-portal.my-org.com # Must equal the root URL/home URl from the Keycloak configuration - see above)
 # Following is **one** deployment environment configuration. (See hint below)
 authority-portal.deployment.environments.test.title: Test # Env: Title of the deployment environment configuration
 authority-portal.deployment.environments.test.position: 0  # Env: Order of environments, from 0 (default) to n (least important)

@@ -34,10 +34,13 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Connectors now regularly try to re-register to Broker if previous attempts failed
 - User details in the organization member list can now show more details
 - Authority admins can no longer provide connectors for other organizations
+- Backend: Sync organization data to MDS Broker(s) (Dependency from Broker development)
+- Removed Provide Connector Feature
 
 #### Patch
 
 - Start page Iframe won't show if url is not set in the app-config.json
+- Issue with Env selector not updating while creating connector is fixed
 
 ### Deployment Migration Notes
 
@@ -46,6 +49,75 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
 - Broker Server: `{{ broker version }}`
+
+## [v0.3.1] - 2024-01-22
+
+### Overview
+
+### Detailed Changes
+
+Patch Release for DB migrations.
+
+#### Patch
+
+- Fixed an issue with DB migrations, causing deployments on older DB states to fail
+
+### Deployment Migration Notes
+
+_For further information check out our [Productive Deployment Guide](README.md#productive-deployment-guide)._
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:0.3.1`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:0.3.1`
+- Broker Server: `3.2.1`
+
+## [v0.3.0] - 2024-01-19
+
+### Overview
+
+Added central component management, fixed multiple bugs and pushing organization metadata to Broker.
+
+### Detailed Changes
+
+#### Minor
+
+- Operator Admins can now manage central dataspace components and add them to the DAPS (closes [#334](https://github.com/sovity/authority-portal/issues/334) & [#403](https://github.com/sovity/authority-portal/issues/403))
+- Now pushing organization metadata to MDS Brokers (Dependency from Broker development)
+- Removed the ability to provide connectors for Authority roles (closes [#390](https://github.com/sovity/authority-portal/issues/390))
+- Improved the invitation & confirmation e-mail templates (closes [#241](https://github.com/sovity/authority-portal/issues/241) & [#331](https://github.com/sovity/authority-portal/issues/331))
+- Added product documentation: Registraion processes, roles and rights, user onboarding
+
+#### Patch
+
+*Bugfixes*
+
+- Fixed an issue with the environment switcher (closes [#361](https://github.com/sovity/authority-portal/issues/361))
+- Fixed an issue where users could not be re-invited after failing to confirm their registration in time (closes [#423](https://github.com/sovity/authority-portal/issues/423))
+- Fixed Connector URLs not being validated (closes [#442](https://github.com/sovity/authority-portal/issues/442))
+- Fixed an issue where the user got stuck in Keycloak after registration/login (closes [#424](https://github.com/sovity/authority-portal/issues/424))
+- Fixed an issue where the scroll bar would not appear (closes [#440](https://github.com/sovity/authority-portal/issues/440))
+
+*Other*
+
+- Reworded texts on landing page (closes [#535](https://github.com/sovity/authority-portal/issues/535))
+
+### Deployment Migration Notes
+
+- Portal Backend
+    - Added an environment variable `authority-portal.invitation.expiration = 43200`
+    - Added an environment variable `authority-portal.base-url: https://authority-portal.my-org.com`
+    - The `authority-portal-client` in Keycloak needs to be updated with new configuration
+        - Root URL: same as the environment variable `authority-portal.base-url`
+        - Home URL: same as the root URL
+
+_For further information check out our [Productive Deployment Guide](README.md#productive-deployment-guide)._
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:0.3.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:0.3.0`
+- Broker Server: `3.2.1`
 
 ## [v0.2.1] - 2024-01-09
 
@@ -76,7 +148,8 @@ Patch release, regarding bugfixes and styling issues.
   - Add environment variable `authority-portal.connectors.url.frontend: /`
   - Add environment variable `authority-portal.connectors.url.management: /api/management`
   - Add environment variable `authority-portal.connectors.url.endpoint: /api/dsp`
-    _For further information check out our [Productive Deployment Guide](README.md#productive-deployment-guide)._
+
+_For further information check out our [Productive Deployment Guide](README.md#productive-deployment-guide)._
 
 #### Compatible Versions
 
