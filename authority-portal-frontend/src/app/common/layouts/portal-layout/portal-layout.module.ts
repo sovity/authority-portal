@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
+import {DevUtilsModule} from '../../components/dev-utils/dev-utils.module';
 import {PipesAndDirectivesModule} from '../../components/pipes-and-directives/pipes-and-directives.module';
 import {MaterialModule} from '../../material/material.module';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
@@ -17,15 +18,15 @@ import {UserSettingsComponent} from './user-settings/user-settings.component';
 @NgModule({
   imports: [
     // Angular
-    CommonModule,
     BrowserModule,
+    CommonModule,
+    MaterialModule,
+    PipesAndDirectivesModule,
     RouterModule,
 
-    MaterialModule,
-
-    PipesAndDirectivesModule,
     // Authority Portal
     SharedModule,
+    DevUtilsModule,
   ],
   declarations: [
     BreadcrumbComponent,

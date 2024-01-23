@@ -1,47 +1,51 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
+import {GlobalState} from 'src/app/core/global-state/global-state';
 import {SwitchEnvironment} from 'src/app/core/global-state/global-state-actions';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 
-export const ENV: string[] = ['Development', 'Staging', 'Production'];
 @Component({
   selector: 'app-env-switcher',
   templateUrl: './env-switcher.component.html',
 })
 export class EnvSwitcherComponent implements OnInit {
   @Input() deploymentEnvironments: DeploymentEnvironmentDto[] = [];
-  envControl: FormControl<string>;
 
-  constructor(public store: Store, private globalStateUtils: GlobalStateUtils) {
-    this.envControl = new FormControl<string>('') as FormControl<string>;
-  }
+  selectedEnvironmentId!: string;
+  state!: GlobalState;
+
+  constructor(
+    public store: Store,
+    private globalStateUtils: GlobalStateUtils,
+  ) {}
 
   ngOnInit(): void {
+    this.listenToAvailableEnvironments();
     this.setDefaultEnvironment();
-    this.startListeningToForm();
   }
 
-  startListeningToForm() {
-    this.envControl.valueChanges
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((value) => {
-        const selectedEnvironment = this.deploymentEnvironments.find(
-          (env) => env.environmentId === value,
-        );
-        if (selectedEnvironment)
-          this.store.dispatch(new SwitchEnvironment(selectedEnvironment));
+  selectEnvironment(environment: DeploymentEnvironmentDto) {
+    this.selectedEnvironmentId = environment.environmentId;
+    this.store.dispatch(new SwitchEnvironment(environment));
+  }
+
+  private listenToAvailableEnvironments() {
+    this.globalStateUtils
+      .getDeploymentEnvironments()
+      .subscribe((environments: DeploymentEnvironmentDto[]) => {
+        this.deploymentEnvironments = environments;
       });
   }
 
-  setDefaultEnvironment() {
+  private setDefaultEnvironment() {
     this.globalStateUtils
       .getDeploymentEnvironmentId()
       .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((value) => {
-        this.envControl.setValue(value);
+      .subscribe((environmentId: string) => {
+        this.selectedEnvironmentId = environmentId;
       });
   }
 

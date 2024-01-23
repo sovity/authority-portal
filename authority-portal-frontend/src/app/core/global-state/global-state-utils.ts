@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, distinctUntilChanged, filter, first, share} from 'rxjs';
+import {Observable, distinctUntilChanged, filter, first} from 'rxjs';
 import {
   distinctUntilKeyChanged,
   map,
@@ -8,9 +8,8 @@ import {
   switchMap,
   take,
   takeUntil,
-  tap,
 } from 'rxjs/operators';
-import {Select, Store, createSelector} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {
   DeploymentEnvironmentDto,
   UserInfo,
@@ -57,6 +56,15 @@ export class GlobalStateUtils {
 
   getDeploymentEnvironment(): Observable<DeploymentEnvironmentDto> {
     return this.deploymentEnvironment$.pipe(map((environment) => environment));
+  }
+
+  getDeploymentEnvironments(): Observable<DeploymentEnvironmentDto[]> {
+    return this.store.select<GlobalState>(GlobalStateImpl).pipe(
+      map((state) => state.deploymentEnvironments),
+      filter((it) => it.isReady),
+      map((it) => it.data),
+      distinctUntilChanged(),
+    );
   }
 
   onDeploymentEnvironmentChangeSkipFirst(opt: {

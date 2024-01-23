@@ -1,9 +1,14 @@
-<div class="fixed top-40 right-0 z-50rounded-sm">
-  <div class="flex flex-col">
-    <form>
-      <app-env-select
-        [control]="envControl"
-        [environments]="deploymentEnvironments"></app-env-select>
-    </form>
-  </div>
+<div
+  class="flex justify-center items-center border border-gray-200 rounded-full px-2 py-1 gap-2 mr-3">
+  <button
+    *ngFor="let environment of deploymentEnvironments"
+    id="{{ environment.environmentId }}"
+    class="px-3 py-1 text-gray-500 text-sm rounded-full transition-colors duration-300 ease-in-out"
+    [class.bg-brand-golden]="
+      selectedEnvironmentId === environment.environmentId
+    "
+    [class.text-white]="selectedEnvironmentId === environment.environmentId"
+    (click)="selectEnvironment(environment)">
+    {{ environment.title }}
+  </button>
 </div>
