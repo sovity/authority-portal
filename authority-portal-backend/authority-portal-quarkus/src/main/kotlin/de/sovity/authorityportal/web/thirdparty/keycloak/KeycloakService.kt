@@ -3,13 +3,13 @@ package de.sovity.authorityportal.web.thirdparty.keycloak
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.ApplicationRole
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
+import de.sovity.authorityportal.web.thirdparty.keycloak.model.RequiredAction
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import jakarta.ws.rs.WebApplicationException
 import jakarta.ws.rs.core.Response
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.keycloak.admin.client.Keycloak
-import org.keycloak.models.UserModel.RequiredAction
 import org.keycloak.representations.idm.GroupRepresentation
 import org.keycloak.representations.idm.UserRepresentation
 
@@ -35,9 +35,9 @@ class KeycloakService {
         val user = UserRepresentation().also {
             it.isEnabled = true
             it.requiredActions = listOf(
-                RequiredAction.UPDATE_PASSWORD.toString(),
-                RequiredAction.CONFIGURE_TOTP.toString(),
-                RequiredAction.VERIFY_EMAIL.toString()
+                RequiredAction.UPDATE_PASSWORD.stringRepresentation,
+                RequiredAction.CONFIGURE_TOTP.stringRepresentation,
+                RequiredAction.VERIFY_EMAIL.stringRepresentation
             )
             it.email = email
             it.firstName = firstName
@@ -93,17 +93,6 @@ class KeycloakService {
         keycloak.realm(keycloakRealm).users().get(userId).update(user)
     }
 
-    /**
-     * Retrieves the effective realm-level roles for a user specified by [userId].
-     *
-     * This function uses Keycloak to retrieve the effective realm-level roles for the specified user.
-     * It filters the roles to include only those starting with "UR_" or "AR_".
-     *
-     * @param userId The ID of the user for whom to retrieve roles.
-     * @return A set of strings representing the effective realm-level roles for the user.
-     * @see keycloak.realm
-     * @see RoleRepresentation
-     */
     fun getUserRoles(userId: String): Set<String> {
         return keycloak.realm(keycloakRealm).users().get(userId).roles().realmLevel()
             .listEffective()
@@ -115,8 +104,7 @@ class KeycloakService {
     fun getOrganizationMembers(mdsId: String): List<KeycloakUserDto> {
         val groups = keycloak.realm(keycloakRealm).groups()
         val orgGroupId = groups.groups().find { it.name == mdsId }?.id ?: return emptyList()
-        val subGroupIds = keycloak.realm(keycloakRealm).groups()
-            .group(orgGroupId).toRepresentation().subGroups.associate { it.name to it.id }.values
+        val subGroupIds = getSubGroupIds(orgGroupId).values
 
         var orgMembers: List<KeycloakUserDto> = emptyList()
         subGroupIds.forEach() { subGroupId ->
@@ -142,7 +130,7 @@ class KeycloakService {
         val orgGroupId = keycloak.realm(keycloakRealm).groups()
             .groups(organization.name, 0, 1).firstOrNull()!!.id
 
-        OrganizationRole.values().forEach {
+        OrganizationRole.entries.forEach {
             val subGroup = GroupRepresentation().apply {
                 name = it.kcSubGroupName
             }
@@ -150,11 +138,10 @@ class KeycloakService {
         }
 
         // Add roles to subgroups
-        val subGroupIds = keycloak.realm(keycloakRealm).groups()
-            .group(orgGroupId).toRepresentation().subGroups.associate { it.name to it.id }
+        val subGroupIds = getSubGroupIds(orgGroupId)
         val roles = keycloak.realm(keycloakRealm).roles().list().associateBy { it.name }
 
-        OrganizationRole.values().forEach {
+        OrganizationRole.entries.forEach {
             val subGroupId = subGroupIds[it.kcSubGroupName]!!
             val role = roles[it.userRole]!!
 
@@ -181,10 +168,9 @@ class KeycloakService {
         val user = keycloak.realm(keycloakRealm).users().get(userId)
         val orgGroupId = keycloak.realm(keycloakRealm).groups()
             .groups(mdsId, 0, 1).firstOrNull()!!.id
-        val subGroupIds = keycloak.realm(keycloakRealm).groups()
-            .group(orgGroupId).toRepresentation().subGroups.associate { it.name to it.id }
+        val subGroupIds = getSubGroupIds(orgGroupId)
 
-        OrganizationRole.values().forEach {
+        OrganizationRole.entries.forEach {
             val subGroupId = subGroupIds[it.kcSubGroupName]!!
 
             if (it == role) {
@@ -205,7 +191,7 @@ class KeycloakService {
     fun joinApplicationRole(userId: String, role: ApplicationRole) {
         val user = keycloak.realm(keycloakRealm).users().get(userId)
 
-        ApplicationRole.values().forEach {
+        ApplicationRole.entries.forEach {
             val roleGroupId = keycloak.realm(keycloakRealm).groups()
                 .groups(it.kcGroupName, 0, 1).firstOrNull()!!.id
 
@@ -220,7 +206,7 @@ class KeycloakService {
     fun clearApplicationRole(userId: String) {
         val user = keycloak.realm(keycloakRealm).users().get(userId)
 
-        ApplicationRole.values().forEach {
+        ApplicationRole.entries.forEach {
             val roleGroupId = keycloak.realm(keycloakRealm).groups()
                 .groups(it.kcGroupName, 0, 1).firstOrNull()!!.id
 
@@ -234,12 +220,17 @@ class KeycloakService {
 
     fun sendInvitationEmail(userId: String) {
         val actions = listOf(
-            RequiredAction.UPDATE_PASSWORD.toString(),
-            RequiredAction.CONFIGURE_TOTP.toString(),
-            RequiredAction.VERIFY_EMAIL.toString()
+            RequiredAction.UPDATE_PASSWORD.stringRepresentation,
+            RequiredAction.CONFIGURE_TOTP.stringRepresentation,
+            RequiredAction.VERIFY_EMAIL.stringRepresentation
         )
         keycloak.realm(keycloakRealm).users().get(userId).executeActionsEmail(keycloakClientId, baseUrl, actions)
     }
+
+    private fun getSubGroupIds(groupId: String)  =
+        keycloak.realm(keycloakRealm).groups().query("", true)
+            .first { it.id == groupId }.subGroups.associate { it.name to it.id }
+
 }
 
 

@@ -3,7 +3,9 @@ package de.sovity.authorityportal.web.utils.idmanagement
 import de.sovity.authorityportal.db.jooq.Tables
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
-import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils
+import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier
+import org.bouncycastle.asn1.x509.SubjectKeyIdentifier
+import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder
 import org.jooq.DSLContext
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
@@ -18,12 +20,13 @@ class ClientIdUtils {
         val certFactory = CertificateFactory.getInstance("X.509")
         val cert = certFactory.generateCertificate(certInputStream) as X509Certificate
 
-        val extUtils = JcaX509ExtensionUtils()
+        val certHolder = JcaX509CertificateHolder(cert)
+        val extensions = certHolder.extensions
 
-        val ski = extUtils.createSubjectKeyIdentifier(cert.publicKey)
+        val ski = SubjectKeyIdentifier.fromExtensions(extensions)
         val skiHex = ski.keyIdentifier.toHexString()
 
-        val aki = extUtils.createAuthorityKeyIdentifier(cert.publicKey)
+        val aki = AuthorityKeyIdentifier.fromExtensions(extensions)
         val akiHex = aki.keyIdentifier.toHexString()
 
         return "$skiHex:keyid:$akiHex"

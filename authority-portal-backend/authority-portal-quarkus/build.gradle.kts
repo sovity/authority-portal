@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.8.22"
-    kotlin("plugin.allopen") version "1.8.22"
+    kotlin("jvm") version "1.9.22"
+    kotlin("plugin.allopen") version "1.9.22"
     id("io.quarkus")
 }
 
@@ -18,7 +18,7 @@ dependencies {
     implementation("io.quarkus:quarkus-scheduler")
     implementation("io.quarkus:quarkus-oidc")
     implementation("io.quarkus:quarkus-keycloak-authorization")
-    implementation("io.quarkus:quarkus-keycloak-admin-client-reactive")
+    implementation("io.quarkus:quarkus-keycloak-admin-client-reactive:3.6.6")
     implementation("io.quarkus:quarkus-elytron-security-properties-file")
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-flyway")
@@ -32,7 +32,8 @@ dependencies {
     implementation("io.quarkus:quarkus-smallrye-health")
     implementation("io.quarkiverse.jooq:quarkus-jooq:2.0.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.bouncycastle:bcprov-jdk15on:1.68")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.77")
+    implementation("org.bouncycastle:bcpkix-jdk18on:1.77")
     implementation(project(":authority-portal-api"))
     implementation(project(":authority-portal-db"))
     implementation("io.quarkus:quarkus-hibernate-validator")
