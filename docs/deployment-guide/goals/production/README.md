@@ -31,7 +31,7 @@ We are awaiting a working Test Process with Sirius, which we can base the produc
 | Deployment Unit           | Version / Details                                                                                 |
 |---------------------------|---------------------------------------------------------------------------------------------------|
 | Reverse Proxy / Ingress   | _Infrastructure dependant_                                                                        |
-| Keycloak Deployment       | Version 22.0.1 or compatible version                                                              |
+| Keycloak Deployment       | Version 23.0.4 or compatible version                                                              |
 | OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                           |
 | Caddy behind OAuth2 Proxy | caddy:2.7                                                                                         |
 | Authority Portal Backend  | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |

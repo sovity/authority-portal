@@ -73,8 +73,34 @@ export class CertificateGenerateService {
     cert.setSubject(attrs);
     cert.setIssuer(attrs);
 
+    cert.setExtensions([
+      {
+        name: 'basicConstraints',
+        cA: false,
+      },
+      {
+        name: 'keyUsage',
+        digitalSignature: true,
+        nonRepudiation: true,
+        keyEncipherment: true,
+        dataEncipherment: true,
+      },
+      {
+        name: 'extKeyUsage',
+        serverAuth: true,
+        clientAuth: true,
+      },
+      {
+        name: 'subjectKeyIdentifier',
+      },
+      {
+        name: 'authorityKeyIdentifier',
+        keyIdentifier: true,
+      },
+    ]);
+
     // Sign the certificate with the key pair
-    cert.sign(keyPair.privateKey);
+    cert.sign(keyPair.privateKey, forge.md.sha256.create());
 
     // Convert certificate to PEM format
     return cert;

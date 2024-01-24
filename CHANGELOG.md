@@ -17,6 +17,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Changed the response format for the following endpoints:
   - `POST /api/organizations/my-org/connectors/create-on-premise`
   - `POST /api/organizations/{mds-id}/connectors/create-service-provided`
+- Upgraded Keycloak dependency to version 23.0.4
 
 #### Minor
 
@@ -43,6 +44,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Issue with Env selector not updating while creating connector is fixed
 
 ### Deployment Migration Notes
+
+- Keycloak IAM needs to be upgrade dto version 23.0.4
+
+_For further information check out our [Productive Deployment Guide](README.md#productive-deployment-guide)._
 
 #### Compatible Versions
 
