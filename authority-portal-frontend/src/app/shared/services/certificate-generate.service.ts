@@ -67,6 +67,14 @@ export class CertificateGenerateService {
       {
         name: 'emailAddress',
         value: attributes['emailAddress'],
+        // Email addresses contain the character '@',
+        // which is invalid for the default field type of PrintableString.
+        // RFC5280 suggests IA5String.
+        // https://datatracker.ietf.org/doc/html/rfc5280#appendix-B
+        // The naming of this attribute and the type definitions are incorrect;
+        // it holds an ASN.1 type, not a class.
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.IA5STRING,
       },
     ];
 
