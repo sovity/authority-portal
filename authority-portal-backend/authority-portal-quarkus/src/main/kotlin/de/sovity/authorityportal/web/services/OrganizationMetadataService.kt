@@ -36,7 +36,7 @@ class OrganizationMetadataService {
     private fun tryPushMetadataForEnvironment(environmentId: String, orgMetadata: List<AuthorityPortalOrganizationMetadata>) {
         try {
             brokerClientService.forEnvironment(environmentId).setOrganizationMetadata(orgMetadata)
-            Log.info("Organization metadata successfully synced to Broker. environmentIds=$environmentId.")
+            Log.info("Organization metadata successfully synced to Broker. environmentId=$environmentId.")
         } catch (e: Exception) {
             Log.error("Failed to sync organization metadata to Broker. Trying again later. environmentId=$environmentId.", e)
         }
