@@ -191,8 +191,14 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
+    override fun organizationsOverviewForAuthority(environmentId: String): OrganizationOverviewResult {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
+        return organizationInfoApiService.organizationsOverview(environmentId)
+    }
+
+    @Transactional
+    override fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
+        authUtils.requiresAnyRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
         return organizationInfoApiService.organizationsOverview(environmentId)
     }
 
@@ -204,8 +210,14 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun organizationDetails(mdsId: String, environmentId: String): OrganizationDetailsDto {
+    override fun organizationDetailsForAuthority(mdsId: String, environmentId: String): OrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
+        return organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)
+    }
+
+    @Transactional
+    override fun organizationDetails(mdsId: String, environmentId: String): OrganizationDetailsDto {
+        authUtils.requiresAnyRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
         return organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)
     }
 
