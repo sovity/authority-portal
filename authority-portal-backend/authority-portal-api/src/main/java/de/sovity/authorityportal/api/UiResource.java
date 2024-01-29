@@ -151,6 +151,17 @@ public interface UiResource {
     @Path("/authority/organizations")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all participating organizations with their status.")
+    OrganizationOverviewResult organizationsOverviewForAuthority(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
+
+    @GET
+    @Path("/organizations")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get all participating organizations with their status. (For Service Partners and Operators)")
     OrganizationOverviewResult organizationsOverview(
         @QueryParam("environmentId")
         @Valid
@@ -168,6 +179,20 @@ public interface UiResource {
     @Path("/authority/organizations/{mdsId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any organization.")
+    OrganizationDetailsDto organizationDetailsForAuthority(
+        @PathParam("mdsId")
+        String mdsId,
+
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
+
+    @GET
+    @Path("/organizations/{mdsId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get details of any organization. (For Service Partners and Operators)")
     OrganizationDetailsDto organizationDetails(
         @PathParam("mdsId")
         String mdsId,
