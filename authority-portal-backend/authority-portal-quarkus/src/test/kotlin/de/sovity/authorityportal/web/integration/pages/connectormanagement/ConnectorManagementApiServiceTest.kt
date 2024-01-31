@@ -40,7 +40,7 @@ class ConnectorManagementApiServiceTest {
     private val test = "test"
     private val connectorId = "MDSL2222BB.CP59I8U"
     private val mdsId = "MDSL1111AA"
-    private val userId = "00000000-0000-0000-0000-00000001"
+    private val userId = "00000000-0000-0000-0000-000000000001"
     private val connectorName = "testName"
     private val connectorLocation = "testLocation"
     private val connectorUrl = "https://test.url"
@@ -107,6 +107,23 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.connectors).hasSize(3)
         assertThat(result.connectors.map { it.id }).allSatisfy { assertThat(it).isNotNull() }
         assertThat(result.connectors.map { it.hostName }).allSatisfy { assertThat(it).isEqualTo("Dev Organization 2") }
+        assertThat(result.connectors.map { it.type }).allSatisfy { assertThat(it).isEqualTo(ConnectorTypeDto.OWN) }
+        assertThat(result.connectors.map { it.environment.environmentId }).allSatisfy { assertThat(it).isEqualTo("test") }
+        assertThat(result.connectors.map { it.environment.title }).allSatisfy { assertThat(it).isEqualTo("Test Environment") }
+        assertThat(result.connectors.map { it.name }).allSatisfy { assertThat(it).isEqualTo("Example Connector") }
+    }
+
+    @Test
+    fun testListAllConnectors() {
+        // act
+        val result = connectorManagementApiService.listAllConnectors(test)
+
+        // assert
+        assertThat(result).isNotNull
+        assertThat(result.connectors).hasSize(5)
+        assertThat(result.connectors.map { it.id }).allSatisfy { assertThat(it).isNotNull() }
+        assertThat(result.connectors.map { it.hostName }).anySatisfy { assertThat(it).isEqualTo("Dev Organization 1") }
+        assertThat(result.connectors.map { it.hostName }).anySatisfy { assertThat(it).isEqualTo("Dev Organization 2") }
         assertThat(result.connectors.map { it.type }).allSatisfy { assertThat(it).isEqualTo(ConnectorTypeDto.OWN) }
         assertThat(result.connectors.map { it.environment.environmentId }).allSatisfy { assertThat(it).isEqualTo("test") }
         assertThat(result.connectors.map { it.environment.title }).allSatisfy { assertThat(it).isEqualTo("Test Environment") }

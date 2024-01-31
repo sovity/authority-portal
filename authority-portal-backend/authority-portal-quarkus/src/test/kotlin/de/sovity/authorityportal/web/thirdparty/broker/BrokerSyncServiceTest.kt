@@ -38,7 +38,7 @@ class BrokerSyncServiceTest {
 
     private val connectorName = "testName"
     private val connectorLocation = "testLocation"
-    private val userId = "00000000-0000-0000-0000-00000001"
+    private val userId = "00000000-0000-0000-0000-000000000001"
     private val mdsId = "MDSL1111AA"
     private val environment = "test"
 

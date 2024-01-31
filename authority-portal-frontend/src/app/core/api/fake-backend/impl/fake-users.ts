@@ -13,8 +13,8 @@ import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {updateOrganization} from './fake-organizations';
 
 export let TEST_USERS: {[key: string]: UserInfo} = {
-  '00000000-0000-0000-0000-00000001': {
-    userId: '00000000-0000-0000-0000-00000001',
+  '00000000-0000-0000-0000-000000000001': {
+    userId: '00000000-0000-0000-0000-000000000001',
     firstName: 'Authority',
     lastName: 'Admin',
     roles: [
@@ -30,8 +30,8 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationMdsId: 'MDSL1111AA',
 
   },
-  '00000000-0000-0000-0000-00000002': {
-    userId: '00000000-0000-0000-0000-00000002',
+  '00000000-0000-0000-0000-000000000002': {
+    userId: '00000000-0000-0000-0000-000000000002',
     firstName: 'Authority',
     lastName: 'User',
     roles: ['AUTHORITY_USER', 'PARTICIPANT_USER'],
@@ -39,8 +39,8 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: 'Authority Organization',
     organizationMdsId: 'MDSL1111AA',
   },
-  '00000000-0000-0000-0000-00000003': {
-    userId: '00000000-0000-0000-0000-00000003',
+  '00000000-0000-0000-0000-000000000003': {
+    userId: '00000000-0000-0000-0000-000000000003',
     firstName: 'Participant',
     lastName: 'Admin',
     roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_CURATOR', 'PARTICIPANT_USER'],
@@ -48,8 +48,8 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: 'Participant Organization',
     organizationMdsId: 'MDSL2222BB',
   },
-  '00000000-0000-0000-0000-00000004': {
-    userId: '00000000-0000-0000-0000-00000004',
+  '00000000-0000-0000-0000-000000000004': {
+    userId: '00000000-0000-0000-0000-000000000004',
     firstName: 'Participant',
     lastName: 'User',
     roles: ['PARTICIPANT_USER'],
@@ -57,8 +57,8 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: 'Participant Organization',
     organizationMdsId: 'MDSL2222BB',
   },
-  '00000000-0000-0000-0000-00000005': {
-    userId: '00000000-0000-0000-0000-00000005',
+  '00000000-0000-0000-0000-000000000005': {
+    userId: '00000000-0000-0000-0000-000000000005',
     firstName: 'Created',
     lastName: 'User',
     roles: [],
@@ -66,8 +66,8 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: '',
     organizationMdsId: '',
   },
-  '00000000-0000-0000-0000-00000006': {
-    userId: '00000000-0000-0000-0000-00000006',
+  '00000000-0000-0000-0000-000000000006': {
+    userId: '00000000-0000-0000-0000-000000000006',
     firstName: 'Pending',
     lastName: 'User',
     roles: [],
@@ -75,8 +75,8 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: '',
     organizationMdsId: 'MDSL5555EE',
   },
-  '00000000-0000-0000-0000-00000007': {
-    userId: '00000000-0000-0000-0000-00000007',
+  '00000000-0000-0000-0000-000000000007': {
+    userId: '00000000-0000-0000-0000-000000000007',
     firstName: 'Service Partner',
     lastName: 'PartAdmin',
     roles: [
@@ -89,8 +89,8 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: 'Service Partner Organization',
     organizationMdsId: 'MDSL7777AA',
   },
-  '00000000-0000-0000-0000-00000008': {
-    userId: '00000000-0000-0000-0000-00000008',
+  '00000000-0000-0000-0000-000000000008': {
+    userId: '00000000-0000-0000-0000-000000000008',
     firstName: 'Service Partner',
     lastName: 'PartUser',
     roles: ['PARTICIPANT_USER'],
@@ -98,8 +98,8 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: 'Service Partner Organization',
     organizationMdsId: 'MDSL7777AA',
   },
-  '00000000-0000-0000-0000-00000009': {
-    userId: '00000000-0000-0000-0000-00000009',
+  '00000000-0000-0000-0000-000000000009': {
+    userId: '00000000-0000-0000-0000-000000000009',
     firstName: 'Operator',
     lastName: 'Admin',
     roles: [
@@ -112,8 +112,8 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: 'Operator Organization',
     organizationMdsId: 'MDSL8888EE',
   },
-  '00000000-0000-0000-0000-00000010': {
-    userId: '00000000-0000-0000-0000-00000010',
+  '00000000-0000-0000-0000-000000000010': {
+    userId: '00000000-0000-0000-0000-000000000010',
     firstName: 'Operator',
     lastName: 'User',
     roles: ['PARTICIPANT_USER'],
@@ -121,13 +121,22 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: 'Operator Organization',
     organizationMdsId: 'MDSL8888EE',
   },
+  '00000000-0000-0000-0000-00000011': {
+    userId: '00000000-0000-0000-0000-00000011',
+    firstName: 'Rejected',
+    lastName: 'User',
+    roles: ['PARTICIPANT_USER'],
+    registrationStatus: 'REJECTED',
+    organizationName: '',
+    organizationMdsId: '',
+  },
 };
 
 /**
  * Currently "logged-in user" for local dev UI
  */
 let currentlyLoggedInUser: UserInfo =
-  TEST_USERS['00000000-0000-0000-0000-00000001'];
+  TEST_USERS['00000000-0000-0000-0000-000000000001'];
 
 /**
  * Update currently logged-in User for local dev UI

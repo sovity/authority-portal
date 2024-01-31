@@ -27,7 +27,7 @@ class OrganizationRegistrationApiServiceTest {
     fun shouldApproveOrganization() {
         // arrange
         val mdsId = "MDSL2222CC"
-        val userId = "00000000-0000-0000-0000-00000008"
+        val userId = "00000000-0000-0000-0000-000000000008"
 
         // act
         val result = organizationRegistrationApiService.approveOrganization(mdsId, userId)
@@ -44,7 +44,7 @@ class OrganizationRegistrationApiServiceTest {
     fun shouldRejectOrganization() {
         // arrange
         val mdsId = "MDSL3334C4"
-        val userId = "00000000-0000-0000-0000-00000005"
+        val userId = "00000000-0000-0000-0000-000000000005"
 
         // act
         val result = organizationRegistrationApiService.rejectOrganization(mdsId, userId)
@@ -60,7 +60,7 @@ class OrganizationRegistrationApiServiceTest {
     @Test
     fun shouldThrowExceptionForRejectOrganization() {
         assertThatThrownBy {
-            organizationRegistrationApiService.rejectOrganization("MDSL2222BB", "00000000-0000-0000-0000-00000007")
+            organizationRegistrationApiService.rejectOrganization("MDSL2222BB", "00000000-0000-0000-0000-000000000007")
         }.isInstanceOf(NotAuthorizedException::class.java)
     }
 }

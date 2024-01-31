@@ -33,7 +33,7 @@ class UserInfoApiServiceTest {
 
     lateinit var keycloakService: KeycloakService
 
-    val userId = "00000000-0000-0000-0000-00000001";
+    val userId = "00000000-0000-0000-0000-000000000001";
 
 
     @BeforeEach

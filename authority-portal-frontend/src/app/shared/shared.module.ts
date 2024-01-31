@@ -68,6 +68,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
 export class SharedModule {
   constructor(private svgIconServiceService: SvgIconServiceService) {
     const iconsList = [
+      'all-connectors',
       'arrow-down-tray',
       'arrow-left-on-rectangle',
       'bell',
@@ -86,6 +87,7 @@ export class SharedModule {
       'question-mark-circle',
       'search',
       'status',
+      'support',
       'tag',
       'user',
       'users',

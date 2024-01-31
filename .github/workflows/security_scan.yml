@@ -2,7 +2,7 @@ name: Trivy Security Scan
 
 on:
   pull_request:
-    branches: ["main"]
+    branches: ["main", "*-bugfixing" ]
 
 jobs:
   security_scan:

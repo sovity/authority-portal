@@ -31,6 +31,7 @@ export class AuthorityOrganizationListPageStateImpl {
       switchMap((deploymentEnvironmentId) =>
         this.apiService.getOrganizations(deploymentEnvironmentId),
       ),
+      tap((res) => console.log(res)),
       map((result) => result.organizations),
       Fetched.wrap({failureMessage: 'Failed loading organizations'}),
       tap((organizations) => this.organizationsRefreshed(ctx, organizations)),

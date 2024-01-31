@@ -10,6 +10,7 @@ import {OrganizationCreatePageComponent} from './organization-create-page/organi
 import {OrganizationCreatePageStateImpl} from './organization-create-page/state/organization-create-page-state-impl';
 import {OrganizationPendingPageComponent} from './organization-pending-page/organization-pending-page.component';
 import {RegistrationProcessWizardComponent} from './registration-process-wizard.component';
+import { OrganizationRejectedPageComponent } from './organization-rejected-page/organization-rejected-page.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import {RegistrationProcessWizardComponent} from './registration-process-wizard.
     RegistrationProcessWizardComponent,
     OrganizationCreatePageComponent,
     OrganizationPendingPageComponent,
+    OrganizationRejectedPageComponent,
   ],
   exports: [RegistrationProcessWizardComponent],
 })

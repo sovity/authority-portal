@@ -1,6 +1,6 @@
 import {Inject, Injectable, NgZone} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ignoreElements, map, tap} from 'rxjs/operators';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError, ignoreElements, map, tap} from 'rxjs/operators';
 import {Action, NgxsOnInit, Selector, State, StateContext} from '@ngxs/store';
 import {
   DeploymentEnvironmentDto,
@@ -56,6 +56,10 @@ export class GlobalStateImpl implements NgxsOnInit {
   @Action(RefreshUserInfo, {cancelUncompleted: true})
   onRefreshUserInfo(ctx: StateContext<GlobalState>): Observable<never> {
     return this.apiService.userProfile().pipe(
+      catchError(() => {
+        window.location.href = '/';
+        return EMPTY;
+      }),
       Fetched.wrap({failureMessage: 'Failed checking session status'}),
       tap((userInfo) => this.onUserInfoRefreshed(ctx, userInfo)),
       ignoreElements(),

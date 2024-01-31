@@ -30,7 +30,7 @@ class UserRoleApiServiceTest {
     @Inject
     lateinit var userRoleApiService: UserRoleApiService
 
-    private val userId = "00000000-0000-0000-0000-00000001"
+    private val userId = "00000000-0000-0000-0000-000000000001"
     private val mdsId = "MDSL1111AA"
 
     lateinit var keycloakService: KeycloakService

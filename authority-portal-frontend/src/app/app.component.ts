@@ -38,6 +38,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private startPollingUserInfo() {
     this.store.dispatch(RefreshUserInfo);
-    interval(5000).subscribe(() => this.store.dispatch(RefreshUserInfo));
+    interval(3000).subscribe(() => this.store.dispatch(RefreshUserInfo));
   }
 }

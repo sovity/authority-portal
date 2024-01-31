@@ -29,7 +29,7 @@ class UserDetailsCsvApiServiceTest {
 
     lateinit var keycloakService: KeycloakService
 
-    private val userId = "00000000-0000-0000-0000-00000010";
+    private val userId = "00000000-0000-0000-0000-000000000010";
 
     @BeforeEach
     fun before() {

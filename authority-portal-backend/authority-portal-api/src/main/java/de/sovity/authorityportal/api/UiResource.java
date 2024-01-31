@@ -170,6 +170,24 @@ public interface UiResource {
     );
 
     @GET
+    @Path("/authority/connectors/{connectorId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get all connectors of all participating organizations.")
+    ConnectorDetailDto getAuthorityConnector(
+        @PathParam("connectorId")
+        String connectorId
+    );
+
+    @GET
+    @Path("/authority/connectors")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get all connectors of all participating organizations.")
+    ConnectorOverviewResult getAllConnectors(
+        @QueryParam("environmentId")
+        String environmentId
+    );
+
+    @GET
     @Path("/organizations/my-org")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of own organization.")

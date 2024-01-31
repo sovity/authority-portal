@@ -35,7 +35,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     dataOfferCount: 0,
     memberList: [
       {
-        userId: '00000000-0000-0000-0000-00000001',
+        userId: '00000000-0000-0000-0000-000000000001',
         firstName: 'Authority',
         lastName: 'Admin',
         roles: [
@@ -44,17 +44,17 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
           'PARTICIPANT_ADMIN',
           'PARTICIPANT_USER',
         ],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
       {
-        userId: '00000000-0000-0000-0000-00000002',
+        userId: '00000000-0000-0000-0000-000000000002',
         firstName: 'Authority',
         lastName: 'User',
         roles: ['AUTHORITY_USER', 'PARTICIPANT_USER'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
     ],
-    adminUserId: '00000000-0000-0000-0000-00000001',
+    adminUserId: '00000000-0000-0000-0000-000000000001',
     adminFirstName: 'Authority',
     adminLastName: 'Admin',
     mainContactName: 'Authority Admin',
@@ -82,21 +82,21 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     dataOfferCount: 0,
     memberList: [
       {
-        userId: '00000000-0000-0000-0000-00000003',
+        userId: '00000000-0000-0000-0000-000000000003',
         firstName: 'Participant',
         lastName: 'Admin',
         roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_CURATOR', 'PARTICIPANT_USER'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
       {
-        userId: '00000000-0000-0000-0000-00000004',
+        userId: '00000000-0000-0000-0000-000000000004',
         firstName: 'Participant',
         lastName: 'User',
         roles: ['PARTICIPANT_USER'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
     ],
-    adminUserId: '00000000-0000-0000-0000-00000003',
+    adminUserId: '00000000-0000-0000-0000-000000000003',
     adminFirstName: 'Participant',
     adminLastName: 'Admin',
     mainContactName: 'Participant Admin',
@@ -128,14 +128,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'John',
         lastName: 'Doe',
         roles: ['PARTICIPANT_ADMIN'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
       {
         userId: '00000000-0000-0000-0000-00000013',
         firstName: 'Jack',
         lastName: 'Doe',
         roles: ['PARTICIPANT_USER'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000012',
@@ -170,14 +170,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'John',
         lastName: 'Doe',
         roles: ['PARTICIPANT_ADMIN'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
       {
         userId: '00000000-0000-0000-0000-00000023',
         firstName: 'Jack',
         lastName: 'Doe',
         roles: ['PARTICIPANT_USER'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000022',
@@ -212,14 +212,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'John',
         lastName: 'Doe',
         roles: ['PARTICIPANT_ADMIN'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
       {
         userId: '00000000-0000-0000-0000-00000033',
         firstName: 'Jack',
         lastName: 'Doe',
         roles: ['PARTICIPANT_USER'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000032',
@@ -254,14 +254,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'John',
         lastName: 'Doe',
         roles: ['PARTICIPANT_ADMIN'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
       {
         userId: '00000000-0000-0000-0000-00000043',
         firstName: 'Jack',
         lastName: 'Doe',
         roles: ['PARTICIPANT_USER'],
-        registrationStatus: 'INVITED'
+        registrationStatus: 'INVITED',
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000042',
@@ -296,14 +296,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
         firstName: 'John',
         lastName: 'Doe',
         roles: ['PARTICIPANT_ADMIN'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
       {
         userId: '00000000-0000-0000-0000-00000053',
         firstName: 'Jack',
         lastName: 'Doe',
         roles: ['PARTICIPANT_USER'],
-        registrationStatus: 'PENDING'
+        registrationStatus: 'PENDING',
       },
     ],
     adminUserId: '00000000-0000-0000-0000-00000052',
@@ -333,7 +333,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdBy: 'Admin',
     memberList: [
       {
-        userId: '00000000-0000-0000-0000-00000007',
+        userId: '00000000-0000-0000-0000-000000000007',
         firstName: 'Service Partner',
         lastName: 'PartAdmin',
         roles: [
@@ -342,14 +342,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
           'PARTICIPANT_CURATOR',
           'PARTICIPANT_USER',
         ],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
       {
-        userId: '00000000-0000-0000-0000-00000008',
+        userId: '00000000-0000-0000-0000-000000000008',
         firstName: 'Service Partner',
         lastName: 'PartUser',
         roles: ['PARTICIPANT_USER'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
     ],
     memberCount: 2,
@@ -380,7 +380,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdBy: 'Admin',
     memberList: [
       {
-        userId: '00000000-0000-0000-0000-00000009',
+        userId: '00000000-0000-0000-0000-000000000009',
         firstName: 'Operator',
         lastName: 'Admin',
         roles: [
@@ -389,14 +389,14 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
           'PARTICIPANT_CURATOR',
           'PARTICIPANT_USER',
         ],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
       {
-        userId: '00000000-0000-0000-0000-00000010',
+        userId: '00000000-0000-0000-0000-000000000010',
         firstName: 'Operator',
         lastName: 'User',
         roles: ['PARTICIPANT_USER'],
-        registrationStatus: 'ACTIVE'
+        registrationStatus: 'ACTIVE',
       },
     ],
     memberCount: 2,

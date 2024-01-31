@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {from, Observable} from 'rxjs';
+import {Observable, from} from 'rxjs';
 import {
   CentralComponentCreateRequest,
   CentralComponentDto,
@@ -108,6 +108,17 @@ export class ApiService {
     return from(this.api().ownOrganizationConnectors({environmentId}));
   }
 
+  // All Connectors
+  getAllConnectors(
+    environmentId?: string,
+  ): Observable<ConnectorOverviewResult> {
+    return from(this.api().getAllConnectors({environmentId}));
+  }
+
+  getAuthorityConnector(connectorId: string): Observable<ConnectorDetailDto> {
+    return from(this.api().getAuthorityConnector({connectorId}));
+  }
+
   getOwnOrganizationConnectorDetails(
     connectorId: string,
   ): Observable<ConnectorDetailDto> {
@@ -132,13 +143,15 @@ export class ApiService {
   }
 
   createProvidedConnector(
-    connector: CreateProvidedConnectorRequest,
+    connector: CreateConnectorRequest,
+    mdsId: string,
+    environmentId: string,
   ): Observable<CreateConnectorResponse> {
     return from(
       this.api().createProvidedConnector({
-        createConnectorRequest: connector.createConnectorRequest,
-        environmentId: connector.environmentId,
-        mdsId: connector.mdsId,
+        createConnectorRequest: connector,
+        mdsId,
+        environmentId,
       }),
     );
   }

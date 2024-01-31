@@ -52,10 +52,15 @@ export class SidebarComponent {
             icon: 'building-office-2',
             rLink: '/authority/organizations',
           },
+          {
+            title: 'Connectors',
+            icon: 'all-connectors',
+            rLink: '/authority/connectors',
+          },
         ],
       },
       {
-        title: 'External Links',
+        title: 'Links',
         userRoles: ['PARTICIPANT_USER'],
         menus: [
           {
@@ -68,6 +73,18 @@ export class SidebarComponent {
             title: 'Test Catalog',
             icon: 'document-text',
             rLink: 'https://catalog.test.mobility-dataspace.eu/',
+            isExternalLink: true,
+          },
+        ],
+      },
+      {
+        title: 'Support',
+        userRoles: ['PARTICIPANT_USER'],
+        menus: [
+          {
+            title: 'Support',
+            icon: 'question-mark-circle',
+            rLink: 'https://mobility-dataspace.online/',
             isExternalLink: true,
           },
         ],

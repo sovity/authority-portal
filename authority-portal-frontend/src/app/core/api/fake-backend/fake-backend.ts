@@ -4,6 +4,7 @@ import {
   ConnectorDetailDtoToJSON,
   ConnectorOverviewResultToJSON,
   CreateConnectorRequestFromJSON,
+  CreateConnectorResponseToJSON,
   CreateOrganizationRequestFromJSON,
   DeploymentEnvironmentDtoToJSON,
   FetchAPI,
@@ -14,13 +15,18 @@ import {
   UserDetailDtoToJSON,
   UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
-import {centralComponentList, createCentralComponent, deleteCentralComponent,} from './impl/central-component-fake';
+import {
+  centralComponentList,
+  createCentralComponent,
+  deleteCentralComponent,
+} from './impl/central-component-fake';
 import {deploymentEnvironmentList} from './impl/deployment-environment-list-fake';
 import {
   createOwnConnector,
   createProvidedConnector,
   deleteOwnConnector,
   getFullConnectorDetails,
+  getListOfAllConnectorsForTable,
   getListOfConnectorsForTable,
 } from './impl/fake-connectors';
 import {
@@ -76,7 +82,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(OrganizationDetailsDtoToJSON(result));
     })
 
-    .url('authority/organizations')
+    .url('organizations')
     .on('GET', () => {
       const result = getListOfOrganizationsForTable();
       return ok(OrganizationOverviewResultToJSON(result));
@@ -87,7 +93,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       throw new Error('TODO');
     })
 
-    .url('authority/organizations/*')
+    .url('organizations/*')
     .on('GET', (mdsId) => {
       const result = getOrganizationDetails(mdsId);
       return ok(OrganizationDetailsDtoToJSON(result));
@@ -121,6 +127,18 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(userId);
     })
 
+    .url('authority/connectors')
+    .on('GET', () => {
+      const result = getListOfAllConnectorsForTable();
+      return ok(ConnectorOverviewResultToJSON(result));
+    })
+
+    .url('authority/connectors/*')
+    .on('GET', (connectorId: string) => {
+      const result = getFullConnectorDetails(null, connectorId);
+      return ok(ConnectorDetailDtoToJSON(result));
+    })
+
     .url('organizations/my-org/connectors')
     .on('GET', () => {
       const mdsId = getUserInfo().organizationMdsId;
@@ -144,7 +162,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       const request = CreateConnectorRequestFromJSON(body);
       const result = createOwnConnector(request);
 
-      return ok(IdResponseToJSON(result));
+      return ok(CreateConnectorResponseToJSON(result));
     })
 
     .url('organizations/my-org/users/invite')
@@ -211,8 +229,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('POST', (clientMdsId) => {
       const request = CreateConnectorRequestFromJSON(body);
       const result = createProvidedConnector(request, clientMdsId);
-
-      return ok(IdResponseToJSON(result));
+      return ok(CreateConnectorResponseToJSON(result));
     })
 
     .url('registration/organization')
