@@ -78,6 +78,23 @@ class ConnectorManagementApiService {
         )
     }
 
+    fun getAuthorityConnectorDetails(connectorId: String): ConnectorDetailDto {
+        val connector = connectorService.getConnectorDetailOrThrow(connectorId)
+
+        return ConnectorDetailDto(
+            connector.connectorId,
+            connector.type.toDto(),
+            connector.orgName,
+            connector.orgMdsId,
+            connector.hostName,
+            connector.hostMdsId,
+            deploymentEnvironmentDtoService.findByIdOrThrow(connector.environment),
+            connector.connectorName,
+            connector.location,
+            connector.url
+        )
+    }
+
     fun listOrganizationConnectors(mdsId: String, environmentId: String): ConnectorOverviewResult {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
@@ -87,6 +104,25 @@ class ConnectorManagementApiService {
             ConnectorOverviewEntryDto(
                 it.connectorId,
                 organizationService.getOrganizationOrThrow(it.providerMdsId).name,
+                it.type.toDto(),
+                deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
+                it.name
+            )
+        }
+
+        return ConnectorOverviewResult(connectorDtos)
+    }
+
+    fun listAllConnectors(environmentId: String): ConnectorOverviewResult {
+        deploymentEnvironmentService.assertValidEnvId(environmentId)
+
+        val connectors = connectorService.getConnectorsByEnvironment(environmentId)
+        val orgNames = organizationService.getAllOrganizationNames()
+
+        val connectorDtos = connectors.map {
+            ConnectorOverviewEntryDto(
+                it.connectorId,
+                orgNames[it.providerMdsId] ?: "Unknown",
                 it.type.toDto(),
                 deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
                 it.name

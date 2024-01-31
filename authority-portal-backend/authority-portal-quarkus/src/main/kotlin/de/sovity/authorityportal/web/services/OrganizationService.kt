@@ -35,6 +35,17 @@ class OrganizationService {
             .fetch()
     }
 
+    /**
+     * Returns a map of all organizations with their MDS ID as key and their name as value.
+     */
+    fun getAllOrganizationNames(): Map<String, String> {
+        val o = Tables.ORGANIZATION
+
+        return dsl.select(o.MDS_ID, o.NAME)
+            .from(o)
+            .fetchMap(o.MDS_ID, o.NAME)
+    }
+
     fun createOrganization(
         userId: String,
         mdsId: String,

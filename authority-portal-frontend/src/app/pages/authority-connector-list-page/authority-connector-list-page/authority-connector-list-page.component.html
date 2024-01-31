@@ -1,0 +1,152 @@
+<section class="container px-4 mt-10 mb-20 mx-auto">
+  <div class="sm:flex sm:items-center sm:justify-between">
+    <div>
+      <div class="flex items-center gap-x-3">
+        <h2 class="text-lg font-medium text-gray-800">All Connectors</h2>
+      </div>
+
+      <p class="mt-1 text-sm text-gray-700">
+        All connectors of all organizations.
+      </p>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="flex flex-col mt-6">
+    <app-env-banner class="w-full"></app-env-banner>
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-200">
+              <tr class="bg-gray-100">
+                <th
+                  class="py-3.5 pl-3 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Connector ID
+                </th>
+
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Host
+                </th>
+
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Type
+                </th>
+
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Environment
+                </th>
+
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Name
+                </th>
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Details
+                </th>
+              </tr>
+            </thead>
+
+            <ng-container *ngIf="state.connectors.isReady">
+              <ng-container
+                *ngIf="state.connectors.data.length > 0; else noRows">
+                <tbody
+                  *ngFor="let connector of state.connectors.data; let i = index"
+                  class="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td class="pl-3 py-8 text-sm font-medium whitespace-nowrap">
+                      <div>
+                        <h4 class="font-medium text-gray-800">
+                          {{ connector.id }}
+                        </h4>
+                      </div>
+                    </td>
+                    <td class="py-8 text-sm whitespace-nowrap">
+                      <div>
+                        <h4 class="text-gray-700">
+                          {{ connector.hostName }}
+                        </h4>
+                      </div>
+                    </td>
+                    <td class="py-8 text-sm whitespace-nowrap">
+                      <div>
+                        <h4 class="text-gray-700">
+                          {{ connector.type }}
+                        </h4>
+                      </div>
+                    </td>
+                    <td class="py-8 text-sm whitespace-nowrap">
+                      <div>
+                        <h4 class="text-gray-700">
+                          {{ connector.environment.title }}
+                        </h4>
+                      </div>
+                    </td>
+                    <td class="py-8 text-sm font-medium whitespace-nowrap">
+                      <div
+                        class="inline py-1 text-sm font-normal rounded-full gap-x-2">
+                        {{ connector.name }}
+                      </div>
+                    </td>
+                    <td class="py-8 text-sm whitespace-nowrap">
+                      <a
+                        class="py-1 text-gray-600 transition-colors duration-200 rounded-lg"
+                        routerLink="/authority/connectors/{{ connector.id }}">
+                        <svg
+                          class="w-6 h-6"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5">
+                          <path
+                            d="M12 22.4199C17.5228 22.4199 22 17.9428 22 12.4199C22 6.89707 17.5228 2.41992 12 2.41992C6.47715 2.41992 2 6.89707 2 12.4199C2 17.9428 6.47715 22.4199 12 22.4199Z"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round" />
+                          <path
+                            d="M10.5596 8.41992L13.6196 11.29C13.778 11.4326 13.9047 11.6068 13.9914 11.8015C14.0781 11.9962 14.123 12.2068 14.123 12.4199C14.123 12.633 14.0781 12.8439 13.9914 13.0386C13.9047 13.2332 13.778 13.4075 13.6196 13.55L10.5596 16.4199"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        </svg>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+              <ng-template #noRows>
+                <tr>
+                  <td
+                    class="py-5 mx-auto text-sm font-normal text-center text-gray-700"
+                    colspan="6">
+                    No connectors registered yet.
+                  </td>
+                </tr>
+              </ng-template>
+            </ng-container>
+
+            <tr *ngIf="state.connectors.isLoading">
+              <td colspan="6">
+                <div class="flex justify-center items-center">
+                  <app-loading-element></app-loading-element>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

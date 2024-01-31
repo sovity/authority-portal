@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ignoreElements, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
+import {CreateConnectorResponse} from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
@@ -42,19 +43,38 @@ export class ParticipantRegisterOwnConnectorPageStateImpl {
     action.disableForm();
 
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
-      switchMap((deploymentEnvironmentId) =>
-        this.apiService.createOwnConnector(
-          action.request,
-          deploymentEnvironmentId,
-        ),
+      switchMap(
+        (deploymentEnvironmentId): Observable<CreateConnectorResponse> =>
+          this.apiService.createOwnConnector(
+            action.request,
+            deploymentEnvironmentId,
+          ),
       ),
-      tap(() => {
-        this.toast.showSuccess(
-          `Connector ${action.request.name} created successfully`,
-        );
-        ctx.patchState({state: 'success'});
-
-        this.router.navigate(['/my-organization', 'connectors']);
+      tap((res) => {
+        switch (res.status) {
+          case 'OK':
+            this.toast.showSuccess(
+              `Connector ${action.request.name} created successfully`,
+            );
+            ctx.patchState({state: 'success'});
+            this.router.navigate(['/my-organization', 'connectors']);
+            break;
+          case 'WARNING':
+            this.toast.showWarning(
+              res?.message ||
+                'A problem occurred while registering the connector.',
+            );
+            ctx.patchState({state: 'success'});
+            this.router.navigate(['/my-organization', 'connectors']);
+            break;
+          case 'ERROR':
+            this.toast.showDanger(
+              res?.message || 'Failed registering connector',
+            );
+            ctx.patchState({state: 'error'});
+            action.enableForm();
+            break;
+        }
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
       this.errorService.toastFailureRxjs('Failed registering connector', () => {

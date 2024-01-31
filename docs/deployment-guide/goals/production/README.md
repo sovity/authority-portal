@@ -62,13 +62,16 @@ We are awaiting a working Test Process with Sirius, which we can base the produc
       - `Home URL`: (Most likely) same as `Root URL`
       - `Valid Redirect URIs`: (Relative) callback URL of auth proxy, e.g. `/oauth2/callback`
       - `Valid post logout redirect URIs`: `/*`
-   4. Regenerate client secret for `oauth2-proxy` and `authority-portal-client` clients
+   4. Adjust settings for `authority-portal-client` client (Clients > `authority-portal-client` > Settings)
+      - `Root URL`: URL of the authority portal, e.g. `https://authority-portal.example.url`
+      - `Home URL`: (Most likely) same as `Root URL`
+   5. Regenerate client secrets for `oauth2-proxy` and `authority-portal-client` clients
       - Clients > `[client]` > Credentials > Regenerate (Client secret)
-   5. Select MDS theme for login & email templates
+   6. Select MDS theme for login & email templates
       - Select `authority-portal` realm
       - Realm settings > Themes > Login theme: Select `mds-theme`
       - Realm settings > Themes > Email theme: Select `mds-theme`
-   6. Add email settings (Realm settings > Email)
+   7. Add email settings (Realm settings > Email)
       - At least `From` and `Host` are required
 
 #### OAuth2 Proxy
@@ -117,9 +120,6 @@ This client must have the following settings:
 - Section `Authentication flow` (Tab `Settings`)
   - Everything disabled
   - `Service accounts roles` enabled
-- Section `Access Settings` (Tab `Settings`)
-  - `Root URL` set to the base URL of the Authority Portal Frontend (e.g. `https://authority-portal.my-org.com`)
-  - `Home URL` set to the same value as `Root URL`
 - Tab `Client scopes`
   - Add client scope `roles` as a default scope to the client
 - Service account roles (Tab `Service Account Roles`)

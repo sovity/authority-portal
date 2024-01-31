@@ -37,7 +37,7 @@ class CentralComponentManagementApiServiceTest {
     private val testComponentUrl = "https://xample.com/broker"
     private val testComponentEndpointUrl = "https://xample.com/broker/endpoint"
 
-    private val userId = "00000000-0000-0000-0000-00000001"
+    private val userId = "00000000-0000-0000-0000-000000000001"
     private val mdsId = "MDSL1111AA"
     private val envId = "test"
 

@@ -8,6 +8,8 @@ import {UserProfilePageComponent} from 'src/app/pages/user-profile-page/user-pro
 import {UserRoleDto} from '../../../authority-portal-backend/authority-portal-api-client-ts';
 import {requiresRole} from './common/auth/requires-role-guard';
 import {PortalLayoutComponent} from './common/layouts/portal-layout/portal-layout/portal-layout.component';
+import {AuthorityConnectorDetailPageComponent} from './pages/authority-connector-detail-page/authority-connector-detail-page/authority-connector-detail-page.component';
+import {AuthorityConnectorListPageComponent} from './pages/authority-connector-list-page/authority-connector-list-page/authority-connector-list-page.component';
 import {AuthorityOrganizationDetailPageComponent} from './pages/authority-organization-detail-page/authority-organization-detail-page/authority-organization-detail-page.component';
 import {AuthorityOrganizationListPageComponent} from './pages/authority-organization-list-page/authority-organization-list-page/authority-organization-list-page.component';
 import {CentralComponentCreatePageComponent} from './pages/central-component-create-page/central-component-create-page/central-component-create-page.component';
@@ -21,6 +23,7 @@ import {ParticipantRegisterOwnConnectorPageComponent} from './pages/participant-
 import {RegisterConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/register-connector-page/register-connector-page.component';
 import {RequestConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/request-connector-page/request-connector-page.component';
 import {SetupConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/setup-connector-page/setup-connector-page.component';
+import {ProvideConnectorPageComponent} from './pages/provide-connector-page/provide-connector-page/provide-connector-page.component';
 import {RegistrationProcessWizardComponent} from './pages/registration-process-wizard/registration-process-wizard.component';
 
 export const REGISTRATION_PROCESS_ROUTES: Routes = [
@@ -140,6 +143,14 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
       {
+        path: 'my-organization/connectors/provide-connector',
+        component: ProvideConnectorPageComponent,
+        data: {
+          requiresRole: ['SERVICE_PARTNER_ADMIN'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
         path: 'my-organization/connectors/:connectorId',
         component: ParticipantOwnConnectorDetailPageComponent,
         data: {
@@ -204,6 +215,23 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
       {
         path: 'authority/organizations/:mdsId/users/:userId',
         component: AuthorityOrganizationUserDetailPageComponent,
+        data: {
+          requiresRole: ['AUTHORITY_USER'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
+        path: 'authority/connectors',
+        component: AuthorityConnectorListPageComponent,
+        data: {
+          requiresRole: ['AUTHORITY_USER'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+
+      {
+        path: 'authority/connectors/:connectorId',
+        component: AuthorityConnectorDetailPageComponent,
         data: {
           requiresRole: ['AUTHORITY_USER'] satisfies UserRoleDto[],
         },

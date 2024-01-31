@@ -203,6 +203,18 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
+    override fun getAuthorityConnector(connectorId: String): ConnectorDetailDto {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
+        return connectorManagementApiService.getAuthorityConnectorDetails(connectorId)
+    }
+
+    @Transactional
+    override fun getAllConnectors(environmentId: String): ConnectorOverviewResult {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
+        return connectorManagementApiService.listAllConnectors(environmentId)
+    }
+
+    @Transactional
     override fun ownOrganizationDetails(): OwnOrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
@@ -308,18 +320,21 @@ class UiResourceImpl : UiResource {
         return registrationApiService.registerUserAndOrganization(registrationRequest)
     }
 
+    @Transactional
     override fun getCentralComponents(environmentId: String): List<CentralComponentDto> {
         authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
         return centralComponentManagementApiService.listCentralComponents(environmentId)
     }
 
+    @Transactional
     override fun createCentralComponent(environmentId: String, centralComponentCreateRequest: CentralComponentCreateRequest): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
         return centralComponentManagementApiService.registerCentralComponent(centralComponentCreateRequest, loggedInUser.userId, loggedInUser.organizationMdsId!!, environmentId)
     }
 
+    @Transactional
     override fun deleteCentralComponent(centralComponentId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()

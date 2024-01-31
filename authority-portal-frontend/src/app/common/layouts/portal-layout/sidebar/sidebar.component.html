@@ -16,43 +16,30 @@
         </p>
       </div>
     </div>
-  </div>
 
-  <div class="flex-grow">
-    <ng-container *ngFor="let section of sidebarSections">
-      <div *ngIf="section.userRoles | hasAnyRole | async">
-        <div class="flex justify-start">
-          <p
-            class="py-3 pl-5 text-xs leading-4 text-gray-300"
-            [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
-            {{ section.title }}
-          </p>
+    <div class="flex-grow">
+      <ng-container *ngFor="let section of sidebarSections">
+        <div *ngIf="section.userRoles | hasAnyRole | async">
+          <div class="flex justify-start">
+            <p
+              class="py-3 pl-5 text-xs leading-4 text-gray-300"
+              [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
+              {{ section.title }}
+            </p>
+          </div>
+
+          <app-sidebar-element
+            *ngFor="let menu of section.menus"
+            class="my-6"
+            #tooltip="matTooltip"
+            matTooltipPosition="right"
+            [matTooltipDisabled]="isExpandedMenu"
+            [matTooltip]="menu.title"
+            [sidebarMenu]="menu"
+            [isExpandedMenu]="isExpandedMenu">
+          </app-sidebar-element>
         </div>
-
-        <app-sidebar-element
-          *ngFor="let menu of section.menus"
-          class="my-6"
-          #tooltip="matTooltip"
-          matTooltipPosition="right"
-          [matTooltipDisabled]="isExpandedMenu"
-          [matTooltip]="menu.title"
-          [sidebarMenu]="menu"
-          [isExpandedMenu]="isExpandedMenu">
-        </app-sidebar-element>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
   </div>
-
-  <app-sidebar-element
-    #tooltip="matTooltip"
-    matTooltipPosition="right"
-    matTooltip="Help"
-    [matTooltipDisabled]="isExpandedMenu"
-    [sidebarMenu]="{
-      title: 'Help',
-      icon: 'question-mark-circle',
-      rLink: '/help'
-    }"
-    [isExpandedMenu]="isExpandedMenu">
-  </app-sidebar-element>
 </div>

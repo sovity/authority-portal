@@ -31,6 +31,10 @@ export class ToastService {
     this.showToast(ToastStyle.Danger, message);
   }
 
+  showWarning(message: string): void {
+    this.showToast(ToastStyle.Warning, message);
+  }
+
   showToast(style: ToastStyle, message: string): void {
     const newToast: ToastNotification = {
       id: this.nextId(),

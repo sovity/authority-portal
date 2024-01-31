@@ -29,7 +29,7 @@ class UserDeactivationApiServiceTest {
     @Test
     fun shouldDeactivateUser() {
         // arrange
-        val userId = "00000000-0000-0000-0000-00000008"
+        val userId = "00000000-0000-0000-0000-000000000008"
         val keycloakService = mock(KeycloakService::class.java)
         doNothing().`when`(keycloakService).deactivateUser(eq(userId))
         doNothing().`when`(keycloakService).forceLogout(eq(userId))
@@ -47,7 +47,7 @@ class UserDeactivationApiServiceTest {
     @Test
     fun shouldReactivateUser() {
         // arrange
-        val userId = "00000000-0000-0000-0000-00000009"
+        val userId = "00000000-0000-0000-0000-000000000009"
         val keycloakService = mock(KeycloakService::class.java)
         doNothing().`when`(keycloakService).reactivateUser(eq(userId))
         doNothing().`when`(keycloakService).forceLogout(eq(userId))

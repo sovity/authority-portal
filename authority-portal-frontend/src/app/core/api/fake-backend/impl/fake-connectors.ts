@@ -3,6 +3,8 @@ import {
   ConnectorOverviewResult,
   ConnectorTypeDto,
   CreateConnectorRequest,
+  CreateConnectorResponse,
+  CreateConnectorStatusDto,
   DeleteOwnConnectorRequest,
   IdResponse,
 } from '@sovity.de/authority-portal-client';
@@ -76,8 +78,22 @@ export const getListOfConnectorsForTable = (
   };
 };
 
+export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {
+  return {
+    connectors: TEST_CONNECTORS.map((c) => {
+      return {
+        id: c.connectorId,
+        hostName: c.hostName,
+        type: c.type,
+        environment: c.environment,
+        name: c.connectorName,
+      };
+    }),
+  };
+};
+
 export const getFullConnectorDetails = (
-  mdsId: string,
+  mdsId: string | null,
   connectorId: string,
 ): ConnectorDetailDto => {
   return TEST_CONNECTORS.filter((c) => c.connectorId === connectorId)[0];
@@ -85,7 +101,7 @@ export const getFullConnectorDetails = (
 
 export const createOwnConnector = (
   request: CreateConnectorRequest,
-): IdResponse => {
+): CreateConnectorResponse => {
   const mdsId = getUserInfo().organizationMdsId;
   const orgName = getUserInfo().organizationName;
   const randomId = generateRandomId(mdsId);
@@ -102,13 +118,17 @@ export const createOwnConnector = (
     location: request.location,
     url: request.url,
   });
-  return {id: randomId, changedDate: new Date()};
+  return {
+    id: randomId,
+    changedDate: new Date(),
+    status: CreateConnectorStatusDto.Ok,
+  };
 };
 
 export const createProvidedConnector = (
   request: CreateConnectorRequest,
   clientMdsId: string,
-): IdResponse => {
+): CreateConnectorResponse => {
   const hostMdsId = getUserInfo().organizationMdsId;
   const hostOrgName = getUserInfo().organizationName;
 
@@ -129,7 +149,11 @@ export const createProvidedConnector = (
     location: request.location,
     url: request.url,
   });
-  return {id: randomId, changedDate: new Date()};
+  return {
+    id: randomId,
+    changedDate: new Date(),
+    status: CreateConnectorStatusDto.Ok,
+  };
 };
 
 export const deleteOwnConnector = (
