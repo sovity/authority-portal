@@ -20,6 +20,16 @@ updates:
     labels:
       - "area/dependency"
       - "area/docker"
+  # Docker
+  - package-ecosystem: "docker"
+    directory: "/authority-portal-backend/authority-portal-quarkus/src/main/docker/"
+    schedule:
+      interval: "daily"
+    target-branch: "main"
+    open-pull-requests-limit: 50
+    labels:
+      - "area/dependency"
+      - "area/docker"
   # Gradle
   - package-ecosystem: "gradle"
     directory: "/authority-portal-backend/"
