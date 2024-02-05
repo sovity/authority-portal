@@ -22,7 +22,9 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     environment: {environmentId: '123', title: 'test'},
     connectorName: 'Example Connector 1',
     location: 'Germany, EU',
-    url: 'https://xample.test1/connector',
+    frontendUrl: 'https://xample.test1/connector',
+    endpointUrl: 'https://xample.test1/connector/api/dsp',
+    managementUrl: 'https://xample.test1/connector/api/management',
   },
   {
     connectorId: 'MDSL2222BB.CP59I8U',
@@ -34,7 +36,9 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     environment: {environmentId: '123', title: 'test'},
     connectorName: 'Example Connector 1',
     location: 'Germany, EU',
-    url: 'https://xample.test1/connector',
+    frontendUrl: 'https://xample.test1/connector',
+    endpointUrl: 'https://xample.test1/connector/api/dsp',
+    managementUrl: 'https://xample.test1/connector/api/management',
   },
   {
     connectorId: 'MDSL2222BB.CFIWWBD',
@@ -46,7 +50,9 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     environment: {environmentId: '123', title: 'test'},
     connectorName: 'Example Connector 2',
     location: 'Germany, EU',
-    url: 'https://xample.test2/connector',
+    frontendUrl: 'https://xample.test2/connector',
+    endpointUrl: 'https://xample.test2/connector/api/dsp',
+    managementUrl: 'https://xample.test2/connector/api/management',
   },
   {
     connectorId: 'MDSL2222BB.CWAQ71U',
@@ -58,7 +64,9 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     environment: {environmentId: '123', title: 'test'},
     connectorName: 'Example Connector',
     location: 'Germany, EU',
-    url: 'https://xample.test3/connector',
+    frontendUrl: 'https://xample.test3/connector',
+    endpointUrl: 'https://xample.test3/connector/api/dsp',
+    managementUrl: 'https://xample.test3/connector/api/management',
   },
 ];
 
@@ -116,7 +124,9 @@ export const createOwnConnector = (
     environment: {environmentId: '123', title: 'test'},
     connectorName: request.name,
     location: request.location,
-    url: request.url,
+    frontendUrl: request.frontendUrl,
+    endpointUrl: request.endpointUrl,
+    managementUrl: request.managementUrl,
   });
   return {
     id: randomId,
@@ -147,7 +157,9 @@ export const createProvidedConnector = (
     environment: {environmentId: '123', title: 'test'},
     connectorName: request.name,
     location: request.location,
-    url: request.url,
+    frontendUrl: request.frontendUrl,
+    endpointUrl: request.endpointUrl,
+    managementUrl: request.managementUrl,
   });
   return {
     id: randomId,

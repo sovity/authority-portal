@@ -28,7 +28,7 @@ class BrokerRedirectApiService {
     private fun buildCatalogUrlWithConnectorFilter(mdsId: String, environmentId: String): String {
         val brokerUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).broker().url()
         val queryString = connectorService.getConnectorsByMdsId(mdsId, environmentId)
-            .map { URLEncoder.encode(it.url, StandardCharsets.UTF_8) }
+            .map { URLEncoder.encode(it.endpointUrl, StandardCharsets.UTF_8) }
             .joinToString("&") { "connectorEndpoint=$it" }
         return "$brokerUrl/catalog?$queryString"
     }

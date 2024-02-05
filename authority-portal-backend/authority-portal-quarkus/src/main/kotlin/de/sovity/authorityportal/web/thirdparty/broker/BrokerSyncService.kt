@@ -29,7 +29,7 @@ class BrokerSyncService {
 
     private fun registerConnectors(envId: String, connectors: List<UnregisteredBrokerConnector>) {
         try {
-            val connectorUrls = connectors.map { it.connectorUrl }
+            val connectorUrls = connectors.map { it.connectorEndpointUrl }
             val connectorIds = connectors.map { it.connectorId }
             brokerClientService.forEnvironment(envId).addConnectors(connectorUrls)
             connectorService.setBrokerRegistrationStatus(connectorIds, ConnectorBrokerRegistrationStatus.REGISTERED)

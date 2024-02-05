@@ -10,7 +10,10 @@ import {LoadingElementModule} from 'src/app/common/components/loading-element/lo
 import {PortalLayoutModule} from 'src/app/common/layouts/portal-layout/portal-layout.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {ParticipantRegisterOwnConnectorPageComponent} from './participant-register-own-connector-page/participant-register-own-connector-page.component';
+import {FormElementsModule} from '../../common/components/form-elements/form-elements.module';
+import {
+  ParticipantRegisterOwnConnectorPageComponent
+} from './participant-register-own-connector-page/participant-register-own-connector-page.component';
 import {ParticipantRegisterOwnConnectorPageStateImpl} from './state/participant-register-own-connector-page-state-impl';
 import {RegisterConnectorPageComponent} from './sub-pages/register-connector-page/register-connector-page.component';
 import {RequestConnectorPageComponent} from './sub-pages/request-connector-page/request-connector-page.component';
@@ -34,6 +37,7 @@ import {SetupConnectorPageComponent} from './sub-pages/setup-connector-page/setu
     NgxsFormPluginModule,
     NgxsModule.forFeature([ParticipantRegisterOwnConnectorPageStateImpl]),
 
+    FormElementsModule,
     LoadingElementModule,
     DevUtilsModule,
     MaterialModule,

@@ -4,46 +4,45 @@ import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfigurat
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadata
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadataRequest
-import de.sovity.authorityportal.web.utils.urlmanagement.ConnectorUrlUtils
 import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder
 import jakarta.ws.rs.core.Response
 import java.net.URI
 
-class BrokerClient(private val brokerConfig: BrokerConfig, private val connectorUrlUtils: ConnectorUrlUtils) {
+class BrokerClient(private val brokerConfig: BrokerConfig) {
 
     private val brokerClientResource = QuarkusRestClientBuilder.newBuilder()
         .baseUri(brokerConfig.url().let(URI::create))
         .build(BrokerClientResource::class.java)!!
 
-    fun addConnector(connectorBaseUrl: String) {
-        addConnectors(listOf(connectorBaseUrl))
+    fun addConnector(connectorEndpointUrl: String) {
+        addConnectors(listOf(connectorEndpointUrl))
     }
 
-    fun addConnectors(connectorBaseUrls: List<String>) {
+    fun addConnectors(connectorEndpointUrls: List<String>) {
         val response = brokerClientResource.addConnectors(
             brokerConfig.apiKey(),
             brokerConfig.adminApiKey(),
-            connectorUrlUtils.getConnectorEndpoints(connectorBaseUrls)
+            connectorEndpointUrls
         )
 
         expectStatusCode(response, Response.Status.NO_CONTENT.statusCode, "addConnectors")
     }
 
-    fun removeConnector(connectorBaseUrl: String) {
+    fun removeConnector(connectorEndpointUrl: String) {
         val response = brokerClientResource.removeConnectors(
             brokerConfig.apiKey(),
             brokerConfig.adminApiKey(),
-            listOf(connectorUrlUtils.getConnectorEndpoint(connectorBaseUrl))
+            listOf(connectorEndpointUrl)
         )
 
         expectStatusCode(response, Response.Status.NO_CONTENT.statusCode, "removeConnectors")
     }
 
-    fun getConnectorMetadata(connectorUrls: List<String>): List<AuthorityPortalConnectorInfo> =
+    fun getConnectorMetadata(connectorEndpointUrls: List<String>): List<AuthorityPortalConnectorInfo> =
         brokerClientResource.getConnectorMetadata(
             brokerConfig.apiKey(),
             brokerConfig.adminApiKey(),
-            connectorUrlUtils.getConnectorEndpoints(connectorUrls)
+            connectorEndpointUrls
         )
 
     fun setOrganizationMetadata(orgMetadata: List<AuthorityPortalOrganizationMetadata>) {

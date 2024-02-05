@@ -93,12 +93,6 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       throw new Error('TODO');
     })
 
-    .url('organizations/*')
-    .on('GET', (mdsId) => {
-      const result = getOrganizationDetails(mdsId);
-      return ok(OrganizationDetailsDtoToJSON(result));
-    })
-
     .url('authority/organizations/*/connectors')
     .on('GET', (mdsId: string) => {
       const result = getListOfConnectorsForTable(mdsId);
@@ -266,6 +260,12 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('DELETE', (centralComponentId) => {
       const result = deleteCentralComponent(centralComponentId);
       return ok(IdResponseToJSON(result));
+    })
+
+    .url('organizations/*')
+    .on('GET', (mdsId) => {
+      const result = getOrganizationDetails(mdsId);
+      return ok(OrganizationDetailsDtoToJSON(result));
     })
 
     .tryMatch();

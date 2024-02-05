@@ -16,7 +16,6 @@ import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
 import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtils
-import de.sovity.authorityportal.web.utils.urlmanagement.ConnectorUrlUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -50,9 +49,6 @@ class ConnectorManagementApiService {
     @Inject
     lateinit var brokerClientService: BrokerClientService
 
-    @Inject
-    lateinit var connectorUrlUtils: ConnectorUrlUtils
-
     fun ownOrganizationConnectorDetails(connectorId: String, mdsId: String, userId: String): ConnectorDetailDto =
         getConnectorDetails(connectorId, mdsId, userId)
 
@@ -74,7 +70,9 @@ class ConnectorManagementApiService {
             deploymentEnvironmentDtoService.findByIdOrThrow(connector.environment),
             connector.connectorName,
             connector.location,
-            connector.url
+            connector.frontendUrl,
+            connector.endpointUrl,
+            connector.managementUrl
         )
     }
 
@@ -91,7 +89,9 @@ class ConnectorManagementApiService {
             deploymentEnvironmentDtoService.findByIdOrThrow(connector.environment),
             connector.connectorName,
             connector.location,
-            connector.url
+            connector.frontendUrl,
+            connector.endpointUrl,
+            connector.managementUrl
         )
     }
 
@@ -140,12 +140,14 @@ class ConnectorManagementApiService {
     ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
-        if (!isValidConnectorUrl(connector.url)) {
-            Log.error("Connector URL is not valid. url=${connector.url}, userId=$userId, mdsId=$mdsId.")
+        if (!isValidUrlConfiguration(connector.frontendUrl, connector.endpointUrl, connector.managementUrl)) {
+            Log.error("Connector URL is not valid. url=${connector.frontendUrl}, userId=$userId, mdsId=$mdsId.")
             return CreateConnectorResponse.error("Connector URL is not valid.")
         }
 
-        connector.url = removeUrlTrailingSlash(connector.url)
+        connector.frontendUrl = removeUrlTrailingSlash(connector.frontendUrl)
+        connector.endpointUrl = removeUrlTrailingSlash(connector.endpointUrl)
+        connector.managementUrl = removeUrlTrailingSlash(connector.managementUrl)
 
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(mdsId)
         val clientId = clientIdUtils.generateClientId(connector.certificate)
@@ -182,12 +184,14 @@ class ConnectorManagementApiService {
     ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
-        if (!isValidConnectorUrl(connector.url)) {
-            Log.error("Connector URL is not valid. url=${connector.url}, userId=$userId, customerMdsId=$customerMdsId.")
+        if (!isValidUrlConfiguration(connector.frontendUrl, connector.endpointUrl, connector.managementUrl)) {
+            Log.error("Connector URL is not valid. url=${connector.frontendUrl}, userId=$userId, customerMdsId=$customerMdsId.")
             return CreateConnectorResponse.error("Connector URL is not valid.")
         }
 
-        connector.url = removeUrlTrailingSlash(connector.url)
+        connector.frontendUrl = removeUrlTrailingSlash(connector.frontendUrl)
+        connector.endpointUrl = removeUrlTrailingSlash(connector.endpointUrl)
+        connector.managementUrl = removeUrlTrailingSlash(connector.managementUrl)
 
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(customerMdsId)
         val clientId = clientIdUtils.generateClientId(connector.certificate)
@@ -218,7 +222,7 @@ class ConnectorManagementApiService {
 
     private fun registerConnectorInBroker(deploymentEnvId: String, connector: CreateConnectorRequest, connectorId: String, mdsId: String, userId: String): Boolean {
         try {
-            brokerClientService.forEnvironment(deploymentEnvId).addConnector(connector.url)
+            brokerClientService.forEnvironment(deploymentEnvId).addConnector(connector.endpointUrl)
             connectorService.setBrokerRegistrationStatus(connectorId, ConnectorBrokerRegistrationStatus.REGISTERED)
         } catch (e: Exception) {
             Log.warn("Broker registration for connector unsuccessful. Connector was registered in DAPS & AP regardless. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.", e)
@@ -227,10 +231,14 @@ class ConnectorManagementApiService {
         return true
     }
 
-    private fun isValidConnectorUrl(urlString: String): Boolean {
+    private fun isValidUrlConfiguration(frontendUrlString: String, endpointUrlString: String, managementUrlString: String): Boolean {
         try {
-            val url = URL(urlString)
-            return (url.protocol == "https" && !url.path.endsWith(connectorUrlUtils.managementUrl) && !url.path.endsWith(connectorUrlUtils.managementUrl))
+            val frontendUrl = URL(frontendUrlString)
+            val endpointUrl = URL(endpointUrlString)
+            val managementUrl = URL(managementUrlString)
+            return (frontendUrl.protocol == "https"
+                && endpointUrl.protocol == "https"
+                && managementUrl.protocol == "https")
         } catch (e: MalformedURLException) {
             return false
         }
@@ -261,7 +269,7 @@ class ConnectorManagementApiService {
 
         connectorService.deleteConnector(connectorId)
         dapsClientService.forEnvironment(deploymentEnvId).deleteClient(connector.clientId)
-        brokerClientService.forEnvironment(deploymentEnvId).removeConnector(connector.url)
+        brokerClientService.forEnvironment(deploymentEnvId).removeConnector(connector.endpointUrl)
 
         Log.info("Connector unregistered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
 

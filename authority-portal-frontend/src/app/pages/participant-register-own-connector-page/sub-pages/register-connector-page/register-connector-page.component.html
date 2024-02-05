@@ -5,106 +5,48 @@
     [linear]="isLinear"
     (selectedIndexChange)="onStepChange($event)">
     <!-- connector details Step-->
-    <mat-step color="accent" [stepControl]="connectorDetailsFormGroup">
-      <form
-        class="flex flex-col w-full justify-center"
-        [formGroup]="connectorDetailsFormGroup">
+    <mat-step color="accent" [stepControl]="group">
+      <form class="flex flex-col w-full justify-center" [formGroup]="group">
         <ng-template matStepLabel>Add Connector Details</ng-template>
         <div
           class="select-none flex flex-col justify-center items-center my-10 w-2/3">
-          <!-- Connector's Name -->
-          <div class="flex flex-col justify-between items-center w-full">
-            <label class="w-full mb-2 text-sm" for="formRegOConName"
-              >Connector's Name</label
-            >
-            <mat-form-field
-              class="w-full text-s"
-              appearance="outline"
-              color="accent">
-              <input
-                id="formRegOConName"
-                matInput
-                formControlName="name"
-                placeholder="Example GmbH" />
-              <mat-error
-                *ngIf="
-                  connectorDetailsFormGroup.controls['name'].touched &&
-                  connectorDetailsFormGroup.controls['name'].dirty &&
-                  connectorDetailsFormGroup.controls['name'].hasError(
-                    'required'
-                  )
-                "
-                class="text-xs">
-                Name is a required field</mat-error
-              >
-            </mat-form-field>
-          </div>
-          <!-- Connector's Name -->
+          <app-text-input
+            class="w-full"
+            label="Connector's Name"
+            ctrlId="formRegOConName"
+            placeholder="Example GmbH Test Connector"
+            [ctrl]="group.controls.name"></app-text-input>
 
-          <!-- Connector's Location -->
-          <div class="flex flex-col justify-between items-center w-full">
-            <label class="w-full mb-2 text-sm" for="formRegOConLocation"
-              >Connector's Location</label
-            >
-            <mat-form-field
-              class="w-full text-s"
-              appearance="outline"
-              color="accent">
-              <input
-                id="formRegOConLocation"
-                matInput
-                formControlName="location"
-                placeholder="DE, UK, FR etc." />
-              <mat-error
-                *ngIf="
-                  connectorDetailsFormGroup.controls['location'].touched &&
-                  connectorDetailsFormGroup.controls['location'].dirty &&
-                  connectorDetailsFormGroup.controls['location'].hasError(
-                    'required'
-                  )
-                "
-                class="text-xs">
-                Connector's Location is a required field</mat-error
-              >
-            </mat-form-field>
-          </div>
-          <!-- Connector's Location -->
+          <app-text-input
+            class="w-full"
+            label="Connector's Location"
+            ctrlId="formRegOConLocation"
+            placeholder="DE, UK, FR etc."
+            [ctrl]="group.controls.location"></app-text-input>
 
-          <!-- Endpoint URL -->
-          <div class="flex flex-col justify-between items-center w-full">
-            <label class="w-full mb-2 text-sm" for="formRegOConUrl"
-              >Endpoint URL</label
-            >
-            <mat-form-field
-              class="w-full text-s"
-              appearance="outline"
-              color="accent">
-              <input
-                id="formRegOConUrl"
-                matInput
-                formControlName="url"
-                placeholder="https://..." />
-              <mat-error
-                *ngIf="
-                  connectorDetailsFormGroup.controls['url'].touched &&
-                  connectorDetailsFormGroup.controls['url'].dirty &&
-                  connectorDetailsFormGroup.controls['url'].hasError('required')
-                "
-                class="text-xs">
-                Endpoint URL is a required field</mat-error
-              >
-              <mat-error
-                *ngIf="
-                  connectorDetailsFormGroup.controls['url'].touched &&
-                  connectorDetailsFormGroup.controls['url'].dirty &&
-                  connectorDetailsFormGroup.controls['url'].hasError('pattern')
-                "
-                class="text-xs">
-                Invalid Endpoint URL
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <!-- Endpoint URL -->
+          <app-text-input
+            class="w-full"
+            label="Frontend URL"
+            ctrlId="formRegOConFrontendUrl"
+            placeholder="https://my-connector.my-org.com"
+            invalidPatternMessage="URL is not valid. Example value: https://my-connector.my-org.com"
+            [ctrl]="group.controls.frontendUrl"></app-text-input>
+
+          <app-text-input
+            class="w-full"
+            label="Management API URL"
+            ctrlId="formRegOConManagementApiUrl"
+            placeholder="https://my-connector.my-org.com/api/management"
+            invalidPatternMessage="URL is not valid. Example value: https://my-connector.my-org.com/api/management"
+            [ctrl]="group.controls.managementUrl"></app-text-input>
+
+          <app-text-input
+            class="w-full"
+            label="Connector Endpoint"
+            ctrlId="formRegOConConnectorEndpoint"
+            placeholder="https://my-connector.my-org.com/api/dsp"
+            invalidPatternMessage="URL is not valid. Example value: https://my-connector.my-org.com/api/dsp"
+            [ctrl]="group.controls.endpointUrl"></app-text-input>
         </div>
 
         <div
@@ -119,9 +61,9 @@
             class="btn-accent"
             matStepperNext
             [ngClass]="{
-              'opacity-50 cursor-not-allowed': connectorDetailsFormGroup.invalid
+              'opacity-50 cursor-not-allowed': group.invalid
             }"
-            [disabled]="connectorDetailsFormGroup.invalid">
+            [disabled]="group.invalid">
             Next
           </button>
         </div>
@@ -402,8 +344,8 @@
     <!-- Generate Certificate Step-->
 
     <!-- Certificate Step -->
-    <mat-step color="accent" [stepControl]="connectorDetailsFormGroup">
-      <form [formGroup]="connectorDetailsFormGroup">
+    <mat-step color="accent" [stepControl]="group">
+      <form [formGroup]="group">
         <ng-template matStepLabel>Add Certificate</ng-template>
         <div
           class="select-none flex flex-col justify-center items-center my-10 w-2/3">
@@ -430,22 +372,18 @@
 
               <mat-error
                 *ngIf="
-                  connectorDetailsFormGroup.controls['certificate'].touched &&
-                  connectorDetailsFormGroup.controls['certificate'].dirty &&
-                  connectorDetailsFormGroup.controls['certificate'].hasError(
-                    'required'
-                  )
+                  group.controls['certificate'].touched &&
+                  group.controls['certificate'].dirty &&
+                  group.controls['certificate'].hasError('required')
                 "
                 class="text-xs">
                 Certificate is a required field</mat-error
               >
               <mat-error
                 *ngIf="
-                  connectorDetailsFormGroup.controls['certificate'].touched &&
-                  connectorDetailsFormGroup.controls['certificate'].dirty &&
-                  connectorDetailsFormGroup.controls['certificate'].hasError(
-                    'pattern'
-                  )
+                  group.controls['certificate'].touched &&
+                  group.controls['certificate'].dirty &&
+                  group.controls['certificate'].hasError('pattern')
                 "
                 class="text-xs">
                 Invalid Public Key Format
@@ -461,13 +399,10 @@
           </button>
           <button
             class="btn-accent"
-            [disabled]="
-              connectorDetailsFormGroup.invalid || state.state === 'submitting'
-            "
+            [disabled]="group.invalid || state.state === 'submitting'"
             [ngClass]="{
               'opacity-50 cursor-not-allowed':
-                connectorDetailsFormGroup.invalid ||
-                state.state === 'submitting'
+                group.invalid || state.state === 'submitting'
             }"
             (click)="submit()">
             Add Connector

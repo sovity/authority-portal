@@ -2,14 +2,10 @@ package de.sovity.authorityportal.api.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Detail information about a deployed connector.")
@@ -32,6 +28,10 @@ public class ConnectorDetailDto {
     private String connectorName;
     @Schema(description = "Location", requiredMode = Schema.RequiredMode.REQUIRED)
     private String location;
+    @Schema(description = "Frontend URL", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String frontendUrl;
     @Schema(description = "Endpoint URL", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String url;
+    private String endpointUrl;
+    @Schema(description = "Management URL", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String managementUrl;
 }

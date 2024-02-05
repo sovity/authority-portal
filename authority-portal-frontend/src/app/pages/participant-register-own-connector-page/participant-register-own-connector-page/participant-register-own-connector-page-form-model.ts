@@ -6,7 +6,9 @@ export type ParticipantRegisterOwnConnectorPageFormValue =
 export interface ParticipantRegisterOwnConnectorPageFormModel {
   name: FormControl<string>;
   location: FormControl<string>;
-  url: FormControl<string>;
+  frontendUrl: FormControl<string>;
+  endpointUrl: FormControl<string>;
+  managementUrl: FormControl<string>;
   certificate: FormControl<string>;
 }
 
@@ -14,7 +16,9 @@ export const DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE: ParticipantR
   {
     name: '',
     location: '',
-    url: '',
+    frontendUrl: '',
+    endpointUrl: '',
+    managementUrl: '',
     certificate: '',
   };
 

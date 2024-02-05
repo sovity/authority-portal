@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {urlValidator} from '../../../../core/utils/validators/url-validator';
 import {
   DEFAULT_GENERATE_CERTIFICATE_FORM_VALUE,
   DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE,
@@ -26,9 +27,11 @@ export class RegisterConnectorForm {
       connectorDetails: this.formBuilder.nonNullable.group({
         name: [initial.name, [Validators.required]],
         location: [initial.location, [Validators.required]],
-        url: [
-          initial.url,
-          [Validators.required, Validators.pattern(/^https:\/\/[^\s]+$/)],
+        frontendUrl: [initial.frontendUrl, [Validators.required, urlValidator]],
+        endpointUrl: [initial.endpointUrl, [Validators.required, urlValidator]],
+        managementUrl: [
+          initial.managementUrl,
+          [Validators.required, urlValidator],
         ],
         certificate: [initial.certificate, []],
       }),

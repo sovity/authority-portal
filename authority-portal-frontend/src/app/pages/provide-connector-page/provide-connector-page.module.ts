@@ -7,6 +7,7 @@ import {NgxsFormPluginModule} from '@ngxs/form-plugin';
 import {NgxsModule} from '@ngxs/store';
 import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.module';
 import {PortalLayoutModule} from 'src/app/common/layouts/portal-layout/portal-layout.module';
+import {FormElementsModule} from '../../common/components/form-elements/form-elements.module';
 import {ProvideConnectorPageComponent} from './provide-connector-page/provide-connector-page.component';
 import {ProvideConnectorPageStateImpl} from './state/provide-connector-page-state-impl';
 
@@ -23,6 +24,7 @@ import {ProvideConnectorPageStateImpl} from './state/provide-connector-page-stat
     NgxsFormPluginModule,
     NgxsModule.forFeature([ProvideConnectorPageStateImpl]),
 
+    FormElementsModule,
     DevUtilsModule,
   ],
 })

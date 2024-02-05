@@ -23,7 +23,6 @@ import {
 @Component({
   selector: 'app-participant-invite-new-user',
   templateUrl: './participant-invite-new-user.component.html',
-  styles: [],
 })
 export class ParticipantInviteNewUserComponent {
   state = DEFAULT_PARTICIPANT_INVITE_NEW_USER_PAGE_STATE;

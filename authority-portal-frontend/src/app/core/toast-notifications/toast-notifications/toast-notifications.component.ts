@@ -5,7 +5,6 @@ import {ToastNotification, ToastService} from '../toast.service';
 @Component({
   selector: 'app-toast-notifications',
   templateUrl: './toast-notifications.component.html',
-  styles: [],
 })
 export class ToastNotificationsComponent implements OnInit, OnDestroy {
   toasts: ToastNotification[] = [];

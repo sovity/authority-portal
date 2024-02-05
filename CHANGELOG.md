@@ -37,6 +37,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority admins can no longer provide connectors for other organizations
 - Backend: Sync organization data to MDS Broker(s) (Dependency from Broker development)
 - Removed Provide Connector Feature
+- Changed Connector URL persistence. Frontend URL, Endpoint URL and Management API URL are now independent of each other
 
 #### Patch
 
@@ -50,6 +51,11 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Deployment Migration Notes
 
 - Keycloak IAM needs to be upgraded to version 23.0.4
+- Portal Backend
+  - Removed an environment variable `authority-portal.connectors.url.frontend`
+  - Removed an environment variable `authority-portal.connectors.url.management`
+  - Removed an environment variable `authority-portal.connectors.url.endpoint`
+  - Please ensure that the frontend, endpoint and management API URLs are configured correctly for all connectors. If needed, remove affected connectors and re-register them with a correct URL configuration.
 
 _For further information check out our [Productive Deployment Guide](README.md#productive-deployment-guide)._
 

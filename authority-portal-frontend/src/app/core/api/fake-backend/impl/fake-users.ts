@@ -12,7 +12,7 @@ import {
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {updateOrganization} from './fake-organizations';
 
-export let TEST_USERS: {[key: string]: UserInfo} = {
+export const TEST_USERS: {[key: string]: UserInfo} = {
   '00000000-0000-0000-0000-000000000001': {
     userId: '00000000-0000-0000-0000-000000000001',
     firstName: 'Authority',
@@ -28,7 +28,6 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',
     organizationMdsId: 'MDSL1111AA',
-
   },
   '00000000-0000-0000-0000-000000000002': {
     userId: '00000000-0000-0000-0000-000000000002',
@@ -78,7 +77,7 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
   '00000000-0000-0000-0000-000000000007': {
     userId: '00000000-0000-0000-0000-000000000007',
     firstName: 'Service Partner',
-    lastName: 'PartAdmin',
+    lastName: 'Admin',
     roles: [
       'SERVICE_PARTNER_ADMIN',
       'PARTICIPANT_ADMIN',
@@ -92,7 +91,7 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
   '00000000-0000-0000-0000-000000000008': {
     userId: '00000000-0000-0000-0000-000000000008',
     firstName: 'Service Partner',
-    lastName: 'PartUser',
+    lastName: 'User',
     roles: ['PARTICIPANT_USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Service Partner Organization',
@@ -125,10 +124,10 @@ export let TEST_USERS: {[key: string]: UserInfo} = {
     userId: '00000000-0000-0000-0000-00000011',
     firstName: 'Rejected',
     lastName: 'User',
-    roles: ['PARTICIPANT_USER'],
+    roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_CURATOR', 'PARTICIPANT_USER'],
     registrationStatus: 'REJECTED',
-    organizationName: '',
-    organizationMdsId: '',
+    organizationName: 'Rejected Organization',
+    organizationMdsId: 'MDSL6666EE',
   },
 };
 
@@ -162,7 +161,7 @@ export const userDetails = (userId: string): UserDetailDto => {
     organizationName: user.organizationName,
     phone: '+49 231 1234567',
     position: 'Employee',
-    onboardingType: 'SELF_REGISTRATION'
+    onboardingType: 'SELF_REGISTRATION',
   };
 };
 
@@ -200,7 +199,7 @@ export const getOrganizationMembers = (mdsId: string): MemberInfo[] => {
         firstName: user.firstName,
         lastName: user.lastName,
         roles: user.roles,
-        registrationStatus: user.registrationStatus
+        registrationStatus: user.registrationStatus,
       };
     });
 };
@@ -242,7 +241,7 @@ export const changeParticipantRole = (
     new_participant_roles = ['PARTICIPANT_USER'];
   }
 
-  let oldApplicationRoles = user.roles.filter(
+  const oldApplicationRoles = user.roles.filter(
     (role: UserRoleDto) => !role.startsWith('PARTICIPANT_'),
   );
 
@@ -272,7 +271,7 @@ export const changeApplicationRole = (
     new_application_roles = ['OPERATOR_ADMIN'];
   }
 
-  let oldParticipantRoles = user.roles.filter((role: UserRoleDto) =>
+  const oldParticipantRoles = user.roles.filter((role: UserRoleDto) =>
     role.startsWith('PARTICIPANT_'),
   );
 
@@ -289,7 +288,7 @@ export const clearApplicationRole = (
 ): IdResponse => {
   const user = TEST_USERS[request.userId];
 
-  let oldParticipantRoles = user.roles.filter((role: UserRoleDto) =>
+  const oldParticipantRoles = user.roles.filter((role: UserRoleDto) =>
     role.startsWith('PARTICIPANT_'),
   );
 

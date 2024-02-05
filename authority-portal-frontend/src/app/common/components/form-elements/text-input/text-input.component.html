@@ -1,21 +1,24 @@
 <div class="flex flex-col justify-between items-center w-full">
-  <label class="label w-full mb-2" [attr.for]="ctrlId">{{ label }}</label>
-  <input
-    class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
-    type="text"
-    [attr.id]="ctrlId"
-    [formControl]="ctrl"
-    [attr.placeholder]="placeholder" />
+  <label
+    class="w-full mb-2 text-sm"
+    [class.text-red-600]="ctrl.touched && ctrl.invalid"
+    [for]="ctrlId"
+    >{{ label }}</label
+  >
+
+  <mat-form-field class="w-full text-s" appearance="outline" color="accent">
+    <input
+      matInput
+      [id]="ctrlId"
+      [formControl]="ctrl"
+      [placeholder]="placeholder" />
+    <mat-error
+      *ngIf="ctrl.touched && ctrl.hasError('required')"
+      class="text-xs">
+      {{ requiredMessage }}</mat-error
+    >
+    <mat-error *ngIf="ctrl.touched && ctrl.hasError('pattern')" class="text-xs">
+      {{ invalidPatternMessage }}</mat-error
+    >
+  </mat-form-field>
 </div>
-
-<small
-  *ngIf="ctrl.touched && ctrl.dirty && ctrl.hasError('required')"
-  class="text-red-600"
-  >{{ requiredMessage }}</small
->
-
-<small
-  *ngIf="ctrl.touched && ctrl.dirty && ctrl.hasError('pattern')"
-  class="text-red-600"
-  >{{ invalidPatternMessage }}</small
->
