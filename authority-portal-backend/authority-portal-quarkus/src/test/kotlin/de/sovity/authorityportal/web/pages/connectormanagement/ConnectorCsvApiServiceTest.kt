@@ -14,8 +14,8 @@ class ConnectorCsvApiServiceTest {
     @Test
     fun generateConnectorCsv() {
         // arrange
-        val expectedCsvContent = "\"Name\",\"Type\",\"MDS ID\",\"Environment\",\"URL\"\n" +
-            "\"Example Connector\",\"OWN\",\"MDSL2222CC\",\"test\",\"https://xample.test4/connector\"\n"
+        val expectedCsvContent = "\"Name\",\"Type\",\"MDS ID\",\"Environment\",\"Frontend URL\",\"Endpoint URL\",\"Management API URL\"\n" +
+            "\"Example Connector\",\"OWN\",\"MDSL2222CC\",\"test\",\"https://xample.test4/connector\",\"https://xample.test4/connector/api/dsp\",\"https://xample.test4/connector/api/management\"\n"
 
         // act
         val inputStream = connectorCsvApiService.generateConnectorCsv("MDSL2222CC", "test");

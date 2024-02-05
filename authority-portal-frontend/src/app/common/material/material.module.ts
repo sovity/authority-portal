@@ -18,23 +18,22 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 const Material = [
-  MatButtonModule,
-  MatIconModule,
-  MatTabsModule,
-  MatChipsModule,
-  MatFormFieldModule,
-  MatInputModule,
   MatAutocompleteModule,
-  MatSelectModule,
-  MatMenuModule,
-  MatCheckboxModule,
+  MatButtonModule,
   MatButtonToggleModule,
-  MatStepperModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
   MatRadioModule,
+  MatSelectModule,
+  MatStepperModule,
+  MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatDialogModule,
-  MatInputModule,
 ];
 
 @NgModule({

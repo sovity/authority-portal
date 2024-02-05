@@ -7,7 +7,6 @@ import {GlobalStateImpl} from '../../../core/global-state/global-state-impl';
 @Component({
   selector: 'app-loading-page',
   templateUrl: './loading-page.component.html',
-  styles: [],
 })
 export class LoadingPageComponent implements OnInit, OnDestroy {
   state!: GlobalState;

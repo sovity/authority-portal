@@ -115,11 +115,35 @@
               class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
               <mat-icon class="material-icons-outlined text-gray-500"
                 >link</mat-icon
-              >Endpoint URL:
+              >Frontend URL:
             </dt>
             <dd
               class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              {{ state.connector.data.url }}
+              {{ state.connector.data.frontendUrl }}
+            </dd>
+          </div>
+          <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt
+              class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+              <mat-icon class="material-icons-outlined text-gray-500"
+                >link</mat-icon
+              >Connector Endpoint:
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              {{ state.connector.data.endpointUrl }}
+            </dd>
+          </div>
+          <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt
+              class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+              <mat-icon class="material-icons-outlined text-gray-500"
+                >link</mat-icon
+              >Management API URL:
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              {{ state.connector.data.managementUrl }}
             </dd>
           </div>
         </dl>

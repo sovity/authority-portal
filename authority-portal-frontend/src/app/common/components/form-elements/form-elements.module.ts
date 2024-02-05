@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MaterialModule} from '../../material/material.module';
 import {PipesAndDirectivesModule} from '../pipes-and-directives/pipes-and-directives.module';
 import {CertificateGeneratorBarComponent} from './certificate-generator-bar/certificate-generator-bar.component';
 import {CertificateInputComponent} from './certificate-input/certificate-input.component';
@@ -13,9 +13,7 @@ import {TextInputComponent} from './text-input/text-input.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
-    // Angular Material
-    MatDialogModule,
+    MaterialModule,
 
     // AP
     PipesAndDirectivesModule,

@@ -39,7 +39,9 @@ class ConnectorService {
         val environment: String,
         val connectorName: String,
         val location: String,
-        val url: String,
+        val frontendUrl: String,
+        val endpointUrl: String,
+        val managementUrl: String
     )
 
     fun getConnectorDetailOrThrow(connectorId: String): ConnectorDetailRs {
@@ -61,7 +63,9 @@ class ConnectorService {
             c.ENVIRONMENT.`as`("environment"),
             c.NAME.`as`("connectorName"),
             c.LOCATION.`as`("location"),
-            c.URL.`as`("url")
+            c.FRONTEND_URL.`as`("frontendUrl"),
+            c.ENDPOINT_URL.`as`("endpointUrl"),
+            c.MANAGEMENT_URL.`as`("managementUrl")
         )
             .from(c)
             .leftJoin(org).on(c.MDS_ID.eq(org.MDS_ID))
@@ -164,7 +168,9 @@ class ConnectorService {
             it.clientId = clientId
             it.name = connector.name
             it.location = connector.location
-            it.url = connector.url
+            it.frontendUrl = connector.frontendUrl
+            it.endpointUrl = connector.endpointUrl
+            it.managementUrl = connector.managementUrl
             it.createdBy = createdBy
             it.createdAt = OffsetDateTime.now()
             it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
@@ -196,7 +202,7 @@ class ConnectorService {
         val c = Tables.CONNECTOR
         return dsl.select(
             c.CONNECTOR_ID.`as`("connectorId"),
-            c.URL.`as`("connectorUrl"),
+            c.ENDPOINT_URL.`as`("connectorEndpointUrl"),
             c.ENVIRONMENT.`as`("environmentId")
         )
             .from(c)
@@ -206,7 +212,7 @@ class ConnectorService {
 
     data class UnregisteredBrokerConnector(
         val connectorId: String,
-        val connectorUrl: String,
+        val connectorEndpointUrl: String,
         val environmentId: String
     )
 }

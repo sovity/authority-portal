@@ -10,10 +10,10 @@ let user: UserDetailDto = {
   roles: ['PARTICIPANT_USER', 'AUTHORITY_ADMIN'],
   registrationStatus: 'ACTIVE',
   creationDate: new Date(),
-  onboardingType: "SELF_REGISTRATION",
-  organizationName: "Example GmbH",
-  phone: "+49 123 4567890",
-  position: "CTO",
+  onboardingType: 'SELF_REGISTRATION',
+  organizationName: 'Example GmbH',
+  phone: '+49 123 4567890',
+  position: 'CTO',
 };
 
 /**

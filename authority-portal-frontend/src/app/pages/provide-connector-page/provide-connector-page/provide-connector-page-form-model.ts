@@ -6,7 +6,9 @@ export type ProvideConnectorPageFormValue =
 export interface ProvideConnectorPageFormModel {
   name: FormControl<string>;
   location: FormControl<string>;
-  url: FormControl<string>;
+  frontendUrl: FormControl<string>;
+  endpointUrl: FormControl<string>;
+  managementUrl: FormControl<string>;
   mdsId: FormControl<string>;
   certificate: FormControl<string>;
 }
@@ -15,7 +17,9 @@ export const DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE: ProvideConnectorPageFormValue
   {
     name: '',
     location: '',
-    url: '',
+    frontendUrl: '',
+    endpointUrl: '',
+    managementUrl: '',
     mdsId: '',
     certificate: '',
   };

@@ -27,12 +27,16 @@ class BrokerSyncServiceTest {
     lateinit var brokerSyncService: BrokerSyncService
 
     private val connectorIdOwn = "MDSL2222BB.CP69I8U"
-    private val connectorUrlOwn = "testUrl"
+    private val connectorFrontendUrlOwn = "https://testUrl"
+    private val connectorEndpointUrlOwn = "https://testUrl/api/dsp"
+    private val connectorManagementUrlOwn = "https://testUrl/api/management"
     private val connectorCertificateOwn = "testCertificate"
     private val clientIdOwn = "testClientId"
 
     private val connectorIdProvided = "MDSL2222BB.CP69I8T"
-    private val connectorUrlProvided = "testUrl2"
+    private val connectorFrontendUrlProvided = "https://testUrl2"
+    private val connectorEndpointUrlProvided = "https://testUrl2/api/dsp"
+    private val connectorManagementUrlProvided = "https://testUrl2/api/management"
     private val connectorCertificateProvided = "testCertificate2"
     private val clientIdProvided = "testClientId2"
 
@@ -49,7 +53,7 @@ class BrokerSyncServiceTest {
             mdsId = mdsId,
             environment = environment,
             clientId = clientIdOwn,
-            connector = CreateConnectorRequest(connectorName, connectorLocation, connectorUrlOwn, connectorCertificateOwn),
+            connector = CreateConnectorRequest(connectorName, connectorLocation, connectorFrontendUrlOwn, connectorEndpointUrlOwn, connectorManagementUrlOwn, connectorCertificateOwn),
             createdBy = userId
         )
         connectorService.createProvidedConnector(
@@ -58,7 +62,7 @@ class BrokerSyncServiceTest {
             providerMdsId = "MDSL3333CC",
             environment = environment,
             clientId = clientIdProvided,
-            connector = CreateConnectorRequest(connectorName, connectorLocation, connectorUrlProvided, connectorCertificateProvided),
+            connector = CreateConnectorRequest(connectorName, connectorLocation, connectorFrontendUrlProvided, connectorEndpointUrlProvided, connectorManagementUrlProvided, connectorCertificateProvided),
             createdBy = userId
         )
     }

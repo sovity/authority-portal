@@ -9,9 +9,9 @@ if (os.platform() === 'win32') {
 }
 
 let args = process.argv.slice(2);
-console.log(`CWD: ${process.cwd()}`)
-console.log(`Running: ${executable} ${args.join(' ')}`)
-const run = spawn(executable, args, { stdio: 'inherit' });
+console.log(`CWD: ${process.cwd()}`);
+console.log(`Running: ${executable} ${args.join(' ')}`);
+const run = spawn(executable, args, {stdio: 'inherit'});
 
 run.on('close', (code) => {
   process.exit(code);

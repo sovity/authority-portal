@@ -4,7 +4,6 @@ import {SelectionBoxModel} from 'src/app/shared/components/common/selection-box/
 @Component({
   selector: 'app-participant-register-own-connector-page',
   templateUrl: './participant-register-own-connector-page.component.html',
-  styles: [],
 })
 export class ParticipantRegisterOwnConnectorPageComponent {
   options: SelectionBoxModel[] = [

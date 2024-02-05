@@ -119,12 +119,34 @@
 
         <div
           class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label">Endpoint URL:</label>
+          <label class="connector-profile-label">Frontend URL:</label>
 
           <input
             class="my-1 p-3 bg-white border-b-2 w-full"
             type="text"
-            [placeholder]="state.connector.data.url"
+            [placeholder]="state.connector.data.frontendUrl"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label">Connector Endpoint:</label>
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.endpointUrl"
+            [disabled]="true" />
+        </div>
+
+        <div
+          class="select-none flex flex-col justify-start items-start p-2 my-1">
+          <label class="connector-profile-label">Management API URL:</label>
+
+          <input
+            class="my-1 p-3 bg-white border-b-2 w-full"
+            type="text"
+            [placeholder]="state.connector.data.managementUrl"
             [disabled]="true" />
         </div>
       </div>
