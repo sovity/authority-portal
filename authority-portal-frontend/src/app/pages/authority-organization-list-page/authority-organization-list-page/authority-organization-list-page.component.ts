@@ -25,6 +25,8 @@ export class AuthorityOrganizationListPageComponent
   getOrganizationRegistrationStatusClasses =
     getOrganizationRegistrationStatusClasses;
 
+  private ngOnDestroy$ = new Subject();
+
   constructor(private store: Store) {}
 
   ngOnInit() {
@@ -50,8 +52,6 @@ export class AuthorityOrganizationListPageComponent
   filterBy(filter: OrganizationRegistrationStatusDto | null) {
     this.filter = filter;
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);

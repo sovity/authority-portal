@@ -9,7 +9,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
-import {Action, Actions, State, StateContext} from '@ngxs/store';
+import {Action, Actions, State, StateContext, Store} from '@ngxs/store';
 import {ConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {ErrorService} from 'src/app/core/error.service';
@@ -17,8 +17,10 @@ import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {
+  CloseConnectorDetail,
   DeleteOwnConnector,
   GetOwnOrganizationConnectors,
+  ShowConnectorDetail,
 } from './participant-own-connector-list-page-actions';
 import {
   DEFAULT_PARTICIPANT_OWN_CONNECTOR_LIST_PAGE_STATE,
@@ -37,6 +39,7 @@ export class ParticipantOwnConnectorListPageStateImpl {
     private toast: ToastService,
     private errorService: ErrorService,
     private globalStateUtils: GlobalStateUtils,
+    private store: Store,
   ) {}
 
   @Action(GetOwnOrganizationConnectors)
@@ -88,9 +91,24 @@ export class ParticipantOwnConnectorListPageStateImpl {
         this.toast.showSuccess(
           `Connector ${action.connectorId} was successfully deleted`,
         );
+        this.store.dispatch(CloseConnectorDetail);
       }),
       finalize(() => ctx.patchState({busy: false})),
       ignoreElements(),
     );
+  }
+
+  @Action(ShowConnectorDetail)
+  onShowConnectorDetail(
+    ctx: StateContext<ParticipantOwnConnectorListPageState>,
+  ) {
+    ctx.patchState({showDetail: true});
+  }
+
+  @Action(CloseConnectorDetail)
+  onCloseConnectorDetail(
+    ctx: StateContext<ParticipantOwnConnectorListPageState>,
+  ) {
+    ctx.patchState({showDetail: false});
   }
 }

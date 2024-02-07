@@ -23,8 +23,8 @@ export class CentralComponentCreatePageForm {
     return this.formBuilder.nonNullable.group({
       name: [initial.name, Validators.required],
       location: [initial.location, Validators.required],
-      homepageUrl: [initial.homepageUrl, urlValidator],
-      endpointUrl: [initial.endpointUrl, [Validators.required, urlValidator]],
+      homepageUrl: [initial.homepageUrl, urlValidator()],
+      endpointUrl: [initial.endpointUrl, [Validators.required, urlValidator()]],
       certificate: [
         initial.certificate,
         [Validators.required, certificateValidator],

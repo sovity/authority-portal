@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
@@ -19,11 +19,13 @@ import {AuthorityInviteNewOrganizationPageStateImpl} from 'src/app/pages/authori
   selector: 'app-authority-invite-new-organization',
   templateUrl: './authority-invite-new-organization.component.html',
 })
-export class AuthorityInviteNewOrganizationComponent {
+export class AuthorityInviteNewOrganizationComponent
+  implements OnInit, OnDestroy
+{
   state = DEFAULT_AUTHORITY_INVITE_NEW_ORGANIZATION_PAGE_STATE;
   group = this.buildFormGroup();
 
-  ngOnDestroy$ = new Subject();
+  private ngOnDestroy$ = new Subject();
 
   constructor(private store: Store, private formBuilder: FormBuilder) {}
 

@@ -25,9 +25,11 @@ import {
   createOwnConnector,
   createProvidedConnector,
   deleteOwnConnector,
+  getDetailsofOwnConnector,
   getFullConnectorDetails,
   getListOfAllConnectorsForTable,
   getListOfConnectorsForTable,
+  getListOfOwnConnectorsForTable,
 } from './impl/fake-connectors';
 import {
   approveOrganization,
@@ -61,9 +63,14 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
   const body = getBody(init);
 
   console.log(
-    ...['Fake Backend:', method, url, queryParams.toString(), body].filter(
-      (it) => !!it,
-    ),
+    ...[
+      'Fake Backend:',
+      method,
+      url,
+      'query params:',
+      queryParams.toString(),
+      body,
+    ].filter((it) => !!it),
   );
 
   const environmentId = queryParams.get('environmentId');
@@ -76,13 +83,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(UserInfoToJSON(result));
     })
 
-    .url('organizations/my-org')
-    .on('GET', (mdsId) => {
-      const result = getMyOrganizationDetails();
-      return ok(OrganizationDetailsDtoToJSON(result));
-    })
-
-    .url('organizations')
+    .url('authority/organizations')
     .on('GET', () => {
       const result = getListOfOrganizationsForTable();
       return ok(OrganizationOverviewResultToJSON(result));
@@ -111,6 +112,12 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(IdResponseToJSON(result));
     })
 
+    .url('authority/organizations/*')
+    .on('GET', (mdsId) => {
+      const result = getOrganizationDetails(mdsId);
+      return ok(OrganizationDetailsDtoToJSON(result));
+    })
+
     .url('authority/users/*/deactivate')
     .on('PUT', (userId) => {
       return ok(userId);
@@ -135,20 +142,8 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('organizations/my-org/connectors')
     .on('GET', () => {
-      const mdsId = getUserInfo().organizationMdsId;
-      const result = getListOfConnectorsForTable(mdsId);
+      const result = getListOfOwnConnectorsForTable();
       return ok(ConnectorOverviewResultToJSON(result));
-    })
-
-    .url('organizations/my-org/connectors/*')
-    .on('GET', (connectorId: string) => {
-      const mdsId = getUserInfo().organizationMdsId;
-      const result = getFullConnectorDetails(mdsId, connectorId);
-      return ok(ConnectorDetailDtoToJSON(result));
-    })
-    .on('DELETE', (connectorId: string) => {
-      const result = deleteOwnConnector({connectorId});
-      return ok(IdResponseToJSON(result));
     })
 
     .url('organizations/my-org/connectors/create-on-premise')
@@ -157,6 +152,16 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       const result = createOwnConnector(request);
 
       return ok(CreateConnectorResponseToJSON(result));
+    })
+
+    .url('organizations/my-org/connectors/*')
+    .on('GET', (connectorId: string) => {
+      const result = getDetailsofOwnConnector(connectorId);
+      return ok(ConnectorDetailDtoToJSON(result));
+    })
+    .on('DELETE', (connectorId: string) => {
+      const result = deleteOwnConnector({connectorId});
+      return ok(IdResponseToJSON(result));
     })
 
     .url('organizations/my-org/users/invite')
@@ -262,10 +267,22 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(IdResponseToJSON(result));
     })
 
-    .url('organizations/*')
+    .url('organizations')
+    .on('GET', () => {
+      const result = getListOfOrganizationsForTable();
+      return ok(OrganizationOverviewResultToJSON(result));
+    })
+
+    .url('organizations/my-org')
     .on('GET', (mdsId) => {
-      const result = getOrganizationDetails(mdsId);
+      const result = getMyOrganizationDetails();
       return ok(OrganizationDetailsDtoToJSON(result));
+    })
+
+    .url('organizations/*')
+    .on('GET', () => {
+      const result = getListOfOrganizationsForTable();
+      return ok(OrganizationOverviewResultToJSON(result));
     })
 
     .tryMatch();

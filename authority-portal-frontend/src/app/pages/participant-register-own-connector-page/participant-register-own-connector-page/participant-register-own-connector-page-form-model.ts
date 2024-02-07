@@ -1,7 +1,4 @@
-import {FormControl, ɵFormGroupRawValue} from '@angular/forms';
-
-export type ParticipantRegisterOwnConnectorPageFormValue =
-  ɵFormGroupRawValue<ParticipantRegisterOwnConnectorPageFormModel>;
+import {FormControl, FormGroup, ɵFormGroupRawValue} from '@angular/forms';
 
 export interface ParticipantRegisterOwnConnectorPageFormModel {
   name: FormControl<string>;
@@ -9,7 +6,15 @@ export interface ParticipantRegisterOwnConnectorPageFormModel {
   frontendUrl: FormControl<string>;
   endpointUrl: FormControl<string>;
   managementUrl: FormControl<string>;
+}
+
+export interface CertificateFormModel {
   certificate: FormControl<string>;
+}
+
+export interface RegisterConnectorParentFormGroup {
+  connectorDetails: FormGroup<ParticipantRegisterOwnConnectorPageFormModel>;
+  certificate: FormGroup<CertificateFormModel>;
 }
 
 export const DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE: ParticipantRegisterOwnConnectorPageFormValue =
@@ -19,38 +24,31 @@ export const DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE: ParticipantR
     frontendUrl: '',
     endpointUrl: '',
     managementUrl: '',
-    certificate: '',
   };
 
-export type GenerateCertificateFormValue =
-  ɵFormGroupRawValue<GenerateCertificateFormModel>;
+export const DEFAULT_CERTIFICATE_FORM_VALUE: CertificateFormModelValue = {
+  certificate: '',
+};
 
-export interface GenerateCertificateFormModel {
-  country: FormControl<string>;
-  state: FormControl<string>;
-  city: FormControl<string>;
-  organizationalUnit: FormControl<string>;
-  commonName: FormControl<string>;
-  certificate: FormControl<string>;
-}
+export type CertificateFormModelValue =
+  ɵFormGroupRawValue<CertificateFormModel>;
 
-export const DEFAULT_GENERATE_CERTIFICATE_FORM_VALUE: GenerateCertificateFormValue =
-  {
-    country: '',
-    state: '',
-    city: '',
-    organizationalUnit: '',
-    commonName: '',
-    certificate: '',
-  };
+export type ParticipantRegisterOwnConnectorPageFormValue =
+  ɵFormGroupRawValue<ParticipantRegisterOwnConnectorPageFormModel>;
 
 export interface ParticipantRegisterOwnConnectorPageParentForm {
   connectorDetails: ParticipantRegisterOwnConnectorPageFormValue;
-  certificate: GenerateCertificateFormValue;
+  certificate: CertificateFormModelValue;
 }
 
 export const DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_PARENT_FORM_VALUE: ParticipantRegisterOwnConnectorPageParentForm =
   {
     connectorDetails: DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_FORM_VALUE,
-    certificate: DEFAULT_GENERATE_CERTIFICATE_FORM_VALUE,
+    certificate: DEFAULT_CERTIFICATE_FORM_VALUE,
   };
+
+export interface PredefinedCertificateValues {
+  country: string;
+  organizationalName: string;
+  commonName: string;
+}

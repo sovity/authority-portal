@@ -10,14 +10,17 @@ import {OrganizationDetailComponent} from 'src/app/shared/components/business/or
 import {UserRoleFormComponent} from 'src/app/shared/components/business/user-role-form/user-role-form.component';
 import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
 import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
+import {CertificateGeneratorDialogComponent} from './components/business/certificate-generator-dialog/certificate-generator-dialog.component';
+import {CertificateGeneratorComponent} from './components/business/certificate-generator/certificate-generator.component';
 import {UserDetailComponent} from './components/business/user-detail/user-detail.component';
-import {CertificateGeneratorComponent} from './components/certificate-generator/certificate-generator.component';
 import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
 import {HeaderBarComponent} from './components/common/header-bar/header-bar.component';
 import {IframeComponent} from './components/common/iframe/iframe.component';
 import {SelectionBoxComponent} from './components/common/selection-box/selection-box.component';
 import {SlideOverComponent} from './components/common/slide-over/slide-over.component';
+import {TitleBarComponent} from './components/common/title-bar/title-bar.component';
+import {SlideOverService} from './services/slide-over.service';
 import {SvgIconServiceService} from './services/svg-icon.service.service';
 
 @NgModule({
@@ -32,7 +35,9 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SlideOverComponent,
     SelectionBoxComponent,
     IframeComponent,
+    TitleBarComponent,
     CertificateGeneratorComponent,
+    CertificateGeneratorDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -55,10 +60,14 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SlideOverComponent,
     SelectionBoxComponent,
     IframeComponent,
+    TitleBarComponent,
+    CertificateGeneratorComponent,
+    CertificateGeneratorDialogComponent,
   ],
   providers: [
     CertificateGenerateService,
     SvgIconServiceService,
+    SlideOverService,
     OrganizationDetailComponent,
     UserDetailComponent,
     AvatarComponent,
@@ -68,7 +77,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
 export class SharedModule {
   constructor(private svgIconServiceService: SvgIconServiceService) {
     const iconsList = [
-      'all-connectors',
+      'account-circle',
       'arrow-down-tray',
       'arrow-left-on-rectangle',
       'bell',
@@ -77,12 +86,16 @@ export class SharedModule {
       'building-office',
       'checkbox',
       'chevron-down',
+      'chevron-left',
       'chevron-up',
+      'connector-2',
       'connector',
       'document-text',
       'ellipsis-horizontal',
       'extension',
+      'github',
       'home',
+      'navigation-next',
       'pencil',
       'question-mark-circle',
       'search',

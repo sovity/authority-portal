@@ -1,0 +1,305 @@
+<app-loading-element *ngIf="isGenerating" class="my-24"></app-loading-element>
+<div class="h-96 overflow-y-scroll p-4">
+  <form [formGroup]="certificateDetailsForm">
+    <!-- Organizational Legal name -->
+    <div class="flex flex-col justify-between items-center w-full">
+      <label class="w-full mb-2 text-sm" for="formRegOConOrganizationalName"
+        >Organizational Legal Name</label
+      >
+      <mat-form-field
+        class="w-full text-sm"
+        appearance="outline"
+        color="accent">
+        <input
+          id="formRegOConOrganizationalName"
+          matInput
+          formControlName="organizationalName"
+          placeholder="Organizational Name" />
+        <mat-error
+          class="text-sm"
+          appFormControlError
+          fieldName="Organizational Legal Name"
+          [control]="
+            certificateDetailsForm.get('organizationalName')
+          "></mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Organizational Name-->
+
+    <!-- Email -->
+    <div class="flex flex-col justify-between items-center w-full">
+      <label class="w-full mb-2 text-sm" for="formRegOConEmail">Email</label>
+      <mat-form-field
+        class="w-full text-sm"
+        appearance="outline"
+        color="accent">
+        <input
+          id="formRegOConEmail"
+          matInput
+          type="email"
+          formControlName="email"
+          placeholder="Email" />
+        <mat-error
+          class="text-sm"
+          appFormControlError
+          fieldName="Email"
+          [control]="certificateDetailsForm.get('email')"></mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Email  -->
+
+    <!-- Common Name  -->
+    <div class="flex flex-col justify-between items-center w-full">
+      <label class="w-full mb-2 text-sm" for="formRegOConCommonName"
+        >Common Name</label
+      >
+      <mat-form-field
+        class="w-full text-sm"
+        appearance="outline"
+        color="accent">
+        <input
+          id="formRegOConCommonName"
+          matInput
+          formControlName="commonName"
+          placeholder="Participant name" />
+        <mat-error
+          class="text-sm"
+          appFormControlError
+          fieldName="Common Name"
+          [control]="certificateDetailsForm.get('commonName')"></mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Common Name  -->
+
+    <!-- Organizational Unit -->
+    <div class="flex flex-col justify-between items-center w-full">
+      <label class="w-full mb-2 text-sm" for="formRegOConOrganizationalUnit"
+        >Organizational Unit</label
+      >
+      <mat-form-field
+        class="w-full text-sm"
+        appearance="outline"
+        color="accent">
+        <input
+          id="formRegOConOrganizationalUnit"
+          matInput
+          formControlName="organizationalUnit"
+          placeholder="Organizational Unit" />
+        <mat-error
+          class="text-sm"
+          appFormControlError
+          fieldName="Organizational Unit"
+          [control]="
+            certificateDetailsForm.get('organizationalUnit')
+          "></mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Organizational Unit-->
+
+    <!-- Country-->
+    <div class="flex flex-col justify-between items-center w-full">
+      <label class="w-full mb-2 text-sm" for="formRegOConCountry"
+        >Country</label
+      >
+      <mat-form-field
+        class="w-full text-sm"
+        appearance="outline"
+        color="accent">
+        <input
+          id="formRegOConCountry"
+          matInput
+          formControlName="country"
+          placeholder="NL,DE,FR..." />
+        <mat-error
+          class="text-sm"
+          appFormControlError
+          fieldName="Country"
+          [control]="certificateDetailsForm.get('country')"></mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Country-->
+
+    <!-- State/Province -->
+    <div class="flex flex-col justify-between items-center w-full">
+      <label class="w-full mb-2 text-sm" for="formRegOConState"
+        >State/Province</label
+      >
+      <mat-form-field
+        class="w-full text-sm"
+        appearance="outline"
+        color="accent">
+        <input
+          id="formRegOConState"
+          matInput
+          formControlName="state"
+          placeholder="State" />
+        <mat-error
+          class="text-sm"
+          appFormControlError
+          fieldName="State"
+          [control]="certificateDetailsForm.get('state')"></mat-error>
+      </mat-form-field>
+    </div>
+    <!-- State/Province-->
+
+    <!-- City/Locality -->
+    <div class="flex flex-col justify-between items-center w-full">
+      <label class="w-full mb-2 text-sm" for="formRegOConCity"
+        >City/Locality</label
+      >
+      <mat-form-field
+        class="w-full text-sm"
+        appearance="outline"
+        color="accent">
+        <input
+          id="formRegOConCity"
+          matInput
+          formControlName="city"
+          placeholder="City" />
+        <mat-error
+          class="text-sm"
+          appFormControlError
+          fieldName="City"
+          [control]="certificateDetailsForm.get('city')"></mat-error>
+      </mat-form-field>
+    </div>
+    <!-- City/Locality-->
+
+    <div class="py-4">
+      <p class="py-2">
+        Please setup a password to generate a p12 formatted certificate
+      </p>
+      <div class="flex flex-col gap-2">
+        <!-- Password -->
+        <div class="flex flex-col items-center w-full">
+          <label class="w-full mb-2 text-sm" for="formRegOConPassword"
+            >Password</label
+          >
+          <mat-form-field
+            class="w-full text-sm"
+            appearance="outline"
+            color="accent">
+            <input
+              id="formRegOConPassword"
+              matInput
+              autocomplete="off"
+              type="{{ showPassword ? 'text' : 'password' }}"
+              formControlName="password"
+              placeholder="" />
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="togglePasswordVisibility()">
+              <mat-icon>{{
+                showPassword ? 'visibility' : 'visibility_off'
+              }}</mat-icon>
+            </button>
+          </mat-form-field>
+          <div
+            *ngIf="certificateDetailsForm.controls['password'].invalid"
+            class="flex flex-col w-full">
+            <mat-error class="text-sm">
+              <ul>
+                <li
+                  *ngIf="
+                    certificateDetailsForm.controls['password'].touched &&
+                    certificateDetailsForm.controls['password'].dirty &&
+                    certificateDetailsForm.controls['password'].hasError(
+                      'required'
+                    )
+                  ">
+                  Password is a required field
+                </li>
+
+                <li
+                  *ngIf="
+                    certificateDetailsForm.controls['password'].touched &&
+                    certificateDetailsForm.controls['password'].dirty &&
+                    certificateDetailsForm.controls['password'].hasError(
+                      'minlength'
+                    )
+                  ">
+                  Password must contain at least 8 characters
+                </li>
+
+                <li
+                  *ngIf="
+                    certificateDetailsForm.controls['password'].touched &&
+                    certificateDetailsForm.controls['password'].dirty &&
+                    certificateDetailsForm.controls['password'].hasError(
+                      'pattern'
+                    )
+                  ">
+                  Password must contain at least one uppercase letter, one
+                  lowercase letter, and one number
+                </li>
+              </ul>
+            </mat-error>
+          </div>
+        </div>
+        <!-- Password-->
+
+        <!-- Confirm password -->
+        <div class="flex flex-col justify-between items-center w-full">
+          <label class="w-full mb-2 text-sm" for="formRegOConConifirmPassword"
+            >Confirm Password</label
+          >
+          <mat-form-field
+            class="w-full text-sm"
+            appearance="outline"
+            color="accent">
+            <input
+              id="formRegOConConifirmPassword"
+              matInput
+              autocomplete="off"
+              type="{{ showPassword ? 'text' : 'password' }}"
+              formControlName="confirmPassword" />
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="togglePasswordVisibility()">
+              <mat-icon>{{
+                showPassword ? 'visibility' : 'visibility_off'
+              }}</mat-icon>
+            </button>
+          </mat-form-field>
+          <div class="flex flex-col w-full">
+            <mat-error class="text-sm">
+              <ul>
+                <li
+                  *ngIf="
+                    certificateDetailsForm.controls['confirmPassword']
+                      .touched &&
+                    certificateDetailsForm.controls['confirmPassword'].dirty &&
+                    certificateDetailsForm.controls['confirmPassword'].hasError(
+                      'required'
+                    )
+                  ">
+                  Password is a required field
+                </li>
+                <li *ngIf="certificateDetailsForm.hasError('mismatch')">
+                  Passwords do not match
+                </li>
+              </ul>
+            </mat-error>
+          </div>
+        </div>
+        <!-- Confirm password -->
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="pt-6 flex items-center justify-center gap-x-6">
+  <button
+    class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+    type="button"
+    [disabled]="certificateDetailsForm.invalid || isGenerating || isDisabled"
+    [ngClass]="{
+      'opacity-50 cursor-not-allowed':
+        certificateDetailsForm.invalid || isGenerating || isDisabled
+    }"
+    (click)="requestForCertificate()">
+    Generate & Download Certificate
+  </button>
+</div>

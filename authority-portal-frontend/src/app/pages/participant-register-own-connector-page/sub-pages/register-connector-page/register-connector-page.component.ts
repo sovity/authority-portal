@@ -1,19 +1,29 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {Validators} from '@angular/forms';
+import {StepperSelectionEvent} from '@angular/cdk/stepper';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatStepper} from '@angular/material/stepper';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import * as forge from 'node-forge';
+import {UserInfo} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
-import {downloadFile} from 'src/app/core/utils/helper';
-import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
-import {Reset, Submit,} from '../../state/participant-register-own-connector-page-actions';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {PredefinedCertificateValues} from '../../participant-register-own-connector-page/participant-register-own-connector-page-form-model';
+import {
+  Reset,
+  Submit,
+} from '../../state/participant-register-own-connector-page-actions';
 import {
   DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_STATE,
   ParticipantRegisterOwnConnectorPageState,
 } from '../../state/participant-register-own-connector-page-state';
-import {
-  ParticipantRegisterOwnConnectorPageStateImpl
-} from '../../state/participant-register-own-connector-page-state-impl';
+import {ParticipantRegisterOwnConnectorPageStateImpl} from '../../state/participant-register-own-connector-page-state-impl';
 import {RegisterConnectorForm} from './register-connector-form';
 
 @Component({
@@ -23,32 +33,47 @@ import {RegisterConnectorForm} from './register-connector-form';
 })
 export class RegisterConnectorPageComponent implements OnInit, OnDestroy {
   state = DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_STATE;
-
-  keyPair!: forge.pki.rsa.KeyPair;
-  publicKeyPem!: string;
-  privateKeyPem!: string;
+  stepperFormGroup!: FormGroup;
   hasCertificate: boolean = false;
-  isDownloadActive: boolean = false;
-  isGenerating: boolean = false;
-  hasDownloadedKey: boolean = false;
-  isLinear: boolean = true;
+  userInfo!: UserInfo;
+  predefinedValues!: PredefinedCertificateValues;
+  enableSubmitButton: boolean = false;
 
-  group = this.form.formGroup.controls['connectorDetails'];
+  connectorDetailsFormGroup = this.form.formGroup.controls['connectorDetails'];
   certificateFormGroup = this.form.formGroup.controls['certificate'];
+
+  @ViewChild('tokenUrlElement') tokenUrlElement!: ElementRef;
+  @ViewChild('jwksUrlElement') jwksUrlElement!: ElementRef;
+  @ViewChild('stepper') stepper!: MatStepper;
+
+  urlString = `https://{{Your Connector}}`;
+
+  private ngOnDestroy$ = new Subject();
 
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
     private store: Store,
     public form: RegisterConnectorForm,
-    private certificateGenerateService: CertificateGenerateService,
+    private globalStateUtils: GlobalStateUtils,
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit(): void {
+    this.disableStepperHeader();
     this.store.dispatch(Reset);
     this.startListeningToState();
+    this.getUserInfo();
   }
 
-  private startListeningToState() {
+  getUserInfo() {
+    this.globalStateUtils.userInfo$
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe((userInfo: UserInfo) => {
+        this.userInfo = userInfo;
+      });
+  }
+
+  startListeningToState() {
     this.store
       .select<ParticipantRegisterOwnConnectorPageState>(
         ParticipantRegisterOwnConnectorPageStateImpl,
@@ -59,85 +84,89 @@ export class RegisterConnectorPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**
-   * Generate a certificate based on the form values
-   */
-  generateCertificate() {
-    this.isGenerating = true;
-    this.keyPair = this.certificateGenerateService.generateKeyPair(2048);
-    this.publicKeyPem = this.certificateGenerateService.publicKeyToPem(
-      this.keyPair.publicKey,
-    );
-    this.privateKeyPem = this.certificateGenerateService.privateKeyToPem(
-      this.keyPair.privateKey,
-    );
-    this.group.controls['certificate'].setValue(this.publicKeyPem);
-    this.certificateFormGroup.controls['certificate'].setValue(
-      this.publicKeyPem,
-    );
-    this.isDownloadActive = true;
-    this.isGenerating = false;
-  }
-
-  /**
-   * Download the generated key based on the type
-   * @param type
-   */
-  downloadKey(type: 'PRIVATE_KEY' | 'PUBLIC_KEY') {
-    this.hasDownloadedKey = true;
-    switch (type) {
-      case 'PRIVATE_KEY':
-        downloadFile('private_key.pem', this.privateKeyPem, 'text/plain');
-        break;
-      case 'PUBLIC_KEY':
-        downloadFile('public_key.pem', this.publicKeyPem, 'text/plain');
-        break;
-    }
-  }
-
-  submit(): void {
-    if (!this.hasDownloadedKey) {
-      downloadFile('private_key.pem', this.privateKeyPem, 'text/plain');
-      downloadFile('public_key.pem', this.publicKeyPem, 'text/plain');
-    }
-    this.group.disable();
+  registerConnector(): void {
+    this.stepperFormGroup.controls['submitConnector'].setValue(true);
+    this.form.formGroup.disable();
     this.store.dispatch(
       new Submit(
-        this.form.connectorDetailsValue,
-        () => this.group.enable(),
-        () => this.group.disable(),
+        {
+          ...this.form.connectorDetailsValue,
+          certificate: this.form.certificateValue.certificate,
+        },
+        () => this.form.formGroup.enable(),
+        () => this.form.formGroup.disable(),
       ),
     );
+    this.stepper.next();
   }
 
-  onStepChange(event: number) {
-    if (event > 1) {
-      this.isLinear = false; // to enable user go back and generate a new key
-      this.group.controls['certificate'].addValidators(Validators.required);
-      this.group.controls['certificate'].addValidators(
-        Validators.pattern(
-          /^(-----BEGIN PUBLIC KEY-----)[\s\S]*?(-----END PUBLIC KEY-----)\s*$/m,
-        ),
-      );
-    } else {
-      this.isLinear = true; // to disable navigating other steps without validation
-      this.group.controls['certificate'].clearValidators();
-    }
-    this.group.controls['certificate'].updateValueAndValidity();
+  /**
+   * This method prepares the Generate Certificate step
+   * @param goToNext if true move to next step, if not it means the method is called while moving to the next step so no need to call it again
+   */
+  onConnectorDetailCollected(goToNext: boolean) {
+    this.predefinedValues = {
+      country: this.connectorDetailsFormGroup.controls['location'].value,
+      organizationalName: this.userInfo.organizationName,
+      commonName: this.connectorDetailsFormGroup.controls['endpointUrl'].value,
+    };
+    if (goToNext) this.stepper.next();
   }
 
-  clearCertificate() {
-    this.certificateFormGroup.reset();
-    this.group.controls['certificate'].reset();
+  generatedCertificateHandler(certificate: string) {
+    if (!certificate || certificate == '') return;
+    this.enableSubmitButton = true;
+    this.certificateFormGroup.controls['certificate'].setValue(certificate);
+    this.certificateFormGroup.controls['certificate'].disable();
+  }
+
+  clearCertificateForm() {
+    this.certificateFormGroup.controls['certificate'].reset();
+
     if (this.hasCertificate) {
-      this.certificateFormGroup.disable();
-      this.isDownloadActive = false;
+      this.enableSubmitButton = true;
+      this.certificateFormGroup.controls['certificate'].enable();
     } else {
-      this.certificateFormGroup.enable();
+      this.certificateFormGroup.controls['certificate'].disable();
+      this.enableSubmitButton = false;
     }
   }
 
-  ngOnDestroy$ = new Subject();
+  /**
+   * if users are stepping to Generate Certificate, method, the onConnectorDetailCollected should be called
+   * @param event
+   */
+  onStepChange(event: StepperSelectionEvent) {
+    if (event.selectedIndex === 1) this.onConnectorDetailCollected(false);
+  }
+
+  copyToClipboard() {
+    const tokenUrl = this.tokenUrlElement.nativeElement.innerText.trim();
+    const jwksUrl = this.jwksUrlElement.nativeElement.innerText.trim();
+
+    const combinedValue = `${tokenUrl}\n${jwksUrl}`;
+    const textarea = document.createElement('textarea');
+    textarea.value = combinedValue;
+
+    // Append the textarea to the document
+    document.body.appendChild(textarea);
+    textarea.select();
+    navigator.clipboard.writeText(combinedValue);
+    // Remove the textarea from the document
+    document.body.removeChild(textarea);
+  }
+
+  goToGithub() {
+    const externalLink = 'https://github.com'; // Replace with your external link
+    window.open(externalLink, '_blank');
+  }
+
+  disableStepperHeader() {
+    // this is to disable navigation with the stepper header
+    this.stepperFormGroup = this.formBuilder.group({
+      submitConnector: [false, [Validators.requiredTrue]],
+    });
+  }
 
   ngOnDestroy() {
     this.ngOnDestroy$.next(null);

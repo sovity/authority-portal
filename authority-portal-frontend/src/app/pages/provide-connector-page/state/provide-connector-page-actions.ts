@@ -15,3 +15,7 @@ export class Submit {
     public disableForm: () => void,
   ) {}
 }
+
+export class GetOrganizations {
+  static readonly type = `[${tag}] Refresh Organizations`;
+}

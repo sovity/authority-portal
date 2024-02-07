@@ -21,6 +21,8 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
   filter = 'ALL';
   selectedEnvironment!: DeploymentEnvironmentDto;
 
+  private ngOnDestroy$ = new Subject();
+
   constructor(
     private store: Store,
     private apiService: ApiService,
@@ -61,8 +63,6 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
   filterBy(filter: string) {
     this.filter = filter;
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);

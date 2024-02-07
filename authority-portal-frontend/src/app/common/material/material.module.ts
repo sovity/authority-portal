@@ -12,6 +12,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -30,6 +31,7 @@ const Material = [
   MatMenuModule,
   MatRadioModule,
   MatSelectModule,
+  MatSlideToggleModule,
   MatStepperModule,
   MatTabsModule,
   MatToolbarModule,

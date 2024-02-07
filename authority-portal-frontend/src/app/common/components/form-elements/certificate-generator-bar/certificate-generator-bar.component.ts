@@ -3,15 +3,13 @@ import {FormControl} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Subject, takeUntil} from 'rxjs';
 import {UserInfo} from '@sovity.de/authority-portal-client';
-import {GlobalStateUtils} from '../../../../core/global-state/global-state-utils';
-import {downloadFile} from '../../../../core/utils/download-utils';
-import {
-  CertificateGeneratorComponent
-} from '../../../../shared/components/certificate-generator/certificate-generator.component';
 import {
   CertificateGeneratorConfig,
   CertificateResult,
-} from '../../../../shared/components/certificate-generator/certificate-generator.model';
+} from 'src/app/shared/services/certificate-generate.service';
+import {GlobalStateUtils} from '../../../../core/global-state/global-state-utils';
+import {downloadFile} from '../../../../core/utils/download-utils';
+import {CertificateGeneratorDialogComponent} from '../../../../shared/components/business/certificate-generator-dialog/certificate-generator-dialog.component';
 
 @Component({
   selector: 'app-certificate-generator-bar',
@@ -37,6 +35,8 @@ export class CertificateGeneratorBarComponent implements OnInit, OnDestroy {
 
   userInfo: UserInfo | null = null;
 
+  private ngOnDestroy$ = new Subject();
+
   constructor(
     private dialog: MatDialog,
     private globalStateUtils: GlobalStateUtils,
@@ -54,7 +54,7 @@ export class CertificateGeneratorBarComponent implements OnInit, OnDestroy {
       email: '',
     };
 
-    const dialogRef = this.dialog.open(CertificateGeneratorComponent, {
+    const dialogRef = this.dialog.open(CertificateGeneratorDialogComponent, {
       data: config,
       width: '50%',
     });
@@ -85,7 +85,6 @@ export class CertificateGeneratorBarComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy$ = new Subject();
   ngOnDestroy() {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();

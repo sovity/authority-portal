@@ -1,4 +1,4 @@
-import {Component, HostBinding} from '@angular/core';
+import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
@@ -20,12 +20,14 @@ import {CentralComponentListPageStateImpl} from '../state/central-component-list
   selector: 'app-central-component-list-page',
   templateUrl: './central-component-list-page.component.html',
 })
-export class CentralComponentListPageComponent {
+export class CentralComponentListPageComponent implements OnInit, OnDestroy {
   @HostBinding('class.overflow-y-auto')
   @HostBinding('class.overflow-x-hidden')
   cls = true;
 
   state = DEFAULT_CENTRAL_COMPONENT_LIST_PAGE_STATE;
+
+  private ngOnDestroy$ = new Subject();
 
   constructor(
     private store: Store,
@@ -71,8 +73,6 @@ export class CentralComponentListPageComponent {
       },
     });
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);

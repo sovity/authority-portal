@@ -3,38 +3,53 @@
   role="dialog"
   aria-labelledby="slide-over-title"
   aria-modal="true">
-  <div
-    class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-    (click)="onClose()"></div>
-
   <div class="absolute inset-0 overflow-hidden">
     <div
       class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
-      <div class="pointer-events-auto w-screen max-w-2xl">
-        <div class="flex flex-col overflow-hidden bg-white shadow-xl">
-          <div class="relative flex-1">
-            <div class="bg-gray-100 flex flex-col justify-between h-52">
+      <div class="pointer-events-auto w-screen max-w-3xl">
+        <div class="flex flex-col overflow-hidden shadow-xl shadow-gray-400">
+          <div class="relative flex-1 bg-[#fcfcfc]">
+            <div
+              class="bg-gray-100 flex flex-col justify-between h-24 md:h-36 lg:h-44 xl:h-52">
               <!-- Top header -->
-              <div class="flex justify-between">
+              <div
+                class="flex"
+                [ngClass]="
+                  state.config.showNavigation
+                    ? 'justify-between'
+                    : 'justify-end'
+                ">
                 <!-- Navigation -->
-                <div *ngIf="slideOverConfig.showNavigation" class="p-2">
-                  <button mat-icon-button (click)="onNavigate('PREVIOUS')">
-                    <mat-icon
-                      class="text-gray-500 hover:text-brand-golden"
-                      svgIcon="chevron-up"></mat-icon>
-                  </button>
-                  <button mat-icon-button (click)="onNavigate('NEXT')">
-                    <mat-icon
-                      class="text-gray-500 hover:text-brand-golden"
-                      svgIcon="chevron-down"></mat-icon>
-                  </button>
+                <div *ngIf="state.config.showNavigation" class="p-2">
+                  <ng-container [ngSwitch]="state.config.navigationType">
+                    <ng-container *ngSwitchCase="'STEPPER'">
+                      <button mat-icon-button (click)="onNavigate('PREVIOUS')">
+                        <mat-icon
+                          class="align-top text-gray-500 hover:text-brand-golden"
+                          svgIcon="chevron-up"></mat-icon>
+                      </button>
+                      <button mat-icon-button (click)="onNavigate('NEXT')">
+                        <mat-icon
+                          class="align-top text-gray-500 hover:text-brand-golden"
+                          svgIcon="chevron-down"></mat-icon>
+                      </button>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'GO_BACK'">
+                      <button mat-icon-button (click)="onGoBack()">
+                        <mat-icon
+                          class="align-top text-gray-500 hover:text-brand-golden"
+                          svgIcon="chevron-left"></mat-icon>
+                      </button>
+                    </ng-container>
+                  </ng-container>
                 </div>
                 <!-- Navigation -->
 
                 <!-- Actions -->
                 <div class="p-2">
                   <button mat-icon-button (click)="onClose()">
-                    <mat-icon class="text-gray-500 hover:text-brand-golden"
+                    <mat-icon
+                      class="align-top text-gray-500 hover:text-brand-golden"
                       >close</mat-icon
                     >
                   </button>
@@ -42,19 +57,10 @@
                 <!-- Actions -->
               </div>
               <!-- Top header -->
-
-              <!-- Title bar -->
-              <div class="flex justify-between pb-3 px-8 items-center">
-                <h2 class="text-black font-semibold text-2xl inline-flex gap-2">
-                  <mat-icon [svgIcon]="slideOverConfig.icon"></mat-icon>
-                  {{ slideOverConfig.label }}
-                </h2>
-              </div>
-              <!-- Title bar -->
             </div>
 
             <!-- Slide over content -->
-            <div class="h-screen overflow-y-auto">
+            <div class="min-h-screen">
               <ng-container
                 *ngComponentOutlet="
                   component;

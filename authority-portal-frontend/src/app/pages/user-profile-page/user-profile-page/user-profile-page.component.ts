@@ -15,7 +15,8 @@ import {UserProfilePageStateImpl} from 'src/app/pages/user-profile-page/state/us
 })
 export class UserProfilePageComponent implements OnInit, OnDestroy {
   state = DEFAULT_USER_PROFILE_PAGE_STATE;
-  ngOnDestroy$ = new Subject();
+
+  private ngOnDestroy$ = new Subject();
 
   constructor(
     private store: Store,

@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
@@ -24,11 +24,13 @@ import {
   selector: 'app-participant-invite-new-user',
   templateUrl: './participant-invite-new-user.component.html',
 })
-export class ParticipantInviteNewUserComponent {
+export class ParticipantInviteNewUserComponent implements OnInit, OnDestroy {
   state = DEFAULT_PARTICIPANT_INVITE_NEW_USER_PAGE_STATE;
   group = this.buildFormGroup();
 
   existingUserRoles: UserRoleDto[] = [];
+
+  private ngOnDestroy$ = new Subject();
 
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
@@ -97,8 +99,6 @@ export class ParticipantInviteNewUserComponent {
       it.startsWith('PARTICIPANT'),
     );
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy() {
     this.ngOnDestroy$.next(null);

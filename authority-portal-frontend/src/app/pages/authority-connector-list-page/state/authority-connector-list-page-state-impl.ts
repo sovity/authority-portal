@@ -16,7 +16,11 @@ import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {Fetched} from 'src/app/core/utils/fetched';
-import {GetConnectors} from './authority-connector-list-page-actions';
+import {
+  CloseConnectorDetail,
+  GetConnectors,
+  ShowConnectorDetail,
+} from './authority-connector-list-page-actions';
 import {
   AuthorityConnectorListPageState,
   DEFAULT_AUTHORITY_CONNECTOR_LIST_PAGE_STATE,
@@ -53,5 +57,15 @@ export class AuthorityConnectorListPageStateImpl {
     newConnectors: Fetched<ConnectorOverviewEntryDto[]>,
   ) {
     ctx.patchState({connectors: newConnectors});
+  }
+
+  @Action(ShowConnectorDetail)
+  onShowConnectorDetail(ctx: StateContext<AuthorityConnectorListPageState>) {
+    ctx.patchState({showDetail: true});
+  }
+
+  @Action(CloseConnectorDetail)
+  onCloseConnectorDetail(ctx: StateContext<AuthorityConnectorListPageState>) {
+    ctx.patchState({showDetail: false});
   }
 }

@@ -53,8 +53,8 @@ export class SidebarComponent {
             rLink: '/authority/organizations',
           },
           {
-            title: 'Connectors',
-            icon: 'all-connectors',
+            title: 'All Connectors',
+            icon: 'connector',
             rLink: '/authority/connectors',
           },
         ],

@@ -1,14 +1,21 @@
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {ignoreElements, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {ignoreElements, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
-import {CreateConnectorResponse} from '@sovity.de/authority-portal-client';
+import {
+  CreateConnectorResponse,
+  OrganizationOverviewEntryDto,
+} from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
+import {Fetched} from 'src/app/core/utils/fetched';
 import {ApiService} from '../../../core/api/api.service';
-import {Reset, Submit} from './provide-connector-page-actions';
+import {
+  GetOrganizations,
+  Reset,
+  Submit,
+} from './provide-connector-page-actions';
 import {
   DEFAULT_PROVIDE_CONNECTOR_STATE,
   ProvideConnectorPageState,
@@ -24,7 +31,6 @@ export class ProvideConnectorPageStateImpl {
     private apiService: ApiService,
     private actions$: Actions,
     private toast: ToastService,
-    private router: Router,
     private errorService: ErrorService,
     private globalStateUtils: GlobalStateUtils,
   ) {}
@@ -58,7 +64,6 @@ export class ProvideConnectorPageStateImpl {
               `Connector ${action.request.name} was successfully provided`,
             );
             ctx.patchState({state: 'success'});
-            this.router.navigate(['/my-organization', 'connectors']);
             break;
           case 'WARNING':
             this.toast.showWarning(
@@ -66,7 +71,6 @@ export class ProvideConnectorPageStateImpl {
                 'A problem occurred while providing the connector.',
             );
             ctx.patchState({state: 'success'});
-            this.router.navigate(['/my-organization', 'connectors']);
             break;
           case 'ERROR':
             this.toast.showDanger(res?.message || 'Failed providing connector');
@@ -82,5 +86,27 @@ export class ProvideConnectorPageStateImpl {
       }),
       ignoreElements(),
     );
+  }
+
+  @Action(GetOrganizations, {cancelUncompleted: true})
+  onRefreshOrganizations(
+    ctx: StateContext<ProvideConnectorPageState>,
+  ): Observable<never> {
+    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
+      switchMap((deploymentEnvironmentId) =>
+        this.apiService.getOrganizationsForAuthority(deploymentEnvironmentId),
+      ),
+      map((result) => result.organizations),
+      Fetched.wrap({failureMessage: 'Failed loading organizations'}),
+      tap((organizations) => this.organizationsRefreshed(ctx, organizations)),
+      ignoreElements(),
+    );
+  }
+
+  private organizationsRefreshed(
+    ctx: StateContext<ProvideConnectorPageState>,
+    newOrganizations: Fetched<OrganizationOverviewEntryDto[]>,
+  ) {
+    ctx.patchState({organizationList: newOrganizations});
   }
 }

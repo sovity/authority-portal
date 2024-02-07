@@ -1,7 +1,23 @@
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {Subject, takeUntil} from 'rxjs';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {
+  Subject,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
 import {ChildComponentInput} from 'src/app/shared/components/common/slide-over/slide-over.model';
+import {
+  ActionMenu,
+  TitleBarConfig,
+  TitleBarMenuActionEvent,
+} from 'src/app/shared/components/common/title-bar/title-bar.model';
+import {DeleteOwnConnector} from '../../participant-own-connector-list-page/state/participant-own-connector-list-page-actions';
 import {
   RefreshConnector,
   SetConnectorId,
@@ -11,6 +27,7 @@ import {
   ParticipantOwnConnectorDetailPageState,
 } from '../state/participant-own-connector-detail-page-state';
 import {ParticipantOwnConnectorDetailPageStateImpl} from '../state/participant-own-connector-detail-page-state-impl';
+import {ParticipantOwnConnectorActions} from './participant-own-connector-detail-page.model';
 
 @Component({
   selector: 'app-participant-own-connector-detail-page',
@@ -20,13 +37,19 @@ export class ParticipantOwnConnectorDetailPageComponent
   implements OnInit, OnDestroy
 {
   connectorId!: string;
-  path = `M4.26 10.147a60.436 60.436 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.905 59.905 0 0 1 12 3.493a59.902 59.902 0 0 1 10.399 5.84 51.39 51.39 0 0 0-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5`;
+  titleBarConfig!: TitleBarConfig;
+  showModal = false;
 
   state = DEFAULT_PARTICIPANT_OWN_CONNECTOR_DETAIL_PAGE_STATE;
+
+  getConnectorsTypeClasses = getConnectorsTypeClasses;
+
+  private ngOnDestroy$ = new Subject();
 
   constructor(
     private store: Store,
     @Inject('childComponentInput') childComponentInput: ChildComponentInput,
+    private globalStateUtils: GlobalStateUtils,
   ) {
     this.connectorId = childComponentInput.id;
   }
@@ -39,21 +62,82 @@ export class ParticipantOwnConnectorDetailPageComponent
   }
 
   private startListeningToState() {
+    let actionMenu: ActionMenu = {
+      id: 'actionMenu',
+      menuOptions: [
+        {
+          label: 'Delete Connector',
+          icon: 'delete',
+          event: ParticipantOwnConnectorActions.DELETE_CONNECTOR,
+          isDisabled: false,
+        },
+      ],
+    };
     this.store
       .select<ParticipantOwnConnectorDetailPageState>(
         ParticipantOwnConnectorDetailPageStateImpl,
       )
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((state) => {
-        this.state = state;
+      .pipe(
+        takeUntil(this.ngOnDestroy$),
+        tap((state) => (this.state = state)),
+        switchMap(() => {
+          return this.globalStateUtils.userRoles$.pipe(
+            map((roles) => roles.has('PARTICIPANT_CURATOR')),
+            distinctUntilChanged(),
+          );
+        }),
+      )
+      .subscribe((hasRole) => {
+        //render the title bar, based on the current user role
+        this.setupConnectorTitleBar(
+          this.state.connector.data,
+          hasRole ? actionMenu : undefined,
+        );
       });
+  }
+
+  /**
+   * initialize the title bar component based on organization details
+   * @param organization
+   */
+  setupConnectorTitleBar(
+    connector: ConnectorDetailDto,
+    actionMenu?: ActionMenu,
+  ) {
+    this.titleBarConfig = {
+      title: connector.connectorName,
+      icon: 'connector-2',
+      status: connector.type,
+      statusStyle: this.getConnectorsTypeClasses(connector.type),
+      tabs: [],
+    };
+    if (actionMenu) this.titleBarConfig.actionMenu = actionMenu;
   }
 
   refresh() {
     this.store.dispatch(RefreshConnector);
   }
 
-  ngOnDestroy$ = new Subject();
+  menuActionHandler(action: TitleBarMenuActionEvent) {
+    switch (action.event) {
+      case ParticipantOwnConnectorActions.DELETE_CONNECTOR:
+        this.deleteConnector();
+        break;
+    }
+  }
+
+  deleteConnector() {
+    this.showModal = true;
+  }
+
+  confirmDeleteConnector() {
+    this.store.dispatch(new DeleteOwnConnector(this.connectorId));
+    this.showModal = false;
+  }
+
+  cancelDeleteConnector() {
+    this.showModal = false;
+  }
 
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);

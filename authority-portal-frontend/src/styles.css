@@ -12,14 +12,14 @@
   src: url('./assets/fonts/inter-v13-latin-regular.woff2') format('woff2');
 }
 
-/* material-icons-regular - latin */
+/* Outlined Material Icons */
 @font-face {
   font-display: swap;
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: local('Material Icons'), local('MaterialIcons-Regular'),
-    url('./assets/fonts/material-icons-v140-latin-regular.woff2')
+  src: local('Material Icons Outlined'), local('MaterialIcons-Outlined'),
+    url('./assets/fonts/material-icons-outlined-v109-latin-regular.woff2')
       format('woff2');
 }
 
@@ -39,8 +39,6 @@ html {
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
   font-family: Arial, 'Inter', sans-serif;
 }
 
@@ -70,6 +68,10 @@ h5 {
 
 p {
   @apply text-sm font-normal text-gray-500 leading-5;
+}
+
+textarea {
+  overflow-y: scroll; /* Hide any content that overflows the box */
 }
 
 .material-icons {
@@ -111,10 +113,22 @@ p {
 }
 
 .btn-accent {
-  @apply rounded-md bg-brand-black px-3 py-2 text-sm font-semibold text-white shadow-sm  hover:text-brand-500;
+  @apply rounded-md bg-brand-black px-4 py-2 text-sm font-semibold text-white shadow-sm  hover:text-brand-500;
 }
 .btn-accent-outline {
-  @apply rounded-md px-3 py-2 text-sm font-semibold shadow-sm hover:border  hover:border-black focus-visible:outline;
+  @apply rounded-md px-4 py-2 text-sm font-semibold shadow-sm hover:border  hover:border-black focus-visible:outline;
+}
+
+.btn-accent-danger {
+  @apply rounded-md bg-red-700 px-4 py-2 text-sm font-semibold text-white shadow-sm  hover:text-brand-500;
+}
+
+.btn-accent-success {
+  @apply rounded-md bg-green-700 px-4 py-2 text-sm font-semibold text-white shadow-sm  hover:text-brand-500;
+}
+
+.btn-outline {
+  @apply flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold shadow-sm border hover:border-black focus-visible:outline;
 }
 
 .btn-dropdown-menu {
@@ -143,6 +157,38 @@ p {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #aaa;
+}
+
+.details-row {
+  @apply px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 items-start transition duration-300 ease-in-out transform;
+}
+
+.details-row:nth-child(odd) {
+  @apply bg-gray-100;
+}
+
+.profile .details-row {
+  @apply py-4 text-sm;
+}
+
+.status {
+  @apply px-3 py-1 text-xs flex justify-center items-center font-normal rounded-full gap-x-2;
+}
+
+.larger-icon {
+  @apply w-9 h-9 !important;
+}
+
+.smaller-icon {
+  @apply w-4 text-base !important;
+}
+
+.mat-icon .larger {
+  @apply w-8 h-8;
+}
+
+.mat-mdc-menu-panel.customMatMenu {
+  max-width: fit-content !important;
 }
 
 input:-webkit-autofill,

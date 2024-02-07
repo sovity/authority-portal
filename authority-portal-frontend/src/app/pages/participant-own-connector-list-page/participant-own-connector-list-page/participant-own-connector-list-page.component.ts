@@ -9,16 +9,20 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
+import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
 import {FilterBarConfig} from 'src/app/shared/components/common/filter-bar/filter-bar.model';
 import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
 import {
+  NavigationType,
   SlideOverAction,
   SlideOverConfig,
 } from 'src/app/shared/components/common/slide-over/slide-over.model';
+import {SlideOverService} from 'src/app/shared/services/slide-over.service';
 import {ParticipantOwnConnectorDetailPageComponent} from '../../participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {
-  DeleteOwnConnector,
+  CloseConnectorDetail,
   GetOwnOrganizationConnectors,
+  ShowConnectorDetail,
 } from '../state/participant-own-connector-list-page-actions';
 import {
   DEFAULT_PARTICIPANT_OWN_CONNECTOR_LIST_PAGE_STATE,
@@ -35,19 +39,21 @@ export class ParticipantOwnConnectorListPageComponent
   implements OnInit, OnDestroy
 {
   state = DEFAULT_PARTICIPANT_OWN_CONNECTOR_LIST_PAGE_STATE;
-  connectorToDelete = '';
   showDetail: boolean = false;
   slideOverConfig!: SlideOverConfig;
   componentToRender = ParticipantOwnConnectorDetailPageComponent;
   headerConfig!: HeaderBarConfig;
   filterBarConfig!: FilterBarConfig;
 
-  showModal = false;
+  getConnectorsTypeClasses = getConnectorsTypeClasses;
+
+  private ngOnDestroy$ = new Subject();
 
   constructor(
     private store: Store,
     private globalStateUtils: GlobalStateUtils,
     private router: Router,
+    private slideOverService: SlideOverService,
   ) {}
 
   ngOnInit() {
@@ -110,22 +116,8 @@ export class ParticipantOwnConnectorListPageComponent
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
+        this.showDetail = state.showDetail;
       });
-  }
-
-  deleteConnector(connectorId: string) {
-    this.showModal = true;
-    this.connectorToDelete = connectorId;
-  }
-
-  confirmDeleteConnector() {
-    this.store.dispatch(new DeleteOwnConnector(this.connectorToDelete));
-    this.showModal = false;
-  }
-
-  cancelDeleteConnector() {
-    this.connectorToDelete = '';
-    this.showModal = false;
   }
 
   startRefreshingOnEnvChange() {
@@ -144,14 +136,10 @@ export class ParticipantOwnConnectorListPageComponent
         break;
       }
       case ParticipantOwnConnectorListHeaderActions.PROVIDE_CONNECTOR: {
-        this.router.navigate(['my-organization/connectors/provide-connector']);
+        this.router.navigate(['/my-organization/connectors/provide-connector']);
         break;
       }
     }
-  }
-
-  handleFilter(filterQuery: any) {
-    //TODO:implement filter handler
   }
 
   handleNavigation(direction: SlideOverAction, currentConnectorId: string) {
@@ -172,10 +160,12 @@ export class ParticipantOwnConnectorListPageComponent
       },
       label: this.state.connectors.data[nextIndex].name,
     };
+    this.slideOverService.setSlideOverConfig(this.slideOverConfig);
   }
 
   closeDetailPage() {
-    this.showDetail = false;
+    this.store.dispatch(CloseConnectorDetail);
+    this.slideOverService.slideOverReset();
   }
 
   openDetailPage(connector: ConnectorOverviewEntryDto) {
@@ -186,13 +176,14 @@ export class ParticipantOwnConnectorListPageComponent
       label: connector.name,
       icon: 'connector',
       showNavigation: this.state.connectors.data.length > 1,
+      navigationType: NavigationType.STEPPER,
     };
-    this.showDetail = true;
+    this.slideOverService.setSlideOverConfig(this.slideOverConfig);
+    this.store.dispatch(ShowConnectorDetail);
   }
 
-  ngOnDestroy$ = new Subject();
-
   ngOnDestroy(): void {
+    this.closeDetailPage();
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }

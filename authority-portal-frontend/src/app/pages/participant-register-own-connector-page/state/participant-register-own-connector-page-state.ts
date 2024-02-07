@@ -9,7 +9,7 @@ import {
 
 export interface ParticipantRegisterOwnConnectorPageState {
   registerOwnConnectorParentForm: NgxsFormState<ParticipantRegisterOwnConnectorPageParentForm>;
-
+  connectorId: string;
   state: 'editing' | 'submitting' | 'success' | 'error';
 }
 
@@ -18,5 +18,6 @@ export const DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_STATE: ParticipantRegist
     registerOwnConnectorParentForm: initialFormState(
       DEFAULT_PARTICIPANT_REGISTER_OWN_CONNECTOR_PARENT_FORM_VALUE,
     ),
+    connectorId: '',
     state: 'editing',
   };

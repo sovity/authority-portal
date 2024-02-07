@@ -11,6 +11,8 @@ import {GlobalStateImpl} from '../../../core/global-state/global-state-impl';
 export class LoadingPageComponent implements OnInit, OnDestroy {
   state!: GlobalState;
 
+  private ngOnDestroy$ = new Subject();
+
   constructor(private store: Store) {}
 
   ngOnInit() {
@@ -22,8 +24,6 @@ export class LoadingPageComponent implements OnInit, OnDestroy {
       .select<GlobalState>(GlobalStateImpl)
       .subscribe((state) => (this.state = state));
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);

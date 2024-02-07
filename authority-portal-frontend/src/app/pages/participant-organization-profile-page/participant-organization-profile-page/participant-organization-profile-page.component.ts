@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {GlobalState} from 'src/app/core/global-state/global-state';
@@ -18,9 +18,12 @@ import {ParticipantOrganizationProfilePageStateImpl} from 'src/app/pages/partici
   selector: 'app-participant-organization-profile',
   templateUrl: './participant-organization-profile-page.component.html',
 })
-export class ParticipantOrganizationProfilePageComponent {
+export class ParticipantOrganizationProfilePageComponent
+  implements OnInit, OnDestroy
+{
   state = DEFAULT_PARTICIPANT_ORGANIZATION_PROFILE_PAGE_STATE;
-  ngOnDestroy$ = new Subject();
+
+  private ngOnDestroy$ = new Subject();
 
   constructor(
     private store: Store,

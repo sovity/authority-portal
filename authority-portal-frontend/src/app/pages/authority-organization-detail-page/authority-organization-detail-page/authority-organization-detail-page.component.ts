@@ -26,6 +26,8 @@ export class AuthorityOrganizationDetailPageComponent
 {
   state = DEFAULT_AUTHORITY_ORGANIZATION_DETAIL_PAGE_STATE;
 
+  private ngOnDestroy$ = new Subject();
+
   constructor(
     private store: Store,
     private route: ActivatedRoute,
@@ -94,8 +96,6 @@ export class AuthorityOrganizationDetailPageComponent
       }
     }
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);

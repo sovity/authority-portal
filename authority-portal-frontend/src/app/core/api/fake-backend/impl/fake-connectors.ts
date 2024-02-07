@@ -27,6 +27,34 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     managementUrl: 'https://xample.test1/connector/api/management',
   },
   {
+    connectorId: 'MDSL1111AA.AP23H5W',
+    type: ConnectorTypeDto.Own,
+    orgName: 'Example Organization',
+    orgMdsId: 'MDSL1111AA',
+    hostName: 'Example Host',
+    hostMdsId: 'MDSL1111AA',
+    environment: {environmentId: '123', title: 'test'},
+    connectorName: 'Example Connector 2',
+    location: 'Germany, EU',
+    frontendUrl: 'https://xample.test1/connector',
+    endpointUrl: 'https://xample.test1/connector/api/dsp',
+    managementUrl: 'https://xample.test1/connector/api/management',
+  },
+  {
+    connectorId: 'MDSL1111AA.AP35I6Y',
+    type: ConnectorTypeDto.Provided,
+    orgName: 'Example Organization',
+    orgMdsId: 'MDSL1111AA',
+    hostName: 'Service Partner Organization',
+    hostMdsId: 'MDSL7777AA',
+    environment: {environmentId: '123', title: 'test'},
+    connectorName: 'Provided Connector 1',
+    location: 'Germany, EU',
+    frontendUrl: 'https://xample.test1/connector',
+    endpointUrl: 'https://xample.test1/connector/api/dsp',
+    managementUrl: 'https://xample.test1/connector/api/management',
+  },
+  {
     connectorId: 'MDSL2222BB.CP59I8U',
     type: ConnectorTypeDto.Own,
     orgName: 'Example Organization',
@@ -84,6 +112,30 @@ export const getListOfConnectorsForTable = (
       };
     }),
   };
+};
+
+export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
+  const mdsId = getUserInfo().organizationMdsId;
+  return {
+    connectors: TEST_CONNECTORS.filter((c) => c.orgMdsId === mdsId).map((c) => {
+      return {
+        id: c.connectorId,
+        hostName: c.hostName,
+        type: c.type,
+        environment: c.environment,
+        name: c.connectorName,
+      };
+    }),
+  };
+};
+
+export const getDetailsofOwnConnector = (
+  connectorId: string,
+): ConnectorDetailDto => {
+  const mdsId = getUserInfo().organizationMdsId;
+  return TEST_CONNECTORS.filter(
+    (c) => c.orgMdsId === mdsId && c.connectorId === connectorId,
+  )[0];
 };
 
 export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {
