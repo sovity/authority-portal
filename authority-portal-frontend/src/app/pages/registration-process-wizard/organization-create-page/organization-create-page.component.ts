@@ -25,6 +25,8 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
   group = this.buildFormGroup();
   addressGroup = this.buildAddressFormGroup();
 
+  private ngOnDestroy$ = new Subject();
+
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
     private store: Store,
@@ -110,8 +112,6 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
   get value(): OrganizationCreatePageFormValue {
     return this.group.value as OrganizationCreatePageFormValue;
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy() {
     this.ngOnDestroy$.next(null);

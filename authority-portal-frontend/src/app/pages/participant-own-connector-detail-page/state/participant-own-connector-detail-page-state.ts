@@ -1,5 +1,5 @@
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
-import {Fetched} from '../../../core/utils/fetched';
+import {Fetched} from 'src/app/core/utils/fetched';
 
 export interface ParticipantOwnConnectorDetailPageState {
   connectorId: string;

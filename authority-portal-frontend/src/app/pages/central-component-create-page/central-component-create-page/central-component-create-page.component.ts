@@ -24,6 +24,8 @@ export class CentralComponentCreatePageComponent implements OnInit, OnDestroy {
 
   state = DEFAULT_CENTRAL_COMPONENT_CREATE_STATE;
 
+  private ngOnDestroy$ = new Subject();
+
   constructor(
     private store: Store,
     public form: CentralComponentCreatePageForm,
@@ -58,8 +60,6 @@ export class CentralComponentCreatePageComponent implements OnInit, OnDestroy {
         this.state = state;
       });
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy() {
     this.ngOnDestroy$.next(null);

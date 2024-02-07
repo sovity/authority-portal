@@ -29,9 +29,8 @@ export class AuthorityOrganizationListPageStateImpl {
   ): Observable<never> {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
-        this.apiService.getOrganizations(deploymentEnvironmentId),
+        this.apiService.getOrganizationsForAuthority(deploymentEnvironmentId),
       ),
-      tap((res) => console.log(res)),
       map((result) => result.organizations),
       Fetched.wrap({failureMessage: 'Failed loading organizations'}),
       tap((organizations) => this.organizationsRefreshed(ctx, organizations)),

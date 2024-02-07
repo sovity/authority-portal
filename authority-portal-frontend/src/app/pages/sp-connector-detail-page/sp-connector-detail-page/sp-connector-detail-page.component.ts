@@ -16,6 +16,8 @@ import {SpConnectorDetailPageStateImpl} from '../state/sp-connector-detail-page-
 export class SpConnectorDetailPageComponent implements OnInit, OnDestroy {
   state = DEFAULT_SP_CONNECTOR_DETAIL_PAGE_STATE;
 
+  private ngOnDestroy$ = new Subject();
+
   constructor(private store: Store, private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -35,8 +37,6 @@ export class SpConnectorDetailPageComponent implements OnInit, OnDestroy {
         this.state = state;
       });
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);

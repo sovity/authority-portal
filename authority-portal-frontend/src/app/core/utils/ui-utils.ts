@@ -1,4 +1,8 @@
-import {OrganizationRegistrationStatusDto} from '@sovity.de/authority-portal-client';
+import {
+
+  ConnectorTypeDto,
+  OrganizationRegistrationStatusDto,
+} from '@sovity.de/authority-portal-client';
 
 export const getOrganizationRegistrationStatusClasses = (
   status: OrganizationRegistrationStatusDto,
@@ -29,6 +33,19 @@ export const getOrganizationUserRegistrationStatusClasses = (
       return 'bg-gray-100/90';
     case OrganizationRegistrationStatusDto.Invited:
       return 'bg-gray-100/90';
+    default:
+      return '';
+  }
+};
+
+export const getConnectorsTypeClasses = (status: ConnectorTypeDto): string => {
+  switch (status) {
+    case ConnectorTypeDto.Own:
+      return 'text-emerald-700 bg-emerald-100/60';
+    case ConnectorTypeDto.Provided:
+      return 'text-blue-700 bg-blue-100/60';
+    case ConnectorTypeDto.Caas:
+      return 'bg-yellow-300/90';
     default:
       return '';
   }

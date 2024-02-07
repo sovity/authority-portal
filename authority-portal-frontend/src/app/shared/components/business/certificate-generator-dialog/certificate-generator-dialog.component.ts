@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -8,17 +8,17 @@ import {
 import {
   CertificateAttributes,
   CertificateGenerateService,
-} from '../../services/certificate-generate.service';
+} from 'src/app/shared/services/certificate-generate.service';
 import {
   CertificateGeneratorConfig,
   CertificateResult,
-} from './certificate-generator.model';
+} from './certificate-generator-dialog.model';
 
 @Component({
-  selector: 'app-certificate-generator',
-  templateUrl: './certificate-generator.component.html',
+  selector: 'app-certificate-generator-dialog',
+  templateUrl: './certificate-generator-dialog.component.html',
 })
-export class CertificateGeneratorComponent implements OnInit {
+export class CertificateGeneratorDialogComponent {
   certificateForm!: FormGroup;
   showPassword = false;
 
@@ -27,7 +27,7 @@ export class CertificateGeneratorComponent implements OnInit {
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private certificateGenerateService: CertificateGenerateService,
-    private dialogRef: MatDialogRef<CertificateGeneratorComponent>,
+    private dialogRef: MatDialogRef<CertificateGeneratorDialogComponent>,
   ) {}
 
   ngOnInit(): void {

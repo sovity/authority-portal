@@ -1,81 +1,411 @@
-<div
-  class="bg-gray-200 py-1 lg:py-10 flex flex-col items-center justify-center w-full">
-  <form
-    class="flex flex-col bg-white shadow-lg w-full md:w-4/5 xl:w-3/5 2xl:w-1/2 p-4 lg:p-10 md:rounded-3xl"
-    ngxsForm="organization.organizationCreateForm"
-    [formGroup]="group"
-    (ngSubmit)="submit()">
-    <app-env-banner class="w-full"></app-env-banner>
-    <p
-      class="inline-block p-3 m-6 text-2xl font-semibold text-center tracking-wider text-teal-900 uppercase bg-teal-accent-400">
-      Provide new Connector
-    </p>
+<div class="flex h-screen justify-center items-center">
+  <mat-stepper
+    class="w-full lg:w-2/3"
+    labelPosition="bottom"
+    #stepper
+    linear
+    (selectionChange)="onStepChange($event)">
+    <!-- connector details Step-->
+    <mat-step color="accent" [stepControl]="connectorDetailsFormGroup">
+      <form
+        class="flex flex-col w-full justify-center"
+        [formGroup]="connectorDetailsFormGroup">
+        <ng-template matStepLabel>Add Connector Details</ng-template>
+        <div
+          class="select-none flex flex-col justify-center items-center my-10 w-2/3">
+          <!-- Connector's Name -->
+          <div class="flex flex-col justify-between items-center w-full">
+            <label class="w-full mb-2 text-sm" for="formRegOConName"
+              >Connector's Name</label
+            >
+            <mat-form-field
+              class="w-full text-sm"
+              appearance="outline"
+              color="accent">
+              <input
+                id="formRegOConName"
+                matInput
+                formControlName="name"
+                placeholder="Any Connector name you prefer" />
+              <mat-error
+                class="text-sm"
+                appFormControlError
+                fieldName="Connector name"
+                [control]="connectorDetailsFormGroup.get('name')"></mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Connector's Name -->
 
-    <app-text-input
-      label="Name"
-      ctrlId="formRegOConName"
-      placeholder="e.g. Example GmbH Test Connector"
-      [ctrl]="group.controls.name"></app-text-input>
+          <!-- Connector's Location -->
+          <div class="flex flex-col justify-between items-center w-full">
+            <label class="w-full mb-2 text-sm" for="formRegOConLocation"
+              >Connector's Location</label
+            >
+            <mat-form-field
+              class="w-full text-sm"
+              appearance="outline"
+              color="accent">
+              <input
+                id="formRegOConLocation"
+                matInput
+                formControlName="location"
+                placeholder="DE, UK, FR etc." />
+              <mat-error
+                class="text-sm"
+                appFormControlError
+                fieldName="Connector location"
+                [control]="
+                  connectorDetailsFormGroup.get('location')
+                "></mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Connector's Location -->
 
-    <app-text-input
-      label="Component Location"
-      ctrlId="formRegOConLocation"
-      placeholder="e.g. DE, UK, FR etc."
-      [ctrl]="group.controls.location"></app-text-input>
+          <!-- MDS ID of client Organization -->
+          <div class="flex flex-col justify-between items-center w-full">
+            <label class="w-full mb-2 text-sm" for="formRegOConMdsId"
+              >Client Organization</label
+            >
+            <mat-form-field
+              class="w-full text-sm"
+              appearance="outline"
+              color="accent">
+              <mat-select formControlName="mdsId">
+                <ng-container
+                  *ngIf="state.organizationList.isReady; else loading">
+                  <mat-option selected disabled>
+                    Select Client Organization
+                  </mat-option>
+                  <mat-option
+                    *ngFor="let organization of state.organizationList.data"
+                    [value]="organization.mdsId">
+                    {{ organization.name }}
+                  </mat-option>
+                </ng-container>
+                <ng-template #loading>
+                  <mat-option disabled>Loading Organization List</mat-option>
+                </ng-template>
+              </mat-select>
+              <mat-error
+                class="text-sm"
+                appFormControlError
+                fieldName="Client Organization"
+                [control]="connectorDetailsFormGroup.get('mdsId')"></mat-error>
+            </mat-form-field>
+          </div>
+          <!-- MDS ID of client Organization -->
 
-    <app-text-input
-      label="Frontend URL"
-      ctrlId="formRegOConFrontendUrl"
-      placeholder="e.g. https://my-connector.my-org.com"
-      invalidPatternMessage="URL is not valid. Example value: https://my-connector.my-org.com"
-      [ctrl]="group.controls.frontendUrl"></app-text-input>
+          <!-- Frontend URL -->
+          <div class="flex flex-col justify-between items-center w-full">
+            <label class="w-full mb-2 text-sm" for="formRegOConFrontendUrl"
+              >Connector's Frontend URL</label
+            >
 
-    <app-text-input
-      label="Management API URL"
-      ctrlId="formRegOConManagementApiUrl"
-      placeholder="e.g. https://my-connector.my-org.com/api/management"
-      invalidPatternMessage="URL is not valid. Example value: https://my-connector.my-org.com/api/management"
-      [ctrl]="group.controls.managementUrl"></app-text-input>
+            <mat-form-field
+              class="w-full text-sm"
+              appearance="outline"
+              color="accent">
+              <input
+                id="formRegOConFrontendUrl"
+                matInput
+                formControlName="frontendUrl"
+                placeholder="https://example-connector.com" />
 
-    <app-text-input
-      label="Connector Endpoint"
-      ctrlId="formRegOConConnectorEndpoint"
-      placeholder="e.g. https://my-connector.my-org.com/api/dsp"
-      invalidPatternMessage="URL is not valid. Example value: https://my-connector.my-org.com/api/dsp"
-      [ctrl]="group.controls.endpointUrl"></app-text-input>
+              <mat-error
+                class="text-sm"
+                appFormControlError
+                fieldName="Connector's Frontend URL"
+                [control]="
+                  connectorDetailsFormGroup.get('frontendUrl')
+                "></mat-error>
 
-    <app-text-input
-      label="MDS ID of client Organization"
-      ctrlId="formRegOConMdsId"
-      placeholder="MDS ID of the client organization"
-      [ctrl]="group.controls.mdsId"></app-text-input>
+              <button
+                matSuffix
+                mat-icon-button
+                type="button"
+                color="black"
+                [matMenuTriggerFor]="helpFrontendUrl">
+                <mat-icon>help</mat-icon>
+              </button>
 
-    <app-certificate-input class="w-full" [ctrl]="group.controls.certificate">
-    </app-certificate-input>
+              <mat-menu #helpFrontendUrl="matMenu">
+                <div class="p-6 flex flex-col text-sm w-auto">
+                  <h3 class="font-bold mb-2">Connector's Frontend Url</h3>
+                  <div>
+                    The input must be the <strong>base URL</strong> of the
+                    connector in form of <br /><br />
+                    <b>https://example-connector.com</b>
+                  </div>
+                </div>
+              </mat-menu>
+            </mat-form-field>
+          </div>
+          <!-- Frontend URL End -->
 
-    <app-certificate-generator-bar
-      [certificateCtrl]="group.controls.certificate"
-      [locationCtrl]="group.controls.location"
-      [urlCtrl]="group.controls.frontendUrl"></app-certificate-generator-bar>
+          <!-- Endpoint URL -->
+          <div class="flex flex-col justify-between items-center w-full">
+            <label class="w-full mb-2 text-sm" for="formRegOConEndpointUrl"
+              >Connector's Endpoint URL</label
+            >
 
-    <div class="border-gray-400 inline-flex mt-4 justify-evenly w-full">
-      <a
-        class="select-none cursor-pointer bg-red-200 rounded-md text-center active:bg-red-300 hover:bg-red-300 hover:text-black my-auto w-2/5 p-3 focus:text-black focus:bg-red-300 disabled:bg-slate-500"
-        routerLink="/my-organization/connectors"
-        [ngClass]="{
-          hidden: state.state === 'success' ? true : false,
-        }">
-        Cancel
-      </a>
-      <button
-        class="btn-green my-auto w-2/5 p-3"
-        type="submit"
-        [ngClass]="{
-          hidden: state.state === 'success' ? true : false,
-        }"
-        [disabled]="!group.valid || state.state === 'submitting'">
-        Register
-      </button>
-    </div>
-  </form>
+            <mat-form-field
+              class="w-full text-sm"
+              appearance="outline"
+              color="accent">
+              <input
+                id="formRegOConEndpointUrl"
+                matInput
+                formControlName="endpointUrl"
+                placeholder="https://example-connector.com/api/dsp" />
+
+              <mat-error
+                class="text-sm"
+                appFormControlError
+                fieldName="Connector's Endpoint URL"
+                [control]="
+                  connectorDetailsFormGroup.get('endpointUrl')
+                "></mat-error>
+
+              <button
+                matSuffix
+                mat-icon-button
+                type="button"
+                color="black"
+                [matMenuTriggerFor]="helpEndpointUrl">
+                <mat-icon>help</mat-icon>
+              </button>
+
+              <mat-menu #helpEndpointUrl="matMenu">
+                <div class="p-6 flex flex-col text-sm w-auto">
+                  <h3 class="font-bold mb-2">Connector's Endpoint Url</h3>
+                  <div>
+                    If the Connector is deployed as recommended by the
+                    <strong>Deployment Guide</strong>, the URL should be
+                    <br /><br />
+                    {{ urlString }}<b>/api/dsp</b>
+                  </div>
+                </div>
+              </mat-menu>
+            </mat-form-field>
+          </div>
+          <!-- Endpoint URL End -->
+
+          <!-- Management URL -->
+          <div class="flex flex-col justify-between items-center w-full">
+            <label class="w-full mb-2 text-sm" for="formRegOConManagementUrl"
+              >Connector's Management URL</label
+            >
+
+            <mat-form-field
+              class="w-full text-sm"
+              appearance="outline"
+              color="accent">
+              <input
+                id="formRegOConManagementUrl"
+                matInput
+                formControlName="managementUrl"
+                placeholder="https://example-connector.com/api/management" />
+
+              <mat-error
+                class="text-sm"
+                appFormControlError
+                fieldName="Connector's Management URL"
+                [control]="
+                  connectorDetailsFormGroup.get('managementUrl')
+                "></mat-error>
+
+              <button
+                matSuffix
+                mat-icon-button
+                type="button"
+                color="black"
+                [matMenuTriggerFor]="helpManagementUrl">
+                <mat-icon>help</mat-icon>
+              </button>
+
+              <mat-menu class="customMatMenu" #helpManagementUrl="matMenu">
+                <div class="p-6 flex flex-col text-sm w-auto">
+                  <h3 class="font-bold mb-2">Connector's Management Url</h3>
+                  <div>
+                    If the Connector is deployed as recommended<br />
+                    by the <strong>Deployment Guide</strong>, the URL should be:
+                    <br />
+                    <br />
+                    {{ urlString }}<b>/api/management</b>
+                  </div>
+                </div>
+              </mat-menu>
+            </mat-form-field>
+          </div>
+          <!-- Management URL End -->
+        </div>
+
+        <div
+          class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+          <button
+            class="btn-accent-outline"
+            type="button"
+            routerLink="/my-organization/connectors">
+            Cancel
+          </button>
+
+          <button
+            class="btn-accent"
+            [ngClass]="{
+              'opacity-50 cursor-not-allowed': connectorDetailsFormGroup.invalid
+            }"
+            [disabled]="connectorDetailsFormGroup.invalid"
+            (click)="onConnectorDetailCollected(true)">
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- connector details Step -->
+
+    <!-- Generate Certificate Step-->
+    <mat-step color="accent" editable="false" [stepControl]="stepperFormGroup">
+      <ng-template matStepLabel>Generate Certificate</ng-template>
+
+      <div class="flex justify-center items-center">
+        <div class="flex flex-col justify-center w-full gap-8 my-10">
+          <form class="flex justify-center" #form="ngForm">
+            <mat-slide-toggle
+              name="hasCertificate"
+              [(ngModel)]="hasCertificate"
+              (ngModelChange)="clearCertificateForm()"
+              >I already have a certificate</mat-slide-toggle
+            >
+          </form>
+
+          <div class="flex flex-col flex-wrap md:flex-row gap-4">
+            <!-- Certificate Details -->
+            <div *ngIf="!hasCertificate && predefinedValues" class="flex-1">
+              <label class="mb-2 text-sm">
+                Fill the information below to generate a certificate:
+              </label>
+
+              <app-certificate-generator
+                [preDefinedDetails]="predefinedValues"
+                (certificateGenerated)="
+                  generatedCertificateHandler($event)
+                "></app-certificate-generator>
+            </div>
+            <!-- Certificate Details -->
+
+            <!-- Certificate -->
+            <div class="flex-1">
+              <form [formGroup]="certificateFormGroup">
+                <!-- Certificate -->
+                <mat-form-field
+                  class="w-full text-sm"
+                  appearance="outline"
+                  color="accent">
+                  <textarea
+                    id="formRegOConPubCertKey"
+                    matInput
+                    rows="20"
+                    formControlName="certificate"
+                    placeholder="
+          -----BEGIN CERTIFICATE-----
+          MIICqjCCAhOgAwIBAgIBADANBgk
+          ...
+          AkmFH0MPvGNeUum02F0=
+          -----END CERTIFICATE-----"></textarea>
+                  <mat-error
+                    class="text-sm overflow-y-auto"
+                    appFormControlError
+                    fieldName="Certificate"
+                    [control]="
+                      certificateFormGroup.get('certificate')
+                    "></mat-error>
+                </mat-form-field>
+
+                <!-- Certificate -->
+              </form>
+            </div>
+            <!-- Certificate -->
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+        <button class="btn-accent-outline" type="button" matStepperPrevious>
+          Back
+        </button>
+        <button
+          class="btn-accent"
+          [disabled]="
+            state.state === 'submitting' ||
+            certificateFormGroup.invalid ||
+            !enableSubmitButton
+          "
+          [ngClass]="{
+            'opacity-50 cursor-not-allowed':
+              state.state === 'submitting' ||
+              certificateFormGroup.invalid ||
+              !enableSubmitButton
+          }"
+          (click)="registerConnector()">
+          Add Connector
+        </button>
+      </div>
+    </mat-step>
+    <!-- Generate Certificate Step-->
+
+    <!-- Final Step -->
+    <mat-step color="accent" editable="false">
+      <ng-template matStepLabel>Setup Connector</ng-template>
+      <div class="flex flex-col gap-3 justify-center px-8">
+        <h2 class="text-xl py-3">
+          Finish setting up the provided self-hosted connector!
+        </h2>
+        <p>
+          To setup the provided connector, you need the configuration details
+          below and the generated Connector ID
+          <strong>'{{ state.connectorId }}'</strong>
+        </p>
+        <p>
+          <strong>
+            For your selected environment, please use following connector
+            configuration:
+          </strong>
+        </p>
+        <div class="relative p-4 bg-gray-100">
+          <div class="absolute top-0 right-0">
+            <button
+              mat-icon-button
+              aria-label="copy button with"
+              (click)="copyToClipboard()">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+
+          <code class="text-sm text-gray-500" #tokenUrlElement>
+            EDC_OAUTH_TOKEN_URL: https://daps.test.mobility-dataspace.eu/token
+          </code>
+          <br />
+          <code class="text-sm text-gray-500" #jwksUrlElement>
+            EDC_OAUTH_PROVIDER_JWKS_URL:
+            https://daps.test.mobility-dataspace.eu/jwks.json
+          </code>
+        </div>
+        <div>
+          <button class="btn-outline" type="button" (click)="goToGithub()">
+            <mat-icon svgIcon="github"></mat-icon>
+            <span>Go to GitHub</span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+        <button class="btn-accent" routerLink="/my-organization/connectors">
+          Finish
+        </button>
+      </div>
+    </mat-step>
+    <!-- Final Step -->
+  </mat-stepper>
 </div>

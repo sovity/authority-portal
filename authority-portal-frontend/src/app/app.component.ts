@@ -13,6 +13,8 @@ import {GlobalStateImpl} from './core/global-state/global-state-impl';
 export class AppComponent implements OnInit, OnDestroy {
   state!: GlobalState;
 
+  private ngOnDestroy$ = new Subject();
+
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
     private store: Store,
@@ -28,8 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.state = state;
     });
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);

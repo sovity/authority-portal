@@ -11,7 +11,6 @@ import {
   CreateConnectorRequest,
   CreateConnectorResponse,
   CreateOrganizationRequest,
-  CreateProvidedConnectorRequest,
   DeploymentEnvironmentDto,
   IdResponse,
   InviteOrganizationRequest,
@@ -75,6 +74,21 @@ export class ApiService {
     environmentId: string,
   ): Observable<OrganizationOverviewResult> {
     return from(this.api().organizationsOverview({environmentId}));
+  }
+
+  getOrganizationsForAuthority(
+    environmentId: string,
+  ): Observable<OrganizationOverviewResult> {
+    return from(this.api().organizationsOverviewForAuthority({environmentId}));
+  }
+
+  getOrganizationDetailsForAuthority(
+    mdsId: string,
+    environmentId: string,
+  ): Observable<OrganizationDetailsDto> {
+    return from(
+      this.api().organizationDetailsForAuthority({mdsId, environmentId}),
+    );
   }
 
   getOrganizationDetails(

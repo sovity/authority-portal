@@ -25,7 +25,8 @@ export class FilterBarComponent implements OnInit, OnDestroy {
 
   menuVisible: {[key: string]: boolean} = {};
   filterForm: FormGroup;
-  ngOnDestroy$ = new Subject();
+
+  private ngOnDestroy$ = new Subject();
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {

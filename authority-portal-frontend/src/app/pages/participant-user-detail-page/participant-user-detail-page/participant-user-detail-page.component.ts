@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
@@ -18,9 +18,10 @@ import {
   selector: 'app-participant-user-detail-page',
   templateUrl: './participant-user-detail-page.component.html',
 })
-export class ParticipantUserDetailPageComponent implements OnInit {
+export class ParticipantUserDetailPageComponent implements OnInit, OnDestroy {
   state = DEFAULT_PARTICIPANT_USER_DETAIL_PAGE_STATE;
-  ngOnDestroy$ = new Subject();
+
+  private ngOnDestroy$ = new Subject();
 
   constructor(private store: Store, private route: ActivatedRoute) {}
 

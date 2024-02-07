@@ -8,12 +8,20 @@ import {SelectionBoxModel} from 'src/app/shared/components/common/selection-box/
 export class SetupConnectorPageComponent {
   options: SelectionBoxModel[] = [
     {
-      title: 'Download from GitHub',
-      subTitle: 'host your own connector by downloading it from GitHub',
-      icon: 'github_logo.svg',
+      title: 'Start Sponsored CaaS',
+      subTitle: 'Managed EDC Connector to begin your journey in Data Spaces',
+      icon: 'caas_logo.svg',
+      bulletPoints: [
+        '1st CaaS free for MDS participants',
+        'Easiest access to Mobility Data Space',
+        'Easiest access via web browser',
+        'Hosted & maintained solution',
+        '2 actively consumed data contracts included',
+        'User & Access Management with 1 user',
+      ],
       action: {
-        label: 'Go to GitHub',
-        externalUrl: 'https://github.com/sovity/edc-extensions',
+        label: 'Request CaaS',
+        url: 'my-organization/connectors/registration/request',
       },
     },
   ];

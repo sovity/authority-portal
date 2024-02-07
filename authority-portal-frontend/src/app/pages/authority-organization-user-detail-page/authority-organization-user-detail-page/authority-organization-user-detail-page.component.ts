@@ -25,7 +25,7 @@ export class AuthorityOrganizationUserDetailPageComponent
   roleFormLoading: boolean = false;
   pageData!: {mdsId: string; userId: string};
 
-  ngOnDestroy$ = new Subject();
+  private ngOnDestroy$ = new Subject();
 
   constructor(private store: Store, private route: ActivatedRoute) {}
 

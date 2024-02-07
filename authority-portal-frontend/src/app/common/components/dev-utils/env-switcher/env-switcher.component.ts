@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
@@ -11,11 +11,13 @@ import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
   selector: 'app-env-switcher',
   templateUrl: './env-switcher.component.html',
 })
-export class EnvSwitcherComponent implements OnInit {
+export class EnvSwitcherComponent implements OnInit, OnDestroy {
   @Input() deploymentEnvironments: DeploymentEnvironmentDto[] = [];
 
   selectedEnvironmentId!: string;
   state!: GlobalState;
+
+  private ngOnDestroy$ = new Subject();
 
   constructor(
     public store: Store,
@@ -48,8 +50,6 @@ export class EnvSwitcherComponent implements OnInit {
         this.selectedEnvironmentId = environmentId;
       });
   }
-
-  ngOnDestroy$ = new Subject();
 
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);
