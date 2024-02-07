@@ -70,12 +70,6 @@ export class ApiService {
     return from(this.api().createOrganization({createOrganizationRequest}));
   }
 
-  getOrganizations(
-    environmentId: string,
-  ): Observable<OrganizationOverviewResult> {
-    return from(this.api().organizationsOverview({environmentId}));
-  }
-
   getOrganizationsForAuthority(
     environmentId: string,
   ): Observable<OrganizationOverviewResult> {
@@ -91,7 +85,13 @@ export class ApiService {
     );
   }
 
-  getOrganizationDetails(
+  getOrganizationsForApplicationRoles(
+    environmentId: string,
+  ): Observable<OrganizationOverviewResult> {
+    return from(this.api().organizationsOverview({environmentId}));
+  }
+
+  getOrganizationDetailsForApplicationRoles(
     mdsId: string,
     environmentId: string,
   ): Observable<OrganizationDetailsDto> {

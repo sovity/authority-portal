@@ -267,19 +267,19 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(IdResponseToJSON(result));
     })
 
-    .url('organizations')
+    .url('organizations/my-org')
+    .on('GET', () => {
+      const result = getMyOrganizationDetails();
+      return ok(OrganizationDetailsDtoToJSON(result));
+    })
+
+    .url('application/organizations')
     .on('GET', () => {
       const result = getListOfOrganizationsForTable();
       return ok(OrganizationOverviewResultToJSON(result));
     })
 
-    .url('organizations/my-org')
-    .on('GET', (mdsId) => {
-      const result = getMyOrganizationDetails();
-      return ok(OrganizationDetailsDtoToJSON(result));
-    })
-
-    .url('organizations/*')
+    .url('application/organizations/*')
     .on('GET', () => {
       const result = getListOfOrganizationsForTable();
       return ok(OrganizationOverviewResultToJSON(result));

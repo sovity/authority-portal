@@ -159,7 +159,7 @@ public interface UiResource {
     );
 
     @GET
-    @Path("/organizations")
+    @Path("/application/organizations")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all participating organizations with their status. (For Service Partners and Operators)")
     OrganizationOverviewResult organizationsOverview(
@@ -208,7 +208,7 @@ public interface UiResource {
     );
 
     @GET
-    @Path("/organizations/{mdsId}")
+    @Path("/application/organizations/{mdsId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any organization. (For Service Partners and Operators)")
     OrganizationDetailsDto organizationDetails(
