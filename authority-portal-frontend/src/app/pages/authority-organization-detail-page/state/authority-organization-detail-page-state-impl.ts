@@ -1,4 +1,4 @@
-import {Injectable, NgZone} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {EMPTY, Observable, forkJoin} from 'rxjs';
 import {
@@ -9,7 +9,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
-import {Action, Actions, State, StateContext, Store} from '@ngxs/store';
+import {Action, Actions, State, StateContext} from '@ngxs/store';
 import {OrganizationDetailsDto} from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
@@ -57,7 +57,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
   ): Observable<never> {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
-        this.apiService.getOrganizationDetails(
+        this.apiService.getOrganizationDetailsForAuthority(
           ctx.getState().organizationMdsId,
           deploymentEnvironmentId,
         ),
@@ -89,7 +89,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
       this.globalStateUtils.getDeploymentEnvironmentId(),
     ]).pipe(
       switchMap(([res, deploymentEnvironmentId]) =>
-        this.apiService.getOrganizationDetails(
+        this.apiService.getOrganizationDetailsForAuthority(
           ctx.getState().organizationMdsId,
           deploymentEnvironmentId,
         ),
@@ -128,7 +128,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
       this.globalStateUtils.getDeploymentEnvironmentId(),
     ]).pipe(
       switchMap(([res, deploymentEnvironmentId]) =>
-        this.apiService.getOrganizationDetails(
+        this.apiService.getOrganizationDetailsForAuthority(
           ctx.getState().organizationMdsId,
           deploymentEnvironmentId,
         ),
