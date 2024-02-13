@@ -146,6 +146,10 @@ quarkus.keycloak.admin-client.grant-type: CLIENT_CREDENTIALS # Keycloak Admin Cl
 quarkus.log.level: INFO # Log level for backend logging (ERROR, INFO, DEBUG, etc). Docs: https://quarkus.io/guides/logging
 authority-portal.invitation.expiration: 43200 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
 authority-portal.base-url: https://authority-portal.my-org.com # Must equal the root URL/home URl from the Keycloak configuration - see above)
+authority-portal.clearing-house.url: https://[CH_FQDN] # Clearing House URL
+quarkus.oidc-client.sovity.auth-server-url: https://[CAAS_KC_FQDN]/realms/[REALM] # CaaS Portal: Auth server URL
+quarkus.oidc-client.sovity.client-id: [CLIENT_ID] # CaaS Portal: Client ID
+quarkus.oidc-client.sovity.credentials.secret: [CAAS_CLIENT_SECRET] # CaaS Portal: Client Secret
 # Following is **one** deployment environment configuration. (See hint below)
 authority-portal.deployment.environments.test.title: Test # Env: Title of the deployment environment configuration
 authority-portal.deployment.environments.test.position: 0  # Env: Order of environments, from 0 (default) to n (least important)
@@ -156,6 +160,7 @@ authority-portal.deployment.environments.test.daps.url: https://[KC_DAPS_FQDN] #
 authority-portal.deployment.environments.test.daps.realm-name: DAPS # Env: DAPS realm name
 authority-portal.deployment.environments.test.daps.client-id: authority-portal # Env: DAPS client ID
 authority-portal.deployment.environments.test.daps.client-secret: [DAPS_CLIENT_SECRET] # Env: DAPS client secret
+authority-portal.deployment.environments.test.logging-house.url: https://[LOGGING_HOUSE_FQDN] # Env: Logging House URL
 ```
 
 Environment `test` is mandatory. Further environments can be configured.

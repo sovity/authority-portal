@@ -14,10 +14,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Redesigned Connectors list, detail and related sub-pages
 - Redesigned Portal Sidebar, Header and other general layouts
 - Moved registration process from Keycloak into the portal
-- Changed the response format for the following endpoints:
-  - `POST /api/organizations/my-org/connectors/create-on-premise`
-  - `POST /api/organizations/{mds-id}/connectors/create-service-provided`
 - Upgraded Keycloak dependency to version 23.0.4
+- Added the option to request a Connector-as-a-Service from the sovity portal
 
 #### Minor
 
@@ -49,6 +47,17 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - After logout, if the user leaves the login page and returns to the "previous" login page using the browser's back button, an error will be displayed upon a login attempt. The user can still log in using the appropriate button displayed on the error page
 
 ### Deployment Migration Notes
+
+- Portal Backend
+  - Following environment variables are mandatory and must be set:
+    - `quarkus-oidc-client.sovity.auth-server.url` - URL pointing to the realm endpoint in the Keycloak instance of the CaaS Portal
+    - `quarkus-oidc-client.sovity.credentials.secret` - Client secret to authenticate against the CaaS Keycloak instance
+  - Set logging house URLs per environment:
+    - `authority-portal.deployment.environments.{ENVIRONMENT}.logging-house.url`
+  - Following environment variables can be set but have a default value:
+    - `quarkus.oidc-client.sovity.client-id` = `authority-portal`
+    - `authority-portal.caas.sovity.url` = CaaS Portal URL
+    - `authority.portal.caas.sovity.limit-per-mdsid` = `1`
 
 - Keycloak IAM needs to be upgraded to version 23.0.4
 - Portal Backend

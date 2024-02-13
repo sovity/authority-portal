@@ -34,6 +34,7 @@ class ConnectorManagementApiServiceTest {
 
     @Inject
     lateinit var connectorManagementApiService: ConnectorManagementApiService
+
     @Inject
     lateinit var connectorService: ConnectorService
 
@@ -122,21 +123,20 @@ class ConnectorManagementApiServiceTest {
 
         // assert
         assertThat(result).isNotNull
-        assertThat(result.connectors).hasSize(5)
+        assertThat(result.connectors).hasSize(6)
         assertThat(result.connectors.map { it.id }).allSatisfy { assertThat(it).isNotNull() }
         assertThat(result.connectors.map { it.hostName }).anySatisfy { assertThat(it).isEqualTo("Dev Organization 1") }
         assertThat(result.connectors.map { it.hostName }).anySatisfy { assertThat(it).isEqualTo("Dev Organization 2") }
-        assertThat(result.connectors.map { it.type }).allSatisfy { assertThat(it).isEqualTo(ConnectorTypeDto.OWN) }
         assertThat(result.connectors.map { it.environment.environmentId }).allSatisfy { assertThat(it).isEqualTo("test") }
         assertThat(result.connectors.map { it.environment.title }).allSatisfy { assertThat(it).isEqualTo("Test Environment") }
-        assertThat(result.connectors.map { it.name }).allSatisfy { assertThat(it).isEqualTo("Example Connector") }
+        assertThat(result.connectors.map { it.name }).allSatisfy { assertThat(it).isNotBlank() }
     }
 
     @Test
     fun testCreateOwnConnector() {
         // arrange
         val clientIdUtilsMock = mock(ClientIdUtils::class.java)
-        doReturn(test).`when`(clientIdUtilsMock).generateClientId(eq(connectorCertificate))
+        doReturn(test).`when`(clientIdUtilsMock).generateFromCertificate(eq(connectorCertificate))
 
         val dapsClient = mock(DapsClient::class.java)
         val dapsClientService = mock(DapsClientService::class.java)
@@ -156,7 +156,7 @@ class ConnectorManagementApiServiceTest {
         val response = connectorManagementApiService.createOwnConnector(connectorRequest, mdsId, userId)
 
         // assert
-        verify(clientIdUtilsMock).generateClientId(eq(connectorCertificate))
+        verify(clientIdUtilsMock).generateFromCertificate(eq(connectorCertificate))
         verify(brokerClientService).forEnvironment(eq(test))
         verify(brokerClient).addConnector(eq(connectorEndpointUrl))
         verify(dapsClientService).forEnvironment(eq(test))
@@ -168,7 +168,7 @@ class ConnectorManagementApiServiceTest {
     fun testCreateProvidedConnector() {
         // arrange
         val clientIdUtilsMock = mock(ClientIdUtils::class.java)
-        doReturn(test).`when`(clientIdUtilsMock).generateClientId(eq(connectorCertificate))
+        doReturn(test).`when`(clientIdUtilsMock).generateFromCertificate(eq(connectorCertificate))
 
         val dapsClient = mock(DapsClient::class.java)
         val dapsClientService = mock(DapsClientService::class.java)
@@ -188,7 +188,7 @@ class ConnectorManagementApiServiceTest {
         val response = connectorManagementApiService.createProvidedConnector(connectorRequest, mdsId, mdsId, userId, test)
 
         // assert
-        verify(clientIdUtilsMock).generateClientId(eq(connectorCertificate))
+        verify(clientIdUtilsMock).generateFromCertificate(eq(connectorCertificate))
         verify(brokerClientService).forEnvironment(eq(test))
         verify(brokerClient).addConnector(eq(connectorEndpointUrl))
         verify(dapsClientService).forEnvironment(eq(test))

@@ -10,12 +10,16 @@ update "user" set onboarding_type = 'SELF_REGISTRATION' where onboarding_type is
 
 -- Connector
 create type connector_broker_registration_status as enum ('REGISTERED', 'UNREGISTERED');
+create type caas_status as enum ('INIT', 'PROVISIONING', 'AWAITING_RUNNING', 'RUNNING', 'DEPROVISIONING', 'AWAITING_STOPPED', 'STOPPED', 'ERROR', 'NOT_FOUND');
 
 alter table "connector"
     add column broker_registration_status connector_broker_registration_status not null default 'UNREGISTERED',
     add column management_url text,
     add column endpoint_url text,
-    add column jwks_url text;
+    add column jwks_url text,
+    add column caas_status caas_status,
+    alter column provider_mds_id drop not null,
+    alter column url drop not null;
 
 alter table "connector"
     rename column url to frontend_url;

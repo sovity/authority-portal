@@ -50,30 +50,54 @@ class DapsClient(private val dapsConfig: DapsConfig): AutoCloseable {
         )
     }
 
-    fun configureMappers(clientId: String, connectorId: String, certificate: String) {
+    fun addJwksUrl(clientId: String, jwksUrl: String) {
         val client = getClientById(clientId)
 
+        client.attributes["jwks.url"] = jwksUrl
+        client.attributes["use.jwks.url"] = "true"
+        keycloak.realm(realmName).clients().get(client.id).update(client)
+    }
+
+    fun configureMappers(clientId: String, connectorId: String, certificate: String) {
+        val client = getClientById(clientId)
+        setAccessTokenClaim(client)
+
+        val datMapper = buildDatMapper(clientId, connectorId)
+        datMapper.config["transport-certs-claim"] = generateSha256(certificate)
+
+        keycloak.realm(realmName).clients().get(client.id).protocolMappers.createMapper(datMapper)
+    }
+
+    fun configureMappers(clientId: String, connectorId: String) {
+        val client = getClientById(clientId)
+        setAccessTokenClaim(client)
+
+        val datMapper = buildDatMapper(clientId, connectorId)
+        keycloak.realm(realmName).clients().get(client.id).protocolMappers.createMapper(datMapper)
+    }
+
+    private fun setAccessTokenClaim(client: ClientRepresentation) {
         keycloak.realm(realmName).clients().get(client.id).protocolMappers.mappers.forEach {
             it.config["access.token.claim"] = "false"
             keycloak.realm(realmName).clients().get(client.id).protocolMappers.update(it.id, it)
         }
+    }
 
-        val certSha256 = generateSha256(certificate)
+    private fun buildDatMapper(clientId: String, connectorId: String): ProtocolMapperRepresentation {
         val datMapper = ProtocolMapperRepresentation().apply {
             protocol = "openid-connect"
             protocolMapper = "dat-mapper"
             name = "DAT Mapper"
-            config = mapOf(
-                "security-profile-claim" to "idsc:BASE_SECURITY_PROFILE",
-                "audience-claim" to "idsc:IDS_CONNECTORS_ALL",
-                "scope-claim" to "idsc:IDS_CONNECTOR_ATTRIBUTES_ALL",
-                "subject-claim" to clientId,
-                "referring-connector-claim" to connectorId,
-                "transport-certs-claim" to certSha256,
-                "access.token.claim" to "true"
-            )
+            config = buildMap<String, String>() {
+                put("security-profile-claim", "idsc:BASE_SECURITY_PROFILE")
+                put("audience-claim", "idsc:IDS_CONNECTORS_ALL")
+                put("scope-claim", "idsc:IDS_CONNECTOR_ATTRIBUTES_ALL")
+                put("subject-claim", clientId)
+                put("referring-connector-claim", connectorId)
+                put("access.token.claim", "true")
+            }
         }
-        keycloak.realm(realmName).clients().get(client.id).protocolMappers.createMapper(datMapper)
+        return datMapper
     }
 
     private fun getClientById(clientId: String): ClientRepresentation =

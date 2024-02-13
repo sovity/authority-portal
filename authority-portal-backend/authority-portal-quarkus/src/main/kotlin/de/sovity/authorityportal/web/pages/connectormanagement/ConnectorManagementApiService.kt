@@ -8,11 +8,13 @@ import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
+import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
+import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
 import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtils
@@ -48,6 +50,9 @@ class ConnectorManagementApiService {
 
     @Inject
     lateinit var brokerClientService: BrokerClientService
+
+    @Inject
+    lateinit var caasClient: CaasClient
 
     fun ownOrganizationConnectorDetails(connectorId: String, mdsId: String, userId: String): ConnectorDetailDto =
         getConnectorDetails(connectorId, mdsId, userId)
@@ -122,7 +127,7 @@ class ConnectorManagementApiService {
         val connectorDtos = connectors.map {
             ConnectorOverviewEntryDto(
                 it.connectorId,
-                orgNames[it.providerMdsId] ?: "Unknown",
+                orgNames[it.providerMdsId] ?: "",
                 it.type.toDto(),
                 deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
                 it.name
@@ -150,7 +155,7 @@ class ConnectorManagementApiService {
         connector.managementUrl = removeUrlTrailingSlash(connector.managementUrl)
 
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(mdsId)
-        val clientId = clientIdUtils.generateClientId(connector.certificate)
+        val clientId = clientIdUtils.generateFromCertificate(connector.certificate)
 
         if (clientIdUtils.exists(clientId)) {
             Log.error("Connector with this certificate already exists. connectorId=$connectorId, mdsId=$mdsId, userId=$userId, clientId=$clientId.")
@@ -194,7 +199,7 @@ class ConnectorManagementApiService {
         connector.managementUrl = removeUrlTrailingSlash(connector.managementUrl)
 
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(customerMdsId)
-        val clientId = clientIdUtils.generateClientId(connector.certificate)
+        val clientId = clientIdUtils.generateFromCertificate(connector.certificate)
 
         if (clientIdUtils.exists(clientId)) {
             Log.error("Connector with this certificate already exists. connectorId=$connectorId, customerMdsId=$customerMdsId, userId=$userId, clientId=$clientId.")
@@ -223,7 +228,7 @@ class ConnectorManagementApiService {
     private fun registerConnectorInBroker(deploymentEnvId: String, connector: CreateConnectorRequest, connectorId: String, mdsId: String, userId: String): Boolean {
         try {
             brokerClientService.forEnvironment(deploymentEnvId).addConnector(connector.endpointUrl)
-            connectorService.setBrokerRegistrationStatus(connectorId, ConnectorBrokerRegistrationStatus.REGISTERED)
+            connectorService.setConnectorBrokerRegistrationStatus(connectorId, ConnectorBrokerRegistrationStatus.REGISTERED)
         } catch (e: Exception) {
             Log.warn("Broker registration for connector unsuccessful. Connector was registered in DAPS & AP regardless. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.", e)
             return false
@@ -267,9 +272,13 @@ class ConnectorManagementApiService {
 
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
-        connectorService.deleteConnector(connectorId)
+        if (connector.type == ConnectorType.CAAS) {
+            caasClient.deleteCaas(listOf(connectorId))
+        }
+
         dapsClientService.forEnvironment(deploymentEnvId).deleteClient(connector.clientId)
         brokerClientService.forEnvironment(deploymentEnvId).removeConnector(connector.endpointUrl)
+        connectorService.deleteConnector(connectorId)
 
         Log.info("Connector unregistered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
 

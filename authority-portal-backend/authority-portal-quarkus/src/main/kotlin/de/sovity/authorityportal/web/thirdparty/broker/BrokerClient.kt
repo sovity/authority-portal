@@ -57,6 +57,7 @@ class BrokerClient(private val brokerConfig: BrokerConfig) {
         expectStatusCode(response, Response.Status.NO_CONTENT.statusCode, "setOrganizationMetadata")
     }
 
+
     private fun expectStatusCode(response: Response, expectedStatusCode: Int, operationName: String) {
         if (response.status != expectedStatusCode) {
             error("Broker API returned unexpected status code, when trying to call \"$operationName\" endpoint. Actual: ${response.status}, Expected: $expectedStatusCode")

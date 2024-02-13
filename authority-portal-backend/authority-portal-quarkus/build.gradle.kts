@@ -30,6 +30,7 @@ dependencies {
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
     implementation("io.quarkus:quarkus-smallrye-openapi")
     implementation("io.quarkus:quarkus-smallrye-health")
+    implementation("io.quarkus:quarkus-oidc-client-reactive-filter")
     implementation("io.quarkiverse.jooq:quarkus-jooq:2.0.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.bouncycastle:bcprov-jdk18on:1.77")

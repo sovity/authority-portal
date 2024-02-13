@@ -2,20 +2,26 @@ package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.db.jooq.enums.CaasStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
 import java.time.OffsetDateTime
+import java.util.Optional
 
 @ApplicationScoped
 class ConnectorService {
 
     @Inject
     lateinit var dsl: DSLContext
+
+    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid")
+    lateinit var caasLimitPerMdsId: Optional<Int>
 
     fun getConnectorOrThrow(connectorId: String): ConnectorRecord {
         return getConnector(connectorId) ?: error("Connector with id $connectorId not found")
@@ -93,9 +99,24 @@ class ConnectorService {
     fun getConnectorCountByMdsId(mdsId: String, environmentId: String): Int {
         val c = Tables.CONNECTOR
         return dsl.fetchCount(
-            dsl.selectFrom(c)
-                .where(c.MDS_ID.eq(mdsId), c.ENVIRONMENT.eq(environmentId))
+            dsl.selectFrom(c).where(c.MDS_ID.eq(mdsId), c.ENVIRONMENT.eq(environmentId))
         )
+    }
+
+    fun getCaasCountByMdsId(mdsId: String, environmentId: String): Int {
+        val c = Tables.CONNECTOR
+        return dsl.fetchCount(
+            dsl.selectFrom(c)
+                .where(c.MDS_ID.eq(mdsId).and(c.ENVIRONMENT.eq(environmentId)))
+                .and(c.TYPE.eq(ConnectorType.CAAS))
+        )
+    }
+
+    fun assertCaasRegistrationLimit(mdsId: String, environmentId: String): Boolean {
+        val limit = caasLimitPerMdsId.orElseThrow {
+            error("No limit configured for CaaS registration")
+        }
+        return getCaasCountByMdsId(mdsId, environmentId) < limit
     }
 
     fun getConnectorCountsByMdsIds(environment: String): Map<String, Int> {
@@ -149,6 +170,44 @@ class ConnectorService {
         )
     }
 
+    fun createCaas(
+        connectorId: String,
+        clientId: String,
+        mdsId: String,
+        name: String,
+        createdBy: String,
+        status: CaasStatus,
+        environmentId: String
+    ) {
+        dsl.newRecord(Tables.CONNECTOR).also {
+            it.connectorId = connectorId
+            it.clientId = clientId
+            it.mdsId = mdsId
+            it.name = name
+            it.createdBy = createdBy
+            it.createdAt = OffsetDateTime.now()
+            it.caasStatus = status
+            it.environment = environmentId
+            it.type = ConnectorType.CAAS
+            it.location = "CaaS"
+            it.insert()
+        }
+    }
+
+    fun getCaas(connectorId: String): ConnectorRecord? {
+        val c = Tables.CONNECTOR
+        return dsl.selectFrom(c)
+            .where(c.CONNECTOR_ID.eq(connectorId).and(c.TYPE.eq(ConnectorType.CAAS)))
+            .fetchOne()
+    }
+
+    fun getAllCaas(): List<ConnectorRecord> {
+        val c = Tables.CONNECTOR
+        return dsl.selectFrom(c)
+            .where(c.TYPE.eq(ConnectorType.CAAS))
+            .fetch()
+    }
+
     private fun createConnector(
         connectorId: String,
         mdsId: String,
@@ -186,7 +245,7 @@ class ConnectorService {
             .execute()
     }
 
-    fun setBrokerRegistrationStatus(connectorIds: List<String>, status: ConnectorBrokerRegistrationStatus) {
+    fun setConnectorBrokerRegistrationStatus(connectorIds: List<String>, status: ConnectorBrokerRegistrationStatus) {
         val c = Tables.CONNECTOR
         dsl.update(c)
             .set(c.BROKER_REGISTRATION_STATUS, status)
@@ -194,8 +253,8 @@ class ConnectorService {
             .execute()
     }
 
-    fun setBrokerRegistrationStatus(connectorId: String, status: ConnectorBrokerRegistrationStatus) {
-        setBrokerRegistrationStatus(listOf(connectorId), status)
+    fun setConnectorBrokerRegistrationStatus(connectorId: String, status: ConnectorBrokerRegistrationStatus) {
+        setConnectorBrokerRegistrationStatus(listOf(connectorId), status)
     }
 
     fun getUnregisteredBrokerConnectors(): List<UnregisteredBrokerConnector> {
@@ -207,6 +266,7 @@ class ConnectorService {
         )
             .from(c)
             .where(c.BROKER_REGISTRATION_STATUS.eq(ConnectorBrokerRegistrationStatus.UNREGISTERED))
+            .and(c.CAAS_STATUS.notEqual(CaasStatus.PROVISIONING).or(c.CAAS_STATUS.isNull))
             .fetchInto(UnregisteredBrokerConnector::class.java)
     }
 

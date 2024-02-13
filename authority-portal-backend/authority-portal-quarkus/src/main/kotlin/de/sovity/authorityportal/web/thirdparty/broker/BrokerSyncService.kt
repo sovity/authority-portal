@@ -21,6 +21,7 @@ class BrokerSyncService {
     @Transactional
     @Scheduled(every = "15m")
     fun repeatFailedRegistrations() {
+        // Connectors
         val failedRegistrations = connectorService.getUnregisteredBrokerConnectors().groupBy { it.environmentId }
         failedRegistrations.forEach {
             registerConnectors(it.key, it.value)
@@ -32,7 +33,7 @@ class BrokerSyncService {
             val connectorUrls = connectors.map { it.connectorEndpointUrl }
             val connectorIds = connectors.map { it.connectorId }
             brokerClientService.forEnvironment(envId).addConnectors(connectorUrls)
-            connectorService.setBrokerRegistrationStatus(connectorIds, ConnectorBrokerRegistrationStatus.REGISTERED)
+            connectorService.setConnectorBrokerRegistrationStatus(connectorIds, ConnectorBrokerRegistrationStatus.REGISTERED)
         } catch (e: Exception) {
             Log.error("Failed to re-register connectors in broker. envId=$envId", e)
         }

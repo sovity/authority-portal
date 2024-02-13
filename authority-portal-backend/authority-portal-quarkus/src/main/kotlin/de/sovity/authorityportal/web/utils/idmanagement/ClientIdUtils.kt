@@ -9,13 +9,14 @@ import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder
 import org.jooq.DSLContext
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
+import java.util.Locale
 
 @ApplicationScoped
 class ClientIdUtils {
     @Inject
     lateinit var dsl: DSLContext
 
-    fun generateClientId(certString: String): String {
+    fun generateFromCertificate(certString: String): String {
         val certInputStream = certString.byteInputStream()
         val certFactory = CertificateFactory.getInstance("X.509")
         val cert = certFactory.generateCertificate(certInputStream) as X509Certificate
@@ -30,6 +31,12 @@ class ClientIdUtils {
         val akiHex = aki.keyIdentifier.toHexString()
 
         return "$skiHex:keyid:$akiHex"
+    }
+
+    fun generateFromConnectorId(connectorId: String): String {
+        return connectorId
+            .replace(".", "-")
+            .lowercase(Locale.getDefault())
     }
 
     fun exists(clientId: String): Boolean {
