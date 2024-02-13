@@ -11,6 +11,7 @@ interface DeploymentEnvironmentConfiguration {
         fun position(): Int
         fun daps(): DapsConfig
         fun broker(): BrokerConfig
+        fun loggingHouse(): LoggingHouseConfig
 
         interface DapsConfig {
             fun url(): String
@@ -23,6 +24,10 @@ interface DeploymentEnvironmentConfiguration {
             fun url(): String
             fun adminApiKey(): String
             fun apiKey(): String
+        }
+
+        interface LoggingHouseConfig {
+            fun url(): String
         }
     }
 }

@@ -1,10 +1,12 @@
 package de.sovity.authorityportal.web
 
 import de.sovity.authorityportal.api.UiResource
+import de.sovity.authorityportal.api.model.CaasAvailabilityResponse
 import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
 import de.sovity.authorityportal.api.model.CentralComponentDto
 import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
+import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
@@ -26,6 +28,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.auth.AuthUtils
 import de.sovity.authorityportal.web.auth.LoggedInUser
 import de.sovity.authorityportal.web.pages.centralcomponentmanagement.CentralComponentManagementApiService
+import de.sovity.authorityportal.web.pages.connectormanagement.CaasManagementApiService
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
@@ -91,6 +94,9 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var centralComponentManagementApiService: CentralComponentManagementApiService
+
+    @Inject
+    lateinit var caasManagementApiService: CaasManagementApiService
 
     // User info
     @Transactional
@@ -306,6 +312,20 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
+    override fun createCaas(environmentId: String, caasRequest: CreateCaasRequest): CreateConnectorResponse {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
+        authUtils.requiresMemberOfAnyOrganization()
+        return caasManagementApiService.createCaas(loggedInUser.organizationMdsId!!, loggedInUser.userId, caasRequest, environmentId)
+    }
+
+    @Transactional
+    override fun checkFreeCaasUsage(environmentId: String): CaasAvailabilityResponse {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
+        authUtils.requiresMemberOfAnyOrganization()
+        return caasManagementApiService.getFreeCaasUsageForOrganization(loggedInUser.organizationMdsId!!, environmentId)
+    }
+
+    @Transactional
     override fun deleteProvidedConnector(mdsId: String, connectorId: String): IdResponse {
         TODO("Not yet implemented")
     }
@@ -348,7 +368,7 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun updateOwnOrganizationDeatils(organizationDto: UpdateOrganizationDto): IdResponse {
+    override fun updateOwnOrganizationDetails(organizationDto: UpdateOrganizationDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
         return organizationUpdateApiService.updateOrganizationDetails(loggedInUser.organizationMdsId!!, organizationDto)

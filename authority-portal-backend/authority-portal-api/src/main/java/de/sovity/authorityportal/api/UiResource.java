@@ -1,9 +1,11 @@
 package de.sovity.authorityportal.api;
 
+import de.sovity.authorityportal.api.model.CaasAvailabilityResponse;
 import de.sovity.authorityportal.api.model.CentralComponentCreateRequest;
 import de.sovity.authorityportal.api.model.CentralComponentDto;
 import de.sovity.authorityportal.api.model.ConnectorDetailDto;
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult;
+import de.sovity.authorityportal.api.model.CreateCaasRequest;
 import de.sovity.authorityportal.api.model.CreateConnectorRequest;
 import de.sovity.authorityportal.api.model.CreateConnectorResponse;
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto;
@@ -340,6 +342,33 @@ public interface UiResource {
         CreateConnectorRequest connector
     );
 
+    @POST
+    @Path("/organizations/my-org/connectors/request-caas")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(description = "Request a CaaS registration.")
+    CreateConnectorResponse createCaas(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId,
+
+        @Valid
+        @NotNull(message = "CaaS request cannot be null")
+        CreateCaasRequest caasRequest
+    );
+
+    @GET
+    @Path("/organizations/my-org/connectors/check-free-caas-usage")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Check if a CaaS registration is available for your organization.")
+    CaasAvailabilityResponse checkFreeCaasUsage(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
+
     @DELETE
     @Path("/organizations/{mdsId}/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -388,7 +417,7 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Update own organization information")
-    IdResponse updateOwnOrganizationDeatils(
+    IdResponse updateOwnOrganizationDetails(
         @Valid
         @NotNull(message = "Update organization request cannot be null")
         UpdateOrganizationDto organizationDto

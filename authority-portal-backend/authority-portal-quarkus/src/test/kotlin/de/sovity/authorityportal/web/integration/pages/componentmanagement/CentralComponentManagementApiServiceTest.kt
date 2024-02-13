@@ -51,7 +51,7 @@ class CentralComponentManagementApiServiceTest {
 
     @BeforeEach
     fun init() {
-        doReturn(testClientId).`when`(clientIdUtilsMock).generateClientId(testCertificate)
+        doReturn(testClientId).`when`(clientIdUtilsMock).generateFromCertificate(testCertificate)
         `when`(dapsClientService.forEnvironment(eq(envId))).thenReturn(dapsClient)
 
         QuarkusMock.installMockForType(clientIdUtilsMock, ClientIdUtils::class.java)
@@ -71,7 +71,7 @@ class CentralComponentManagementApiServiceTest {
         )
 
         // assert
-        verify(clientIdUtilsMock).generateClientId(eq(testCertificate))
+        verify(clientIdUtilsMock).generateFromCertificate(eq(testCertificate))
         verify(dapsClientService).forEnvironment(eq(envId))
         assertComponent(response.id)
     }
