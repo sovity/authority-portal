@@ -1,0 +1,191 @@
+<div class="mt-6">
+  <dl>
+    <!-- organization name -->
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >corporate_fare</mat-icon
+        >
+        Organization:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ userDetailConfig.user.organizationName }}
+      </dd>
+    </div>
+    <!-- organization name -->
+
+    <!-- portal role -->
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >person</mat-icon
+        >
+        Portal Role
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <div *ngIf="!roleFormEnable" class="flex justify-between">
+          <div>
+            <span>{{ rolesToList(userDetailConfig.user.roles) }} </span>
+          </div>
+          <mat-icon
+            *ngIf="
+              (('PARTICIPANT_ADMIN' | hasRole | async) ||
+                ('AUTHORITY_ADMIN' | hasRole | async)) &&
+              (userDetailConfig.userId | CheckIfNotCurrentUser | async)
+            "
+            class="text-gray-700 cursor-pointer hover:text-brand-golden"
+            (click)="toggleRoleForm()"
+            >edit</mat-icon
+          >
+        </div>
+        <ng-container *ngIf="roleFormEnable">
+          <div class="px-4">
+            <label class="w-full mb-2 text-sm"
+              >Choose an Organization Role</label
+            >
+            <mat-form-field class="w-full" appearance="outline">
+              <mat-select
+                [disabled]="!('PARTICIPANT_ADMIN' | hasRole | async)"
+                [(ngModel)]="newTopParticipantRole"
+                (selectionChange)="roleChangeHandled($event, 'PARTICIPANT')">
+                <mat-option
+                  *ngFor="let role of availableParticipantRoles"
+                  [value]="role"
+                  [disabled]="role === currentTopParticipantRole"
+                  >{{ mapToReadable(role) }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div
+            *ngIf="
+              ['AUTHORITY_ADMIN', 'SERVICE_PARTNER_ADMIN', 'OPERATOR_ADMIN']
+                | hasAnyRole
+                | async
+            "
+            class="px-4">
+            <label class="w-full mb-2 text-sm"
+              >Choose an Application Role</label
+            >
+            <mat-form-field class="w-full" appearance="outline">
+              <mat-select
+                [(ngModel)]="newTopApplicationRole"
+                (selectionChange)="roleChangeHandled($event, 'APPLICATION')">
+                <mat-option
+                  *ngFor="
+                    let role of ['NONE'].concat(availableApplicationRoles)
+                  "
+                  [value]="role"
+                  [disabled]="
+                    role === currentTopApplicationRole ||
+                    (currentTopApplicationRole === undefined && role === 'NONE')
+                  "
+                  >{{ mapToReadable(role) }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </ng-container>
+        <!-- actions -->
+        <div *ngIf="roleFormEnable" class="py-3 px-1 flex">
+          <div class="flex w-full justify-end gap-4">
+            <button
+              class="btn-accent-outline"
+              type="button"
+              (click)="cancelUserRoleUpdate()">
+              Cancel
+            </button>
+            <button
+              class="btn-accent"
+              [ngClass]="{
+                'opacity-50 cursor-not-allowed':
+                  !roleFormEnable ||
+                  (newTopApplicationRole === currentTopApplicationRole &&
+                    newTopParticipantRole === currentTopParticipantRole)
+              }"
+              [disabled]="
+                !roleFormEnable ||
+                (newTopApplicationRole === currentTopApplicationRole &&
+                  newTopParticipantRole === currentTopParticipantRole)
+              "
+              (click)="updateUserRoles()">
+              Save
+            </button>
+          </div>
+        </div>
+        <!-- actions -->
+      </dd>
+    </div>
+    <!-- portal role -->
+
+    <!-- user email -->
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">mail</mat-icon
+        >Email:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ userDetailConfig.user.email }}
+      </dd>
+    </div>
+    <!-- user email -->
+
+    <!-- user phone -->
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >phone_iphone</mat-icon
+        >
+        Phone:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ userDetailConfig.user.phone }}
+      </dd>
+    </div>
+    <!-- user phone -->
+
+    <!-- company position -->
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">person</mat-icon
+        >Position:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ userDetailConfig.user.position }}
+      </dd>
+    </div>
+    <!-- company position -->
+
+    <!-- onboard type -->
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">sell</mat-icon
+        >Onboarding Type:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ onboardingType(userDetailConfig.user.onboardingType) }}
+      </dd>
+    </div>
+    <!-- onboard type -->
+
+    <!-- onboarded since -->
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">
+          calendar_month </mat-icon
+        >Onboarded Since:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ userDetailConfig.user.creationDate | date : 'mediumDate' }}
+      </dd>
+    </div>
+    <!-- onboarded since -->
+  </dl>
+</div>

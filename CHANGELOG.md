@@ -15,6 +15,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Redesigned Portal Sidebar, Header and other general layouts
 - Moved registration process from Keycloak into the portal
 - Upgraded Keycloak dependency to version 23.0.4
+- Redesigned authority participant management Section
 - Added the option to request a Connector-as-a-Service from the sovity portal
 
 #### Minor
@@ -36,7 +37,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Backend: Sync organization data to MDS Broker(s) (Dependency from Broker development)
 - Removed Provide Connector Feature
 - Changed Connector URL persistence. Frontend URL, Endpoint URL and Management API URL are now independent of each other
+- slide-overs scrolling issue has been fixed
 - Added a connector overview for service providers and the option to unregister provided connectors
+
 
 #### Patch
 

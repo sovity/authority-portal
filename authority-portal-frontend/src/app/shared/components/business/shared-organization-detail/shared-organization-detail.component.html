@@ -1,0 +1,118 @@
+<div class="my-6 h-screen overflow-auto">
+  <dl>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">label</mat-icon>
+        MDS ID:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.mdsId }}
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >corporate_fare</mat-icon
+        >
+        Legal Name:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.name }}
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >corporate_fare</mat-icon
+        >Organization Address:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.mainAddress }}
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >corporate_fare</mat-icon
+        >Billing Address:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.billingAddress }}
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">notes</mat-icon
+        >Description:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.description }}
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">tag</mat-icon>
+        ID number
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.taxId }}
+      </dd>
+    </div>
+
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">link</mat-icon
+        >Main Contact:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <p>{{ organization.mainContactName }}</p>
+        <p>{{ organization.mainContactEmail }}</p>
+        <p>{{ organization.mainContactPhone }}</p>
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">link</mat-icon
+        >Technical Contact:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <p>{{ organization.techContactName }}</p>
+        <p>{{ organization.techContactEmail }}</p>
+        <p>{{ organization.techContactPhone }}</p>
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >mail_lock</mat-icon
+        >Onboarded Since:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.createdAt | date : 'medium' }}
+      </dd>
+    </div>
+
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon
+          class="material-icons-outlined text-gray-500"
+          svgIcon="account-circle">
+        </mat-icon
+        >Created By:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.createdBy }}
+      </dd>
+    </div>
+  </dl>
+</div>

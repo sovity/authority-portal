@@ -196,22 +196,6 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
       {
-        path: 'authority/organizations/:mdsId',
-        component: AuthorityOrganizationDetailPageComponent,
-        data: {
-          requiresRole: ['AUTHORITY_USER'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
-      {
-        path: 'authority/organizations/:mdsId/users/:userId',
-        component: AuthorityOrganizationUserDetailPageComponent,
-        data: {
-          requiresRole: ['AUTHORITY_USER'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
-      {
         path: 'authority/connectors',
         component: AuthorityConnectorListPageComponent,
         data: {

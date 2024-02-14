@@ -1,17 +1,55 @@
-<div class="bg-gray-200 flex flex-col py-10">
-  <div class="flex flex-col items-center justify-center mb-6 text-gray-700">
-    <app-loading-element
-      *ngIf="state.organization.isLoading"></app-loading-element>
+<app-loading-element
+  *ngIf="state.organizationDetail.organization.isLoading"
+  class="flex justify-center"></app-loading-element>
 
-    <app-error-element
-      *ngIf="state.organization.isError"
-      errorMessage="organization"></app-error-element>
+<app-error-element
+  *ngIf="state.organizationDetail.organization.isError"
+  errorMessage="organization"></app-error-element>
 
-    <app-organization-detail
-      *ngIf="state.organization.isReady"
-      class="flex p-8 lg:w-10/12 my-8 gap-4 justify-between"
-      type="AUTHORITY"
-      [organization]="state.organization.data"
-      (actions)="actionHandler($event)"></app-organization-detail>
+<ng-container *ngIf="state.organizationDetail.organization.isReady">
+  <div class="flex relative">
+    <!-- Title bar -->
+    <app-title-bar
+      class="flex-1"
+      [titleBarConfig]="titleBarConfig"
+      [selectedTab]="slideOverContent"
+      (onTabChange)="tabChangeHandler($event)"
+      (onActionMenuClick)="menuActionHandler($event)"></app-title-bar>
+    <!-- Title bar -->
   </div>
-</div>
+
+  <div class="px-8 mt-8" [ngSwitch]="slideOverContent">
+    <!-- organization detail info tab -->
+    <div *ngSwitchCase="'DETAIL'">
+      <app-organization-detail-info
+        type="AUTHORITY"
+        [organization]="this.organization"></app-organization-detail-info>
+    </div>
+    <!-- organization detail info tab -->
+
+    <!-- organization members tab -->
+    <div *ngSwitchCase="'MEMBERS'">
+      <app-organization-user-list
+        [organizationId]="organization.mdsId"
+        [users]="organization.memberList"
+        (onUserSelected)="userSelectedHandler($event)">
+      </app-organization-user-list>
+    </div>
+    <!-- organization members tab -->
+
+    <!-- organization data offers tab -->
+    <div *ngSwitchCase="'DATA_OFFERS'" class="px-8 mt-8">
+      <p>DATA_CONNECTOR is active.</p>
+    </div>
+    <!-- organization data offers tab -->
+
+    <!-- organization users detail tab -->
+    <div *ngSwitchCase="'USER_DETAILS'" class="px-8 mt-8">
+      <app-organization-user-detail
+        [userDetailPageConfig]="
+          userDetailPageConfig
+        "></app-organization-user-detail>
+    </div>
+    <!-- organization users detail tab -->
+  </div>
+</ng-container>

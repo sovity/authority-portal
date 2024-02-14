@@ -1,110 +1,51 @@
-<section class="container px-4 mt-10 mb-20 mx-auto">
-  <div class="sm:flex sm:items-center sm:justify-between">
-    <div>
-      <div class="flex items-center gap-x-3">
-        <h2 class="text-lg font-medium text-gray-800">Organizations</h2>
-      </div>
+<section class="container m-10 px-10 mx-auto">
+  <app-header [headerConfig]="headerConfig"></app-header>
 
-      <p class="mt-1 text-sm text-gray-700">
-        List of all organizations registered in Portal
-      </p>
-    </div>
-
-    <div class="inline-flex gap-x-3">
-      <div
-        *ngIf="'AUTHORITY_USER' | hasRole | async"
-        class="flex items-center mt-4 gap-x-3">
-        <button
-          class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-          routerLink="/authority/organizations/invite-new-organization">
-          <svg
-            class="w-5 h-5"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-
-          <span>Invite Organization</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="mt-6 md:flex md:items-center md:justify-between">
-    <div
-      class="inline-flex overflow-hidden bg-white border divide-x rounded-lg">
-      <button
-        class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm hover:bg-gray-100"
-        [ngClass]="filter === null ? 'bg-gray-100' : 'bg-white'"
-        (click)="filterBy(null)">
-        All
-      </button>
-
-      <button
-        class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm hover:bg-gray-100"
-        [ngClass]="filter === 'ACTIVE' ? 'bg-gray-100' : 'bg-white'"
-        (click)="filterBy('ACTIVE')">
-        Active
-      </button>
-
-      <button
-        class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm hover:bg-gray-100"
-        [ngClass]="filter === 'INVITED' ? 'bg-gray-100' : 'bg-white'"
-        (click)="filterBy('INVITED')">
-        Invited
-      </button>
-
-      <button
-        class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm hover:bg-gray-100"
-        [ngClass]="filter === 'PENDING' ? 'bg-gray-100' : 'bg-white'"
-        (click)="filterBy('PENDING')">
-        Pending
-      </button>
-
-      <button
-        class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm hover:bg-gray-100"
-        [ngClass]="filter === 'REJECTED' ? 'bg-gray-100' : 'bg-white'"
-        (click)="filterBy('REJECTED')">
-        Rejected
-      </button>
-    </div>
-  </div>
+  <app-filter-bar
+    [filterBarConfig]="filterBarConfig"
+    (onFilter)="handleFilter($event)">
+  </app-filter-bar>
 
   <div class="flex flex-col mt-6">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
         <div class="overflow-hidden border border-gray-200 md:rounded-lg">
           <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-200">
-              <tr class="bg-brand-400">
+            <thead class="bg-gray-200 border-l-4 border-gray-200">
+              <tr>
+                <th
+                  class="py-3.5 pl-3 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  MDS ID
+                </th>
                 <th
                   class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
                   scope="col">
-                  Organization
+                  Organization Name
                 </th>
 
                 <th
-                  class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
+                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
                   scope="col">
-                  Number of Users
+                  Admin Email
                 </th>
 
                 <th
-                  class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
+                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
                   scope="col">
-                  Number of Connectors
+                  No. of Users
                 </th>
 
                 <th
-                  class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
+                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
                   scope="col">
-                  Number of Data offers
+                  No. of Connectors
+                </th>
+
+                <th
+                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+                  scope="col">
+                  No. of Data Offers
                 </th>
 
                 <th
@@ -112,47 +53,60 @@
                   scope="col">
                   Status
                 </th>
-
-                <th
-                  class="px-4 py-3.5 text-sm font-normal text-left text-gray-700"
-                  scope="col">
-                  Details
-                </th>
               </tr>
             </thead>
             <ng-container *ngIf="state.organizations.isReady">
               <ng-container
-                *ngIf="state.organizations.data.length > 0; else noRows">
+                *ngIf="
+                  state.organizations.data.length > 0 &&
+                    (state.organizations.data | sortingFilter : filter).length >
+                      0;
+                  else noRows
+                ">
                 <tbody
                   *ngFor="
                     let organization of state.organizations.data
                       | sortingFilter : filter
                   "
-                  class="bg-white divide-y divide-gray-200">
-                  <tr>
+                  class="bg-white divide-y divide-gray-200"
+                  (click)="openDetailPage(organization)">
+                  <tr
+                    class="border-l-4 border-transparent hover:bg-slate-50 hover:border-l-4 hover:border-yellow-600/70 cursor-pointer -ml-1">
                     <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                      <h4>
+                      <h4 class="text-gray-700">
+                        {{ organization.mdsId }}
+                      </h4>
+                    </td>
+
+                    <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                      <h4 class="text-gray-700">
                         {{ organization.name }}
                       </h4>
                     </td>
 
+                    <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                      <h4 class="text-gray-700">
+                        {{ organization.mainContactEmail }}
+                      </h4>
+                    </td>
+
                     <td
-                      class="text-sm text-center font-medium whitespace-nowrap">
-                      <h4>
+                      class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap">
+                      <h4 class="text-gray-700">
                         {{ organization.numberOfUsers }}
                       </h4>
                     </td>
 
                     <td
-                      class="text-sm text-center font-medium whitespace-nowrap">
-                      <h4>
+                      class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap">
+                      <h4 class="text-gray-700">
                         {{ organization.numberOfConnectors }}
                       </h4>
                     </td>
 
                     <td
-                      class="text-sm text-center font-medium whitespace-nowrap">
-                      <h4>
+                      class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap">
+                      <h4 class="text-gray-700">
                         {{ organization.numberOfDataOffers }}
                       </h4>
                     </td>
@@ -169,36 +123,6 @@
                         {{ organization.registrationStatus }}
                       </div>
                     </td>
-
-                    <td class="flex px-4 py-4 text-sm whitespace-nowrap">
-                      <a
-                        class="px-1 py-1 text-gray-600 transition-colors duration-200 rounded-lg"
-                        [routerLink]="[
-                          '/authority/organizations',
-                          organization.mdsId
-                        ]">
-                        <svg
-                          class="w-6 h-6"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor">
-                          <path
-                            d="M12 22.4199C17.5228 22.4199 22 17.9428 22 12.4199C22 6.89707 17.5228 2.41992 12 2.41992C6.47715 2.41992 2 6.89707 2 12.4199C2 17.9428 6.47715 22.4199 12 22.4199Z"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round" />
-                          <path
-                            d="M10.5596 8.41992L13.6196 11.29C13.778 11.4326 13.9047 11.6068 13.9914 11.8015C14.0781 11.9962 14.123 12.2068 14.123 12.4199C14.123 12.633 14.0781 12.8439 13.9914 13.0386C13.9047 13.2332 13.778 13.4075 13.6196 13.55L10.5596 16.4199"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        </svg>
-                      </a>
-                    </td>
                   </tr>
                 </tbody>
               </ng-container>
@@ -207,7 +131,7 @@
                   <td
                     class="py-5 px-6 text-sm font-normal text-center text-gray-700"
                     colspan="6">
-                    No organizations registered yet.
+                    No organizations to show .
                   </td>
                 </tr>
               </ng-template>
@@ -224,4 +148,12 @@
       </div>
     </div>
   </div>
+
+  <app-slide-over
+    *ngIf="showDetail"
+    [component]="componentToRender"
+    (close)="closeDetailPage()"
+    (navigate)="
+      handleNavigation($event, slideOverConfig.childComponentInput.id)
+    "></app-slide-over>
 </section>

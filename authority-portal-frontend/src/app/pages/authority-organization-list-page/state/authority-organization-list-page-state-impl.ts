@@ -6,7 +6,11 @@ import {OrganizationOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
-import {RefreshOrganizations} from './authority-organization-list-page-actions';
+import {
+  CloseOrganizationDetail,
+  RefreshOrganizations,
+  ShowOrganizationDetail,
+} from './authority-organization-list-page-actions';
 import {
   AuthorityOrganizationListPageState,
   DEFAULT_AUTHORITY_ORGANIZATION_LIST_PAGE_STATE,
@@ -36,6 +40,18 @@ export class AuthorityOrganizationListPageStateImpl {
       tap((organizations) => this.organizationsRefreshed(ctx, organizations)),
       ignoreElements(),
     );
+  }
+
+  @Action(ShowOrganizationDetail)
+  onShowConnectorDetail(ctx: StateContext<AuthorityOrganizationListPageState>) {
+    ctx.patchState({showDetail: true});
+  }
+
+  @Action(CloseOrganizationDetail)
+  onCloseConnectorDetail(
+    ctx: StateContext<AuthorityOrganizationListPageState>,
+  ) {
+    ctx.patchState({showDetail: false});
   }
 
   private organizationsRefreshed(

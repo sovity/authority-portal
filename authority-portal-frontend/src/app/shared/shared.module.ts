@@ -12,6 +12,9 @@ import {CertificateGenerateService} from 'src/app/shared/services/certificate-ge
 import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
 import {CertificateGeneratorDialogComponent} from './components/business/certificate-generator-dialog/certificate-generator-dialog.component';
 import {CertificateGeneratorComponent} from './components/business/certificate-generator/certificate-generator.component';
+import {SharedOrganizationDetailComponent} from './components/business/shared-organization-detail/shared-organization-detail.component';
+import {SharedUserDetailComponent} from './components/business/shared-user-detail/shared-user-detail.component';
+import {SharedUserListComponent} from './components/business/shared-user-list/shared-user-list.component';
 import {UserDetailComponent} from './components/business/user-detail/user-detail.component';
 import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
@@ -38,6 +41,9 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     TitleBarComponent,
     CertificateGeneratorComponent,
     CertificateGeneratorDialogComponent,
+    SharedUserDetailComponent,
+    SharedUserListComponent,
+    SharedOrganizationDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -63,6 +69,9 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     TitleBarComponent,
     CertificateGeneratorComponent,
     CertificateGeneratorDialogComponent,
+    SharedUserDetailComponent,
+    SharedUserListComponent,
+    SharedOrganizationDetailComponent,
   ],
   providers: [
     CertificateGenerateService,
@@ -104,6 +113,7 @@ export class SharedModule {
       'tag',
       'user',
       'users',
+      'profile',
     ];
     this.svgIconServiceService.initializeIcons(iconsList); // to registers all the SVG icons in matIconRegistry
   }

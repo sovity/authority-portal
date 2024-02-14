@@ -1,10 +1,32 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
-import {OrganizationRegistrationStatusDto} from '@sovity.de/authority-portal-client';
+import {
+  OrganizationOverviewEntryDto,
+  OrganizationRegistrationStatusDto,
+} from '@sovity.de/authority-portal-client';
+import {sliderOverNavigation} from 'src/app/core/utils/helper';
+import {
+  FilterBarConfig,
+  FilterOption,
+  FilterQuery,
+} from 'src/app/shared/components/common/filter-bar/filter-bar.model';
+import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
+import {
+  NavigationType,
+  SlideOverAction,
+  SlideOverConfig,
+} from 'src/app/shared/components/common/slide-over/slide-over.model';
+import {SlideOverService} from 'src/app/shared/services/slide-over.service';
 import {getOrganizationRegistrationStatusClasses} from '../../../core/utils/ui-utils';
-import {RefreshOrganizations} from '../state/authority-organization-list-page-actions';
+import {AuthorityOrganizationDetailPageComponent} from '../../authority-organization-detail-page/authority-organization-detail-page/authority-organization-detail-page.component';
+import {
+  CloseOrganizationDetail,
+  RefreshOrganizations,
+  ShowOrganizationDetail,
+} from '../state/authority-organization-list-page-actions';
 import {
   AuthorityOrganizationListPageState,
   DEFAULT_AUTHORITY_ORGANIZATION_LIST_PAGE_STATE,
@@ -19,19 +41,55 @@ export class AuthorityOrganizationListPageComponent
   implements OnInit, OnDestroy
 {
   state = DEFAULT_AUTHORITY_ORGANIZATION_LIST_PAGE_STATE;
+
+  showDetail: boolean = false;
+  slideOverConfig!: SlideOverConfig;
+  componentToRender = AuthorityOrganizationDetailPageComponent;
   filter: OrganizationRegistrationStatusDto | null = null;
+  headerConfig!: HeaderBarConfig;
+  filterBarConfig!: FilterBarConfig;
 
   // html doesn't see this function if it's just imported
   getOrganizationRegistrationStatusClasses =
     getOrganizationRegistrationStatusClasses;
 
-  private ngOnDestroy$ = new Subject();
-
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    public dialog: MatDialog,
+    private slideOverService: SlideOverService,
+  ) {}
 
   ngOnInit() {
+    this.initializeHeaderBar();
+    this.initializeFilterBar();
     this.refresh();
     this.startListeningToState();
+  }
+
+  initializeHeaderBar() {
+    this.headerConfig = {
+      title: 'Participant Management',
+      subtitle: 'Manage all organizations and their users here',
+      headerActions: [],
+    };
+  }
+
+  initializeFilterBar() {
+    this.filterBarConfig = {
+      filters: [
+        {
+          id: 'status',
+          label: 'Status',
+          type: 'SELECT',
+          icon: 'status',
+          options: Object.values(OrganizationRegistrationStatusDto).map(
+            (status) => {
+              return {id: status, label: status};
+            },
+          ) as FilterOption[],
+        },
+      ],
+    };
   }
 
   refresh() {
@@ -46,14 +104,57 @@ export class AuthorityOrganizationListPageComponent
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
+        this.showDetail = state.showDetail;
       });
   }
 
-  filterBy(filter: OrganizationRegistrationStatusDto | null) {
-    this.filter = filter;
+  openDetailPage(organization: OrganizationOverviewEntryDto) {
+    this.slideOverConfig = {
+      childComponentInput: {
+        id: organization.mdsId,
+      },
+      label: organization.name,
+      icon: 'organization',
+      showNavigation: this.state.organizations.data.length > 1,
+      navigationType: NavigationType.STEPPER,
+    };
+    this.slideOverService.setSlideOverConfig(this.slideOverConfig);
+    this.store.dispatch(ShowOrganizationDetail);
   }
 
+  handleFilter(event: FilterQuery) {
+    this.filter = event['status'] as OrganizationRegistrationStatusDto;
+  }
+
+  handleNavigation(direction: SlideOverAction, currentConnectorId: string) {
+    let totalOrganizations = this.state.organizations.data.length;
+    let currentIndex = this.state.organizations.data.findIndex(
+      (organization) => organization.mdsId === currentConnectorId,
+    );
+    let nextIndex = sliderOverNavigation(
+      direction,
+      currentIndex,
+      totalOrganizations,
+    );
+    this.slideOverConfig = {
+      ...this.slideOverConfig,
+      childComponentInput: {
+        id: this.state.organizations.data[nextIndex].mdsId,
+      },
+      label: this.state.organizations.data[nextIndex].name,
+    };
+    this.slideOverService.setSlideOverConfig(this.slideOverConfig);
+  }
+
+  closeDetailPage() {
+    this.store.dispatch(CloseOrganizationDetail);
+    this.slideOverService.slideOverReset();
+  }
+
+  ngOnDestroy$ = new Subject();
+
   ngOnDestroy(): void {
+    this.closeDetailPage();
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }

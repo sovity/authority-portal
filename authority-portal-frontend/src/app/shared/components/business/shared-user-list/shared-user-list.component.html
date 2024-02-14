@@ -1,0 +1,77 @@
+<div class="w-full flex flex-col mt-6 h-screen overflow-y">
+  <div class="inline-block min-w-full py-2 align-middle">
+    <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-200 border-l-4 border-gray-200">
+          <tr>
+            <th
+              class="py-3.5 pl-3 text-sm font-normal text-gray-700 text-center"
+              scope="col">
+              User Name
+            </th>
+            <th
+              class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
+              scope="col">
+              Roles
+            </th>
+            <th
+              class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
+              scope="col">
+              Status
+            </th>
+          </tr>
+        </thead>
+        <ng-container *ngIf="modifiedMembers.length > 0; else noRows">
+          <tbody
+            *ngFor="let user of modifiedMembers"
+            (click)="selectUser(user)">
+            <tr
+              class="border-l-4 border-transparent hover:bg-slate-50 hover:border-l-4 hover:border-yellow-600/70 cursor-pointer -ml-1">
+              <td
+                class="flex pl-3 gap-2 items-center py-4 text-sm font-medium whitespace-nowrap text-center">
+                <app-avatar
+                  [name]="{
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                  }"></app-avatar>
+                <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+              </td>
+              <td
+                class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
+                <h4>
+                  <span *ngIf="user.applicationRole"
+                    >{{ user.applicationRole }},</span
+                  >
+                  <span *ngIf="user.participantRole">{{
+                    user.participantRole
+                  }}</span>
+                </h4>
+              </td>
+              <td
+                class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
+                <div
+                  class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2"
+                  [ngClass]="
+                    getOrganizationUserRegistrationStatusClasses(
+                      user.registrationStatus
+                    )
+                  ">
+                  {{ user.registrationStatus }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </ng-container>
+        <ng-template #noRows>
+          <tr>
+            <td
+              class="py-5 px-6 text-sm font-normal text-center text-gray-700"
+              colspan="6">
+              No Users registered in the organization yet.
+            </td>
+          </tr>
+        </ng-template>
+      </table>
+    </div>
+  </div>
+</div>

@@ -22,7 +22,7 @@ export class SidebarComponent {
           },
           {
             title: 'Profile',
-            icon: 'building-office',
+            icon: 'profile',
             rLink: '/my-organization/profile',
           },
           {

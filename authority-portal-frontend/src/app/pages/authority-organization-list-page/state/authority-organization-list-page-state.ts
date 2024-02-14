@@ -3,9 +3,11 @@ import {Fetched} from '../../../core/utils/fetched';
 
 export interface AuthorityOrganizationListPageState {
   organizations: Fetched<OrganizationOverviewEntryDto[]>;
+  showDetail: boolean;
 }
 
 export const DEFAULT_AUTHORITY_ORGANIZATION_LIST_PAGE_STATE: AuthorityOrganizationListPageState =
   {
     organizations: Fetched.empty(),
+    showDetail: false,
   };
