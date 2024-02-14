@@ -88,6 +88,14 @@ class ConnectorService {
             .fetch()
     }
 
+    fun getConnectorsByHostMdsId(mdsId: String, environmentId: String): List<ConnectorRecord> {
+        val c = Tables.CONNECTOR
+
+        return dsl.selectFrom(c)
+            .where(c.PROVIDER_MDS_ID.eq(mdsId).and(c.ENVIRONMENT.eq(environmentId)))
+            .fetch()
+    }
+
     fun getConnectorsByEnvironment(environment: String): List<ConnectorRecord> {
         val c = Tables.CONNECTOR
 

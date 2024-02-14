@@ -13,6 +13,7 @@ import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
+import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.UpdateUserDto
@@ -224,7 +225,7 @@ class UiResourceImpl : UiResource {
     override fun ownOrganizationDetails(): OwnOrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
-        return organizationInfoApiService.getOwnOrganizationInformation(loggedInUser.organizationMdsId!!);
+        return organizationInfoApiService.getOwnOrganizationInformation(loggedInUser.organizationMdsId!!)
     }
 
     @Transactional
@@ -237,6 +238,27 @@ class UiResourceImpl : UiResource {
     override fun organizationDetails(mdsId: String, environmentId: String): OrganizationDetailsDto {
         authUtils.requiresAnyRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
         return organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)
+    }
+
+    @Transactional
+    override fun getProvidedConnectors(environmentId: String): ProvidedConnectorOverviewResult {
+        authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        authUtils.requiresMemberOfAnyOrganization()
+        return connectorManagementApiService.listServiceProvidedConnectors(loggedInUser.organizationMdsId!!, environmentId)
+    }
+
+    @Transactional
+    override fun getProvidedConnectorDetails(connectorId: String): ConnectorDetailDto {
+        authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        authUtils.requiresMemberOfAnyOrganization()
+        return connectorManagementApiService.getConnectorDetails(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+    }
+
+    @Transactional
+    override fun deleteProvidedConnector(connectorId: String): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        authUtils.requiresMemberOfAnyOrganization()
+        return connectorManagementApiService.deleteConnector(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
     }
 
     @Transactional
@@ -301,7 +323,7 @@ class UiResourceImpl : UiResource {
     override fun deleteOwnConnector(connectorId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.deleteOwnConnector(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return connectorManagementApiService.deleteConnector(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
     }
 
     @Transactional

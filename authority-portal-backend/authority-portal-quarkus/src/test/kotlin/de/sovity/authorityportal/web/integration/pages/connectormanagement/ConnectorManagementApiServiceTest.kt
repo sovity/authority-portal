@@ -123,13 +123,29 @@ class ConnectorManagementApiServiceTest {
 
         // assert
         assertThat(result).isNotNull
-        assertThat(result.connectors).hasSize(6)
+        assertThat(result.connectors).hasSize(7)
         assertThat(result.connectors.map { it.id }).allSatisfy { assertThat(it).isNotNull() }
         assertThat(result.connectors.map { it.hostName }).anySatisfy { assertThat(it).isEqualTo("Dev Organization 1") }
         assertThat(result.connectors.map { it.hostName }).anySatisfy { assertThat(it).isEqualTo("Dev Organization 2") }
         assertThat(result.connectors.map { it.environment.environmentId }).allSatisfy { assertThat(it).isEqualTo("test") }
         assertThat(result.connectors.map { it.environment.title }).allSatisfy { assertThat(it).isEqualTo("Test Environment") }
         assertThat(result.connectors.map { it.name }).allSatisfy { assertThat(it).isNotBlank() }
+    }
+
+    @Test
+    fun testListProvidedConnectors() {
+        // act
+        val result = connectorManagementApiService.listServiceProvidedConnectors(mdsId, test)
+
+        // assert
+        assertThat(result).isNotNull
+        assertThat(result.connectors).hasSize(2)
+        assertThat(result.connectors.map { it.id }).allSatisfy { assertThat(it).isNotNull() }
+        assertThat(result.connectors.map { it.customerOrgName }).anySatisfy { assertThat(it).isEqualTo("Dev Organization 3.5") }
+        assertThat(result.connectors.map { it.customerOrgName }).anySatisfy { assertThat(it).isEqualTo("Dev Organization 1") }
+        assertThat(result.connectors.map { it.environment.environmentId }).allSatisfy { assertThat(it).isEqualTo("test") }
+        assertThat(result.connectors.map { it.environment.title }).allSatisfy { assertThat(it).isEqualTo("Test Environment") }
+        assertThat(result.connectors.map { it.type }).anySatisfy { assertThat(it).isEqualTo(ConnectorTypeDto.PROVIDED) }
     }
 
     @Test
@@ -215,7 +231,7 @@ class ConnectorManagementApiServiceTest {
         val connectorId = "MDSL1111AA.CP59I8U"
 
         // act
-        val response = connectorManagementApiService.deleteOwnConnector(connectorId, mdsId, userId)
+        val response = connectorManagementApiService.deleteConnector(connectorId, mdsId, userId)
 
         // assert
         assertThat(response.id).isNotNull()
