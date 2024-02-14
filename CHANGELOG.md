@@ -36,6 +36,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Backend: Sync organization data to MDS Broker(s) (Dependency from Broker development)
 - Removed Provide Connector Feature
 - Changed Connector URL persistence. Frontend URL, Endpoint URL and Management API URL are now independent of each other
+- Added a connector overview for service providers and the option to unregister provided connectors
 
 #### Patch
 

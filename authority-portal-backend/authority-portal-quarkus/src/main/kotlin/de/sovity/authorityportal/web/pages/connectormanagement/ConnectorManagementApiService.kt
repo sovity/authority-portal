@@ -7,6 +7,8 @@ import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
+import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewEntryDto
+import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
@@ -58,12 +60,12 @@ class ConnectorManagementApiService {
         getConnectorDetails(connectorId, mdsId, userId)
 
     fun getConnectorDetails(connectorId: String, mdsId: String, userId: String): ConnectorDetailDto {
-        if (!connectorId.contains(mdsId)) {
-            Log.error("Requested connector does not belong to the organization. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
-            error("Connector ID does not match with organization")
-        }
-
         val connector = connectorService.getConnectorDetailOrThrow(connectorId)
+
+        if (!connectorId.contains(mdsId) && connector.hostMdsId != mdsId) {
+            Log.error("Requested connector does not belong to the organization and is not hosted by it. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
+            error("Connector ID does not match with organization or host organization")
+        }
 
         return ConnectorDetailDto(
             connector.connectorId,
@@ -135,6 +137,25 @@ class ConnectorManagementApiService {
         }
 
         return ConnectorOverviewResult(connectorDtos)
+    }
+
+    fun listServiceProvidedConnectors(mdsId: String, environmentId: String): ProvidedConnectorOverviewResult {
+        deploymentEnvironmentService.assertValidEnvId(environmentId)
+
+        val connectors = connectorService.getConnectorsByHostMdsId(mdsId, environmentId)
+        val orgNames = organizationService.getAllOrganizationNames()
+
+        val connectorDtos = connectors.map {
+            ProvidedConnectorOverviewEntryDto(
+                it.connectorId,
+                orgNames[it.mdsId] ?: "",
+                it.type.toDto(),
+                deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
+                it.name
+            )
+        }
+
+        return ProvidedConnectorOverviewResult(connectorDtos)
     }
 
     fun createOwnConnector(
@@ -257,17 +278,18 @@ class ConnectorManagementApiService {
         }
     }
 
-    fun deleteOwnConnector(
+    fun deleteConnector(
         connectorId: String,
         mdsId: String,
         userId: String
     ): IdResponse {
-        if (!connectorId.startsWith(mdsId)) {
-            Log.error("To be deleted connector does not belong to user's organization. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
-            error("Connector ID does not match MDS-ID of the user's organization")
+        val connector = connectorService.getConnectorOrThrow(connectorId)
+
+        if (!connectorId.startsWith(mdsId) && connector.providerMdsId != mdsId) {
+            Log.error("To be deleted connector does not belong to user's organization and is not hosted by it. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
+            error("Connector ID does not match MDS-ID of the user's organization or host organization")
         }
 
-        val connector = connectorService.getConnectorOrThrow(connectorId)
         val deploymentEnvId = connector.environment
 
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)

@@ -15,14 +15,16 @@ class ConnectorCsvApiServiceTest {
     fun generateConnectorCsv() {
         // arrange
         val expectedCsvContent = "\"Name\",\"Type\",\"MDS ID\",\"Environment\",\"Frontend URL\",\"Endpoint URL\",\"Management API URL\"\n" +
-            "\"Example Connector\",\"OWN\",\"MDSL2222CC\",\"test\",\"https://xample.test4/connector\",\"https://xample.test4/connector/api/dsp\",\"https://xample.test4/connector/api/management\"\n"
+            "\"Example Connector\",\"OWN\",\"MDSL2222CC\",\"test\",\"https://xample.test4/connector\",\"https://xample.test4/connector/api/dsp\",\"https://xample.test4/connector/api/management\"\n" +
+            "\"Example Connector\",\"PROVIDED\",\"MDSL2222CC\",\"test\",\"https://xample.test4/connector\",\"https://xample.test4/connector/api/dsp\",\"https://xample.test4/connector/api/management\"\n"
+
 
         // act
-        val inputStream = connectorCsvApiService.generateConnectorCsv("MDSL2222CC", "test");
+        val inputStream = connectorCsvApiService.generateConnectorCsv("MDSL2222CC", "test")
         val content = inputStream.bufferedReader().use { it.readText() }
 
         // assert
-        assertThat(inputStream).isNotNull();
+        assertThat(inputStream).isNotNull()
         assertThat(content).isEqualTo(expectedCsvContent)
     }
 }

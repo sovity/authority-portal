@@ -12,6 +12,7 @@ import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto;
 import de.sovity.authorityportal.api.model.IdResponse;
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest;
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest;
+import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.RegistrationRequestDto;
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto;
 import de.sovity.authorityportal.api.model.UpdateUserDto;
@@ -221,6 +222,35 @@ public interface UiResource {
         @Valid
         @NotBlank(message = "EnvironmentId cannot be blank")
         String environmentId
+    );
+
+    @GET
+    @Path("/application/connectors")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get all connectors provided by own organization. (For Service Partners)")
+    ProvidedConnectorOverviewResult getProvidedConnectors(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
+
+    @GET
+    @Path("/application/connectors/{connectorId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get details of a connector provided by own organization. (For Service Partners)")
+    ConnectorDetailDto getProvidedConnectorDetails(
+        @PathParam("connectorId")
+        String connectorId
+    );
+
+    @DELETE
+    @Path("/application/connectors/{connectorId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Unregister a connector provided by own organization. (For Service Partners)")
+    IdResponse deleteProvidedConnector(
+        @PathParam("connectorId")
+        String connectorId
     );
 
     @POST
