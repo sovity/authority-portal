@@ -8,9 +8,9 @@
           <button
             class="btn-dropdown-menu"
             type="button"
+            [matMenuTriggerFor]="menu"
             [id]="filter.id"
-            [disabled]="filter.options.length === 0"
-            (click)="openMenu(filter.id)">
+            [disabled]="filter.options.length === 0">
             <mat-icon
               *ngIf="filter.icon"
               class="hover:text-brand-golden"
@@ -19,19 +19,24 @@
             <span>{{ filter.label }}</span>
             <mat-icon svgIcon="chevron-down"></mat-icon>
           </button>
-          <div
-            *ngIf="menuVisible[filter.id]"
-            class="absolute min-w-min whitespace-nowrap bg-white border border-gray-300 py-2 pl-1 pr-2 shadow-lg mt-2">
+          <mat-menu
+            id="filter-menu"
+            class="absolute min-w-min whitespace-nowrap bg-white border border-gray-300 py-2 pl-1 pr-2 shadow-lg mt-2"
+            #menu="matMenu">
             <p class="text-gray-500 text-xs ml-3 mb-2 mx-4">
               Filter by {{ filter.label }}
             </p>
-            <p *ngFor="let option of filter.options" class="mr-4">
-              <mat-checkbox
-                (change)="onFilterChange($event, filter.id, option.id)"
-                >{{ option.label }}</mat-checkbox
-              >
-            </p>
-          </div>
+            <ng-container [formGroup]="getFilterForm(filter.id)">
+              <p
+                *ngFor="let option of filter.options"
+                class="mr-4"
+                (click)="$event.stopPropagation()">
+                <mat-checkbox [formControlName]="option.id">{{
+                  option.label | sentenceCase
+                }}</mat-checkbox>
+              </p>
+            </ng-container>
+          </mat-menu>
         </div>
       </div>
       <div class="ml-4 mt-4 flex"></div>

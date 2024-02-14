@@ -14,11 +14,15 @@
   <div class="flex gap-2 z-10">
     <button
       *ngFor="let tab of titleBarConfig.tabs"
-      class="w-16 button flex items-center justify-center gap-2 bg-black text-white rounded-full px-2 py-1 text-sm hover:bg-brand-golden disabled:bg-gray-300"
-      [ngClass]="{'bg-brand-golden': selectedTab === tab.view}"
+      class="w-16 button flex items-center justify-center gap-2 bg-black text-white rounded-full px-2 py-1 text-sm hover:bg-brand-golden"
+      [ngClass]="{
+        'bg-brand-golden': selectedTab === tab.view && !tab.isDisabled,
+        'disabled:bg-gray-700': tab.isDisabled,
+        
+      }"
       [disabled]="tab.isDisabled"
       (click)="tabChanged(tab.view)">
-      <mat-icon class="material-icons-outlined text-base">{{
+      <mat-icon class="smaller-icon material-icons-outlined text-base">{{
         tab.icon
       }}</mat-icon>
       <span *ngIf="tab?.value !== undefined">{{ tab.value }}</span>
@@ -28,7 +32,9 @@
       *ngIf="titleBarConfig?.actionMenu && !isAllDisabled(titleBarConfig)"
       class="w-16 button flex items-center justify-center gap-2 bg-black text-white rounded-full px-2 py-1 text-sm hover:bg-brand-golden disabled:bg-gray-300"
       [matMenuTriggerFor]="menu">
-      <mat-icon class="material-icons-outlined"> more_horiz </mat-icon>
+      <mat-icon class="smaller-icon material-icons-outlined">
+        more_horiz
+      </mat-icon>
     </button>
     <mat-menu #menu="matMenu">
       <ng-container

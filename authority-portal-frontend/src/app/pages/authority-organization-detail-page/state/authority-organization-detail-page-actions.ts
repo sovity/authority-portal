@@ -1,3 +1,5 @@
+import {UserRoleDto} from '@sovity.de/authority-portal-client';
+
 const tag = 'AuthorityOrganizationDetailPage';
 
 export class SetOrganizationMdsId {
@@ -15,4 +17,39 @@ export class ApproveOrganization {
 
 export class RejectOrganization {
   static readonly type = `[${tag}] Reject Organization`;
+}
+
+// Opened User detail Actions
+
+export class SetOrganizationUserId {
+  static readonly type = `[${tag}] Set Currently Opened Organization User Id`;
+  constructor(public organizationMdsId: string, public userId: string) {}
+}
+
+export class RefreshOrganizationUser {
+  static readonly type = `[${tag}] Refresh Currently Opened Organization User`;
+}
+export class UpdateUserParticipantRole {
+  static readonly type = `[${tag}] Update User's Participant Role`;
+  constructor(public userId: string, public role: UserRoleDto) {}
+}
+
+export class UpdateUserApplicationRoleAsAuthority {
+  static readonly type = `[${tag}] Update User's Application Role as Authority`;
+  constructor(public userId: string, public role: UserRoleDto) {}
+}
+
+export class ClearUserApplicationRoleAsAuthority {
+  static readonly type = `[${tag}] Remove User's Application Role as Authority`;
+  constructor(public userId: string) {}
+}
+
+export class DeactivateUser {
+  static readonly type = `[${tag}] Deactivate Currently Opened Organization User`;
+  constructor(public userId: string) {}
+}
+
+export class ReactivateUser {
+  static readonly type = `[${tag}] Reactivate Currently Opened Organization User`;
+  constructor(public userId: string) {}
 }

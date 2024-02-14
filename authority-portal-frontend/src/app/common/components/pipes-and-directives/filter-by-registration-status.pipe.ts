@@ -10,11 +10,21 @@ import {
 export class FilterByRegistrationStatusPipe implements PipeTransform {
   transform(
     items: OrganizationOverviewEntryDto[],
-    filter: OrganizationRegistrationStatusDto | null,
+    filter:
+      | OrganizationRegistrationStatusDto
+      | OrganizationRegistrationStatusDto[]
+      | null,
   ): OrganizationOverviewEntryDto[] {
-    if (!items || !filter || filter == null) {
+    if (!items || !filter || filter.length === 0) {
       return items;
     }
-    return items.filter((item) => item.registrationStatus === filter);
+
+    if (Array.isArray(filter)) {
+      // If filter is an array, filter by multiple statuses
+      return items.filter((item) => filter.includes(item.registrationStatus));
+    } else {
+      // If filter is a single object, filter by that status
+      return items.filter((item) => item.registrationStatus === filter);
+    }
   }
 }

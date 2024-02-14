@@ -9,7 +9,7 @@ import {
   take,
   takeUntil,
 } from 'rxjs/operators';
-import {Select, Store} from '@ngxs/store';
+import {Select, StateContext, Store} from '@ngxs/store';
 import {
   DeploymentEnvironmentDto,
   UserInfo,
@@ -83,5 +83,32 @@ export class GlobalStateUtils {
       switchMap(() => this.userRoles$),
       first(),
     );
+  }
+
+  /**
+   * Helper function to update a nested property in the state.
+   * @param ctx StateContext instance
+   * @param propertyPath The path to the property to update, e.g., 'openedUserDetail.userRolesForm.state'
+   * @param value The new value to set
+   */
+  updateNestedProperty(
+    ctx: StateContext<any>,
+    propertyPath: string,
+    value: any,
+  ): void {
+    const currentState = ctx.getState();
+    const newState = {...currentState};
+    const propertyKeys = propertyPath.split('.');
+    let current = newState;
+
+    for (let i = 0; i < propertyKeys.length - 1; i++) {
+      const key = propertyKeys[i];
+      current = current[key] = {...current[key]};
+    }
+
+    const lastKey = propertyKeys[propertyKeys.length - 1];
+    current[lastKey] = value;
+
+    ctx.patchState(newState);
   }
 }

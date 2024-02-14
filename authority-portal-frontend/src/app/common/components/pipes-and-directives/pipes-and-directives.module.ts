@@ -5,12 +5,14 @@ import {FilterByRegistrationStatusPipe} from './filter-by-registration-status.pi
 import {FormControlErrorDirective} from './form-control-error.directive';
 import {HasAnyRolePipe} from './has-any-role.pipe';
 import {HasRolePipe} from './has-role.pipe';
+import {SentenceCasePipe} from './sentence-case.pipe';
 
 @NgModule({
   declarations: [
     AutoResizeDirective,
     CheckIfNotCurrentUserPipe,
     FilterByRegistrationStatusPipe,
+    SentenceCasePipe,
     FormControlErrorDirective,
     HasAnyRolePipe,
     HasRolePipe,
@@ -19,6 +21,7 @@ import {HasRolePipe} from './has-role.pipe';
     AutoResizeDirective,
     CheckIfNotCurrentUserPipe,
     FilterByRegistrationStatusPipe,
+    SentenceCasePipe,
     FormControlErrorDirective,
     HasAnyRolePipe,
     HasRolePipe,

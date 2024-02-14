@@ -1,7 +1,7 @@
 import {
-
   ConnectorTypeDto,
   OrganizationRegistrationStatusDto,
+  UserRegistrationStatusDto,
 } from '@sovity.de/authority-portal-client';
 
 export const getOrganizationRegistrationStatusClasses = (
@@ -22,16 +22,16 @@ export const getOrganizationRegistrationStatusClasses = (
 };
 
 export const getOrganizationUserRegistrationStatusClasses = (
-  status: OrganizationRegistrationStatusDto,
+  status: UserRegistrationStatusDto,
 ): string => {
   switch (status) {
-    case OrganizationRegistrationStatusDto.Active:
+    case UserRegistrationStatusDto.Active:
       return 'text-emerald-700 bg-emerald-100/60';
-    case OrganizationRegistrationStatusDto.Rejected:
+    case UserRegistrationStatusDto.Rejected:
       return 'text-red-700 bg-red-100/60';
-    case OrganizationRegistrationStatusDto.Pending:
+    case UserRegistrationStatusDto.Pending:
       return 'bg-gray-100/90';
-    case OrganizationRegistrationStatusDto.Invited:
+    case UserRegistrationStatusDto.Invited:
       return 'bg-gray-100/90';
     default:
       return '';

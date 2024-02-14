@@ -9,9 +9,19 @@ import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AuthorityOrganizationDetailPageComponent} from './authority-organization-detail-page/authority-organization-detail-page.component';
 import {AuthorityOrganizationDetailPageStateImpl} from './state/authority-organization-detail-page-state-impl';
+import {OrganizationDetailInfoComponent} from './sub-pages/organization-detail-info/organization-detail-info.component';
+import {OrganizationUserDetailComponent} from './sub-pages/organization-user-detail/organization-user-detail.component';
+import {OrganizationUserListComponent} from './sub-pages/organization-user-list/organization-user-list.component';
 
 @NgModule({
-  declarations: [AuthorityOrganizationDetailPageComponent],
+  declarations: [
+    AuthorityOrganizationDetailPageComponent,
+
+    //sub-pages
+    OrganizationDetailInfoComponent,
+    OrganizationUserListComponent,
+    OrganizationUserDetailComponent,
+  ],
   imports: [
     // Angular
     CommonModule,

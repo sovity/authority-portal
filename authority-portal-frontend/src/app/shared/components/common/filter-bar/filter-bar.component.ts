@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -11,6 +10,7 @@ import {
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subject, debounceTime, distinctUntilChanged, takeUntil} from 'rxjs';
 import {
+  Filter,
   FilterBarConfig,
   FilterQuery,
 } from 'src/app/shared/components/common/filter-bar/filter-bar.model';
@@ -23,21 +23,8 @@ export class FilterBarComponent implements OnInit, OnDestroy {
   @Input() filterBarConfig!: FilterBarConfig;
   @Output() onFilter = new EventEmitter<FilterQuery>();
 
-  menuVisible: {[key: string]: boolean} = {};
   filterForm: FormGroup;
-
-  private ngOnDestroy$ = new Subject();
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    // Check if the click occurred outside the filter menus and buttons
-    if (!this.el.nativeElement.contains(event.target)) {
-      // Close all filter menus
-      Object.keys(this.menuVisible).forEach((key) => {
-        this.menuVisible[key] = false;
-      });
-    }
-  }
+  ngOnDestroy$ = new Subject();
 
   constructor(private formBuilder: FormBuilder, private el: ElementRef) {
     this.filterForm = this.formBuilder.group({
@@ -52,9 +39,16 @@ export class FilterBarComponent implements OnInit, OnDestroy {
 
   formMaker() {
     this.filterBarConfig.filters.forEach((filter) => {
-      this.menuVisible[filter.id] = false;
-      this.filterForm.addControl(filter.id, this.formBuilder.control([]));
+      let formGroup = this.formBuilder.group({});
+      filter.options.forEach((option) => {
+        formGroup.addControl(option.id, this.formBuilder.control(false));
+      });
+      this.filterForm.addControl(filter.id, formGroup);
     });
+  }
+
+  getFilterForm(optionId: string) {
+    return this.filterForm.get(optionId) as FormGroup;
   }
 
   /**
@@ -68,41 +62,20 @@ export class FilterBarComponent implements OnInit, OnDestroy {
         takeUntil(this.ngOnDestroy$),
       )
       .subscribe((value) => {
-        this.onFilter.emit(value);
+        const {searchCtrl, ...filters} = value;
+        const query = {
+          searchCtrl,
+          ...Object.fromEntries(
+            this.filterBarConfig.filters.map((filter: Filter) => [
+              filter.id,
+              Object.keys(filters[filter.id]).filter(
+                (key) => filters[filter.id][key],
+              ),
+            ]),
+          ),
+        };
+        this.onFilter.emit(query);
       });
-  }
-
-  /**
-   * Handle filter change
-   * @param event
-   * @param query
-   * @param value
-   */
-  onFilterChange(event: any, query: string, value: string) {
-    event.preventDefault(); // Prevent the default behavior
-    event.stopPropagation(); // Prevent the event from propagating
-    let selectedFilters = this.filterForm.get(query)?.value;
-    if (event.checked) {
-      selectedFilters.push(value);
-    } else {
-      selectedFilters = selectedFilters.filter(
-        (filter: string) => filter !== value,
-      );
-    }
-    this.filterForm.get(query)?.setValue(selectedFilters);
-  }
-
-  /**
-   *  Open and close a singe menu at a time
-   * @param filterId
-   */
-  openMenu(filterId: string) {
-    Object.keys(this.menuVisible).forEach((key) => {
-      if (key !== filterId) {
-        this.menuVisible[key] = false;
-      }
-    });
-    this.menuVisible[filterId] = !this.menuVisible[filterId];
   }
 
   ngOnDestroy(): void {
