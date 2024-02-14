@@ -116,7 +116,7 @@ textarea {
   @apply rounded-md bg-brand-black px-4 py-2 text-sm font-semibold text-white shadow-sm  hover:text-brand-500;
 }
 .btn-accent-outline {
-  @apply rounded-md px-4 py-2 text-sm font-semibold shadow-sm hover:border  hover:border-black focus-visible:outline;
+  @apply rounded-md px-4 py-2 text-sm font-semibold shadow-sm border border-transparent hover:border  hover:border-black focus-visible:outline;
 }
 
 .btn-accent-danger {
@@ -128,7 +128,7 @@ textarea {
 }
 
 .btn-outline {
-  @apply flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold shadow-sm border hover:border-black focus-visible:outline;
+  @apply flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold shadow-sm border border-transparent hover:border-black focus-visible:outline;
 }
 
 .btn-dropdown-menu {

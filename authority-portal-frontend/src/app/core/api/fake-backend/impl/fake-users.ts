@@ -23,7 +23,6 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
       'PARTICIPANT_ADMIN',
       'PARTICIPANT_CURATOR',
       'PARTICIPANT_USER',
-      'PARTICIPANT_CURATOR',
     ],
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',

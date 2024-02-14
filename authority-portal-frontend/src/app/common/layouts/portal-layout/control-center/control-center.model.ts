@@ -1,4 +1,4 @@
-export interface UserSettingsModel {
+export interface ControlCenterModel {
   firstName: string;
   lastName: string;
   role: string;

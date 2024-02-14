@@ -40,7 +40,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - slide-overs scrolling issue has been fixed
 - Added a connector overview for service providers and the option to unregister provided connectors
 
-
 #### Patch
 
 - Start page Iframe won't show if url is not set in the app-config.json
@@ -53,6 +52,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Deployment Migration Notes
 
 - Portal Backend
+
   - Following environment variables are mandatory and must be set:
     - `quarkus-oidc-client.sovity.auth-server.url` - URL pointing to the realm endpoint in the Keycloak instance of the CaaS Portal
     - `quarkus-oidc-client.sovity.credentials.secret` - Client secret to authenticate against the CaaS Keycloak instance

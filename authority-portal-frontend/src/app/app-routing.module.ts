@@ -1,19 +1,15 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthorityInviteNewOrganizationComponent} from 'src/app/pages/authority-invite-new-organization/authority-invite-new-organization/authority-invite-new-organization.component';
-import {AuthorityOrganizationUserDetailPageComponent} from 'src/app/pages/authority-organization-user-detail-page/authority-organization-user-detail-page/authority-organization-user-detail-page.component';
-import {ParticipantOrganizationProfilePageComponent} from 'src/app/pages/participant-organization-profile-page/participant-organization-profile-page/participant-organization-profile-page.component';
 import {ParticipantUserDetailPageComponent} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page/participant-user-detail-page.component';
-import {UserProfilePageComponent} from 'src/app/pages/user-profile-page/user-profile-page/user-profile-page.component';
 import {UserRoleDto} from '../../../authority-portal-backend/authority-portal-api-client-ts';
 import {requiresRole} from './common/auth/requires-role-guard';
 import {PortalLayoutComponent} from './common/layouts/portal-layout/portal-layout/portal-layout.component';
-import {AuthorityConnectorDetailPageComponent} from './pages/authority-connector-detail-page/authority-connector-detail-page/authority-connector-detail-page.component';
 import {AuthorityConnectorListPageComponent} from './pages/authority-connector-list-page/authority-connector-list-page/authority-connector-list-page.component';
-import {AuthorityOrganizationDetailPageComponent} from './pages/authority-organization-detail-page/authority-organization-detail-page/authority-organization-detail-page.component';
 import {AuthorityOrganizationListPageComponent} from './pages/authority-organization-list-page/authority-organization-list-page/authority-organization-list-page.component';
 import {CentralComponentCreatePageComponent} from './pages/central-component-create-page/central-component-create-page/central-component-create-page.component';
 import {CentralComponentListPageComponent} from './pages/central-component-list-page/central-component-list-page/central-component-list-page.component';
+import {ControlCenterPageComponent} from './pages/control-center-page/control-center-page/control-center-page.component';
 import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dashboard-page.component';
 import {LoadingPageComponent} from './pages/loading-page/loading-page/loading-page.component';
 import {ParticipantInviteNewUserComponent} from './pages/participant-invite-new-user/participant-invite-new-user/participant-invite-new-user.component';
@@ -85,22 +81,14 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
       {
-        path: 'profile',
-        component: UserProfilePageComponent,
+        path: 'control-center',
+        component: ControlCenterPageComponent,
         data: {
           requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
       },
       // My Organization Section
-      {
-        path: 'my-organization/profile',
-        component: ParticipantOrganizationProfilePageComponent,
-        data: {
-          requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
       {
         path: 'my-organization/users/invite',
         component: ParticipantInviteNewUserComponent,
@@ -148,12 +136,6 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
           requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
-      },
-
-      {
-        path: 'my-organization',
-        redirectTo: 'my-organization/profile',
-        pathMatch: 'full',
       },
 
       // Operator Admin Section

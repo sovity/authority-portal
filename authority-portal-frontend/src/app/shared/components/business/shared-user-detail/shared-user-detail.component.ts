@@ -20,7 +20,8 @@ export class SharedUserDetailComponent {
   @Input() userDetailConfig!: UserDetailConfig;
   @Input() availableApplicationRoles: string[] = [];
   @Input() availableParticipantRoles: string[] = [];
-  @Input() usageType: 'DETAIL_PAGE' | 'SETTINGS_PAGE' = 'SETTINGS_PAGE';
+  @Input() usageType: 'DETAIL_PAGE' | 'CONTROL_CENTER_PAGE' =
+    'CONTROL_CENTER_PAGE';
   @Output() onUserRoleUpdate = new EventEmitter<UserRoleUpdate>();
 
   currentTopApplicationRole: UserRoleDto | null = null;

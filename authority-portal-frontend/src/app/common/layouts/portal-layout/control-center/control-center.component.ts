@@ -1,16 +1,18 @@
-import {Component, Inject, Input, OnChanges, OnInit} from '@angular/core';
-import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
+import {Component, Input, OnChanges} from '@angular/core';
+import {Router} from '@angular/router';
 import {mapRolesToReadableFormat} from 'src/app/core/utils/user-role-utils';
 import {AvatarConfig} from 'src/app/shared/components/common/avatar/avatar.component';
-import {UserSettingsModel} from './user-settings.model';
+import {ControlCenterModel} from './control-center.model';
 
 @Component({
-  selector: 'app-user-avatar',
-  templateUrl: './user-settings.component.html',
+  selector: 'app-control-center',
+  templateUrl: './control-center.component.html',
 })
-export class UserSettingsComponent implements OnChanges {
-  @Input() userData!: UserSettingsModel;
+export class ControlCenterComponent implements OnChanges {
+  @Input() userData!: ControlCenterModel;
   @Input() logoutUrl!: string;
+
+  constructor(private router: Router) {}
 
   userAvatar!: AvatarConfig;
   userMenuOpen = false;
@@ -32,5 +34,11 @@ export class UserSettingsComponent implements OnChanges {
     } else {
       this.userMenuOpen = false;
     }
+  }
+
+  goToControlCenterPage(queryParam: string) {
+    this.router.navigate(['/control-center'], {
+      queryParams: {tab: queryParam},
+    });
   }
 }

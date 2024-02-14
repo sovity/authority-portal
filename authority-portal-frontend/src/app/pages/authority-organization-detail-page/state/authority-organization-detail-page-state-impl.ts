@@ -20,6 +20,7 @@ import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
+import {RefreshOrganizations} from '../../authority-organization-list-page/state/authority-organization-list-page-actions';
 import {
   ApproveOrganization,
   ClearUserApplicationRoleAsAuthority,
@@ -134,6 +135,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
       this.errorService.toastFailureRxjs("Organization wasn't approved"),
       tap((data) => {
         this.organizationRefreshed(ctx, Fetched.ready(data));
+        ctx.dispatch(new RefreshOrganizations());
         this.toast.showSuccess(
           `Organization ${
             ctx.getState().organizationDetail.organizationMdsId
@@ -189,6 +191,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
           } was successfully rejected`,
         );
         this.organizationRefreshed(ctx, Fetched.ready(data));
+        ctx.dispatch(new RefreshOrganizations());
       }),
       finalize(() =>
         this.globalStateUtils.updateNestedProperty(

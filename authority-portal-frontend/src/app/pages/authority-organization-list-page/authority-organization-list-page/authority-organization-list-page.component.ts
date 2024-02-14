@@ -6,6 +6,7 @@ import {Store} from '@ngxs/store';
 import {
   OrganizationOverviewEntryDto,
   OrganizationRegistrationStatusDto,
+  UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
 import {

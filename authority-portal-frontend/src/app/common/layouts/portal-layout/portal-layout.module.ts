@@ -7,12 +7,12 @@ import {DevUtilsModule} from '../../components/dev-utils/dev-utils.module';
 import {PipesAndDirectivesModule} from '../../components/pipes-and-directives/pipes-and-directives.module';
 import {MaterialModule} from '../../material/material.module';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
+import {ControlCenterComponent} from './control-center/control-center.component';
 import {FooterComponent} from './footer/footer.component';
 import {PortalLayoutComponent} from './portal-layout/portal-layout.component';
 import {SidebarElementComponent} from './sidebar-element/sidebar-element.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
-import {UserSettingsComponent} from './user-settings/user-settings.component';
 
 @NgModule({
   imports: [
@@ -32,7 +32,7 @@ import {UserSettingsComponent} from './user-settings/user-settings.component';
     FooterComponent,
     PortalLayoutComponent,
     SidebarComponent,
-    UserSettingsComponent,
+    ControlCenterComponent,
     ToolbarComponent,
     SidebarElementComponent,
   ],
