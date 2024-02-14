@@ -22,43 +22,34 @@ export class BreadcrumbComponent implements OnDestroy {
         const navigationEnd = value as NavigationEnd;
         this.previousUrl = this.currentUrl;
         this.currentUrl = navigationEnd.url;
-        this.fullRoute = [];
-        let routes = router.url.toString().split('/');
-
-        routes.forEach((r, idx) => {
-          let originalRoute = r;
-
-          if (
-            idx === routes.length - 1 &&
-            routes[routes.length - 2].toLowerCase() === 'users'
-          ) {
-            this.fullRoute.push({
-              link: originalRoute,
-              label: r,
-              isLinkable: false,
-            });
-          } else {
-            r = r
-              .split('-')
-              .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-              .join(' ');
-
-            if (r.toLowerCase() != 'dashboard') {
-              this.fullRoute.push(
-                r === ''
-                  ? {label: 'Home', link: '', isLinkable: true}
-                  : {
-                      link: originalRoute,
-                      label: r.replace('_', ' ').replace('-', ' '),
-                      isLinkable: !this.nonLinkable.includes(originalRoute),
-                    },
-              );
-            }
-          }
-        });
+        this.fullRoute = this.createBreadcrumb(router.url);
         document.title =
           this.fullRoute[this.fullRoute.length - 1].label || 'Portal';
       });
+  }
+
+  createBreadcrumb(url: string): BreadcrumbItem[] {
+    let segments = url.split('/').filter((segment) => segment !== ''); // Remove empty segments
+    segments = [...segments[segments.length - 1].split('?tab=')]; // Split the last segment by query params
+    const breadcrumb: BreadcrumbItem[] = [];
+    breadcrumb.push({label: 'Home', link: '', isLinkable: true});
+
+    segments.forEach((segment, idx) => {
+      let originalSegment = segment;
+      segment = segment
+        .split('-')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
+      if (segment.toLocaleLowerCase() != 'dashboard') {
+        breadcrumb.push({
+          link: originalSegment,
+          label: segment.replace('_', ' ').replace('-', ' '),
+          isLinkable: !this.nonLinkable.includes(originalSegment),
+        });
+      }
+    });
+
+    return breadcrumb;
   }
 
   ngOnDestroy(): void {

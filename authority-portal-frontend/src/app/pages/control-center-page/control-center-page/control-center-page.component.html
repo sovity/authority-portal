@@ -1,0 +1,27 @@
+<section class="container m-10 px-10 mx-auto">
+  <nav
+    mat-tab-nav-bar
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+    [tabPanel]="tabPanel">
+    <a
+      *ngFor="let tab of tabs"
+      mat-tab-link
+      [active]="activeTab === tab.id"
+      (click)="onTabChange(tab.id)">
+      {{ tab.label }}
+    </a>
+  </nav>
+
+  <mat-tab-nav-panel #tabPanel>
+    <ng-container [ngSwitch]="activeTab">
+      <app-user-profile *ngSwitchCase="'my-profile'"></app-user-profile>
+
+      <app-organization-profile
+        *ngSwitchCase="'my-organization'"></app-organization-profile>
+
+      <app-organization-users
+        *ngSwitchCase="'my-users'"></app-organization-users>
+    </ng-container>
+  </mat-tab-nav-panel>
+</section>

@@ -1,0 +1,33 @@
+<section
+  class="my-4 px-8"
+  [ngClass]="{
+    'flex h-96 justify-center items-center': state.organization.isLoading
+  }">
+  <app-loading-element
+    *ngIf="state.organization.isLoading"></app-loading-element>
+  <app-error-element
+    *ngIf="state.organization.isError"
+    errorMessage="organization"></app-error-element>
+
+  <ng-container *ngIf="state.organization.isReady && !showDetail">
+    <app-header
+      [headerConfig]="headerConfig"
+      (headerActionClicked)="headerActionHandler($event)"></app-header>
+    <app-shared-user-list
+      [organizationId]="state.organization.data.mdsId"
+      [members]="state.organization.data.memberList"
+      (selectUserEvent)="
+        openUserDetail($event, state.organization.data.mdsId)
+      "></app-shared-user-list>
+  </ng-container>
+
+  <ng-container *ngIf="openedUser && showDetail">
+    <app-header
+      [headerConfig]="headerConfig"
+      (headerActionClicked)="headerActionHandler($event)"></app-header>
+    <app-organization-user
+      class="flex w-full lg:w-10/12 gap-4 justify-between"
+      [config]="openedUser">
+    </app-organization-user>
+  </ng-container>
+</section>

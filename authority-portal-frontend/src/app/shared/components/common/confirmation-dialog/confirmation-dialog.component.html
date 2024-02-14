@@ -1,0 +1,13 @@
+<p class="px-6 py-3 font-bold text-xl">{{ confirmationDialog.title }}</p>
+
+<mat-dialog-content class="mat-typography">
+  <p>{{ confirmationDialog.messageBody }}</p>
+</mat-dialog-content>
+<mat-dialog-actions class="flex gap-3" align="end">
+  <button
+    *ngFor="let button of confirmationDialog.actionButtons.reverse()"
+    [ngClass]="button?.style || 'btn-accent-outline'"
+    (click)="actionHandler(button.action)">
+    {{ button.label }}
+  </button>
+</mat-dialog-actions>

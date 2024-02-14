@@ -22,39 +22,28 @@
       <p class="font-bold">
         {{ userData.firstName + ' ' + userData.lastName }}
       </p>
-      <p>{{ userData.role }}</p>
+      <p>{{ mapToReadable(userData.role) }}</p>
     </div>
   </div>
 
-  <p class="my-4 px-2">PERSONAL</p>
   <div>
     <button
       class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
-      [routerLink]="'/profile'">
+      (click)="goToControlCenterPage('my-profile')">
       <mat-icon svgIcon="user"></mat-icon>
       <span>My Profile</span>
     </button>
-    <button
-      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden">
-      <mat-icon svgIcon="bell"></mat-icon>
-      <span>Notification Preferences</span>
-    </button>
-    <button
-      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden">
-      <mat-icon>language</mat-icon>
-      <span>Language Preferences</span>
-    </button>
   </div>
-  <hr class="my-2" />
-  <p class="my-4">ORGANIZATION</p>
   <div>
     <button
-      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden">
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
+      (click)="goToControlCenterPage('my-organization')">
       <mat-icon svgIcon="briefcase"></mat-icon>
       <span>Organization Profile</span>
     </button>
     <button
-      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden">
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
+      (click)="goToControlCenterPage('my-users')">
       <mat-icon svgIcon="users"></mat-icon>
       <span>Users & Roles </span>
     </button>

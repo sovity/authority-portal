@@ -17,6 +17,7 @@ import {SharedUserDetailComponent} from './components/business/shared-user-detai
 import {SharedUserListComponent} from './components/business/shared-user-list/shared-user-list.component';
 import {UserDetailComponent} from './components/business/user-detail/user-detail.component';
 import {AvatarComponent} from './components/common/avatar/avatar.component';
+import {ConfirmationDialogComponent} from './components/common/confirmation-dialog/confirmation-dialog.component';
 import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
 import {HeaderBarComponent} from './components/common/header-bar/header-bar.component';
 import {IframeComponent} from './components/common/iframe/iframe.component';
@@ -44,6 +45,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SharedUserDetailComponent,
     SharedUserListComponent,
     SharedOrganizationDetailComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -72,6 +74,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SharedUserDetailComponent,
     SharedUserListComponent,
     SharedOrganizationDetailComponent,
+    ConfirmationDialogComponent,
   ],
   providers: [
     CertificateGenerateService,

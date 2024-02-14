@@ -13,7 +13,6 @@ import {AuthorityInviteNewOrganizationModule} from 'src/app/pages/authority-invi
 import {AuthorityOrganizationUserDetailPageModule} from 'src/app/pages/authority-organization-user-detail-page/authority-organization-user-detail-page.module';
 import {ParticipantOrganizationProfileModule} from 'src/app/pages/participant-organization-profile-page/participant-organization-profile.module';
 import {ParticipantUserDetailPageModule} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page.module';
-import {UserProfilePageModule} from 'src/app/pages/user-profile-page/user-profile-page.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DevUtilsModule} from './common/components/dev-utils/dev-utils.module';
@@ -30,6 +29,7 @@ import {AuthorityOrganizationDetailPageModule} from './pages/authority-organizat
 import {AuthorityOrganizationListPageModule} from './pages/authority-organization-list-page/authority-organization-list-page.module';
 import {CentralComponentCreatePageModule} from './pages/central-component-create-page/central-component-create-page.module';
 import {CentralComponentListPageModule} from './pages/central-component-list-page/central-component-list-page.module';
+import {ControlCenterPageModule} from './pages/control-center-page/control-center-page.module';
 import {DashboardPageModule} from './pages/dashboard-page/dashboard-page.module';
 import {ErrorPageModule} from './pages/error-page/error-page.module';
 import {LoadingPageModule} from './pages/loading-page/loading-page.module';
@@ -90,7 +90,7 @@ import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-conne
     ProvideConnectorPageModule,
     ParticipantOwnConnectorListPageModule,
     ParticipantOwnConnectorDetailPageModule,
-    UserProfilePageModule,
+    ControlCenterPageModule,
     SpConnectorDetailPageModule,
     SpConnectorListPageModule,
     PageNotFoundPageModule,
