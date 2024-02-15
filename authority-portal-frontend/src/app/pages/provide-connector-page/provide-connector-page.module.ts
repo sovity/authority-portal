@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {NgxsFormPluginModule} from '@ngxs/form-plugin';
 import {NgxsModule} from '@ngxs/store';
 import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.module';
 import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
@@ -23,7 +22,6 @@ import {ProvideConnectorPageStateImpl} from './state/provide-connector-page-stat
     PortalLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxsFormPluginModule,
     NgxsModule.forFeature([ProvideConnectorPageStateImpl]),
 
     DevUtilsModule,

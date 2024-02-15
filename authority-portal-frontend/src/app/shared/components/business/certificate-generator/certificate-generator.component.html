@@ -196,15 +196,15 @@
             </button>
           </mat-form-field>
           <div
-            *ngIf="certificateDetailsForm.controls['password'].invalid"
+            *ngIf="certificateDetailsForm.controls.password.invalid"
             class="flex flex-col w-full">
             <mat-error class="text-sm">
               <ul>
                 <li
                   *ngIf="
-                    certificateDetailsForm.controls['password'].touched &&
-                    certificateDetailsForm.controls['password'].dirty &&
-                    certificateDetailsForm.controls['password'].hasError(
+                    certificateDetailsForm.controls.password.touched &&
+                    certificateDetailsForm.controls.password.dirty &&
+                    certificateDetailsForm.controls.password.hasError(
                       'required'
                     )
                   ">
@@ -213,9 +213,9 @@
 
                 <li
                   *ngIf="
-                    certificateDetailsForm.controls['password'].touched &&
-                    certificateDetailsForm.controls['password'].dirty &&
-                    certificateDetailsForm.controls['password'].hasError(
+                    certificateDetailsForm.controls.password.touched &&
+                    certificateDetailsForm.controls.password.dirty &&
+                    certificateDetailsForm.controls.password.hasError(
                       'minlength'
                     )
                   ">
@@ -224,11 +224,9 @@
 
                 <li
                   *ngIf="
-                    certificateDetailsForm.controls['password'].touched &&
-                    certificateDetailsForm.controls['password'].dirty &&
-                    certificateDetailsForm.controls['password'].hasError(
-                      'pattern'
-                    )
+                    certificateDetailsForm.controls.password.touched &&
+                    certificateDetailsForm.controls.password.dirty &&
+                    certificateDetailsForm.controls.password.hasError('pattern')
                   ">
                   Password must contain at least one uppercase letter, one
                   lowercase letter, and one number
@@ -268,10 +266,9 @@
               <ul>
                 <li
                   *ngIf="
-                    certificateDetailsForm.controls['confirmPassword']
-                      .touched &&
-                    certificateDetailsForm.controls['confirmPassword'].dirty &&
-                    certificateDetailsForm.controls['confirmPassword'].hasError(
+                    certificateDetailsForm.controls.confirmPassword.touched &&
+                    certificateDetailsForm.controls.confirmPassword.dirty &&
+                    certificateDetailsForm.controls.confirmPassword.hasError(
                       'required'
                     )
                   ">

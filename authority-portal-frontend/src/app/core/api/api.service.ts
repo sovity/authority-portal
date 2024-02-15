@@ -10,7 +10,6 @@ import {
   ConnectorOverviewResult,
   CreateConnectorRequest,
   CreateConnectorResponse,
-  CreateOrganizationRequest,
   DeploymentEnvironmentDto,
   IdResponse,
   InviteOrganizationRequest,
@@ -18,6 +17,7 @@ import {
   OrganizationDetailsDto,
   OrganizationOverviewResult,
   OwnOrganizationDetailsDto,
+  RegistrationRequestDto,
   UiApi,
   UserDetailDto,
   UserInfo,
@@ -64,10 +64,10 @@ export class ApiService {
     return from(this.api().userDetails({userId}));
   }
 
-  createOrganization(
-    createOrganizationRequest: CreateOrganizationRequest,
+  registerOrganization(
+    registrationRequestDto: RegistrationRequestDto,
   ): Observable<IdResponse> {
-    return from(this.api().createOrganization({createOrganizationRequest}));
+    return from(this.api().registerUser({registrationRequestDto}));
   }
 
   getOrganizationsForAuthority(

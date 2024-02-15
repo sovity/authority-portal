@@ -1,6 +1,7 @@
 package de.sovity.authorityportal.web.integration.pages.organizationmanagement
 
 import de.sovity.authorityportal.api.model.UserRoleDto
+import de.sovity.authorityportal.api.model.organization.OrganizationLegalIdTypeDto
 import de.sovity.authorityportal.api.model.organization.OrganizationRegistrationStatusDto
 import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
@@ -43,9 +44,10 @@ class OrganizationInfoApiServiceTest {
     private val testBusinessUnit = "Example Business Unit"
     private val testMainAddress = "123 Main St, Anytown, USA"
     private val testBillingAddress = "321 Main St, Anytown, USA"
+    private val testLegalIdType = OrganizationLegalIdTypeDto.TAX_ID
     private val testTaxId = "US192837465"
     private val testUrl = "https://example.com"
-    private val testDescription = "[Placeholder]"
+    private val testDescription = null
     private val testRegistrationStatus = OrganizationRegistrationStatusDto.ACTIVE
     private val testAdminUserId = "9525c6ea-34d5-4c11-b9f8-133dc2086f00"
     private val testAdminFirstName = "Admin"
@@ -101,7 +103,8 @@ class OrganizationInfoApiServiceTest {
         assertThat(result.businessUnit).isEqualTo(testBusinessUnit)
         assertThat(result.mainAddress).isEqualTo(testMainAddress)
         assertThat(result.billingAddress).isEqualTo(testBillingAddress)
-        assertThat(result.taxId).isEqualTo(testTaxId)
+        assertThat(result.legalIdType).isEqualTo(testLegalIdType)
+        assertThat(result.legalId).isEqualTo(testTaxId)
         assertThat(result.url).isEqualTo(testUrl)
         assertThat(result.description).isEqualTo(testDescription)
         assertThat(result.registrationStatus).isEqualTo(testRegistrationStatus)
@@ -149,7 +152,8 @@ class OrganizationInfoApiServiceTest {
         assertThat(result.businessUnit).isEqualTo(testBusinessUnit)
         assertThat(result.mainAddress).isEqualTo(testMainAddress)
         assertThat(result.billingAddress).isEqualTo(testBillingAddress)
-        assertThat(result.taxId).isEqualTo(testTaxId)
+        assertThat(result.legalIdType).isEqualTo(testLegalIdType)
+        assertThat(result.legalId).isEqualTo(testTaxId)
         assertThat(result.url).isEqualTo(testUrl)
         assertThat(result.description).isEqualTo(testDescription)
         assertThat(result.registrationStatus).isEqualTo(testRegistrationStatus)

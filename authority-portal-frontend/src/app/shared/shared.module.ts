@@ -9,13 +9,17 @@ import {MaterialModule} from 'src/app/common/material/material.module';
 import {OrganizationDetailComponent} from 'src/app/shared/components/business/organization-detail/organization-detail.component';
 import {UserRoleFormComponent} from 'src/app/shared/components/business/user-role-form/user-role-form.component';
 import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
+import {FormElementsModule} from '../common/components/form-elements/form-elements.module';
 import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
 import {CertificateGeneratorDialogComponent} from './components/business/certificate-generator-dialog/certificate-generator-dialog.component';
 import {CertificateGeneratorComponent} from './components/business/certificate-generator/certificate-generator.component';
+import {ContactsProfileFormComponent} from './components/business/contacts-profile-form/contacts-profile-form.component';
+import {OrganizationProfileFormComponent} from './components/business/organization-profile-form/organization-profile-form.component';
 import {SharedOrganizationDetailComponent} from './components/business/shared-organization-detail/shared-organization-detail.component';
 import {SharedUserDetailComponent} from './components/business/shared-user-detail/shared-user-detail.component';
 import {SharedUserListComponent} from './components/business/shared-user-list/shared-user-list.component';
 import {UserDetailComponent} from './components/business/user-detail/user-detail.component';
+import {UserProfileFormComponent} from './components/business/user-profile-form/user-profile-form.component';
 import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {ConfirmationDialogComponent} from './components/common/confirmation-dialog/confirmation-dialog.component';
 import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
@@ -46,6 +50,9 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SharedUserListComponent,
     SharedOrganizationDetailComponent,
     ConfirmationDialogComponent,
+    UserProfileFormComponent,
+    OrganizationProfileFormComponent,
+    ContactsProfileFormComponent,
   ],
   imports: [
     CommonModule,
@@ -57,6 +64,8 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     LoadingElementModule,
     ErrorElementModule,
     PipesAndDirectivesModule,
+    FormElementsModule,
+    DevUtilsModule,
   ],
   exports: [
     //components
@@ -75,6 +84,9 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SharedUserListComponent,
     SharedOrganizationDetailComponent,
     ConfirmationDialogComponent,
+    UserProfileFormComponent,
+    OrganizationProfileFormComponent,
+    ContactsProfileFormComponent,
   ],
   providers: [
     CertificateGenerateService,

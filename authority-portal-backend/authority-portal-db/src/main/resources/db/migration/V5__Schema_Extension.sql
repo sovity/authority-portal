@@ -30,3 +30,17 @@ set management_url = frontend_url || '/api/management' where management_url is n
 
 update "connector"
 set endpoint_url = frontend_url || '/api/dsp' where endpoint_url is null;
+
+-- Organization id type
+create type organization_legal_id_type as enum ('TAX_ID', 'COMMERCE_REGISTER_INFO');
+alter table "organization"
+    add column legal_id_type organization_legal_id_type,
+    add column description text,
+    alter column address drop not null,
+    alter column url drop not null;
+update organization set legal_id_type = 'TAX_ID' where organization.tax_id is not null;
+update organization set legal_id_type = 'COMMERCE_REGISTER_INFO' where organization.commerce_register_number is not null and tax_id is null;
+
+-- New registration flow
+alter type user_registration_status add value 'ONBOARDING' after 'CREATED';
+alter type organization_registration_status add value 'ONBOARDING' after 'INVITED';

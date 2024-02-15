@@ -2,10 +2,9 @@ package de.sovity.authorityportal.web.pages.organizationmanagement
 
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest
-import de.sovity.authorityportal.api.model.organization.CreateOrganizationRequest
-import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
+import de.sovity.authorityportal.web.model.CreateUserData
 import de.sovity.authorityportal.web.services.OrganizationMetadataService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
@@ -61,13 +60,13 @@ class OrganizationInvitationApiService {
         val user = userService.createUser(
             userId = userId,
             registrationStatus = UserRegistrationStatus.INVITED,
+            userData = buildUserData(invitationInformation),
             onboardingType = UserOnboardingType.INVITATION
         )
-        organizationService.createOrganization(
+        organizationService.createInvitedOrganization(
             userId,
             mdsId,
-            buildCreateOrganizationRequest(invitationInformation),
-            OrganizationRegistrationStatus.INVITED
+            invitationInformation.orgName
         )
         user.organizationMdsId = mdsId
         user.update()
@@ -75,13 +74,13 @@ class OrganizationInvitationApiService {
         organizationMetadataService.pushOrganizationMetadataToBroker()
     }
 
-    private fun buildCreateOrganizationRequest(invitationInformation: InviteOrganizationRequest): CreateOrganizationRequest {
-        return CreateOrganizationRequest().apply {
-            name = invitationInformation.orgName
-            address = invitationInformation.orgAddress
-            taxId = invitationInformation.orgDuns
-            url = invitationInformation.orgUrl
-            securityEmail = invitationInformation.orgSecurityEmail
+    private fun buildUserData(invitation: InviteOrganizationRequest): CreateUserData {
+        return CreateUserData().apply {
+            email = invitation.userEmail
+            firstName = invitation.userFirstName
+            lastName = invitation.userLastName
+            jobTitle = invitation.userJobTitle
+            phone = invitation.userPhoneNumber
         }
     }
 }

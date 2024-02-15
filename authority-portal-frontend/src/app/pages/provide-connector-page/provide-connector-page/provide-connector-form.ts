@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {urlValidator} from 'src/app/core/utils/validators/url-validator';
+import {certificateValidator} from '../../../core/utils/validators/certificate-validator';
 import {
   CertificateFormModelValue,
   DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE,
@@ -36,26 +37,18 @@ export class ProvideConnectorForm {
         mdsId: [initial.mdsId, [Validators.required]],
       }),
       certificate: this.formBuilder.nonNullable.group({
-        certificate: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(
-              /^(-----BEGIN CERTIFICATE-----)[\s\S]*?(-----END CERTIFICATE-----)\s*$/m,
-            ),
-          ],
-        ],
+        certificate: ['', [Validators.required, certificateValidator]],
       }),
     });
   }
 
   get connectorDetailsValue(): ProvideConnectorPageFormValue {
-    return this.formGroup.controls['connectorDetails']
+    return this.formGroup.controls.connectorDetails
       .value as ProvideConnectorPageFormValue;
   }
 
   get certificateValue(): CertificateFormModelValue {
-    return this.formGroup.controls['certificate']
+    return this.formGroup.controls.certificate
       .value as CertificateFormModelValue;
   }
 }

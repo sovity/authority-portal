@@ -1,0 +1,150 @@
+<form [formGroup]="formGroup">
+  <div class="flex gap-4 flex-wrap">
+    <!-- User's First Name -->
+    <app-text-input
+      class="flex-1"
+      label="First Name"
+      ctrlId="formRegFirstName"
+      placeholder=""
+      [ctrl]="formGroup.controls.firstName"></app-text-input>
+    <!-- User's First Name -->
+
+    <!-- User's Last Name -->
+    <app-text-input
+      class="flex-1"
+      label="Last Name"
+      ctrlId="formRegLasttName"
+      placeholder=""
+      [ctrl]="formGroup.controls.lastName"></app-text-input>
+    <!-- User's Last Name -->
+  </div>
+
+  <div class="flex gap-4 flex-wrap">
+    <!-- User's Job Title -->
+    <app-text-input
+      class="flex-1"
+      label="Job Title"
+      ctrlId="formRegJobTitle"
+      placeholder="Enter your Job Title"
+      [ctrl]="formGroup.controls.jobTitle"></app-text-input>
+
+    <!-- User's Job Title -->
+
+    <!-- User's PhoneNumber -->
+    <app-text-input
+      class="flex-1"
+      label="Phone Number"
+      ctrlId="formRegPhoneNumber"
+      placeholder="Enter your Phone number"
+      [ctrl]="formGroup.controls.phoneNumber"></app-text-input>
+    <!-- User's PhoneNumber -->
+
+    <!-- User's Email -->
+    <ng-container *ngIf="type === 'REGISTRATION'">
+      <app-text-input
+        class="flex-1"
+        label="Email"
+        ctrlId="formRegEmail"
+        placeholder="Enter your email"
+        [ctrl]="formGroup.controls.email"></app-text-input>
+    </ng-container>
+    <!-- User's Email -->
+  </div>
+
+  <div *ngIf="type === 'REGISTRATION'" class="flex gap-4 flex-wrap">
+    <!-- Password -->
+    <div class="flex flex-col items-center w-full">
+      <label class="w-full mb-2 text-sm" for="formRegOConPassword"
+        >Password</label
+      >
+      <mat-form-field
+        class="w-full text-sm"
+        appearance="outline"
+        color="accent">
+        <input
+          id="formRegOConPassword"
+          matInput
+          autocomplete="off"
+          type="{{ showPassword ? 'text' : 'password' }}"
+          formControlName="password"
+          placeholder="" />
+        <button matSuffix mat-icon-button (click)="togglePasswordVisibility()">
+          <mat-icon>{{
+            showPassword ? 'visibility' : 'visibility_off'
+          }}</mat-icon>
+        </button>
+        <mat-error class="text-sm">
+          <ul>
+            <li
+              *ngIf="
+                formGroup.controls.password.touched &&
+                formGroup.controls.password.dirty &&
+                formGroup.controls.password.hasError('required')
+              ">
+              Password is a required field
+            </li>
+
+            <li
+              *ngIf="
+                formGroup.controls.password.touched &&
+                formGroup.controls.password.dirty &&
+                formGroup.controls.password.hasError('minlength')
+              ">
+              Password must contain at least 8 characters
+            </li>
+
+            <li
+              *ngIf="
+                formGroup.controls.password.touched &&
+                formGroup.controls.password.dirty &&
+                formGroup.controls.password.hasError('pattern')
+              ">
+              Password must contain at least one uppercase letter, one lowercase
+              letter, and one number
+            </li>
+          </ul>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Password-->
+
+    <!-- Confirm password -->
+    <div class="flex flex-col justify-between items-center w-full">
+      <label class="w-full mb-2 text-sm" for="formRegOConConifirmPassword"
+        >Confirm Password</label
+      >
+      <mat-form-field
+        class="w-full text-sm"
+        appearance="outline"
+        color="accent">
+        <input
+          id="formRegOConConifirmPassword"
+          matInput
+          autocomplete="off"
+          type="{{ showPassword ? 'text' : 'password' }}"
+          formControlName="confirmPassword" />
+        <button matSuffix mat-icon-button (click)="togglePasswordVisibility()">
+          <mat-icon>{{
+            showPassword ? 'visibility' : 'visibility_off'
+          }}</mat-icon>
+        </button>
+        <mat-error class="text-sm">
+          <ul>
+            <li
+              *ngIf="
+                formGroup.controls.confirmPassword.touched &&
+                formGroup.controls.confirmPassword.dirty &&
+                formGroup.controls.confirmPassword.hasError('required')
+              ">
+              Password is a required field
+            </li>
+            <li *ngIf="formGroup.hasError('mismatch')">
+              Passwords do not match
+            </li>
+          </ul>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Confirm password -->
+  </div>
+</form>

@@ -16,6 +16,8 @@ export const getOrganizationRegistrationStatusClasses = (
       return 'bg-gray-100/90';
     case OrganizationRegistrationStatusDto.Invited:
       return 'bg-gray-100/90';
+    case OrganizationRegistrationStatusDto.Onboarding:
+      return 'text-orange-700 bg-orange-100/60';
     default:
       return '';
   }

@@ -1,0 +1,221 @@
+<form [formGroup]="formGroup">
+  <div class="flex gap-4 flex-wrap">
+    <!-- Legal Name -->
+    <app-text-input
+      class="flex-1"
+      label="Organization Legal Name"
+      ctrlId="formRegLegalName"
+      placeholder="Enter Your organization Legal name"
+      [ctrl]="formGroup.controls.legalName"></app-text-input>
+
+    <!-- Legal Name -->
+  </div>
+
+  <div class="flex gap-4 flex-wrap">
+    <!-- Website -->
+    <app-text-input
+      class="flex-1"
+      label="Website"
+      ctrlId="formRegWebsite"
+      placeholder="Enter Your organization website url"
+      [ctrl]="formGroup.controls.website"></app-text-input>
+    <!-- Website -->
+  </div>
+
+  <div class="flex gap-4 flex-wrap">
+    <!-- Business Unit -->
+    <app-text-input
+      class="flex-1"
+      label="Business Unit"
+      ctrlId="formRegBusinessUnit"
+      placeholder="Enter Your organization Business Unit"
+      [ctrl]="formGroup.controls.businessUnit"></app-text-input>
+    <!-- Business Unit -->
+  </div>
+
+  <div
+    *ngIf="formGroup.controls.address as addressGroup"
+    class="flex flex-col"
+    formGroupName="address">
+    <div class="flex gap-4 flex-wrap">
+      <!-- Street -->
+      <app-text-input
+        class="flex-1"
+        label="Street"
+        ctrlId="formRegStreet"
+        placeholder="Your organization street address"
+        [ctrl]="addressGroup.controls.street"></app-text-input>
+      <!-- Street -->
+
+      <!-- House No -->
+      <app-text-input
+        class="flex-1"
+        label="House No."
+        ctrlId="formRegHouseNo"
+        placeholder="Your organization House Number"
+        [ctrl]="addressGroup.controls.houseNo"></app-text-input>
+      <!-- House No -->
+    </div>
+
+    <div class="flex gap-4 flex-wrap">
+      <!-- ZIP Code -->
+      <app-text-input
+        class="flex-1"
+        label="ZIP code"
+        ctrlId="formRegZipCode"
+        placeholder="Your organization ZIP code"
+        [ctrl]="addressGroup.controls.zipCode"></app-text-input>
+      <!-- ZIP Code -->
+
+      <!-- City  -->
+      <app-text-input
+        class="flex-1"
+        label="City"
+        ctrlId="formRegCity"
+        placeholder="Your organization city"
+        [ctrl]="addressGroup.controls.city"></app-text-input>
+      <!-- City  -->
+    </div>
+
+    <div class="flex gap-4 flex-wrap">
+      <!-- Country  -->
+      <app-text-input
+        class="flex-1"
+        label="Country"
+        ctrlId="formRegCountry"
+        placeholder="Your organization Country"
+        [ctrl]="addressGroup.controls.country"></app-text-input>
+      <!-- Country  -->
+    </div>
+
+    <mat-checkbox class="mb-2" [formControl]="billingAddressForm"
+      ><div class="flex gap-2 items-center">
+        <span class="text-sm"
+          >Billing address is different from organization address</span
+        >
+        <mat-icon
+          fontIcon="info"
+          matTooltip="Only for administrative purposes - the MDS is free of charge until 2024"
+          matTooltipClass="text-sm"
+          aria-label="info"></mat-icon>
+      </div>
+    </mat-checkbox>
+  </div>
+
+  <div
+    *ngIf="
+      showBillingAddress && formGroup.controls.billingAddress as addressGroup
+    "
+    class="flex flex-col gap-4"
+    formGroupName="billingAddress">
+    <div class="flex gap-4 flex-wrap">
+      <!-- Street -->
+      <app-text-input
+        class="flex-1"
+        label="Street"
+        ctrlId="formRegStreet"
+        placeholder="Your organization street address"
+        [ctrl]="addressGroup.controls.street"></app-text-input>
+      <!-- Street -->
+
+      <!-- House No -->
+      <app-text-input
+        class="flex-1"
+        label="House No."
+        ctrlId="formRegHouseNo"
+        placeholder="Your organization House Number"
+        [ctrl]="addressGroup.controls.houseNo"></app-text-input>
+      <!-- House No -->
+    </div>
+
+    <div class="flex gap-4 flex-wrap">
+      <!-- ZIP Code -->
+      <app-text-input
+        class="flex-1"
+        label="ZIP code"
+        ctrlId="formRegZipCode"
+        placeholder="Your organization ZIP code"
+        [ctrl]="addressGroup.controls.zipCode"></app-text-input>
+      <!-- ZIP Code -->
+
+      <!-- City  -->
+      <app-text-input
+        class="flex-1"
+        label="City"
+        ctrlId="formRegCity"
+        placeholder="Your organization city"
+        [ctrl]="addressGroup.controls.city"></app-text-input>
+      <!-- City  -->
+    </div>
+
+    <div class="flex gap-4 flex-wrap">
+      <!-- Country  -->
+      <app-text-input
+        class="flex-1"
+        label="Country"
+        ctrlId="formRegCountry"
+        placeholder="Your organization Country"
+        [ctrl]="addressGroup.controls.country"></app-text-input>
+      <!-- Country  -->
+    </div>
+  </div>
+
+  <div class="flex gap-4 flex-wrap">
+    <!-- Description -->
+    <div class="flex flex-col flex-1">
+      <label class="w-full mb-2 text-sm">Organization Description</label>
+      <mat-form-field
+        class="w-full text-sm"
+        appearance="outline"
+        color="accent">
+        <textarea
+          matInput
+          formControlName="description"
+          placeholder="What does Your organization do?"></textarea>
+        <mat-error
+          class="text-sm"
+          appFormControlError
+          fieldName="Organization description"
+          [control]="formGroup.get('description')"></mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Description -->
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <div class="flex gap-4 flex-wrap mt-2">
+      <!-- ID Type -->
+      <div class="flex flex-col flex-1">
+        <label class="w-full mb-2 text-sm">Legal ID Type</label>
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="legalIdType">
+            <mat-option *ngFor="let type of idTypes" [value]="type.value">
+              {{ type.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- ID Type -->
+
+      <!-- ID Number -->
+      <app-text-input
+        class="flex-1"
+        label="Legal ID Number"
+        ctrlId="formRegIdNumber"
+        placeholder="Enter your organization legal ID number"
+        [ctrl]="formGroup.controls.legalId"></app-text-input>
+      <!-- ID Number -->
+
+      <!-- Commercial Register Location< -->
+      <app-text-input
+        *ngIf="formGroup.get('legalIdType')?.value === 'COMMERCE_REGISTER_INFO'"
+        class="flex-1"
+        label="Commercial Register Location"
+        ctrlId="formRegCommerceRegisterLocation"
+        placeholder="Enter your organization Commercial Register Location number"
+        [ctrl]="formGroup.controls.commerceRegisterLocation"></app-text-input>
+    </div>
+    <!-- Commercial Register Location< -->
+    <div class="flex flex-col flex-1"></div>
+  </div>
+</form>

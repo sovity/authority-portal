@@ -3,17 +3,13 @@ package de.sovity.authorityportal.api.model.organization;
 import de.sovity.authorityportal.api.model.MemberInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Organization information.")
@@ -29,8 +25,12 @@ public class OrganizationDetailsDto {
     private String mainAddress;
     @Schema(description = "Billing Address", requiredMode = Schema.RequiredMode.REQUIRED)
     private String billingAddress;
-    @Schema(description = "Tax Id", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String taxId;
+    @Schema(description = "Legal ID type", requiredMode = Schema.RequiredMode.REQUIRED)
+    private OrganizationLegalIdTypeDto legalIdType;
+    @Schema(description = "Legal ID number", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String legalId;
+    @Schema(description = "Commerce register location (if applicable)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String commerceRegisterLocation;
     @Schema(description = "URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
     private String url;
     @Schema(description = "Description of what the company does/is", requiredMode = Schema.RequiredMode.REQUIRED)

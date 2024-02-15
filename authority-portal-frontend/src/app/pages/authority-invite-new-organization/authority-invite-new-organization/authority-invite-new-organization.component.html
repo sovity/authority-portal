@@ -8,7 +8,6 @@
   <div class="container flex items-center justify-center">
     <form
       class="flex flex-col bg-white shadow-xl w-2/3 md:w-4/5 xl:w-3/5 2xl:w-1/2 p-10 rounded-3xl mb-16"
-      ngxsForm="group"
       [formGroup]="group"
       (ngSubmit)="submit()">
       <div class="select-none flex flex-col justify-between items-center my-2">
@@ -118,108 +117,29 @@
 
       <div class="select-none flex flex-col justify-between items-center my-2">
         <div class="flex flex-col justify-between items-center w-full">
-          <label class="label w-full mb-2" for="formInviteOrganizationAddress"
-            >Organization Address</label
+          <label class="label w-full mb-2" for="formInviteOrganizationDuns"
+            >User Job Title</label
           >
           <input
-            id="formInviteOrganizationAddress"
+            id="formInviteOrganizationDuns"
             class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
             type="text"
-            formControlName="orgAddress"
-            placeholder="Organization Address" />
-        </div>
-
-        <div
-          *ngIf="
-            group.controls.orgAddress.touched &&
-            group.controls.orgAddress.dirty &&
-            group.controls.orgAddress.hasError('required')
-          "
-          class="mt-3 text-red-600">
-          Organization address is a required field
+            formControlName="userJobTitle"
+            placeholder="User Job title" />
         </div>
       </div>
 
       <div class="select-none flex flex-col justify-between items-center my-2">
         <div class="flex flex-col justify-between items-center w-full">
           <label class="label w-full mb-2" for="formInviteOrganizationDuns"
-            >Organization Tax ID</label
+            >User phone number</label
           >
           <input
             id="formInviteOrganizationDuns"
             class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
             type="text"
-            formControlName="orgDuns"
-            placeholder="Organization Tax ID" />
-        </div>
-
-        <div
-          *ngIf="
-            group.controls.orgDuns.touched &&
-            group.controls.orgDuns.dirty &&
-            group.controls.orgDuns.hasError('required')
-          "
-          class="mt-3 text-red-600">
-          Organization Tax ID is a required field
-        </div>
-      </div>
-
-      <div class="select-none flex flex-col justify-between items-center my-2">
-        <div class="flex flex-col justify-between items-center w-full">
-          <label class="label w-full mb-2" for="formInviteOrganizationURL"
-            >Organization URL</label
-          >
-          <input
-            id="formInviteOrganizationURL"
-            class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
-            type="text"
-            formControlName="orgUrl"
-            placeholder="Organization URL" />
-        </div>
-
-        <div
-          *ngIf="
-            group.controls.orgUrl.touched &&
-            group.controls.orgUrl.dirty &&
-            group.controls.orgUrl.hasError('required')
-          "
-          class="mt-3 text-red-600">
-          Organization URL is a required field
-        </div>
-      </div>
-
-      <div class="select-none flex flex-col justify-between items-center my-2">
-        <div class="flex flex-col justify-between items-center w-full">
-          <label
-            class="label w-full mb-2"
-            for="formInviteOrganizationSecurityEmail"
-            >Organization Security Email</label
-          >
-          <input
-            id="formInviteOrganizationSecurityEmail"
-            class="w-full border-b-2 border-gray-400 mb-3 py-1 pl-2"
-            type="email"
-            formControlName="orgSecurityEmail"
-            placeholder="Organization Security Email" />
-        </div>
-
-        <div
-          *ngIf="
-            group.controls.orgSecurityEmail.touched &&
-            group.controls.orgSecurityEmail.dirty &&
-            group.controls.orgSecurityEmail.hasError('required')
-          "
-          class="mt-3 text-red-600">
-          Organization Security Email is a required field
-        </div>
-        <div
-          *ngIf="
-            group.controls.orgSecurityEmail.touched &&
-            group.controls.orgSecurityEmail.dirty &&
-            group.controls.orgSecurityEmail.hasError('email')
-          "
-          class="mt-3 text-red-600">
-          Email is a format is wrong
+            formControlName="userPhoneNumber"
+            placeholder="User phone number" />
         </div>
       </div>
 

@@ -48,13 +48,8 @@ export class AuthorityInviteNewOrganizationComponent
       userLastName: [initial.userLastName, [Validators.required]],
       userEmail: [initial.userEmail, [Validators.required, Validators.email]],
       orgName: [initial.orgName, [Validators.required]],
-      orgAddress: [initial.orgAddress, [Validators.required]],
-      orgDuns: [initial.orgDuns, [Validators.required]],
-      orgUrl: [initial.orgUrl, [Validators.required]],
-      orgSecurityEmail: [
-        initial.orgSecurityEmail,
-        [Validators.required, Validators.email],
-      ],
+      userJobTitle: [initial.userJobTitle],
+      userPhoneNumber: [initial.userPhoneNumber],
     });
   }
 
@@ -76,10 +71,8 @@ export class AuthorityInviteNewOrganizationComponent
       userLastName: formValue.userLastName!,
       userEmail: formValue.userEmail!,
       orgName: formValue.orgName!,
-      orgAddress: formValue.orgAddress!,
-      orgDuns: formValue.orgDuns!,
-      orgUrl: formValue.orgUrl!,
-      orgSecurityEmail: formValue.orgSecurityEmail!,
+      userJobTitle: formValue.userJobTitle,
+      userPhoneNumber: formValue.userPhoneNumber,
     };
 
     this.store.dispatch(

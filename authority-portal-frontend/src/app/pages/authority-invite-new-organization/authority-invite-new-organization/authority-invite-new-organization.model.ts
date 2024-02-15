@@ -8,10 +8,8 @@ export interface AuthorityInviteNewOrganizationPageFormModel {
   userFirstName: FormControl<string>;
   userLastName: FormControl<string>;
   orgName: FormControl<string>;
-  orgAddress: FormControl<string>;
-  orgDuns: FormControl<string>;
-  orgUrl: FormControl<string>;
-  orgSecurityEmail: FormControl<string>;
+  userJobTitle: FormControl<string>;
+  userPhoneNumber: FormControl<string>;
 }
 
 export const DEFAULT_AUTHORITY_INVITE_NEW_ORGANIZATION_FORM_VALUE: AuthorityInviteNewOrganizationPageFormValue =
@@ -20,8 +18,6 @@ export const DEFAULT_AUTHORITY_INVITE_NEW_ORGANIZATION_FORM_VALUE: AuthorityInvi
     userFirstName: '',
     userLastName: '',
     orgName: '',
-    orgAddress: '',
-    orgDuns: '',
-    orgUrl: '',
-    orgSecurityEmail: '',
+    userJobTitle: '',
+    userPhoneNumber: '',
   };

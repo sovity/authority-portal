@@ -63,7 +63,6 @@ import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-conne
       developmentMode: true,
       executionStrategy: NgxsInZoneExecutionStrategy,
     }),
-    // NgxsFormPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     // Authority Portal
     PortalLayoutModule,

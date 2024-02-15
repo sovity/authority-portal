@@ -1,7 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
-import {NgxsFormPluginModule} from '@ngxs/form-plugin';
 import {NgxsModule} from '@ngxs/store';
 import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
@@ -18,7 +17,6 @@ import {SharedModule} from 'src/app/shared/shared.module';
     CommonModule,
     ReactiveFormsModule,
     // NGXS
-    NgxsFormPluginModule,
     NgxsModule.forFeature([AuthorityInviteNewOrganizationPageStateImpl]),
 
     // Angular Material

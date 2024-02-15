@@ -112,6 +112,8 @@ export class SharedUserDetailComponent {
 
   cancelUserRoleUpdate() {
     this.roleFormEnable = false;
+    this.newTopApplicationRole = this.currentTopApplicationRole;
+    this.newTopParticipantRole = this.currentTopParticipantRole;
   }
 
   onboardingType(type: string) {

@@ -17,6 +17,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Upgraded Keycloak dependency to version 23.0.4
 - Redesigned authority participant management Section
 - Added the option to request a Connector-as-a-Service from the sovity portal
+- Streamlined invitation & registration process
 
 #### Minor
 
@@ -53,6 +54,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ### Deployment Migration Notes
 
+- Keycloak IAM needs to be upgraded to version 23.0.4
 - Portal Backend
 
   - Following environment variables are mandatory and must be set:

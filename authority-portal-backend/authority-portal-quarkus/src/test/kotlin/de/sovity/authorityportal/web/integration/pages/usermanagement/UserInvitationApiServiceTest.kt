@@ -4,7 +4,6 @@ import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
-import de.sovity.authorityportal.web.integration.pages.TestData.USER_EMAIL
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_FIRST_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_LAST_NAME
 import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiService
@@ -38,15 +37,16 @@ class UserInvitationApiServiceTest {
     fun testInviteParticipantUser() {
         // arrange
         val userId = UUID.randomUUID().toString()
-        val request = InviteParticipantUserRequest(USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME, UserRoleDto.PARTICIPANT_USER)
+        val email = UUID.randomUUID().toString() // Generate a random email to avoid DB constraints with existing users
+        val request = InviteParticipantUserRequest(email, USER_FIRST_NAME, USER_LAST_NAME, UserRoleDto.PARTICIPANT_USER)
         val mdsId = "MDSL1111AA"
 
-        userService.getUserOrCreate("test", UserOnboardingType.SELF_REGISTRATION)
+        userService.getUserOrCreate("test", UserOnboardingType.INVITATION)
 
         val keyCloakService = mock(KeycloakService::class.java)
         installMockForType(keyCloakService, KeycloakService::class.java)
 
-        `when`(keyCloakService.createUser(eq(USER_EMAIL), eq(USER_FIRST_NAME), eq(USER_LAST_NAME))).thenReturn(userId)
+        `when`(keyCloakService.createUser(eq(email), eq(USER_FIRST_NAME), eq(USER_LAST_NAME), eq(null))).thenReturn(userId)
         doNothing().`when`(keyCloakService).sendInvitationEmail(eq(userId))
         doNothing().`when`(keyCloakService).joinOrganization(eq(userId), eq(mdsId), eq(OrganizationRole.PARTICIPANT_USER))
 
@@ -62,7 +62,7 @@ class UserInvitationApiServiceTest {
         assertThat(user.createdAt).isNotNull()
 
         // verify
-        verify(keyCloakService).createUser(eq(USER_EMAIL), eq(USER_FIRST_NAME), eq(USER_LAST_NAME))
+        verify(keyCloakService).createUser(eq(email), eq(USER_FIRST_NAME), eq(USER_LAST_NAME), eq(null))
         verify(keyCloakService).sendInvitationEmail(eq(userId))
         verify(keyCloakService).joinOrganization(eq(userId), eq(mdsId), eq(OrganizationRole.PARTICIPANT_USER))
     }

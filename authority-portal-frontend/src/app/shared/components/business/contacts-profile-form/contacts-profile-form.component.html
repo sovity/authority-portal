@@ -1,0 +1,113 @@
+<!-- Main Contact Form -->
+<div>
+  <div class="flex gap-4 flex-wrap">
+    <h3>Main Contact</h3>
+    <mat-icon
+      fontIcon="info"
+      matTooltip="Main Contact is needed for purposes such as use cases, events, membership etc."
+      matTooltipClass="text-sm"></mat-icon>
+  </div>
+  <form [formGroup]="mainContactFormGroup">
+    <div class="flex gap-4 flex-wrap">
+      <!-- User's First Name -->
+      <app-text-input
+        class="flex-1"
+        label="Main First Name"
+        ctrlId="formRegMainFirstName"
+        placeholder="Enter main contact person first name"
+        [ctrl]="mainContactFormGroup.controls.firstName"></app-text-input>
+      <!-- User's First Name -->
+
+      <!-- User's Last Name -->
+      <app-text-input
+        class="flex-1"
+        label="Main Last Name"
+        ctrlId="formRegMainLastName"
+        placeholder="Enter main contact person last name"
+        [ctrl]="mainContactFormGroup.controls.lastName"></app-text-input>
+      <!-- User's Last Name -->
+    </div>
+
+    <div class="flex gap-4 flex-wrap">
+      <!-- User's PhoneNumber -->
+      <app-text-input
+        class="flex-1"
+        label="Phone Number"
+        ctrlId="formRegPhoneNumber"
+        placeholder="Enter main contact person Phone number"
+        [ctrl]="mainContactFormGroup.controls.phoneNumber"></app-text-input>
+      <!-- User's PhoneNumber -->
+
+      <!-- User's Email -->
+      <app-text-input
+        class="flex-1"
+        label="Email"
+        ctrlId="formRegEmail"
+        placeholder="Enter main contact person email"
+        [ctrl]="mainContactFormGroup.controls.email"></app-text-input>
+      <!-- User's Email -->
+    </div>
+  </form>
+</div>
+<!-- Main Contact Form -->
+
+<!-- Technical Contact Form -->
+<div>
+  <div class="flex gap-4 flex-wrap">
+    <h3>Technical Contact</h3>
+    <mat-icon
+      fontIcon="info"
+      matTooltip="A technical contact will get notified in case of IT related topics"
+      matTooltipClass="text-sm"></mat-icon>
+  </div>
+  <mat-checkbox class="mb-2" [formControl]="contactsManagementForm"
+    ><div class="flex gap-2 items-center">
+      <span class="text-sm">Same as Main Contact</span>
+    </div>
+  </mat-checkbox>
+
+  <form *ngIf="showTechnicalContact" [formGroup]="technicalContactFormGroup">
+    <div class="flex gap-4 flex-wrap">
+      <!-- User's First Name -->
+      <app-text-input
+        class="flex-1"
+        label="Technical First Name"
+        ctrlId="formRegTechnicalFirstName"
+        placeholder="Enter technical contact person first name"
+        [ctrl]="technicalContactFormGroup.controls.firstName"></app-text-input>
+      <!-- User's First Name -->
+
+      <!-- User's Last Name -->
+      <app-text-input
+        class="flex-1"
+        label="Technical Last Name"
+        ctrlId="formRegTechnicalLastName"
+        placeholder="Enter technical contact person last name"
+        [ctrl]="technicalContactFormGroup.controls.lastName"></app-text-input>
+      <!-- User's Last Name -->
+    </div>
+
+    <div class="flex gap-4 flex-wrap">
+      <!-- User's PhoneNumber -->
+      <app-text-input
+        class="flex-1"
+        label="Phone Number"
+        ctrlId="formRegPhoneNumber"
+        placeholder="Enter technical contact person Phone number"
+        [ctrl]="
+          technicalContactFormGroup.controls.phoneNumber
+        "></app-text-input>
+      <!-- User's PhoneNumber -->
+
+      <!-- User's Email -->
+      <app-text-input
+        class="flex-1"
+        label="Email"
+        ctrlId="formRegEmail"
+        placeholder="Enter technical contact person email"
+        [ctrl]="technicalContactFormGroup.controls.email"></app-text-input>
+      <!-- User's Email -->
+    </div>
+  </form>
+</div>
+<!-- Technical Contact Form -->

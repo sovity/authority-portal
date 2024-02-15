@@ -1,7 +1,9 @@
 package de.sovity.authorityportal.web.pages.usermanagement
 
 import de.sovity.authorityportal.api.model.IdResponse
+import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto
 import de.sovity.authorityportal.api.model.UpdateUserDto
+import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import jakarta.enterprise.context.ApplicationScoped
@@ -24,6 +26,18 @@ class UserUpdateApiService {
         user.jobTitle = updateUserDto.jobTitle
         user.update()
         keycloakService.updateUser(userId, updateUserDto.firstName, updateUserDto.lastName)
+        return IdResponse(userId)
+    }
+
+    fun updateOnboardingUserDetails(userId: String, onboardingUserUpdateDto: OnboardingUserUpdateDto): IdResponse {
+        val user = userService.getUserOrThrow(userId)
+        user.firstName = onboardingUserUpdateDto.firstName
+        user.lastName = onboardingUserUpdateDto.lastName
+        user.phone = onboardingUserUpdateDto.phoneNumber
+        user.jobTitle = onboardingUserUpdateDto.jobTitle
+        user.registrationStatus = UserRegistrationStatus.ACTIVE
+        user.update()
+        keycloakService.updateUser(userId, onboardingUserUpdateDto.firstName, onboardingUserUpdateDto.lastName)
         return IdResponse(userId)
     }
 }
