@@ -25,6 +25,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     frontendUrl: 'https://xample.test1/connector',
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
+    status: 'ONLINE'
   },
   {
     connectorId: 'MDSL1111AA.AP23H5W',
@@ -39,6 +40,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     frontendUrl: 'https://xample.test1/connector',
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
+    status: 'ONLINE'
   },
   {
     connectorId: 'MDSL1111AA.AP35I6Y',
@@ -53,6 +55,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     frontendUrl: 'https://xample.test1/connector',
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
+    status: 'ONLINE'
   },
   {
     connectorId: 'MDSL2222BB.CP59I8U',
@@ -67,6 +70,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     frontendUrl: 'https://xample.test1/connector',
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
+    status: 'ONLINE'
   },
   {
     connectorId: 'MDSL2222BB.CFIWWBD',
@@ -81,6 +85,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     frontendUrl: 'https://xample.test2/connector',
     endpointUrl: 'https://xample.test2/connector/api/dsp',
     managementUrl: 'https://xample.test2/connector/api/management',
+    status: 'ONLINE'
   },
   {
     connectorId: 'MDSL2222BB.CWAQ71U',
@@ -95,6 +100,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     frontendUrl: 'https://xample.test3/connector',
     endpointUrl: 'https://xample.test3/connector/api/dsp',
     managementUrl: 'https://xample.test3/connector/api/management',
+    status: 'OFFLINE'
   },
 ];
 
@@ -109,6 +115,7 @@ export const getListOfConnectorsForTable = (
         type: c.type,
         environment: c.environment,
         name: c.connectorName,
+        status: c.status
       };
     }),
   };
@@ -124,6 +131,7 @@ export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
         type: c.type,
         environment: c.environment,
         name: c.connectorName,
+        status: c.status
       };
     }),
   };
@@ -147,6 +155,7 @@ export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {
         type: c.type,
         environment: c.environment,
         name: c.connectorName,
+        status: c.status
       };
     }),
   };
@@ -165,6 +174,7 @@ export const createOwnConnector = (
   const mdsId = getUserInfo().organizationMdsId;
   const orgName = getUserInfo().organizationName;
   const randomId = generateRandomId(mdsId);
+  const status = 'OFFLINE'
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
@@ -179,6 +189,7 @@ export const createOwnConnector = (
     frontendUrl: request.frontendUrl,
     endpointUrl: request.endpointUrl,
     managementUrl: request.managementUrl,
+    status: status
   });
   return {
     id: randomId,
@@ -193,6 +204,7 @@ export const createProvidedConnector = (
 ): CreateConnectorResponse => {
   const hostMdsId = getUserInfo().organizationMdsId;
   const hostOrgName = getUserInfo().organizationName;
+  const status = 'OFFLINE'
 
   const clientOrgName = TEST_ORGANIZATIONS.filter(
     (it) => it.mdsId === clientMdsId,
@@ -212,6 +224,7 @@ export const createProvidedConnector = (
     frontendUrl: request.frontendUrl,
     endpointUrl: request.endpointUrl,
     managementUrl: request.managementUrl,
+    status: status
   });
   return {
     id: randomId,

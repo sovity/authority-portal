@@ -6,8 +6,8 @@ import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import de.sovity.authorityportal.web.pages.connectormanagement.toDb
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
 import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
+import de.sovity.authorityportal.web.thirdparty.caas.model.CaasStatusDto
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasStatusResponse
-import de.sovity.authorityportal.web.thirdparty.caas.model.ConnectorStatus
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import io.quarkus.logging.Log
 import io.quarkus.scheduler.Scheduled
@@ -16,7 +16,7 @@ import jakarta.inject.Inject
 import org.jooq.DSLContext
 
 @ApplicationScoped
-class CaasRegistrationService {
+class CaasUpdateService {
 
     @Inject
     lateinit var dsl: DSLContext
@@ -33,7 +33,7 @@ class CaasRegistrationService {
     @Inject
     lateinit var brokerClientService: BrokerClientService
 
-    @Scheduled(every = "1m")
+    @Scheduled(every = "30s")
     fun scheduledCaasStatusUpdate() {
         val connectors = connectorService.getAllCaas()
         val connectorStatusList = caasClient.getCaasStatus(connectors.map { it.connectorId })
@@ -48,7 +48,7 @@ class CaasRegistrationService {
             updateConnectorUrls(connector, caasStatusResponse)
 
             if ((connector.caasStatus == CaasStatus.PROVISIONING || connector.caasStatus == CaasStatus.AWAITING_RUNNING)
-                && caasStatusResponse.status == ConnectorStatus.RUNNING) {
+                && caasStatusResponse.status == CaasStatusDto.RUNNING) {
                 registerCaasAtDaps(connector)
                 registerCaasAtBroker(connector)
                 Log.info("CaaS has been registered at Broker & DAPS. connectorId=${connector.connectorId}.")

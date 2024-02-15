@@ -20,7 +20,7 @@ class OrganizationMetadataService {
     @Inject
     lateinit var organizationService: OrganizationService
 
-    @Scheduled(every="1m")
+    @Scheduled(every = "1m")
     fun pushOrganizationMetadataToBroker() {
         val environments = deploymentEnvironmentService.findAll().keys
         val orgMetadata = organizationService.getOrganizations().map {

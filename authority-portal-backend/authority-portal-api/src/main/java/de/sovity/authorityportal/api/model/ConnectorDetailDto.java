@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.api.model;
 
+import de.sovity.authorityportal.api.model.organization.ConnectorStatusDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,4 +35,6 @@ public class ConnectorDetailDto {
     private String endpointUrl;
     @Schema(description = "Management URL", requiredMode = Schema.RequiredMode.REQUIRED)
     private String managementUrl;
+    @Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
+    private ConnectorStatusDto status;
 }

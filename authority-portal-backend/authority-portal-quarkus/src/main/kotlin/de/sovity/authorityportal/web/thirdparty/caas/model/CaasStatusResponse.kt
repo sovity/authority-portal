@@ -16,7 +16,7 @@ class CaasStatusResponse {
     @Schema(description = "Connector's JWKS URL")
     var connectorJwksUrl: String? = null
     @Schema(description = "Connector's status")
-    var status: ConnectorStatus = ConnectorStatus.NOT_FOUND
+    var status: CaasStatusDto = CaasStatusDto.NOT_FOUND
     @Schema(description = "The end-of-life date and time of the connector")
     var endDateTime: OffsetDateTime? = null
 }

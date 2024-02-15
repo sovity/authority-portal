@@ -3,11 +3,15 @@ package de.sovity.authorityportal.web.integration.pages.connectormanagement
 import de.sovity.authorityportal.api.model.ConnectorTypeDto
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateConnectorStatusDto
+import de.sovity.authorityportal.api.model.organization.ConnectorStatusDto
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
+import de.sovity.authorityportal.web.services.ConnectorMetadataService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClient
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
+import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
+import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClient
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
@@ -18,18 +22,17 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Mockito.anyList
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
-import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.verify
+import java.time.OffsetDateTime
 
 @QuarkusTest
-@ExtendWith(MockitoExtension::class)
 class ConnectorManagementApiServiceTest {
 
     @Inject
@@ -38,16 +41,20 @@ class ConnectorManagementApiServiceTest {
     @Inject
     lateinit var connectorService: ConnectorService
 
+    @Inject
+    lateinit var connectorMetadataService: ConnectorMetadataService
+
     private val test = "test"
+    private val mdsId = "MDSL2222BB"
     private val connectorId = "MDSL2222BB.CP59I8U"
-    private val mdsId = "MDSL1111AA"
     private val userId = "00000000-0000-0000-0000-000000000001"
     private val connectorName = "testName"
     private val connectorLocation = "testLocation"
-    private val connectorFrontendUrl = "https://test.url"
-    private val connectorEndpointUrl = "https://test.url/api/dsp"
-    private val connectorManagementUrl = "https://test.url/api/management"
+    private val connectorFrontendUrl = "https://xample.test1/connector"
+    private val connectorEndpointUrl = "https://xample.test1/connector/api/dsp"
+    private val connectorManagementUrl = "https://xample.test1/connector/api/management"
     private val connectorCertificate = "testCertificate"
+    private val otherMdsId = "MDSL1111AA"
 
     @BeforeEach
     fun init() {
@@ -55,6 +62,18 @@ class ConnectorManagementApiServiceTest {
             .deleteFrom(de.sovity.authorityportal.db.jooq.Tables.CONNECTOR)
             .where(de.sovity.authorityportal.db.jooq.Tables.CONNECTOR.CLIENT_ID.eq(test))
             .execute()
+        val brokerClientService = mock(BrokerClientService::class.java)
+        val brokerClient = mock(BrokerClient::class.java)
+
+        QuarkusMock.installMockForType(brokerClientService, BrokerClientService::class.java)
+        `when`(brokerClientService.forEnvironment(eq(test))).thenReturn(brokerClient)
+        `when`(brokerClient.getConnectorMetadata(anyList())).thenReturn(listOf(AuthorityPortalConnectorInfo().also {
+            it.connectorEndpoint = connectorEndpointUrl
+            it.dataOfferCount = 1
+            it.offlineSinceOrLastUpdatedAt = OffsetDateTime.now()
+            it.onlineStatus = ConnectorOnlineStatus.ONLINE
+            it.participantId = connectorId
+        }))
     }
 
     @Test
@@ -77,10 +96,12 @@ class ConnectorManagementApiServiceTest {
     @Test
     fun testGetConnectorDetails() {
         // arrange
-        val mdsId = "MDSL2222BB"
+        connectorMetadataService.fetchConnectorMetadata()
 
         // act
         val result = connectorManagementApiService.getConnectorDetails(connectorId, mdsId, userId)
+
+        print(result)
 
         // assert
         assertThat(result).isNotNull
@@ -95,6 +116,7 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.connectorName).isEqualTo("Example Connector")
         assertThat(result.location).isEqualTo("Here")
         assertThat(result.frontendUrl).isEqualTo("https://xample.test1/connector")
+        assertThat(result.status).isEqualTo(ConnectorStatusDto.ONLINE)
     }
 
     @Test
@@ -135,7 +157,7 @@ class ConnectorManagementApiServiceTest {
     @Test
     fun testListProvidedConnectors() {
         // act
-        val result = connectorManagementApiService.listServiceProvidedConnectors(mdsId, test)
+        val result = connectorManagementApiService.listServiceProvidedConnectors(otherMdsId, test)
 
         // assert
         assertThat(result).isNotNull
@@ -169,7 +191,7 @@ class ConnectorManagementApiServiceTest {
         val connectorRequest = CreateConnectorRequest(connectorName, connectorLocation, connectorFrontendUrl, connectorEndpointUrl, connectorManagementUrl, connectorCertificate)
 
         // act
-        val response = connectorManagementApiService.createOwnConnector(connectorRequest, mdsId, userId)
+        val response = connectorManagementApiService.createOwnConnector(connectorRequest, otherMdsId, userId)
 
         // assert
         verify(clientIdUtilsMock).generateFromCertificate(eq(connectorCertificate))
@@ -201,7 +223,7 @@ class ConnectorManagementApiServiceTest {
         val connectorRequest = CreateConnectorRequest(connectorName, connectorLocation, connectorFrontendUrl, connectorEndpointUrl, connectorManagementUrl, connectorCertificate)
 
         // act
-        val response = connectorManagementApiService.createProvidedConnector(connectorRequest, mdsId, mdsId, userId, test)
+        val response = connectorManagementApiService.createProvidedConnector(connectorRequest, otherMdsId, otherMdsId, userId, test)
 
         // assert
         verify(clientIdUtilsMock).generateFromCertificate(eq(connectorCertificate))
@@ -231,7 +253,7 @@ class ConnectorManagementApiServiceTest {
         val connectorId = "MDSL1111AA.CP59I8U"
 
         // act
-        val response = connectorManagementApiService.deleteConnector(connectorId, mdsId, userId)
+        val response = connectorManagementApiService.deleteConnector(connectorId, otherMdsId, userId)
 
         // assert
         assertThat(response.id).isNotNull()
@@ -249,7 +271,7 @@ class ConnectorManagementApiServiceTest {
         val connectorRequest = CreateConnectorRequest(connectorName, connectorLocation, "invalid.url", connectorEndpointUrl, connectorManagementUrl, connectorCertificate)
 
         // act
-        val response = connectorManagementApiService.createOwnConnector(connectorRequest, mdsId, userId)
+        val response = connectorManagementApiService.createOwnConnector(connectorRequest, otherMdsId, userId)
 
         // assert
         assertThat(response.status).isEqualTo(CreateConnectorStatusDto.ERROR)
@@ -260,8 +282,8 @@ class ConnectorManagementApiServiceTest {
         val connector = connectorService.getConnectorOrThrow(id)
         assertThat(id).isNotNull()
         assertThat(connector).isNotNull()
-        assertThat(connector.mdsId).isEqualTo(mdsId)
-        assertThat(connector.providerMdsId).isEqualTo(mdsId)
+        assertThat(connector.mdsId).isEqualTo(otherMdsId)
+        assertThat(connector.providerMdsId).isEqualTo(otherMdsId)
         assertThat(connector.environment).isEqualTo(test)
         assertThat(connector.clientId).isEqualTo(test)
         assertThat(connector.createdBy).isEqualTo(userId)
