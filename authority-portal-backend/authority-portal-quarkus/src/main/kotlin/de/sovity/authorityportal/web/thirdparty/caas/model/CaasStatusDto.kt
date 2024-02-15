@@ -3,7 +3,7 @@ package de.sovity.authorityportal.web.thirdparty.caas.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Status of a connector")
-enum class ConnectorStatus {
+enum class CaasStatusDto {
     INIT,
     PROVISIONING,
     AWAITING_RUNNING,

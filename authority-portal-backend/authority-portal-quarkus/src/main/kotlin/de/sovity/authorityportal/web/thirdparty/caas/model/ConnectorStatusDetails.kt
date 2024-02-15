@@ -12,7 +12,7 @@ class ConnectorStatusDetails {
     var frontendUrl: String = ""
 
     @Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
-    var status: ConnectorStatus = ConnectorStatus.ERROR
+    var status: CaasStatusDto = CaasStatusDto.ERROR
 
     @Schema(description = "Date and time of the connector's start", requiredMode = Schema.RequiredMode.REQUIRED)
     var startedAt: OffsetDateTime = OffsetDateTime.MIN

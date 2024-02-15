@@ -9,10 +9,12 @@ import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
+import de.sovity.authorityportal.api.model.organization.ConnectorStatusDto
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
+import de.sovity.authorityportal.web.services.ConnectorMetadataService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
@@ -56,6 +58,9 @@ class ConnectorManagementApiService {
     @Inject
     lateinit var caasClient: CaasClient
 
+    @Inject
+    lateinit var connectorMetadataService: ConnectorMetadataService
+
     fun ownOrganizationConnectorDetails(connectorId: String, mdsId: String, userId: String): ConnectorDetailDto =
         getConnectorDetails(connectorId, mdsId, userId)
 
@@ -79,7 +84,8 @@ class ConnectorManagementApiService {
             connector.location,
             connector.frontendUrl,
             connector.endpointUrl,
-            connector.managementUrl
+            connector.managementUrl,
+            buildConnectorStatus(connector)
         )
     }
 
@@ -98,7 +104,8 @@ class ConnectorManagementApiService {
             connector.location,
             connector.frontendUrl,
             connector.endpointUrl,
-            connector.managementUrl
+            connector.managementUrl,
+            buildConnectorStatus(connector)
         )
     }
 
@@ -113,7 +120,8 @@ class ConnectorManagementApiService {
                 organizationService.getOrganizationOrThrow(it.providerMdsId).name,
                 it.type.toDto(),
                 deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
-                it.name
+                it.name,
+                if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).toDto()
             )
         }
 
@@ -132,7 +140,8 @@ class ConnectorManagementApiService {
                 orgNames[it.providerMdsId] ?: "",
                 it.type.toDto(),
                 deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
-                it.name
+                it.name,
+                if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).toDto()
             )
         }
 
@@ -151,7 +160,8 @@ class ConnectorManagementApiService {
                 orgNames[it.mdsId] ?: "",
                 it.type.toDto(),
                 deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
-                it.name
+                it.name,
+                if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).toDto()
             )
         }
 
@@ -321,5 +331,13 @@ class ConnectorManagementApiService {
         dapsClient.createClient(clientId)
         dapsClient.addCertificate(clientId, connector.certificate)
         dapsClient.configureMappers(clientId, connectorId, connector.certificate)
+    }
+
+    private fun buildConnectorStatus(connector: ConnectorService.ConnectorDetailRs): ConnectorStatusDto {
+        return if (connector.type == ConnectorType.CAAS) {
+            connector.caasStatus!!.toDto()
+        } else {
+            connectorMetadataService.getConnectorStatus(connector.connectorId, connector.environment).toDto()
+        }
     }
 }
