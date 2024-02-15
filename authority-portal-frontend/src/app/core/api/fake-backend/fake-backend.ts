@@ -5,13 +5,13 @@ import {
   ConnectorOverviewResultToJSON,
   CreateConnectorRequestFromJSON,
   CreateConnectorResponseToJSON,
-  CreateOrganizationRequestFromJSON,
   DeploymentEnvironmentDtoToJSON,
   FetchAPI,
   IdResponseToJSON,
   InviteParticipantUserRequestFromJSON,
   OrganizationDetailsDtoToJSON,
   OrganizationOverviewResultToJSON,
+  RegistrationRequestDtoFromJSON,
   UserDetailDtoToJSON,
   UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
@@ -46,7 +46,10 @@ import {
   inviteUser,
   userDetails,
 } from './impl/fake-users';
-import {createOrganization} from './impl/registration-process-fake';
+import {
+  createOrganization,
+  registerOrganization,
+} from './impl/registration-process-fake';
 import {getBody, getMethod, getUrl} from './utils/request-utils';
 import {ok} from './utils/response-utils';
 import {UrlInterceptor} from './utils/url-interceptor';
@@ -224,17 +227,24 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       throw new Error('TODO');
     })
 
-    .url('organizations/*/connectors/create-service-provided')
-    .on('POST', (clientMdsId) => {
-      const request = CreateConnectorRequestFromJSON(body);
-      const result = createProvidedConnector(request, clientMdsId);
-      return ok(CreateConnectorResponseToJSON(result));
-    })
-
     .url('registration/organization')
     .on('POST', () => {
-      const request = CreateOrganizationRequestFromJSON(body);
+      const request = RegistrationRequestDtoFromJSON(body);
       const result = createOrganization(request);
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('registration')
+    .on('POST', () => {
+      const request = RegistrationRequestDtoFromJSON(body);
+      const result = registerOrganization(request);
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('registration')
+    .on('POST', () => {
+      const request = RegistrationRequestDtoFromJSON(body);
+      const result = registerOrganization(request);
       return ok(IdResponseToJSON(result));
     })
 

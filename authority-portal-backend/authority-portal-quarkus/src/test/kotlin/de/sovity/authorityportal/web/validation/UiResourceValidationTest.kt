@@ -13,11 +13,12 @@ class UiResourceValidationTest {
     fun testNotBlank() {
         val invalidRequest = """
             {
-                "name": "",
-                "address": "Example Address",
-                "taxId": "123456789",
-                "url": "https://example.com",
-                "securityEmail": "security@example.com"
+                "userEmail": "email@email.tt",
+                "userFirstName": "",
+                "userLastName": "lastName",
+                "orgName": "orgName",
+                "userJobTitle": "userJobTitle",
+                "userPhoneNumber": "userPhoneNumber"
             }
         """.trimIndent()
 
@@ -25,10 +26,10 @@ class UiResourceValidationTest {
             .contentType(ContentType.JSON)
             .body(invalidRequest)
             .`when`()
-            .post("/api/registration/organization")
+            .post("api/authority/organizations/invite")
             .then()
             .statusCode(400)
-            .body("violations[0].message", `is`("Name cannot be blank"))
+            .body("violations[0].message", `is`("User first name cannot be blank"))
     }
 
     @Test
@@ -36,9 +37,9 @@ class UiResourceValidationTest {
         given()
             .contentType(ContentType.JSON)
             .`when`()
-            .post("/api/registration/organization")
+            .post("api/authority/organizations/invite")
             .then()
             .statusCode(400)
-            .body("violations[0].message", `is`("Organization cannot be null"))
+            .body("violations[0].message", `is`("Invitation information cannot be null"))
     }
 }

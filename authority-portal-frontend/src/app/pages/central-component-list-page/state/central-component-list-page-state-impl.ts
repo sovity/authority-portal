@@ -1,6 +1,13 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
-import {filter, finalize, ignoreElements, switchMap, takeUntil, tap,} from 'rxjs/operators';
+import {
+  filter,
+  finalize,
+  ignoreElements,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import {Action, Actions, State, StateContext} from '@ngxs/store';
 import {CentralComponentDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';

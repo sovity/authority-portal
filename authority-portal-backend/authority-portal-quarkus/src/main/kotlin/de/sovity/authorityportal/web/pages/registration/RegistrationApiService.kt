@@ -7,6 +7,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.model.CreateOrganizationData
 import de.sovity.authorityportal.web.model.CreateUserData
+import de.sovity.authorityportal.web.pages.organizationmanagement.toDb
 import de.sovity.authorityportal.web.services.OrganizationMetadataService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
@@ -50,7 +51,8 @@ class RegistrationApiService {
         val userId = keycloakService.createUser(
             registrationRequest.userEmail,
             registrationRequest.userFirstName,
-            registrationRequest.userLastName
+            registrationRequest.userLastName,
+            registrationRequest.userPassword
         )
         keycloakService.createOrganization(mdsId)
         keycloakService.joinOrganization(userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
@@ -61,7 +63,7 @@ class RegistrationApiService {
     private fun createDbUserAndOrganization(userId: String, mdsId: String, registrationRequest: RegistrationRequestDto) {
         val user = userService.createUser(
             userId = userId,
-            registrationStatus = UserRegistrationStatus.INVITED,
+            registrationStatus = UserRegistrationStatus.PENDING,
             userData = buildUserData(registrationRequest),
             onboardingType = UserOnboardingType.SELF_REGISTRATION
         )
@@ -69,7 +71,7 @@ class RegistrationApiService {
             userId,
             mdsId,
             buildOrganizationData(registrationRequest),
-            OrganizationRegistrationStatus.INVITED
+            OrganizationRegistrationStatus.PENDING
         )
         user.organizationMdsId = mdsId
         user.update()
@@ -94,8 +96,9 @@ class RegistrationApiService {
             businessUnit = registrationRequest.organizationBusinessUnit
             address = registrationRequest.organizationAddress
             billingAddress = registrationRequest.organizationBillingAddress
-            taxId = registrationRequest.organizationTaxId
-            commerceRegisterNumber = registrationRequest.organizationCommerceRegisterNumber
+            description = registrationRequest.organizationDescription
+            legalIdType = registrationRequest.organizationLegalIdType.toDb()
+            legalIdNumber = registrationRequest.organizationLegalIdNumber
             commerceRegisterLocation = registrationRequest.organizationCommerceRegisterLocation
             mainContactName = registrationRequest.organizationMainContactName
             mainContactEmail = registrationRequest.organizationMainContactEmail

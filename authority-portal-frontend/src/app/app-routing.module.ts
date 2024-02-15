@@ -19,7 +19,7 @@ import {ParticipantRegisterOwnConnectorPageComponent} from './pages/participant-
 import {RegisterConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/register-connector-page/register-connector-page.component';
 import {SetupConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/setup-connector-page/setup-connector-page.component';
 import {ProvideConnectorPageComponent} from './pages/provide-connector-page/provide-connector-page/provide-connector-page.component';
-import {RegistrationProcessWizardComponent} from './pages/registration-process-wizard/registration-process-wizard.component';
+import {RegistrationProcessWizardComponent} from './pages/registration-process-wizard/registration-process-wizard/registration-process-wizard.component';
 
 export const REGISTRATION_PROCESS_ROUTES: Routes = [
   {

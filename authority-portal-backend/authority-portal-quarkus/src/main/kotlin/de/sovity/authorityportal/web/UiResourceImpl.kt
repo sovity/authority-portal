@@ -14,6 +14,7 @@ import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
+import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.UpdateUserDto
@@ -21,10 +22,11 @@ import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.api.model.UserRoleDto
-import de.sovity.authorityportal.api.model.organization.CreateOrganizationRequest
+import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUpdateDto
 import de.sovity.authorityportal.api.model.organization.OrganizationDetailsDto
 import de.sovity.authorityportal.api.model.organization.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDto
+import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.auth.AuthUtils
 import de.sovity.authorityportal.web.auth.LoggedInUser
@@ -124,13 +126,6 @@ class UiResourceImpl : UiResource {
     override fun userRegistrationStatus(): UserRegistrationStatusResult {
         authUtils.requiresAuthenticated()
         return userRegistrationApiService.userRegistrationStatus(loggedInUser.userId)
-    }
-
-    @Transactional
-    override fun createOrganization(organization: CreateOrganizationRequest): IdResponse {
-        authUtils.requiresAuthenticated()
-        authUtils.requiresAnyRegistrationStatus(UserRegistrationStatus.CREATED, UserRegistrationStatus.FIRST_USER)
-        return userRegistrationApiService.createOrganization(organization, loggedInUser.userId)
     }
 
     // Organization management (Internal)
@@ -381,6 +376,19 @@ class UiResourceImpl : UiResource {
         authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
         return centralComponentManagementApiService.deleteCentralComponent(centralComponentId, loggedInUser.userId)
+    }
+
+    @Transactional
+    override fun updateOnboardingUser(onboardingUserUpdateDto: OnboardingUserUpdateDto): IdResponse {
+        authUtils.requiresRegistrationStatus(UserRegistrationStatus.ONBOARDING)
+        return userUpdateApiService.updateOnboardingUserDetails(loggedInUser.userId, onboardingUserUpdateDto)
+    }
+
+    @Transactional
+    override fun updateOnboardingOrganization(onboardingOrganizationUpdateDto: OnboardingOrganizationUpdateDto): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
+        authUtils.requiresOrganizationRegistrationStatus(OrganizationRegistrationStatus.ONBOARDING)
+        return organizationUpdateApiService.updateOnboardingOrganizationDetails(loggedInUser.organizationMdsId!!, onboardingOrganizationUpdateDto)
     }
 
     @Transactional

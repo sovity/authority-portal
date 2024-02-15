@@ -29,9 +29,9 @@
         </div>
         <ng-container
           *ngIf="
-            certificateForm.controls['legalName'].touched &&
-            certificateForm.controls['legalName'].dirty &&
-            certificateForm.controls['legalName'].hasError('required')
+            certificateForm.controls.legalName.touched &&
+            certificateForm.controls.legalName.dirty &&
+            certificateForm.controls.legalName.hasError('required')
           ">
           <small class="text-red-600"> Legal name is a required field</small>
         </ng-container>
@@ -51,9 +51,9 @@
         </div>
         <ng-container
           *ngIf="
-            certificateForm.controls['country'].touched &&
-            certificateForm.controls['country'].dirty &&
-            certificateForm.controls['country'].hasError('required')
+            certificateForm.controls.country.touched &&
+            certificateForm.controls.country.dirty &&
+            certificateForm.controls.country.hasError('required')
           ">
           <small class="text-red-600"> Country name is a required field</small>
         </ng-container>
@@ -73,9 +73,9 @@
         </div>
         <ng-container
           *ngIf="
-            certificateForm.controls['state'].touched &&
-            certificateForm.controls['state'].dirty &&
-            certificateForm.controls['state'].hasError('required')
+            certificateForm.controls.state.touched &&
+            certificateForm.controls.state.dirty &&
+            certificateForm.controls.state.hasError('required')
           ">
           <small class="text-red-600"> State name is a required field</small>
         </ng-container>
@@ -95,9 +95,9 @@
         </div>
         <ng-container
           *ngIf="
-            certificateForm.controls['city'].touched &&
-            certificateForm.controls['city'].dirty &&
-            certificateForm.controls['city'].hasError('required')
+            certificateForm.controls.city.touched &&
+            certificateForm.controls.city.dirty &&
+            certificateForm.controls.city.hasError('required')
           ">
           <small class="text-red-600"> City name is a required field</small>
         </ng-container>
@@ -119,9 +119,9 @@
         </div>
         <ng-container
           *ngIf="
-            certificateForm.controls['organizationalUnit'].touched &&
-            certificateForm.controls['organizationalUnit'].dirty &&
-            certificateForm.controls['organizationalUnit'].hasError('required')
+            certificateForm.controls.organizationalUnit.touched &&
+            certificateForm.controls.organizationalUnit.dirty &&
+            certificateForm.controls.organizationalUnit.hasError('required')
           ">
           <small class="text-red-600">
             Organization Unit is a required field</small
@@ -143,9 +143,9 @@
         </div>
         <ng-container
           *ngIf="
-            certificateForm.controls['email'].touched &&
-            certificateForm.controls['email'].dirty &&
-            certificateForm.controls['email'].hasError('required')
+            certificateForm.controls.email.touched &&
+            certificateForm.controls.email.dirty &&
+            certificateForm.controls.email.hasError('required')
           ">
           <small class="text-red-600">
             Organization Email Address is a required field</small
@@ -154,9 +154,9 @@
 
         <ng-container
           *ngIf="
-            certificateForm.controls['email'].touched &&
-            certificateForm.controls['email'].dirty &&
-            certificateForm.controls['email'].hasError('email')
+            certificateForm.controls.email.touched &&
+            certificateForm.controls.email.dirty &&
+            certificateForm.controls.email.hasError('email')
           ">
           <small class="text-red-600">
             Organization Email Address is invalid</small
@@ -191,18 +191,18 @@
           </div>
           <ng-container
             *ngIf="
-              certificateForm.controls['password'].touched &&
-              certificateForm.controls['password'].dirty &&
-              certificateForm.controls['password'].hasError('required')
+              certificateForm.controls.password.touched &&
+              certificateForm.controls.password.dirty &&
+              certificateForm.controls.password.hasError('required')
             ">
             <small class="text-red-600"> Password is a required field</small>
           </ng-container>
 
           <ng-container
             *ngIf="
-              certificateForm.controls['password'].touched &&
-              certificateForm.controls['password'].dirty &&
-              certificateForm.controls['password'].hasError('minlength')
+              certificateForm.controls.password.touched &&
+              certificateForm.controls.password.dirty &&
+              certificateForm.controls.password.hasError('minlength')
             ">
             <small class="text-red-600">
               Password must contain at least 8 Characters</small
@@ -211,9 +211,9 @@
 
           <ng-container
             *ngIf="
-              certificateForm.controls['password'].touched &&
-              certificateForm.controls['password'].dirty &&
-              certificateForm.controls['password'].hasError('pattern')
+              certificateForm.controls.password.touched &&
+              certificateForm.controls.password.dirty &&
+              certificateForm.controls.password.hasError('pattern')
             ">
             <small class="text-red-600">
               Password must contain at least one uppercase letter, one lowercase
@@ -245,9 +245,9 @@
           </div>
           <ng-container
             *ngIf="
-              certificateForm.controls['confirmPassword'].touched &&
-              certificateForm.controls['confirmPassword'].dirty &&
-              certificateForm.controls['confirmPassword'].hasError('required')
+              certificateForm.controls.confirmPassword.touched &&
+              certificateForm.controls.confirmPassword.dirty &&
+              certificateForm.controls.confirmPassword.hasError('required')
             ">
             <small class="text-red-600"> Password is a required field</small>
           </ng-container>

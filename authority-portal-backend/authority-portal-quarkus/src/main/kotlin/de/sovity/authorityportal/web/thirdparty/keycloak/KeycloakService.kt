@@ -10,6 +10,7 @@ import jakarta.ws.rs.WebApplicationException
 import jakarta.ws.rs.core.Response
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.keycloak.admin.client.Keycloak
+import org.keycloak.representations.idm.CredentialRepresentation
 import org.keycloak.representations.idm.GroupRepresentation
 import org.keycloak.representations.idm.UserRepresentation
 
@@ -31,17 +32,27 @@ class KeycloakService {
     @ConfigProperty(name = "authority-portal.base-url")
     lateinit var baseUrl: String
 
-    fun createUser(email: String, firstName: String, lastName: String): String {
+    fun createUser(email: String, firstName: String, lastName: String, password: String? = null): String {
         val user = UserRepresentation().also {
             it.isEnabled = true
-            it.requiredActions = listOf(
-                RequiredAction.UPDATE_PASSWORD.stringRepresentation,
+            it.requiredActions = listOfNotNull(
+                RequiredAction.UPDATE_PASSWORD.stringRepresentation.takeIf { password == null },
                 RequiredAction.CONFIGURE_TOTP.stringRepresentation,
                 RequiredAction.VERIFY_EMAIL.stringRepresentation
             )
             it.email = email
             it.firstName = firstName
             it.lastName = lastName
+
+            if (password != null) {
+                it.credentials = listOf(
+                    CredentialRepresentation().also {credentials ->
+                        credentials.isTemporary = false
+                        credentials.type = CredentialRepresentation.PASSWORD
+                        credentials.value = password
+                    }
+                )
+            }
         }
 
         val response = keycloak.realm(keycloakRealm).users().create(user)

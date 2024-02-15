@@ -1,6 +1,7 @@
 package de.sovity.authorityportal.web.pages.organizationmanagement
 
 import de.sovity.authorityportal.api.model.organization.OrganizationDetailsDto
+import de.sovity.authorityportal.api.model.organization.OrganizationLegalIdTypeDto
 import de.sovity.authorityportal.api.model.organization.OrganizationOverviewEntryDto
 import de.sovity.authorityportal.api.model.organization.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDto
@@ -59,7 +60,9 @@ class OrganizationInfoApiService {
             businessUnit = organizationDetails.businessUnit
             mainAddress = organizationDetails.mainAddress
             billingAddress = organizationDetails.billingAddress
-            taxId = organizationDetails.taxId
+            legalIdType = organizationDetails.legalIdType
+            legalId = organizationDetails.legalId
+            commerceRegisterLocation = organizationDetails.commerceRegisterLocation
             url = organizationDetails.url
             description = organizationDetails.description
             registrationStatus = organizationDetails.registrationStatus
@@ -98,9 +101,11 @@ class OrganizationInfoApiService {
             businessUnit = organization.businessUnit
             mainAddress = organization.address
             billingAddress = organization.billingAddress
-            taxId = organization.taxId
+            legalIdType = organization.legalIdType?.toDto()
+            legalId = if (legalIdType == OrganizationLegalIdTypeDto.TAX_ID) organization.taxId else organization.commerceRegisterNumber
+            commerceRegisterLocation = organization.commerceRegisterLocation
             url = organization.url
-            description = "[Placeholder]"
+            description = organization.description
             registrationStatus = organization.registrationStatus.toDto()
             memberList = userDetailService.getOrganizationMembers(mdsId)
             adminUserId = organizationAdmin.userId

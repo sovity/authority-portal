@@ -12,6 +12,7 @@ import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto;
 import de.sovity.authorityportal.api.model.IdResponse;
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest;
 import de.sovity.authorityportal.api.model.InviteParticipantUserRequest;
+import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto;
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.RegistrationRequestDto;
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto;
@@ -20,7 +21,7 @@ import de.sovity.authorityportal.api.model.UserDetailDto;
 import de.sovity.authorityportal.api.model.UserInfo;
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
 import de.sovity.authorityportal.api.model.UserRoleDto;
-import de.sovity.authorityportal.api.model.organization.CreateOrganizationRequest;
+import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUpdateDto;
 import de.sovity.authorityportal.api.model.organization.OrganizationDetailsDto;
 import de.sovity.authorityportal.api.model.organization.OrganizationOverviewResult;
 import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDto;
@@ -66,17 +67,6 @@ public interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get a user's own registration status.")
     UserRegistrationStatusResult userRegistrationStatus();
-
-    @POST
-    @Path("/registration/organization")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Create an organization for a user.")
-    IdResponse createOrganization(
-        @Valid
-        @NotNull(message = "Organization cannot be null")
-        CreateOrganizationRequest organization
-    );
 
     // Organization management (Internal)
     @PUT
@@ -426,6 +416,28 @@ public interface UiResource {
         @Valid
         @NotNull(message = "Registration request cannot be null")
         RegistrationRequestDto registrationRequest
+    );
+
+    @POST
+    @Path("/registration/me/update")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(description = "Update user information during onboarding.")
+    IdResponse updateOnboardingUser(
+        @Valid
+        @NotNull(message = "Update user request cannot be null")
+        OnboardingUserUpdateDto onboardingUserUpdateDto
+    );
+
+    @POST
+    @Path("/registration/my-org/update")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(description = "Update organization information during onboarding.")
+    IdResponse updateOnboardingOrganization(
+        @Valid
+        @NotNull(message = "Update organization request cannot be null")
+        OnboardingOrganizationUpdateDto onboardingOrganizationUpdateDto
     );
 
     @PUT

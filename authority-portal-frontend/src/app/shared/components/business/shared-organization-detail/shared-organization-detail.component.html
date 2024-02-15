@@ -56,12 +56,32 @@
     </div>
     <div class="details-row">
       <dt
-        class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">tag</mat-icon>
+        Legal ID type
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ idType[organization.legalIdType] }}
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500">tag</mat-icon>
         ID number
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.taxId }}
+        {{ organization.legalId }}
+      </dd>
+    </div>
+    <div *ngIf="organization.commerceRegisterLocation" class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">tag</mat-icon>
+        Commercial Registration Location
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.commerceRegisterLocation }}
       </dd>
     </div>
 

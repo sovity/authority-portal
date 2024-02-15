@@ -42,8 +42,8 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   predefinedValues!: PredefinedCertificateValues;
   enableSubmitButton: boolean = false;
 
-  connectorDetailsFormGroup = this.form.formGroup.controls['connectorDetails'];
-  certificateFormGroup = this.form.formGroup.controls['certificate'];
+  connectorDetailsFormGroup = this.form.formGroup.controls.connectorDetails;
+  certificateFormGroup = this.form.formGroup.controls.certificate;
 
   @ViewChild('tokenUrlElement') tokenUrlElement!: ElementRef;
   @ViewChild('jwksUrlElement') jwksUrlElement!: ElementRef;
@@ -87,7 +87,7 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   }
 
   registerConnector(): void {
-    this.stepperFormGroup.controls['submitConnector'].setValue(true);
+    this.stepperFormGroup.controls.submitConnector.setValue(true);
     this.connectorDetailsFormGroup.disable();
     const mdsId = this.form.connectorDetailsValue.mdsId;
     this.store.dispatch(
@@ -110,9 +110,9 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
    */
   onConnectorDetailCollected(goToNext: boolean) {
     this.predefinedValues = {
-      country: this.connectorDetailsFormGroup.controls['location'].value,
+      country: this.connectorDetailsFormGroup.controls.location.value,
       organizationalName: this.userInfo.organizationName,
-      commonName: this.connectorDetailsFormGroup.controls['endpointUrl'].value,
+      commonName: this.connectorDetailsFormGroup.controls.endpointUrl.value,
     };
     if (goToNext) this.stepper.next();
   }
@@ -120,17 +120,17 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   generatedCertificateHandler(certificate: string) {
     if (!certificate || certificate == '') return;
     this.enableSubmitButton = true;
-    this.certificateFormGroup.controls['certificate'].setValue(certificate);
-    this.certificateFormGroup.controls['certificate'].disable();
+    this.certificateFormGroup.controls.certificate.setValue(certificate);
+    this.certificateFormGroup.controls.certificate.disable();
   }
 
   clearCertificateForm() {
-    this.certificateFormGroup.controls['certificate'].reset();
+    this.certificateFormGroup.controls.certificate.reset();
     if (this.hasCertificate) {
       this.enableSubmitButton = true;
-      this.certificateFormGroup.controls['certificate'].enable();
+      this.certificateFormGroup.controls.certificate.enable();
     } else {
-      this.certificateFormGroup.controls['certificate'].disable();
+      this.certificateFormGroup.controls.certificate.disable();
       this.enableSubmitButton = false;
     }
   }

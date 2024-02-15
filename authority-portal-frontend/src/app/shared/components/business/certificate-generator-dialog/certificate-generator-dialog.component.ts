@@ -1,5 +1,11 @@
 import {Component, Inject} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -10,6 +16,11 @@ import {
   CertificateGenerateService,
 } from 'src/app/shared/services/certificate-generate.service';
 import {
+  passwordEntropyPattern,
+  passwordEntropyValidator,
+} from '../../../../core/utils/validators/password-entropy-validator';
+import {passwordMatchValidator} from '../../../../core/utils/validators/password-match-validator';
+import {
   CertificateGeneratorConfig,
   CertificateResult,
 } from './certificate-generator-dialog.model';
@@ -19,7 +30,33 @@ import {
   templateUrl: './certificate-generator-dialog.component.html',
 })
 export class CertificateGeneratorDialogComponent {
-  certificateForm!: FormGroup;
+  certificateForm = this.formBuilder.nonNullable.group(
+    {
+      commonName: [{value: this.data.commonName, disabled: true}],
+      legalName: [
+        {value: this.data.legalName, disabled: this.data.legalName !== ''},
+        [Validators.required],
+      ],
+      organizationalUnit: ['', [Validators.required]],
+      country: [
+        {value: this.data.country, disabled: true},
+        [Validators.required],
+      ],
+      state: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      email: [this.data.email ?? '', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          passwordEntropyValidator,
+        ],
+      ],
+      confirmPassword: ['', [Validators.required]],
+    },
+    {validators: [passwordMatchValidator('password', 'confirmPassword')]},
+  );
   showPassword = false;
 
   constructor(
@@ -29,46 +66,6 @@ export class CertificateGeneratorDialogComponent {
     private certificateGenerateService: CertificateGenerateService,
     private dialogRef: MatDialogRef<CertificateGeneratorDialogComponent>,
   ) {}
-
-  ngOnInit(): void {
-    this.createCertificateForm();
-  }
-
-  createCertificateForm() {
-    this.certificateForm = this.formBuilder.group(
-      {
-        commonName: [{value: this.data.commonName, disabled: true}],
-        legalName: [
-          {value: this.data.legalName, disabled: this.data.legalName !== ''},
-          [Validators.required],
-        ],
-        organizationalUnit: ['', [Validators.required]],
-        country: [
-          {value: this.data.country, disabled: true},
-          [Validators.required],
-        ],
-        state: ['', [Validators.required]],
-        city: ['', [Validators.required]],
-        email: [this.data.email ?? '', [Validators.required, Validators.email]],
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/),
-          ],
-        ],
-        confirmPassword: ['', [Validators.required]],
-      },
-      {validator: this.passwordMatchValidator},
-    );
-  }
-
-  passwordMatchValidator(formGroup: FormGroup) {
-    const password = formGroup.controls['password']?.value;
-    const confirmPassword = formGroup.controls['confirmPassword']?.value;
-    return password === confirmPassword ? null : {mismatch: true};
-  }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -81,12 +78,12 @@ export class CertificateGeneratorDialogComponent {
     const certificateAttributes: CertificateAttributes = {
       commonName: this.data.commonName,
       countryName: this.data.country,
-      stateName: this.certificateForm.controls['state'].value,
-      localityName: this.certificateForm.controls['city'].value,
-      organizationName: this.certificateForm.controls['legalName'].value,
+      stateName: this.certificateForm.controls.state.value,
+      localityName: this.certificateForm.controls.city.value,
+      organizationName: this.certificateForm.controls.legalName.value,
       organizationalUnitName:
-        this.certificateForm.controls['organizationalUnit'].value,
-      emailAddress: this.certificateForm.controls['email'].value,
+        this.certificateForm.controls.organizationalUnit.value,
+      emailAddress: this.certificateForm.controls.email.value,
     };
 
     const result = this.generateCertificate(certificateAttributes);
@@ -118,7 +115,7 @@ export class CertificateGeneratorDialogComponent {
       this.certificateGenerateService.convertToP12Format(
         keyPair.privateKey,
         selfSignedCertificate,
-        this.certificateForm.controls['password'].value,
+        this.certificateForm.controls.password.value!,
       );
 
     const certificateBlob =

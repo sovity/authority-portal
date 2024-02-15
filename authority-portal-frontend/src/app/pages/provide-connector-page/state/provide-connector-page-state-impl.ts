@@ -94,7 +94,9 @@ export class ProvideConnectorPageStateImpl {
   ): Observable<never> {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
-        this.apiService.getOrganizationsForApplicationRoles(deploymentEnvironmentId),
+        this.apiService.getOrganizationsForApplicationRoles(
+          deploymentEnvironmentId,
+        ),
       ),
       map((result) => result.organizations),
       Fetched.wrap({failureMessage: 'Failed loading organizations'}),

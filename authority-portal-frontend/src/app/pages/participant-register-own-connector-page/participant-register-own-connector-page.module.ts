@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {NgxsFormPluginModule} from '@ngxs/form-plugin';
 import {NgxsModule} from '@ngxs/store';
 import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.module';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
@@ -31,7 +30,6 @@ import {SetupConnectorPageComponent} from './sub-pages/setup-connector-page/setu
     FormsModule,
     LoadingElementModule,
     MaterialModule,
-    NgxsFormPluginModule,
 
     NgxsModule.forFeature([ParticipantRegisterOwnConnectorPageStateImpl]),
 

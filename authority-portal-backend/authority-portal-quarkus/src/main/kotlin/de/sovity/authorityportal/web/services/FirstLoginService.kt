@@ -14,13 +14,13 @@ class FirstLoginService {
 
     fun approveIfInvited(user: UserRecord) {
         if (user.registrationStatus == UserRegistrationStatus.INVITED) {
-            user.registrationStatus = UserRegistrationStatus.ACTIVE
+            user.registrationStatus = UserRegistrationStatus.ONBOARDING
             user.update()
 
             // Check if user is Participant Admin of an invited organization
             val organization = organizationService.getOrganizationOrThrow(user.organizationMdsId)
             if (organization.registrationStatus == OrganizationRegistrationStatus.INVITED && organization.createdBy == user.id) {
-                organization.registrationStatus = OrganizationRegistrationStatus.ACTIVE
+                organization.registrationStatus = OrganizationRegistrationStatus.ONBOARDING
                 organization.update()
             }
         }

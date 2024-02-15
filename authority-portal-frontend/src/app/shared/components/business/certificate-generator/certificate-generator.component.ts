@@ -13,6 +13,8 @@ import {
   CertificateGenerateService,
   CertificateResult,
 } from 'src/app/shared/services/certificate-generate.service';
+import {passwordEntropyValidator} from '../../../../core/utils/validators/password-entropy-validator';
+import {passwordMatchValidator} from '../../../../core/utils/validators/password-match-validator';
 import {PreDefinedCertificateDetails} from './certificate-generator.model';
 
 @Component({
@@ -23,7 +25,37 @@ export class CertificateGeneratorComponent implements OnInit, OnDestroy {
   @Input() preDefinedDetails!: PreDefinedCertificateDetails;
   @Output() certificateGenerated = new EventEmitter<string>();
 
-  certificateDetailsForm!: FormGroup;
+  certificateDetailsForm = this.formBuilder.nonNullable.group(
+    {
+      organizationalName: [
+        {value: this.preDefinedDetails.organizationalName, disabled: true},
+        [Validators.required],
+      ],
+      organizationalUnit: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      country: [
+        {value: this.preDefinedDetails.country, disabled: true},
+        [Validators.required],
+      ],
+      state: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      commonName: [
+        {value: this.preDefinedDetails.commonName, disabled: true},
+        [Validators.required],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          passwordEntropyValidator,
+        ],
+      ],
+      confirmPassword: ['', [Validators.required]],
+    },
+    {validators: passwordMatchValidator('password', 'confirmPassword')},
+  );
+
   showPassword: boolean = false;
   isGenerating: boolean = false;
   isDisabled: boolean = false;
@@ -37,43 +69,8 @@ export class CertificateGeneratorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.formMaker();
     this.formListener();
   }
-
-  formMaker() {
-    this.certificateDetailsForm = this.formBuilder.group(
-      {
-        organizationalName: [
-          {value: this.preDefinedDetails.organizationalName, disabled: true},
-          [Validators.required],
-        ],
-        organizationalUnit: ['', [Validators.required]],
-        email: ['', [Validators.required, Validators.email]],
-        country: [
-          {value: this.preDefinedDetails.country, disabled: true},
-          [Validators.required],
-        ],
-        state: ['', [Validators.required]],
-        city: ['', [Validators.required]],
-        commonName: [
-          {value: this.preDefinedDetails.commonName, disabled: true},
-          [Validators.required],
-        ],
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/),
-          ],
-        ],
-        confirmPassword: ['', [Validators.required]],
-      },
-      {validator: this.passwordMatchValidator},
-    );
-  }
-
   formListener() {
     this.certificateDetailsForm.valueChanges
       .pipe(takeUntil(this.ngOnDestroy$))
@@ -83,12 +80,6 @@ export class CertificateGeneratorComponent implements OnInit, OnDestroy {
       });
   }
 
-  passwordMatchValidator(formGroup: FormGroup) {
-    const password = formGroup.controls['password']?.value;
-    const confirmPassword = formGroup.controls['confirmPassword']?.value;
-    return password === confirmPassword ? null : {mismatch: true};
-  }
-
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
@@ -96,15 +87,15 @@ export class CertificateGeneratorComponent implements OnInit, OnDestroy {
   requestForCertificate() {
     this.isGenerating = true;
     const certificateAttributes: CertificateAttributes = {
-      commonName: this.certificateDetailsForm.controls['commonName'].value,
-      countryName: this.certificateDetailsForm.controls['country'].value,
-      stateName: this.certificateDetailsForm.controls['state'].value,
-      localityName: this.certificateDetailsForm.controls['city'].value,
+      commonName: this.certificateDetailsForm.controls.commonName.value,
+      countryName: this.certificateDetailsForm.controls.country.value,
+      stateName: this.certificateDetailsForm.controls.state.value,
+      localityName: this.certificateDetailsForm.controls.city.value,
       organizationName:
-        this.certificateDetailsForm.controls['organizationalName'].value,
+        this.certificateDetailsForm.controls.organizationalName.value,
       organizationalUnitName:
-        this.certificateDetailsForm.controls['organizationalUnit'].value,
-      emailAddress: this.certificateDetailsForm.controls['email'].value,
+        this.certificateDetailsForm.controls.organizationalUnit.value,
+      emailAddress: this.certificateDetailsForm.controls.email.value,
     };
 
     const result = this.generateCertificate(certificateAttributes);
@@ -140,7 +131,7 @@ export class CertificateGeneratorComponent implements OnInit, OnDestroy {
       this.certificateGenerateService.convertToP12Format(
         keyPair.privateKey,
         selfSignedCertificate,
-        this.certificateDetailsForm.controls['password'].value,
+        this.certificateDetailsForm.controls.password.value,
       );
 
     const certificateBlob =

@@ -1,7 +1,7 @@
 package de.sovity.authorityportal.web.services
 
-import de.sovity.authorityportal.api.model.organization.CreateOrganizationRequest
 import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.db.jooq.enums.OrganizationLegalIdType
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.web.model.CreateOrganizationData
@@ -46,21 +46,16 @@ class OrganizationService {
             .fetchMap(o.MDS_ID, o.NAME)
     }
 
-    fun createOrganization(
+    fun createInvitedOrganization(
         userId: String,
         mdsId: String,
-        organization: CreateOrganizationRequest,
-        registrationStatus: OrganizationRegistrationStatus
+        orgName: String
     ) {
         dsl.newRecord(Tables.ORGANIZATION).also {
             it.mdsId = mdsId
-            it.name = organization.name
-            it.address = organization.address
-            it.taxId = organization.taxId
-            it.url = organization.url
-            it.mainContactEmail = organization.securityEmail
+            it.name = orgName
             it.createdBy = userId
-            it.registrationStatus = registrationStatus
+            it.registrationStatus = OrganizationRegistrationStatus.INVITED
             it.createdAt = OffsetDateTime.now()
 
             it.insert()
@@ -80,8 +75,9 @@ class OrganizationService {
             it.businessUnit = organizationData.businessUnit
             it.address = organizationData.address
             it.billingAddress = organizationData.billingAddress
-            it.taxId = organizationData.taxId
-            it.commerceRegisterNumber = organizationData.commerceRegisterNumber
+            it.legalIdType = organizationData.legalIdType
+            it.taxId = if (it.legalIdType == OrganizationLegalIdType.TAX_ID) organizationData.legalIdNumber else null
+            it.commerceRegisterNumber = if (it.legalIdType == OrganizationLegalIdType.COMMERCE_REGISTER_INFO) organizationData.legalIdNumber else null
             it.commerceRegisterLocation = organizationData.commerceRegisterLocation
             it.mainContactName = organizationData.mainContactName
             it.mainContactEmail = organizationData.mainContactEmail

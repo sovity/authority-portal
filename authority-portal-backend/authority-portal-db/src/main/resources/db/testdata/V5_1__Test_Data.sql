@@ -3,8 +3,8 @@ update "organization"
 set
     business_unit = 'Example Business Unit',
     billing_address = '321 Main St, Anytown, USA',
+    legal_id_type = 'TAX_ID',
     tax_id = 'US192837465',
-    commerce_register_number = 'CRN132',
     commerce_register_location = 'California',
     main_contact_name = 'Main Contact',
     main_contact_email = 'main.contact@example.com',
@@ -19,8 +19,8 @@ update "organization"
 set
     business_unit = 'Technology Solutions',
     billing_address = '123 Tech Lane, Silicon Valley, USA',
+    legal_id_type = 'TAX_ID',
     tax_id = 'US123456789',
-    commerce_register_number = 'CRN123',
     commerce_register_location = 'California',
     main_contact_name = 'John Doe',
     main_contact_email = 'john.doe@example.com',
@@ -35,8 +35,8 @@ update "organization"
 set
     business_unit = 'Financial Services',
     billing_address = '456 Finance Street, New York, USA',
+    legal_id_type = 'TAX_ID',
     tax_id = 'US987654321',
-    commerce_register_number = 'CRN456',
     commerce_register_location = 'New York',
     main_contact_name = 'Alice Johnson',
     main_contact_email = 'alice.johnson@example.com',
@@ -51,8 +51,8 @@ update "organization"
 set
     business_unit = 'Healthcare Solutions',
     billing_address = '789 Health Plaza, Boston, USA',
+    legal_id_type = 'TAX_ID',
     tax_id = 'US543210987',
-    commerce_register_number = 'CRN789',
     commerce_register_location = 'Massachusetts',
     main_contact_name = 'Elena Rodriguez',
     main_contact_email = 'elena.rodriguez@example.com',
@@ -67,8 +67,8 @@ update "organization"
 set
     business_unit = 'Education Solutions',
     billing_address = '101 Campus Drive, Anytown, USA',
+    legal_id_type = 'TAX_ID',
     tax_id = 'US112233445',
-    commerce_register_number = 'CRN101',
     commerce_register_location = 'California',
     main_contact_name = 'David Johnson',
     main_contact_email = 'david.johnson@example.com',
@@ -83,8 +83,8 @@ update "organization"
 set
     business_unit = 'Retail Solutions',
     billing_address = '200 Shopping Street, Cityville, USA',
+    legal_id_type = 'TAX_ID',
     tax_id = 'US998877665',
-    commerce_register_number = 'CRN200',
     commerce_register_location = 'New York',
     main_contact_name = 'Sarah Thompson',
     main_contact_email = 'sarah.thompson@example.com',
@@ -99,8 +99,8 @@ update "organization"
 set
     business_unit = 'Automotive Solutions',
     billing_address = '500 Innovation Drive, Tech City, USA',
+    legal_id_type = 'TAX_ID',
     tax_id = 'US777888999',
-    commerce_register_number = 'CRN500',
     commerce_register_location = 'California',
     main_contact_name = 'Alexandra Garcia',
     main_contact_email = 'alexandra.garcia@example.com',
@@ -115,7 +115,7 @@ update "organization"
 set
     business_unit = 'Energy Solutions',
     billing_address = '700 Renewable Street, Green City, USA',
-    tax_id = 'US456789012',
+    legal_id_type = 'COMMERCE_REGISTER_INFO',
     commerce_register_number = 'CRN700',
     commerce_register_location = 'Texas',
     main_contact_name = 'Matthew Williams',
@@ -131,7 +131,7 @@ update "organization"
 set
     business_unit = 'Hospitality Solutions',
     billing_address = '800 Hospitality Avenue, Resort City, USA',
-    tax_id = 'US345678901',
+    legal_id_type = 'COMMERCE_REGISTER_INFO',
     commerce_register_number = 'CRN800',
     commerce_register_location = 'Florida',
     main_contact_name = 'Daniel Miller',

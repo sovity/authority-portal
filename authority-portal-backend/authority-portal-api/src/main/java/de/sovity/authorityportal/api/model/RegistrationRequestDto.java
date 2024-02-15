@@ -1,16 +1,14 @@
 package de.sovity.authorityportal.api.model;
 
+import de.sovity.authorityportal.api.model.organization.OrganizationLegalIdTypeDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Information for registering a new user and organization.")
@@ -36,6 +34,10 @@ public class RegistrationRequestDto {
     @Schema(description = "User's Phone number", requiredMode = Schema.RequiredMode.REQUIRED)
     private String userPhone;
 
+    @NotBlank(message = "User's Password cannot be blank")
+    @Schema(description = "User's Password", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String userPassword;
+
     @NotBlank(message = "Organization's Legal name cannot be blank")
     @Schema(description = "Organization's Legal name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationName;
@@ -56,16 +58,18 @@ public class RegistrationRequestDto {
     @Schema(description = "Organization's Billing Address", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationBillingAddress;
 
-    @NotBlank(message = "Organization's Tax ID cannot be blank")
-    @Schema(description = "Organization's Tax ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String organizationTaxId;
+    @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String organizationDescription;
 
-    @NotBlank(message = "Organization's Commerce Register Number cannot be blank")
-    @Schema(description = "Organization's Commerce Register Number", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String organizationCommerceRegisterNumber;
+    @NotNull(message = "Organization's ID type cannot be null")
+    @Schema(description = "Organization's legal ID type", requiredMode = Schema.RequiredMode.REQUIRED)
+    private OrganizationLegalIdTypeDto organizationLegalIdType;
 
-    @NotBlank(message = "Organization's Commerce Register Location cannot be blank")
-    @Schema(description = "Organization's Commerce Register Location", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotBlank(message = "Organization's legal ID number cannot be blank")
+    @Schema(description = "Organization's legal ID number - either Tax ID or Commerce register number", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String organizationLegalIdNumber;
+
+    @Schema(description = "Organization's Commerce Register Location", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String organizationCommerceRegisterLocation;
 
     @NotBlank(message = "Organization's Main Contact Name cannot be blank")

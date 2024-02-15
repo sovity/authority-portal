@@ -3,14 +3,10 @@ package de.sovity.authorityportal.api.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Information for inviting a new organization.")
@@ -31,19 +27,9 @@ public class InviteOrganizationRequest {
     @Schema(description = "Organization: Legal name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String orgName;
 
-    @NotBlank(message = "Organization address cannot be blank")
-    @Schema(description = "Organization: Address", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String orgAddress;
+    @Schema(description = "User job title", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String userJobTitle;
 
-    @NotBlank(message = "Organization DUNS number cannot be blank")
-    @Schema(description = "Organization: DUNS number", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String orgDuns;
-
-    @NotBlank(message = "Organization URL cannot be blank")
-    @Schema(description = "Organization: URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String orgUrl;
-
-    @NotBlank(message = "Organization security email cannot be blank")
-    @Schema(description = "Organization: Email address for security related issues", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String orgSecurityEmail;
+    @Schema(description = "User phone number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String userPhoneNumber;
 }
