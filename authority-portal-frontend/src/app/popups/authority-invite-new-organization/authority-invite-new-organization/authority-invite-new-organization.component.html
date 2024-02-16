@@ -1,0 +1,108 @@
+<div class="p-2">
+  <!-- close button -->
+  <div class="flex w-full justify-end">
+    <button mat-icon-button mat-dialog-close aria-label="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <!-- close button -->
+
+  <!-- Title Section -->
+  <div class="flex justify-start mx-4 lg:mx-8">
+    <div>
+      <h3 class="text-2xl font-semibold leading-6 text-gray-900">
+        Invite a Participant
+      </h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Invite participants to the MDS portal
+      </p>
+    </div>
+  </div>
+  <!-- Title Section -->
+
+  <form [formGroup]="group" (ngSubmit)="submit()">
+    <!-- Content Section -->
+    <mat-dialog-content class="mx-4 lg:mx-8 mat-typography">
+      <!-- Grid container with responsive classes -->
+      <div class="py-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- First Name -->
+        <app-text-input
+          class="flex-1"
+          label="First Name"
+          ctrlId="formRegFirstName"
+          placeholder="Participant’s first name"
+          [ctrl]="group.controls.userFirstName"></app-text-input>
+        <!-- First Name -->
+
+        <!-- Last Name -->
+        <app-text-input
+          class="flex-1"
+          label="Last Name"
+          ctrlId="formRegLastName"
+          placeholder="Participant’s last name"
+          [ctrl]="group.controls.userLastName"></app-text-input>
+        <!-- Last Name -->
+
+        <!-- Organization Name -->
+        <app-text-input
+          class="flex-1"
+          label="Organization Name"
+          ctrlId="formRegOrgName"
+          placeholder="Participant’s organization legal name"
+          [ctrl]="group.controls.orgName"></app-text-input>
+        <!-- Organization Name -->
+
+        <!-- Email -->
+        <app-text-input
+          class="flex-1"
+          label="Email"
+          ctrlId="formRegUserEmail"
+          placeholder="Participant’s email"
+          [ctrl]="group.controls.userEmail"></app-text-input>
+        <!-- Email -->
+
+        <!-- Job Title -->
+
+        <app-text-input
+          class="flex-1"
+          label="Job Title"
+          ctrlId="formRegUserJobTitle"
+          placeholder="Participant’s Job Title"
+          [ctrl]="group.controls.userJobTitle"></app-text-input>
+        <!-- Job Title -->
+
+        <!-- Phone Number -->
+        <app-text-input
+          class="flex-1"
+          label="Phone Number"
+          ctrlId="formRegUserPhoneNumber"
+          placeholder="Participant’s Phone Number"
+          [ctrl]="group.controls.userPhoneNumber"></app-text-input>
+
+        <!-- Phone Number -->
+      </div>
+    </mat-dialog-content>
+    <!-- Content Section -->
+
+    <!-- Action Section -->
+    <mat-dialog-actions align="end">
+      <div class="flex gap-4">
+        <button class="btn-accent-outline" type="button" mat-dialog-close>
+          Back
+        </button>
+
+        <button
+          class="btn-accent"
+          type="submit"
+          [ngClass]="{
+            'opacity-50 cursor-not-allowed': group.invalid
+          }"
+          [disabled]="!group.valid || state.state === 'submitting'"
+          (click)="submit()">
+          Send Invitation
+        </button>
+      </div>
+    </mat-dialog-actions>
+    <!-- Action Section -->
+  </form>
+</div>

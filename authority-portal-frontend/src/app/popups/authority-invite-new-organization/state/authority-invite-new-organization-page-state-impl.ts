@@ -47,10 +47,9 @@ export class AuthorityInviteNewOrganizationPageStateImpl {
           `The invitation for ${action.request.orgName} was sent.`,
         );
         ctx.patchState({state: 'success'});
-        this.router.navigate(['/authority/organizations']);
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      this.errorService.toastFailureRxjs('Failed inviting organization', () => {
+      this.errorService.toastFailureRxjs('Failed Inviting Organization', () => {
         ctx.patchState({state: 'error'});
         action.enableForm();
       }),

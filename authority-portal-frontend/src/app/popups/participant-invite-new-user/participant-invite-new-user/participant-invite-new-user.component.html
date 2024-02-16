@@ -1,0 +1,100 @@
+<div class="p-2">
+  <!-- close button -->
+  <div class="flex w-full justify-end">
+    <button mat-icon-button mat-dialog-close aria-label="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <!-- close button -->
+
+  <!-- Title Section -->
+  <div class="flex justify-start mx-4 lg:mx-8">
+    <div>
+      <h3 class="text-2xl font-semibold leading-6 text-gray-900">
+        Invite a User
+      </h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Invite participant user to the MDS portal
+      </p>
+    </div>
+  </div>
+  <!-- Title Section -->
+
+  <form [formGroup]="group" (ngSubmit)="submit()">
+    <!-- Content Section -->
+    <mat-dialog-content class="mx-4 lg:mx-8 mat-typography">
+      <!-- Grid container with responsive classes -->
+      <div class="py-8 grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-2">
+        <!-- First Name -->
+        <app-text-input
+          class="flex-1"
+          label="First Name"
+          ctrlId="formRegFirstName"
+          placeholder="Participant’s first name"
+          [ctrl]="group.controls.firstName"></app-text-input>
+        <!-- First Name -->
+
+        <!-- Last Name -->
+        <app-text-input
+          class="flex-1"
+          label="Last Name"
+          ctrlId="formRegLastName"
+          placeholder="Participant’s last name"
+          [ctrl]="group.controls.lastName"></app-text-input>
+        <!-- Last Name -->
+
+        <!-- Email -->
+        <app-text-input
+          class="flex-1"
+          label="Email"
+          ctrlId="formRegEmail"
+          placeholder="Participant’s email"
+          [ctrl]="group.controls.email"></app-text-input>
+        <!-- Email -->
+
+        <!-- User Roles -->
+        <div class="mt-3">
+          <label class="w-full text-sm mb-2">Role</label>
+          <mat-form-field
+            class="w-full"
+            appearance="outline"
+            formControlName="role">
+            <mat-select>
+              <mat-option *ngFor="let role of assignableRoles" [value]="role"
+                >{{ mapToReadable(role) }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              class="text-sm"
+              appFormControlError
+              fieldName="User's Role"
+              [control]="group.get('role')"></mat-error>
+          </mat-form-field>
+        </div>
+        <!-- User Roles -->
+      </div>
+    </mat-dialog-content>
+    <!-- Content Section -->
+
+    <!-- Action Section -->
+    <mat-dialog-actions align="end">
+      <div class="flex gap-4">
+        <button class="btn-accent-outline" type="button" mat-dialog-close>
+          Back
+        </button>
+
+        <button
+          class="btn-accent"
+          type="submit"
+          [ngClass]="{
+            'opacity-50 cursor-not-allowed': group.invalid
+          }"
+          [disabled]="!group.valid || state.state === 'submitting'"
+          (click)="submit()">
+          Send Invitation
+        </button>
+      </div>
+    </mat-dialog-actions>
+    <!-- Action Section -->
+  </form>
+</div>

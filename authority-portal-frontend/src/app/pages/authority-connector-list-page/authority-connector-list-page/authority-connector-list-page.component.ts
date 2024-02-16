@@ -101,8 +101,6 @@ export class AuthorityConnectorListPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  headerActionHandler(action: string) {}
-
   startRefreshingOnEnvChange() {
     this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
       ngOnDestroy$: this.ngOnDestroy$,

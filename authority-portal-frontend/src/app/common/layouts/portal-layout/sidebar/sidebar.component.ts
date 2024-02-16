@@ -21,11 +21,6 @@ export class SidebarComponent {
             rLink: '/dashboard',
           },
           {
-            title: 'Profile',
-            icon: 'profile',
-            rLink: '/my-organization/profile',
-          },
-          {
             title: 'Connectors',
             icon: 'connector',
             rLink: '/my-organization/connectors',

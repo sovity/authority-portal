@@ -10,6 +10,7 @@ import {
 import {GlobalState} from 'src/app/core/global-state/global-state';
 import {GlobalStateImpl} from 'src/app/core/global-state/global-state-impl';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {ParticipantInviteNewUserComponent} from 'src/app/popups/participant-invite-new-user/participant-invite-new-user/participant-invite-new-user.component';
 import {ConfirmationDialogComponent} from 'src/app/shared/components/common/confirmation-dialog/confirmation-dialog.component';
 import {ConfirmationDialog} from 'src/app/shared/components/common/confirmation-dialog/confirmation-dialog.model';
 import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
@@ -90,7 +91,13 @@ export class OrganizationUsersComponent implements OnInit {
       title: 'Organization users',
       subtitle:
         'Manage all the users in your organization and their roles and rights',
-      headerActions: [],
+      headerActions: [
+        {
+          label: 'Invite user',
+          action: () => this.showInviteUserDialog(),
+          permissions: [UserRoleDto.ParticipantAdmin],
+        },
+      ],
     };
   }
 
@@ -105,7 +112,7 @@ export class OrganizationUsersComponent implements OnInit {
             headerActions = [
               {
                 label: 'Deactivate user',
-                action: 'DEACTIVATE',
+                action: () => this.deactivateUser(),
                 permissions: [UserRoleDto.ParticipantAdmin],
               },
             ];
@@ -114,7 +121,7 @@ export class OrganizationUsersComponent implements OnInit {
             headerActions = [
               {
                 label: 'Reactivate user',
-                action: 'REACTIVATE',
+                action: () => this.reactivateUser(),
                 permissions: [UserRoleDto.ParticipantAdmin],
               },
             ];
@@ -145,54 +152,48 @@ export class OrganizationUsersComponent implements OnInit {
     this.headerConfig = this.setUserHeaderConfig(user);
   }
 
-  headerActionHandler(action: string) {
-    let data: ConfirmationDialog;
-    switch (action) {
-      case 'DEACTIVATE': {
-        data = {
-          title: `Are you sure you want to deactivate ${this.openedUser.userName} ?`,
-          messageBody:
-            'Please note that deactivating a user will prohibit the user from logging into the portal. You have the option to reactivate a user at any time.',
-          actionButtons: [
-            {
-              action: 'DEACTIVATE',
-              label: 'Deactivate',
-              style: 'btn-accent-danger',
-            },
-          ],
-        };
-        this.confirmationDialog(data).subscribe((result: string) => {
-          if (result === 'DEACTIVATE') {
-            this.store.dispatch(new DeactivateUser(this.openedUser.userId));
-            this.store.dispatch(new ClearMyOrganizationUserId());
-            this.refresh();
-          }
-        });
-        break;
+  private deactivateUser() {
+    const data: ConfirmationDialog = {
+      title: `Are you sure you want to deactivate ${this.openedUser.userName} ?`,
+      messageBody:
+        'Please note that deactivating a user will prohibit the user from logging into the portal. You have the option to reactivate a user at any time.',
+      actionButtons: [
+        {
+          action: 'DEACTIVATE',
+          label: 'Deactivate',
+          style: 'btn-accent-danger',
+        },
+      ],
+    };
+    this.confirmationDialog(data).subscribe((result: string) => {
+      if (result === 'DEACTIVATE') {
+        this.store.dispatch(new DeactivateUser(this.openedUser.userId));
+        this.store.dispatch(new ClearMyOrganizationUserId());
+        this.refresh();
       }
-      case 'REACTIVATE': {
-        data = {
-          title: `Are you sure you want to reactivate ${this.openedUser.userName}?`,
-          messageBody:
-            'Reactivating a user will send them an email invite with a link to login to the portal. This user will be reactivated as a curator. ',
-          actionButtons: [
-            {
-              action: 'REACTIVATE',
-              label: 'Reactivate',
-              style: 'btn-accent-success',
-            },
-          ],
-        };
-        this.confirmationDialog(data).subscribe((result: string) => {
-          if (result === 'REACTIVATE') {
-            this.store.dispatch(new ReactivateUser(this.openedUser.userId));
-            this.store.dispatch(new ClearMyOrganizationUserId());
-            this.refresh();
-          }
-        });
-        break;
+    });
+  }
+
+  private reactivateUser() {
+    const data: ConfirmationDialog = {
+      title: `Are you sure you want to reactivate ${this.openedUser.userName}?`,
+      messageBody:
+        'Reactivating a user will send them an email invite with a link to login to the portal. This user will be reactivated as a curator. ',
+      actionButtons: [
+        {
+          action: 'REACTIVATE',
+          label: 'Reactivate',
+          style: 'btn-accent-success',
+        },
+      ],
+    };
+    this.confirmationDialog(data).subscribe((result: string) => {
+      if (result === 'REACTIVATE') {
+        this.store.dispatch(new ReactivateUser(this.openedUser.userId));
+        this.store.dispatch(new ClearMyOrganizationUserId());
+        this.refresh();
       }
-    }
+    });
   }
 
   confirmationDialog(data: ConfirmationDialog): Observable<string> {
@@ -201,6 +202,12 @@ export class OrganizationUsersComponent implements OnInit {
       data: data,
     });
     return dialogRef.afterClosed();
+  }
+
+  private showInviteUserDialog() {
+    this.dialog.open(ParticipantInviteNewUserComponent, {
+      width: window.innerWidth > 640 ? '60%' : '100%',
+    });
   }
 
   ngOnDestroy(): void {

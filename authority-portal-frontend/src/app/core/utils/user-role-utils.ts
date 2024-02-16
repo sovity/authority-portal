@@ -58,6 +58,8 @@ export function getAvailableApplicationRoles(
     return ['SERVICE_PARTNER_ADMIN'];
   } else if (ownerUserRoles.includes('OPERATOR_ADMIN')) {
     return ['OPERATOR_ADMIN'];
+  } else if (ownerUserRoles.includes('PARTICIPANT_ADMIN')) {
+    return ['PARTICIPANT_ADMIN', 'PARTICIPANT_USER'];
   } else {
     return [];
   }

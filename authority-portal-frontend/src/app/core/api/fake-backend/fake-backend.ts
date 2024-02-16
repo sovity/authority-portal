@@ -8,6 +8,7 @@ import {
   DeploymentEnvironmentDtoToJSON,
   FetchAPI,
   IdResponseToJSON,
+  InviteOrganizationRequestFromJSON,
   InviteParticipantUserRequestFromJSON,
   OrganizationDetailsDtoToJSON,
   OrganizationOverviewResultToJSON,
@@ -23,7 +24,6 @@ import {
 import {deploymentEnvironmentList} from './impl/deployment-environment-list-fake';
 import {
   createOwnConnector,
-  createProvidedConnector,
   deleteOwnConnector,
   getDetailsofOwnConnector,
   getFullConnectorDetails,
@@ -36,6 +36,7 @@ import {
   getListOfOrganizationsForTable,
   getMyOrganizationDetails,
   getOrganizationDetails,
+  inviteOrganization,
   rejectOrganization,
 } from './impl/fake-organizations';
 import {
@@ -94,7 +95,10 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('authority/organizations/invite')
     .on('POST', () => {
-      throw new Error('TODO');
+      const request = InviteOrganizationRequestFromJSON(body);
+      const result = inviteOrganization(request);
+
+      return ok(IdResponseToJSON(result));
     })
 
     .url('authority/organizations/*/connectors')

@@ -42,6 +42,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added a connector overview for service providers and the option to unregister provided connectors
 - Connector status is now fetched from Broker and sovity portal and periodically updated
 - Added CaaS connector deletion consequences to confirmation dialog
+- Re-branded Participant organization and user Invitation pages
 
 #### Patch
 

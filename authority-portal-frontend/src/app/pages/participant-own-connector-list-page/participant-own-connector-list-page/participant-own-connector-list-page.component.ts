@@ -29,7 +29,6 @@ import {
   ParticipantOwnConnectorListPageState,
 } from '../state/participant-own-connector-list-page-state';
 import {ParticipantOwnConnectorListPageStateImpl} from '../state/participant-own-connector-list-page-state-impl';
-import {ParticipantOwnConnectorListHeaderActions} from './participant-own-connector-list-page.model';
 
 @Component({
   selector: 'app-participant-own-connector-list-page',
@@ -92,12 +91,16 @@ export class ParticipantOwnConnectorListPageComponent
       headerActions: [
         {
           label: 'Provide Connector',
-          action: ParticipantOwnConnectorListHeaderActions.PROVIDE_CONNECTOR,
+          action: () =>
+            this.router.navigate([
+              '/my-organization/connectors/provide-connector',
+            ]),
           permissions: [UserRoleDto.ServicePartnerAdmin],
         },
         {
           label: 'Add Connector',
-          action: ParticipantOwnConnectorListHeaderActions.ADD_CONNECTOR,
+          action: () =>
+            this.router.navigate(['/my-organization/connectors/registration']),
           permissions: [UserRoleDto.ParticipantCurator],
         },
       ],
@@ -127,19 +130,6 @@ export class ParticipantOwnConnectorListPageComponent
         this.refresh();
       },
     });
-  }
-
-  headerActionHandler(action: string) {
-    switch (action) {
-      case ParticipantOwnConnectorListHeaderActions.ADD_CONNECTOR: {
-        this.router.navigate(['/my-organization/connectors/registration']);
-        break;
-      }
-      case ParticipantOwnConnectorListHeaderActions.PROVIDE_CONNECTOR: {
-        this.router.navigate(['/my-organization/connectors/provide-connector']);
-        break;
-      }
-    }
   }
 
   handleNavigation(direction: SlideOverAction, currentConnectorId: string) {
