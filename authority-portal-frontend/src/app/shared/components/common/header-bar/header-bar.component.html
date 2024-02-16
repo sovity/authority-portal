@@ -15,7 +15,7 @@
           *ngIf="action.permissions | hasAnyRole | async"
           class="btn-accent"
           type="button"
-          (click)="onHeaderActionClicked(action.action)">
+          (click)="action.action()">
           {{ action.label }}
         </button>
       </ng-container>

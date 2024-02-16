@@ -9,6 +9,7 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
+import {AuthorityInviteNewOrganizationComponent} from 'src/app/popups/authority-invite-new-organization/authority-invite-new-organization/authority-invite-new-organization.component';
 import {
   FilterBarConfig,
   FilterOption,
@@ -71,7 +72,16 @@ export class AuthorityOrganizationListPageComponent
     this.headerConfig = {
       title: 'Participant Management',
       subtitle: 'Manage all organizations and their users here',
-      headerActions: [],
+      headerActions: [
+        {
+          label: 'Invite Organization',
+          action: () => this.inviteOrganization(),
+          permissions: [
+            UserRoleDto.AuthorityAdmin,
+            UserRoleDto.ServicePartnerAdmin,
+          ],
+        },
+      ],
     };
   }
 
@@ -150,6 +160,12 @@ export class AuthorityOrganizationListPageComponent
   closeDetailPage() {
     this.store.dispatch(CloseOrganizationDetail);
     this.slideOverService.slideOverReset();
+  }
+
+  inviteOrganization() {
+    this.dialog.open(AuthorityInviteNewOrganizationComponent, {
+      width: window.innerWidth > 640 ? '60%' : '100%',
+    });
   }
 
   ngOnDestroy$ = new Subject();

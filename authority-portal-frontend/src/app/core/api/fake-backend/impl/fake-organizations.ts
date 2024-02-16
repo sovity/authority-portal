@@ -506,3 +506,9 @@ export const getMyOrganizationDetails = (): OrganizationDetailsDto => {
   const mdsId = getUserInfo().organizationMdsId;
   return getOrganizationDetails(mdsId);
 };
+
+export const inviteOrganization = (
+  request: InviteOrganizationRequest,
+): IdResponse => {
+  return {id: '', changedDate: new Date()};
+};

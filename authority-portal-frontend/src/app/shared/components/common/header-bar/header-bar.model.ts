@@ -9,6 +9,6 @@ export interface HeaderBarConfig {
 export interface HeaderBarAction {
   label: string;
   icon?: string;
-  action: string;
+  action: () => void;
   permissions: UserRoleDto[];
 }

@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-import {EMPTY, Observable} from 'rxjs';
-import {catchError, ignoreElements, takeUntil, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
-import {ResponseError} from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
@@ -22,7 +20,6 @@ export class ParticipantInviteNewUserPageStateImpl {
   constructor(
     private apiService: ApiService,
     private toast: ToastService,
-    private router: Router,
     private actions$: Actions,
     private errorService: ErrorService,
   ) {}
@@ -33,7 +30,7 @@ export class ParticipantInviteNewUserPageStateImpl {
   }
 
   @Action(InviteNewUser)
-  onInviteNewUser(
+  onInviteNewOrganization(
     ctx: StateContext<ParticipantInviteNewUserPageState>,
     action: InviteNewUser,
   ): Observable<never> {
@@ -45,18 +42,11 @@ export class ParticipantInviteNewUserPageStateImpl {
           `The invitation for ${action.request.firstName} ${action.request.lastName} was sent.`,
         );
         ctx.patchState({state: 'success'});
-        this.router.navigate(['/my-organization', 'profile']);
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      catchError((error: ResponseError) => {
-        if (error.response.status === 409) {
-          this.errorService.toastFailure('User already exists');
-        } else {
-          this.errorService.toastFailure('Failed inviting user');
-        }
+      this.errorService.toastFailureRxjs('Failed Inviting User', () => {
         ctx.patchState({state: 'error'});
         action.enableForm();
-        return EMPTY;
       }),
       ignoreElements(),
     );

@@ -1,33 +1,37 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDialogRef} from '@angular/material/dialog';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {InviteOrganizationRequest} from '@sovity.de/authority-portal-client';
+import {phoneNumberValidator} from 'src/app/core/utils/validators/phone-number-validator';
+import {InviteNewOrganization} from '../state/authority-invite-new-organization-page-actions';
+import {
+  AuthorityInviteNewOrganizationPageState,
+  DEFAULT_AUTHORITY_INVITE_NEW_ORGANIZATION_PAGE_STATE,
+} from '../state/authority-invite-new-organization-page-state';
+import {AuthorityInviteNewOrganizationPageStateImpl} from '../state/authority-invite-new-organization-page-state-impl';
 import {
   AuthorityInviteNewOrganizationPageFormModel,
   AuthorityInviteNewOrganizationPageFormValue,
   DEFAULT_AUTHORITY_INVITE_NEW_ORGANIZATION_FORM_VALUE,
-} from 'src/app/pages/authority-invite-new-organization/authority-invite-new-organization/authority-invite-new-organization.model';
-import {InviteNewOrganization} from 'src/app/pages/authority-invite-new-organization/state/authority-invite-new-organization-page-actions';
-import {
-  AuthorityInviteNewOrganizationPageState,
-  DEFAULT_AUTHORITY_INVITE_NEW_ORGANIZATION_PAGE_STATE,
-} from 'src/app/pages/authority-invite-new-organization/state/authority-invite-new-organization-page-state';
-import {AuthorityInviteNewOrganizationPageStateImpl} from 'src/app/pages/authority-invite-new-organization/state/authority-invite-new-organization-page-state-impl';
+} from './authority-invite-new-organization.model';
 
 @Component({
   selector: 'app-authority-invite-new-organization',
   templateUrl: './authority-invite-new-organization.component.html',
 })
-export class AuthorityInviteNewOrganizationComponent
-  implements OnInit, OnDestroy
-{
+export class AuthorityInviteNewOrganizationComponent {
   state = DEFAULT_AUTHORITY_INVITE_NEW_ORGANIZATION_PAGE_STATE;
   group = this.buildFormGroup();
 
-  private ngOnDestroy$ = new Subject();
+  ngOnDestroy$ = new Subject();
 
-  constructor(private store: Store, private formBuilder: FormBuilder) {}
+  constructor(
+    private store: Store,
+    private formBuilder: FormBuilder,
+    private dialogRef: MatDialogRef<AuthorityInviteNewOrganizationComponent>,
+  ) {}
 
   get loading(): boolean {
     return this.state.state === 'submitting';
@@ -49,7 +53,7 @@ export class AuthorityInviteNewOrganizationComponent
       userEmail: [initial.userEmail, [Validators.required, Validators.email]],
       orgName: [initial.orgName, [Validators.required]],
       userJobTitle: [initial.userJobTitle],
-      userPhoneNumber: [initial.userPhoneNumber],
+      userPhoneNumber: [initial.userPhoneNumber, [phoneNumberValidator]],
     });
   }
 
@@ -67,14 +71,13 @@ export class AuthorityInviteNewOrganizationComponent
   submit(): void {
     let formValue: AuthorityInviteNewOrganizationPageFormValue = this.value;
     let request: InviteOrganizationRequest = {
-      userFirstName: formValue.userFirstName!,
-      userLastName: formValue.userLastName!,
-      userEmail: formValue.userEmail!,
-      orgName: formValue.orgName!,
+      userFirstName: formValue.userFirstName,
+      userLastName: formValue.userLastName,
+      userEmail: formValue.userEmail,
+      orgName: formValue.orgName,
       userJobTitle: formValue.userJobTitle,
       userPhoneNumber: formValue.userPhoneNumber,
     };
-
     this.store.dispatch(
       new InviteNewOrganization(
         request,
@@ -82,6 +85,7 @@ export class AuthorityInviteNewOrganizationComponent
         () => this.group.disable(),
       ),
     );
+    this.dialogRef.close();
   }
 
   ngOnDestroy() {

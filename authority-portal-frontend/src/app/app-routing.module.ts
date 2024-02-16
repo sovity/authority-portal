@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AuthorityInviteNewOrganizationComponent} from 'src/app/pages/authority-invite-new-organization/authority-invite-new-organization/authority-invite-new-organization.component';
 import {ParticipantUserDetailPageComponent} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page/participant-user-detail-page.component';
 import {UserRoleDto} from '../../../authority-portal-backend/authority-portal-api-client-ts';
 import {requiresRole} from './common/auth/requires-role-guard';
@@ -12,7 +11,6 @@ import {CentralComponentListPageComponent} from './pages/central-component-list-
 import {ControlCenterPageComponent} from './pages/control-center-page/control-center-page/control-center-page.component';
 import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dashboard-page.component';
 import {LoadingPageComponent} from './pages/loading-page/loading-page/loading-page.component';
-import {ParticipantInviteNewUserComponent} from './pages/participant-invite-new-user/participant-invite-new-user/participant-invite-new-user.component';
 import {ParticipantOwnConnectorDetailPageComponent} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {ParticipantOwnConnectorListPageComponent} from './pages/participant-own-connector-list-page/participant-own-connector-list-page/participant-own-connector-list-page.component';
 import {ParticipantRegisterOwnConnectorPageComponent} from './pages/participant-register-own-connector-page/participant-register-own-connector-page/participant-register-own-connector-page.component';
@@ -90,14 +88,6 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
       },
       // My Organization Section
       {
-        path: 'my-organization/users/invite',
-        component: ParticipantInviteNewUserComponent,
-        data: {
-          requiresRole: ['PARTICIPANT_ADMIN'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
-      {
         path: 'my-organization/users/:userId',
         component: ParticipantUserDetailPageComponent,
         data: {
@@ -161,14 +151,6 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
       // Participant Section
 
       // Authority Section
-      {
-        path: 'authority/organizations/invite-new-organization',
-        component: AuthorityInviteNewOrganizationComponent,
-        data: {
-          requiresRole: ['AUTHORITY_USER'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
       {
         path: 'authority/organizations',
         component: AuthorityOrganizationListPageComponent,

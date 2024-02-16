@@ -10,9 +10,7 @@
     errorMessage="organization"></app-error-element>
 
   <ng-container *ngIf="state.organization.isReady && !showDetail">
-    <app-header
-      [headerConfig]="headerConfig"
-      (headerActionClicked)="headerActionHandler($event)"></app-header>
+    <app-header [headerConfig]="headerConfig"></app-header>
     <app-shared-user-list
       [organizationId]="state.organization.data.mdsId"
       [members]="state.organization.data.memberList"
@@ -22,9 +20,7 @@
   </ng-container>
 
   <ng-container *ngIf="openedUser && showDetail">
-    <app-header
-      [headerConfig]="headerConfig"
-      (headerActionClicked)="headerActionHandler($event)"></app-header>
+    <app-header [headerConfig]="headerConfig"></app-header>
     <app-organization-user
       class="flex w-full lg:w-10/12 gap-4 justify-between"
       [config]="openedUser">

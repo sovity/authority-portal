@@ -9,7 +9,6 @@ import {NgxsModule} from '@ngxs/store';
 import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
-import {AuthorityInviteNewOrganizationModule} from 'src/app/pages/authority-invite-new-organization/authority-invite-new-organization.module';
 import {AuthorityOrganizationUserDetailPageModule} from 'src/app/pages/authority-organization-user-detail-page/authority-organization-user-detail-page.module';
 import {ParticipantOrganizationProfileModule} from 'src/app/pages/participant-organization-profile-page/participant-organization-profile.module';
 import {ParticipantUserDetailPageModule} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page.module';
@@ -34,7 +33,6 @@ import {DashboardPageModule} from './pages/dashboard-page/dashboard-page.module'
 import {ErrorPageModule} from './pages/error-page/error-page.module';
 import {LoadingPageModule} from './pages/loading-page/loading-page.module';
 import {PageNotFoundPageModule} from './pages/page-not-found-page/page-not-found-page.module';
-import {ParticipantInviteNewUserModule} from './pages/participant-invite-new-user/participant-invite-new-user.module';
 import {ParticipantOwnConnectorDetailPageModule} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page.module';
 import {ParticipantOwnConnectorListPageModule} from './pages/participant-own-connector-list-page/participant-own-connector-list-page.module';
 import {ParticipantRegisterOwnConnectorPageModule} from './pages/participant-register-own-connector-page/participant-register-own-connector-page.module';
@@ -42,6 +40,8 @@ import {ProvideConnectorPageModule} from './pages/provide-connector-page/provide
 import {RegistrationProcessWizardModule} from './pages/registration-process-wizard/registration-process-wizard.module';
 import {SpConnectorDetailPageModule} from './pages/sp-connector-detail-page/sp-connector-detail-page.module';
 import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-connector-list-page.module';
+import {AuthorityInviteNewOrganizationModule} from './popups/authority-invite-new-organization/authority-invite-new-organization.module';
+import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-user/participant-invite-new-user.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -64,7 +64,8 @@ import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-conne
       executionStrategy: NgxsInZoneExecutionStrategy,
     }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    // Authority Portal
+
+    // Authority Portal pages
     PortalLayoutModule,
     LoadingElementModule,
     ErrorElementModule,
@@ -77,14 +78,12 @@ import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-conne
     AuthorityOrganizationUserDetailPageModule,
     AuthorityConnectorListPageModule,
     AuthorityConnectorDetailPageModule,
-    AuthorityInviteNewOrganizationModule,
     AuthorityConnectorListPageModule,
     AuthorityConnectorDetailPageModule,
     CentralComponentListPageModule,
     CentralComponentCreatePageModule,
     ParticipantOrganizationProfileModule,
     ParticipantUserDetailPageModule,
-    ParticipantInviteNewUserModule,
     ParticipantRegisterOwnConnectorPageModule,
     ProvideConnectorPageModule,
     ParticipantOwnConnectorListPageModule,
@@ -95,6 +94,10 @@ import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-conne
     PageNotFoundPageModule,
     RegistrationProcessWizardModule,
     ToastNotificationsModule,
+
+    // Authority Portal popups
+    AuthorityInviteNewOrganizationModule,
+    ParticipantInviteNewUserModule,
 
     // Routing Module
     AppRoutingModule,
