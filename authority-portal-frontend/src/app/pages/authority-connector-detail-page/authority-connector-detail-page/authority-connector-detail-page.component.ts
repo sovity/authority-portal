@@ -2,7 +2,10 @@ import {Component, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
-import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
+import {
+  getConnectorStatusText,
+  getConnectorsTypeClasses,
+} from 'src/app/core/utils/ui-utils';
 import {ChildComponentInput} from 'src/app/shared/components/common/slide-over/slide-over.model';
 import {
   ActionMenu,
@@ -32,6 +35,7 @@ export class AuthorityConnectorDetailPageComponent
 
   state = DEFAULT_AUTHORITY_CONNECTOR_DETAIL_PAGE_STATE;
   getConnectorsTypeClasses = getConnectorsTypeClasses;
+  getConnectorStatusText = getConnectorStatusText;
 
   constructor(
     private store: Store,

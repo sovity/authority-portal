@@ -22,6 +22,19 @@
           <dt
             class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
             <mat-icon class="material-icons-outlined text-gray-500"
+              >cloud</mat-icon
+            >
+            Status:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ getConnectorStatusText(state.connector.data.status) }}
+          </dd>
+        </div>
+        <div class="details-row">
+          <dt
+            class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
               >label</mat-icon
             >
             Connector ID:

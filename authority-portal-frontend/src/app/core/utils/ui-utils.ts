@@ -1,4 +1,5 @@
 import {
+  ConnectorDetailDtoStatusEnum,
   ConnectorTypeDto,
   OrganizationRegistrationStatusDto,
   UserRegistrationStatusDto,
@@ -50,5 +51,77 @@ export const getConnectorsTypeClasses = (status: ConnectorTypeDto): string => {
       return 'bg-yellow-300/90';
     default:
       return '';
+  }
+};
+
+export const getConnectorStatusText = (
+  status: ConnectorDetailDtoStatusEnum,
+): string => {
+  switch (status) {
+    case ConnectorDetailDtoStatusEnum.Init:
+      return 'Init';
+    case ConnectorDetailDtoStatusEnum.Provisioning:
+      return 'Provisioning';
+    case ConnectorDetailDtoStatusEnum.AwaitingRunning:
+      return 'Awaiting Running';
+    case ConnectorDetailDtoStatusEnum.Running:
+      return 'Running';
+    case ConnectorDetailDtoStatusEnum.Deprovisioning:
+      return 'Deprovisioning';
+    case ConnectorDetailDtoStatusEnum.AwaitingStopped:
+      return 'Awaiting stopped';
+    case ConnectorDetailDtoStatusEnum.Stopped:
+      return 'Stopped';
+    case ConnectorDetailDtoStatusEnum.Error:
+      return 'Error';
+    case ConnectorDetailDtoStatusEnum.NotFound:
+      return 'Not Found';
+    case ConnectorDetailDtoStatusEnum.Online:
+      return 'Online';
+    case ConnectorDetailDtoStatusEnum.Offline:
+      return 'Offline';
+    case ConnectorDetailDtoStatusEnum.Dead:
+      return 'Dead';
+    case ConnectorDetailDtoStatusEnum.Unknown:
+      return 'Unknown';
+  }
+};
+
+export const getConnectorStatusOuterRingClasses = (
+  status: ConnectorDetailDtoStatusEnum,
+): string => {
+  return `${getConnectorStatusInnerCircleClasses(status)}/20`;
+};
+
+export const getConnectorStatusInnerCircleClasses = (
+  status: ConnectorDetailDtoStatusEnum,
+): string => {
+  switch (status) {
+    case ConnectorDetailDtoStatusEnum.Init:
+      return 'bg-orange-500';
+    case ConnectorDetailDtoStatusEnum.Provisioning:
+      return 'bg-orange-500';
+    case ConnectorDetailDtoStatusEnum.AwaitingRunning:
+      return 'bg-orange-500';
+    case ConnectorDetailDtoStatusEnum.Running:
+      return 'bg-emerald-500';
+    case ConnectorDetailDtoStatusEnum.Deprovisioning:
+      return 'bg-orange-500';
+    case ConnectorDetailDtoStatusEnum.AwaitingStopped:
+      return 'bg-orange-500';
+    case ConnectorDetailDtoStatusEnum.Stopped:
+      return 'bg-red-500';
+    case ConnectorDetailDtoStatusEnum.Error:
+      return 'bg-red-500';
+    case ConnectorDetailDtoStatusEnum.NotFound:
+      return 'bg-red-500';
+    case ConnectorDetailDtoStatusEnum.Online:
+      return 'bg-emerald-500';
+    case ConnectorDetailDtoStatusEnum.Offline:
+      return 'bg-red-500';
+    case ConnectorDetailDtoStatusEnum.Dead:
+      return 'bg-red-500';
+    case ConnectorDetailDtoStatusEnum.Unknown:
+      return 'bg-red-500';
   }
 };

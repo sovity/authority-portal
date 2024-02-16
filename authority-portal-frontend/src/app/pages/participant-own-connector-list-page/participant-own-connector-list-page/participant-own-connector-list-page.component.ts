@@ -9,7 +9,12 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
-import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
+import {
+  getConnectorStatusInnerCircleClasses,
+  getConnectorStatusOuterRingClasses,
+  getConnectorStatusText,
+  getConnectorsTypeClasses,
+} from 'src/app/core/utils/ui-utils';
 import {FilterBarConfig} from 'src/app/shared/components/common/filter-bar/filter-bar.model';
 import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
 import {
@@ -44,6 +49,9 @@ export class ParticipantOwnConnectorListPageComponent
   headerConfig!: HeaderBarConfig;
   filterBarConfig!: FilterBarConfig;
 
+  getConnectorStatusOuterRingClasses = getConnectorStatusOuterRingClasses;
+  getConnectorStatusInnerCircleClasses = getConnectorStatusInnerCircleClasses;
+  getConnectorStatusText = getConnectorStatusText;
   getConnectorsTypeClasses = getConnectorsTypeClasses;
 
   private ngOnDestroy$ = new Subject();
