@@ -2,6 +2,7 @@ import {
   ConnectorDetailDto,
   ConnectorOverviewResult,
   ConnectorTypeDto,
+  CreateCaasRequest,
   CreateConnectorRequest,
   CreateConnectorResponse,
   CreateConnectorStatusDto,
@@ -204,6 +205,36 @@ export const createOwnConnector = (
     frontendUrl: request.frontendUrl,
     endpointUrl: request.endpointUrl,
     managementUrl: request.managementUrl,
+    status: status,
+  });
+  return {
+    id: randomId,
+    changedDate: new Date(),
+    status: CreateConnectorStatusDto.Ok,
+  };
+};
+
+export const createCaas = (
+  request: CreateCaasRequest,
+): CreateConnectorResponse => {
+  const mdsId = getUserInfo().organizationMdsId;
+  const orgName = getUserInfo().organizationName;
+  const randomId = generateRandomId(mdsId);
+  const status = 'INIT';
+
+  TEST_CONNECTORS.push({
+    connectorId: randomId,
+    orgMdsId: mdsId,
+    orgName: orgName,
+    hostMdsId: mdsId,
+    hostName: orgName,
+    type: ConnectorTypeDto.Caas,
+    environment: {environmentId: '123', title: 'test'},
+    connectorName: request.connectorTitle,
+    location: 'Germany, EU',
+    frontendUrl: `https://${request.connectorSubdomain}.sovity.caas/connector`,
+    endpointUrl: `https://${request.connectorSubdomain}.sovity.caas/connector/api/dsp`,
+    managementUrl: `https://${request.connectorSubdomain}.sovity.caas/connector/api/management`,
     status: status,
   });
   return {

@@ -74,6 +74,10 @@ export class FormControlErrorDirective implements OnInit, OnDestroy {
       return `${fieldName} invalid, Please ensure it adheres to the following format: https://www.example.com`;
     }
 
+    if (errors['invalidSubdomain']) {
+      return `${fieldName} needs to be a valid subdomain`;
+    }
+
     if (errors['errorMessage']) {
       return `Invalid Identification Credentials`;
     }

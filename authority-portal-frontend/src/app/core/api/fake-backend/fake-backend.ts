@@ -3,6 +3,7 @@ import {
   CentralComponentDtoToJSON,
   ConnectorDetailDtoToJSON,
   ConnectorOverviewResultToJSON,
+  CreateCaasRequestFromJSON,
   CreateConnectorRequestFromJSON,
   CreateConnectorResponseToJSON,
   DeploymentEnvironmentDtoToJSON,
@@ -25,6 +26,7 @@ import {
 } from './impl/central-component-fake';
 import {deploymentEnvironmentList} from './impl/deployment-environment-list-fake';
 import {
+  createCaas,
   createOwnConnector,
   deleteOwnConnector,
   getDetailsofOwnConnector,
@@ -161,6 +163,14 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('POST', () => {
       const request = CreateConnectorRequestFromJSON(body);
       const result = createOwnConnector(request);
+
+      return ok(CreateConnectorResponseToJSON(result));
+    })
+
+    .url('organizations/my-org/connectors/request-caas')
+    .on('POST', () => {
+      const request = CreateCaasRequestFromJSON(body);
+      const result = createCaas(request);
 
       return ok(CreateConnectorResponseToJSON(result));
     })
