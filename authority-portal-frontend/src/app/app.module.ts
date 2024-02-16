@@ -32,6 +32,7 @@ import {ControlCenterPageModule} from './pages/control-center-page/control-cente
 import {DashboardPageModule} from './pages/dashboard-page/dashboard-page.module';
 import {ErrorPageModule} from './pages/error-page/error-page.module';
 import {LoadingPageModule} from './pages/loading-page/loading-page.module';
+import {OnboardingProcessWizardModule} from './pages/onboarding-process-wizard/onboarding-process-wizard.module';
 import {PageNotFoundPageModule} from './pages/page-not-found-page/page-not-found-page.module';
 import {ParticipantOwnConnectorDetailPageModule} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page.module';
 import {ParticipantOwnConnectorListPageModule} from './pages/participant-own-connector-list-page/participant-own-connector-list-page.module';
@@ -94,6 +95,11 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     PageNotFoundPageModule,
     RegistrationProcessWizardModule,
     ToastNotificationsModule,
+    OnboardingProcessWizardModule,
+
+    // Authority Portal popups
+    AuthorityInviteNewOrganizationModule,
+    ParticipantInviteNewUserModule,
 
     // Authority Portal popups
     AuthorityInviteNewOrganizationModule,

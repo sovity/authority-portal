@@ -5,6 +5,7 @@ import {Action, NgxsOnInit, Selector, State, StateContext} from '@ngxs/store';
 import {
   DeploymentEnvironmentDto,
   UserInfo,
+  UserRegistrationStatusDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {E2E_DEV_USERS} from 'src/app/common/components/dev-utils/e2e-dev-user-switcher/e2e-dev-users';
@@ -99,11 +100,7 @@ export class GlobalStateImpl implements NgxsOnInit {
       // Update Routes in when user status has changed
       let pageSet: AuthorityPortalPageSet = userInfo
         .map((it) => it.registrationStatus)
-        .ifReadyElse(
-          (it) =>
-            it === 'ACTIVE' ? 'AUTHORITY_PORTAL' : 'REGISTRATION_PROCESS',
-          'LOADING',
-        );
+        .ifReadyElse((it) => this.getRouteGroup(it), 'LOADING');
 
       this.ngZone.run(() =>
         this.routeConfigService.switchRouteConfig(state.pageSet, pageSet),
@@ -122,5 +119,16 @@ export class GlobalStateImpl implements NgxsOnInit {
     deploymentEnvironments: Fetched<DeploymentEnvironmentDto[]>,
   ) {
     ctx.patchState({deploymentEnvironments: deploymentEnvironments});
+  }
+
+  private getRouteGroup(registrationStatus: UserRegistrationStatusDto) {
+    switch (registrationStatus) {
+      case 'ACTIVE':
+        return 'AUTHORITY_PORTAL';
+      case 'ONBOARDING':
+        return 'ONBOARDING_PROCESS';
+      default:
+        return 'REGISTRATION_PROCESS';
+    }
   }
 }

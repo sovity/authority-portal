@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
+import {UserProfileUpdateFormModel} from 'src/app/pages/onboarding-process-wizard/onboarding-process-wizard/onboarding-process-wizard.model';
 import {UserProfileCreateFormModel} from '../../../../pages/registration-process-wizard/sub-pages/organization-create-page/organization-create-page-form-model';
 
 @Component({
@@ -8,7 +9,6 @@ import {UserProfileCreateFormModel} from '../../../../pages/registration-process
 })
 export class UserProfileFormComponent {
   @Input() formGroup!: FormGroup<UserProfileCreateFormModel>;
-  @Input() type: 'REGISTRATION' | 'ONBOARDING' = 'REGISTRATION';
 
   showPassword: boolean = false;
 

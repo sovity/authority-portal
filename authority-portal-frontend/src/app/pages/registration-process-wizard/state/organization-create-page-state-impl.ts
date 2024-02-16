@@ -46,10 +46,13 @@ export class OrganizationCreatePageStateImpl {
         ctx.patchState({email: action.request.userEmail});
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      this.errorService.toastFailureRxjs('Failed registering connector', () => {
-        ctx.patchState({state: 'error'});
-        action.enableForm();
-      }),
+      this.errorService.toastFailureRxjs(
+        'Failed registering organization',
+        () => {
+          ctx.patchState({state: 'error'});
+          action.enableForm();
+        },
+      ),
       ignoreElements(),
     );
   }

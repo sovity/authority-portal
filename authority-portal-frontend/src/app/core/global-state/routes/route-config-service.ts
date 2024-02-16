@@ -3,6 +3,7 @@ import {Router, Routes} from '@angular/router';
 import {
   AUTHORITY_PORTAL_ROUTES,
   LOADING_ROUTES,
+  ONBOARDING_ROUTES,
   REGISTRATION_PROCESS_ROUTES,
 } from '../../../app-routing.module';
 import {AuthorityPortalPageSet} from './authority-portal-page-set';
@@ -13,6 +14,7 @@ export class RouteConfigService {
     LOADING: LOADING_ROUTES,
     AUTHORITY_PORTAL: AUTHORITY_PORTAL_ROUTES,
     REGISTRATION_PROCESS: REGISTRATION_PROCESS_ROUTES,
+    ONBOARDING_PROCESS: ONBOARDING_ROUTES,
   };
 
   constructor(private router: Router) {}

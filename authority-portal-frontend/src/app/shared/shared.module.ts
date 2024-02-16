@@ -20,6 +20,7 @@ import {SharedUserDetailComponent} from './components/business/shared-user-detai
 import {SharedUserListComponent} from './components/business/shared-user-list/shared-user-list.component';
 import {UserDetailComponent} from './components/business/user-detail/user-detail.component';
 import {UserProfileFormComponent} from './components/business/user-profile-form/user-profile-form.component';
+import {UserProfileUpdateFormComponent} from './components/business/user-profile-update-form/user-profile-update-form.component';
 import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {ConfirmationDialogComponent} from './components/common/confirmation-dialog/confirmation-dialog.component';
 import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
@@ -53,6 +54,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     UserProfileFormComponent,
     OrganizationProfileFormComponent,
     ContactsProfileFormComponent,
+    UserProfileUpdateFormComponent,
   ],
   imports: [
     CommonModule,
@@ -87,6 +89,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     UserProfileFormComponent,
     OrganizationProfileFormComponent,
     ContactsProfileFormComponent,
+    UserProfileUpdateFormComponent,
   ],
   providers: [
     CertificateGenerateService,

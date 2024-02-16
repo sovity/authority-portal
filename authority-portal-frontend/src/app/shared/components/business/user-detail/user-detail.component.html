@@ -34,72 +34,70 @@
       [disabled]="true" />
   </div>
 
-  <ng-container>
-    <div class="select-none flex flex-col justify-start items-start p-2 my-1">
-      <div class="w-full items-center flex justify-between">
-        <label class="organization-profile-label">Roles Management</label>
-        <button
-          *ngIf="
-            ((sameOrganization && ('PARTICIPANT_ADMIN' | hasRole | async)) ||
-              (!sameOrganization && ('AUTHORITY_ADMIN' | hasRole | async))) &&
-            (userId | CheckIfNotCurrentUser | async)
-          "
-          mat-icon-button
-          aria-label="edit button"
-          (click)="toggleRoleForm()">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </div>
-
-      <input
-        *ngIf="!roleFormEnable"
-        class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
-        type="text"
-        [value]="rolesToList(user.roles)"
-        [disabled]="true" />
-
-      <mat-form-field *ngIf="roleFormEnable" class="w-full">
-        <mat-label>Choose an Organization Role</mat-label>
-        <mat-select
-          [disabled]="
-            !(sameOrganization && ('PARTICIPANT_ADMIN' | hasRole | async))
-          "
-          [(ngModel)]="newTopParticipantRole"
-          (selectionChange)="roleChangeHandled($event, 'PARTICIPANT')">
-          <mat-option
-            *ngFor="let role of availableParticipantRoles"
-            [value]="role"
-            [disabled]="role === currentTopParticipantRole"
-            >{{ mapToReadable(role) }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field
+  <div class="select-none flex flex-col justify-start items-start p-2 my-1">
+    <div class="w-full items-center flex justify-between">
+      <label class="organization-profile-label">Roles Management</label>
+      <button
         *ngIf="
-          roleFormEnable &&
-          (['AUTHORITY_ADMIN', 'SERVICE_PARTNER_ADMIN', 'OPERATOR_ADMIN']
-            | hasAnyRole
-            | async)
+          ((sameOrganization && ('PARTICIPANT_ADMIN' | hasRole | async)) ||
+            (!sameOrganization && ('AUTHORITY_ADMIN' | hasRole | async))) &&
+          (userId | CheckIfNotCurrentUser | async)
         "
-        class="w-full">
-        <mat-label>Choose an Application Role</mat-label>
-        <mat-select
-          [(ngModel)]="newTopApplicationRole"
-          (selectionChange)="roleChangeHandled($event, 'APPLICATION')">
-          <mat-option
-            *ngFor="let role of ['NONE'].concat(availableApplicationRoles)"
-            [value]="role"
-            [disabled]="
-              role === currentTopApplicationRole ||
-              (currentTopApplicationRole === undefined && role === 'NONE')
-            "
-            >{{ mapToReadable(role) }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
+        mat-icon-button
+        aria-label="edit button"
+        (click)="toggleRoleForm()">
+        <mat-icon>edit</mat-icon>
+      </button>
     </div>
-  </ng-container>
+
+    <input
+      *ngIf="!roleFormEnable"
+      class="my-1 p-2 bg-white border-b-2 w-full text-gray-500"
+      type="text"
+      [value]="rolesToList(user.roles)"
+      [disabled]="true" />
+
+    <mat-form-field *ngIf="roleFormEnable" class="w-full">
+      <mat-label>Choose an Organization Role</mat-label>
+      <mat-select
+        [disabled]="
+          !(sameOrganization && ('PARTICIPANT_ADMIN' | hasRole | async))
+        "
+        [(ngModel)]="newTopParticipantRole"
+        (selectionChange)="roleChangeHandled($event, 'PARTICIPANT')">
+        <mat-option
+          *ngFor="let role of availableParticipantRoles"
+          [value]="role"
+          [disabled]="role === currentTopParticipantRole"
+          >{{ mapToReadable(role) }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field
+      *ngIf="
+        roleFormEnable &&
+        (['AUTHORITY_ADMIN', 'SERVICE_PARTNER_ADMIN', 'OPERATOR_ADMIN']
+          | hasAnyRole
+          | async)
+      "
+      class="w-full">
+      <mat-label>Choose an Application Role</mat-label>
+      <mat-select
+        [(ngModel)]="newTopApplicationRole"
+        (selectionChange)="roleChangeHandled($event, 'APPLICATION')">
+        <mat-option
+          *ngFor="let role of ['NONE'].concat(availableApplicationRoles)"
+          [value]="role"
+          [disabled]="
+            role === currentTopApplicationRole ||
+            (currentTopApplicationRole === undefined && role === 'NONE')
+          "
+          >{{ mapToReadable(role) }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+  </div>
 
   <div class="select-none flex flex-col justify-start items-start p-2 my-1">
     <label class="organization-profile-label">Registration Status:</label>

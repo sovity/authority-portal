@@ -5,6 +5,7 @@ import {
   IdResponse,
   InviteParticipantUserRequest,
   MemberInfo,
+  OnboardingUserUpdateDto,
   UserDetailDto,
   UserInfo,
   UserRoleDto,
@@ -127,6 +128,15 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
     registrationStatus: 'REJECTED',
     organizationName: 'Rejected Organization',
     organizationMdsId: 'MDSL6666EE',
+  },
+  '00000000-0000-0000-0000-00000013': {
+    userId: '00000000-0000-0000-0000-00000013',
+    firstName: 'Onboarding',
+    lastName: 'Organization',
+    roles: ['PARTICIPANT_ADMIN'],
+    registrationStatus: 'ONBOARDING',
+    organizationName: '',
+    organizationMdsId: '',
   },
 };
 
@@ -297,4 +307,8 @@ export const clearApplicationRole = (
   };
 
   return {id: request.userId, changedDate: new Date()};
+};
+
+export const onboardUser = (request: OnboardingUserUpdateDto): IdResponse => {
+  return {id: '000001', changedDate: new Date()};
 };
