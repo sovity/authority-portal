@@ -43,6 +43,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Connector status is now fetched from Broker and sovity portal and periodically updated
 - Added CaaS connector deletion consequences to confirmation dialog
 - Re-branded Participant organization and user Invitation pages
+- Added connector status to list and detail views
 
 #### Patch
 

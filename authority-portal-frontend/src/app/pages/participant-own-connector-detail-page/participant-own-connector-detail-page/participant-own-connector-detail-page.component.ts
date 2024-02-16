@@ -10,7 +10,10 @@ import {
 import {Store} from '@ngxs/store';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
+import {
+  getConnectorStatusText,
+  getConnectorsTypeClasses,
+} from 'src/app/core/utils/ui-utils';
 import {ChildComponentInput} from 'src/app/shared/components/common/slide-over/slide-over.model';
 import {
   ActionMenu,
@@ -43,6 +46,7 @@ export class ParticipantOwnConnectorDetailPageComponent
   state = DEFAULT_PARTICIPANT_OWN_CONNECTOR_DETAIL_PAGE_STATE;
 
   getConnectorsTypeClasses = getConnectorsTypeClasses;
+  getConnectorStatusText = getConnectorStatusText;
 
   private ngOnDestroy$ = new Subject();
 
