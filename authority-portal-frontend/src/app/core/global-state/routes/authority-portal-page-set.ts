@@ -4,4 +4,5 @@
 export type AuthorityPortalPageSet =
   | 'LOADING'
   | 'REGISTRATION_PROCESS'
-  | 'AUTHORITY_PORTAL';
+  | 'AUTHORITY_PORTAL'
+  | 'ONBOARDING_PROCESS';

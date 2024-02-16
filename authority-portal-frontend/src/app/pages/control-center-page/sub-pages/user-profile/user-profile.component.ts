@@ -54,8 +54,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  headerActionHandler(action: string) {}
-
   setUserId(userId: string) {
     this.store.dispatch(new RefreshUserProfile(userId));
   }

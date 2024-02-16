@@ -14,6 +14,8 @@ import {
   IdResponse,
   InviteOrganizationRequest,
   InviteParticipantUserRequest,
+  OnboardingOrganizationUpdateDto,
+  OnboardingUserUpdateDto,
   OrganizationDetailsDto,
   OrganizationOverviewResult,
   OwnOrganizationDetailsDto,
@@ -180,6 +182,20 @@ export class ApiService {
 
   getDeploymentEnvironments(): Observable<DeploymentEnvironmentDto[]> {
     return from(this.api().deploymentEnvironmentList());
+  }
+
+  onboardingUser(request: OnboardingUserUpdateDto) {
+    return from(
+      this.api().updateOnboardingUser({onboardingUserUpdateDto: request}),
+    );
+  }
+
+  onboardingOrganization(request: OnboardingOrganizationUpdateDto) {
+    return from(
+      this.api().updateOnboardingOrganization({
+        onboardingOrganizationUpdateDto: request,
+      }),
+    );
   }
 
   getCentralComponents(

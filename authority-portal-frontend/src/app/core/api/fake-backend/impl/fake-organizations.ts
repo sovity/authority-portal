@@ -7,7 +7,6 @@ import {
   OrganizationOverviewResult,
 } from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
-import {getUserInfo} from './fake-users';
 
 export const approveOrganization = (mdsId: string): IdResponse => {
   updateOrganization(mdsId, () => ({registrationStatus: 'ACTIVE'}));
@@ -32,7 +31,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     legalIdType: 'TAX_ID',
     url: 'https://example1.com',
     description: 'Description 1',
-    registrationStatus: 'ACTIVE',
+    registrationStatus: 'ONBOARDING',
     memberCount: 2,
     connectorCount: 1,
     dataOfferCount: 0,
@@ -503,12 +502,33 @@ export const getListOfOrganizationsForTable =
   };
 
 export const getMyOrganizationDetails = (): OrganizationDetailsDto => {
-  const mdsId = getUserInfo().organizationMdsId;
-  return getOrganizationDetails(mdsId);
+  let userInfo = {
+    userId: '00000000-0000-0000-0000-00000001',
+    firstName: 'Authority',
+    lastName: 'Admin',
+    roles: [
+      'AUTHORITY_ADMIN',
+      'AUTHORITY_USER',
+      'PARTICIPANT_ADMIN',
+      'PARTICIPANT_CURATOR',
+      'PARTICIPANT_USER',
+    ],
+    registrationStatus: 'ONBOARDING',
+    organizationName: 'Authority Organization',
+    organizationMdsId: 'MDSL1111AA',
+  };
+
+  return getOrganizationDetails(userInfo.organizationMdsId);
 };
 
 export const inviteOrganization = (
   request: InviteOrganizationRequest,
 ): IdResponse => {
   return {id: '', changedDate: new Date()};
+};
+
+export const onboardOrganization = (
+  request: OnboardingOrganizationUpdateDto,
+): IdResponse => {
+  return {id: 'MDSL8888EE', changedDate: new Date()};
 };

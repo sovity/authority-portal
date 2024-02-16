@@ -40,7 +40,7 @@
     <!-- User's PhoneNumber -->
 
     <!-- User's Email -->
-    <ng-container *ngIf="type === 'REGISTRATION'">
+    <ng-container>
       <app-text-input
         class="flex-1"
         label="Email"
@@ -51,7 +51,7 @@
     <!-- User's Email -->
   </div>
 
-  <div *ngIf="type === 'REGISTRATION'" class="flex gap-4 flex-wrap">
+  <div class="flex gap-4 flex-wrap">
     <!-- Password -->
     <div class="flex flex-col items-center w-full">
       <label class="w-full mb-2 text-sm" for="formRegOConPassword"

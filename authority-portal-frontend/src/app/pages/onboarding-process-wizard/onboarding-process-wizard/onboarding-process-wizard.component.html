@@ -1,0 +1,148 @@
+<div class="relative h-screen">
+  <!-- header -->
+  <div
+    class="top-0 p-8 bg-white flex justify-start items-center cursor-pointer">
+    <img src="/assets/images/logo_light.svg" alt="logo" />
+    <div>
+      <p class="mx-4 font-bold text-black">
+        Mobility <br />
+        Data Space<br />
+        Portal
+      </p>
+    </div>
+  </div>
+  <!-- header -->
+
+  <!-- registration wizard -->
+  <form *ngIf="showForm" [formGroup]="parentFormGroup">
+    <div class="flex justify-center">
+      <mat-stepper
+        class="w-full lg:w-2/3"
+        labelPosition="bottom"
+        linear
+        #stepper>
+        <!-- user profile form -->
+        <mat-step color="accent">
+          <div class="flex flex-col px-1 md:px-8 w-full">
+            <ng-template matStepLabel>User Profile</ng-template>
+
+            <h2>User Profile</h2>
+            <app-user-profile-update-form
+              class="flex-grow my-4"
+              formGroupName="userProfile"
+              #userProfileForm
+              [formGroup]="
+                parentFormGroup.controls.userProfile
+              "></app-user-profile-update-form>
+            <div
+              class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+              <button
+                *ngIf="onboardingType === 'USER_ORGANIZATION_ONBOARDING'"
+                class="btn-accent"
+                matStepperNext
+                [ngClass]="{
+                  'opacity-50 cursor-not-allowed':
+                    parentFormGroup.controls.userProfile.invalid
+                }"
+                [disabled]="parentFormGroup.controls.userProfile.invalid">
+                Next
+              </button>
+              <button
+                *ngIf="onboardingType === 'USER_ONBOARDING'"
+                class="btn-accent"
+                [ngClass]="{
+                  'opacity-50 cursor-not-allowed':
+                    parentFormGroup.controls.userProfile.invalid
+                }"
+                [disabled]="parentFormGroup.controls.userProfile.invalid"
+                (click)="submit()">
+                Submit
+              </button>
+            </div>
+          </div>
+        </mat-step>
+        <!-- user profile form -->
+
+        <!-- organization profile form -->
+        <mat-step
+          *ngIf="onboardingType === 'USER_ORGANIZATION_ONBOARDING'"
+          color="accent">
+          <div class="flex flex-col px-1 md:px-8 w-full">
+            <ng-template matStepLabel>Organization Profile</ng-template>
+
+            <h2>Organization Profile</h2>
+            <app-organization-profile-form
+              class="flex-grow my-4"
+              formGroupName="organizationProfile"
+              #organizationProfileForm
+              [formGroup]="
+                parentFormGroup.controls.organizationProfile
+              "></app-organization-profile-form>
+
+            <h2 class="pb-6">Contacts</h2>
+
+            <app-contacts-profile-form
+              class="flex-grow my-4"
+              #contactProfileForm
+              [mainContactFormGroup]="
+                parentFormGroup.controls.mainContactProfile
+              "
+              [technicalContactFormGroup]="
+                parentFormGroup.controls.technicalContactProfile
+              "></app-contacts-profile-form>
+
+            <div
+              class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+              <button
+                class="btn-accent-outline"
+                matStepperPrevious
+                type="button">
+                Back
+              </button>
+
+              <button
+                class="btn-accent"
+                [ngClass]="{
+                  'opacity-50 cursor-not-allowed':
+                    parentFormGroup.controls.organizationProfile.invalid ||
+                    parentFormGroup.controls.mainContactProfile.invalid ||
+                    parentFormGroup.controls.technicalContactProfile.invalid
+                }"
+                [disabled]="
+                  parentFormGroup.controls.organizationProfile.invalid ||
+                  parentFormGroup.controls.mainContactProfile.invalid ||
+                  parentFormGroup.controls.technicalContactProfile.invalid
+                "
+                (click)="submit()">
+                Submit
+              </button>
+            </div>
+          </div>
+        </mat-step>
+        <!-- organization profile form -->
+
+        <!-- final step -->
+        <mat-step>
+          <ng-template matStepLabel>Confirmation</ng-template>
+          <div class="h-36 my-12 flex flex-col justify-center items-center">
+            <div class="h-36 my-12 flex flex-col justify-center items-center">
+              <h3 class="py-8 text-xl text-cneter">
+                Thank you for onboarding on the MDS portal!
+              </h3>
+              <p class="text-base text-justify">
+                Congratulations on successfully onboarding to our platform!
+                We're thrilled to have you as part of our community. Explore our
+                platform and discover services tailored just for you.
+              </p>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <button class="btn-accent" routerLink="/">Finish</button>
+          </div>
+        </mat-step>
+        <!-- final step -->
+      </mat-stepper>
+    </div>
+  </form>
+  <!-- registration wizard -->
+</div>

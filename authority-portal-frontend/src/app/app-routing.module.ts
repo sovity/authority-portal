@@ -11,6 +11,7 @@ import {CentralComponentListPageComponent} from './pages/central-component-list-
 import {ControlCenterPageComponent} from './pages/control-center-page/control-center-page/control-center-page.component';
 import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dashboard-page.component';
 import {LoadingPageComponent} from './pages/loading-page/loading-page/loading-page.component';
+import {OnboardingProcessWizardComponent} from './pages/onboarding-process-wizard/onboarding-process-wizard/onboarding-process-wizard.component';
 import {ParticipantOwnConnectorDetailPageComponent} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {ParticipantOwnConnectorListPageComponent} from './pages/participant-own-connector-list-page/participant-own-connector-list-page/participant-own-connector-list-page.component';
 import {ParticipantRegisterOwnConnectorPageComponent} from './pages/participant-register-own-connector-page/participant-register-own-connector-page/participant-register-own-connector-page.component';
@@ -27,6 +28,18 @@ export const REGISTRATION_PROCESS_ROUTES: Routes = [
   {
     path: '**',
     redirectTo: 'create-organization',
+    pathMatch: 'full',
+  },
+];
+
+export const ONBOARDING_ROUTES: Routes = [
+  {
+    path: 'onboard-organization',
+    component: OnboardingProcessWizardComponent,
+  },
+  {
+    path: '**',
+    redirectTo: 'onboard-organization',
     pathMatch: 'full',
   },
 ];

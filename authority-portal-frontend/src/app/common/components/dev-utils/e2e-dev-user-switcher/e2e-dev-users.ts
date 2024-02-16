@@ -56,4 +56,10 @@ export const E2E_DEV_USERS: E2eDevUser[] = [
     role: 'Rejected User',
     organization: 'Company 7',
   },
+  {
+    user: '00000000-0000-0000-0000-00000013',
+    password: '888',
+    role: 'Onboarding Organization',
+    organization: 'Company 9',
+  },
 ];

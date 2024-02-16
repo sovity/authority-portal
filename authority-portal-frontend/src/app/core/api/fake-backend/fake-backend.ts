@@ -10,6 +10,8 @@ import {
   IdResponseToJSON,
   InviteOrganizationRequestFromJSON,
   InviteParticipantUserRequestFromJSON,
+  OnboardingOrganizationUpdateDtoFromJSON,
+  OnboardingUserUpdateDtoFromJSON,
   OrganizationDetailsDtoToJSON,
   OrganizationOverviewResultToJSON,
   RegistrationRequestDtoFromJSON,
@@ -37,6 +39,7 @@ import {
   getMyOrganizationDetails,
   getOrganizationDetails,
   inviteOrganization,
+  onboardOrganization,
   rejectOrganization,
 } from './impl/fake-organizations';
 import {
@@ -45,6 +48,7 @@ import {
   clearApplicationRole,
   getUserInfo,
   inviteUser,
+  onboardUser,
   userDetails,
 } from './impl/fake-users';
 import {
@@ -297,6 +301,22 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('GET', () => {
       const result = getListOfOrganizationsForTable();
       return ok(OrganizationOverviewResultToJSON(result));
+    })
+
+    .url('registration/me/update')
+    .on('POST', () => {
+      const request = OnboardingUserUpdateDtoFromJSON(body);
+      const result = onboardUser(request);
+
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('registration/my-org/update')
+    .on('POST', () => {
+      const request = OnboardingOrganizationUpdateDtoFromJSON(body);
+      const result = onboardOrganization(request);
+
+      return ok(IdResponseToJSON(result));
     })
 
     .tryMatch();
