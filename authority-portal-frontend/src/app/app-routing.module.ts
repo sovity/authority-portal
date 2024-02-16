@@ -16,6 +16,7 @@ import {ParticipantOwnConnectorDetailPageComponent} from './pages/participant-ow
 import {ParticipantOwnConnectorListPageComponent} from './pages/participant-own-connector-list-page/participant-own-connector-list-page/participant-own-connector-list-page.component';
 import {ParticipantRegisterOwnConnectorPageComponent} from './pages/participant-register-own-connector-page/participant-register-own-connector-page/participant-register-own-connector-page.component';
 import {RegisterConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/register-connector-page/register-connector-page.component';
+import {RequestConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/request-connector-page/request-connector-page.component';
 import {SetupConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/setup-connector-page/setup-connector-page.component';
 import {ProvideConnectorPageComponent} from './pages/provide-connector-page/provide-connector-page/provide-connector-page.component';
 import {RegistrationProcessWizardComponent} from './pages/registration-process-wizard/registration-process-wizard/registration-process-wizard.component';
@@ -64,6 +65,14 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
   {
     path: 'my-organization/connectors/registration/setup',
     component: SetupConnectorPageComponent,
+    data: {
+      requiresRole: ['PARTICIPANT_CURATOR'] satisfies UserRoleDto[],
+    },
+    canActivate: [requiresRole],
+  },
+  {
+    path: 'my-organization/connectors/registration/request',
+    component: RequestConnectorPageComponent,
     data: {
       requiresRole: ['PARTICIPANT_CURATOR'] satisfies UserRoleDto[],
     },

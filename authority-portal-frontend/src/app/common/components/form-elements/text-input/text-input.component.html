@@ -20,5 +20,17 @@
     <mat-error *ngIf="ctrl.touched && ctrl.hasError('pattern')" class="text-xs">
       {{ invalidPatternMessage }}</mat-error
     >
+    <mat-error
+      *ngIf="ctrl.touched && ctrl.hasError('minlength')"
+      class="text-xs">
+      At least {{ ctrl.errors!.minlength.requiredLength }} characters
+      required.</mat-error
+    >
+    <mat-error
+      *ngIf="ctrl.touched && ctrl.hasError('maxlength')"
+      class="text-xs">
+      At most {{ ctrl.errors!.maxlength.requiredLength }} characters
+      allowed.</mat-error
+    >
   </mat-form-field>
 </div>

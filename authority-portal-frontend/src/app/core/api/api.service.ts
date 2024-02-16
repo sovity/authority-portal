@@ -8,6 +8,7 @@ import {
   ClearApplicationRoleRequest,
   ConnectorDetailDto,
   ConnectorOverviewResult,
+  CreateCaasRequest,
   CreateConnectorRequest,
   CreateConnectorResponse,
   DeploymentEnvironmentDto,
@@ -170,6 +171,13 @@ export class ApiService {
         environmentId,
       }),
     );
+  }
+
+  createCaas(
+    createCaasRequest: CreateCaasRequest,
+    environmentId: string,
+  ): Observable<CreateConnectorResponse> {
+    return from(this.api().createCaas({createCaasRequest, environmentId}));
   }
 
   deleteOwnConnector(connectorId: string): Observable<IdResponse> {

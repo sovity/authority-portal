@@ -14,12 +14,15 @@ import {FormElementsModule} from '../../common/components/form-elements/form-ele
 import {ParticipantRegisterOwnConnectorPageComponent} from './participant-register-own-connector-page/participant-register-own-connector-page.component';
 import {ParticipantRegisterOwnConnectorPageStateImpl} from './state/participant-register-own-connector-page-state-impl';
 import {RegisterConnectorPageComponent} from './sub-pages/register-connector-page/register-connector-page.component';
+import {RequestConnectorPageComponent} from './sub-pages/request-connector-page/request-connector-page.component';
+import {RequestConnectorPageStateImpl} from './sub-pages/request-connector-page/state/request-connector-page-state-impl';
 import {SetupConnectorPageComponent} from './sub-pages/setup-connector-page/setup-connector-page.component';
 
 @NgModule({
   declarations: [
     ParticipantRegisterOwnConnectorPageComponent,
     RegisterConnectorPageComponent,
+    RequestConnectorPageComponent,
     SetupConnectorPageComponent,
   ],
   imports: [
@@ -32,6 +35,7 @@ import {SetupConnectorPageComponent} from './sub-pages/setup-connector-page/setu
     MaterialModule,
 
     NgxsModule.forFeature([ParticipantRegisterOwnConnectorPageStateImpl]),
+    NgxsModule.forFeature([RequestConnectorPageStateImpl]),
 
     PipesAndDirectivesModule,
     PortalLayoutModule,

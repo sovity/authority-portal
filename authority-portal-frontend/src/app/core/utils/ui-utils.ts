@@ -90,37 +90,44 @@ export const getConnectorStatusText = (
 export const getConnectorStatusOuterRingClasses = (
   status: ConnectorDetailDtoStatusEnum,
 ): string => {
-  return `${getConnectorStatusInnerCircleClasses(status)}/20`;
+  switch (status) {
+    case ConnectorDetailDtoStatusEnum.Online:
+    case ConnectorDetailDtoStatusEnum.Running:
+      return 'bg-emerald-500/20';
+    case ConnectorDetailDtoStatusEnum.Init:
+    case ConnectorDetailDtoStatusEnum.Provisioning:
+    case ConnectorDetailDtoStatusEnum.AwaitingRunning:
+    case ConnectorDetailDtoStatusEnum.Deprovisioning:
+    case ConnectorDetailDtoStatusEnum.AwaitingStopped:
+      return 'bg-amber-500/20';
+    case ConnectorDetailDtoStatusEnum.Stopped:
+    case ConnectorDetailDtoStatusEnum.Error:
+    case ConnectorDetailDtoStatusEnum.NotFound:
+    case ConnectorDetailDtoStatusEnum.Offline:
+    case ConnectorDetailDtoStatusEnum.Dead:
+    case ConnectorDetailDtoStatusEnum.Unknown:
+      return 'bg-red-500/20';
+  }
 };
 
 export const getConnectorStatusInnerCircleClasses = (
   status: ConnectorDetailDtoStatusEnum,
 ): string => {
   switch (status) {
-    case ConnectorDetailDtoStatusEnum.Init:
-      return 'bg-orange-500';
-    case ConnectorDetailDtoStatusEnum.Provisioning:
-      return 'bg-orange-500';
-    case ConnectorDetailDtoStatusEnum.AwaitingRunning:
-      return 'bg-orange-500';
+    case ConnectorDetailDtoStatusEnum.Online:
     case ConnectorDetailDtoStatusEnum.Running:
       return 'bg-emerald-500';
+    case ConnectorDetailDtoStatusEnum.Init:
+    case ConnectorDetailDtoStatusEnum.Provisioning:
+    case ConnectorDetailDtoStatusEnum.AwaitingRunning:
     case ConnectorDetailDtoStatusEnum.Deprovisioning:
-      return 'bg-orange-500';
     case ConnectorDetailDtoStatusEnum.AwaitingStopped:
-      return 'bg-orange-500';
+      return 'bg-amber-500';
     case ConnectorDetailDtoStatusEnum.Stopped:
-      return 'bg-red-500';
     case ConnectorDetailDtoStatusEnum.Error:
-      return 'bg-red-500';
     case ConnectorDetailDtoStatusEnum.NotFound:
-      return 'bg-red-500';
-    case ConnectorDetailDtoStatusEnum.Online:
-      return 'bg-emerald-500';
     case ConnectorDetailDtoStatusEnum.Offline:
-      return 'bg-red-500';
     case ConnectorDetailDtoStatusEnum.Dead:
-      return 'bg-red-500';
     case ConnectorDetailDtoStatusEnum.Unknown:
       return 'bg-red-500';
   }
