@@ -11,7 +11,6 @@ export class TextInputComponent {
   @HostBinding('class.flex-col')
   @HostBinding('class.justify-between')
   @HostBinding('class.items-center')
-  @HostBinding('class.my-2')
   cls = true;
 
   @Input()
