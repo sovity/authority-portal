@@ -101,13 +101,7 @@
             </button>
             <button
               class="btn-accent"
-              [ngClass]="{
-                'opacity-50 cursor-not-allowed':
-                  !roleFormEnable ||
-                  (newTopApplicationRole === currentTopApplicationRole &&
-                    newTopParticipantRole === currentTopParticipantRole)
-              }"
-              [disabled]="
+              [disabledBtn]="
                 !roleFormEnable ||
                 (newTopApplicationRole === currentTopApplicationRole &&
                   newTopParticipantRole === currentTopParticipantRole)

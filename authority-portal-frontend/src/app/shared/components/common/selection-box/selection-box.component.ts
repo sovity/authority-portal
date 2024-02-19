@@ -12,7 +12,9 @@ export class SelectionBoxComponent {
 
   onAction() {
     if (this.config?.action?.url) {
-      this.router.navigate([this.config.action.url]);
+      if (!this.config.action.isDisabled) {
+        this.router.navigate([this.config.action.url]);
+      }
     }
     if (this.config?.action?.externalUrl) {
       window.open(this.config.action.externalUrl, '_blank');

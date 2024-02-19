@@ -43,11 +43,7 @@
               <button
                 class="btn-accent"
                 matStepperNext
-                [ngClass]="{
-                  'opacity-50 cursor-not-allowed':
-                    parentFormGroup.controls.userProfile.invalid
-                }"
-                [disabled]="parentFormGroup.controls.userProfile.invalid">
+                [disabledBtn]="parentFormGroup.controls.userProfile.invalid">
                 Next
               </button>
             </div>
@@ -88,13 +84,7 @@
 
               <button
                 class="btn-accent"
-                [ngClass]="{
-                  'opacity-50 cursor-not-allowed':
-                    parentFormGroup.controls.organizationProfile.invalid ||
-                    parentFormGroup.controls.mainContactProfile.invalid ||
-                    parentFormGroup.controls.technicalContactProfile.invalid
-                }"
-                [disabled]="
+                [disabledBtn]="
                   parentFormGroup.controls.organizationProfile.invalid ||
                   parentFormGroup.controls.mainContactProfile.invalid ||
                   parentFormGroup.controls.technicalContactProfile.invalid
