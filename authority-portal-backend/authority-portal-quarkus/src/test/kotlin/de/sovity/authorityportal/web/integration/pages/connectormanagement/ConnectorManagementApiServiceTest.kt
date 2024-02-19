@@ -1,9 +1,9 @@
 package de.sovity.authorityportal.web.integration.pages.connectormanagement
 
+import de.sovity.authorityportal.api.model.ConnectorStatusDto
 import de.sovity.authorityportal.api.model.ConnectorTypeDto
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateConnectorStatusDto
-import de.sovity.authorityportal.api.model.organization.ConnectorStatusDto
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
 import de.sovity.authorityportal.web.services.ConnectorMetadataService

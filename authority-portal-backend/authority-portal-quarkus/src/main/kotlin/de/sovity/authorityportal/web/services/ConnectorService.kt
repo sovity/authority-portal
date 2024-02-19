@@ -40,14 +40,14 @@ class ConnectorService {
         val type: ConnectorType,
         val orgName: String,
         val orgMdsId: String,
-        val hostName: String,
-        val hostMdsId: String,
+        val hostName: String?,
+        val hostMdsId: String?,
         val environment: String,
         val connectorName: String,
         val location: String,
-        val frontendUrl: String,
-        val endpointUrl: String,
-        val managementUrl: String,
+        val frontendUrl: String?,
+        val endpointUrl: String?,
+        val managementUrl: String?,
         val caasStatus: CaasStatus?
     )
 
@@ -73,7 +73,7 @@ class ConnectorService {
             c.FRONTEND_URL.`as`("frontendUrl"),
             c.ENDPOINT_URL.`as`("endpointUrl"),
             c.MANAGEMENT_URL.`as`("managementUrl"),
-            c.CAAS_STATUS.`as`("status")
+            c.CAAS_STATUS.`as`("caasStatus")
         )
             .from(c)
             .leftJoin(org).on(c.MDS_ID.eq(org.MDS_ID))

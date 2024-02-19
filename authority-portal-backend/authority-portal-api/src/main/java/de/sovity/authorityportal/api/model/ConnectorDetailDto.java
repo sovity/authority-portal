@@ -1,6 +1,5 @@
 package de.sovity.authorityportal.api.model;
 
-import de.sovity.authorityportal.api.model.organization.ConnectorStatusDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,9 +18,9 @@ public class ConnectorDetailDto {
     private String orgName;
     @Schema(description = "Owning organization (MDS-ID)", requiredMode = Schema.RequiredMode.REQUIRED)
     private String orgMdsId;
-    @Schema(description = "Hosting organization (name)", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Hosting organization (name)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String hostName;
-    @Schema(description = "Hosting organization (MDS-ID)", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Hosting organization (MDS-ID)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String hostMdsId;
     @Schema(description = "Deployment Environment", requiredMode = Schema.RequiredMode.REQUIRED)
     private DeploymentEnvironmentDto environment;
@@ -29,11 +28,11 @@ public class ConnectorDetailDto {
     private String connectorName;
     @Schema(description = "Location", requiredMode = Schema.RequiredMode.REQUIRED)
     private String location;
-    @Schema(description = "Frontend URL", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Frontend URL", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String frontendUrl;
-    @Schema(description = "Endpoint URL", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Endpoint URL", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String endpointUrl;
-    @Schema(description = "Management URL", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Management URL", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String managementUrl;
     @Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
     private ConnectorStatusDto status;

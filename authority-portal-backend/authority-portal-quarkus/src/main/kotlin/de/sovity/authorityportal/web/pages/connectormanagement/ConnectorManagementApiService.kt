@@ -3,15 +3,16 @@ package de.sovity.authorityportal.web.pages.connectormanagement
 import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
+import de.sovity.authorityportal.api.model.ConnectorStatusDto
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
-import de.sovity.authorityportal.api.model.organization.ConnectorStatusDto
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
+import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.services.ConnectorMetadataService
@@ -72,32 +73,21 @@ class ConnectorManagementApiService {
             error("Connector ID does not match with organization or host organization")
         }
 
-        return ConnectorDetailDto(
-            connector.connectorId,
-            connector.type.toDto(),
-            connector.orgName,
-            connector.orgMdsId,
-            connector.hostName,
-            connector.hostMdsId,
-            deploymentEnvironmentDtoService.findByIdOrThrow(connector.environment),
-            connector.connectorName,
-            connector.location,
-            connector.frontendUrl,
-            connector.endpointUrl,
-            connector.managementUrl,
-            buildConnectorStatus(connector)
-        )
+        return buildConnectorDetailDto(connector)
     }
 
     fun getAuthorityConnectorDetails(connectorId: String): ConnectorDetailDto {
         val connector = connectorService.getConnectorDetailOrThrow(connectorId)
+        return buildConnectorDetailDto(connector)
+    }
 
+    private fun buildConnectorDetailDto(connector: ConnectorService.ConnectorDetailRs): ConnectorDetailDto {
         return ConnectorDetailDto(
             connector.connectorId,
             connector.type.toDto(),
             connector.orgName,
             connector.orgMdsId,
-            connector.hostName,
+            if (connector.type == ConnectorType.CAAS) "sovity GmbH" else connector.hostName,
             connector.hostMdsId,
             deploymentEnvironmentDtoService.findByIdOrThrow(connector.environment),
             connector.connectorName,
@@ -113,38 +103,29 @@ class ConnectorManagementApiService {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
         val connectors = connectorService.getConnectorsByMdsId(mdsId, environmentId)
-
-        val connectorDtos = connectors.map {
-            ConnectorOverviewEntryDto(
-                it.connectorId,
-                organizationService.getOrganizationOrThrow(it.providerMdsId).name,
-                it.type.toDto(),
-                deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
-                it.name,
-                if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).toDto()
-            )
-        }
-
-        return ConnectorOverviewResult(connectorDtos)
+        return buildConnectorOverview(connectors)
     }
 
     fun listAllConnectors(environmentId: String): ConnectorOverviewResult {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
         val connectors = connectorService.getConnectorsByEnvironment(environmentId)
+        return buildConnectorOverview(connectors)
+    }
+
+    private fun buildConnectorOverview(connectors: List<ConnectorRecord>): ConnectorOverviewResult {
         val orgNames = organizationService.getAllOrganizationNames()
 
         val connectorDtos = connectors.map {
             ConnectorOverviewEntryDto(
                 it.connectorId,
-                orgNames[it.providerMdsId] ?: "",
+                if (it.type == ConnectorType.CAAS) "sovity GmbH" else orgNames[it.providerMdsId] ?: "",
                 it.type.toDto(),
                 deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
                 it.name,
                 if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).toDto()
             )
         }
-
         return ConnectorOverviewResult(connectorDtos)
     }
 
