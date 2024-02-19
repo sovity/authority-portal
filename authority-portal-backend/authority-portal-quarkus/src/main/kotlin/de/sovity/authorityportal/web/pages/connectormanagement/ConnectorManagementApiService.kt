@@ -290,9 +290,12 @@ class ConnectorManagementApiService {
         }
 
         dapsClientService.forEnvironment(deploymentEnvId).deleteClient(connector.clientId)
-        brokerClientService.forEnvironment(deploymentEnvId).removeConnector(connector.endpointUrl)
-        connectorService.deleteConnector(connectorId)
 
+        if (connector.endpointUrl != null) {
+            brokerClientService.forEnvironment(deploymentEnvId).removeConnector(connector.endpointUrl)
+        }
+
+        connectorService.deleteConnector(connectorId)
         Log.info("Connector unregistered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
 
         return IdResponse(connectorId)
