@@ -43,6 +43,7 @@ export interface OrganizationRegistrationPageParentFormModel {
   organizationProfile: FormGroup<OrganizationProfileCreateFormModel>;
   mainContactProfile: FormGroup<ContactsProfileCreateFormModel>;
   technicalContactProfile: FormGroup<ContactsProfileCreateFormModel>;
+  acceptedConditions: FormControl<boolean>;
 }
 
 export type UserProfileCreateFormValue =
@@ -105,4 +106,5 @@ export const DEFAULT_ORGANIZATION_REGISTRATION_PAGE_FORM_VALUE: OrganizationRegi
     organizationProfile: DEFAULT_ORGANIZATION_PROFILE_CREATE_FORM_VALUE,
     mainContactProfile: DEFAULT_CONTACTS_PROFILE_CREATE_FORM_VALUE,
     technicalContactProfile: DEFAULT_CONTACTS_PROFILE_CREATE_FORM_VALUE,
+    acceptedConditions: false,
   };
