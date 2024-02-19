@@ -217,10 +217,7 @@
 
           <button
             class="btn-accent"
-            [ngClass]="{
-              'opacity-50 cursor-not-allowed': connectorDetailsFormGroup.invalid
-            }"
-            [disabled]="connectorDetailsFormGroup.invalid"
+            [disabledBtn]="connectorDetailsFormGroup.invalid"
             (click)="onConnectorDetailCollected(true)">
             Next
           </button>
@@ -302,17 +299,11 @@
         </button>
         <button
           class="btn-accent"
-          [disabled]="
+          [disabledBtn]="
             state.state === 'submitting' ||
             certificateFormGroup.invalid ||
             !enableSubmitButton
           "
-          [ngClass]="{
-            'opacity-50 cursor-not-allowed':
-              state.state === 'submitting' ||
-              certificateFormGroup.invalid ||
-              !enableSubmitButton
-          }"
           (click)="registerConnector()">
           Add Connector
         </button>

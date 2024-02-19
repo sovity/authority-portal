@@ -1,4 +1,5 @@
 import {
+  CaasAvailabilityResponseToJSON,
   CentralComponentCreateRequestFromJSON,
   CentralComponentDtoToJSON,
   ConnectorDetailDtoToJSON,
@@ -26,6 +27,7 @@ import {
 } from './impl/central-component-fake';
 import {deploymentEnvironmentList} from './impl/deployment-environment-list-fake';
 import {
+  checkFreeCaasUsage,
   createCaas,
   createOwnConnector,
   deleteOwnConnector,
@@ -170,9 +172,16 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('organizations/my-org/connectors/request-caas')
     .on('POST', () => {
       const request = CreateCaasRequestFromJSON(body);
-      const result = createCaas(request);
+      const result = createCaas(request, environmentId!);
 
       return ok(CreateConnectorResponseToJSON(result));
+    })
+
+    .url('organizations/my-org/connectors/check-free-caas-usage')
+    .on('GET', () => {
+      const result = checkFreeCaasUsage({environmentId: environmentId!});
+
+      return ok(CaasAvailabilityResponseToJSON(result));
     })
 
     .url('organizations/my-org/connectors/*')

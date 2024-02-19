@@ -58,17 +58,13 @@
       <button
         class="btn-accent-outline"
         type="button"
-        routerLink="/my-organization/connectors/registration/setup">
+        routerLink="/my-organization/connectors/registration">
         Cancel
       </button>
 
       <button
         class="btn-accent"
-        [disabled]="state.state === 'submitting' || form.formGroup.invalid"
-        [ngClass]="{
-          'opacity-50 cursor-not-allowed':
-            state.state === 'submitting' || form.formGroup.invalid
-        }"
+        [disabledBtn]="state.state === 'submitting' || form.formGroup.invalid"
         (click)="requestCaas()">
         Request CaaS
       </button>

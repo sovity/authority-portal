@@ -1,4 +1,6 @@
 import {
+  CaasAvailabilityResponse,
+  CheckFreeCaasUsageRequest,
   ConnectorDetailDto,
   ConnectorOverviewResult,
   ConnectorTypeDto,
@@ -216,6 +218,7 @@ export const createOwnConnector = (
 
 export const createCaas = (
   request: CreateCaasRequest,
+  environmentId: string,
 ): CreateConnectorResponse => {
   const mdsId = getUserInfo().organizationMdsId;
   const orgName = getUserInfo().organizationName;
@@ -229,7 +232,7 @@ export const createCaas = (
     hostMdsId: mdsId,
     hostName: orgName,
     type: ConnectorTypeDto.Caas,
-    environment: {environmentId: '123', title: 'test'},
+    environment: {environmentId: '123', title: environmentId},
     connectorName: request.connectorTitle,
     location: 'Germany, EU',
     frontendUrl: `https://${request.connectorSubdomain}.sovity.caas/connector`,
@@ -241,6 +244,21 @@ export const createCaas = (
     id: randomId,
     changedDate: new Date(),
     status: CreateConnectorStatusDto.Ok,
+  };
+};
+
+export const checkFreeCaasUsage = (
+  request: CheckFreeCaasUsageRequest,
+): CaasAvailabilityResponse => {
+  return {
+    current: TEST_CONNECTORS.find(
+      (x) =>
+        x.type === ConnectorTypeDto.Caas &&
+        x.environment.title === request.environmentId,
+    )
+      ? 1
+      : 0,
+    limit: 1,
   };
 };
 

@@ -1,7 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Subject, takeUntil} from 'rxjs';
+import {Router} from '@angular/router';
+import {Observable, Subject, switchMap, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {CaasAvailabilityResponse} from '@sovity.de/authority-portal-client';
+import {ApiService} from 'src/app/core/api/api.service';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {RequestConnectorForm} from './form/request-connector-form';
 import {Reset, Submit} from './state/request-connector-page-actions';
 import {
@@ -25,9 +29,13 @@ export class RequestConnectorPageComponent implements OnInit {
     @Inject(APP_CONFIG) public config: AppConfig,
     public form: RequestConnectorForm,
     private store: Store,
+    private apiService: ApiService,
+    private globalStateUtils: GlobalStateUtils,
+    private router: Router,
   ) {}
 
   ngOnInit() {
+    this.redirectIfOverCaasLimits();
     this.startListeningToState();
     this.store.dispatch(Reset);
   }
@@ -43,6 +51,27 @@ export class RequestConnectorPageComponent implements OnInit {
         () => this.form.formGroup.disable(),
       ),
     );
+  }
+
+  redirectIfOverCaasLimits() {
+    this.globalStateUtils
+      .getDeploymentEnvironmentId()
+      .pipe(
+        switchMap(
+          (deploymentEnvironmentId): Observable<CaasAvailabilityResponse> =>
+            this.apiService.checkFreeCaasUsage(deploymentEnvironmentId),
+        ),
+        takeUntil(this.ngOnDestroy$),
+      )
+      .subscribe((x) => {
+        if ((x.current ?? 0) >= (x.limit ?? -1)) {
+          this.router.navigate([
+            '/my-organization',
+            'connectors',
+            'registration',
+          ]);
+        }
+      });
   }
 
   startListeningToState() {

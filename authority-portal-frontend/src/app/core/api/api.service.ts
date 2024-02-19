@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, from} from 'rxjs';
 import {
+  CaasAvailabilityResponse,
   CentralComponentCreateRequest,
   CentralComponentDto,
   ChangeApplicationRoleRequest,
@@ -230,6 +231,12 @@ export class ApiService {
         centralComponentId,
       }),
     );
+  }
+
+  checkFreeCaasUsage(
+    environmentId: string,
+  ): Observable<CaasAvailabilityResponse> {
+    return from(this.api().checkFreeCaasUsage({environmentId}));
   }
 
   private api(): UiApi {

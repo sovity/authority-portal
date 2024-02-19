@@ -46,6 +46,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Re-branded Invited User and Organization onboarding pages
 - Added connector status to list and detail views
 - Added Environment switcher to the topbar
+- Implemented CaaS integration
+- Enforced limits for free CaaS requests
 
 #### Patch
 
