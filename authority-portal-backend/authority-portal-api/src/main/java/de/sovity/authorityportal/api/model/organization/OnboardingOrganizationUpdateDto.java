@@ -2,6 +2,7 @@ package de.sovity.authorityportal.api.model.organization;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ public class OnboardingOrganizationUpdateDto {
     @Schema(description = "Billing address", requiredMode = Schema.RequiredMode.REQUIRED)
     private String billingAddress;
 
-    @NotBlank(message = "Legal identification type cannot be blank")
+    @NotNull(message = "Legal identification type cannot be null")
     @Schema(description = "Legal identification type", requiredMode = Schema.RequiredMode.REQUIRED)
     private OrganizationLegalIdTypeDto legalIdType;
 

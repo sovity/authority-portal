@@ -1,6 +1,6 @@
 package de.sovity.authorityportal.web.pages.connectormanagement
 
-import de.sovity.authorityportal.api.model.organization.ConnectorStatusDto
+import de.sovity.authorityportal.api.model.ConnectorStatusDto
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
 import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasStatusDto

@@ -1,6 +1,5 @@
 package de.sovity.authorityportal.api.model;
 
-import de.sovity.authorityportal.api.model.organization.ConnectorStatusDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +16,7 @@ import lombok.ToString;
 public class ConnectorOverviewEntryDto {
     @Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
     private String id;
-    @Schema(description = "Host Name", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Host Name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String hostName;
     @Schema(description = "Type", requiredMode = Schema.RequiredMode.REQUIRED)
     private ConnectorTypeDto type;
