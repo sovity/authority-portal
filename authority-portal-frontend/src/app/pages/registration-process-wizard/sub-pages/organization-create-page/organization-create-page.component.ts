@@ -27,6 +27,7 @@ import {
 import {OrganizationCreatePageStateImpl} from '../../state/organization-create-page-state-impl';
 import {
   DEFAULT_ORGANIZATION_PROFILE_CREATE_FORM_VALUE,
+  DEFAULT_ORGANIZATION_REGISTRATION_PAGE_FORM_VALUE,
   DEFAULT_USER_PROFILE_CREATE_FORM_VALUE,
   OrganizationRegistrationPageParentFormModel,
 } from './organization-create-page-form-model';
@@ -67,6 +68,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
     const initialMainContactProfile = DEFAULT_USER_PROFILE_CREATE_FORM_VALUE;
     const initialTechnicalContactProfile =
       DEFAULT_USER_PROFILE_CREATE_FORM_VALUE;
+    const initialFormValues = DEFAULT_ORGANIZATION_REGISTRATION_PAGE_FORM_VALUE;
 
     const organizationRegistrationForm: FormGroup<OrganizationRegistrationPageParentFormModel> =
       this.formBuilder.nonNullable.group({
@@ -189,6 +191,10 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
           ],
           email: [initialTechnicalContactProfile.email, [Validators.required]],
         }),
+        acceptedConditions: [
+          initialFormValues.acceptedConditions,
+          Validators.requiredTrue,
+        ],
       });
     return organizationRegistrationForm;
   }

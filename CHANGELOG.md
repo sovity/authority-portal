@@ -48,6 +48,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added Environment switcher to the topbar
 - Implemented CaaS integration
 - Enforced limits for free CaaS requests
+- Added accept TOS checkbox to registration form
 
 #### Patch
 
@@ -79,6 +80,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Removed an environment variable `authority-portal.connectors.url.management`
   - Removed an environment variable `authority-portal.connectors.url.endpoint`
   - Please ensure that the frontend, endpoint and management API URLs are configured correctly for all connectors. If needed, remove affected connectors and re-register them with a correct URL configuration.
+
+- Portal Frontend
+  - Added environment variable `AUTHORITY_PORTAL_FRONTEND_DSGVO_URL`
+  - Added environment variable `AUTHORITY_PORTAL_FRONTEND_AVV_URL`
 
 _For further information check out our [Productive Deployment Guide](README.md#productive-deployment-guide)._
 

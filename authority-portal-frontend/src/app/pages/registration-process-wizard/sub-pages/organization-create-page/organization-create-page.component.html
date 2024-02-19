@@ -76,6 +76,20 @@
                 parentFormGroup.controls.technicalContactProfile
               "></app-contacts-profile-form>
 
+            <mat-checkbox
+              [formControl]="parentFormGroup.controls.acceptedConditions">
+              <span class="text-sm">
+                I hereby confirm, that I have read, understood and accept the
+                <a class="underline" target="_blank" [href]="config.dsgvoUrl"
+                  >DSGVO</a
+                >
+                and
+                <a class="underline" target="_blank" [href]="config.avvUrl"
+                  >AVV</a
+                >.
+              </span>
+            </mat-checkbox>
+
             <div
               class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
               <button class="btn-accent-outline" type="button" routerLink="/">
@@ -87,7 +101,8 @@
                 [disabledBtn]="
                   parentFormGroup.controls.organizationProfile.invalid ||
                   parentFormGroup.controls.mainContactProfile.invalid ||
-                  parentFormGroup.controls.technicalContactProfile.invalid
+                  parentFormGroup.controls.technicalContactProfile.invalid ||
+                  parentFormGroup.controls.acceptedConditions.invalid
                 "
                 (click)="submit()">
                 Next
