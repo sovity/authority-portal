@@ -35,11 +35,13 @@ class DapsClient(private val dapsConfig: DapsConfig): AutoCloseable {
 
     fun deleteClient(clientId: String) {
         val client = getClientById(clientId)
-        keycloak.realm(realmName).clients().get(client.id).remove()
+        if (client != null) {
+            keycloak.realm(realmName).clients().get(client.id).remove()
+        }
     }
 
     fun addCertificate(clientId: String, certificate: String) {
-        val client = getClientById(clientId)
+        val client = getClientById(clientId) ?: error("Client not found")
 
         customKeycloakResource.uploadJksCertificate(
             realmName,
@@ -51,7 +53,7 @@ class DapsClient(private val dapsConfig: DapsConfig): AutoCloseable {
     }
 
     fun addJwksUrl(clientId: String, jwksUrl: String) {
-        val client = getClientById(clientId)
+        val client = getClientById(clientId) ?: error("Client not found")
 
         client.attributes["jwks.url"] = jwksUrl
         client.attributes["use.jwks.url"] = "true"
@@ -59,7 +61,7 @@ class DapsClient(private val dapsConfig: DapsConfig): AutoCloseable {
     }
 
     fun configureMappers(clientId: String, connectorId: String, certificate: String) {
-        val client = getClientById(clientId)
+        val client = getClientById(clientId) ?: error("Client not found")
         setAccessTokenClaim(client)
 
         val datMapper = buildDatMapper(clientId, connectorId)
@@ -69,7 +71,7 @@ class DapsClient(private val dapsConfig: DapsConfig): AutoCloseable {
     }
 
     fun configureMappers(clientId: String, connectorId: String) {
-        val client = getClientById(clientId)
+        val client = getClientById(clientId) ?: error("Client not found")
         setAccessTokenClaim(client)
 
         val datMapper = buildDatMapper(clientId, connectorId)
@@ -100,8 +102,8 @@ class DapsClient(private val dapsConfig: DapsConfig): AutoCloseable {
         return datMapper
     }
 
-    private fun getClientById(clientId: String): ClientRepresentation =
-        keycloak.realm(realmName).clients().findByClientId(clientId).firstOrNull() ?: error("Client not found")
+    private fun getClientById(clientId: String): ClientRepresentation? =
+        keycloak.realm(realmName).clients().findByClientId(clientId).firstOrNull()
 
     private fun buildClientRepresentation(clientId: String): ClientRepresentation {
         return ClientRepresentation().apply {
