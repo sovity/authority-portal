@@ -1,12 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
-import {Subject, combineLatest, take, takeUntil} from 'rxjs';
+import {combineLatest, Subject, take, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {
-  OwnOrganizationDetailsDto,
-  UserInfo,
-} from '@sovity.de/authority-portal-client';
+import {OwnOrganizationDetailsDto, UserInfo,} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {phoneNumberValidator} from 'src/app/core/utils/validators/phone-number-validator';
 import {urlValidator} from 'src/app/core/utils/validators/url-validator';

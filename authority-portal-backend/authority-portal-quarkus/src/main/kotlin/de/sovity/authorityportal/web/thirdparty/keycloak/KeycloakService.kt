@@ -4,6 +4,7 @@ import de.sovity.authorityportal.web.thirdparty.keycloak.model.ApplicationRole
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.RequiredAction
+import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import jakarta.ws.rs.WebApplicationException
@@ -100,11 +101,21 @@ class KeycloakService {
         return keycloakUserMapper.buildKeycloakUserDto(user)
     }
 
-    fun updateUser(userId: String, firstName: String, lastName: String) {
+    fun updateUser(userId: String, firstName: String, lastName: String, email: String?) {
         val userResource = keycloak.realm(keycloakRealm).users().get(userId)
         val user = userResource.toRepresentation()
         user.firstName = firstName
         user.lastName = lastName
+
+        if (user != null && user.email != email) {
+            user.email = email
+            user.isEmailVerified = false
+            user.requiredActions = listOf(
+                RequiredAction.VERIFY_EMAIL.stringRepresentation
+            )
+            forceLogout(user.id)
+        }
+
         keycloak.realm(keycloakRealm).users().get(userId).update(user)
     }
 
@@ -241,6 +252,7 @@ class KeycloakService {
 
     fun forceLogout(userId: String) {
         keycloak.realm(keycloakRealm).users().get(userId).logout()
+        Log.info("Logging out user forcefully. userId: $userId")
     }
 
     fun sendInvitationEmail(userId: String) {
