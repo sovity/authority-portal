@@ -22,17 +22,11 @@ export class ProvideConnectorForm {
       connectorDetails: this.formBuilder.nonNullable.group({
         name: [initial.name, [Validators.required]],
         location: [initial.location, [Validators.required]],
-        frontendUrl: [
-          initial.frontendUrl,
-          [Validators.required, urlValidator()],
-        ],
-        endpointUrl: [
-          initial.endpointUrl,
-          [Validators.required, urlValidator()],
-        ],
+        frontendUrl: [initial.frontendUrl, [Validators.required, urlValidator]],
+        endpointUrl: [initial.endpointUrl, [Validators.required, urlValidator]],
         managementUrl: [
           initial.managementUrl,
-          [Validators.required, urlValidator()],
+          [Validators.required, urlValidator],
         ],
         mdsId: [initial.mdsId, [Validators.required]],
       }),

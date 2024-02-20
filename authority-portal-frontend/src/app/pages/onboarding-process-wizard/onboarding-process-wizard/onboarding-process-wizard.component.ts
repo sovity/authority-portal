@@ -10,7 +10,7 @@ import {
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {phoneNumberValidator} from 'src/app/core/utils/validators/phone-number-validator';
 import {urlValidator} from 'src/app/core/utils/validators/url-validator';
-import {zipcodeValidator} from 'src/app/core/utils/validators/zipcode-validator';
+import {zipCodeValidator} from 'src/app/core/utils/validators/zipcode-validator';
 import {
   GetOnboardingOrganizationDetails,
   OnboardingProcessFormSubmit,
@@ -125,7 +125,7 @@ export class OnboardingProcessWizardComponent implements OnInit {
             ],
             zipCode: [
               initialOrganizationProfile.address.zipCode,
-              [Validators.required, zipcodeValidator],
+              [Validators.required, zipCodeValidator],
             ],
             country: [
               initialOrganizationProfile.address.country,
@@ -147,7 +147,7 @@ export class OnboardingProcessWizardComponent implements OnInit {
             ],
             zipCode: [
               initialOrganizationProfile.address.zipCode,
-              [Validators.required, zipcodeValidator],
+              [Validators.required, zipCodeValidator],
             ],
             country: [
               initialOrganizationProfile.address.country,
@@ -178,7 +178,10 @@ export class OnboardingProcessWizardComponent implements OnInit {
             initialMainContactProfile.phoneNumber,
             [Validators.required, phoneNumberValidator],
           ],
-          email: [initialMainContactProfile.email, [Validators.required]],
+          email: [
+            initialMainContactProfile.email,
+            [Validators.required, Validators.email],
+          ],
         }),
         technicalContactProfile: this.formBuilder.nonNullable.group({
           firstName: [
@@ -193,7 +196,10 @@ export class OnboardingProcessWizardComponent implements OnInit {
             initialTechnicalContactProfile.phoneNumber,
             [Validators.required, phoneNumberValidator],
           ],
-          email: [initialTechnicalContactProfile.email, [Validators.required]],
+          email: [
+            initialTechnicalContactProfile.email,
+            [Validators.required, Validators.email],
+          ],
         }),
       });
     return organizationRegistrationForm;
