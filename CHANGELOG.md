@@ -52,6 +52,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - New "unauthenticated page", registration now happens in the Authority Portal without Keycloak.
 - Made connectors URL fields clickable/copyable in detail view
 - Added link that opens frontend in new tab to connector list view
+- Updated the form validators and validation system
 - Added the possibility to delete users
 
 #### Patch
@@ -80,10 +81,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
     - `authority-portal.connectors.url.endpoint`
     - Please ensure that the frontend, endpoint and management API URLs are configured correctly for all connectors. If needed, remove affected connectors and re-register them with a correct URL configuration.
 
-- Keycloak IAM needs to be upgraded to version 23.0.4
-- Portal Backend
-
 - Portal Frontend
+
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_DSGVO_URL`
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_AVV_URL`
 

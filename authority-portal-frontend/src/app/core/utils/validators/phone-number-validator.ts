@@ -1,7 +1,9 @@
-import {ValidatorFn, Validators} from '@angular/forms';
+import {ValidatorFn} from '@angular/forms';
+import {namedRegexValidator} from './named-regex-validator';
 
-export const validPhoneNumberPattern = /^\d{11}$/;
+export const validPhoneNumberPattern = /^\+?(?:[0-9] ?){4,19}[0-9]$/;
 
-export const phoneNumberValidator: ValidatorFn = Validators.pattern(
+export const phoneNumberValidator: ValidatorFn = namedRegexValidator(
   validPhoneNumberPattern,
+  'phoneNumber',
 );

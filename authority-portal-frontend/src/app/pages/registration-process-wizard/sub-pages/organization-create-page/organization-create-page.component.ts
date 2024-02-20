@@ -12,7 +12,7 @@ import {passwordEntropyValidator} from '../../../../core/utils/validators/passwo
 import {passwordMatchValidator} from '../../../../core/utils/validators/password-match-validator';
 import {phoneNumberValidator} from '../../../../core/utils/validators/phone-number-validator';
 import {urlValidator} from '../../../../core/utils/validators/url-validator';
-import {zipcodeValidator} from '../../../../core/utils/validators/zipcode-validator';
+import {zipCodeValidator} from '../../../../core/utils/validators/zipcode-validator';
 import {
   DEFAULT_ORGANIZATION_PROFILE_CREATE_FORM_VALUE,
   DEFAULT_ORGANIZATION_REGISTRATION_PAGE_FORM_VALUE,
@@ -116,7 +116,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
             ],
             zipCode: [
               initialOrganizationProfile.address.zipCode,
-              [Validators.required, zipcodeValidator],
+              [Validators.required, zipCodeValidator],
             ],
             country: [
               initialOrganizationProfile.address.country,
@@ -138,7 +138,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
             ],
             zipCode: [
               initialOrganizationProfile.address.zipCode,
-              [Validators.required, zipcodeValidator],
+              [Validators.required, zipCodeValidator],
             ],
             country: [
               initialOrganizationProfile.address.country,
@@ -168,7 +168,10 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
             initialMainContactProfile.phoneNumber,
             [Validators.required, phoneNumberValidator],
           ],
-          email: [initialMainContactProfile.email, [Validators.required]],
+          email: [
+            initialMainContactProfile.email,
+            [Validators.required, Validators.email],
+          ],
         }),
         technicalContactProfile: this.formBuilder.nonNullable.group({
           firstName: [
@@ -183,7 +186,10 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
             initialTechnicalContactProfile.phoneNumber,
             [Validators.required, phoneNumberValidator],
           ],
-          email: [initialTechnicalContactProfile.email, [Validators.required]],
+          email: [
+            initialTechnicalContactProfile.email,
+            [Validators.required, Validators.email],
+          ],
         }),
         acceptedConditions: [
           initialFormValues.acceptedConditions,
