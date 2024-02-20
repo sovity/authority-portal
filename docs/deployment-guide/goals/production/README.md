@@ -22,6 +22,13 @@ operator company.
 
 The respective compatible versions can be found in the [CHANGELOG.md](../../../../CHANGELOG.md).
 
+### Third Party
+
+- Information about a running instance of the sovity CaaS-Portal ist required.
+  - URL of the CaaS-Portal, referred to as `[CAAS_PORTAL_FQDN]` in this guide.
+  - URL of the Keycloak for authorizing at the CaaS-Portal, referred to as `[CAAS_KC_FQDN]` in this guide.
+  - Credentials for the CaaS-Portal, referred to as `[CAAS_CLIENT_ID]` and `[CAAS_CLIENT_SECRET]` in this guide.
+
 ## Deployment
 
 We are awaiting a working Test Process with Sirius, which we can base the productive deployment guide on.
@@ -144,12 +151,13 @@ quarkus.keycloak.admin-client.client-id: authority-portal-client # Keycloak Admi
 quarkus.keycloak.admin-client.client-secret: [AP_CLIENT_SECRET] # Keycloak Admin Client: Client secret
 quarkus.keycloak.admin-client.grant-type: CLIENT_CREDENTIALS # Keycloak Admin Client: Grant type
 quarkus.log.level: INFO # Log level for backend logging (ERROR, INFO, DEBUG, etc). Docs: https://quarkus.io/guides/logging
-authority-portal.invitation.expiration: 43200 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
-authority-portal.base-url: https://authority-portal.my-org.com # Must equal the root URL/home URl from the Keycloak configuration - see above)
-authority-portal.clearing-house.url: https://[CH_FQDN] # Clearing House URL
 quarkus.oidc-client.sovity.auth-server-url: https://[CAAS_KC_FQDN]/realms/[REALM] # CaaS Portal: Auth server URL
-quarkus.oidc-client.sovity.client-id: [CLIENT_ID] # CaaS Portal: Client ID
+quarkus.oidc-client.sovity.client-id: [CAAS_CLIENT_ID] # CaaS Portal: Client ID
 quarkus.oidc-client.sovity.credentials.secret: [CAAS_CLIENT_SECRET] # CaaS Portal: Client Secret
+authority-portal.base-url: https://[AP_FQDN] # Must equal the root URL/home URl from the Keycloak configuration - see above)
+authority-portal.invitation.expiration: 43200 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
+authority-portal.caas.sovity.url: https://[CAAS_PORTAL_FQDN] # URL of the sovity CaaS Portal
+authority-portal.caas.sovity.limit-per-mdsid: 1 # Amount of free sovity CaaS per participant
 # Following is **one** deployment environment configuration. (See hint below)
 authority-portal.deployment.environments.test.title: Test # Env: Title of the deployment environment configuration
 authority-portal.deployment.environments.test.position: 0  # Env: Order of environments, from 0 (default) to n (least important)

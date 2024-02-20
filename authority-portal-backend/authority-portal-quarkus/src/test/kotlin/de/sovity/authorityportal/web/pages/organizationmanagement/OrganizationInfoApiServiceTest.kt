@@ -61,7 +61,7 @@ class OrganizationInfoApiServiceTest {
     fun testOrganizationDetails() {
         // arrange
         `when`(deploymentEnvironmentService.assertValidEnvId(environmentId)).then {}
-        `when`(connectorService.getConnectorCountByMdsId(mdsId, environmentId)).thenReturn(connectorCount)
+        `when`(connectorService.getConnectorCountByMdsIdAndEnvironment(mdsId, environmentId)).thenReturn(connectorCount)
         `when`(connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)).thenReturn(dataOfferCount)
 
         // act

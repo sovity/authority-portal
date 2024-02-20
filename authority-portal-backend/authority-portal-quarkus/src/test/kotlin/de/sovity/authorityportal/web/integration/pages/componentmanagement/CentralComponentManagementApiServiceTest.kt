@@ -96,7 +96,7 @@ class CentralComponentManagementApiServiceTest {
         val componentList = centralComponentManagementApiService.listCentralComponents(envId)
 
         // act
-        centralComponentManagementApiService.deleteCentralComponent(componentList[0].centralComponentId, userId)
+        centralComponentManagementApiService.deleteCentralComponentByUser(componentList[0].centralComponentId, userId)
         val result = centralComponentManagementApiService.listCentralComponents(envId)
 
         // assert

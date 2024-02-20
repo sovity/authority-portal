@@ -18,11 +18,19 @@ class CentralComponentService {
         return getComponent(centralComponentId) ?: error("Component with id $centralComponentId not found")
     }
 
-    fun getCentralComponents(envId: String): List<ComponentRecord> {
+    fun getCentralComponentsByEnvironment(envId: String): List<ComponentRecord> {
         val c = Tables.COMPONENT
 
         return dsl.selectFrom(c)
             .where(c.ENVIRONMENT.eq(envId))
+            .fetch()
+    }
+
+    fun getCentralComponentsByMdsId(mdsId: String): List<ComponentRecord> {
+        val c = Tables.COMPONENT
+
+        return dsl.selectFrom(c)
+            .where(c.MDS_ID.eq(mdsId))
             .fetch()
     }
 
@@ -62,6 +70,14 @@ class CentralComponentService {
 
         dsl.deleteFrom(c)
             .where(c.ID.eq(centralComponentId))
+            .execute()
+    }
+
+    fun updateCentralComponentsCreator(newCreatedBy: String, oldCreatedBy: String) {
+        val c = Tables.COMPONENT
+        dsl.update(c)
+            .set(c.CREATED_BY, newCreatedBy)
+            .where(c.CREATED_BY.eq(oldCreatedBy))
             .execute()
     }
 }

@@ -77,7 +77,7 @@ class CaasManagementApiService {
 
     fun getFreeCaasUsageForOrganization(mdsId: String, environmentId: String): CaasAvailabilityResponse {
         val caasLimit = caasLimitPerMdsId.toInt()
-        val caasCount = connectorService.getCaasCountByMdsId(mdsId, environmentId)
+        val caasCount = connectorService.getCaasCountByMdsIdAndEnvironment(mdsId, environmentId)
 
         return CaasAvailabilityResponse(caasLimit, caasCount)
     }

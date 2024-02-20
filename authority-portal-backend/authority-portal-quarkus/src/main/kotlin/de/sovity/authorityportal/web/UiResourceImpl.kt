@@ -18,6 +18,7 @@ import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.UpdateUserDto
+import de.sovity.authorityportal.api.model.UserDeletionCheck
 import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
@@ -40,6 +41,7 @@ import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationUp
 import de.sovity.authorityportal.web.pages.redirects.BrokerRedirectApiService
 import de.sovity.authorityportal.web.pages.registration.RegistrationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeactivationApiService
+import de.sovity.authorityportal.web.pages.usermanagement.UserDeletionApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserInfoApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
@@ -72,6 +74,9 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var userDeactivationApiService: UserDeactivationApiService
+
+    @Inject
+    lateinit var userDeletionApiService: UserDeletionApiService
 
     @Inject
     lateinit var organizationInfoApiService: OrganizationInfoApiService
@@ -134,6 +139,7 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun changeParticipantRole(userId: String, roleDto: UserRoleDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
+        authUtils.requiresTargetNotSelf(userId)
         authUtils.requiresMemberOfSameOrganizationAs(userId)
         return userRoleApiService.changeParticipantRole(userId, roleDto, loggedInUser.organizationMdsId!!, loggedInUser.userId)
     }
@@ -160,11 +166,28 @@ class UiResourceImpl : UiResource {
         return userDeactivationApiService.reactivateUser(userId, loggedInUser.userId)
     }
 
+    @Transactional
+    override fun checkParticipantUserDeletion(userId: String): UserDeletionCheck {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
+        authUtils.requiresTargetNotSelf(userId)
+        authUtils.requiresMemberOfSameOrganizationAs(userId)
+        return userDeletionApiService.checkUserDeletion(userId)
+    }
+
+    @Transactional
+    override fun deleteParticipantUser(userId: String, successorUserId: String?): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
+        authUtils.requiresTargetNotSelf(userId)
+        authUtils.requiresMemberOfSameOrganizationAs(userId)
+        return userDeletionApiService.handleUserDeletion(userId, successorUserId, loggedInUser.userId)
+    }
+
     // Organization management (Authority)
     @Transactional
     override fun changeApplicationRole(userId: String, roleDto: UserRoleDto): IdResponse {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN,
             Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        authUtils.requiresTargetNotSelf(userId)
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
             authUtils.requiresMemberOfSameOrganizationAs(userId)
         }
@@ -175,6 +198,7 @@ class UiResourceImpl : UiResource {
     override fun clearApplicationRole(userId: String): IdResponse {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN,
             Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        authUtils.requiresTargetNotSelf(userId)
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
             authUtils.requiresMemberOfSameOrganizationAs(userId)
         }
@@ -192,6 +216,20 @@ class UiResourceImpl : UiResource {
     override fun reactivateAnyUser(userId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
         return userDeactivationApiService.reactivateUser(userId, loggedInUser.userId)
+    }
+
+    @Transactional
+    override fun checkUserDeletion(userId: String): UserDeletionCheck {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        authUtils.requiresTargetNotSelf(userId)
+        return userDeletionApiService.checkUserDeletion(userId)
+    }
+
+    @Transactional
+    override fun deleteUser(userId: String, successorUserId: String?): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        authUtils.requiresTargetNotSelf(userId)
+        return userDeletionApiService.handleUserDeletion(userId, successorUserId, loggedInUser.userId)
     }
 
     @Transactional
@@ -255,7 +293,7 @@ class UiResourceImpl : UiResource {
     override fun deleteProvidedConnector(connectorId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.deleteConnector(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return connectorManagementApiService.deleteSelfHostedConnector(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
     }
 
     @Transactional
@@ -320,7 +358,7 @@ class UiResourceImpl : UiResource {
     override fun deleteOwnConnector(connectorId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.deleteConnector(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return connectorManagementApiService.deleteSelfHostedConnector(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
     }
 
     @Transactional
@@ -379,7 +417,7 @@ class UiResourceImpl : UiResource {
     override fun deleteCentralComponent(centralComponentId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return centralComponentManagementApiService.deleteCentralComponent(centralComponentId, loggedInUser.userId)
+        return centralComponentManagementApiService.deleteCentralComponentByUser(centralComponentId, loggedInUser.userId)
     }
 
     @Transactional

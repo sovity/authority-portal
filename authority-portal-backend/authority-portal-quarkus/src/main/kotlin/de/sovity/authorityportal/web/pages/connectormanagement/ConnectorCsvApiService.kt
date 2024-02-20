@@ -19,7 +19,7 @@ class ConnectorCsvApiService {
     fun generateConnectorCsv(mdsId: String, environmentId: String): ByteArrayInputStream {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
-        val connectors = connectorService.getConnectorsByMdsId(mdsId, environmentId)
+        val connectors = connectorService.getConnectorsByMdsIdAndEnvironment(mdsId, environmentId)
 
         val csvHeaders = arrayOf("Name", "Type", "MDS ID", "Environment", "Frontend URL", "Endpoint URL", "Management API URL")
         val csvData = mutableListOf(csvHeaders)

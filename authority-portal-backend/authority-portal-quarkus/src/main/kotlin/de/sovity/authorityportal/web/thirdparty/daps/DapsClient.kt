@@ -11,7 +11,7 @@ import java.security.MessageDigest
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
-class DapsClient(private val dapsConfig: DapsConfig): AutoCloseable {
+class DapsClient(dapsConfig: DapsConfig): AutoCloseable {
 
     private val realmName = dapsConfig.realmName()
 
@@ -90,14 +90,14 @@ class DapsClient(private val dapsConfig: DapsConfig): AutoCloseable {
             protocol = "openid-connect"
             protocolMapper = "dat-mapper"
             name = "DAT Mapper"
-            config = buildMap<String, String>() {
-                put("security-profile-claim", "idsc:BASE_SECURITY_PROFILE")
-                put("audience-claim", "idsc:IDS_CONNECTORS_ALL")
-                put("scope-claim", "idsc:IDS_CONNECTOR_ATTRIBUTES_ALL")
-                put("subject-claim", clientId)
-                put("referring-connector-claim", connectorId)
-                put("access.token.claim", "true")
-            }
+            config = mutableMapOf(
+                "security-profile-claim" to "idsc:BASE_SECURITY_PROFILE",
+                "audience-claim" to "idsc:IDS_CONNECTORS_ALL",
+                "scope-claim" to "idsc:IDS_CONNECTOR_ATTRIBUTES_ALL",
+                "subject-claim" to clientId,
+                "referring-connector-claim" to connectorId,
+                "access.token.claim" to "true"
+            )
         }
         return datMapper
     }

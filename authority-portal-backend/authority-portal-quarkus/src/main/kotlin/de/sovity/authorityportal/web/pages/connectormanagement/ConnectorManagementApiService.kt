@@ -102,7 +102,7 @@ class ConnectorManagementApiService {
     fun listOrganizationConnectors(mdsId: String, environmentId: String): ConnectorOverviewResult {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
-        val connectors = connectorService.getConnectorsByMdsId(mdsId, environmentId)
+        val connectors = connectorService.getConnectorsByMdsIdAndEnvironment(mdsId, environmentId)
         return buildConnectorOverview(connectors)
     }
 
@@ -271,7 +271,7 @@ class ConnectorManagementApiService {
         }
     }
 
-    fun deleteConnector(
+    fun deleteSelfHostedConnector(
         connectorId: String,
         mdsId: String,
         userId: String
@@ -283,24 +283,31 @@ class ConnectorManagementApiService {
             error("Connector ID does not match MDS-ID of the user's organization or host organization")
         }
 
+        deleteConnector(connector)
+        Log.info("Connector unregistered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
+
+        return IdResponse(connectorId)
+    }
+
+    fun deleteAllOrganizationConnectors(mdsId: String) {
+        val connectors = connectorService.getConnectorsByMdsId(mdsId)
+        connectors.forEach { deleteConnector(it) }
+    }
+
+    private fun deleteConnector(connector: ConnectorRecord) {
         val deploymentEnvId = connector.environment
 
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
         if (connector.type == ConnectorType.CAAS) {
-            caasClient.deleteCaas(listOf(connectorId))
+            caasClient.deleteCaas(listOf(connector.connectorId))
         }
 
         dapsClientService.forEnvironment(deploymentEnvId).deleteClient(connector.clientId)
-
         if (connector.endpointUrl != null) {
             brokerClientService.forEnvironment(deploymentEnvId).removeConnector(connector.endpointUrl)
         }
-
-        connectorService.deleteConnector(connectorId)
-        Log.info("Connector unregistered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
-
-        return IdResponse(connectorId)
+        connectorService.deleteConnector(connector.connectorId)
     }
 
     fun getAllDeploymentEnvironment(): List<DeploymentEnvironmentDto> {
