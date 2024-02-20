@@ -1,3 +1,4 @@
+import {Clipboard} from '@angular/cdk/clipboard';
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {
   Subject,
@@ -54,6 +55,7 @@ export class ParticipantOwnConnectorDetailPageComponent
     private store: Store,
     @Inject('childComponentInput') childComponentInput: ChildComponentInput,
     private globalStateUtils: GlobalStateUtils,
+    private clipboard: Clipboard,
   ) {
     this.connectorId = childComponentInput.id;
   }
@@ -141,6 +143,12 @@ export class ParticipantOwnConnectorDetailPageComponent
 
   cancelDeleteConnector() {
     this.showModal = false;
+  }
+
+  copyToClipboard(s: string | undefined) {
+    if (s) {
+      this.clipboard.copy(s);
+    }
   }
 
   ngOnDestroy(): void {

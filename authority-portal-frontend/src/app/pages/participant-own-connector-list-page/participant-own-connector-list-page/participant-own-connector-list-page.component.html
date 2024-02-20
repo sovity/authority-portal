@@ -36,6 +36,11 @@
                   scope="col">
                   Environment
                 </th>
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-center"
+                  scope="col">
+                  Frontend
+                </th>
               </tr>
             </thead>
 
@@ -101,6 +106,19 @@
                           {{ connector.environment.title }}
                         </h4>
                       </div>
+                    </td>
+                    <td class="text-sm whitespace-nowrap">
+                      <a
+                        *ngIf="connector.frontendUrl"
+                        class="flex items-center justify-center group active:scale-[0.98] p-4"
+                        target="_blank"
+                        [href]="connector.frontendUrl"
+                        (click)="frontendLinkClicked = true">
+                        <mat-icon
+                          class="!text-[16px] !mt-[9px] !text-gray-600 group-hover:!text-brand-500"
+                          >open_in_new</mat-icon
+                        >
+                      </a>
                     </td>
                   </tr>
                 </tbody>

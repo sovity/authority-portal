@@ -22,4 +22,6 @@ public class ProvidedConnectorOverviewEntryDto {
     private String name;
     @Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
     private ConnectorStatusDto status;
+    @Schema(description = "Frontend link", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String frontendUrl;
 }

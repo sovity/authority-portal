@@ -48,6 +48,7 @@ export class ParticipantOwnConnectorListPageComponent
   componentToRender = ParticipantOwnConnectorDetailPageComponent;
   headerConfig!: HeaderBarConfig;
   filterBarConfig!: FilterBarConfig;
+  frontendLinkClicked: boolean = false;
 
   getConnectorStatusOuterRingClasses = getConnectorStatusOuterRingClasses;
   getConnectorStatusInnerCircleClasses = getConnectorStatusInnerCircleClasses;
@@ -167,6 +168,11 @@ export class ParticipantOwnConnectorListPageComponent
   }
 
   openDetailPage(connector: ConnectorOverviewEntryDto) {
+    if (this.frontendLinkClicked) {
+      this.frontendLinkClicked = false;
+      return;
+    }
+
     this.slideOverConfig = {
       childComponentInput: {
         id: connector.id,

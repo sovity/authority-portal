@@ -1,3 +1,4 @@
+import {Clipboard} from '@angular/cdk/clipboard';
 import {Component, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
@@ -40,6 +41,7 @@ export class AuthorityConnectorDetailPageComponent
   constructor(
     private store: Store,
     @Inject('childComponentInput') childComponentInput: ChildComponentInput,
+    private clipboard: Clipboard,
   ) {
     this.connectorId = childComponentInput.id;
   }
@@ -87,6 +89,12 @@ export class AuthorityConnectorDetailPageComponent
 
   refresh() {
     this.store.dispatch(RefreshConnector);
+  }
+
+  copyToClipboard(s: string | undefined) {
+    if (s) {
+      this.clipboard.copy(s);
+    }
   }
 
   ngOnDestroy$ = new Subject();
