@@ -1,9 +1,11 @@
 package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.ApplicationRole
+import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
@@ -18,17 +20,26 @@ class FirstUserService {
     @Inject
     lateinit var keycloakService: KeycloakService
 
+    @Inject
+    lateinit var userService: UserService
+
+    @Inject
+    lateinit var organizationService: OrganizationService
+
     val isFirstUserHandled = AtomicBoolean(false)
 
-    fun setupFirstUserIfRequired(userId: String) {
+    fun setupFirstUserIfRequired(userId: String, mdsId: String) {
         if (isFirstUserHandled.compareAndSet(false, true) && isFirstUser(userId)) {
-            setupFirstUser(userId)
+            setupFirstUser(userId, mdsId)
         }
     }
 
-    private fun setupFirstUser(userId: String) {
+    private fun setupFirstUser(userId: String, mdsId: String) {
         keycloakService.joinApplicationRole(userId, ApplicationRole.AUTHORITY_ADMIN)
-        updateStatus(userId, UserRegistrationStatus.FIRST_USER)
+        userService.updateStatus(userId, UserRegistrationStatus.ACTIVE)
+        organizationService.updateStatus(mdsId, OrganizationRegistrationStatus.ACTIVE)
+
+        Log.info("First user was made ${ApplicationRole.AUTHORITY_ADMIN}. mdsId=$mdsId, userId=$userId")
     }
 
     private fun isFirstUser(userId: String): Boolean {
@@ -40,14 +51,5 @@ class FirstUserService {
         }
 
         return dsl.fetchExists(dsl.selectFrom(u).where(u.ID.eq(userId)))
-    }
-
-    private fun updateStatus(userId: String, status: UserRegistrationStatus) {
-        val u = Tables.USER
-
-        dsl.update(u)
-            .set(u.REGISTRATION_STATUS, status)
-            .where(u.ID.eq(userId))
-            .execute()
     }
 }

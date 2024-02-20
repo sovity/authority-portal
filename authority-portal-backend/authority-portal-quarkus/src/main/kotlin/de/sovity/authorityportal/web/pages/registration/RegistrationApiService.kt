@@ -8,6 +8,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.model.CreateOrganizationData
 import de.sovity.authorityportal.web.model.CreateUserData
 import de.sovity.authorityportal.web.pages.organizationmanagement.toDb
+import de.sovity.authorityportal.web.services.FirstUserService
 import de.sovity.authorityportal.web.services.OrganizationMetadataService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
@@ -36,11 +37,15 @@ class RegistrationApiService {
     @Inject
     lateinit var mdsIdUtils: MdsIdUtils
 
+    @Inject
+    lateinit var firstUserService: FirstUserService
+
     fun registerUserAndOrganization(registrationRequest: RegistrationRequestDto): IdResponse {
         val mdsId = mdsIdUtils.generateMdsId()
         val userId = createKeycloakUserAndOrganization(mdsId, registrationRequest)
         createDbUserAndOrganization(userId, mdsId, registrationRequest)
         keycloakService.sendInvitationEmail(userId)
+        firstUserService.setupFirstUserIfRequired(userId, mdsId)
 
         Log.info("Register organization and User. mdsId=$mdsId, userId=$userId")
 
@@ -63,7 +68,6 @@ class RegistrationApiService {
     private fun createDbUserAndOrganization(userId: String, mdsId: String, registrationRequest: RegistrationRequestDto) {
         val user = userService.createUser(
             userId = userId,
-            registrationStatus = UserRegistrationStatus.PENDING,
             userData = buildUserData(registrationRequest),
             onboardingType = UserOnboardingType.SELF_REGISTRATION
         )

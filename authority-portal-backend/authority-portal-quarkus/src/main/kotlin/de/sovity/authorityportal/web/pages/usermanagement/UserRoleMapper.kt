@@ -46,7 +46,7 @@ class UserRoleMapper {
     }
 
     private fun getRemainingRoles(roles: Set<UserRoleDto>): Set<UserRoleDto> =
-        roles - applicationRoles - participantRoles
+        roles - applicationRoles - participantRoles - UserRoleDto.UNAUTHENTICATED
 
     private fun getHighestParticipantRole(roles: Set<UserRoleDto>): UserRoleDto? =
         participantRoles.firstOrNull { roles.contains(it) }

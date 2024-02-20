@@ -59,7 +59,6 @@ class OrganizationInvitationApiService {
     private fun createDbUserAndOrganization(userId: String, mdsId: String, invitationInformation: InviteOrganizationRequest) {
         val user = userService.createUser(
             userId = userId,
-            registrationStatus = UserRegistrationStatus.INVITED,
             userData = buildUserData(invitationInformation),
             onboardingType = UserOnboardingType.INVITATION
         )

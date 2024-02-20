@@ -1,7 +1,10 @@
 package de.sovity.authorityportal.web.pages.usermanagement
 
+import de.sovity.authorityportal.api.model.UserAuthenticationStatusDto
 import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
+import de.sovity.authorityportal.api.model.UserRoleDto
+import de.sovity.authorityportal.web.auth.LoggedInUser
 import de.sovity.authorityportal.web.pages.userregistration.toDto
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetailService
@@ -20,20 +23,42 @@ class UserInfoApiService {
     @Inject
     lateinit var userRoleMapper: UserRoleMapper
 
-    fun userInfo(userId: String, mdsId: String?, roles: Set<String>): UserInfo {
+    fun userInfo(loggedInUser: LoggedInUser): UserInfo = when {
+        loggedInUser.authenticated -> authenticatedUserInfo(loggedInUser)
+        else -> unauthenticatedUserInfo()
+    }
+
+    private fun authenticatedUserInfo(loggedInUser: LoggedInUser): UserInfo {
+        val mdsId = loggedInUser.organizationMdsId
+        val userId = loggedInUser.userId
+
         val user = userDetailService.getUserData(userId)
         val organizationName = getOrganization(mdsId)
-        val roleDtos = userRoleMapper.getUserRoles(roles)
+        val roles = userRoleMapper.getUserRoles(loggedInUser.roles)
 
-        return UserInfo(
-            userId,
-            user.firstName,
-            user.lastName,
-            organizationName,
-            mdsId,
-            roleDtos.toList(),
-            user.registrationStatus.toDto()
-        )
+        return UserInfo().also {
+            it.authenticationStatus = UserAuthenticationStatusDto.AUTHENTICATED
+            it.userId = userId
+            it.firstName = user.firstName
+            it.lastName = user.lastName
+            it.roles = roles.toList()
+            it.registrationStatus = user.registrationStatus.toDto()
+            it.organizationMdsId = mdsId
+            it.organizationName = organizationName
+        }
+    }
+
+    private fun unauthenticatedUserInfo(): UserInfo {
+        return UserInfo().also {
+            it.authenticationStatus = UserAuthenticationStatusDto.UNAUTHENTICATED
+            it.userId = "unauthenticated"
+            it.firstName = "Unknown"
+            it.lastName = "User"
+            it.roles = listOf(UserRoleDto.UNAUTHENTICATED)
+            it.registrationStatus = null
+            it.organizationMdsId = "unauthenticated"
+            it.organizationName = "No Organization"
+        }
     }
 
     /**

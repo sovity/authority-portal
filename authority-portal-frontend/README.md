@@ -98,10 +98,11 @@ npm run test
 
 For local development Node16 and NPM are required.
 
-Local Development uses a type-safe [Fake Backend](src/app/core/api/fake-backend/fake-backend.ts).
+Local Development uses a type-safe
+[Fake Backend](src/app/core/api/fake-backend/fake-backend.ts).
 
-This requires the API definitions for new and changed endpoints to be ready, as the data will be
-filled in by the UI Fake Backend.
+This requires the API definitions for new and changed endpoints to be ready, as
+the data will be filled in by the UI Fake Backend.
 
 To start the frontend with the fake backend, please either run:
 
@@ -119,10 +120,11 @@ npm run cold-start
 
 ### Local E2E Development
 
-Requires Node16 and NPM and a running backend in local development mode (Port 8080).
+Requires Node16 and NPM and a running backend in local development mode (Port
+8080).
 
-This can use this to manually test backend implementations in interaction
-with the UI.
+This can use this to manually test backend implementations in interaction with
+the UI.
 
 To run the frontend against a locally running backend, please either run:
 
@@ -153,11 +155,8 @@ contact@sovity.de
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [webpage-shield]:
-https://img.shields.io/badge/Sovity-black.svg?style=for-the-badge&colorB=09254d
-
+  https://img.shields.io/badge/Sovity-black.svg?style=for-the-badge&colorB=09254d
 [webpage-url]: https://www.sovity.de
-
 [linkedin-shield]:
-https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0a66c2
-
+  https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0a66c2
 [linkedin-url]: https://www.linkedin.com/company/sovity

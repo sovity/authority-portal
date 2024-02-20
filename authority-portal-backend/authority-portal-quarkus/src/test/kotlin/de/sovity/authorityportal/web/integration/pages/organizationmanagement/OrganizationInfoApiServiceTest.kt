@@ -83,10 +83,12 @@ class OrganizationInfoApiServiceTest {
         val members = KeycloakUserDto(userId, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL, USER_POSITION, USER_PHONE_NUMBER)
         userService.createUser(
             userId,
-            UserRegistrationStatus.ACTIVE,
             testMdsId,
             UserOnboardingType.SELF_REGISTRATION
-        )
+        ).also {
+            it.registrationStatus = UserRegistrationStatus.ACTIVE
+            it.update()
+        }
         val keycloakService = mock(KeycloakService::class.java)
         `when`(keycloakService.getOrganizationMembers(eq(testMdsId))).thenReturn(listOf(members))
         `when`(keycloakService.getUserRoles(eq(userId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
@@ -132,10 +134,12 @@ class OrganizationInfoApiServiceTest {
         val members = KeycloakUserDto(userId, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL, USER_POSITION, USER_PHONE_NUMBER)
         userService.createUser(
             userId,
-            UserRegistrationStatus.ACTIVE,
             testMdsId,
             UserOnboardingType.SELF_REGISTRATION
-        )
+        ).also {
+            it.registrationStatus = UserRegistrationStatus.ACTIVE
+            it.update()
+        }
         val keycloakService = mock(KeycloakService::class.java)
         `when`(keycloakService.getOrganizationMembers(eq(testMdsId))).thenReturn(listOf(members))
         `when`(keycloakService.getUserRoles(eq(userId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))

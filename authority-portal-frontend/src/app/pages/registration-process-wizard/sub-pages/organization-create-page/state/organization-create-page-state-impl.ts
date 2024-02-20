@@ -5,7 +5,7 @@ import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
-import {ApiService} from '../../../core/api/api.service';
+import {ApiService} from '../../../../../core/api/api.service';
 import {CreateOrganization, Reset} from './organization-create-page-action';
 import {
   DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,
@@ -38,12 +38,12 @@ export class OrganizationCreatePageStateImpl {
   ): Observable<never> {
     ctx.patchState({state: 'submitting'});
     action.disableForm();
+    ctx.patchState({email: action.request.userEmail});
     return this.apiService.registerOrganization(action.request).pipe(
       tap((res) => {
         this.toast.showSuccess(`Organization registered created successfully`);
         ctx.patchState({state: 'success'});
         ctx.patchState({id: res.id ?? ''});
-        ctx.patchState({email: action.request.userEmail});
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
       this.errorService.toastFailureRxjs(

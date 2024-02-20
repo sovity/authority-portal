@@ -33,7 +33,6 @@ class UserInvitationApiService {
 
         userService.createUser(
             userId = userId,
-            registrationStatus = UserRegistrationStatus.INVITED,
             mdsId = mdsId,
             onboardingType = UserOnboardingType.INVITATION,
             invitedBy = adminUserId

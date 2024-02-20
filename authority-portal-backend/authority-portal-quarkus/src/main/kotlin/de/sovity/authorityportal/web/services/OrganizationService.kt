@@ -110,4 +110,13 @@ class OrganizationService {
             .where(o.MDS_ID.`in`(mdsIds))
             .execute()
     }
+
+    fun updateStatus(mdsId: String, status: OrganizationRegistrationStatus) {
+        val o = Tables.ORGANIZATION
+
+        dsl.update(o)
+            .set(o.REGISTRATION_STATUS, status)
+            .where(o.MDS_ID.eq(mdsId))
+            .execute()
+    }
 }

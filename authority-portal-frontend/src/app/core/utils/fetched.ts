@@ -153,6 +153,24 @@ export class Fetched<T> {
   }
 
   /**
+   * RXJS Operator: Wraps request into multiple emissions that track state.
+   *
+   * @param orElse value to fall back to if request fails
+   */
+  static wrapAndReplaceErrorsSilently<T>(
+    orElse: T,
+  ): OperatorFunction<T, Fetched<T>> {
+    return (obs) =>
+      concat(
+        of(Fetched.loading<T>()),
+        obs.pipe(
+          map((data) => Fetched.ready(data)),
+          catchError(() => of(Fetched.ready(orElse))),
+        ),
+      );
+  }
+
+  /**
    * RXJS Operator: Map fetched value
    *
    * @param mapFn mapping fn applied to data if present

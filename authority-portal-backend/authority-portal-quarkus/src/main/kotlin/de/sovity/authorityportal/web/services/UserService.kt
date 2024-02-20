@@ -22,7 +22,7 @@ class UserService {
     }
 
     fun getUserOrCreate(userId: String, userOnboardingType: UserOnboardingType): UserRecord {
-        return getUser(userId) ?: createUser(userId, UserRegistrationStatus.CREATED, onboardingType = userOnboardingType)
+        return getUser(userId) ?: createUser(userId, onboardingType = userOnboardingType)
     }
 
     fun getUsersByMdsId(mdsId: String): List<UserRecord> {
@@ -51,11 +51,11 @@ class UserService {
             .fetchOne()
     }
 
-    fun createUser(userId: String, registrationStatus: UserRegistrationStatus, mdsId: String? = null, onboardingType: UserOnboardingType, invitedBy: String? = null): UserRecord {
+    fun createUser(userId: String, mdsId: String? = null, onboardingType: UserOnboardingType, invitedBy: String? = null): UserRecord {
         return dsl.newRecord(Tables.USER).also {
             it.id = userId
             it.organizationMdsId = mdsId
-            it.registrationStatus = registrationStatus
+            it.registrationStatus = initialRegistrationStatus(onboardingType)
             it.createdAt = OffsetDateTime.now()
             it.onboardingType = onboardingType
             it.invitedBy = invitedBy
@@ -64,8 +64,12 @@ class UserService {
         }
     }
 
-    fun createUser(userId: String, registrationStatus: UserRegistrationStatus,
-                   userData: CreateUserData, mdsId: String? = null, onboardingType: UserOnboardingType): UserRecord {
+    fun createUser(
+        userId: String,
+        userData: CreateUserData,
+        mdsId: String? = null,
+        onboardingType: UserOnboardingType
+    ): UserRecord {
         return dsl.newRecord(Tables.USER).also {
             it.id = userId
             it.email = userData.email
@@ -74,13 +78,19 @@ class UserService {
             it.jobTitle = userData.jobTitle
             it.phone = userData.phone
             it.organizationMdsId = mdsId
-            it.registrationStatus = registrationStatus
+            it.registrationStatus = initialRegistrationStatus(onboardingType)
             it.createdAt = OffsetDateTime.now()
             it.onboardingType = onboardingType
 
             it.insert()
         }
     }
+
+    private fun initialRegistrationStatus(onboardingType: UserOnboardingType): UserRegistrationStatus? =
+        when (onboardingType) {
+            UserOnboardingType.SELF_REGISTRATION -> UserRegistrationStatus.PENDING
+            UserOnboardingType.INVITATION -> UserRegistrationStatus.INVITED
+        }
 
     fun getUnconfirmedUserIds(expirationTime: OffsetDateTime): List<String> {
         val u = Tables.USER
@@ -107,6 +117,15 @@ class UserService {
 
         return dsl.deleteFrom(u)
             .where(u.ID.`in`(userIds))
+            .execute()
+    }
+
+    fun updateStatus(userId: String, status: UserRegistrationStatus) {
+        val u = Tables.USER
+
+        dsl.update(u)
+            .set(u.REGISTRATION_STATUS, status)
+            .where(u.ID.eq(userId))
             .execute()
     }
 }

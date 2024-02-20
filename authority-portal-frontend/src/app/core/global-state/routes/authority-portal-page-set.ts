@@ -3,6 +3,8 @@
  */
 export type AuthorityPortalPageSet =
   | 'LOADING'
-  | 'REGISTRATION_PROCESS'
+  | 'UNAUTHENTICATED'
+  | 'REJECTED'
+  | 'PENDING'
   | 'AUTHORITY_PORTAL'
   | 'ONBOARDING_PROCESS';
