@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
-import {ignoreElements, map, switchMap, take, tap} from 'rxjs/operators';
-import {Action, State, StateContext, Store} from '@ngxs/store';
+import {ignoreElements, switchMap, tap} from 'rxjs/operators';
+import {Action, State, StateContext} from '@ngxs/store';
 import {OwnOrganizationDetailsDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ApiService} from '../../../core/api/api.service';

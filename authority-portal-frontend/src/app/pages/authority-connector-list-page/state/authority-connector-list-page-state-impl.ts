@@ -1,20 +1,10 @@
 import {Injectable} from '@angular/core';
-import {EMPTY, Observable} from 'rxjs';
-import {
-  filter,
-  finalize,
-  ignoreElements,
-  map,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
-import {Action, Actions, State, StateContext} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {ignoreElements, map, switchMap, tap} from 'rxjs/operators';
+import {Action, State, StateContext} from '@ngxs/store';
 import {ConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
-import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {
   CloseConnectorDetail,

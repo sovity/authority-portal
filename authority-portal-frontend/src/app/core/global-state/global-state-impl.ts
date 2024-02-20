@@ -1,11 +1,10 @@
 import {Inject, Injectable, NgZone} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {catchError, ignoreElements, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {ignoreElements, tap} from 'rxjs/operators';
 import {Action, NgxsOnInit, Selector, State, StateContext} from '@ngxs/store';
 import {
   DeploymentEnvironmentDto,
   UserInfo,
-  UserRegistrationStatusDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {E2E_DEV_USERS} from 'src/app/common/components/dev-utils/e2e-dev-user-switcher/e2e-dev-users';

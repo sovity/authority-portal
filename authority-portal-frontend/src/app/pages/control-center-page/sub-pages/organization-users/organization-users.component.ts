@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {Observable, Subject, distinctUntilChanged, map, takeUntil} from 'rxjs';
+import {Observable, Subject, distinctUntilChanged, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {
   MemberInfo,
