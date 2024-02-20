@@ -54,6 +54,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added link that opens frontend in new tab to connector list view
 - Updated the form validators and validation system
 - Added the possibility to delete users
+- Added the possibility for users to change their user data including the email address
 
 #### Patch
 

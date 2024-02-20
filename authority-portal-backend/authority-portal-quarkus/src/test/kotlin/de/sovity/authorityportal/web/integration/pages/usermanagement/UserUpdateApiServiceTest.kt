@@ -1,6 +1,7 @@
 package de.sovity.authorityportal.web.integration.pages.usermanagement
 
 import de.sovity.authorityportal.api.model.UpdateUserDto
+import de.sovity.authorityportal.web.integration.pages.TestData.USER_EMAIL
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_FIRST_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_LAST_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_PHONE_NUMBER
@@ -43,11 +44,11 @@ class UserUpdateApiServiceTest {
     @Test
     fun testUpdateUser() {
         // arrange
-        doNothing().`when`(keycloakService).updateUser(userId, USER_FIRST_NAME, USER_LAST_NAME)
+        doNothing().`when`(keycloakService).updateUser(userId, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL)
 
         // act
         val result = userUpdateApiService.updateUserDetails(userId, UpdateUserDto(USER_FIRST_NAME, USER_LAST_NAME,
-            USER_POSITION, USER_PHONE_NUMBER))
+            USER_POSITION, USER_PHONE_NUMBER, USER_EMAIL))
         val user = userService.getUserOrThrow(userId)
 
         // assert
@@ -56,8 +57,9 @@ class UserUpdateApiServiceTest {
         assertThat(user.lastName).isEqualTo(USER_LAST_NAME)
         assertThat(user.jobTitle).isEqualTo(USER_POSITION)
         assertThat(user.phone).isEqualTo(USER_PHONE_NUMBER)
+        assertThat(user.email).isEqualTo(USER_EMAIL)
 
         // verify
-        verify(keycloakService).updateUser(userId, USER_FIRST_NAME, USER_LAST_NAME)
+        verify(keycloakService).updateUser(userId, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL)
     }
 }

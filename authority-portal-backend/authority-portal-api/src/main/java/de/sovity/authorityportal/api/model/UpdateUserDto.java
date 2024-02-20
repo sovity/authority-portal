@@ -30,4 +30,8 @@ public class UpdateUserDto {
     @NotBlank(message = "User's Phone number cannot be blank")
     @Schema(description = "User's Phone number", requiredMode = Schema.RequiredMode.REQUIRED)
     private String phone;
+
+    @NotBlank(message = "User's email cannot be blank")
+    @Schema(description = "User's email", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String email;
 }

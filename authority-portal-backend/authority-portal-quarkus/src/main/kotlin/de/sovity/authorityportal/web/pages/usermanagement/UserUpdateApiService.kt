@@ -24,8 +24,9 @@ class UserUpdateApiService {
         user.lastName = updateUserDto.lastName
         user.phone = updateUserDto.phone
         user.jobTitle = updateUserDto.jobTitle
+        user.email = updateUserDto.email
         user.update()
-        keycloakService.updateUser(userId, updateUserDto.firstName, updateUserDto.lastName)
+        keycloakService.updateUser(userId, updateUserDto.firstName, updateUserDto.lastName, updateUserDto.email)
         return IdResponse(userId)
     }
 
@@ -37,7 +38,7 @@ class UserUpdateApiService {
         user.jobTitle = onboardingUserUpdateDto.jobTitle
         user.registrationStatus = UserRegistrationStatus.ACTIVE
         user.update()
-        keycloakService.updateUser(userId, onboardingUserUpdateDto.firstName, onboardingUserUpdateDto.lastName)
+        keycloakService.updateUser(userId, onboardingUserUpdateDto.firstName, onboardingUserUpdateDto.lastName, null)
         return IdResponse(userId)
     }
 }
