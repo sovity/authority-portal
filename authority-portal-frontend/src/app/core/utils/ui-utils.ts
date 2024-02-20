@@ -112,14 +112,12 @@ export const getConnectorStatusInnerCircleClasses = (
   status: ConnectorStatusDto,
 ): string => {
   switch (status) {
-    case ConnectorStatusDto.Init:
     case ConnectorStatusDto.Online:
     case ConnectorStatusDto.Running:
       return 'bg-emerald-500';
     case ConnectorStatusDto.Init:
     case ConnectorStatusDto.Provisioning:
     case ConnectorStatusDto.AwaitingRunning:
-    case ConnectorStatusDto.Running:
     case ConnectorStatusDto.Deprovisioning:
     case ConnectorStatusDto.AwaitingStopped:
       return 'bg-amber-500';
