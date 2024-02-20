@@ -159,11 +159,6 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
     document.body.removeChild(textarea);
   }
 
-  goToGithub() {
-    const externalLink = 'https://github.com'; // Replace with your external link
-    window.open(externalLink, '_blank');
-  }
-
   disableStepperHeader() {
     // this is to disable navigation with the stepper header
     this.stepperFormGroup = this.formBuilder.group({
