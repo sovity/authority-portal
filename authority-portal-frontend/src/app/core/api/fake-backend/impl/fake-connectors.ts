@@ -134,6 +134,7 @@ export const getListOfConnectorsForTable = (
         environment: c.environment,
         name: c.connectorName,
         status: c.status,
+        frontendUrl: c.frontendUrl,
       };
     }),
   };
@@ -150,6 +151,7 @@ export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
         environment: c.environment,
         name: c.connectorName,
         status: c.status,
+        frontendUrl: c.frontendUrl,
       };
     }),
   };
@@ -174,6 +176,7 @@ export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {
         environment: c.environment,
         name: c.connectorName,
         status: c.status,
+        frontendUrl: c.frontendUrl,
       };
     }),
   };

@@ -126,7 +126,19 @@
           </dt>
           <dd
             class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            {{ state.connector.data.frontendUrl }}
+            <a
+              *ngIf="state.connector.data.frontendUrl"
+              class="flex items-center gap-1 active:scale-[0.99] select-none group"
+              target="_blank"
+              [href]="state.connector.data.frontendUrl"
+              ><div class="group-hover:underline">
+                {{ state.connector.data.frontendUrl }}
+              </div>
+              <mat-icon
+                class="!text-[17px] !mt-[8px] !text-gray-600 group-hover:!text-brand-500"
+                >open_in_new</mat-icon
+              >
+            </a>
           </dd>
         </div>
         <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -137,8 +149,10 @@
             >Connector Endpoint:
           </dt>
           <dd
-            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            {{ state.connector.data.endpointUrl }}
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex gap-1 items-center cursor-pointer active:scale-[0.99] select-none"
+            (click)="copyToClipboard(state.connector.data.endpointUrl)">
+            <div>{{ state.connector.data.endpointUrl }}</div>
+            <mat-icon class="!text-[17px] !mt-[7px]">content_copy</mat-icon>
           </dd>
         </div>
         <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -149,8 +163,10 @@
             >Management API URL:
           </dt>
           <dd
-            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            {{ state.connector.data.managementUrl }}
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex gap-1 items-center cursor-pointer active:scale-[0.99] select-none"
+            (click)="copyToClipboard(state.connector.data.managementUrl)">
+            <div>{{ state.connector.data.managementUrl }}</div>
+            <mat-icon class="!text-[17px] !mt-[7px]">content_copy</mat-icon>
           </dd>
         </div>
       </dl>

@@ -123,7 +123,8 @@ class ConnectorManagementApiService {
                 it.type.toDto(),
                 deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
                 it.name,
-                if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).toDto()
+                if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).toDto(),
+                it.frontendUrl
             )
         }
         return ConnectorOverviewResult(connectorDtos)
@@ -142,7 +143,8 @@ class ConnectorManagementApiService {
                 it.type.toDto(),
                 deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
                 it.name,
-                if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).toDto()
+                if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).toDto(),
+                it.frontendUrl
             )
         }
 

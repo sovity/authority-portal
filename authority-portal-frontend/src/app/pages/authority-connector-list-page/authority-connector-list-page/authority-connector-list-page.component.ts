@@ -43,6 +43,7 @@ export class AuthorityConnectorListPageComponent implements OnInit, OnDestroy {
   componentToRender = AuthorityConnectorDetailPageComponent;
   headerConfig!: HeaderBarConfig;
   filterBarConfig!: FilterBarConfig;
+  frontendLinkClicked: boolean = false;
 
   getConnectorsTypeClasses = getConnectorsTypeClasses;
   getConnectorStatusOuterRingClasses = getConnectorStatusOuterRingClasses;
@@ -149,6 +150,11 @@ export class AuthorityConnectorListPageComponent implements OnInit, OnDestroy {
   }
 
   openDetailPage(connector: ConnectorOverviewEntryDto) {
+    if (this.frontendLinkClicked) {
+      this.frontendLinkClicked = false;
+      return;
+    }
+
     this.slideOverConfig = {
       childComponentInput: {
         id: connector.id,
