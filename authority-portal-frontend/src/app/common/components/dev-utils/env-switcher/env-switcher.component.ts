@@ -1,5 +1,4 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';

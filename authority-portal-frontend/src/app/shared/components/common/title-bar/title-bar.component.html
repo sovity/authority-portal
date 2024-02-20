@@ -18,7 +18,7 @@
       [ngClass]="{
         'bg-brand-golden': selectedTab === tab.view && !tab.isDisabled,
         'disabled:bg-gray-700': tab.isDisabled,
-        
+
       }"
       [disabled]="tab.isDisabled"
       (click)="tabChanged(tab.view)">

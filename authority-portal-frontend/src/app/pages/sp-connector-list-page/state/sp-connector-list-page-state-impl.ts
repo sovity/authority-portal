@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
-import {EMPTY, Observable} from 'rxjs';
-import {ignoreElements, map, switchMap, take, tap} from 'rxjs/operators';
-import {Action, Selector, State, StateContext, Store} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {ignoreElements, map, switchMap, tap} from 'rxjs/operators';
+import {Action, State, StateContext, Store} from '@ngxs/store';
 import {ConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
-import {GlobalState} from 'src/app/core/global-state/global-state';
-import {GlobalStateImpl} from 'src/app/core/global-state/global-state-impl';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {GetOwnOrganizationConnectors} from './sp-connector-list-page-actions';

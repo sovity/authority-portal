@@ -1,15 +1,45 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Subject, takeUntil} from 'rxjs';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SidebarSection} from './sidebar.model';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit, OnDestroy {
   isExpandedMenu: boolean = true;
   sidebarSections: SidebarSection[] = [];
 
-  constructor() {
+  private ngOnDestroy$ = new Subject();
+
+  constructor(private globalStateUtils: GlobalStateUtils) {}
+
+  ngOnInit() {
+    this.setSideBarSections();
+    this.updateSidebarSections();
+  }
+
+  // Listen for window resize events
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkWindowWidth();
+  }
+
+  // Function to check window width and update isExpandedMenu accordingly
+  checkWindowWidth(): void {
+    this.isExpandedMenu = window.innerWidth > 768; // Set the breakpoint as per your design
+  }
+
+  openNewTab() {
+    window.open('https://mobility-dataspace.eu/de', '_blank');
+  }
+
+  toggleMenuSize() {
+    this.isExpandedMenu = !this.isExpandedMenu;
+  }
+
+  setSideBarSections(envId?: string) {
     this.sidebarSections = [
       {
         title: 'My Organization',
@@ -24,6 +54,14 @@ export class SidebarComponent {
             title: 'Connectors',
             icon: 'connector',
             rLink: '/my-organization/connectors',
+          },
+          {
+            title: 'Data Offers',
+            icon: 'tag',
+            rLink: `/api/organizations/my-org/redirects/data-offers?environmentId=${
+              envId ?? ''
+            }`,
+            isExternalLink: true,
           },
         ],
       },
@@ -86,22 +124,18 @@ export class SidebarComponent {
       },
     ];
   }
-  // Listen for window resize events
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event): void {
-    this.checkWindowWidth();
+
+  updateSidebarSections() {
+    this.globalStateUtils
+      .getDeploymentEnvironment()
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe((env) => {
+        this.setSideBarSections(env.environmentId);
+      });
   }
 
-  // Function to check window width and update isExpandedMenu accordingly
-  checkWindowWidth(): void {
-    this.isExpandedMenu = window.innerWidth > 768; // Set the breakpoint as per your design
-  }
-
-  openNewTab() {
-    window.open('https://mobility-dataspace.eu/de', '_blank');
-  }
-
-  toggleMenuSize() {
-    this.isExpandedMenu = !this.isExpandedMenu;
+  ngOnDestroy(): void {
+    this.ngOnDestroy$.next(null);
+    this.ngOnDestroy$.complete();
   }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, MonoTypeOperatorFunction} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {ToastService, ToastStyle} from './toast-notifications/toast.service';
+import {ToastService} from './toast-notifications/toast.service';
 
 @Injectable({providedIn: 'root'})
 export class ErrorService {

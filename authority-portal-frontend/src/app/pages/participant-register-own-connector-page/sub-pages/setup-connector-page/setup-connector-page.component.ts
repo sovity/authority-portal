@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Observable, Subject, switchMap, takeUntil, tap} from 'rxjs';
+import {Observable, Subject, switchMap, takeUntil} from 'rxjs';
 import {CaasAvailabilityResponse} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';

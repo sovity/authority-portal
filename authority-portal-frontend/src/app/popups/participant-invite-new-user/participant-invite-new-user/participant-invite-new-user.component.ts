@@ -3,10 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material/dialog';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {
-  InviteParticipantUserRequest,
-  UserRoleDto,
-} from '@sovity.de/authority-portal-client';
+import {InviteParticipantUserRequest} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
   getAvailableApplicationRoles,

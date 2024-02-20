@@ -1,11 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -15,10 +9,7 @@ import {
   CertificateAttributes,
   CertificateGenerateService,
 } from 'src/app/shared/services/certificate-generate.service';
-import {
-  passwordEntropyPattern,
-  passwordEntropyValidator,
-} from '../../../../core/utils/validators/password-entropy-validator';
+import {passwordEntropyValidator} from '../../../../core/utils/validators/password-entropy-validator';
 import {passwordMatchValidator} from '../../../../core/utils/validators/password-match-validator';
 import {
   CertificateGeneratorConfig,
