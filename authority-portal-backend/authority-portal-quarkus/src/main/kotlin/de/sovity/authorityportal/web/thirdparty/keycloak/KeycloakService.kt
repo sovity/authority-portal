@@ -67,6 +67,10 @@ class KeycloakService {
         keycloak.realm(keycloakRealm).users().delete(userId)
     }
 
+    fun deleteUsers(userIds: List<String>) {
+        userIds.forEach { deleteUser(it) }
+    }
+
     fun deactivateUser(userId: String) {
         setUserEnabled(userId, false)
     }
@@ -128,6 +132,16 @@ class KeycloakService {
         return orgMembers
     }
 
+    fun getParticipantAdmins(mdsId: String): List<KeycloakUserDto> {
+        val groups = keycloak.realm(keycloakRealm).groups()
+        val orgGroupId = groups.groups(mdsId, 0, 1).firstOrNull()!!.id
+        val subGroupIds = getSubGroupIds(orgGroupId)
+        val participantAdminGroupId = subGroupIds[OrganizationRole.PARTICIPANT_ADMIN.kcSubGroupName]
+
+        return groups.group(participantAdminGroupId).members().mapNotNull {
+            keycloakUserMapper.buildKeycloakUserDto(it)
+        }
+    }
 
     fun createOrganization(mdsId: String) {
         val organization = GroupRepresentation().apply {
@@ -241,7 +255,6 @@ class KeycloakService {
     private fun getSubGroupIds(groupId: String)  =
         keycloak.realm(keycloakRealm).groups().query("", true)
             .first { it.id == groupId }.subGroups.associate { it.name to it.id }
-
 }
 
 

@@ -17,6 +17,7 @@ import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.RegistrationRequestDto;
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto;
 import de.sovity.authorityportal.api.model.UpdateUserDto;
+import de.sovity.authorityportal.api.model.UserDeletionCheck;
 import de.sovity.authorityportal.api.model.UserDetailDto;
 import de.sovity.authorityportal.api.model.UserInfo;
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
@@ -106,6 +107,28 @@ public interface UiResource {
     @Operation(description = "Reactivate a user of a participating organization.")
     IdResponse reactivateParticipantUser(@PathParam("userId") String userId);
 
+    @GET
+    @Path("/organizations/my-org/users/{userId}/check-delete")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Check under which conditions a user can be deleted from a participant's organization.")
+    UserDeletionCheck checkParticipantUserDeletion(
+        @PathParam("userId")
+        String userId
+    );
+
+    @DELETE
+    @Path("/organizations/my-org/users/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Delete participant organization user with respect to organizations and connectors associated with them.")
+    IdResponse deleteParticipantUser(
+        @PathParam("userId")
+        String userId,
+
+        // This parameter might be null, if no successor is needed
+        @QueryParam("successorUserId")
+        String successorUserId
+    );
+
     // Organization management (Authority)
     @PUT
     @Path("/authority/users/{userId}/role")
@@ -131,14 +154,36 @@ public interface UiResource {
     @PUT
     @Path("/authority/users/{userId}/deactivate")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Deactivate a user of the authority organization.")
+    @Operation(description = "Deactivate a user of any organization.")
     IdResponse deactivateAnyUser(@PathParam("userId") String userId);
 
     @PUT
     @Path("/authority/users/{userId}/reactivate")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Reactivate a user of the authority organization.")
+    @Operation(description = "Reactivate a user of any organization.")
     IdResponse reactivateAnyUser(@PathParam("userId") String userId);
+
+    @GET
+    @Path("/authority/users/{userId}/check-delete")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Check under which conditions a user can be deleted from an organization.")
+    UserDeletionCheck checkUserDeletion(
+        @PathParam("userId")
+        String userId
+    );
+
+    @DELETE
+    @Path("/authority/users/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Delete user with respect to organizations and connectors associated with them.")
+    IdResponse deleteUser(
+        @PathParam("userId")
+        String userId,
+
+        // This parameter might be null, if no successor is needed
+        @QueryParam("successorUserId")
+        String successorUserId
+    );
 
     @GET
     @Path("/authority/organizations")

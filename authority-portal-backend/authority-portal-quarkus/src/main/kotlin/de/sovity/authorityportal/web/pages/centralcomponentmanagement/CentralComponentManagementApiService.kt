@@ -3,6 +3,7 @@ package de.sovity.authorityportal.web.pages.centralcomponentmanagement
 import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
 import de.sovity.authorityportal.api.model.CentralComponentDto
 import de.sovity.authorityportal.api.model.IdResponse
+import de.sovity.authorityportal.db.jooq.tables.records.ComponentRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.services.CentralComponentService
 import de.sovity.authorityportal.web.services.OrganizationService
@@ -40,7 +41,7 @@ class CentralComponentManagementApiService {
 
     fun listCentralComponents(envId: String): List<CentralComponentDto> {
         deploymentEnvironmentService.assertValidEnvId(envId)
-        val centralComponents = centralComponentService.getCentralComponents(envId)
+        val centralComponents = centralComponentService.getCentralComponentsByEnvironment(envId)
 
         return centralComponents.map { centralComponent ->
             val createdBy = userService.getUserOrThrow(centralComponent.createdBy)
@@ -92,16 +93,24 @@ class CentralComponentManagementApiService {
         return IdResponse(centralComponentId)
     }
 
-    fun deleteCentralComponent(centralComponentId: String, userId: String): IdResponse {
+    fun deleteCentralComponentByUser(centralComponentId: String, userId: String): IdResponse {
         val centralComponent = centralComponentService.getCentralComponentOrThrow(centralComponentId)
 
-        centralComponentService.deleteCentralComponent(centralComponentId)
-
-        val dapsClient = dapsClientService.forEnvironment(centralComponent.environment)
-        dapsClient.deleteClient(centralComponent.clientId)
-
+        deleteCentralComponent(centralComponent)
         Log.info("Central component deleted. centralComponentId=$centralComponentId, mdsId=${centralComponent.mdsId}, userId=$userId, clientId=${centralComponent.clientId}.")
 
         return IdResponse(centralComponentId)
+    }
+
+    fun deleteAllOrganizationCentralComponents(mdsId: String) {
+        val components = centralComponentService.getCentralComponentsByMdsId(mdsId)
+        components.forEach { deleteCentralComponent(it) }
+    }
+
+    private fun deleteCentralComponent(centralComponent: ComponentRecord) {
+        centralComponentService.deleteCentralComponent(centralComponent.id)
+
+        val dapsClient = dapsClientService.forEnvironment(centralComponent.environment)
+        dapsClient.deleteClient(centralComponent.clientId)
     }
 }

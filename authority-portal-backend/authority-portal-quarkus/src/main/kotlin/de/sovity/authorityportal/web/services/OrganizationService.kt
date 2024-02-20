@@ -93,6 +93,14 @@ class OrganizationService {
         }
     }
 
+    fun deleteOrganization(mdsId: String) {
+        val o = Tables.ORGANIZATION
+
+        dsl.deleteFrom(o)
+            .where(o.MDS_ID.eq(mdsId))
+            .execute()
+    }
+
     fun getUnconfirmedOrganizationMdsIds(expirationCutoffTime: OffsetDateTime): List<String> {
         val o = Tables.ORGANIZATION
 

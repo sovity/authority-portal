@@ -15,6 +15,7 @@ import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStat
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClient
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
+import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusMock
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
@@ -77,6 +78,7 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
+    @TestTransaction
     fun testGetAllDeploymentEnvironment() {
         // act
         val result = connectorManagementApiService.getAllDeploymentEnvironment()
@@ -88,12 +90,14 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
+    @TestTransaction
     fun testGetConnectorDetailsException() {
         assertThatThrownBy { connectorManagementApiService.getConnectorDetails("testConnectorId", "testMdsId", "testUserId") }
             .isInstanceOf(java.lang.IllegalStateException::class.java)
     }
 
     @Test
+    @TestTransaction
     fun testGetConnectorDetails() {
         // arrange
         connectorMetadataService.fetchConnectorMetadata()
@@ -120,6 +124,7 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
+    @TestTransaction
     fun testListOrganizationConnectors() {
         // arrange
         val mdsId = "MDSL2222BB"
@@ -139,6 +144,7 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
+    @TestTransaction
     fun testListAllConnectors() {
         // act
         val result = connectorManagementApiService.listAllConnectors(test)
@@ -155,6 +161,7 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
+    @TestTransaction
     fun testListProvidedConnectors() {
         // act
         val result = connectorManagementApiService.listServiceProvidedConnectors(otherMdsId, test)
@@ -171,6 +178,7 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
+    @TestTransaction
     fun testCreateOwnConnector() {
         // arrange
         val clientIdUtilsMock = mock(ClientIdUtils::class.java)
@@ -203,6 +211,7 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
+    @TestTransaction
     fun testCreateProvidedConnector() {
         // arrange
         val clientIdUtilsMock = mock(ClientIdUtils::class.java)
@@ -235,6 +244,7 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
+    @TestTransaction
     fun testDeleteOwnConnector() {
         // arrange
         val connectorEndpointUrl = "https://xample.test4/connector/api/dsp"
@@ -253,7 +263,7 @@ class ConnectorManagementApiServiceTest {
         val connectorId = "MDSL1111AA.CP59I8U"
 
         // act
-        val response = connectorManagementApiService.deleteConnector(connectorId, otherMdsId, userId)
+        val response = connectorManagementApiService.deleteSelfHostedConnector(connectorId, otherMdsId, userId)
 
         // assert
         assertThat(response.id).isNotNull()
@@ -266,6 +276,7 @@ class ConnectorManagementApiServiceTest {
     }
 
     @Test
+    @TestTransaction
     fun testUrlValidation() {
         // arrange
         val connectorRequest = CreateConnectorRequest(connectorName, connectorLocation, "invalid.url", connectorEndpointUrl, connectorManagementUrl, connectorCertificate)

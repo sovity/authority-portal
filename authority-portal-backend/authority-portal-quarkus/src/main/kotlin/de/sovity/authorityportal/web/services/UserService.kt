@@ -92,6 +92,22 @@ class UserService {
             UserOnboardingType.INVITATION -> UserRegistrationStatus.INVITED
         }
 
+    fun deleteUser(userId: String) {
+        val u = Tables.USER
+
+        dsl.deleteFrom(u)
+            .where(u.ID.eq(userId))
+            .execute()
+    }
+
+    fun deleteUsersByMdsId(mdsId: String) {
+        val u = Tables.USER
+
+        dsl.deleteFrom(u)
+            .where(u.ORGANIZATION_MDS_ID.eq(mdsId))
+            .execute()
+    }
+
     fun getUnconfirmedUserIds(expirationTime: OffsetDateTime): List<String> {
         val u = Tables.USER
 
@@ -117,6 +133,33 @@ class UserService {
 
         return dsl.deleteFrom(u)
             .where(u.ID.`in`(userIds))
+            .execute()
+    }
+
+    fun deleteInvitationReference(invitedBy: String) {
+        val u = Tables.USER
+
+        dsl.update(u)
+            .setNull(u.INVITED_BY)
+            .where(u.INVITED_BY.eq(invitedBy))
+            .execute()
+    }
+
+    fun deleteInvitationReferencesToOrgMembers(orgMemberIds: List<String>) {
+        val u = Tables.USER
+
+        dsl.update(u)
+            .setNull(u.INVITED_BY)
+            .where(u.INVITED_BY.`in`(orgMemberIds))
+            .execute()
+    }
+
+    fun deleteMdsIds(orgMemberIds: List<String>) {
+        val u = Tables.USER
+
+        dsl.update(u)
+            .setNull(u.ORGANIZATION_MDS_ID)
+            .where(u.ID.`in`(orgMemberIds))
             .execute()
     }
 

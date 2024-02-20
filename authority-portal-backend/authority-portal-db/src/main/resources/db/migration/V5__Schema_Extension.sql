@@ -3,7 +3,7 @@ create type user_onboarding_type as enum ('INVITATION', 'SELF_REGISTRATION');
 
 alter table "user"
     add column onboarding_type user_onboarding_type,
-    add column invited_by text,
+    add column invited_by      text,
     add constraint fk_invited_by foreign key (invited_by) references "user" (id);
 
 update "user" set onboarding_type = 'SELF_REGISTRATION' where onboarding_type is null;
@@ -14,10 +14,10 @@ create type caas_status as enum ('INIT', 'PROVISIONING', 'AWAITING_RUNNING', 'RU
 
 alter table "connector"
     add column broker_registration_status connector_broker_registration_status not null default 'UNREGISTERED',
-    add column management_url text,
-    add column endpoint_url text,
-    add column jwks_url text,
-    add column caas_status caas_status,
+    add column management_url             text,
+    add column endpoint_url               text,
+    add column jwks_url                   text,
+    add column caas_status                caas_status,
     alter column provider_mds_id drop not null,
     alter column url drop not null;
 

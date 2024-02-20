@@ -52,6 +52,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - New "unauthenticated page", registration now happens in the Authority Portal without Keycloak.
 - Made connectors URL fields clickable/copyable in detail view
 - Added link that opens frontend in new tab to connector list view
+- Added the possibility to delete users
 
 #### Patch
 
@@ -66,30 +67,27 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Keycloak IAM needs to be upgraded to version 23.0.4
 - Portal Backend
-
-  - Following environment variables are mandatory and must be set:
-    - `quarkus-oidc-client.sovity.auth-server.url` - URL pointing to the realm endpoint in the Keycloak instance of the CaaS Portal
-    - `quarkus-oidc-client.sovity.credentials.secret` - Client secret to authenticate against the CaaS Keycloak instance
-  - Set logging house URLs per environment:
-    - `authority-portal.deployment.environments.{ENVIRONMENT}.logging-house.url`
-  - Following environment variables can be set but have a default value:
-    - `quarkus.oidc-client.sovity.client-id` = `authority-portal`
-    - `authority-portal.caas.sovity.url` = CaaS Portal URL
-    - `authority.portal.caas.sovity.limit-per-mdsid` = `1`
+  - Added environment variables
+    - `quarkus.oidc-client.sovity.client-id: https://[CAAS_KC_FQDN]/realms/[REALM`
+    - `quarkus-oidc-client.sovity.auth-server.url: [CLIENT_ID]`
+    - `quarkus-oidc-client.sovity.credentials.secret: [CAAS_CLIENT_SECRET]`
+    - `authority-portal.caas.sovity.url: https://[CAAS_PORTAL_FQDN]`
+    - `authority.portal.caas.sovity.limit-per-mdsid: 1`
+    - `authority-portal.deployment.environments.{ENVIRONMENT}.logging-house.url: https://[LOGGING_HOUSE_FQDN]`
+  - Removed environment variables
+    - `authority-portal.connectors.url.frontend`
+    - `authority-portal.connectors.url.management`
+    - `authority-portal.connectors.url.endpoint`
+    - Please ensure that the frontend, endpoint and management API URLs are configured correctly for all connectors. If needed, remove affected connectors and re-register them with a correct URL configuration.
 
 - Keycloak IAM needs to be upgraded to version 23.0.4
 - Portal Backend
-  - Removed an environment variable `authority-portal.connectors.url.frontend`
-  - Removed an environment variable `authority-portal.connectors.url.management`
-  - Removed an environment variable `authority-portal.connectors.url.endpoint`
-  - Please ensure that the frontend, endpoint and management API URLs are configured correctly for all connectors. If needed, remove affected connectors and re-register them with a correct URL configuration.
 
 - Portal Frontend
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_DSGVO_URL`
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_AVV_URL`
 
 - TODO: Create Deployment Migration Notes for the new Self-Registration flow
-
 
 #### Compatible Versions
 
@@ -200,7 +198,7 @@ Added central component management, fixed multiple bugs and pushing organization
 ### Deployment Migration Notes
 
 - Portal Backend
-  - Added an environment variable `authority-portal.invitation.expiration = 43200`
+  - Added an environment variable `authority-portal.invitation.expiration: 43200`
   - Added an environment variable `authority-portal.base-url: https://authority-portal.my-org.com`
   - The `authority-portal-client` in Keycloak needs to be updated with new configuration
     - Root URL: same as the environment variable `authority-portal.base-url`

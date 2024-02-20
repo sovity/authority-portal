@@ -37,7 +37,7 @@ class OrganizationInfoApiService {
 
     fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
         val organizations = organizationService.getOrganizations()
-        val connectorCounts = connectorService.getConnectorCountsByMdsIds(environmentId)
+        val connectorCounts = connectorService.getConnectorCountsByMdsIdsForEnvironment(environmentId)
         val userCounts = userService.getUserCountsByMdsIds()
         return OrganizationOverviewResult(organizations.map {
             OrganizationOverviewEntryDto().apply {
@@ -86,7 +86,7 @@ class OrganizationInfoApiService {
 
         val organizationDetailsDto = getOrganizationDetailsDto(mdsId)
         organizationDetailsDto.memberCount = organizationDetailsDto.memberList.size
-        organizationDetailsDto.connectorCount = connectorService.getConnectorCountByMdsId(mdsId, environmentId)
+        organizationDetailsDto.connectorCount = connectorService.getConnectorCountByMdsIdAndEnvironment(mdsId, environmentId)
         organizationDetailsDto.dataOfferCount = connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)
 
         return organizationDetailsDto

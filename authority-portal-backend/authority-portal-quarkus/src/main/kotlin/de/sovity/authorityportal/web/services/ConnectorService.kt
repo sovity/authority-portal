@@ -82,11 +82,35 @@ class ConnectorService {
             .fetchOneInto(ConnectorDetailRs::class.java)
     }
 
-    fun getConnectorsByMdsId(mdsId: String, environmentId: String): List<ConnectorRecord> {
+    fun updateConnectorsCreator(newCreatedBy: String, oldCreatedBy: String) {
+        val c = Tables.CONNECTOR
+        dsl.update(c)
+            .set(c.CREATED_BY, newCreatedBy)
+            .where(c.CREATED_BY.eq(oldCreatedBy))
+            .execute()
+    }
+
+    fun deleteProviderReferences(mdsId: String) {
+        val c = Tables.CONNECTOR
+        dsl.update(c)
+            .setNull(c.PROVIDER_MDS_ID)
+            .where(c.PROVIDER_MDS_ID.eq(mdsId))
+            .execute()
+    }
+
+    fun getConnectorsByMdsIdAndEnvironment(mdsId: String, environmentId: String): List<ConnectorRecord> {
         val c = Tables.CONNECTOR
 
         return dsl.selectFrom(c)
             .where(c.MDS_ID.eq(mdsId).and(c.ENVIRONMENT.eq(environmentId)))
+            .fetch()
+    }
+
+    fun getConnectorsByMdsId(mdsId: String): List<ConnectorRecord> {
+        val c = Tables.CONNECTOR
+
+        return dsl.selectFrom(c)
+            .where(c.MDS_ID.eq(mdsId))
             .fetch()
     }
 
@@ -106,14 +130,14 @@ class ConnectorService {
             .fetch()
     }
 
-    fun getConnectorCountByMdsId(mdsId: String, environmentId: String): Int {
+    fun getConnectorCountByMdsIdAndEnvironment(mdsId: String, environmentId: String): Int {
         val c = Tables.CONNECTOR
         return dsl.fetchCount(
             dsl.selectFrom(c).where(c.MDS_ID.eq(mdsId), c.ENVIRONMENT.eq(environmentId))
         )
     }
 
-    fun getCaasCountByMdsId(mdsId: String, environmentId: String): Int {
+    fun getCaasCountByMdsIdAndEnvironment(mdsId: String, environmentId: String): Int {
         val c = Tables.CONNECTOR
         return dsl.fetchCount(
             dsl.selectFrom(c)
@@ -126,10 +150,10 @@ class ConnectorService {
         val limit = caasLimitPerMdsId.orElseThrow {
             error("No limit configured for CaaS registration")
         }
-        return getCaasCountByMdsId(mdsId, environmentId) < limit
+        return getCaasCountByMdsIdAndEnvironment(mdsId, environmentId) < limit
     }
 
-    fun getConnectorCountsByMdsIds(environment: String): Map<String, Int> {
+    fun getConnectorCountsByMdsIdsForEnvironment(environment: String): Map<String, Int> {
         val c = Tables.CONNECTOR
 
         return dsl.select(c.MDS_ID, DSL.count())
