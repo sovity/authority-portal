@@ -10,6 +10,7 @@ export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
  */
 export interface AppConfig {
   backendUrl: string;
+  loginUrl: string;
   logoutUrl: string;
   invalidateSessionCookiesUrl: string;
   useFakeBackend: boolean;
@@ -26,6 +27,7 @@ export interface AppConfig {
  */
 export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_BACKEND_URL: string;
+  AUTHORITY_PORTAL_FRONTEND_LOGIN_URL: string;
   AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: string;
   AUTHORITY_PORTAL_FRONTEND_USE_FAKE_BACKEND: string;
   AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND: string;
@@ -42,6 +44,7 @@ export interface AppConfigEnv {
 export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
   return {
     backendUrl: envVars.AUTHORITY_PORTAL_FRONTEND_BACKEND_URL,
+    loginUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LOGIN_URL,
     logoutUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL,
     invalidateSessionCookiesUrl:
       envVars.AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL,
@@ -53,9 +56,4 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
     dsgvoUrl: envVars.AUTHORITY_PORTAL_FRONTEND_DSGVO_URL,
     avvUrl: envVars.AUTHORITY_PORTAL_FRONTEND_AVV_URL,
   };
-}
-
-export interface LocalDevBasicAuthConfig {
-  user: string;
-  password: string;
 }

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, Type} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ParticipantUserDetailPageComponent} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page/participant-user-detail-page.component';
 import {UserRoleDto} from '../../../authority-portal-backend/authority-portal-api-client-ts';
@@ -19,31 +19,36 @@ import {RegisterConnectorPageComponent} from './pages/participant-register-own-c
 import {RequestConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/request-connector-page/request-connector-page.component';
 import {SetupConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/setup-connector-page/setup-connector-page.component';
 import {ProvideConnectorPageComponent} from './pages/provide-connector-page/provide-connector-page/provide-connector-page.component';
-import {RegistrationProcessWizardComponent} from './pages/registration-process-wizard/registration-process-wizard/registration-process-wizard.component';
+import {OrganizationCreatePageComponent} from './pages/registration-process-wizard/sub-pages/organization-create-page/organization-create-page.component';
+import {OrganizationPendingPageComponent} from './pages/registration-process-wizard/sub-pages/organization-pending-page/organization-pending-page.component';
+import {OrganizationRejectedPageComponent} from './pages/registration-process-wizard/sub-pages/organization-rejected-page/organization-rejected-page.component';
+import {UnauthenticatedPageComponent} from './pages/registration-process-wizard/sub-pages/unauthenticated-page/unauthenticated-page.component';
 
-export const REGISTRATION_PROCESS_ROUTES: Routes = [
+export const UNAUTHENTICATED_ROUTES: Routes = [
   {
     path: 'create-organization',
-    component: RegistrationProcessWizardComponent,
+    component: OrganizationCreatePageComponent,
   },
   {
     path: '**',
-    redirectTo: 'create-organization',
-    pathMatch: 'full',
+    component: UnauthenticatedPageComponent,
   },
 ];
 
-export const ONBOARDING_ROUTES: Routes = [
-  {
-    path: 'onboard-organization',
-    component: OnboardingProcessWizardComponent,
-  },
-  {
-    path: '**',
-    redirectTo: 'onboard-organization',
-    pathMatch: 'full',
-  },
-];
+export const PENDING_ROUTES: Routes = singleComponent(
+  'registration/pending',
+  OrganizationPendingPageComponent,
+);
+
+export const REJECTED_ROUTES: Routes = singleComponent(
+  'registration/rejected',
+  OrganizationRejectedPageComponent,
+);
+
+export const ONBOARDING_ROUTES: Routes = singleComponent(
+  'onboard-organization',
+  OnboardingProcessWizardComponent,
+);
 
 export const LOADING_ROUTES: Routes = [
   {
@@ -197,6 +202,20 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     ],
   },
 ];
+
+function singleComponent(path: string, component: Type<any>): Routes {
+  return [
+    {
+      path,
+      component,
+    },
+    {
+      path: '**',
+      redirectTo: path,
+      pathMatch: 'full',
+    },
+  ];
+}
 
 @NgModule({
   imports: [RouterModule.forRoot(LOADING_ROUTES)],

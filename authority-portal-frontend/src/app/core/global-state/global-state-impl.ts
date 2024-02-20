@@ -1,6 +1,6 @@
 import {Inject, Injectable, NgZone} from '@angular/core';
-import {EMPTY, Observable} from 'rxjs';
-import {catchError, ignoreElements, map, tap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, ignoreElements, tap} from 'rxjs/operators';
 import {Action, NgxsOnInit, Selector, State, StateContext} from '@ngxs/store';
 import {
   DeploymentEnvironmentDto,
@@ -57,11 +57,16 @@ export class GlobalStateImpl implements NgxsOnInit {
   @Action(RefreshUserInfo, {cancelUncompleted: true})
   onRefreshUserInfo(ctx: StateContext<GlobalState>): Observable<never> {
     return this.apiService.userProfile().pipe(
-      catchError(() => {
-        window.location.href = '/';
-        return EMPTY;
+      Fetched.wrapAndReplaceErrorsSilently<UserInfo>({
+        authenticationStatus: 'UNAUTHENTICATED',
+        roles: ['UNAUTHENTICATED'],
+        userId: 'error',
+        firstName: 'Authentication',
+        lastName: 'Failure',
+        registrationStatus: undefined,
+        organizationMdsId: 'error',
+        organizationName: 'Authentication Failure',
       }),
-      Fetched.wrap({failureMessage: 'Failed checking session status'}),
       tap((userInfo) => this.onUserInfoRefreshed(ctx, userInfo)),
       ignoreElements(),
     );
@@ -72,8 +77,6 @@ export class GlobalStateImpl implements NgxsOnInit {
     ctx: StateContext<GlobalState>,
   ): Observable<never> {
     return this.apiService.getDeploymentEnvironments().pipe(
-      map((result) => result),
-      tap((result) => ctx.patchState({selectedEnvironment: result[0]})),
       Fetched.wrap({failureMessage: 'Failed loading deployment environments'}),
       tap((deploymentEnvironment) =>
         this.deploymentEnvironmentRefreshed(ctx, deploymentEnvironment),
@@ -98,9 +101,8 @@ export class GlobalStateImpl implements NgxsOnInit {
       let userInfo = state.userInfo.mergeIfReady(newUserInfo);
 
       // Update Routes in when user status has changed
-      let pageSet: AuthorityPortalPageSet = userInfo
-        .map((it) => it.registrationStatus)
-        .ifReadyElse((it) => this.getRouteGroup(it), 'LOADING');
+      let pageSet: AuthorityPortalPageSet =
+        this.routeConfigService.decidePageSet(userInfo);
 
       this.ngZone.run(() =>
         this.routeConfigService.switchRouteConfig(state.pageSet, pageSet),
@@ -118,17 +120,14 @@ export class GlobalStateImpl implements NgxsOnInit {
     ctx: StateContext<GlobalState>,
     deploymentEnvironments: Fetched<DeploymentEnvironmentDto[]>,
   ) {
-    ctx.patchState({deploymentEnvironments: deploymentEnvironments});
-  }
-
-  private getRouteGroup(registrationStatus: UserRegistrationStatusDto) {
-    switch (registrationStatus) {
-      case 'ACTIVE':
-        return 'AUTHORITY_PORTAL';
-      case 'ONBOARDING':
-        return 'ONBOARDING_PROCESS';
-      default:
-        return 'REGISTRATION_PROCESS';
-    }
+    let selectedEnvironment = ctx.getState().selectedEnvironment;
+    ctx.patchState({
+      deploymentEnvironments,
+      selectedEnvironment:
+        selectedEnvironment == null &&
+        deploymentEnvironments.dataOrUndefined?.length
+          ? deploymentEnvironments.dataOrUndefined[0]
+          : selectedEnvironment,
+    });
   }
 }

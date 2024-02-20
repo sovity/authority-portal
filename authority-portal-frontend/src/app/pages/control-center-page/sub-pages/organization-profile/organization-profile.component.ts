@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {OwnOrganizationDetailsDto} from '@sovity.de/authority-portal-client';
@@ -20,7 +20,7 @@ import {ControlCenterPageStateImpl} from '../../state/control-center-page-state-
   selector: 'app-organization-profile',
   templateUrl: './organization-profile.component.html',
 })
-export class OrganizationProfileComponent {
+export class OrganizationProfileComponent implements OnInit, OnDestroy {
   state = DEFAULT_ORGANIZATION_PROFILE_STATE;
   ngOnDestroy$ = new Subject();
   headerConfig!: HeaderBarConfig;
@@ -58,7 +58,7 @@ export class OrganizationProfileComponent {
   startRefreshingOnEnvChange() {
     this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
       ngOnDestroy$: this.ngOnDestroy$,
-      onChanged: (selectedEnvironment) => {
+      onChanged: () => {
         this.refresh();
       },
     });

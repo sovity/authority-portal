@@ -33,7 +33,7 @@
       <app-text-input
         class="flex-1"
         label="Phone Number"
-        ctrlId="formRegPhoneNumber"
+        ctrlId="formRegMainPhoneNumber"
         placeholder="Enter main contact person Phone number"
         [ctrl]="mainContactFormGroup.controls.phoneNumber"></app-text-input>
       <!-- User's PhoneNumber -->
@@ -42,7 +42,7 @@
       <app-text-input
         class="flex-1"
         label="Email"
-        ctrlId="formRegEmail"
+        ctrlId="formRegMainEmail"
         placeholder="Enter main contact person email"
         [ctrl]="mainContactFormGroup.controls.email"></app-text-input>
       <!-- User's Email -->
@@ -60,7 +60,10 @@
       matTooltip="A technical contact will get notified in case of IT related topics"
       matTooltipClass="text-sm"></mat-icon>
   </div>
-  <mat-checkbox class="mb-2" [formControl]="contactsManagementForm"
+  <mat-checkbox
+    id="formRegMcSameAsTc"
+    class="mb-2"
+    [formControl]="contactsManagementForm"
     ><div class="flex gap-2 items-center">
       <span class="text-sm">Same as Main Contact</span>
     </div>
@@ -92,7 +95,7 @@
       <app-text-input
         class="flex-1"
         label="Phone Number"
-        ctrlId="formRegPhoneNumber"
+        ctrlId="formRegTechnicalPhoneNumber"
         placeholder="Enter technical contact person Phone number"
         [ctrl]="
           technicalContactFormGroup.controls.phoneNumber
@@ -103,7 +106,7 @@
       <app-text-input
         class="flex-1"
         label="Email"
-        ctrlId="formRegEmail"
+        ctrlId="formRegTechnicalEmail"
         placeholder="Enter technical contact person email"
         [ctrl]="technicalContactFormGroup.controls.email"></app-text-input>
       <!-- User's Email -->

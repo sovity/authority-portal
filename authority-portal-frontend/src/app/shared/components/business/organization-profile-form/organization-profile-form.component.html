@@ -88,7 +88,10 @@
       <!-- Country  -->
     </div>
 
-    <mat-checkbox class="mb-2" [formControl]="billingAddressForm"
+    <mat-checkbox
+      id="formRegBillingDifferent"
+      class="mb-2"
+      [formControl]="billingAddressForm"
       ><div class="flex gap-2 items-center">
         <span class="text-sm"
           >Billing address is different from organization address</span
@@ -113,7 +116,7 @@
       <app-text-input
         class="flex-1"
         label="Street"
-        ctrlId="formRegStreet"
+        ctrlId="formRegBillingStreet"
         placeholder="Your organization street address"
         [ctrl]="addressGroup.controls.street"></app-text-input>
       <!-- Street -->
@@ -122,7 +125,7 @@
       <app-text-input
         class="flex-1"
         label="House No."
-        ctrlId="formRegHouseNo"
+        ctrlId="formRegBillingHouseNo"
         placeholder="Your organization House Number"
         [ctrl]="addressGroup.controls.houseNo"></app-text-input>
       <!-- House No -->
@@ -133,7 +136,7 @@
       <app-text-input
         class="flex-1"
         label="ZIP code"
-        ctrlId="formRegZipCode"
+        ctrlId="formRegBillingZipCode"
         placeholder="Your organization ZIP code"
         [ctrl]="addressGroup.controls.zipCode"></app-text-input>
       <!-- ZIP Code -->
@@ -142,7 +145,7 @@
       <app-text-input
         class="flex-1"
         label="City"
-        ctrlId="formRegCity"
+        ctrlId="formRegBillingCity"
         placeholder="Your organization city"
         [ctrl]="addressGroup.controls.city"></app-text-input>
       <!-- City  -->
@@ -153,7 +156,7 @@
       <app-text-input
         class="flex-1"
         label="Country"
-        ctrlId="formRegCountry"
+        ctrlId="formRegBillingCountry"
         placeholder="Your organization Country"
         [ctrl]="addressGroup.controls.country"></app-text-input>
       <!-- Country  -->

@@ -1,75 +1,63 @@
 package de.sovity.authorityportal.web.auth
 
-import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
+import de.sovity.authorityportal.api.model.UserRoleDto
+import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
+import de.sovity.authorityportal.web.auth.providers.ElytronPropertyFileAuthUtils
+import de.sovity.authorityportal.web.auth.providers.KeycloakJwtUtils
 import de.sovity.authorityportal.web.services.FirstLoginService
-import de.sovity.authorityportal.web.services.FirstUserService
-import de.sovity.authorityportal.web.services.UserService
-import de.sovity.authorityportal.web.utils.unauthorized
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.context.RequestScoped
-import jakarta.enterprise.inject.Instance
 import jakarta.enterprise.inject.Produces
 import jakarta.inject.Inject
-import jakarta.json.JsonObject
-import jakarta.json.JsonString
 import jakarta.ws.rs.core.SecurityContext
-import org.eclipse.microprofile.jwt.JsonWebToken
 
 @ApplicationScoped
 class LoggedInUserFactory {
-
-    @Inject
-    lateinit var jwtInstance: Instance<JsonWebToken>
-
     @Inject
     lateinit var context: SecurityContext
 
     @Inject
-    lateinit var userService: UserService
+    lateinit var keycloakJwtUtils: KeycloakJwtUtils
+
+    @Inject
+    lateinit var elytronPropertyFileAuthUtils: ElytronPropertyFileAuthUtils
 
     @Inject
     lateinit var firstLoginService: FirstLoginService
 
-    @Inject
-    lateinit var firstUserService: FirstUserService
-
-    @Inject
-    lateinit var devLoggedInUserFactory: DevLoggedInUserFactory
-
     @Produces
     @RequestScoped
     fun getLoggedInUser(): LoggedInUser {
-        if (context.authenticationScheme == "Basic") {
-            return devLoggedInUserFactory.buildDevLoggedInUser()
+        if (context.userPrincipal == null) {
+            return unauthenticatedLoggedInUser()
         }
 
-        return buildLoggedInUser(jsonWebToken())
-    }
-
-    private fun buildLoggedInUser(jwt: JsonWebToken): LoggedInUser {
-        val userId = getUserId(jwt)
-        val roles = getRoles(jwt)
-        val user = userService.getUserOrCreate(userId, UserOnboardingType.SELF_REGISTRATION)
-        val organizationMdsId: String? = user.organizationMdsId
-
-        if (organizationMdsId == null) {
-            firstUserService.setupFirstUserIfRequired(userId)
+        val userAndRoles = when (context.authenticationScheme) {
+            "Basic" -> elytronPropertyFileAuthUtils.getUserAndRoles()
+            else -> keycloakJwtUtils.getUserAndRoles()
         }
-        firstLoginService.approveIfInvited(user)
 
-        return LoggedInUser(userId, organizationMdsId, roles)
+        // With the first successful login invited users will be approved
+        // At this point all Keycloak required actions should be done
+        // e.g. confirm E-Mail, setup 2FA
+        firstLoginService.approveIfInvited(userAndRoles.user)
+
+        return authenticatedLoggedInUser(userAndRoles)
     }
 
-    private fun getUserId(jwt: JsonWebToken): String =
-        jwt.claim<String>("sub").orElseGet { unauthorized() }
+    private fun authenticatedLoggedInUser(userAndRoles: UserAndRoles) = LoggedInUser(
+        true,
+        userAndRoles.user.id,
+        userAndRoles.user.organizationMdsId,
+        userAndRoles.roles
+    )
 
-    private fun getRoles(jwt: JsonWebToken) = jwt.claim<JsonObject>("realm_access")
-        .orElseGet { unauthorized() }
-        .getJsonArray("roles")
-        .filterIsInstance<JsonString>()
-        .filter { it.string.startsWith("UR_") || it.string.startsWith("AR_") }
-        .map { it.string }
-        .toSet()
+    private fun unauthenticatedLoggedInUser() = LoggedInUser(
+        false,
+        "",
+        null,
+        setOf(UserRoleDto.UNAUTHENTICATED.name)
+    )
 
-    private fun jsonWebToken() = jwtInstance.toList().firstOrNull() ?: unauthorized()
+    data class UserAndRoles(val user: UserRecord, val roles: Set<String>)
 }

@@ -4,7 +4,6 @@ import {
   ClearApplicationRoleRequest,
   IdResponse,
   InviteParticipantUserRequest,
-  MemberInfo,
   OnboardingUserUpdateDto,
   UserDetailDto,
   UserInfo,
@@ -13,8 +12,9 @@ import {
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {updateOrganization} from './fake-organizations';
 
-export const TEST_USERS: {[key: string]: UserInfo} = {
+export const TEST_USERS: Record<string, UserInfo> = {
   '00000000-0000-0000-0000-000000000001': {
+    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000001',
     firstName: 'Authority',
     lastName: 'Admin',
@@ -30,6 +30,7 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
     organizationMdsId: 'MDSL1111AA',
   },
   '00000000-0000-0000-0000-000000000002': {
+    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000002',
     firstName: 'Authority',
     lastName: 'User',
@@ -39,6 +40,7 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
     organizationMdsId: 'MDSL1111AA',
   },
   '00000000-0000-0000-0000-000000000003': {
+    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000003',
     firstName: 'Participant',
     lastName: 'Admin',
@@ -48,6 +50,7 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
     organizationMdsId: 'MDSL2222BB',
   },
   '00000000-0000-0000-0000-000000000004': {
+    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000004',
     firstName: 'Participant',
     lastName: 'User',
@@ -56,25 +59,8 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: 'Participant Organization',
     organizationMdsId: 'MDSL2222BB',
   },
-  '00000000-0000-0000-0000-000000000005': {
-    userId: '00000000-0000-0000-0000-000000000005',
-    firstName: 'Created',
-    lastName: 'User',
-    roles: [],
-    registrationStatus: 'CREATED',
-    organizationName: '',
-    organizationMdsId: '',
-  },
-  '00000000-0000-0000-0000-000000000006': {
-    userId: '00000000-0000-0000-0000-000000000006',
-    firstName: 'Pending',
-    lastName: 'User',
-    roles: [],
-    registrationStatus: 'PENDING',
-    organizationName: '',
-    organizationMdsId: 'MDSL5555EE',
-  },
   '00000000-0000-0000-0000-000000000007': {
+    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000007',
     firstName: 'Service Partner',
     lastName: 'Admin',
@@ -89,6 +75,7 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
     organizationMdsId: 'MDSL7777AA',
   },
   '00000000-0000-0000-0000-000000000008': {
+    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000008',
     firstName: 'Service Partner',
     lastName: 'User',
@@ -98,6 +85,7 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
     organizationMdsId: 'MDSL7777AA',
   },
   '00000000-0000-0000-0000-000000000009': {
+    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000009',
     firstName: 'Operator',
     lastName: 'Admin',
@@ -112,6 +100,7 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
     organizationMdsId: 'MDSL8888EE',
   },
   '00000000-0000-0000-0000-000000000010': {
+    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000010',
     firstName: 'Operator',
     lastName: 'User',
@@ -120,16 +109,18 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
     organizationName: 'Operator Organization',
     organizationMdsId: 'MDSL8888EE',
   },
-  '00000000-0000-0000-0000-00000011': {
-    userId: '00000000-0000-0000-0000-00000011',
-    firstName: 'Rejected',
+  unauthenticated: {
+    authenticationStatus: 'UNAUTHENTICATED',
+    userId: 'unauthenticated',
+    roles: ['UNAUTHENTICATED'],
+    registrationStatus: undefined,
+    firstName: 'Unauthenticated',
     lastName: 'User',
-    roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_CURATOR', 'PARTICIPANT_USER'],
-    registrationStatus: 'REJECTED',
-    organizationName: 'Rejected Organization',
-    organizationMdsId: 'MDSL6666EE',
+    organizationName: 'No Organization',
+    organizationMdsId: 'unauthenticated',
   },
   '00000000-0000-0000-0000-00000013': {
+    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-00000013',
     firstName: 'Onboarding',
     lastName: 'Organization',
@@ -137,6 +128,26 @@ export const TEST_USERS: {[key: string]: UserInfo} = {
     registrationStatus: 'ONBOARDING',
     organizationName: '',
     organizationMdsId: '',
+  },
+  '00000000-0000-0000-0000-000000000006': {
+    authenticationStatus: 'AUTHENTICATED',
+    userId: '00000000-0000-0000-0000-000000000006',
+    firstName: 'Pending',
+    lastName: 'User',
+    roles: [],
+    registrationStatus: 'PENDING',
+    organizationName: '',
+    organizationMdsId: 'MDSL5555EE',
+  },
+  '00000000-0000-0000-0000-00000011': {
+    authenticationStatus: 'AUTHENTICATED',
+    userId: '00000000-0000-0000-0000-00000011',
+    firstName: 'Rejected',
+    lastName: 'User',
+    roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_CURATOR', 'PARTICIPANT_USER'],
+    registrationStatus: 'REJECTED',
+    organizationName: 'Rejected Organization',
+    organizationMdsId: 'MDSL6666EE',
   },
 };
 
@@ -165,7 +176,7 @@ export const userDetails = (userId: string): UserDetailDto => {
     lastName: user.lastName,
     email: 'email@example.com',
     roles: user.roles,
-    registrationStatus: user.registrationStatus,
+    registrationStatus: user.registrationStatus!,
     creationDate: new Date(),
     organizationName: user.organizationName,
     phone: '+49 231 1234567',
@@ -180,6 +191,7 @@ export const inviteUser = (
   const newUserId = generateNewId();
 
   const newUser = {
+    authenticationStatus: 'AUTHENTICATED',
     userId: newUserId,
     firstName: request.firstName,
     lastName: request.lastName,
@@ -199,31 +211,10 @@ export const inviteUser = (
   return {id: newUserId, changedDate: new Date()};
 };
 
-export const getOrganizationMembers = (mdsId: string): MemberInfo[] => {
-  return Object.values(TEST_USERS)
-    .filter((user) => user.organizationMdsId === mdsId)
-    .map((user) => {
-      return {
-        userId: user.userId,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        roles: user.roles,
-        registrationStatus: user.registrationStatus,
-      };
-    });
-};
-
-export const getNumberOfOrganizationMembers = (mdsId: string): number => {
-  return Object.values(TEST_USERS).filter(
-    (user) => user.organizationMdsId === mdsId,
-  ).length;
-};
-
 const generateNewId = (): string => {
   const usersCounter = Object.keys(TEST_USERS).length;
   const counterStr = usersCounter.toString().padStart(8, '0');
-  const uuid = `00000000-0000-0000-0000-${counterStr}`;
-  return uuid;
+  return `00000000-0000-0000-0000-${counterStr}`;
 };
 
 const generateRoles = (userRole: UserRoleDto): UserRoleDto[] => {

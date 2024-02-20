@@ -21,10 +21,15 @@ class AuthUtils {
     lateinit var organizationService: OrganizationService
 
     fun requiresAuthenticated() {
-        val userId = loggedInUser.userId
+        if (!loggedInUser.authenticated) {
+            Log.error("User is not authenticated.")
+            unauthorized()
+        }
+    }
 
-        if (userId.isBlank()) {
-            Log.error("User is not authenticated. userId=$userId.")
+    fun requiresUnauthenticated() {
+        if (loggedInUser.authenticated) {
+            Log.error("User is authenticated, this route requires being unauthenticated, though.")
             unauthorized()
         }
     }
@@ -48,6 +53,7 @@ class AuthUtils {
     }
 
     fun requiresRegistrationStatus(status: UserRegistrationStatus) {
+        requiresAuthenticated()
         val userRegistrationStatus = userService.getUserOrThrow(loggedInUser.userId).registrationStatus
 
         if (userRegistrationStatus != status) {
@@ -56,16 +62,8 @@ class AuthUtils {
         }
     }
 
-    fun requiresAnyRegistrationStatus(vararg statuses: UserRegistrationStatus) {
-        val userRegistrationStatus = userService.getUserOrThrow(loggedInUser.userId).registrationStatus
-
-        if (!statuses.contains(userRegistrationStatus)) {
-            Log.error("User registration status is invalid. userRegistrationStatus: $userRegistrationStatus, expectedRegistrationStatuses: ${statuses.toSet()}, userId=${loggedInUser.userId}.")
-            unauthorized("User registration status is invalid. Expected one of: ${statuses.toSet()}. Has: $userRegistrationStatus")
-        }
-    }
-
     fun requiresMemberOfAnyOrganization() {
+        requiresAuthenticated()
         if (loggedInUser.organizationMdsId.isNullOrEmpty()) {
             Log.error("User is not associated with any organization. userId=${loggedInUser.userId}.")
             unauthorized("User is not associated with any organization")
@@ -83,6 +81,7 @@ class AuthUtils {
     }
 
     fun requiresTargetNotSelf(userId: String) {
+        requiresAuthenticated()
         if (userId == loggedInUser.userId) {
             Log.error("User is not allowed to perform requested action on self. userId=$userId, loggedInUserId=${loggedInUser.userId}.")
             unauthorized("User is not allowed to perform requested action on self")
@@ -97,6 +96,7 @@ class AuthUtils {
     }
 
     fun requiresSelfOrRole(userId: String, role: String) {
+        requiresAuthenticated()
         if (userId != loggedInUser.userId && !loggedInUser.roles.contains(role)) {
             Log.error("User can only perform the requested action on themself or needs the desired role. userRoles=${loggedInUser.roles}, requiredRole=$role, userId=$userId, loggedInUserId=${loggedInUser.userId}.")
             unauthorized("User can only perform the requested action on themself or needs the desired role")
@@ -108,6 +108,7 @@ class AuthUtils {
     }
 
     fun isMemberOfSameOrganizationAs(userId: String): Boolean {
+        requiresAuthenticated()
         if (loggedInUser.organizationMdsId.isNullOrEmpty()) {
             return false;
         }
@@ -117,6 +118,7 @@ class AuthUtils {
     }
 
     fun requiresOrganizationRegistrationStatus(status: OrganizationRegistrationStatus) {
+        requiresAuthenticated()
         requiresMemberOfAnyOrganization()
 
         val organization = organizationService.getOrganizationOrThrow(loggedInUser.organizationMdsId!!)

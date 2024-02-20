@@ -16,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @Schema(description = "Information about the logged in user.")
 public class UserInfo {
+    @Schema(description = "Authentication Status. Is the user logged in or not", requiredMode = Schema.RequiredMode.REQUIRED)
+    private UserAuthenticationStatusDto authenticationStatus;
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
     private String userId;
     @Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -28,6 +30,6 @@ public class UserInfo {
     private String organizationMdsId;
     @Schema(description = "Roles of the user", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<UserRoleDto> roles;
-    @Schema(description = "Registration status of the user", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Registration status of the user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private UserRegistrationStatusDto registrationStatus;
 }

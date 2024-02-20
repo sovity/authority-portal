@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {UserProfileUpdateFormModel} from 'src/app/pages/onboarding-process-wizard/onboarding-process-wizard/onboarding-process-wizard.model';
 import {UserProfileCreateFormModel} from '../../../../pages/registration-process-wizard/sub-pages/organization-create-page/organization-create-page-form-model';
 
 @Component({

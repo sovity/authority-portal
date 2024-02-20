@@ -1,11 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
@@ -19,18 +13,18 @@ import {passwordMatchValidator} from '../../../../core/utils/validators/password
 import {phoneNumberValidator} from '../../../../core/utils/validators/phone-number-validator';
 import {urlValidator} from '../../../../core/utils/validators/url-validator';
 import {zipcodeValidator} from '../../../../core/utils/validators/zipcode-validator';
-import {CreateOrganization} from '../../state/organization-create-page-action';
-import {
-  DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,
-  OrganizationRegistrationPageState,
-} from '../../state/organization-create-page-state';
-import {OrganizationCreatePageStateImpl} from '../../state/organization-create-page-state-impl';
 import {
   DEFAULT_ORGANIZATION_PROFILE_CREATE_FORM_VALUE,
   DEFAULT_ORGANIZATION_REGISTRATION_PAGE_FORM_VALUE,
   DEFAULT_USER_PROFILE_CREATE_FORM_VALUE,
   OrganizationRegistrationPageParentFormModel,
 } from './organization-create-page-form-model';
+import {CreateOrganization} from './state/organization-create-page-action';
+import {
+  DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,
+  OrganizationRegistrationPageState,
+} from './state/organization-create-page-state';
+import {OrganizationCreatePageStateImpl} from './state/organization-create-page-state-impl';
 
 @Component({
   selector: 'app-organization-create',

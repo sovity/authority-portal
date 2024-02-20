@@ -45,10 +45,12 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiServi
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
+import jakarta.annotation.security.PermitAll
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 import jakarta.ws.rs.core.Response
 
+@PermitAll // auth checks will be in code in this unit
 class UiResourceImpl : UiResource {
     @Inject
     lateinit var authUtils: AuthUtils
@@ -104,8 +106,7 @@ class UiResourceImpl : UiResource {
     // User info
     @Transactional
     override fun userInfo(): UserInfo {
-        authUtils.requiresAuthenticated()
-        return userInfoApiService.userInfo(loggedInUser.userId, loggedInUser.organizationMdsId, loggedInUser.roles)
+        return userInfoApiService.userInfo(loggedInUser)
     }
 
     /**
@@ -116,6 +117,7 @@ class UiResourceImpl : UiResource {
      */
     @Transactional
     override fun userDetails(userId: String): UserDetailDto {
+        authUtils.requiresAuthenticated()
         authUtils.requires(authUtils.hasRole(Roles.UserRoles.AUTHORITY_USER) ||
             (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_USER) && authUtils.isMemberOfSameOrganizationAs(userId)), userId)
         return userInfoApiService.userDetails(userId)
@@ -349,11 +351,13 @@ class UiResourceImpl : UiResource {
 
     @Transactional
     override fun deploymentEnvironmentList(): List<DeploymentEnvironmentDto> {
+        authUtils.requiresAuthenticated()
         return connectorManagementApiService.getAllDeploymentEnvironment()
     }
 
     @Transactional
     override fun registerUser(registrationRequest: RegistrationRequestDto): IdResponse {
+        authUtils.requiresUnauthenticated()
         return registrationApiService.registerUserAndOrganization(registrationRequest)
     }
 
