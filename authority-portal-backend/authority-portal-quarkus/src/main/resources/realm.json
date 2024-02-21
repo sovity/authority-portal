@@ -2015,6 +2015,7 @@
           "userSetupAllowed": false
         },
         {
+          "authenticatorConfig": "Remove OTP configs",
           "authenticator": "reset-otp",
           "authenticatorFlow": false,
           "requirement": "REQUIRED",
@@ -2415,6 +2416,13 @@
     }
   ],
   "authenticatorConfig": [
+    {
+      "id": "648559e0-19b9-4b4a-b6dd-80143920a674",
+      "alias": "Remove OTP configs",
+      "config": {
+        "action_on_otp_reset_flag": "Remove all"
+      }
+    },
     {
       "id": "8eaeed2e-3b45-48f9-b2fc-10a93365f3df",
       "alias": "create unique user config",

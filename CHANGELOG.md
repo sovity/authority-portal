@@ -82,9 +82,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
     - `authority-portal.connectors.url.management`
     - `authority-portal.connectors.url.endpoint`
     - Please ensure that the frontend, endpoint and management API URLs are configured correctly for all connectors. If needed, remove affected connectors and re-register them with a correct URL configuration.
-
 - Portal Frontend
-
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_DSGVO_URL`
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_AVV_URL`
 
@@ -96,15 +94,55 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
 - Broker Server: `{{ broker version }}`
 
-## [0.3.2] - 2024-01-26
+## [v0.3.3] - 2024-02-15
+
+### Overview
+
+Bug- and styling fixes. Also fixes the user documentation.
+
+### Detailed Changes
+
+#### Patch
+
+**Bugfixes**
+
+- Remove existing OTP configurations when resetting a user's password
+
+**Styling**
+
+- Changed wording on connector registration pages and added additional information regarding URL configuration
+- Changed wording on the landing page for rejected users
+- Fixed registration page responsiveness
+
+**Documentation**
+
+- Adjusted user documentation to fit the current version of the component
+
+### Known issues
+
+- After logout, if the user leaves the login page and returns to the "previous" login page using the browser's back button, an error will be displayed upon a login attempt. The user can still log in using the appropriate button displayed on the error page
+
+### Deployment Migration Notes
+
+- Keycloak IAM
+  - Set OTP reset policy to "Remove all" (Authentication -> Flows -> reset credentials -> Reset OTP -> Gear Icon)
+  - To temporarily disable self-registration of participants go to: Realm Settings -> Login -> User Registration (deactivate switch)
+
+_For further information check out our [Productive Deployment Guide](README.md#productive-deployment-guide)._
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:0.3.3`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:0.3.3`
+- Broker Server: `3.3.0`
+
+## [v0.3.2] - 2024-01-26
 
 ### Overview
 
 Added overview of all registered connectors in the Authority Section and fixed several bugs.
 
 ### Detailed Changes
-
-- Added a overview of all registered connectors in the Authority Section (closes [581](https://github.com/sovity/authority-portal/issues/581))
 
 #### Patch
 
@@ -117,7 +155,6 @@ Added overview of all registered connectors in the Authority Section and fixed s
 - Addressed security issues
   - Updated dependencies
   - Upgraded Keycloak to version 22.0.2
-- Returned Provide Connector Feature but now its only accessible for Service Partners
 
 **Other**
 
@@ -204,6 +241,9 @@ Added central component management, fixed multiple bugs and pushing organization
   - The `authority-portal-client` in Keycloak needs to be updated with new configuration
     - Root URL: same as the environment variable `authority-portal.base-url`
     - Home URL: same as the root URL
+- Keycloak
+  - Replace [MDS theme](authority-portal-keycloak/mds-theme) with new version
+  - Select new email template (Realm Settings -> Themes -> Email theme)
 
 _For further information check out our [Productive Deployment Guide](README.md#productive-deployment-guide)._
 
