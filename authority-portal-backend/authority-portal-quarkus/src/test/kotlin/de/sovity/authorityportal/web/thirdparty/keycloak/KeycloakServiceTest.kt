@@ -1,10 +1,8 @@
 package de.sovity.authorityportal.web.thirdparty.keycloak
 
-import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import jakarta.ws.rs.WebApplicationException
 import jakarta.ws.rs.core.Response
 import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -35,9 +33,6 @@ class KeycloakServiceTest {
     lateinit var keycloak: Keycloak
 
     @Mock
-    lateinit var keycloakUserMapper: KeycloakUserMapper
-
-    @Mock
     lateinit var realmResource: RealmResource
 
     @Mock
@@ -48,37 +43,6 @@ class KeycloakServiceTest {
         `when`(keycloak.realm(eq("authority-portal"))).thenReturn(realmResource)
         `when`(realmResource.users()).thenReturn(usersResource)
         keycloakService.keycloakRealm = "authority-portal"
-    }
-
-    @Test
-    fun testListUsers() {
-        // arrange
-        val representation = mock(UserRepresentation::class.java)
-        `when`(usersResource.list()).thenReturn(listOf(representation))
-        val expected = mock(KeycloakUserDto::class.java)
-        `when`(keycloakUserMapper.buildKeycloakUserDto(representation)).thenReturn(expected)
-
-        // act
-        val actual = keycloakService.listUsers()
-
-        // assert
-        assertThat(actual).containsExactly(expected)
-    }
-
-    @Test
-    fun testGetUser() {
-        // arrange
-        val userId = "123"
-        val representation = UserRepresentation().apply { id = userId }
-        mockUserResource(representation)
-        val expected = mock(KeycloakUserDto::class.java)
-        `when`(keycloakUserMapper.buildKeycloakUserDto(representation)).thenReturn(expected)
-
-        // act
-        val actual = keycloakService.getUser(userId)
-
-        // assert
-        assertThat(actual).isEqualTo(expected)
     }
 
     @Test

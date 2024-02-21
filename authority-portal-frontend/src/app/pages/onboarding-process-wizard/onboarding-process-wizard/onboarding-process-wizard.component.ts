@@ -1,13 +1,23 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
-import {combineLatest, Subject, take, takeUntil} from 'rxjs';
+import {Subject, combineLatest, take, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {OwnOrganizationDetailsDto, UserInfo,} from '@sovity.de/authority-portal-client';
+import {
+  OwnOrganizationDetailsDto,
+  UserInfo,
+} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {phoneNumberValidator} from 'src/app/core/utils/validators/phone-number-validator';
-import {urlValidator} from 'src/app/core/utils/validators/url-validator';
-import {zipCodeValidator} from 'src/app/core/utils/validators/zipcode-validator';
+import {
+  mergeFormGroups,
+  switchDisabledControls,
+} from '../../../core/utils/form-utils';
+import {buildOrganizationProfileForm} from '../../../shared/components/business/organization-profile-form/organization-profile-form-builder';
+import {organizationProfileFormEnabledCtrls} from '../../../shared/components/business/organization-profile-form/organization-profile-form-enabled-ctrls';
+import {OrganizationProfileFormModel} from '../../../shared/components/business/organization-profile-form/organization-profile-form-model';
+import {buildAddressString} from '../../registration-process-wizard/sub-pages/organization-create-page/address-utils';
+import {buildFullName} from '../../registration-process-wizard/sub-pages/organization-create-page/name-utils';
 import {
   GetOnboardingOrganizationDetails,
   OnboardingProcessFormSubmit,
@@ -19,10 +29,12 @@ import {
 } from '../state/onboarding-process-wizard-page-state';
 import {OnboardingProcessWizardPageStateImpl} from '../state/onboarding-process-wizard-page-state-impl';
 import {
-  DEFAULT_CONTACTS_PROFILE_CREATE_FORM_VALUE,
-  DEFAULT_ORGANIZATION_PROFILE_ONBOARD_FORM_VALUE,
-  DEFAULT_USER_PROFILE_ONBOARD_FORM_VALUE,
-  OrganizationRegistrationPageParentFormModel,
+  DEFAULT_ONBOARDING_WIZARD_FORM_VALUE,
+  OnboardingOrganizationTabFormModel,
+  OnboardingOrganizationTabFormValue,
+  OnboardingUserTabFormModel,
+  OnboardingUserTabFormValue,
+  OnboardingWizardFormModel,
 } from './onboarding-process-wizard.model';
 
 @Component({
@@ -32,11 +44,24 @@ import {
 export class OnboardingProcessWizardComponent implements OnInit {
   state = DEFAULT_ONBOARDING_PROCESS_WIZARD_PAGE_STATE;
   onboardingType!: 'USER_ONBOARDING' | 'USER_ORGANIZATION_ONBOARDING';
-  parentFormGroup!: FormGroup<OrganizationRegistrationPageParentFormModel>;
+  parentFormGroup!: FormGroup<OnboardingWizardFormModel>;
   showForm: boolean = false;
   ngOnDestroy$ = new Subject();
 
   @ViewChild('stepper') stepper!: MatStepper;
+
+  get userForm(): FormGroup<OnboardingUserTabFormModel> {
+    return this.parentFormGroup.controls.userTab;
+  }
+
+  get orgForm(): FormGroup<OnboardingOrganizationTabFormModel> {
+    return this.parentFormGroup.controls.organizationTab;
+  }
+
+  get orgProfileForm(): FormGroup<OrganizationProfileFormModel> {
+    // this only requires a cast because A extends B does not imply T<A> extend T<B>
+    return this.orgForm as unknown as FormGroup<OrganizationProfileFormModel>;
+  }
 
   constructor(
     private store: Store,
@@ -77,160 +102,129 @@ export class OnboardingProcessWizardComponent implements OnInit {
   buildFormGroup(
     userInfo: UserInfo,
     organizationDetail: OwnOrganizationDetailsDto,
-  ): FormGroup<OrganizationRegistrationPageParentFormModel> {
-    const initialUserProfile = DEFAULT_USER_PROFILE_ONBOARD_FORM_VALUE;
-    const initialOrganizationProfile =
-      DEFAULT_ORGANIZATION_PROFILE_ONBOARD_FORM_VALUE;
-    const initialMainContactProfile =
-      DEFAULT_CONTACTS_PROFILE_CREATE_FORM_VALUE;
-    const initialTechnicalContactProfile =
-      DEFAULT_CONTACTS_PROFILE_CREATE_FORM_VALUE;
+  ): FormGroup<OnboardingWizardFormModel> {
+    const initial = DEFAULT_ONBOARDING_WIZARD_FORM_VALUE;
+    const initialUser: OnboardingUserTabFormValue = {
+      ...initial.userTab,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+    };
 
-    const organizationRegistrationForm: FormGroup<OrganizationRegistrationPageParentFormModel> =
+    const initialOrganization: OnboardingOrganizationTabFormValue = {
+      ...initial.organizationTab,
+      legalName: organizationDetail.name,
+    };
+
+    let userTab: FormGroup<OnboardingUserTabFormModel> =
       this.formBuilder.nonNullable.group({
-        userProfile: this.formBuilder.nonNullable.group({
-          firstName: [userInfo.firstName, [Validators.required]],
-          lastName: [userInfo.lastName, [Validators.required]],
-          jobTitle: [initialUserProfile.jobTitle, [Validators.required]],
-          phoneNumber: [
-            initialUserProfile.phoneNumber,
-            [Validators.required, phoneNumberValidator],
-          ],
-        }),
-        organizationProfile: this.formBuilder.nonNullable.group({
-          legalName: [organizationDetail.name, [Validators.required]],
-          website: [
-            initialOrganizationProfile.website,
-            [Validators.required, urlValidator],
-          ],
-          businessUnit: [
-            initialOrganizationProfile.businessUnit,
-            [Validators.required],
-          ],
-          address: this.formBuilder.nonNullable.group({
-            street: [
-              initialOrganizationProfile.address.street,
-              [Validators.required],
-            ],
-            city: [
-              initialOrganizationProfile.address.city,
-              [Validators.required],
-            ],
-            houseNo: [
-              initialOrganizationProfile.address.houseNo,
-              [Validators.required],
-            ],
-            zipCode: [
-              initialOrganizationProfile.address.zipCode,
-              [Validators.required, zipCodeValidator],
-            ],
-            country: [
-              initialOrganizationProfile.address.country,
-              [Validators.required],
-            ],
-          }),
-          billingAddress: this.formBuilder.nonNullable.group({
-            street: [
-              initialOrganizationProfile.address.street,
-              [Validators.required],
-            ],
-            city: [
-              initialOrganizationProfile.address.city,
-              [Validators.required],
-            ],
-            houseNo: [
-              initialOrganizationProfile.address.houseNo,
-              [Validators.required],
-            ],
-            zipCode: [
-              initialOrganizationProfile.address.zipCode,
-              [Validators.required, zipCodeValidator],
-            ],
-            country: [
-              initialOrganizationProfile.address.country,
-              [Validators.required],
-            ],
-          }),
-          description: [
-            initialOrganizationProfile.description,
-            [Validators.required],
-          ],
-          legalIdType: [
-            initialOrganizationProfile.legalIdType,
-            [Validators.required],
-          ],
-          legalId: [initialOrganizationProfile.legalId, [Validators.required]],
-          commerceRegisterLocation: [
-            initialOrganizationProfile.commerceRegisterLocation,
-            [],
-          ],
-        }),
-        mainContactProfile: this.formBuilder.nonNullable.group({
-          firstName: [
-            initialMainContactProfile.firstName,
-            [Validators.required],
-          ],
-          lastName: [initialMainContactProfile.lastName, [Validators.required]],
-          phoneNumber: [
-            initialMainContactProfile.phoneNumber,
-            [Validators.required, phoneNumberValidator],
-          ],
-          email: [
-            initialMainContactProfile.email,
-            [Validators.required, Validators.email],
-          ],
-        }),
-        technicalContactProfile: this.formBuilder.nonNullable.group({
-          firstName: [
-            initialTechnicalContactProfile.firstName,
-            [Validators.required],
-          ],
-          lastName: [
-            initialTechnicalContactProfile.lastName,
-            [Validators.required],
-          ],
-          phoneNumber: [
-            initialTechnicalContactProfile.phoneNumber,
-            [Validators.required, phoneNumberValidator],
-          ],
-          email: [
-            initialTechnicalContactProfile.email,
-            [Validators.required, Validators.email],
-          ],
-        }),
+        firstName: [userInfo.firstName, [Validators.required]],
+        lastName: [userInfo.lastName, [Validators.required]],
+        jobTitle: [initialUser.jobTitle, [Validators.required]],
+        phoneNumber: [
+          initialUser.phoneNumber,
+          [Validators.required, phoneNumberValidator],
+        ],
       });
-    return organizationRegistrationForm;
+
+    let organizationTab: FormGroup<OnboardingOrganizationTabFormModel> =
+      mergeFormGroups(
+        buildOrganizationProfileForm(this.formBuilder, initialOrganization),
+        this.formBuilder.nonNullable.group({
+          acceptedTos: [
+            initialOrganization.acceptedTos,
+            Validators.requiredTrue,
+          ],
+        }),
+      );
+
+    switchDisabledControls<OnboardingOrganizationTabFormValue>(
+      organizationTab,
+      (value: OnboardingOrganizationTabFormValue) => {
+        return {
+          ...organizationProfileFormEnabledCtrls(value),
+          acceptedTos: true,
+        };
+      },
+    );
+
+    return this.formBuilder.nonNullable.group({
+      userTab,
+      organizationTab,
+    });
   }
 
   submit(): void {
-    let userProfile = this.parentFormGroup.value.userProfile;
-    let organizationProfile = this.parentFormGroup.value.organizationProfile;
-    let mainContactProfile = this.parentFormGroup.value.mainContactProfile;
-    let technicalContactProfile =
-      this.parentFormGroup.value.technicalContactProfile;
+    let user = this.parentFormGroup.value.userTab;
+    let org = this.parentFormGroup.value.organizationTab;
+
+    let mainAddress = buildAddressString({
+      street: org?.mainAddressStreet,
+      houseNo: org?.mainAddressHouseNo,
+      zipCode: org?.mainAddressHouseNo,
+      city: org?.mainAddressCity,
+      country: org?.mainAddressCountry,
+    });
+
+    let billingAddress = org?.billingAddressSameAsMain
+      ? mainAddress
+      : buildAddressString({
+          street: org?.billingAddressStreet,
+          houseNo: org?.billingAddressHouseNo,
+          zipCode: org?.billingAddressHouseNo,
+          city: org?.billingAddressCity,
+          country: org?.billingAddressCountry,
+        });
+
+    let mainContactName = buildFullName(
+      org?.mainContactFirstName,
+      org?.mainContactLastName,
+    );
+    let mainContactEmail = org?.mainContactEmail || '';
+    let mainContactPhone = org?.mainContactPhoneNumber || '';
+
+    let techContactName: string;
+    let techContactEmail: string;
+    let techContactPhone: string;
+    if (org?.technicalContactSameAsMain) {
+      techContactName = mainContactName;
+      techContactEmail = mainContactEmail;
+      techContactPhone = mainContactPhone;
+    } else {
+      techContactName = buildFullName(
+        org?.technicalContactFirstName,
+        org?.technicalContactLastName,
+      );
+      techContactEmail = org?.technicalContactEmail || '';
+      techContactPhone = org?.technicalContactPhoneNumber || '';
+    }
+
     let request: OnboardingProcessRequest = {
       userProfile: {
-        firstName: userProfile?.firstName || '',
-        lastName: userProfile?.lastName || '',
-        jobTitle: userProfile?.jobTitle || '',
-        phoneNumber: userProfile?.phoneNumber || '',
+        firstName: user?.firstName || '',
+        lastName: user?.lastName || '',
+        jobTitle: user?.jobTitle || '',
+        phoneNumber: user?.phoneNumber || '',
       },
       organizationProfile: {
-        name: organizationProfile?.legalName || '',
-        url: organizationProfile?.website || '',
-        businessUnit: organizationProfile?.businessUnit || '',
-        address: `${organizationProfile?.address?.country}, ${organizationProfile?.address?.city}, ${organizationProfile?.address?.street}, ${organizationProfile?.address?.houseNo}, ${organizationProfile?.address?.zipCode}`,
-        billingAddress: `${organizationProfile?.billingAddress?.country}, ${organizationProfile?.billingAddress?.city}, ${organizationProfile?.billingAddress?.street}, ${organizationProfile?.billingAddress?.houseNo}, ${organizationProfile?.address?.zipCode}`,
-        legalIdType: organizationProfile?.legalIdType || 'TAX_ID',
-        legalIdNumber: organizationProfile?.legalId || '',
-        commerceRegisterLocation:
-          organizationProfile?.commerceRegisterLocation || '',
-        mainContactName: `${mainContactProfile?.firstName} ${mainContactProfile?.lastName}`,
-        mainContactEmail: mainContactProfile?.email || '',
-        mainContactPhone: mainContactProfile?.phoneNumber || '',
-        techContactName: `${technicalContactProfile?.firstName} ${technicalContactProfile?.lastName}`,
-        techContactEmail: technicalContactProfile?.email || '',
-        techContactPhone: technicalContactProfile?.phoneNumber || '',
+        name: org?.legalName || '',
+
+        // Organization Metadata
+        url: org?.website || '',
+        description: org?.description || '',
+        businessUnit: org?.businessUnit || '',
+        address: mainAddress,
+        billingAddress: billingAddress,
+        legalIdType: org?.legalIdType || 'TAX_ID',
+        legalIdNumber: org?.legalId || '',
+        commerceRegisterLocation: org?.commerceRegisterLocation || '',
+
+        // Organization Contacts
+        mainContactName,
+        mainContactEmail,
+        mainContactPhone,
+        techContactName,
+        techContactEmail,
+        techContactPhone,
       },
     };
     this.store.dispatch(

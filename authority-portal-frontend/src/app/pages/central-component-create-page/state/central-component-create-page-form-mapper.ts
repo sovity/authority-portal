@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CentralComponentCreateRequest} from '../../../../../../authority-portal-backend/authority-portal-api-client-ts';
+import {CentralComponentCreateRequest} from '@sovity.de/authority-portal-client';
 import {CentralComponentCreatePageFormValue} from './central-component-create-page-form-model';
 
 @Injectable()

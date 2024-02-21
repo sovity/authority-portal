@@ -40,7 +40,7 @@ class OrganizationUpdateApiServiceTest {
         }
 
         // act
-        val result = organizationUpdateApiService.updateOrganizationDetails(mdsId, organizationDto)
+        val result = organizationUpdateApiService.updateOrganization(mdsId, organizationDto)
         val organization = organizationService.getOrganizationOrThrow(mdsId)
 
         // assert

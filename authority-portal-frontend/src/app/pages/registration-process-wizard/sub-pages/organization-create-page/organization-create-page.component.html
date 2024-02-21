@@ -29,11 +29,7 @@
             <ng-template matStepLabel>User Details</ng-template>
             <app-user-profile-form
               class="flex-grow my-4"
-              formGroupName="userProfile"
-              #userProfileForm
-              [formGroup]="
-                parentFormGroup.controls.userProfile
-              "></app-user-profile-form>
+              [userForm]="userForm"></app-user-profile-form>
             <div
               class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
               <button class="btn-accent-outline" type="button" routerLink="/">
@@ -43,7 +39,7 @@
               <button
                 class="btn-accent"
                 matStepperNext
-                [disabledBtn]="parentFormGroup.controls.userProfile.invalid">
+                [disabledBtn]="!userForm.valid">
                 Next
               </button>
             </div>
@@ -58,37 +54,10 @@
             <h3>Organization Profile</h3>
             <app-organization-profile-form
               class="flex-grow my-4"
-              formGroupName="organizationProfile"
-              #organizationProfileForm
-              [formGroup]="
-                parentFormGroup.controls.organizationProfile
-              "></app-organization-profile-form>
+              [orgForm]="orgProfileForm"></app-organization-profile-form>
 
-            <h3 class="pb-6">Contacts</h3>
-
-            <app-contacts-profile-form
-              class="flex-grow my-4"
-              #contactProfileForm
-              [mainContactFormGroup]="
-                parentFormGroup.controls.mainContactProfile
-              "
-              [technicalContactFormGroup]="
-                parentFormGroup.controls.technicalContactProfile
-              "></app-contacts-profile-form>
-
-            <mat-checkbox
-              [formControl]="parentFormGroup.controls.acceptedConditions">
-              <span class="text-sm">
-                I hereby confirm, that I have read, understood and accept the
-                <a class="underline" target="_blank" [href]="config.dsgvoUrl"
-                  >DSGVO</a
-                >
-                and
-                <a class="underline" target="_blank" [href]="config.avvUrl"
-                  >AVV</a
-                >.
-              </span>
-            </mat-checkbox>
+            <app-tos-check
+              [ctrl]="orgForm.controls.acceptedTos"></app-tos-check>
 
             <div
               class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
@@ -98,14 +67,9 @@
 
               <button
                 class="btn-accent"
-                [disabledBtn]="
-                  parentFormGroup.controls.organizationProfile.invalid ||
-                  parentFormGroup.controls.mainContactProfile.invalid ||
-                  parentFormGroup.controls.technicalContactProfile.invalid ||
-                  parentFormGroup.controls.acceptedConditions.invalid
-                "
+                [disabledBtn]="!parentFormGroup.valid || loading"
                 (click)="submit()">
-                Next
+                Register
               </button>
             </div>
           </div>

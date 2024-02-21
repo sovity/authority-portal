@@ -64,7 +64,7 @@
 
       <button
         class="btn-accent"
-        [disabledBtn]="state.state === 'submitting' || form.formGroup.invalid"
+        [disabledBtn]="state.state === 'submitting' || !form.formGroup.valid"
         (click)="requestCaas()">
         Request CaaS
       </button>

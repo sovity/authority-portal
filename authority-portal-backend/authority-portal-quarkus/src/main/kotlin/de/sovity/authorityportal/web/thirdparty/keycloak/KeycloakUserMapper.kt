@@ -11,12 +11,8 @@ class KeycloakUserMapper {
         userId = user.id,
         firstName = user.firstName,
         lastName = user.lastName,
-        email = user.email,
-        position = getString(user, "position"),
-        phoneNumber = getString(user, "phoneNumber")
+        email = user.email
     )
-
-    private fun getString(user: UserRepresentation, key: String): String? = user.attributes?.get(key)?.get(0)
 }
 
 

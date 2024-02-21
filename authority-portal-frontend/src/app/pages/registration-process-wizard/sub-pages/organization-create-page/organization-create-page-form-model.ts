@@ -1,7 +1,10 @@
 import {FormControl, FormGroup, ɵFormGroupRawValue} from '@angular/forms';
-import {OrganizationLegalIdTypeDto} from '@sovity.de/authority-portal-client';
+import {
+  DEFAULT_ORGANIZATION_PROFILE_FORM_MODEL,
+  OrganizationProfileFormModel,
+} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-model';
 
-export interface UserProfileCreateFormModel {
+export interface RegistrationUserTabFormModel {
   firstName: FormControl<string>;
   lastName: FormControl<string>;
   jobTitle: FormControl<string>;
@@ -11,64 +14,10 @@ export interface UserProfileCreateFormModel {
   confirmPassword: FormControl<string>;
 }
 
-export interface OrganizationProfileCreateFormModel {
-  legalName: FormControl<string>;
-  website: FormControl<string>;
-  businessUnit: FormControl<string>;
-  address: FormGroup<AddressCreateFormModel>;
-  billingAddress: FormGroup<AddressCreateFormModel>;
-  description: FormControl<string>;
-  legalIdType: FormControl<OrganizationLegalIdTypeDto>;
-  legalId: FormControl<string>;
-  commerceRegisterLocation: FormControl<string>;
-}
+export type RegistrationUserTabFormValue =
+  ɵFormGroupRawValue<RegistrationUserTabFormModel>;
 
-export interface ContactsProfileCreateFormModel {
-  firstName: FormControl<string>;
-  lastName: FormControl<string>;
-  phoneNumber: FormControl<string>;
-  email: FormControl<string>;
-}
-
-export interface AddressCreateFormModel {
-  street: FormControl<string>;
-  city: FormControl<string>;
-  houseNo: FormControl<string>;
-  zipCode: FormControl<string>;
-  country: FormControl<string>;
-}
-
-export interface OrganizationRegistrationPageParentFormModel {
-  userProfile: FormGroup<UserProfileCreateFormModel>;
-  organizationProfile: FormGroup<OrganizationProfileCreateFormModel>;
-  mainContactProfile: FormGroup<ContactsProfileCreateFormModel>;
-  technicalContactProfile: FormGroup<ContactsProfileCreateFormModel>;
-  acceptedConditions: FormControl<boolean>;
-}
-
-export type UserProfileCreateFormValue =
-  ɵFormGroupRawValue<UserProfileCreateFormModel>;
-
-export type OrganizationProfileCreateFormValue =
-  ɵFormGroupRawValue<OrganizationProfileCreateFormModel>;
-
-export type ContactsProfileCreateFormValue =
-  ɵFormGroupRawValue<ContactsProfileCreateFormModel>;
-
-export type AddressCreateFormValue = ɵFormGroupRawValue<AddressCreateFormModel>;
-
-export type OrganizationRegistrationPageParentFormValue =
-  ɵFormGroupRawValue<OrganizationRegistrationPageParentFormModel>;
-
-export const DEFAULT_ADDRESS_FORM_VALUE: AddressCreateFormValue = {
-  street: '',
-  city: '',
-  houseNo: '',
-  zipCode: '',
-  country: '',
-};
-
-export const DEFAULT_USER_PROFILE_CREATE_FORM_VALUE: UserProfileCreateFormValue =
+export const DEFAULT_REGISTRATION_USER_TAB_FORM_VALUE: RegistrationUserTabFormValue =
   {
     firstName: '',
     lastName: '',
@@ -79,32 +28,30 @@ export const DEFAULT_USER_PROFILE_CREATE_FORM_VALUE: UserProfileCreateFormValue 
     confirmPassword: '',
   };
 
-export const DEFAULT_ORGANIZATION_PROFILE_CREATE_FORM_VALUE: OrganizationProfileCreateFormValue =
+export interface RegistrationOrganizationTabFormModel
+  extends OrganizationProfileFormModel {
+  acceptedTos: FormControl<boolean>;
+}
+
+export type RegistrationOrganizationTabFormValue =
+  ɵFormGroupRawValue<RegistrationOrganizationTabFormModel>;
+
+export const DEFAULT_REGISTRATION_ORGANIZATION_TAB_FORM_VALUE: RegistrationOrganizationTabFormValue =
   {
-    legalName: '',
-    website: '',
-    businessUnit: '',
-    address: DEFAULT_ADDRESS_FORM_VALUE,
-    billingAddress: DEFAULT_ADDRESS_FORM_VALUE,
-    description: '',
-    legalIdType: OrganizationLegalIdTypeDto.TaxId,
-    legalId: '',
-    commerceRegisterLocation: '',
+    ...DEFAULT_ORGANIZATION_PROFILE_FORM_MODEL,
+    acceptedTos: false,
   };
 
-export const DEFAULT_CONTACTS_PROFILE_CREATE_FORM_VALUE: ContactsProfileCreateFormValue =
-  {
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    email: '',
-  };
+export interface RegistrationWizardFormModel {
+  userTab: FormGroup<RegistrationUserTabFormModel>;
+  organizationTab: FormGroup<RegistrationOrganizationTabFormModel>;
+}
 
-export const DEFAULT_ORGANIZATION_REGISTRATION_PAGE_FORM_VALUE: OrganizationRegistrationPageParentFormValue =
+export type RegistrationWizardFormValue =
+  ɵFormGroupRawValue<RegistrationWizardFormModel>;
+
+export const DEFAULT_REGISTRATION_WIZARD_FORM_VALUE: RegistrationWizardFormValue =
   {
-    userProfile: DEFAULT_USER_PROFILE_CREATE_FORM_VALUE,
-    organizationProfile: DEFAULT_ORGANIZATION_PROFILE_CREATE_FORM_VALUE,
-    mainContactProfile: DEFAULT_CONTACTS_PROFILE_CREATE_FORM_VALUE,
-    technicalContactProfile: DEFAULT_CONTACTS_PROFILE_CREATE_FORM_VALUE,
-    acceptedConditions: false,
+    userTab: DEFAULT_REGISTRATION_USER_TAB_FORM_VALUE,
+    organizationTab: DEFAULT_REGISTRATION_ORGANIZATION_TAB_FORM_VALUE,
   };

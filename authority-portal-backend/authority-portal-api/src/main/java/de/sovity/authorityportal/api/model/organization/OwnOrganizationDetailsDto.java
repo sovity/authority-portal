@@ -39,12 +39,12 @@ public class OwnOrganizationDetailsDto {
     private OrganizationRegistrationStatusDto registrationStatus;
     @Schema(description = "Member information", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<MemberInfo> memberList;
-    @Schema(description = "Admin User Id", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String adminUserId;
-    @Schema(description = "Admin First Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String adminFirstName;
-    @Schema(description = "Admin Last Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String adminLastName;
+    @Schema(description = "Organization creator: User Id", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String createdByUserId;
+    @Schema(description = "Organization creator: First Name", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String createdByFirstName;
+    @Schema(description = "Organization creator: Last Name", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String createdByLastName;
     @Schema(description = "Main Contact Name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String mainContactName;
     @Schema(description = "Main Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -59,7 +59,5 @@ public class OwnOrganizationDetailsDto {
     private String techContactPhone;
     @Schema(description = "Creation date of organization or organization invite", requiredMode = Schema.RequiredMode.REQUIRED)
     private OffsetDateTime createdAt;
-    @Schema(description = "Creator of organization or organization invite", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String createdBy;
 
 }

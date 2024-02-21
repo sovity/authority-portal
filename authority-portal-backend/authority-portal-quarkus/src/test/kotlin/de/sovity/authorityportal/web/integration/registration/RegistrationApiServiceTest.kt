@@ -8,6 +8,7 @@ import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
+import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusMock
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
@@ -35,26 +36,15 @@ class RegistrationApiServiceTest {
     lateinit var organizationService: OrganizationService
 
     @Test
+    @TestTransaction
     fun testRegisterUserAndOrganization() {
         // arrange
         val userId = UUID.randomUUID().toString()
-        val keyCloakService = Mockito.mock(KeycloakService::class.java)
-        QuarkusMock.installMockForType(keyCloakService, KeycloakService::class.java)
-
-        `when`(
-            keyCloakService.createUser(
-                eq(TestRegistrationData.userEmail),
-                eq(TestRegistrationData.userFirstName),
-                eq(TestRegistrationData.userLastName),
-                eq(TestRegistrationData.testPassword)
-            )
-        ).thenReturn(userId)
-        doNothing().`when`(keyCloakService).createOrganization(anyString())
-        doNothing().`when`(keyCloakService).joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
-        doNothing().`when`(keyCloakService).sendInvitationEmail(eq(userId))
+        val keyCloakService = mockKeycloakInteraction(userId)
+        val registrationRequest = createTestRegistrationRequestDto()
 
         // act
-        val result = registrationApiService.registerUserAndOrganization(createTestRegistrationRequestDto())
+        val result = registrationApiService.registerUserAndOrganization(registrationRequest)
         val user = userService.getUserOrThrow(userId)
         val organization = organizationService.getOrganizationOrThrow(user.organizationMdsId)
 
@@ -71,13 +61,14 @@ class RegistrationApiServiceTest {
         // organization assertions
         assertThat(organization.name).isEqualTo(TestRegistrationData.organizationName)
         assertThat(organization.url).isEqualTo(TestRegistrationData.organizationUrl)
+        assertThat(organization.description).isEqualTo(TestRegistrationData.organizationDescription)
         assertThat(organization.businessUnit).isEqualTo(TestRegistrationData.organizationBusinessUnit)
         assertThat(organization.address).isEqualTo(TestRegistrationData.organizationAddress)
         assertThat(organization.billingAddress).isEqualTo(TestRegistrationData.organizationBillingAddress)
         assertThat(organization.legalIdType).isEqualTo(OrganizationLegalIdType.TAX_ID)
         assertThat(organization.taxId).isEqualTo(TestRegistrationData.organizationTaxId)
         assertThat(organization.commerceRegisterNumber).isNull()
-        assertThat(organization.commerceRegisterLocation).isEqualTo(TestRegistrationData.organizationCommerceRegisterLocation)
+        assertThat(organization.commerceRegisterLocation).isNull()
         assertThat(organization.mainContactName).isEqualTo(TestRegistrationData.organizationMainContactName)
         assertThat(organization.mainContactEmail).isEqualTo(TestRegistrationData.organizationMainContactEmail)
         assertThat(organization.mainContactPhone).isEqualTo(TestRegistrationData.organizationMainContactPhone)
@@ -92,6 +83,48 @@ class RegistrationApiServiceTest {
         verify(keyCloakService).sendInvitationEmail(eq(userId))
     }
 
+    @Test
+    @TestTransaction
+    fun testRegisterUserAndOrganizationWithCommerceNumber() {
+        // arrange
+        val userId = UUID.randomUUID().toString()
+        mockKeycloakInteraction(userId)
+        val registrationRequest = createTestRegistrationRequestDto().also {
+            it.organizationLegalIdType = OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO
+            it.organizationLegalIdNumber = "commerce-number"
+            it.organizationCommerceRegisterLocation = "commerce-location"
+        }
+
+        // act
+        registrationApiService.registerUserAndOrganization(registrationRequest)
+        val user = userService.getUserOrThrow(userId)
+        val organization = organizationService.getOrganizationOrThrow(user.organizationMdsId)
+
+        // assert
+        assertThat(organization.legalIdType).isEqualTo(OrganizationLegalIdType.COMMERCE_REGISTER_INFO)
+        assertThat(organization.taxId).isNull()
+        assertThat(organization.commerceRegisterNumber).isEqualTo("commerce-number")
+        assertThat(organization.commerceRegisterLocation).isEqualTo("commerce-location")
+    }
+
+    private fun mockKeycloakInteraction(userId: String): KeycloakService {
+        val keyCloakService = Mockito.mock(KeycloakService::class.java)
+        QuarkusMock.installMockForType(keyCloakService, KeycloakService::class.java)
+
+        `when`(
+                keyCloakService.createUser(
+                    eq(TestRegistrationData.userEmail),
+                    eq(TestRegistrationData.userFirstName),
+                    eq(TestRegistrationData.userLastName),
+                    eq(TestRegistrationData.testPassword)
+                )
+        ).thenReturn(userId)
+        doNothing().`when`(keyCloakService).createOrganization(anyString())
+        doNothing().`when`(keyCloakService).joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
+        doNothing().`when`(keyCloakService).sendInvitationEmail(eq(userId))
+        return keyCloakService
+    }
+
     fun createTestRegistrationRequestDto(): RegistrationRequestDto {
         return RegistrationRequestDto().apply {
             userEmail = TestRegistrationData.userEmail
@@ -102,6 +135,7 @@ class RegistrationApiServiceTest {
             userPhone = TestRegistrationData.userPhone
             organizationName = TestRegistrationData.organizationName
             organizationUrl = TestRegistrationData.organizationUrl
+            organizationDescription = TestRegistrationData.organizationDescription
             organizationBusinessUnit = TestRegistrationData.organizationBusinessUnit
             organizationAddress = TestRegistrationData.organizationAddress
             organizationBillingAddress = TestRegistrationData.organizationBillingAddress
@@ -126,6 +160,7 @@ class RegistrationApiServiceTest {
         val userPhone = "123456789"
         val organizationName = "Test Organization"
         val organizationUrl = "http://testorg.com"
+        val organizationDescription = "My Test Organization's Description."
         val organizationBusinessUnit = "IT"
         val organizationAddress = "Test Address"
         val organizationBillingAddress = "Test Billing Address"

@@ -1,3 +1,13 @@
+update "user" set email = 'user_01@test.sovity.io', first_name = 'First Name 01', last_name = 'Last Name 01', job_title = 'Job Title 01', phone = '+49 0000 01' where id = '00000000-0000-0000-0000-000000000001';
+update "user" set email = 'user_02@test.sovity.io', first_name = 'First Name 02', last_name = 'Last Name 02', job_title = 'Job Title 02', phone = '+49 0000 02' where id = '00000000-0000-0000-0000-000000000002';
+update "user" set email = 'user_03@test.sovity.io', first_name = 'First Name 03', last_name = 'Last Name 03', job_title = 'Job Title 03', phone = '+49 0000 03' where id = '00000000-0000-0000-0000-000000000003';
+update "user" set email = 'user_04@test.sovity.io', first_name = 'First Name 04', last_name = 'Last Name 04', job_title = 'Job Title 04', phone = '+49 0000 04' where id = '00000000-0000-0000-0000-000000000004';
+update "user" set email = 'user_05@test.sovity.io', first_name = 'First Name 05', last_name = 'Last Name 05', job_title = 'Job Title 05', phone = '+49 0000 05' where id = '00000000-0000-0000-0000-000000000005';
+update "user" set email = 'user_07@test.sovity.io', first_name = 'First Name 07', last_name = 'Last Name 07', job_title = 'Job Title 07', phone = '+49 0000 07' where id = '00000000-0000-0000-0000-000000000007';
+update "user" set email = 'user_08@test.sovity.io', first_name = 'First Name 08', last_name = 'Last Name 08', job_title = 'Job Title 08', phone = '+49 0000 08' where id = '00000000-0000-0000-0000-000000000008';
+update "user" set email = 'user_09@test.sovity.io', first_name = 'First Name 09', last_name = 'Last Name 09', job_title = 'Job Title 09', phone = '+49 0000 09' where id = '00000000-0000-0000-0000-000000000009';
+update "user" set email = 'user_10@test.sovity.io', first_name = 'First Name 10', last_name = 'Last Name 10', job_title = 'Job Title 10', phone = '+49 0000 10' where id = '00000000-0000-0000-0000-000000000010';
+
 -- Update records for Example Organization (MDSL1234ZZ)
 update "organization"
 set
@@ -11,7 +21,8 @@ set
     main_contact_phone = '0123456789',
     tech_contact_name = 'Tech Contact',
     tech_contact_email = 'tech.contact@example.com',
-    tech_contact_phone = '9876543210'
+    tech_contact_phone = '9876543210',
+    created_by = '00000000-0000-0000-0000-000000000007'
 where mds_id = 'MDSL1234ZZ';
 
 -- Update records for Dev Organization 1 (MDSL1111AA)

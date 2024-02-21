@@ -2,6 +2,7 @@ package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.api.model.MemberInfo
 import de.sovity.authorityportal.api.model.UserRoleDto
+import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleMapper
 import de.sovity.authorityportal.web.pages.userregistration.toDto
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
@@ -22,62 +23,41 @@ class UserDetailService {
     lateinit var userRoleMapper: UserRoleMapper
 
     fun getUserData(userId: String): UserDetail {
-        val kcUser = keycloakService.getUser(userId)
         val dbUser = userService.getUserOrThrow(userId)
-        val roles = keycloakService.getUserRoles(userId)
-
-        return UserDetail(
-            userId = kcUser.userId,
-            firstName = kcUser.firstName,
-            lastName = kcUser.lastName,
-            email = kcUser.email,
-            position = kcUser.position,
-            phoneNumber = kcUser.phoneNumber,
-            organizationMdsId = dbUser.organizationMdsId,
-            registrationStatus = dbUser.registrationStatus,
-            createdAt = dbUser.createdAt,
-            roles = roles,
-            onboardingType = dbUser.onboardingType,
-            invitedBy = dbUser.invitedBy
-        )
+        return buildUserDetail(dbUser)
     }
 
     fun getUserDetailsByOrganization(mdsId: String): List<UserDetail> {
         val dbUsers = userService.getUsersByMdsId(mdsId)
-        return dbUsers.let { user ->
-            user.map {
-                val kcUser = keycloakService.getUser(it.id)
-                UserDetail(
-                    userId = it.id,
-                    firstName = kcUser.firstName,
-                    lastName = kcUser.lastName,
-                    email = kcUser.email,
-                    position = kcUser.position,
-                    phoneNumber = kcUser.phoneNumber,
-                    organizationMdsId = mdsId,
-                    registrationStatus = it.registrationStatus,
-                    createdAt = it.createdAt,
-                    roles = keycloakService.getUserRoles(it.id),
-                    onboardingType = it.onboardingType,
-                    invitedBy = it.invitedBy
-                )
-            }
-        }
+        return dbUsers.map { dbUser -> buildUserDetail(dbUser) }
     }
+
+    private fun buildUserDetail(dbUser: UserRecord) = UserDetail(
+        userId = dbUser.id,
+        firstName = dbUser.firstName ?: "",
+        lastName = dbUser.lastName ?: "",
+        email = dbUser.email ?: "",
+        position = dbUser.jobTitle ?: "",
+        phoneNumber = dbUser.phone ?: "",
+        organizationMdsId = dbUser.organizationMdsId,
+        registrationStatus = dbUser.registrationStatus,
+        createdAt = dbUser.createdAt,
+        roles = keycloakService.getUserRoles(dbUser.id),
+        onboardingType = dbUser.onboardingType,
+        invitedBy = dbUser.invitedBy
+    )
 
     fun getOrganizationMembers(mdsId: String): List<MemberInfo> {
         val members = keycloakService.getOrganizationMembers(mdsId)
-        return members.let { user ->
-            user.map {
-                val dbUser = userService.getUserOrThrow(it.userId)
-                MemberInfo(
-                    it.userId,
-                    it.firstName,
-                    it.lastName,
-                    getHighestUserRoles(it),
-                    dbUser.registrationStatus.toDto(),
-                )
-            }
+        return members.map {
+            val dbUser = userService.getUserOrThrow(it.userId)
+            MemberInfo(
+                it.userId,
+                it.firstName,
+                it.lastName,
+                getHighestUserRoles(it),
+                dbUser.registrationStatus.toDto(),
+            )
         }
     }
 

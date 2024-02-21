@@ -217,7 +217,7 @@
 
           <button
             class="btn-accent"
-            [disabledBtn]="connectorDetailsFormGroup.invalid"
+            [disabledBtn]="!connectorDetailsFormGroup.valid"
             (click)="onConnectorDetailCollected(true)">
             Next
           </button>
@@ -301,7 +301,7 @@
           class="btn-accent"
           [disabledBtn]="
             state.state === 'submitting' ||
-            certificateFormGroup.invalid ||
+            !certificateFormGroup.valid ||
             !enableSubmitButton
           "
           (click)="registerConnector()">

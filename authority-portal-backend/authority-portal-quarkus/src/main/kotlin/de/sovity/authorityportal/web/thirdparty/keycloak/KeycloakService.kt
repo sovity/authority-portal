@@ -86,21 +86,6 @@ class KeycloakService {
         keycloak.realm(keycloakRealm).users().get(userId).update(user)
     }
 
-    fun listUsers(): List<KeycloakUserDto> {
-        val users = keycloak.realm(keycloakRealm).users().list()
-
-        return users.map {
-            keycloakUserMapper.buildKeycloakUserDto(it)
-        }
-    }
-
-    fun getUser(userId: String): KeycloakUserDto {
-        // TODO: handle not found (maybe try/catch => User?)
-        val user = keycloak.realm(keycloakRealm).users().get(userId).toRepresentation()
-
-        return keycloakUserMapper.buildKeycloakUserDto(user)
-    }
-
     fun updateUser(userId: String, firstName: String, lastName: String, email: String?) {
         val userResource = keycloak.realm(keycloakRealm).users().get(userId)
         val user = userResource.toRepresentation()

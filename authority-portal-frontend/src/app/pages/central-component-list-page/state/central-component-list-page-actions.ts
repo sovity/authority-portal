@@ -1,4 +1,4 @@
-import {CentralComponentDto} from '../../../../../../authority-portal-backend/authority-portal-api-client-ts';
+import {CentralComponentDto} from '@sovity.de/authority-portal-client';
 
 const tag = 'CentralComponentListPage';
 

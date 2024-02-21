@@ -1,7 +1,7 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivateFn, Router} from '@angular/router';
 import {map} from 'rxjs/operators';
-import {UserRoleDto} from '../../../../../authority-portal-backend/authority-portal-api-client-ts';
+import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from '../../core/global-state/global-state-utils';
 
 export const requiresRole: CanActivateFn = (route: ActivatedRouteSnapshot) => {

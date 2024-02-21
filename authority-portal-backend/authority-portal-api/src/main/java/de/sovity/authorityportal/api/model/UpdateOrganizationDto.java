@@ -20,6 +20,9 @@ public class UpdateOrganizationDto {
     @Schema(description = "Organization's URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
     private String url;
 
+    @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String description;
+
     @NotBlank(message = "Organization's Business unit cannot be blank")
     @Schema(description = "Organization's Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
     private String businessUnit;
@@ -55,6 +58,4 @@ public class UpdateOrganizationDto {
     @NotBlank(message = "Organization's Tech Contact Phone cannot be blank")
     @Schema(description = "Organization's Tech Contact Phone", requiredMode = Schema.RequiredMode.REQUIRED)
     private String techContactPhone;
-
-
 }
