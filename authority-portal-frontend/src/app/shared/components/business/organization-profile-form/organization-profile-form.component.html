@@ -283,7 +283,7 @@
     </div>
   </mat-checkbox>
 
-  <ng-container *ngIf="!orgForm.controls.technicalContactSameAsMain">
+  <ng-container *ngIf="!orgForm.controls.technicalContactSameAsMain.value">
     <div class="flex gap-4 flex-wrap">
       <!-- User's First Name -->
       <app-text-input
