@@ -1,7 +1,7 @@
 import {NgModule, Type} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {ParticipantUserDetailPageComponent} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page/participant-user-detail-page.component';
-import {UserRoleDto} from '../../../authority-portal-backend/authority-portal-api-client-ts';
 import {requiresRole} from './common/auth/requires-role-guard';
 import {PortalLayoutComponent} from './common/layouts/portal-layout/portal-layout/portal-layout.component';
 import {AuthorityConnectorListPageComponent} from './pages/authority-connector-list-page/authority-connector-list-page/authority-connector-list-page.component';

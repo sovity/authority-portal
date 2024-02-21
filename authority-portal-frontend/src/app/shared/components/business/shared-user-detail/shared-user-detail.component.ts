@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatSelectChange} from '@angular/material/select';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {
@@ -16,7 +16,7 @@ import {
   selector: 'app-shared-user-detail',
   templateUrl: './shared-user-detail.component.html',
 })
-export class SharedUserDetailComponent {
+export class SharedUserDetailComponent implements OnInit {
   @Input() userDetailConfig!: UserDetailConfig;
   @Input() availableApplicationRoles: string[] = [];
   @Input() availableParticipantRoles: string[] = [];
@@ -126,4 +126,6 @@ export class SharedUserDetailComponent {
         return '';
     }
   }
+
+  protected readonly UserRoleDto = UserRoleDto;
 }

@@ -17,6 +17,9 @@ public class OnboardingOrganizationUpdateDto {
     @Schema(description = "Name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
+    @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String description;
+
     @NotBlank(message = "Website cannot be blank.")
     @Schema(description = "Website", requiredMode = Schema.RequiredMode.REQUIRED)
     private String url;

@@ -1,10 +1,13 @@
 package de.sovity.authorityportal.web.services
 
+import de.sovity.authorityportal.api.model.UpdateOrganizationDto
+import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUpdateDto
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.OrganizationLegalIdType
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.web.model.CreateOrganizationData
+import de.sovity.authorityportal.web.pages.organizationmanagement.toDb
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
@@ -68,29 +71,82 @@ class OrganizationService {
         organizationData: CreateOrganizationData,
         registrationStatus: OrganizationRegistrationStatus
     ) {
+        val legalIdType = organizationData.legalIdType
         dsl.newRecord(Tables.ORGANIZATION).also {
             it.mdsId = mdsId
             it.name = organizationData.name
+            it.registrationStatus = registrationStatus
+            it.createdAt = OffsetDateTime.now()
+            it.createdBy = userId
+
             it.url = organizationData.url
+            it.description = organizationData.description
             it.businessUnit = organizationData.businessUnit
             it.address = organizationData.address
             it.billingAddress = organizationData.billingAddress
-            it.legalIdType = organizationData.legalIdType
-            it.taxId = if (it.legalIdType == OrganizationLegalIdType.TAX_ID) organizationData.legalIdNumber else null
-            it.commerceRegisterNumber = if (it.legalIdType == OrganizationLegalIdType.COMMERCE_REGISTER_INFO) organizationData.legalIdNumber else null
-            it.commerceRegisterLocation = organizationData.commerceRegisterLocation
+            updateLegalId(it, legalIdType, organizationData.legalIdNumber, organizationData.commerceRegisterLocation)
+
             it.mainContactName = organizationData.mainContactName
             it.mainContactEmail = organizationData.mainContactEmail
             it.mainContactPhone = organizationData.mainContactPhone
             it.techContactName = organizationData.techContactName
             it.techContactEmail = organizationData.techContactEmail
             it.techContactPhone = organizationData.techContactPhone
-            it.createdBy = userId
-            it.registrationStatus = registrationStatus
-            it.createdAt = OffsetDateTime.now()
 
             it.insert()
         }
+    }
+
+    fun updateOrganization(mdsId: String, dto: UpdateOrganizationDto) {
+        val organization = getOrganizationOrThrow(mdsId)
+        organization.url = dto.url
+        organization.description = dto.description
+        organization.businessUnit = dto.businessUnit
+        organization.address = dto.address
+        organization.billingAddress = dto.billingAddress
+
+        organization.mainContactName = dto.mainContactName
+        organization.mainContactEmail = dto.mainContactEmail
+        organization.mainContactPhone = dto.mainContactPhone
+        organization.techContactName = dto.techContactName
+        organization.techContactEmail = dto.techContactEmail
+        organization.techContactPhone = dto.techContactPhone
+        organization.update()
+    }
+
+    fun onboardOrganization(mdsId: String, dto: OnboardingOrganizationUpdateDto) {
+        val organization = getOrganizationOrThrow(mdsId)
+        organization.name = dto.name
+        organization.registrationStatus = OrganizationRegistrationStatus.ACTIVE
+        organization.createdAt = OffsetDateTime.now()
+
+        organization.url = dto.url
+        organization.description = dto.description
+        organization.businessUnit = dto.businessUnit
+        organization.address = dto.address
+        organization.billingAddress = dto.billingAddress
+        updateLegalId(organization, dto.legalIdType.toDb(), dto.legalIdNumber, dto.commerceRegisterLocation)
+
+        organization.mainContactName = dto.mainContactName
+        organization.mainContactEmail = dto.mainContactEmail
+        organization.mainContactPhone = dto.mainContactPhone
+        organization.techContactName = dto.techContactName
+        organization.techContactEmail = dto.techContactEmail
+        organization.techContactPhone = dto.techContactPhone
+
+        organization.update()
+    }
+
+    private fun updateLegalId(
+        organization: OrganizationRecord,
+        legalIdType: OrganizationLegalIdType?,
+        legalIdNumber: String?,
+        commerceRegisterLocation: String?
+    ) {
+        organization.legalIdType = legalIdType
+        organization.taxId = legalIdNumber.takeIf { legalIdType == OrganizationLegalIdType.TAX_ID }
+        organization.commerceRegisterNumber = legalIdNumber.takeIf { legalIdType == OrganizationLegalIdType.COMMERCE_REGISTER_INFO }
+        organization.commerceRegisterLocation = commerceRegisterLocation.takeIf { legalIdType == OrganizationLegalIdType.COMMERCE_REGISTER_INFO }
     }
 
     fun deleteOrganization(mdsId: String) {

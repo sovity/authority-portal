@@ -4,7 +4,6 @@ import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
-import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.model.CreateOrganizationData
 import de.sovity.authorityportal.web.model.CreateUserData
 import de.sovity.authorityportal.web.pages.organizationmanagement.toDb

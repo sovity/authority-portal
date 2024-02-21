@@ -9,6 +9,7 @@ import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.modu
 import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
+import {FormElementsModule} from '../../common/components/form-elements/form-elements.module';
 import {OrganizationCreatePageComponent} from './sub-pages/organization-create-page/organization-create-page.component';
 import {OrganizationCreatePageStateImpl} from './sub-pages/organization-create-page/state/organization-create-page-state-impl';
 import {OrganizationPendingPageComponent} from './sub-pages/organization-pending-page/organization-pending-page.component';
@@ -28,6 +29,7 @@ import {UnauthenticatedPageComponent} from './sub-pages/unauthenticated-page/una
 
     // Authority Portal
     DevUtilsModule,
+    FormElementsModule,
     MaterialModule,
     SharedModule,
     PipesAndDirectivesModule,

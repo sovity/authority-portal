@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup">
+<form [formGroup]="userForm">
   <div class="flex gap-4 flex-wrap">
     <!-- User's First Name -->
     <app-text-input
@@ -6,7 +6,7 @@
       label="First Name"
       ctrlId="formRegFirstName"
       placeholder=""
-      [ctrl]="formGroup.controls.firstName"></app-text-input>
+      [ctrl]="userForm.controls.firstName"></app-text-input>
     <!-- User's First Name -->
 
     <!-- User's Last Name -->
@@ -15,7 +15,7 @@
       label="Last Name"
       ctrlId="formRegLastName"
       placeholder=""
-      [ctrl]="formGroup.controls.lastName"></app-text-input>
+      [ctrl]="userForm.controls.lastName"></app-text-input>
     <!-- User's Last Name -->
   </div>
 
@@ -26,7 +26,7 @@
       label="Job Title"
       ctrlId="formRegJobTitle"
       placeholder="Enter your Job Title"
-      [ctrl]="formGroup.controls.jobTitle"></app-text-input>
+      [ctrl]="userForm.controls.jobTitle"></app-text-input>
 
     <!-- User's Job Title -->
 
@@ -36,7 +36,7 @@
       label="Phone Number"
       ctrlId="formRegPhoneNumber"
       placeholder="Enter your Phone number"
-      [ctrl]="formGroup.controls.phoneNumber"></app-text-input>
+      [ctrl]="userForm.controls.phoneNumber"></app-text-input>
     <!-- User's PhoneNumber -->
 
     <!-- User's Email -->
@@ -46,7 +46,7 @@
         label="Email"
         ctrlId="formRegEmail"
         placeholder="Enter your email"
-        [ctrl]="formGroup.controls.email"></app-text-input>
+        [ctrl]="userForm.controls.email"></app-text-input>
     </ng-container>
     <!-- User's Email -->
   </div>
@@ -77,27 +77,27 @@
           <ul>
             <li
               *ngIf="
-                formGroup.controls.password.touched &&
-                formGroup.controls.password.dirty &&
-                formGroup.controls.password.hasError('required')
+                userForm.controls.password.touched &&
+                userForm.controls.password.dirty &&
+                userForm.controls.password.hasError('required')
               ">
               Password is a required field
             </li>
 
             <li
               *ngIf="
-                formGroup.controls.password.touched &&
-                formGroup.controls.password.dirty &&
-                formGroup.controls.password.hasError('minlength')
+                userForm.controls.password.touched &&
+                userForm.controls.password.dirty &&
+                userForm.controls.password.hasError('minlength')
               ">
               Password must contain at least 8 characters
             </li>
 
             <li
               *ngIf="
-                formGroup.controls.password.touched &&
-                formGroup.controls.password.dirty &&
-                formGroup.controls.password.hasError('pattern')
+                userForm.controls.password.touched &&
+                userForm.controls.password.dirty &&
+                userForm.controls.password.hasError('pattern')
               ">
               Password must contain at least one uppercase letter, one lowercase
               letter, and one number
@@ -132,13 +132,13 @@
           <ul>
             <li
               *ngIf="
-                formGroup.controls.confirmPassword.touched &&
-                formGroup.controls.confirmPassword.dirty &&
-                formGroup.controls.confirmPassword.hasError('required')
+                userForm.controls.confirmPassword.touched &&
+                userForm.controls.confirmPassword.dirty &&
+                userForm.controls.confirmPassword.hasError('required')
               ">
               Password is a required field
             </li>
-            <li *ngIf="formGroup.hasError('mismatch')">
+            <li *ngIf="userForm.hasError('mismatch')">
               Passwords do not match
             </li>
           </ul>

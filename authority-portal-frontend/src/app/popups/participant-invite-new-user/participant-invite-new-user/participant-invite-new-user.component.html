@@ -87,7 +87,7 @@
           class="btn-accent"
           type="submit"
           [ngClass]="{
-            'opacity-50 cursor-not-allowed': group.invalid
+            'opacity-50 cursor-not-allowed': !group.valid
           }"
           [disabled]="!group.valid || state.state === 'submitting'"
           (click)="submit()">

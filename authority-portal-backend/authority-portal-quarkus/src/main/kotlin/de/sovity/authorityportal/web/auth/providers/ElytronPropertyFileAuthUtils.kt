@@ -10,7 +10,8 @@ import jakarta.inject.Inject
 import jakarta.ws.rs.core.HttpHeaders
 import jakarta.ws.rs.core.SecurityContext
 import org.eclipse.microprofile.config.inject.ConfigProperty
-import java.util.*
+import java.util.Base64
+import java.util.Optional
 
 /**
  * Local E2E Development: Basic Auth via the Quarkus Elytron Security Property File Extension

@@ -27,26 +27,62 @@
             <ng-template matStepLabel>User Profile</ng-template>
 
             <h2>User Profile</h2>
-            <app-user-profile-update-form
-              class="flex-grow my-4"
-              formGroupName="userProfile"
-              #userProfileForm
-              [formGroup]="
-                parentFormGroup.controls.userProfile
-              "></app-user-profile-update-form>
+            <div class="flex-grow my-4">
+              <div class="flex gap-4 flex-wrap">
+                <!-- User's First Name -->
+                <app-text-input
+                  class="flex-1"
+                  label="First Name"
+                  ctrlId="formRegFirstName"
+                  placeholder=""
+                  [ctrl]="userForm.controls.firstName"></app-text-input>
+                <!-- User's First Name -->
+
+                <!-- User's Last Name -->
+                <app-text-input
+                  class="flex-1"
+                  label="Last Name"
+                  ctrlId="formRegLasttName"
+                  placeholder=""
+                  [ctrl]="userForm.controls.lastName"></app-text-input>
+                <!-- User's Last Name -->
+              </div>
+
+              <div class="flex gap-4 flex-wrap">
+                <!-- User's Job Title -->
+                <app-text-input
+                  class="flex-1"
+                  label="Job Title"
+                  ctrlId="formRegJobTitle"
+                  placeholder="Enter your Job Title"
+                  [ctrl]="userForm.controls.jobTitle"></app-text-input>
+
+                <!-- User's Job Title -->
+
+                <!-- User's PhoneNumber -->
+                <app-text-input
+                  class="flex-1"
+                  label="Phone Number"
+                  ctrlId="formRegPhoneNumber"
+                  placeholder="Enter your Phone number"
+                  [ctrl]="userForm.controls.phoneNumber"></app-text-input>
+                <!-- User's PhoneNumber -->
+              </div>
+            </div>
+
             <div
               class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
               <button
                 *ngIf="onboardingType === 'USER_ORGANIZATION_ONBOARDING'"
                 class="btn-accent"
                 matStepperNext
-                [disabledBtn]="parentFormGroup.controls.userProfile.invalid">
+                [disabledBtn]="!userForm.valid">
                 Next
               </button>
               <button
                 *ngIf="onboardingType === 'USER_ONBOARDING'"
                 class="btn-accent"
-                [disabledBtn]="parentFormGroup.controls.userProfile.invalid"
+                [disabledBtn]="!userForm.valid"
                 (click)="submit()">
                 Submit
               </button>
@@ -65,23 +101,10 @@
             <h2>Organization Profile</h2>
             <app-organization-profile-form
               class="flex-grow my-4"
-              formGroupName="organizationProfile"
-              #organizationProfileForm
-              [formGroup]="
-                parentFormGroup.controls.organizationProfile
-              "></app-organization-profile-form>
+              [orgForm]="orgProfileForm"></app-organization-profile-form>
 
-            <h2 class="pb-6">Contacts</h2>
-
-            <app-contacts-profile-form
-              class="flex-grow my-4"
-              #contactProfileForm
-              [mainContactFormGroup]="
-                parentFormGroup.controls.mainContactProfile
-              "
-              [technicalContactFormGroup]="
-                parentFormGroup.controls.technicalContactProfile
-              "></app-contacts-profile-form>
+            <app-tos-check
+              [ctrl]="orgForm.controls.acceptedTos"></app-tos-check>
 
             <div
               class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
@@ -94,11 +117,7 @@
 
               <button
                 class="btn-accent"
-                [disabledBtn]="
-                  parentFormGroup.controls.organizationProfile.invalid ||
-                  parentFormGroup.controls.mainContactProfile.invalid ||
-                  parentFormGroup.controls.technicalContactProfile.invalid
-                "
+                [disabledBtn]="!parentFormGroup.valid"
                 (click)="submit()">
                 Submit
               </button>

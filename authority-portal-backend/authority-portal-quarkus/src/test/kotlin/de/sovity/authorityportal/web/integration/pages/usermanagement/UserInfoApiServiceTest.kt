@@ -5,14 +5,8 @@ import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.auth.LoggedInUser
-import de.sovity.authorityportal.web.integration.pages.TestData.USER_EMAIL
-import de.sovity.authorityportal.web.integration.pages.TestData.USER_FIRST_NAME
-import de.sovity.authorityportal.web.integration.pages.TestData.USER_LAST_NAME
-import de.sovity.authorityportal.web.integration.pages.TestData.USER_PHONE_NUMBER
-import de.sovity.authorityportal.web.integration.pages.TestData.USER_POSITION
 import de.sovity.authorityportal.web.pages.usermanagement.UserInfoApiService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import io.quarkus.test.junit.QuarkusMock
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
@@ -37,8 +31,12 @@ class UserInfoApiServiceTest {
 
     lateinit var keycloakService: KeycloakService
 
-    val userId = "00000000-0000-0000-0000-000000000001";
-
+    private val userId = "00000000-0000-0000-0000-000000000001"
+    private val userFirstName = "First Name 01"
+    private val userLastName = "Last Name 01"
+    private val userEmail = "user_01@test.sovity.io"
+    private val userPhone = "+49 0000 01"
+    private val userJobTitle = "Job Title 01"
 
     @BeforeEach
     fun before() {
@@ -58,8 +56,6 @@ class UserInfoApiServiceTest {
             roles = setOf(Roles.UserRoles.PARTICIPANT_ADMIN)
         )
 
-        val user = KeycloakUserDto(userId, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL, USER_POSITION, USER_PHONE_NUMBER)
-        `when`(keycloakService.getUser(eq(userId))).thenReturn(user)
         `when`(keycloakService.getUserRoles(eq(userId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
 
         // act
@@ -68,15 +64,14 @@ class UserInfoApiServiceTest {
         // assert
         assertThat(result.authenticationStatus).isEqualTo(UserAuthenticationStatusDto.AUTHENTICATED)
         assertThat(result.userId).isEqualTo(userId)
-        assertThat(result.firstName).isEqualTo(USER_FIRST_NAME)
-        assertThat(result.lastName).isEqualTo(USER_LAST_NAME)
+        assertThat(result.firstName).isEqualTo(userFirstName)
+        assertThat(result.lastName).isEqualTo(userLastName)
         assertThat(result.organizationName).isEqualTo("Dev Organization 1")
         assertThat(result.organizationMdsId).isEqualTo(mdsId)
         assertThat(result.roles).containsExactly(UserRoleDto.PARTICIPANT_ADMIN)
         assertThat(result.registrationStatus).isEqualTo(UserRegistrationStatusDto.ACTIVE)
 
         // verify
-        verify(keycloakService).getUser(eq(userId))
         verify(keycloakService).getUserRoles(eq(userId))
     }
 
@@ -106,30 +101,28 @@ class UserInfoApiServiceTest {
         assertThat(result.registrationStatus).isNull()
 
         // verify
-        verify(keycloakService, never()).getUser(any())
         verify(keycloakService, never()).getUserRoles(any())
     }
 
     @Test
     fun testUserDetails() {
         // arrange
-        val user = KeycloakUserDto(userId, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL, USER_POSITION, USER_PHONE_NUMBER)
-        `when`(keycloakService.getUser(eq(userId))).thenReturn(user)
         `when`(keycloakService.getUserRoles(eq(userId))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
 
         // act
         val result = userInfoApiService.userDetails(userId)
 
         // assert
-        assertThat(result.firstName).isEqualTo(USER_FIRST_NAME)
-        assertThat(result.lastName).isEqualTo(USER_LAST_NAME)
-        assertThat(result.email).isEqualTo(USER_EMAIL)
+        assertThat(result.firstName).isEqualTo(userFirstName)
+        assertThat(result.lastName).isEqualTo(userLastName)
+        assertThat(result.email).isEqualTo(userEmail)
+        assertThat(result.phone).isEqualTo(userPhone)
+        assertThat(result.position).isEqualTo(userJobTitle)
         assertThat(result.roles).containsExactly(UserRoleDto.PARTICIPANT_USER)
         assertThat(result.registrationStatus).isEqualTo(UserRegistrationStatusDto.ACTIVE)
         assertThat(result.creationDate).isNotNull()
 
         // verify
-        verify(keycloakService).getUser(eq(userId))
         verify(keycloakService).getUserRoles(eq(userId))
     }
 }

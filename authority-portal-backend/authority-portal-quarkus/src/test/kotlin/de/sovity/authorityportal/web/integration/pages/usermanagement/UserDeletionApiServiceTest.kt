@@ -68,16 +68,12 @@ class UserDeletionApiServiceTest {
                 firstName = "To Be Deleted",
                 lastName = "User",
                 email = "empty",
-                phoneNumber = null,
-                position = null
             ),
             KeycloakUserDto(
                 userId = successorId,
                 firstName = "Expected",
                 lastName = "Successor",
                 email = "empty",
-                phoneNumber = null,
-                position = null
             )
         ))
 
@@ -107,16 +103,12 @@ class UserDeletionApiServiceTest {
                 firstName = "To Be Deleted",
                 lastName = "User",
                 email = "empty",
-                phoneNumber = null,
-                position = null
             ),
             KeycloakUserDto(
                 userId = successorId,
                 firstName = "Expected",
                 lastName = "Successor",
                 email = "empty",
-                phoneNumber = null,
-                position = null
             )
         ))
         doNothing().`when`(keycloakService).deleteUser(eq(creatorId))
@@ -141,8 +133,6 @@ class UserDeletionApiServiceTest {
                 firstName = "To Be Deleted",
                 lastName = "User",
                 email = "empty",
-                phoneNumber = null,
-                position = null
             )
         ))
 
@@ -168,8 +158,6 @@ class UserDeletionApiServiceTest {
                 firstName = "To Be Deleted",
                 lastName = "User",
                 email = "empty",
-                phoneNumber = null,
-                position = null
             )
         ))
         doNothing().`when`(keycloakService).deleteOrganization(mdsId)

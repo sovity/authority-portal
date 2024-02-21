@@ -75,21 +75,25 @@ class UserInfoApiService {
         val invitingUser = user.invitedBy?.let { userDetailService.getUserData(it) }
         val roleDtos = userRoleMapper.getUserRoles(user.roles)
 
-        return UserDetailDto(
-            user.firstName,
-            user.lastName,
-            user.email,
-            roleDtos.toList(),
-            user.registrationStatus.toDto(),
-            user.createdAt,
-            getOrganization(user.organizationMdsId),
-            user.phoneNumber,
-            user.position,
-            user.onboardingType.toDto(),
-            invitingUser?.userId,
-            invitingUser?.firstName,
-            invitingUser?.lastName
-        )
+        val dto = UserDetailDto()
+        dto.email = user.email
+        dto.firstName = user.firstName
+        dto.lastName = user.lastName
+        dto.phone = user.phoneNumber
+        dto.position = user.position
+
+        dto.onboardingType = user.onboardingType.toDto()
+        dto.creationDate = user.createdAt
+        dto.registrationStatus = user.registrationStatus.toDto()
+        dto.roles = roleDtos.toList()
+
+        dto.organizationName = getOrganization(user.organizationMdsId)
+
+        dto.invitingUserId = invitingUser?.userId
+        dto.invitingUserFirstName = invitingUser?.firstName
+        dto.invitingUserLastName = invitingUser?.lastName
+
+        return dto
     }
 
     private fun getOrganization(mdsId: String?): String? {

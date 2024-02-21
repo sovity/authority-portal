@@ -430,7 +430,7 @@ class UiResourceImpl : UiResource {
     override fun updateOnboardingOrganization(onboardingOrganizationUpdateDto: OnboardingOrganizationUpdateDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresOrganizationRegistrationStatus(OrganizationRegistrationStatus.ONBOARDING)
-        return organizationUpdateApiService.updateOnboardingOrganizationDetails(loggedInUser.organizationMdsId!!, onboardingOrganizationUpdateDto)
+        return organizationUpdateApiService.onboardOrganization(loggedInUser.organizationMdsId!!, onboardingOrganizationUpdateDto)
     }
 
     @Transactional
@@ -443,12 +443,12 @@ class UiResourceImpl : UiResource {
     override fun updateOwnOrganizationDetails(organizationDto: UpdateOrganizationDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return organizationUpdateApiService.updateOrganizationDetails(loggedInUser.organizationMdsId!!, organizationDto)
+        return organizationUpdateApiService.updateOrganization(loggedInUser.organizationMdsId!!, organizationDto)
     }
 
     @Transactional
     override fun updateOrganizationDetails(mdsId: String, organizationDto: UpdateOrganizationDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
-        return organizationUpdateApiService.updateOrganizationDetails(mdsId, organizationDto)
+        return organizationUpdateApiService.updateOrganization(mdsId, organizationDto)
     }
 }

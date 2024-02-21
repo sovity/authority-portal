@@ -34,8 +34,6 @@ class KeycloakUserMapperTest {
         assertThat(result.firstName).isEqualTo("firstName")
         assertThat(result.lastName).isEqualTo("lastName")
         assertThat(result.email).isEqualTo("email")
-        assertThat(result.position).isEqualTo("position")
-        assertThat(result.phoneNumber).isEqualTo("phoneNumber")
     }
 }
 
