@@ -13,15 +13,15 @@ class UserRoleMapper {
         Roles.UserRoles.SERVICE_PARTNER_ADMIN to UserRoleDto.SERVICE_PARTNER_ADMIN,
         Roles.UserRoles.AUTHORITY_ADMIN to UserRoleDto.AUTHORITY_ADMIN,
         Roles.UserRoles.AUTHORITY_USER to UserRoleDto.AUTHORITY_USER,
-        Roles.UserRoles.PARTICIPANT_ADMIN to UserRoleDto.PARTICIPANT_ADMIN,
-        Roles.UserRoles.PARTICIPANT_CURATOR to UserRoleDto.PARTICIPANT_CURATOR,
-        Roles.UserRoles.PARTICIPANT_USER to UserRoleDto.PARTICIPANT_USER,
+        Roles.UserRoles.PARTICIPANT_ADMIN to UserRoleDto.ADMIN,
+        Roles.UserRoles.PARTICIPANT_CURATOR to UserRoleDto.KEY_USER,
+        Roles.UserRoles.PARTICIPANT_USER to UserRoleDto.USER,
     )
 
     private val participantRoles = setOf(
-        UserRoleDto.PARTICIPANT_ADMIN,
-        UserRoleDto.PARTICIPANT_CURATOR,
-        UserRoleDto.PARTICIPANT_USER
+        UserRoleDto.ADMIN,
+        UserRoleDto.KEY_USER,
+        UserRoleDto.USER
     )
 
     private val applicationRoles = setOf(
@@ -56,9 +56,9 @@ class UserRoleMapper {
 
     fun toOrganizationRole(role: UserRoleDto, userId: String, adminUserId: String): OrganizationRole {
         return when (role) {
-            UserRoleDto.PARTICIPANT_ADMIN -> OrganizationRole.PARTICIPANT_ADMIN
-            UserRoleDto.PARTICIPANT_CURATOR -> OrganizationRole.PARTICIPANT_CURATOR
-            UserRoleDto.PARTICIPANT_USER -> OrganizationRole.PARTICIPANT_USER
+            UserRoleDto.ADMIN -> OrganizationRole.PARTICIPANT_ADMIN
+            UserRoleDto.KEY_USER -> OrganizationRole.PARTICIPANT_CURATOR
+            UserRoleDto.USER -> OrganizationRole.PARTICIPANT_USER
             else -> {
                 error("Participant Admin can only change role to Participant Admin, Curator or User. role=$role, userId=$userId, adminUserId=$adminUserId.")
             }

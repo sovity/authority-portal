@@ -17,14 +17,12 @@ export function mapRolesToReadableFormat(
 }
 
 export function getHighestApplicationRole(currentUserRoles: UserRoleDto[]) {
-  return getHighestRole(
-    currentUserRoles.filter((it) => !it.startsWith('PARTICIPANT')),
-  );
+  return getHighestRole(currentUserRoles.filter((it) => isApplicationRole(it)));
 }
 
 export function getHighestParticipantRole(currentUserRoles: UserRoleDto[]) {
   return getHighestRole(
-    currentUserRoles.filter((it) => it.startsWith('PARTICIPANT')),
+    currentUserRoles.filter((it) => !isApplicationRole(it)),
   );
 }
 
@@ -58,9 +56,17 @@ export function getAvailableApplicationRoles(
     return ['SERVICE_PARTNER_ADMIN'];
   } else if (ownerUserRoles.includes('OPERATOR_ADMIN')) {
     return ['OPERATOR_ADMIN'];
-  } else if (ownerUserRoles.includes('PARTICIPANT_ADMIN')) {
-    return ['PARTICIPANT_ADMIN', 'PARTICIPANT_USER'];
+  } else if (ownerUserRoles.includes('ADMIN')) {
+    return ['ADMIN', 'USER'];
   } else {
     return [];
   }
+}
+
+export function isApplicationRole(role: UserRoleDto): boolean {
+  return (
+    role !== UserRoleDto.Admin &&
+    role !== UserRoleDto.KeyUser &&
+    role !== UserRoleDto.User
+  );
 }

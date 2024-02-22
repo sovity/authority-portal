@@ -64,7 +64,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     path: 'my-organization/connectors/registration',
     component: ParticipantRegisterOwnConnectorPageComponent,
     data: {
-      requiresRole: ['PARTICIPANT_CURATOR'] satisfies UserRoleDto[],
+      requiresRole: ['KEY_USER'] satisfies UserRoleDto[],
     },
     canActivate: [requiresRole],
   },
@@ -72,7 +72,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     path: 'my-organization/connectors/registration/setup',
     component: SetupConnectorPageComponent,
     data: {
-      requiresRole: ['PARTICIPANT_CURATOR'] satisfies UserRoleDto[],
+      requiresRole: ['KEY_USER'] satisfies UserRoleDto[],
     },
     canActivate: [requiresRole],
   },
@@ -80,7 +80,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     path: 'my-organization/connectors/registration/request',
     component: RequestConnectorPageComponent,
     data: {
-      requiresRole: ['PARTICIPANT_CURATOR'] satisfies UserRoleDto[],
+      requiresRole: ['KEY_USER'] satisfies UserRoleDto[],
     },
     canActivate: [requiresRole],
   },
@@ -88,7 +88,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     path: 'my-organization/connectors/registration/register',
     component: RegisterConnectorPageComponent,
     data: {
-      requiresRole: ['PARTICIPANT_CURATOR'] satisfies UserRoleDto[],
+      requiresRole: ['KEY_USER'] satisfies UserRoleDto[],
     },
     canActivate: [requiresRole],
   },
@@ -102,7 +102,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         path: 'dashboard',
         component: DashboardPageComponent,
         data: {
-          requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
+          requiresRole: ['USER'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
       },
@@ -110,7 +110,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         path: 'control-center',
         component: ControlCenterPageComponent,
         data: {
-          requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
+          requiresRole: ['USER'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
       },
@@ -119,7 +119,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         path: 'my-organization/users/:userId',
         component: ParticipantUserDetailPageComponent,
         data: {
-          requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
+          requiresRole: ['USER'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
       },
@@ -127,7 +127,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         path: 'my-organization/connectors',
         component: ParticipantOwnConnectorListPageComponent,
         data: {
-          requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
+          requiresRole: ['USER'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
       },
@@ -135,7 +135,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         path: 'my-organization/connectors/register',
         component: ParticipantRegisterOwnConnectorPageComponent,
         data: {
-          requiresRole: ['PARTICIPANT_CURATOR'] satisfies UserRoleDto[],
+          requiresRole: ['KEY_USER'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
       },
@@ -143,7 +143,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         path: 'my-organization/connectors/:connectorId',
         component: ParticipantOwnConnectorDetailPageComponent,
         data: {
-          requiresRole: ['PARTICIPANT_USER'] satisfies UserRoleDto[],
+          requiresRole: ['USER'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
       },

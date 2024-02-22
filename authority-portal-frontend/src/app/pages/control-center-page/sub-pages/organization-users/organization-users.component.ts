@@ -90,12 +90,12 @@ export class OrganizationUsersComponent implements OnInit {
     return {
       title: 'Organization users',
       subtitle:
-        'Manage all the users in your organization and their roles and rights',
+        'Manage all users in your organization and their roles and rights',
       headerActions: [
         {
           label: 'Invite user',
           action: () => this.showInviteUserDialog(),
-          permissions: [UserRoleDto.ParticipantAdmin],
+          permissions: [UserRoleDto.Admin],
         },
       ],
     };
@@ -113,7 +113,7 @@ export class OrganizationUsersComponent implements OnInit {
               {
                 label: 'Deactivate user',
                 action: () => this.deactivateUser(),
-                permissions: [UserRoleDto.ParticipantAdmin],
+                permissions: [UserRoleDto.Admin],
               },
             ];
           }
@@ -122,7 +122,7 @@ export class OrganizationUsersComponent implements OnInit {
               {
                 label: 'Reactivate user',
                 action: () => this.reactivateUser(),
-                permissions: [UserRoleDto.ParticipantAdmin],
+                permissions: [UserRoleDto.Admin],
               },
             ];
           }

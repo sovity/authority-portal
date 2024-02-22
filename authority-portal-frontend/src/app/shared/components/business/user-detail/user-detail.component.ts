@@ -7,6 +7,7 @@ import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
   getHighestApplicationRole,
   getHighestParticipantRole,
+  isApplicationRole,
   mapRolesToReadableFormat,
 } from 'src/app/core/utils/user-role-utils';
 import {
@@ -47,11 +48,11 @@ export class UserDetailComponent implements OnInit {
   roleFormEnable: boolean = false;
   isUpdateRoleActive: boolean = false;
 
-  updatePermittedRoles: UserRoleDto[] = ['PARTICIPANT_USER'];
+  updatePermittedRoles: UserRoleDto[] = ['USER'];
 
   availableApplicationRoles: string[] = [];
   availableParticipantRoles: string[] = Object.values(UserRoleDto).filter(
-    (role: UserRoleDto) => role.startsWith('PARTICIPANT'),
+    (role: UserRoleDto) => !isApplicationRole(role),
   ) as string[];
 
   currentTopApplicationRole: UserRoleDto | null = null;
@@ -132,10 +133,10 @@ export class UserDetailComponent implements OnInit {
         this.updatePermittedRoles = ['AUTHORITY_ADMIN'];
         break;
       case 'INTERNAL_VIEW':
-        this.updatePermittedRoles = ['PARTICIPANT_ADMIN'];
+        this.updatePermittedRoles = ['ADMIN'];
         break;
       case 'OWN':
-        this.updatePermittedRoles = ['PARTICIPANT_USER'];
+        this.updatePermittedRoles = ['USER'];
         break;
     }
   }

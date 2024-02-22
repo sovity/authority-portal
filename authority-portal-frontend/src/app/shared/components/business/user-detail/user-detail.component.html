@@ -39,7 +39,7 @@
       <label class="organization-profile-label">Roles Management</label>
       <button
         *ngIf="
-          ((sameOrganization && ('PARTICIPANT_ADMIN' | hasRole | async)) ||
+          ((sameOrganization && ('ADMIN' | hasRole | async)) ||
             (!sameOrganization && ('AUTHORITY_ADMIN' | hasRole | async))) &&
           (userId | CheckIfNotCurrentUser | async)
         "
@@ -60,9 +60,7 @@
     <mat-form-field *ngIf="roleFormEnable" class="w-full">
       <mat-label>Choose an Organization Role</mat-label>
       <mat-select
-        [disabled]="
-          !(sameOrganization && ('PARTICIPANT_ADMIN' | hasRole | async))
-        "
+        [disabled]="!(sameOrganization && ('ADMIN' | hasRole | async))"
         [(ngModel)]="newTopParticipantRole"
         (selectionChange)="roleChangeHandled($event, 'PARTICIPANT')">
         <mat-option
@@ -122,8 +120,7 @@
   <div
     *ngIf="userId | CheckIfNotCurrentUser | async"
     class="flex flex-row justify-end gap-6 items-center my-4">
-    <ng-container
-      *ngIf="['PARTICIPANT_ADMIN', 'AUTHORITY_ADMIN'] | hasAnyRole | async">
+    <ng-container *ngIf="['ADMIN', 'AUTHORITY_ADMIN'] | hasAnyRole | async">
       <button
         *ngIf="user.registrationStatus === 'DEACTIVATED'"
         class="bg-white hover:bg-green-50 text-green-600 border-gray-500 border bfont-bold py-2 px-8 rounded-full my-2 disabled:bg-gray-600 disabled:text-white"

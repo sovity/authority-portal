@@ -13,7 +13,7 @@ import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
 import {
-  DEFAULT_PARTICIPANT_USER_DETAIL_PAGE_STATE,
+  DEFAULT_USER_DETAIL_PAGE_STATE,
   ParticipantUserDetailPageState,
 } from './participant-user-detail-page-state';
 import {
@@ -28,7 +28,7 @@ import {
 
 @State<ParticipantUserDetailPageState>({
   name: 'ParticipantUserDetailPageState',
-  defaults: DEFAULT_PARTICIPANT_USER_DETAIL_PAGE_STATE,
+  defaults: DEFAULT_USER_DETAIL_PAGE_STATE,
 })
 @Injectable()
 export class ParticipantUserDetailPageStateImpl {
