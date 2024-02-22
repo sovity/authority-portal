@@ -1,4 +1,3 @@
-
 _What issues does this PR close?_
 
 
@@ -9,4 +8,3 @@ _What issues does this PR close?_
 - [ ] I have updated the Deployment Migration Notes Section in the CHANGELOG.md for any configuration / external API changes.
 - [ ] I have performed a **self-review**
 ```
-
