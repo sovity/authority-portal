@@ -5,12 +5,19 @@ import {
   IdResponse,
   InviteParticipantUserRequest,
   OnboardingUserUpdateDto,
+  PossibleCreatorSuccessor,
+  UserDeletionCheck,
   UserDetailDto,
   UserInfo,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
-import {updateOrganization} from './fake-organizations';
+import {
+  deleteOrganization,
+  getOrganizationDetails,
+  getParticipantAdmins,
+  updateOrganization,
+} from './fake-organizations';
 
 export const TEST_USERS: Record<string, UserInfo> = {
   '00000000-0000-0000-0000-000000000001': {
@@ -151,6 +158,41 @@ export const TEST_USERS: Record<string, UserInfo> = {
   },
 };
 
+export const OTHER_USERS: Record<string, UserInfo> = {
+  '00000000-0000-0000-0000-100000000001': {
+    userId: '00000000-0000-0000-0000-100000000001',
+    firstName: 'Participant',
+    lastName: 'Admin',
+    roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_USER'],
+    registrationStatus: 'ACTIVE',
+    authenticationStatus: 'AUTHENTICATED',
+    organizationName: 'Three Users',
+    organizationMdsId: 'MDSL9111ZZ',
+  },
+  '00000000-0000-0000-0000-100000000002': {
+    userId: '00000000-0000-0000-0000-100000000002',
+    firstName: 'Organization',
+    lastName: 'Creator',
+    roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_USER'],
+    registrationStatus: 'ACTIVE',
+    authenticationStatus: 'AUTHENTICATED',
+    organizationName: 'Three Users',
+    organizationMdsId: 'MDSL9111ZZ',
+  },
+  '00000000-0000-0000-0000-100000000003': {
+    userId: '00000000-0000-0000-0000-100000000003',
+    firstName: 'Normal',
+    lastName: 'User',
+    roles: ['AUTHORITY_USER', 'PARTICIPANT_USER'],
+    registrationStatus: 'ACTIVE',
+    authenticationStatus: 'AUTHENTICATED',
+    organizationName: 'Three Users',
+    organizationMdsId: 'MDSL9111ZZ',
+  },
+};
+
+export const ALL_USERS = {...TEST_USERS, ...OTHER_USERS};
+
 /**
  * Currently "logged-in user" for local dev UI
  */
@@ -169,8 +211,16 @@ export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
  */
 export const getUserInfo = (): UserInfo => currentlyLoggedInUser;
 
+export const getUserOrThrow = (userId: string): UserInfo => {
+  const id = Object.keys(ALL_USERS).find((id) => id === userId);
+  if (!id) throw new Error(`User not found ${userId}`);
+
+  return ALL_USERS[id];
+};
+
 export const userDetails = (userId: string): UserDetailDto => {
-  const user = TEST_USERS[userId];
+  const user = ALL_USERS[userId];
+
   return {
     firstName: user.firstName,
     lastName: user.lastName,
@@ -302,4 +352,62 @@ export const clearApplicationRole = (
 
 export const onboardUser = (request: OnboardingUserUpdateDto): IdResponse => {
   return {id: '000001', changedDate: new Date()};
+};
+
+export const cascadeDeleteUser = (
+  userId: string,
+  successorUserId: string | null,
+): IdResponse => {
+  const userDeletionCheck = checkUserDeletion(userId);
+  const user = getUserOrThrow(userId);
+  const organization = getOrganizationDetails(user.organizationMdsId);
+
+  if (userDeletionCheck.isLastParticipantAdmin) {
+    deleteOrganization(organization.mdsId);
+  } else {
+    if (userDeletionCheck.isOrganizationCreator) {
+      if (!successorUserId) {
+        throw new Error("Can't delete organization creator without successor");
+      }
+      const successorUser = getUserOrThrow(successorUserId);
+      updateOrganization(organization.mdsId, () => ({
+        createdByUserId: successorUser.userId,
+        createdByFirstName: successorUser.firstName,
+        createdByLastName: successorUser.lastName,
+      }));
+    }
+    updateOrganization(organization.mdsId, (o) => ({
+      memberList: o.memberList.filter((x) => x.userId !== userId),
+      memberCount: o.memberCount - 1,
+    }));
+  }
+
+  return deleteUser(userId);
+};
+
+const deleteUser = (userId: string): IdResponse => {
+  delete ALL_USERS[userId];
+  return {id: userId, changedDate: new Date()};
+};
+
+export const checkUserDeletion = (userId: string): UserDeletionCheck => {
+  const user = getUserOrThrow(userId);
+  const organization = getOrganizationDetails(user.organizationMdsId);
+  const participantAdmins = getParticipantAdmins(organization);
+
+  const isLastParticipantAdmin =
+    participantAdmins.length === 1 && userId === participantAdmins[0].userId;
+  const isOrganizationCreator = organization.createdByUserId === userId;
+  let possibleSuccessors: PossibleCreatorSuccessor[] = [];
+
+  if (!isLastParticipantAdmin && isOrganizationCreator) {
+    possibleSuccessors = participantAdmins.filter((x) => x.userId !== userId);
+  }
+
+  return {
+    userId,
+    isLastParticipantAdmin,
+    isOrganizationCreator,
+    possibleSuccessors,
+  };
 };

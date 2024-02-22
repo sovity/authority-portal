@@ -1,6 +1,7 @@
 import {
   IdResponse,
   InviteOrganizationRequest,
+  MemberInfo,
   OnboardingOrganizationUpdateDto,
   OrganizationDetailsDto,
   OrganizationOverviewEntryDto,
@@ -447,6 +448,54 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     techContactEmail: 'tech@example1.com',
     techContactPhone: '987-654-3210',
   },
+  {
+    mdsId: 'MDSL9111ZZ',
+    name: 'Three Users',
+    businessUnit: 'Business Unit 1',
+    mainAddress: '111 Main St, Anytown, USA',
+    billingAddress: 'Billing Address 1',
+    legalId: '33-000-0000',
+    legalIdType: 'TAX_ID',
+    url: 'https://example1.com',
+    description: 'Description 1',
+    registrationStatus: 'ACTIVE',
+    memberCount: 3,
+    connectorCount: 0,
+    dataOfferCount: 0,
+    memberList: [
+      {
+        userId: '00000000-0000-0000-0000-100000000001',
+        firstName: 'New Participant',
+        lastName: 'Admin',
+        roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_USER'],
+        registrationStatus: 'ACTIVE',
+      },
+      {
+        userId: '00000000-0000-0000-0000-100000000002',
+        firstName: 'Organization',
+        lastName: 'Creator',
+        roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_USER'],
+        registrationStatus: 'ACTIVE',
+      },
+      {
+        userId: '00000000-0000-0000-0000-100000000003',
+        firstName: 'Normal',
+        lastName: 'User',
+        roles: ['AUTHORITY_USER', 'PARTICIPANT_USER'],
+        registrationStatus: 'ACTIVE',
+      },
+    ],
+    mainContactName: 'Authority Admin',
+    mainContactEmail: 'admin@example1.com',
+    mainContactPhone: '123-456-7890',
+    techContactName: 'Tech Admin',
+    techContactEmail: 'tech@example1.com',
+    techContactPhone: '987-654-3210',
+    createdAt: new Date('2023-08-05T00:00:00.000Z'),
+    createdByUserId: '00000000-0000-0000-0000-100000000002',
+    createdByFirstName: 'Organization',
+    createdByLastName: 'Creator',
+  },
 ];
 
 export const updateOrganization = (
@@ -470,6 +519,14 @@ export const getOrganizationDetails = (
 
 export const getOrganizations = (): OrganizationDetailsDto[] => {
   return TEST_ORGANIZATIONS;
+};
+
+export const getParticipantAdmins = (
+  org: OrganizationDetailsDto,
+): MemberInfo[] => {
+  return org.memberList.filter(
+    (x) => x.roles.find((y) => y === 'PARTICIPANT_ADMIN') !== undefined,
+  );
 };
 
 export const getListOfOrganizationsForTable =
@@ -521,4 +578,8 @@ export const onboardOrganization = (
   request: OnboardingOrganizationUpdateDto,
 ): IdResponse => {
   return {id: 'MDSL8888EE', changedDate: new Date()};
+};
+
+export const deleteOrganization = (mdsId: string) => {
+  TEST_ORGANIZATIONS = TEST_ORGANIZATIONS.filter((x) => x.mdsId !== mdsId);
 };
