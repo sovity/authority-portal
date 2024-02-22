@@ -16,12 +16,11 @@ export interface ParticipantUserDetailPageState {
   };
 }
 
-export const DEFAULT_PARTICIPANT_USER_DETAIL_PAGE_STATE: ParticipantUserDetailPageState =
-  {
-    userId: '',
-    organizationMdsId: '',
-    user: Fetched.empty(),
-    busy: false,
-    userParticipantRolesForm: {state: 'editing', errors: {}},
-    userApplicationRolesForm: {state: 'editing', errors: {}},
-  };
+export const DEFAULT_USER_DETAIL_PAGE_STATE: ParticipantUserDetailPageState = {
+  userId: '',
+  organizationMdsId: '',
+  user: Fetched.empty(),
+  busy: false,
+  userParticipantRolesForm: {state: 'editing', errors: {}},
+  userApplicationRolesForm: {state: 'editing', errors: {}},
+};

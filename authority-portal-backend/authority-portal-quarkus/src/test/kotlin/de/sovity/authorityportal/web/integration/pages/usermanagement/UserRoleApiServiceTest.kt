@@ -48,7 +48,7 @@ class UserRoleApiServiceTest {
         doNothing().`when`(keycloakService).joinOrganization(eq(userId), eq(mdsId), eq(OrganizationRole.PARTICIPANT_ADMIN))
 
         // act
-        val result = userRoleApiService.changeParticipantRole(userId, UserRoleDto.PARTICIPANT_ADMIN, mdsId, userId)
+        val result = userRoleApiService.changeParticipantRole(userId, UserRoleDto.ADMIN, mdsId, userId)
 
         // assert
         assertThat(result.id).isNotNull()

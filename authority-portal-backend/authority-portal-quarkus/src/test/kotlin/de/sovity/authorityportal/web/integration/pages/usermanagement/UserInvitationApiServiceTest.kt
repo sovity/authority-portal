@@ -38,7 +38,7 @@ class UserInvitationApiServiceTest {
         // arrange
         val userId = UUID.randomUUID().toString()
         val email = UUID.randomUUID().toString() // Generate a random email to avoid DB constraints with existing users
-        val request = InviteParticipantUserRequest(email, USER_FIRST_NAME, USER_LAST_NAME, UserRoleDto.PARTICIPANT_USER)
+        val request = InviteParticipantUserRequest(email, USER_FIRST_NAME, USER_LAST_NAME, UserRoleDto.USER)
         val mdsId = "MDSL1111AA"
 
         userService.getUserOrCreate("test", UserOnboardingType.INVITATION)

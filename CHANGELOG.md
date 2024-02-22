@@ -57,6 +57,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added the possibility to delete users
 - Added own data offers link to sidebar
 - Added the possibility for users to change their user data including the email address
+- Renamed participant roles:
+  - Participant Admin -> Admin
+  - Participant Curator -> Key User
+  - Participant User -> User
 - Authority admins can now delete users
 
 #### Patch

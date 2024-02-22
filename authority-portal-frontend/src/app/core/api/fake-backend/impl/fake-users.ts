@@ -12,6 +12,7 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
+import {isApplicationRole} from '../../../utils/user-role-utils';
 import {
   deleteOrganization,
   getOrganizationDetails,
@@ -25,13 +26,7 @@ export const TEST_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-000000000001',
     firstName: 'Authority',
     lastName: 'Admin',
-    roles: [
-      'AUTHORITY_ADMIN',
-      'AUTHORITY_USER',
-      'PARTICIPANT_ADMIN',
-      'PARTICIPANT_CURATOR',
-      'PARTICIPANT_USER',
-    ],
+    roles: ['AUTHORITY_ADMIN', 'AUTHORITY_USER', 'ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',
     organizationMdsId: 'MDSL1111AA',
@@ -41,7 +36,7 @@ export const TEST_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-000000000002',
     firstName: 'Authority',
     lastName: 'User',
-    roles: ['AUTHORITY_USER', 'PARTICIPANT_USER'],
+    roles: ['AUTHORITY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',
     organizationMdsId: 'MDSL1111AA',
@@ -51,7 +46,7 @@ export const TEST_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-000000000003',
     firstName: 'Participant',
     lastName: 'Admin',
-    roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_CURATOR', 'PARTICIPANT_USER'],
+    roles: ['ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Participant Organization',
     organizationMdsId: 'MDSL2222BB',
@@ -61,7 +56,7 @@ export const TEST_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-000000000004',
     firstName: 'Participant',
     lastName: 'User',
-    roles: ['PARTICIPANT_USER'],
+    roles: ['USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Participant Organization',
     organizationMdsId: 'MDSL2222BB',
@@ -71,12 +66,7 @@ export const TEST_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-000000000007',
     firstName: 'Service Partner',
     lastName: 'Admin',
-    roles: [
-      'SERVICE_PARTNER_ADMIN',
-      'PARTICIPANT_ADMIN',
-      'PARTICIPANT_CURATOR',
-      'PARTICIPANT_USER',
-    ],
+    roles: ['SERVICE_PARTNER_ADMIN', 'ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Service Partner Organization',
     organizationMdsId: 'MDSL7777AA',
@@ -86,7 +76,7 @@ export const TEST_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-000000000008',
     firstName: 'Service Partner',
     lastName: 'User',
-    roles: ['PARTICIPANT_USER'],
+    roles: ['USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Service Partner Organization',
     organizationMdsId: 'MDSL7777AA',
@@ -96,12 +86,7 @@ export const TEST_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-000000000009',
     firstName: 'Operator',
     lastName: 'Admin',
-    roles: [
-      'OPERATOR_ADMIN',
-      'PARTICIPANT_ADMIN',
-      'PARTICIPANT_CURATOR',
-      'PARTICIPANT_USER',
-    ],
+    roles: ['OPERATOR_ADMIN', 'ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Operator Organization',
     organizationMdsId: 'MDSL8888EE',
@@ -111,7 +96,7 @@ export const TEST_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-000000000010',
     firstName: 'Operator',
     lastName: 'User',
-    roles: ['PARTICIPANT_USER'],
+    roles: ['USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Operator Organization',
     organizationMdsId: 'MDSL8888EE',
@@ -131,7 +116,7 @@ export const TEST_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-00000013',
     firstName: 'Onboarding',
     lastName: 'Organization',
-    roles: ['PARTICIPANT_ADMIN'],
+    roles: ['ADMIN'],
     registrationStatus: 'ONBOARDING',
     organizationName: '',
     organizationMdsId: '',
@@ -151,7 +136,7 @@ export const TEST_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-00000011',
     firstName: 'Rejected',
     lastName: 'User',
-    roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_CURATOR', 'PARTICIPANT_USER'],
+    roles: ['ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'REJECTED',
     organizationName: 'Rejected Organization',
     organizationMdsId: 'MDSL6666EE',
@@ -163,7 +148,7 @@ export const OTHER_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-100000000001',
     firstName: 'Participant',
     lastName: 'Admin',
-    roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_USER'],
+    roles: ['ADMIN', 'USER'],
     registrationStatus: 'ACTIVE',
     authenticationStatus: 'AUTHENTICATED',
     organizationName: 'Three Users',
@@ -173,7 +158,7 @@ export const OTHER_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-100000000002',
     firstName: 'Organization',
     lastName: 'Creator',
-    roles: ['PARTICIPANT_ADMIN', 'PARTICIPANT_USER'],
+    roles: ['ADMIN', 'USER'],
     registrationStatus: 'ACTIVE',
     authenticationStatus: 'AUTHENTICATED',
     organizationName: 'Three Users',
@@ -183,7 +168,7 @@ export const OTHER_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-100000000003',
     firstName: 'Normal',
     lastName: 'User',
-    roles: ['AUTHORITY_USER', 'PARTICIPANT_USER'],
+    roles: ['AUTHORITY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     authenticationStatus: 'AUTHENTICATED',
     organizationName: 'Three Users',
@@ -282,20 +267,16 @@ export const changeParticipantRole = (
 
   let new_participant_roles: UserRoleDto[] = [];
 
-  if (newRole === 'PARTICIPANT_ADMIN') {
-    new_participant_roles = [
-      'PARTICIPANT_ADMIN',
-      'PARTICIPANT_CURATOR',
-      'PARTICIPANT_USER',
-    ];
-  } else if (newRole === 'PARTICIPANT_CURATOR') {
-    new_participant_roles = ['PARTICIPANT_CURATOR', 'PARTICIPANT_USER'];
-  } else if (newRole === 'PARTICIPANT_USER') {
-    new_participant_roles = ['PARTICIPANT_USER'];
+  if (newRole === 'ADMIN') {
+    new_participant_roles = ['ADMIN', 'KEY_USER', 'USER'];
+  } else if (newRole === 'KEY_USER') {
+    new_participant_roles = ['KEY_USER', 'USER'];
+  } else if (newRole === 'USER') {
+    new_participant_roles = ['USER'];
   }
 
-  const oldApplicationRoles = user.roles.filter(
-    (role: UserRoleDto) => !role.startsWith('PARTICIPANT_'),
+  const oldApplicationRoles = user.roles.filter((role: UserRoleDto) =>
+    isApplicationRole(role),
   );
 
   TEST_USERS[request.userId] = {
@@ -324,8 +305,8 @@ export const changeApplicationRole = (
     new_application_roles = ['OPERATOR_ADMIN'];
   }
 
-  const oldParticipantRoles = user.roles.filter((role: UserRoleDto) =>
-    role.startsWith('PARTICIPANT_'),
+  const oldParticipantRoles = user.roles.filter(
+    (role: UserRoleDto) => !isApplicationRole(role),
   );
 
   TEST_USERS[request.userId] = {
@@ -341,8 +322,8 @@ export const clearApplicationRole = (
 ): IdResponse => {
   const user = TEST_USERS[request.userId];
 
-  const oldParticipantRoles = user.roles.filter((role: UserRoleDto) =>
-    role.startsWith('PARTICIPANT_'),
+  const oldParticipantRoles = user.roles.filter(
+    (role: UserRoleDto) => !isApplicationRole(role),
   );
 
   TEST_USERS[request.userId] = {

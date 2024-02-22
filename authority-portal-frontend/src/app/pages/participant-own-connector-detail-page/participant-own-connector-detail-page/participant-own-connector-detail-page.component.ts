@@ -88,7 +88,7 @@ export class ParticipantOwnConnectorDetailPageComponent
         tap((state) => (this.state = state)),
         switchMap(() => {
           return this.globalStateUtils.userRoles$.pipe(
-            map((roles) => roles.has('PARTICIPANT_CURATOR')),
+            map((roles) => roles.has('KEY_USER')),
             distinctUntilChanged(),
           );
         }),

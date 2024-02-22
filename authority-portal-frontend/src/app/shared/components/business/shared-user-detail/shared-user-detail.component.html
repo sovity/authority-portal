@@ -33,7 +33,7 @@
           </div>
           <mat-icon
             *ngIf="
-              (('PARTICIPANT_ADMIN' | hasRole | async) ||
+              (('ADMIN' | hasRole | async) ||
                 ('AUTHORITY_ADMIN' | hasRole | async)) &&
               (userDetailConfig.userId | CheckIfNotCurrentUser | async)
             "
@@ -49,7 +49,7 @@
             >
             <mat-form-field class="w-full" appearance="outline">
               <mat-select
-                [disabled]="!('PARTICIPANT_ADMIN' | hasRole | async)"
+                [disabled]="!('ADMIN' | hasRole | async)"
                 [(ngModel)]="newTopParticipantRole"
                 (selectionChange)="roleChangeHandled($event, 'PARTICIPANT')">
                 <mat-option

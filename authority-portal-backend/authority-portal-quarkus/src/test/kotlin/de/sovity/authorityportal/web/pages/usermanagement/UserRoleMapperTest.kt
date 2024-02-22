@@ -13,14 +13,14 @@ class UserRoleMapperTest {
             UserRoleDto.SERVICE_PARTNER_ADMIN,
             UserRoleDto.AUTHORITY_ADMIN,
             UserRoleDto.AUTHORITY_USER,
-            UserRoleDto.PARTICIPANT_ADMIN,
-            UserRoleDto.PARTICIPANT_CURATOR,
-            UserRoleDto.PARTICIPANT_USER
+            UserRoleDto.ADMIN,
+            UserRoleDto.KEY_USER,
+            UserRoleDto.USER
         ))).isEqualTo(listOf(
             UserRoleDto.AUTHORITY_ADMIN,
             UserRoleDto.OPERATOR_ADMIN,
             UserRoleDto.SERVICE_PARTNER_ADMIN,
-            UserRoleDto.PARTICIPANT_ADMIN
+            UserRoleDto.ADMIN
         ))
     }
 

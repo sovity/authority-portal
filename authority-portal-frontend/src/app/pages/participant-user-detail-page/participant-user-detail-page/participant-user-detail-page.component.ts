@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {
-  DEFAULT_PARTICIPANT_USER_DETAIL_PAGE_STATE,
+  DEFAULT_USER_DETAIL_PAGE_STATE,
   ParticipantUserDetailPageState,
 } from 'src/app/pages/participant-user-detail-page/state/participant-user-detail-page-state';
 import {ParticipantUserDetailPageStateImpl} from 'src/app/pages/participant-user-detail-page/state/participant-user-detail-page-state-impl';
@@ -19,7 +19,7 @@ import {
   templateUrl: './participant-user-detail-page.component.html',
 })
 export class ParticipantUserDetailPageComponent implements OnInit, OnDestroy {
-  state = DEFAULT_PARTICIPANT_USER_DETAIL_PAGE_STATE;
+  state = DEFAULT_USER_DETAIL_PAGE_STATE;
 
   private ngOnDestroy$ = new Subject();
 

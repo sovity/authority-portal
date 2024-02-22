@@ -43,7 +43,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.sidebarSections = [
       {
         title: 'My Organization',
-        userRoles: ['PARTICIPANT_USER'],
+        userRoles: ['USER'],
         menus: [
           {
             title: 'Dashboard',
@@ -105,7 +105,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       },
       {
         title: 'Links',
-        userRoles: ['PARTICIPANT_USER'],
+        userRoles: ['USER'],
         menus: [
           {
             title: 'Prod Catalog',
@@ -123,7 +123,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       },
       {
         title: 'Support',
-        userRoles: ['PARTICIPANT_USER'],
+        userRoles: ['USER'],
         menus: [
           {
             title: 'Support',

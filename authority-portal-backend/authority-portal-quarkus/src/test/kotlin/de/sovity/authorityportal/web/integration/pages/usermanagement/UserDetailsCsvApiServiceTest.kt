@@ -41,7 +41,7 @@ class UserDetailsCsvApiServiceTest {
     fun generateConnectorCsv() {
         // arrange
         val expectedCsvContent = "\"USER ID\",\"Organization Name\",\"Last Name\",\"First Name\",\"Roles\",\"Email\",\"Job Title\",\"Registration Status\"\n" +
-            "\"$userId\",\"Dev Organization 3.4\",\"$userLastName\",\"$userFirstName\",\"[PARTICIPANT_USER]\",\"$userEmail\",\"$userJobTitle\",\"PENDING\"\n";
+            "\"$userId\",\"Dev Organization 3.4\",\"$userLastName\",\"$userFirstName\",\"[USER]\",\"$userEmail\",\"$userJobTitle\",\"PENDING\"\n";
 
         // act
         val inputStream = userDetailsCsvApiService.generateUserDetailsCsv("MDSL3334C4");

@@ -68,7 +68,7 @@ class UserInfoApiServiceTest {
         assertThat(result.lastName).isEqualTo(userLastName)
         assertThat(result.organizationName).isEqualTo("Dev Organization 1")
         assertThat(result.organizationMdsId).isEqualTo(mdsId)
-        assertThat(result.roles).containsExactly(UserRoleDto.PARTICIPANT_ADMIN)
+        assertThat(result.roles).containsExactly(UserRoleDto.ADMIN)
         assertThat(result.registrationStatus).isEqualTo(UserRegistrationStatusDto.ACTIVE)
 
         // verify
@@ -118,7 +118,7 @@ class UserInfoApiServiceTest {
         assertThat(result.email).isEqualTo(userEmail)
         assertThat(result.phone).isEqualTo(userPhone)
         assertThat(result.position).isEqualTo(userJobTitle)
-        assertThat(result.roles).containsExactly(UserRoleDto.PARTICIPANT_USER)
+        assertThat(result.roles).containsExactly(UserRoleDto.USER)
         assertThat(result.registrationStatus).isEqualTo(UserRegistrationStatusDto.ACTIVE)
         assertThat(result.creationDate).isNotNull()
 

@@ -16,5 +16,5 @@ export const DEFAULT_PARTICIPANT_INVITE_NEW_USER_FORM_VALUE: ParticipantInviteNe
     email: '',
     firstName: '',
     lastName: '',
-    role: UserRoleDto.ParticipantUser,
+    role: UserRoleDto.User,
   };

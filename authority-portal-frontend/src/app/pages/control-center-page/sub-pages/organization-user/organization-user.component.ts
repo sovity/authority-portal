@@ -3,7 +3,10 @@ import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {getAvailableApplicationRoles} from 'src/app/core/utils/user-role-utils';
+import {
+  getAvailableApplicationRoles,
+  isApplicationRole,
+} from 'src/app/core/utils/user-role-utils';
 import {
   UserDetailConfig,
   UserRoleUpdate,
@@ -35,7 +38,7 @@ export class OrganizationUserComponent {
   roleFormLoading: boolean = false;
   availableApplicationRoles: string[] = [];
   availableParticipantRoles: string[] = Object.values(UserRoleDto).filter(
-    (role: UserRoleDto) => role.startsWith('PARTICIPANT'),
+    (role: UserRoleDto) => !isApplicationRole(role),
   ) as string[];
 
   constructor(
