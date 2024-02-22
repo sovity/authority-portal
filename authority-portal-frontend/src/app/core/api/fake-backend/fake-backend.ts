@@ -151,6 +151,18 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(userId);
     })
 
+    .url('authority/users/*/check-delete')
+    .on('GET', (userId) => {
+      const userDeletionCheck = checkUserDeletion(userId);
+      return ok(UserDeletionCheckToJSON(userDeletionCheck));
+    })
+
+    .url('authority/users/*')
+    .on('DELETE', (userId) => {
+      const successorUserId = queryParams.get('successorUserId');
+      return ok(IdResponseToJSON(cascadeDeleteUser(userId, successorUserId)));
+    })
+
     .url('authority/connectors')
     .on('GET', () => {
       const result = getListOfAllConnectorsForTable();
@@ -269,13 +281,19 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       throw new Error('TODO');
     })
 
-    .url('authority/users/*/check-delete')
+    .url('organizations/my-org/users/*/check-delete')
     .on('GET', (userId) => {
       const userDeletionCheck = checkUserDeletion(userId);
       return ok(UserDeletionCheckToJSON(userDeletionCheck));
     })
 
-    .url('authority/users/*')
+    .url('organizations/my-org/users/*')
+    .on('DELETE', (userId) => {
+      const successorUserId = queryParams.get('successorUserId');
+      return ok(IdResponseToJSON(cascadeDeleteUser(userId, successorUserId)));
+    })
+
+    .url('organizations/my-org/users/*')
     .on('DELETE', (userId) => {
       const successorUserId = queryParams.get('successorUserId');
       return ok(IdResponseToJSON(cascadeDeleteUser(userId, successorUserId)));

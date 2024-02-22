@@ -8,6 +8,7 @@ import {
   OrganizationOverviewResult,
 } from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
+import {getUserInfo} from './fake-users';
 
 export const approveOrganization = (mdsId: string): IdResponse => {
   updateOrganization(mdsId, () => ({registrationStatus: 'ACTIVE'}));
@@ -534,17 +535,7 @@ export const getListOfOrganizationsForTable =
   };
 
 export const getMyOrganizationDetails = (): OrganizationDetailsDto => {
-  let userInfo = {
-    userId: '00000000-0000-0000-0000-00000001',
-    firstName: 'Authority',
-    lastName: 'Admin',
-    roles: ['AUTHORITY_ADMIN', 'AUTHORITY_USER', 'ADMIN', 'KEY_USER', 'USER'],
-    registrationStatus: 'ONBOARDING',
-    organizationName: 'Authority Organization',
-    organizationMdsId: 'MDSL1111AA',
-  };
-
-  return getOrganizationDetails(userInfo.organizationMdsId);
+  return getOrganizationDetails(getUserInfo().organizationMdsId);
 };
 
 export const inviteOrganization = (

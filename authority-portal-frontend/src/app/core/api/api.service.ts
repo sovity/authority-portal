@@ -65,6 +65,14 @@ export class ApiService {
     return from(this.api().deleteUser({userId, successorUserId}));
   }
 
+  checkParticipantUserDeletion(userId: string) {
+    return from(this.api().checkParticipantUserDeletion({userId}));
+  }
+
+  deleteParticipantUser(userId: string, successorUserId?: string) {
+    return from(this.api().deleteParticipantUser({userId, successorUserId}));
+  }
+
   reactivateAnyUser(userId: string) {
     return from(this.api().reactivateAnyUser({userId}));
   }

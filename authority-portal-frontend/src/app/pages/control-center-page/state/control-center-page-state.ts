@@ -1,5 +1,6 @@
 import {
   OwnOrganizationDetailsDto,
+  UserDeletionCheck,
   UserDetailDto,
 } from '@sovity.de/authority-portal-client';
 import {Fetched} from '../../../core/utils/fetched';
@@ -29,6 +30,9 @@ export interface OrganizationUserDetailState {
     state: 'editing' | 'submitting' | 'success' | 'error';
     errors: {[key: string]: string};
   };
+  modalData?: Fetched<UserDeletionCheck>;
+  isRequestingUserDeletion: boolean;
+  showUserDeletionModal: boolean;
 }
 
 export interface ControlCenterPageState {
@@ -58,6 +62,8 @@ export const DEFAULT_ORGANIZATION_USER_DETAIL_STATE: OrganizationUserDetailState
     busy: false,
     userParticipantRolesForm: {state: 'editing', errors: {}},
     userApplicationRolesForm: {state: 'editing', errors: {}},
+    isRequestingUserDeletion: false,
+    showUserDeletionModal: false,
   };
 
 export const DEFAULT_CONTROL_CENTER_PAGE_STATE: ControlCenterPageState = {

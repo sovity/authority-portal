@@ -146,9 +146,9 @@ export const TEST_USERS: Record<string, UserInfo> = {
 export const OTHER_USERS: Record<string, UserInfo> = {
   '00000000-0000-0000-0000-100000000001': {
     userId: '00000000-0000-0000-0000-100000000001',
-    firstName: 'Participant',
+    firstName: 'New Participant',
     lastName: 'Admin',
-    roles: ['ADMIN', 'USER'],
+    roles: ['ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     authenticationStatus: 'AUTHENTICATED',
     organizationName: 'Three Users',
@@ -158,7 +158,7 @@ export const OTHER_USERS: Record<string, UserInfo> = {
     userId: '00000000-0000-0000-0000-100000000002',
     firstName: 'Organization',
     lastName: 'Creator',
-    roles: ['ADMIN', 'USER'],
+    roles: ['ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     authenticationStatus: 'AUTHENTICATED',
     organizationName: 'Three Users',
