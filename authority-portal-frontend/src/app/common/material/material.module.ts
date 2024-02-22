@@ -1,5 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
@@ -18,7 +19,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
-const Material = [
+const MATERIAL_MODULES = [
   MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
@@ -39,7 +40,17 @@ const Material = [
 ];
 
 @NgModule({
-  imports: [CommonModule, Material],
-  exports: [Material],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ...MATERIAL_MODULES,
+  ],
+  exports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ...MATERIAL_MODULES,
+  ],
 })
 export class MaterialModule {}

@@ -1,11 +1,34 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
-import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
+import {
+  ConnectorOverviewEntryDto,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ApiService} from '../../../core/api/api.service';
-import {GetOwnOrganizationConnectors} from '../state/sp-connector-list-page-actions';
+import {sliderOverNavigation} from 'src/app/core/utils/helper';
+import {
+  getConnectorStatusInnerCircleClasses,
+  getConnectorStatusOuterRingClasses,
+  getConnectorStatusText,
+  getConnectorsTypeClasses,
+} from 'src/app/core/utils/ui-utils';
+import {FilterBarConfig} from 'src/app/shared/components/common/filter-bar/filter-bar.model';
+import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
+import {
+  NavigationType,
+  SlideOverAction,
+  SlideOverConfig,
+} from 'src/app/shared/components/common/slide-over/slide-over.model';
+import {SlideOverService} from 'src/app/shared/services/slide-over.service';
+import {SpConnectorDetailPageComponent} from '../../sp-connector-detail-page/sp-connector-detail-page/sp-connector-detail-page.component';
+import {
+  CloseConnectorDetail,
+  GetProvidedConnectors,
+  ShowConnectorDetail,
+} from '../state/sp-connector-list-page-actions';
 import {
   DEFAULT_SP_CONNECTOR_LIST_PAGE_STATE,
   SpConnectorListPageState,
@@ -18,53 +41,138 @@ import {SpConnectorListPageStateImpl} from '../state/sp-connector-list-page-stat
 })
 export class SpConnectorListPageComponent implements OnInit, OnDestroy {
   state = DEFAULT_SP_CONNECTOR_LIST_PAGE_STATE;
-  filter = 'ALL';
-  selectedEnvironment!: DeploymentEnvironmentDto;
+  showDetail: boolean = false;
+  slideOverConfig!: SlideOverConfig;
+  componentToRender = SpConnectorDetailPageComponent;
+  headerConfig!: HeaderBarConfig;
+  filterBarConfig!: FilterBarConfig;
+
+  getConnectorsTypeClasses = getConnectorsTypeClasses;
+  getConnectorStatusOuterRingClasses = getConnectorStatusOuterRingClasses;
+  getConnectorStatusInnerCircleClasses = getConnectorStatusInnerCircleClasses;
+  getConnectorStatusText = getConnectorStatusText;
 
   private ngOnDestroy$ = new Subject();
 
   constructor(
     private store: Store,
-    private apiService: ApiService,
     private globalStateUtils: GlobalStateUtils,
+    private router: Router,
+    private slideOverService: SlideOverService,
   ) {}
 
   ngOnInit() {
+    this.initializeHeaderBar();
+    this.initializeFilterBar();
     this.refresh();
     this.startListeningToState();
-    this.startListeningToGlobalState();
+    this.startRefreshingOnEnvChange();
+  }
+
+  initializeFilterBar() {
+    this.filterBarConfig = {
+      filters: [
+        {
+          id: 'type',
+          label: 'Type',
+          icon: 'tag',
+          type: 'MULTISELECT',
+          options: [],
+        },
+        {
+          id: 'status',
+          label: 'Status',
+          type: 'SELECT',
+          icon: 'status',
+          options: [],
+        },
+      ],
+    };
+  }
+
+  initializeHeaderBar() {
+    this.headerConfig = {
+      title: 'Provided Connectors',
+      subtitle:
+        'List of connectors provided by you in your capacity as a Service Partner.',
+      headerActions: [
+        {
+          label: 'Provide Connector',
+          action: () =>
+            this.router.navigate([
+              'service-partner/provided-connectors/provide-connector',
+            ]),
+          permissions: [UserRoleDto.ServicePartnerAdmin],
+        },
+      ],
+    };
   }
 
   refresh() {
-    this.store.dispatch(GetOwnOrganizationConnectors);
+    this.store.dispatch(GetProvidedConnectors);
   }
 
-  private startListeningToState() {
+  startListeningToState() {
     this.store
       .select<SpConnectorListPageState>(SpConnectorListPageStateImpl)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
+        this.showDetail = state.showDetail;
       });
   }
 
-  startListeningToGlobalState() {
-    this.globalStateUtils.deploymentEnvironment$
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((selectedEnvironment) => {
-        this.selectedEnvironment = selectedEnvironment;
-      });
+  startRefreshingOnEnvChange() {
+    this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
+      ngOnDestroy$: this.ngOnDestroy$,
+      onChanged: () => {
+        this.refresh();
+      },
+    });
   }
 
-  setOrganizationMdsId(organizationMdsId: any): void {
-    throw new Error('Method not implemented.');
+  handleNavigation(direction: SlideOverAction, currentConnectorId: string) {
+    let totalConnectors = this.state.connectors.data.length;
+    let currentIndex = this.state.connectors.data.findIndex(
+      (connector) => connector.id === currentConnectorId,
+    );
+    let nextIndex = sliderOverNavigation(
+      direction,
+      currentIndex,
+      totalConnectors,
+    );
+
+    this.slideOverConfig = {
+      ...this.slideOverConfig,
+      childComponentInput: {
+        id: this.state.connectors.data[nextIndex].id,
+      },
+      label: this.state.connectors.data[nextIndex].name,
+    };
+    this.slideOverService.setSlideOverConfig(this.slideOverConfig);
   }
 
-  filterBy(filter: string) {
-    this.filter = filter;
+  closeDetailPage() {
+    this.store.dispatch(CloseConnectorDetail);
+    this.slideOverService.slideOverReset();
+  }
+
+  openDetailPage(connector: ConnectorOverviewEntryDto) {
+    this.slideOverConfig = {
+      childComponentInput: {
+        id: connector.id,
+      },
+      label: connector.name,
+      icon: 'connector',
+      showNavigation: this.state.connectors.data.length > 1,
+      navigationType: NavigationType.STEPPER,
+    };
+    this.slideOverService.setSlideOverConfig(this.slideOverConfig);
+    this.store.dispatch(ShowConnectorDetail);
   }
 
   ngOnDestroy(): void {
+    this.closeDetailPage();
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }

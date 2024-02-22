@@ -42,7 +42,7 @@
         <button
           *ngIf="!menuItem.isDisabled"
           mat-menu-item
-          (click)="menuActionPressed(menuItem.event)">
+          (click)="menuActionPressed(menuItem)">
           <mat-icon class="material-icons-outlined">
             {{ menuItem.icon }}
           </mat-icon>

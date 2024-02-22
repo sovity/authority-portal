@@ -1,60 +1,53 @@
-<div class="flex flex-col justify-between items-center w-full">
-  <label
-    class="w-full mb-2 text-sm"
-    [class.text-red-600]="ctrl.touched && ctrl.invalid"
-    [for]="ctrlId"
-    >{{ label }}</label
+<label
+  class="w-full mb-2 text-sm"
+  [class.text-red-600]="ctrl.touched && ctrl.invalid"
+  [for]="ctrlId"
+  >{{ label }}</label
+>
+
+<mat-form-field
+  class="w-full min-h-min text-s"
+  appearance="outline"
+  color="accent">
+  <input
+    matInput
+    type="text"
+    [id]="ctrlId"
+    [formControl]="ctrl"
+    [placeholder]="placeholder" />
+
+  <mat-error *ngIf="ctrl.touched && ctrl.hasError('required')" class="text-xs">
+    {{ requiredMessage }}</mat-error
+  >
+  <mat-error *ngIf="ctrl.touched && ctrl.hasError('pattern')" class="text-xs">
+    {{ invalidPatternMessage }}</mat-error
+  >
+  <mat-error *ngIf="ctrl.touched && ctrl.hasError('minlength')" class="text-xs">
+    At least {{ ctrl.errors!.minlength.requiredLength }} characters
+    required.</mat-error
+  >
+  <mat-error *ngIf="ctrl.touched && ctrl.hasError('maxlength')" class="text-xs">
+    At most {{ ctrl.errors!.maxlength.requiredLength }} characters
+    allowed.</mat-error
   >
 
-  <mat-form-field
-    class="w-full min-h-min text-s"
-    appearance="outline"
-    color="accent">
-    <input
-      matInput
-      [id]="ctrlId"
-      [formControl]="ctrl"
-      [placeholder]="placeholder" />
-    <mat-error
-      *ngIf="ctrl.touched && ctrl.hasError('required')"
-      class="text-xs">
-      {{ requiredMessage }}</mat-error
-    >
-    <mat-error *ngIf="ctrl.touched && ctrl.hasError('pattern')" class="text-xs">
-      {{ invalidPatternMessage }}</mat-error
-    >
-    <mat-error
-      *ngIf="ctrl.touched && ctrl.hasError('minlength')"
-      class="text-xs">
-      At least {{ ctrl.errors!.minlength.requiredLength }} characters
-      required.</mat-error
-    >
-    <mat-error
-      *ngIf="ctrl.touched && ctrl.hasError('maxlength')"
-      class="text-xs">
-      At most {{ ctrl.errors!.maxlength.requiredLength }} characters
-      allowed.</mat-error
-    >
+  <mat-error *ngIf="ctrl.touched && ctrl.hasError('email')" class="text-xs">
+    Invalid email format.</mat-error
+  >
 
-    <mat-error *ngIf="ctrl.touched && ctrl.hasError('email')" class="text-xs">
-      Invalid email format.</mat-error
-    >
+  <mat-error *ngIf="ctrl.touched && ctrl.hasError('url')" class="text-xs">
+    Invalid URL format. Please use the following format:
+    https://www.example.com</mat-error
+  >
 
-    <mat-error *ngIf="ctrl.touched && ctrl.hasError('url')" class="text-xs">
-      Invalid URL format. Please use the following format:
-      https://www.example.com</mat-error
-    >
+  <mat-error *ngIf="ctrl.touched && ctrl.hasError('zipCode')" class="text-xs">
+    Invalid Zip Code. Please use 5 or more letters, numbers and '-'.</mat-error
+  >
 
-    <mat-error *ngIf="ctrl.touched && ctrl.hasError('zipCode')" class="text-xs">
-      Invalid Zip Code. Please use 5 or more letters, numbers and
-      '-'.</mat-error
-    >
-
-    <mat-error
-      *ngIf="ctrl.touched && ctrl.hasError('phoneNumber')"
-      class="text-xs">
-      Invalid phone number. Please use 5 or more numbers and optionally '+' or '
-      '</mat-error
-    >
-  </mat-form-field>
-</div>
+  <mat-error
+    *ngIf="ctrl.touched && ctrl.hasError('phoneNumber')"
+    class="text-xs">
+    Invalid phone number. Please use 5 or more numbers and optionally '+' or '
+    '</mat-error
+  >
+</mat-form-field>

@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
@@ -53,7 +52,6 @@ export class AuthorityConnectorListPageComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private globalStateUtils: GlobalStateUtils,
-    private router: Router,
     private slideOverService: SlideOverService,
   ) {}
 

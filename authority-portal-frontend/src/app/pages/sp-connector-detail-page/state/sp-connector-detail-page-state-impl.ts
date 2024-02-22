@@ -5,7 +5,10 @@ import {Action, State, StateContext} from '@ngxs/store';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
-import {RefreshConnector} from './sp-connector-detail-page-actions';
+import {
+  RefreshConnector,
+  SetConnectorId,
+} from './sp-connector-detail-page-actions';
 import {
   DEFAULT_SP_CONNECTOR_DETAIL_PAGE_STATE,
   SpConnectorDetailPageState,
@@ -22,24 +25,29 @@ export class SpConnectorDetailPageStateImpl {
   @Action(RefreshConnector, {cancelUncompleted: true})
   onRefreshConnector(
     ctx: StateContext<SpConnectorDetailPageState>,
-    action: RefreshConnector,
   ): Observable<never> {
     return this.apiService
-      .getOwnOrganizationConnectorDetails(action.connectorId)
+      .getProvidedConnectorDetails(ctx.getState().connectorId)
       .pipe(
         Fetched.wrap({failureMessage: 'Failed loading Connector'}),
-        tap((connector) =>
-          this.connectorRefreshed(ctx, action.connectorId, connector),
-        ),
+        tap((connector) => this.connectorRefreshed(ctx, connector)),
         ignoreElements(),
       );
   }
 
   private connectorRefreshed(
     ctx: StateContext<SpConnectorDetailPageState>,
-    connectorId: string,
+
     connector: Fetched<ConnectorDetailDto>,
   ) {
-    ctx.patchState({connectorId, connector});
+    ctx.patchState({connector});
+  }
+
+  @Action(SetConnectorId, {cancelUncompleted: true})
+  onSetConnectorId(
+    ctx: StateContext<SpConnectorDetailPageState>,
+    action: SetConnectorId,
+  ) {
+    ctx.patchState({connectorId: action.connectorId});
   }
 }

@@ -9,7 +9,7 @@ import {
 import {Subject, combineLatest, map, takeUntil} from 'rxjs';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SlideOverService} from 'src/app/shared/services/slide-over.service';
-import {TitleBarConfig, TitleBarMenuActionEvent} from './title-bar.model';
+import {MenuOption, TitleBarConfig} from './title-bar.model';
 
 @Component({
   selector: 'app-title-bar',
@@ -19,7 +19,6 @@ export class TitleBarComponent implements OnChanges, OnDestroy {
   @Input() titleBarConfig!: TitleBarConfig;
   @Input() selectedTab!: string;
   @Output() onTabChange = new EventEmitter<string>();
-  @Output() onActionMenuClick = new EventEmitter<TitleBarMenuActionEvent>();
 
   private ngOnDestroy$ = new Subject();
 
@@ -50,11 +49,8 @@ export class TitleBarComponent implements OnChanges, OnDestroy {
     this.onTabChange.emit(view);
   }
 
-  menuActionPressed(event: string) {
-    this.onActionMenuClick.emit({
-      menuId: this.titleBarConfig.actionMenu!.id,
-      event,
-    });
+  menuActionPressed(menuItem: MenuOption) {
+    menuItem.event(this.titleBarConfig.actionMenu!.id);
   }
 
   isAllDisabled(titleBarConfig: TitleBarConfig): boolean {

@@ -18,4 +18,10 @@ public class DeploymentEnvironmentDto {
     private String environmentId;
     @Schema(description = "Environment localized name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String title;
+    @Schema(description = "DAPS Token URL", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String dapsTokenUrl;
+    @Schema(description = "DAPS JWKS URL", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String dapsJwksUrl;
+    @Schema(description = "Logging House URL", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String loggingHouseUrl;
 }

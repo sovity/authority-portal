@@ -86,10 +86,7 @@
         <button
           class="btn-accent"
           type="submit"
-          [ngClass]="{
-            'opacity-50 cursor-not-allowed': !group.valid
-          }"
-          [disabled]="!group.valid || state.state === 'submitting'"
+          [disabledBtn]="!group.valid || state.state === 'submitting'"
           (click)="submit()">
           Send Invitation
         </button>

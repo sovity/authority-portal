@@ -53,98 +53,12 @@
 
   <div class="flex gap-4 flex-wrap">
     <!-- Password -->
-    <div class="flex flex-col items-center w-full">
-      <label class="w-full mb-2 text-sm" for="formRegOConPassword"
-        >Password</label
-      >
-      <mat-form-field
-        class="w-full text-sm"
-        appearance="outline"
-        color="accent">
-        <input
-          id="formRegOConPassword"
-          matInput
-          autocomplete="off"
-          type="{{ showPassword ? 'text' : 'password' }}"
-          formControlName="password"
-          placeholder="" />
-        <button matSuffix mat-icon-button (click)="togglePasswordVisibility()">
-          <mat-icon>{{
-            showPassword ? 'visibility' : 'visibility_off'
-          }}</mat-icon>
-        </button>
-        <mat-error class="text-sm">
-          <ul>
-            <li
-              *ngIf="
-                userForm.controls.password.touched &&
-                userForm.controls.password.dirty &&
-                userForm.controls.password.hasError('required')
-              ">
-              Password is a required field
-            </li>
-
-            <li
-              *ngIf="
-                userForm.controls.password.touched &&
-                userForm.controls.password.dirty &&
-                userForm.controls.password.hasError('minlength')
-              ">
-              Password must contain at least 8 characters
-            </li>
-
-            <li
-              *ngIf="
-                userForm.controls.password.touched &&
-                userForm.controls.password.dirty &&
-                userForm.controls.password.hasError('pattern')
-              ">
-              Password must contain at least one uppercase letter, one lowercase
-              letter, and one number
-            </li>
-          </ul>
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <!-- Password-->
+    <app-password-input
+      [ctrl]="userForm.controls.password"></app-password-input>
 
     <!-- Confirm password -->
-    <div class="flex flex-col justify-between items-center w-full">
-      <label class="w-full mb-2 text-sm" for="formRegOConConifirmPassword"
-        >Confirm Password</label
-      >
-      <mat-form-field
-        class="w-full text-sm"
-        appearance="outline"
-        color="accent">
-        <input
-          id="formRegOConConifirmPassword"
-          matInput
-          autocomplete="off"
-          type="{{ showPassword ? 'text' : 'password' }}"
-          formControlName="confirmPassword" />
-        <button matSuffix mat-icon-button (click)="togglePasswordVisibility()">
-          <mat-icon>{{
-            showPassword ? 'visibility' : 'visibility_off'
-          }}</mat-icon>
-        </button>
-        <mat-error class="text-sm">
-          <ul>
-            <li
-              *ngIf="
-                userForm.controls.confirmPassword.touched &&
-                userForm.controls.confirmPassword.dirty &&
-                userForm.controls.confirmPassword.hasError('required')
-              ">
-              Password is a required field
-            </li>
-            <li *ngIf="userForm.hasError('mismatch')">
-              Passwords do not match
-            </li>
-          </ul>
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <!-- Confirm password -->
+    <app-password-repeat-input
+      [ctrl]="userForm.controls.confirmPassword"
+      [parentFormGroup]="userForm"></app-password-repeat-input>
   </div>
 </form>

@@ -1,0 +1,31 @@
+<h2 class="text-xl py-3">Finish setting up your connector!</h2>
+<p>
+  To setup the connector, you will have to follow the Deployment Guide in the
+  MDS Wiki.
+</p>
+<p>
+  <strong>To get you started, we have prepared the following:</strong>
+</p>
+<div class="relative p-4 bg-gray-100">
+  <div class="absolute top-0 right-0">
+    <button
+      mat-icon-button
+      aria-label="copy button with"
+      (click)="copyToClipboard()">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </div>
+
+  <code class="text-sm text-gray-500 whitespace-pre">{{
+    connectorConfig
+  }}</code>
+</div>
+<div>
+  <a
+    class="btn-outline"
+    href="https://github.com/sovity/edc-extensions/releases"
+    target="_blank">
+    <mat-icon svgIcon="github"></mat-icon>
+    <span>Get your Connector on GitHub</span>
+  </a>
+</div>

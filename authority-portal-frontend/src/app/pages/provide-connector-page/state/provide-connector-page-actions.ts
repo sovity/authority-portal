@@ -13,6 +13,7 @@ export class Submit {
     public mdsId: string,
     public enableForm: () => void,
     public disableForm: () => void,
+    public success: () => void,
   ) {}
 }
 

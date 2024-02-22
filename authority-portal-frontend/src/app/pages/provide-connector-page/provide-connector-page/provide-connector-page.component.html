@@ -1,243 +1,65 @@
-<div class="flex h-screen justify-center items-center">
-  <mat-stepper
-    class="w-full lg:w-2/3"
-    labelPosition="bottom"
-    #stepper
-    linear
-    (selectionChange)="onStepChange($event)">
+<div class="flex justify-center items-center">
+  <mat-stepper class="w-full lg:w-2/3" labelPosition="bottom" #stepper linear>
     <!-- connector details Step-->
-    <mat-step color="accent" [stepControl]="connectorDetailsFormGroup">
-      <form
-        class="flex flex-col w-full justify-center"
-        [formGroup]="connectorDetailsFormGroup">
+    <mat-step
+      color="accent"
+      [editable]="state.state === 'editing'"
+      [stepControl]="form.connectorTab">
+      <form class="flex flex-col w-full justify-center">
         <ng-template matStepLabel>Add Connector Details</ng-template>
         <div
-          class="select-none flex flex-col justify-center items-center my-10 w-2/3">
+          class="select-none flex flex-col justify-center items-center my-10 w-2/3 mx-auto">
+          <!-- MDS ID of client Organization -->
+          <app-organization-select
+            class="w-full"
+            label="Client Organization"
+            [ctrl]="form.connectorTab.controls.organization"
+            [organizations]="state.organizationList"></app-organization-select>
+
           <!-- Connector's Name -->
-          <div class="flex flex-col justify-between items-center w-full">
-            <label class="w-full mb-2 text-sm" for="formRegOConName"
-              >Connector's Name</label
-            >
-            <mat-form-field
-              class="w-full text-sm"
-              appearance="outline"
-              color="accent">
-              <input
-                id="formRegOConName"
-                matInput
-                formControlName="name"
-                placeholder="Any Connector name you prefer" />
-              <mat-error
-                class="text-sm"
-                appFormControlError
-                fieldName="Connector name"
-                [control]="connectorDetailsFormGroup.get('name')"></mat-error>
-            </mat-form-field>
-          </div>
-          <!-- Connector's Name -->
+          <app-text-input
+            class="w-full"
+            label="Connector's Name"
+            ctrlId="formRegOConName"
+            placeholder="Any Connector name you prefer"
+            [ctrl]="form.connectorTab.controls.name"></app-text-input>
 
           <!-- Connector's Location -->
-          <div class="flex flex-col justify-between items-center w-full">
-            <label class="w-full mb-2 text-sm" for="formRegOConLocation"
-              >Connector's Location</label
-            >
-            <mat-form-field
-              class="w-full text-sm"
-              appearance="outline"
-              color="accent">
-              <input
-                id="formRegOConLocation"
-                matInput
-                formControlName="location"
-                placeholder="DE, UK, FR etc." />
-              <mat-error
-                class="text-sm"
-                appFormControlError
-                fieldName="Connector location"
-                [control]="
-                  connectorDetailsFormGroup.get('location')
-                "></mat-error>
-            </mat-form-field>
-          </div>
-          <!-- Connector's Location -->
-
-          <!-- MDS ID of client Organization -->
-          <div class="flex flex-col justify-between items-center w-full">
-            <label class="w-full mb-2 text-sm" for="formRegOConMdsId"
-              >Client Organization</label
-            >
-            <mat-form-field
-              class="w-full text-sm"
-              appearance="outline"
-              color="accent">
-              <mat-select formControlName="mdsId">
-                <ng-container
-                  *ngIf="state.organizationList.isReady; else loading">
-                  <mat-option selected disabled>
-                    Select Client Organization
-                  </mat-option>
-                  <mat-option
-                    *ngFor="let organization of state.organizationList.data"
-                    [value]="organization.mdsId">
-                    {{ organization.name }}
-                  </mat-option>
-                </ng-container>
-                <ng-template #loading>
-                  <mat-option disabled>Loading Organization List</mat-option>
-                </ng-template>
-              </mat-select>
-              <mat-error
-                class="text-sm"
-                appFormControlError
-                fieldName="Client Organization"
-                [control]="connectorDetailsFormGroup.get('mdsId')"></mat-error>
-            </mat-form-field>
-          </div>
-          <!-- MDS ID of client Organization -->
+          <app-text-input
+            class="w-full"
+            label="Connector's Location"
+            ctrlId="formRegOConLocation"
+            placeholder="DE"
+            [ctrl]="form.connectorTab.controls.location"></app-text-input>
 
           <!-- Frontend URL -->
-          <div class="flex flex-col justify-between items-center w-full">
-            <label class="w-full mb-2 text-sm" for="formRegOConFrontendUrl"
-              >Connector's Frontend URL</label
-            >
-
-            <mat-form-field
-              class="w-full text-sm"
-              appearance="outline"
-              color="accent">
-              <input
-                id="formRegOConFrontendUrl"
-                matInput
-                formControlName="frontendUrl"
-                placeholder="https://example-connector.com" />
-
-              <mat-error
-                class="text-sm"
-                appFormControlError
-                fieldName="Connector's Frontend URL"
-                [control]="
-                  connectorDetailsFormGroup.get('frontendUrl')
-                "></mat-error>
-
-              <button
-                matSuffix
-                mat-icon-button
-                type="button"
-                color="black"
-                [matMenuTriggerFor]="helpFrontendUrl">
-                <mat-icon>help</mat-icon>
-              </button>
-
-              <mat-menu #helpFrontendUrl="matMenu">
-                <div class="p-6 flex flex-col text-sm w-auto">
-                  <h3 class="font-bold mb-2">Connector's Frontend Url</h3>
-                  <div>
-                    The input must be the <strong>base URL</strong> of the
-                    connector in form of <br /><br />
-                    <b>https://example-connector.com</b>
-                  </div>
-                </div>
-              </mat-menu>
-            </mat-form-field>
-          </div>
-          <!-- Frontend URL End -->
+          <app-connector-url-input
+            class="w-full"
+            label="Connector's Frontend URL"
+            ctrlId="formRegOConFrontendUrl"
+            [ctrl]="
+              form.connectorTab.controls.frontendUrl
+            "></app-connector-url-input>
 
           <!-- Endpoint URL -->
-          <div class="flex flex-col justify-between items-center w-full">
-            <label class="w-full mb-2 text-sm" for="formRegOConEndpointUrl"
-              >Connector's Endpoint URL</label
-            >
-
-            <mat-form-field
-              class="w-full text-sm"
-              appearance="outline"
-              color="accent">
-              <input
-                id="formRegOConEndpointUrl"
-                matInput
-                formControlName="endpointUrl"
-                placeholder="https://example-connector.com/api/dsp" />
-
-              <mat-error
-                class="text-sm"
-                appFormControlError
-                fieldName="Connector's Endpoint URL"
-                [control]="
-                  connectorDetailsFormGroup.get('endpointUrl')
-                "></mat-error>
-
-              <button
-                matSuffix
-                mat-icon-button
-                type="button"
-                color="black"
-                [matMenuTriggerFor]="helpEndpointUrl">
-                <mat-icon>help</mat-icon>
-              </button>
-
-              <mat-menu #helpEndpointUrl="matMenu">
-                <div class="p-6 flex flex-col text-sm w-auto">
-                  <h3 class="font-bold mb-2">Connector's Endpoint Url</h3>
-                  <div>
-                    If the Connector is deployed as recommended by the
-                    <strong>Deployment Guide</strong>, the URL should be
-                    <br /><br />
-                    {{ urlString }}<b>/api/dsp</b>
-                  </div>
-                </div>
-              </mat-menu>
-            </mat-form-field>
-          </div>
-          <!-- Endpoint URL End -->
+          <app-connector-url-input
+            class="w-full"
+            label="Connector's Endpoint URL"
+            ctrlId="formRegOConEndpointUrl"
+            urlSuffix="/api/dsp"
+            [ctrl]="
+              form.connectorTab.controls.endpointUrl
+            "></app-connector-url-input>
 
           <!-- Management URL -->
-          <div class="flex flex-col justify-between items-center w-full">
-            <label class="w-full mb-2 text-sm" for="formRegOConManagementUrl"
-              >Connector's Management URL</label
-            >
-
-            <mat-form-field
-              class="w-full text-sm"
-              appearance="outline"
-              color="accent">
-              <input
-                id="formRegOConManagementUrl"
-                matInput
-                formControlName="managementUrl"
-                placeholder="https://example-connector.com/api/management" />
-
-              <mat-error
-                class="text-sm"
-                appFormControlError
-                fieldName="Connector's Management URL"
-                [control]="
-                  connectorDetailsFormGroup.get('managementUrl')
-                "></mat-error>
-
-              <button
-                matSuffix
-                mat-icon-button
-                type="button"
-                color="black"
-                [matMenuTriggerFor]="helpManagementUrl">
-                <mat-icon>help</mat-icon>
-              </button>
-
-              <mat-menu class="customMatMenu" #helpManagementUrl="matMenu">
-                <div class="p-6 flex flex-col text-sm w-auto">
-                  <h3 class="font-bold mb-2">Connector's Management Url</h3>
-                  <div>
-                    If the Connector is deployed as recommended<br />
-                    by the <strong>Deployment Guide</strong>, the URL should be:
-                    <br />
-                    <br />
-                    {{ urlString }}<b>/api/management</b>
-                  </div>
-                </div>
-              </mat-menu>
-            </mat-form-field>
-          </div>
-          <!-- Management URL End -->
+          <app-connector-url-input
+            class="w-full"
+            label="Connector's Management URL"
+            ctrlId="formRegOConManagementUrl"
+            urlSuffix="/api/management"
+            [ctrl]="
+              form.connectorTab.controls.managementUrl
+            "></app-connector-url-input>
         </div>
 
         <div
@@ -245,14 +67,14 @@
           <button
             class="btn-accent-outline"
             type="button"
-            routerLink="/my-organization/connectors">
+            [routerLink]="exitLink">
             Cancel
           </button>
 
           <button
             class="btn-accent"
-            [disabledBtn]="!connectorDetailsFormGroup.valid"
-            (click)="onConnectorDetailCollected(true)">
+            [disabledBtn]="!form.connectorTab.valid"
+            (click)="stepper.next()">
             Next
           </button>
         </div>
@@ -261,69 +83,20 @@
     <!-- connector details Step -->
 
     <!-- Generate Certificate Step-->
-    <mat-step color="accent" editable="false" [stepControl]="stepperFormGroup">
+    <mat-step color="accent" editable="false" [stepControl]="form.connectorTab">
       <ng-template matStepLabel>Generate Certificate</ng-template>
 
       <div class="flex justify-center items-center">
-        <div class="flex flex-col justify-center w-full gap-8 my-10">
-          <form class="flex justify-center" #form="ngForm">
-            <mat-slide-toggle
-              name="hasCertificate"
-              [(ngModel)]="hasCertificate"
-              (ngModelChange)="clearCertificateForm()"
-              >I already have a certificate</mat-slide-toggle
-            >
-          </form>
-
-          <div class="flex flex-col flex-wrap md:flex-row gap-4">
-            <!-- Certificate Details -->
-            <div *ngIf="!hasCertificate && predefinedValues" class="flex-1">
-              <label class="mb-2 text-sm">
-                Fill the information below to generate a certificate:
-              </label>
-
-              <app-certificate-generator
-                [preDefinedDetails]="predefinedValues"
-                (certificateGenerated)="
-                  generatedCertificateHandler($event)
-                "></app-certificate-generator>
-            </div>
-            <!-- Certificate Details -->
-
-            <!-- Certificate -->
-            <div class="flex-1">
-              <form [formGroup]="certificateFormGroup">
-                <!-- Certificate -->
-                <mat-form-field
-                  class="w-full text-sm"
-                  appearance="outline"
-                  color="accent">
-                  <textarea
-                    id="formRegOConPubCertKey"
-                    matInput
-                    rows="20"
-                    formControlName="certificate"
-                    placeholder="
-          -----BEGIN CERTIFICATE-----
-          MIICqjCCAhOgAwIBAgIBADANBgk
-          ...
-          AkmFH0MPvGNeUum02F0=
-          -----END CERTIFICATE-----"></textarea>
-                  <mat-error
-                    class="text-sm overflow-y-auto"
-                    appFormControlError
-                    fieldName="Certificate"
-                    [control]="
-                      certificateFormGroup.get('certificate')
-                    "></mat-error>
-                </mat-form-field>
-
-                <!-- Certificate -->
-              </form>
-            </div>
-            <!-- Certificate -->
-          </div>
-        </div>
+        <app-certificate-input-form
+          class="w-full"
+          [group]="form.certificateTab"
+          [organizationLegalName]="
+            form.connectorTab.controls.organization.value?.name ?? ''
+          "
+          [commonName]="form.connectorTab.controls.endpointUrl.value"
+          [location]="
+            form.connectorTab.controls.location.value
+          "></app-certificate-input-form>
       </div>
 
       <div
@@ -334,70 +107,30 @@
         <button
           class="btn-accent"
           [disabledBtn]="
-            state.state === 'submitting' ||
-            !certificateFormGroup.valid ||
-            !enableSubmitButton
+            state.state === 'submitting' || !form.certificateTab.valid
           "
           (click)="registerConnector()">
-          Add Connector
+          Provide Connector
         </button>
       </div>
     </mat-step>
     <!-- Generate Certificate Step-->
 
     <!-- Final Step -->
-    <mat-step color="accent" editable="false">
+    <mat-step
+      color="accent"
+      editable="false"
+      [stepControl]="form.group.controls.canSwitchTabs">
       <ng-template matStepLabel>Setup Connector</ng-template>
-      <div class="flex flex-col gap-3 justify-center px-8">
-        <h2 class="text-xl py-3">
-          Finish setting up the provided self-hosted connector!
-        </h2>
-        <p>
-          To setup the provided connector, you need the configuration details
-          below and the generated Connector ID
-          <strong>'{{ state.connectorId }}'</strong>
-        </p>
-        <p>
-          <strong>
-            For your selected environment, please use following connector
-            configuration:
-          </strong>
-        </p>
-        <div class="relative p-4 bg-gray-100">
-          <div class="absolute top-0 right-0">
-            <button
-              mat-icon-button
-              aria-label="copy button with"
-              (click)="copyToClipboard()">
-              <mat-icon>content_copy</mat-icon>
-            </button>
-          </div>
 
-          <code class="text-sm text-gray-500" #tokenUrlElement>
-            EDC_OAUTH_TOKEN_URL: https://daps.test.mobility-dataspace.eu/token
-          </code>
-          <br />
-          <code class="text-sm text-gray-500" #jwksUrlElement>
-            EDC_OAUTH_PROVIDER_JWKS_URL:
-            https://daps.test.mobility-dataspace.eu/jwks.json
-          </code>
-        </div>
-        <div>
-          <a
-            class="btn-outline"
-            href="https://github.com/sovity/edc-extensions"
-            target="_blank">
-            <mat-icon svgIcon="github"></mat-icon>
-            <span>Go to GitHub</span>
-          </a>
-        </div>
-      </div>
+      <app-connector-registering-success-message-page
+        [connectorConfig]="
+          state.connectorConfig
+        "></app-connector-registering-success-message-page>
 
       <div
         class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
-        <button class="btn-accent" routerLink="/my-organization/connectors">
-          Finish
-        </button>
+        <button class="btn-accent" [routerLink]="exitLink">Finish</button>
       </div>
     </mat-step>
     <!-- Final Step -->

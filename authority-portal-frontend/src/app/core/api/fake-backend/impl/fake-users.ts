@@ -232,6 +232,9 @@ export const userDetails = (userId: string): UserDetailDto => {
     phone: '+49 231 1234567',
     position: 'Employee',
     onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
   };
 };
 

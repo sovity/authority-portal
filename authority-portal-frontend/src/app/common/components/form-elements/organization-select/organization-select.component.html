@@ -1,0 +1,19 @@
+<label class="w-full mb-2 text-sm" [for]="ctrlId">{{ label }}</label>
+<mat-form-field class="w-full" appearance="outline" color="accent">
+  <mat-select
+    [placeholder]="'Select ' + label"
+    [id]="ctrlId"
+    [formControl]="ctrl"
+    [compareWith]="compareWith">
+    <mat-option
+      *ngFor="let organization of organizations?.dataOrUndefined"
+      [value]="organization">
+      {{ organization.name }}
+    </mat-option>
+  </mat-select>
+  <mat-error
+    class="text-sm"
+    appFormControlError
+    [fieldName]="label"
+    [control]="ctrl"></mat-error>
+</mat-form-field>

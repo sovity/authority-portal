@@ -1,48 +1,71 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {urlValidator} from 'src/app/core/utils/validators/url-validator';
-import {certificateValidator} from '../../../core/utils/validators/certificate-validator';
+import {buildCertificateInputForm} from '../../../common/components/form-elements/certificate-input-form/certificate-input-form-builder';
+import {certificateInputFormEnabledCtrls} from '../../../common/components/form-elements/certificate-input-form/certificate-input-form-enabled-ctrls';
+import {switchDisabledControls} from '../../../core/utils/form-utils';
 import {
-  CertificateFormModelValue,
-  DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE,
-  ProvideConnectorPageFormValue,
-  ProvideConnectorParentFormGroup,
-} from './provide-connector-page-form-model';
+  DEFAULT_PROVIDE_WIZARD_FORM_VALUE,
+  ProvideCertificateTabFormModel,
+  ProvideCertificateTabFormValue,
+  ProvideConnectorTabFormModel,
+  ProvideWizardFormModel,
+  ProvideWizardFormValue,
+} from './provide-connector-tab-form-model';
 
 @Injectable()
 export class ProvideConnectorForm {
-  formGroup = this.buildFormGroup();
+  group = this.buildFormGroup();
+
+  get connectorTab(): FormGroup<ProvideConnectorTabFormModel> {
+    return this.group.controls.connectorTab;
+  }
+
+  get certificateTab(): FormGroup<ProvideCertificateTabFormModel> {
+    return this.group.controls.certificateTab;
+  }
+
+  get value(): ProvideWizardFormValue {
+    return this.group.value as ProvideWizardFormValue;
+  }
 
   constructor(private formBuilder: FormBuilder) {}
 
-  buildFormGroup(): FormGroup<ProvideConnectorParentFormGroup> {
-    const initial = DEFAULT_PROVIDE_CONNECTOR_FORM_VALUE;
+  buildFormGroup(): FormGroup<ProvideWizardFormModel> {
+    const initial = DEFAULT_PROVIDE_WIZARD_FORM_VALUE;
+
+    const connectorTab = this.formBuilder.nonNullable.group({
+      name: [initial.connectorTab.name, [Validators.required]],
+      location: [initial.connectorTab.location, [Validators.required]],
+      frontendUrl: [
+        initial.connectorTab.frontendUrl,
+        [Validators.required, urlValidator],
+      ],
+      endpointUrl: [
+        initial.connectorTab.endpointUrl,
+        [Validators.required, urlValidator],
+      ],
+      managementUrl: [
+        initial.connectorTab.managementUrl,
+        [Validators.required, urlValidator],
+      ],
+      organization: [initial.connectorTab.organization, [Validators.required]],
+    });
+
+    const certificateTab = buildCertificateInputForm(
+      this.formBuilder,
+      initial.certificateTab,
+    );
+
+    switchDisabledControls<ProvideCertificateTabFormValue>(
+      certificateTab,
+      (value) => certificateInputFormEnabledCtrls(value),
+    );
 
     return this.formBuilder.nonNullable.group({
-      connectorDetails: this.formBuilder.nonNullable.group({
-        name: [initial.name, [Validators.required]],
-        location: [initial.location, [Validators.required]],
-        frontendUrl: [initial.frontendUrl, [Validators.required, urlValidator]],
-        endpointUrl: [initial.endpointUrl, [Validators.required, urlValidator]],
-        managementUrl: [
-          initial.managementUrl,
-          [Validators.required, urlValidator],
-        ],
-        mdsId: [initial.mdsId, [Validators.required]],
-      }),
-      certificate: this.formBuilder.nonNullable.group({
-        certificate: ['', [Validators.required, certificateValidator]],
-      }),
+      canSwitchTabs: [true, Validators.requiredTrue],
+      connectorTab,
+      certificateTab,
     });
-  }
-
-  get connectorDetailsValue(): ProvideConnectorPageFormValue {
-    return this.formGroup.controls.connectorDetails
-      .value as ProvideConnectorPageFormValue;
-  }
-
-  get certificateValue(): CertificateFormModelValue {
-    return this.formGroup.controls.certificate
-      .value as CertificateFormModelValue;
   }
 }
