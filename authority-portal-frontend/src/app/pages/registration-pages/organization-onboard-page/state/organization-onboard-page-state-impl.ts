@@ -7,23 +7,23 @@ import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {Fetched} from 'src/app/core/utils/fetched';
-import {ApiService} from '../../../core/api/api.service';
+import {ApiService} from '../../../../core/api/api.service';
 import {
   GetOnboardingOrganizationDetails,
   OnboardingProcessFormSubmit,
   Reset,
-} from './onboarding-process-wizard-page-action';
+} from './organization-onboard-page-action';
 import {
-  DEFAULT_ONBOARDING_PROCESS_WIZARD_PAGE_STATE,
-  OnboardingProcessWizardPageState,
-} from './onboarding-process-wizard-page-state';
+  DEFAULT_ORGANIZATION_ONBOARD_PAGE_PAGE_STATE,
+  OrganizationOnboardPageState,
+} from './organization-onboard-page-state';
 
-@State<OnboardingProcessWizardPageState>({
-  name: 'OnboardingProcessWizardPageState',
-  defaults: DEFAULT_ONBOARDING_PROCESS_WIZARD_PAGE_STATE,
+@State<OrganizationOnboardPageState>({
+  name: 'OrganizationOnboardPageState',
+  defaults: DEFAULT_ORGANIZATION_ONBOARD_PAGE_PAGE_STATE,
 })
 @Injectable()
-export class OnboardingProcessWizardPageStateImpl {
+export class OrganizationOnboardPageStateImpl {
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
     private apiService: ApiService,
@@ -34,7 +34,7 @@ export class OnboardingProcessWizardPageStateImpl {
 
   @Action(OnboardingProcessFormSubmit, {cancelUncompleted: true})
   onUpdateOrganization(
-    ctx: StateContext<OnboardingProcessWizardPageState>,
+    ctx: StateContext<OrganizationOnboardPageState>,
     action: OnboardingProcessFormSubmit,
   ): Observable<never> {
     ctx.patchState({onboardingFormState: 'submitting'});
@@ -69,7 +69,7 @@ export class OnboardingProcessWizardPageStateImpl {
 
   @Action(GetOnboardingOrganizationDetails, {cancelUncompleted: true})
   onGetOrganization(
-    ctx: StateContext<OnboardingProcessWizardPageState>,
+    ctx: StateContext<OrganizationOnboardPageState>,
   ): Observable<never> {
     return this.apiService.getMyOrganizationDetails().pipe(
       Fetched.wrap({failureMessage: 'Failed loading organizations'}),
@@ -81,7 +81,7 @@ export class OnboardingProcessWizardPageStateImpl {
   }
 
   private organizationRefreshed(
-    ctx: StateContext<OnboardingProcessWizardPageState>,
+    ctx: StateContext<OrganizationOnboardPageState>,
     organization: Fetched<OwnOrganizationDetailsDto>,
   ) {
     ctx.patchState({

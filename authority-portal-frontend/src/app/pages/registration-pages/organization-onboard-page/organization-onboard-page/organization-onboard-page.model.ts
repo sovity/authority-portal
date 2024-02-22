@@ -2,7 +2,7 @@ import {FormControl, FormGroup, ɵFormGroupRawValue} from '@angular/forms';
 import {
   DEFAULT_ORGANIZATION_PROFILE_FORM_MODEL,
   OrganizationProfileFormModel,
-} from '../../../shared/components/business/organization-profile-form/organization-profile-form-model';
+} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-model';
 
 export interface OnboardingUserTabFormModel {
   firstName: FormControl<string>;

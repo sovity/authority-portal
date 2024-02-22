@@ -5,7 +5,7 @@ import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
-import {ApiService} from '../../../../../core/api/api.service';
+import {ApiService} from '../../../../core/api/api.service';
 import {CreateOrganization, Reset} from './organization-create-page-action';
 import {
   DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,

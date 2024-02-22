@@ -3,7 +3,7 @@ import {OrganizationOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {
   CertificateFormModel,
   DEFAULT_CERTIFICATE_FORM_VALUE,
-} from '../../../common/components/form-elements/certificate-input-form/certificate-input-form-model';
+} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-model';
 
 export interface ProvideConnectorTabFormModel {
   name: FormControl<string>;
