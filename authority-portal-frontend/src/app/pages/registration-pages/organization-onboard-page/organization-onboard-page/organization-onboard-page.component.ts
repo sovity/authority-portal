@@ -12,22 +12,22 @@ import {phoneNumberValidator} from 'src/app/core/utils/validators/phone-number-v
 import {
   mergeFormGroups,
   switchDisabledControls,
-} from '../../../core/utils/form-utils';
-import {buildOrganizationProfileForm} from '../../../shared/components/business/organization-profile-form/organization-profile-form-builder';
-import {organizationProfileFormEnabledCtrls} from '../../../shared/components/business/organization-profile-form/organization-profile-form-enabled-ctrls';
-import {OrganizationProfileFormModel} from '../../../shared/components/business/organization-profile-form/organization-profile-form-model';
-import {buildAddressString} from '../../registration-process-wizard/sub-pages/organization-create-page/address-utils';
-import {buildFullName} from '../../registration-process-wizard/sub-pages/organization-create-page/name-utils';
+} from '../../../../core/utils/form-utils';
+import {buildOrganizationProfileForm} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-builder';
+import {organizationProfileFormEnabledCtrls} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-enabled-ctrls';
+import {OrganizationProfileFormModel} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-model';
+import {buildAddressString} from '../../organization-create-page/organization-create-page/address-utils';
+import {buildFullName} from '../../organization-create-page/organization-create-page/name-utils';
 import {
   GetOnboardingOrganizationDetails,
   OnboardingProcessFormSubmit,
   OnboardingProcessRequest,
-} from '../state/onboarding-process-wizard-page-action';
+} from '../state/organization-onboard-page-action';
 import {
-  DEFAULT_ONBOARDING_PROCESS_WIZARD_PAGE_STATE,
-  OnboardingProcessWizardPageState,
-} from '../state/onboarding-process-wizard-page-state';
-import {OnboardingProcessWizardPageStateImpl} from '../state/onboarding-process-wizard-page-state-impl';
+  DEFAULT_ORGANIZATION_ONBOARD_PAGE_PAGE_STATE,
+  OrganizationOnboardPageState,
+} from '../state/organization-onboard-page-state';
+import {OrganizationOnboardPageStateImpl} from '../state/organization-onboard-page-state-impl';
 import {
   DEFAULT_ONBOARDING_WIZARD_FORM_VALUE,
   OnboardingOrganizationTabFormModel,
@@ -35,14 +35,14 @@ import {
   OnboardingUserTabFormModel,
   OnboardingUserTabFormValue,
   OnboardingWizardFormModel,
-} from './onboarding-process-wizard.model';
+} from './organization-onboard-page.model';
 
 @Component({
-  selector: 'app-onboarding-process-wizard',
-  templateUrl: './onboarding-process-wizard.component.html',
+  selector: 'app-organization-onboard-page',
+  templateUrl: './organization-onboard-page.component.html',
 })
-export class OnboardingProcessWizardComponent implements OnInit {
-  state = DEFAULT_ONBOARDING_PROCESS_WIZARD_PAGE_STATE;
+export class OrganizationOnboardPageComponent implements OnInit {
+  state = DEFAULT_ORGANIZATION_ONBOARD_PAGE_PAGE_STATE;
   onboardingType!: 'USER_ONBOARDING' | 'USER_ORGANIZATION_ONBOARDING';
   parentFormGroup!: FormGroup<OnboardingWizardFormModel>;
   showForm: boolean = false;
@@ -77,9 +77,7 @@ export class OnboardingProcessWizardComponent implements OnInit {
   private startListeningToState() {
     combineLatest({
       state: this.store
-        .select<OnboardingProcessWizardPageState>(
-          OnboardingProcessWizardPageStateImpl,
-        )
+        .select<OrganizationOnboardPageState>(OrganizationOnboardPageStateImpl)
         .pipe(takeUntil(this.ngOnDestroy$)),
       userInfo: this.globalStateUtils.userInfo$.pipe(take(1)),
     }).subscribe(({state, userInfo}) => {

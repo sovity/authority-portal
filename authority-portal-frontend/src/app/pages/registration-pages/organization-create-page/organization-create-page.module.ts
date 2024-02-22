@@ -9,22 +9,20 @@ import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.modu
 import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {FormElementsModule} from '../../common/components/form-elements/form-elements.module';
-import {OnboardingProcessWizardComponent} from './onboarding-process-wizard/onboarding-process-wizard.component';
-import {OnboardingProcessWizardPageStateImpl} from './state/onboarding-process-wizard-page-state-impl';
+import {FormElementsModule} from '../../../common/components/form-elements/form-elements.module';
+import {OrganizationCreatePageComponent} from './organization-create-page/organization-create-page.component';
+import {OrganizationCreatePageStateImpl} from './state/organization-create-page-state-impl';
 
 @NgModule({
-  declarations: [OnboardingProcessWizardComponent],
   imports: [
     // Angular
     CommonModule,
     BrowserModule,
-    RouterModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    // NGXS
-    NgxsModule.forFeature([OnboardingProcessWizardPageStateImpl]),
+    RouterModule,
+    NgxsModule.forFeature([OrganizationCreatePageStateImpl]),
 
     // Authority Portal
     DevUtilsModule,
@@ -33,6 +31,7 @@ import {OnboardingProcessWizardPageStateImpl} from './state/onboarding-process-w
     SharedModule,
     PipesAndDirectivesModule,
   ],
-  exports: [OnboardingProcessWizardComponent],
+  declarations: [OrganizationCreatePageComponent],
+  exports: [OrganizationCreatePageComponent],
 })
-export class OnboardingProcessWizardModule {}
+export class OrganizationCreatePageModule {}

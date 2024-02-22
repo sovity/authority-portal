@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {GlobalState} from '../../../core/global-state/global-state';
-import {GlobalStateImpl} from '../../../core/global-state/global-state-impl';
+import {GlobalState} from '../../../../core/global-state/global-state';
+import {GlobalStateImpl} from '../../../../core/global-state/global-state-impl';
 
 @Component({
   selector: 'app-loading-page',

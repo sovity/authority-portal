@@ -15,6 +15,12 @@ import {phoneNumberValidator} from '../../../../core/utils/validators/phone-numb
 import {buildOrganizationProfileForm} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-builder';
 import {organizationProfileFormEnabledCtrls} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-enabled-ctrls';
 import {OrganizationProfileFormModel} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-model';
+import {CreateOrganization} from '../state/organization-create-page-action';
+import {
+  DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,
+  OrganizationRegistrationPageState,
+} from '../state/organization-create-page-state';
+import {OrganizationCreatePageStateImpl} from '../state/organization-create-page-state-impl';
 import {buildAddressString} from './address-utils';
 import {buildFullName} from './name-utils';
 import {
@@ -24,12 +30,6 @@ import {
   RegistrationUserTabFormModel,
   RegistrationWizardFormModel,
 } from './organization-create-page-form-model';
-import {CreateOrganization} from './state/organization-create-page-action';
-import {
-  DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,
-  OrganizationRegistrationPageState,
-} from './state/organization-create-page-state';
-import {OrganizationCreatePageStateImpl} from './state/organization-create-page-state-impl';
 
 @Component({
   selector: 'app-organization-create',

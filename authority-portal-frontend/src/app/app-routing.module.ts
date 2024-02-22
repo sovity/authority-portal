@@ -3,27 +3,26 @@ import {RouterModule, Routes} from '@angular/router';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {ParticipantUserDetailPageComponent} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page/participant-user-detail-page.component';
 import {requiresRole} from './common/auth/requires-role-guard';
-import {PortalLayoutModule} from './common/layouts/portal-layout/portal-layout.module';
 import {PortalLayoutComponent} from './common/layouts/portal-layout/portal-layout/portal-layout.component';
 import {AuthorityConnectorListPageComponent} from './pages/authority-connector-list-page/authority-connector-list-page/authority-connector-list-page.component';
 import {AuthorityOrganizationListPageComponent} from './pages/authority-organization-list-page/authority-organization-list-page/authority-organization-list-page.component';
 import {CentralComponentCreatePageComponent} from './pages/central-component-create-page/central-component-create-page/central-component-create-page.component';
 import {CentralComponentListPageComponent} from './pages/central-component-list-page/central-component-list-page/central-component-list-page.component';
+import {ProvideConnectorPageComponent} from './pages/component-registration-pages/provide-connector-page/provide-connector-page/provide-connector-page.component';
 import {ControlCenterPageComponent} from './pages/control-center-page/control-center-page/control-center-page.component';
 import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dashboard-page.component';
-import {LoadingPageComponent} from './pages/loading-page/loading-page/loading-page.component';
-import {OnboardingProcessWizardComponent} from './pages/onboarding-process-wizard/onboarding-process-wizard/onboarding-process-wizard.component';
+import {LoadingPageComponent} from './pages/empty-pages/loading-page/loading-page/loading-page.component';
+import {UnauthenticatedPageComponent} from './pages/empty-pages/unauthenticated-page/unauthenticated-page/unauthenticated-page.component';
 import {ParticipantOwnConnectorDetailPageComponent} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {ParticipantOwnConnectorListPageComponent} from './pages/participant-own-connector-list-page/participant-own-connector-list-page/participant-own-connector-list-page.component';
 import {ParticipantRegisterOwnConnectorPageComponent} from './pages/participant-register-own-connector-page/participant-register-own-connector-page/participant-register-own-connector-page.component';
 import {RegisterConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/register-connector-page/register-connector-page.component';
 import {RequestConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/request-connector-page/request-connector-page.component';
 import {SetupConnectorPageComponent} from './pages/participant-register-own-connector-page/sub-pages/setup-connector-page/setup-connector-page.component';
-import {ProvideConnectorPageComponent} from './pages/provide-connector-page/provide-connector-page/provide-connector-page.component';
-import {OrganizationCreatePageComponent} from './pages/registration-process-wizard/sub-pages/organization-create-page/organization-create-page.component';
-import {OrganizationPendingPageComponent} from './pages/registration-process-wizard/sub-pages/organization-pending-page/organization-pending-page.component';
-import {OrganizationRejectedPageComponent} from './pages/registration-process-wizard/sub-pages/organization-rejected-page/organization-rejected-page.component';
-import {UnauthenticatedPageComponent} from './pages/registration-process-wizard/sub-pages/unauthenticated-page/unauthenticated-page.component';
+import {OrganizationCreatePageComponent} from './pages/registration-pages/organization-create-page/organization-create-page/organization-create-page.component';
+import {OrganizationOnboardPageComponent} from './pages/registration-pages/organization-onboard-page/organization-onboard-page/organization-onboard-page.component';
+import {OrganizationPendingPageComponent} from './pages/registration-pages/organization-pending-page/organization-pending-page/organization-pending-page.component';
+import {OrganizationRejectedPageComponent} from './pages/registration-pages/organization-rejected-page/organization-rejected-page/organization-rejected-page.component';
 import {SpConnectorListPageComponent} from './pages/sp-connector-list-page/sp-connector-list-page/sp-connector-list-page.component';
 
 export const UNAUTHENTICATED_ROUTES: Routes = [
@@ -49,7 +48,7 @@ export const REJECTED_ROUTES: Routes = singleComponent(
 
 export const ONBOARDING_ROUTES: Routes = singleComponent(
   'onboard-organization',
-  OnboardingProcessWizardComponent,
+  OrganizationOnboardPageComponent,
 );
 
 export const LOADING_ROUTES: Routes = [
