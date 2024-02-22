@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
@@ -12,12 +13,15 @@ import {
   UserRoleUpdate,
 } from 'src/app/shared/components/business/shared-user-detail/shared-user-detail.model';
 import {
+  CheckDeleteUser,
   ClearUserApplicationRole,
   DeactivateUser,
+  DeleteUser,
   ReactivateUser,
   RefreshMyOrganizationUser,
   SetMyOrganizationUserId,
   UpdateUserApplicationRole,
+  UpdateUserDeletionModalVisibility,
   UpdateUserParticipantRole,
 } from '../../state/control-center-page-action';
 import {
@@ -40,10 +44,14 @@ export class OrganizationUserComponent {
   availableParticipantRoles: string[] = Object.values(UserRoleDto).filter(
     (role: UserRoleDto) => !isApplicationRole(role),
   ) as string[];
+  deleteOrganizationCreatorForm = this.formBuilder.nonNullable.group({
+    successor: ['', Validators.required],
+  });
 
   constructor(
     private store: Store,
     private globalStateUtils: GlobalStateUtils,
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit() {
@@ -126,6 +134,26 @@ export class OrganizationUserComponent {
   }
   setMyOrganizationUserId(mdsId: string, userId: string) {
     this.store.dispatch(new SetMyOrganizationUserId(mdsId, userId));
+  }
+
+  isLastParticipantAdmin() {
+    return this.state.modalData?.data.isLastParticipantAdmin ?? false;
+  }
+
+  isOrganizationCreator() {
+    return this.state.modalData?.data.isOrganizationCreator ?? false;
+  }
+
+  cancelDeleteUser() {
+    this.store.dispatch(new UpdateUserDeletionModalVisibility(false));
+    this.deleteOrganizationCreatorForm.reset();
+  }
+
+  confirmDeleteUser() {
+    const successorId = this.deleteOrganizationCreatorForm.value.successor;
+
+    this.deleteOrganizationCreatorForm.reset();
+    this.store.dispatch(new DeleteUser(this.state.userId, successorId));
   }
 
   ngOnDestroy(): void {

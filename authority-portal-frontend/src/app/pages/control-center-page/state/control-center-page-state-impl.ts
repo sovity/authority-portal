@@ -1,12 +1,21 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 import {EMPTY, Observable} from 'rxjs';
-import {ignoreElements, tap} from 'rxjs/operators';
+import {
+  filter,
+  finalize,
+  ignoreElements,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import {Action, Selector, State, StateContext, Store} from '@ngxs/store';
 import {
   ChangeApplicationRoleRequest,
   ChangeParticipantRoleRequest,
   ClearApplicationRoleRequest,
   OwnOrganizationDetailsDto,
+  UserDeletionCheck,
 } from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
@@ -14,8 +23,10 @@ import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
 import {
+  CheckDeleteUser,
   ClearMyOrganizationUserId,
   ClearUserApplicationRole,
+  DeleteUser,
   RefreshMyOrganizationUser,
   RefreshOrganization,
   RefreshUserProfile,
@@ -23,6 +34,7 @@ import {
   SetOrganizationMdsId,
   SetShowOrganizationUserDetailValue,
   UpdateUserApplicationRole,
+  UpdateUserDeletionModalVisibility,
   UpdateUserParticipantRole,
 } from './control-center-page-action';
 import {
@@ -45,6 +57,7 @@ export class ControlCenterPageStateImpl {
     private toast: ToastService,
     private globalStateUtils: GlobalStateUtils,
     private store: Store,
+    private router: Router,
   ) {}
 
   @Action(RefreshUserProfile, {cancelUncompleted: true})
@@ -276,6 +289,113 @@ export class ControlCenterPageStateImpl {
         },
       ),
       ignoreElements(),
+    );
+  }
+
+  @Action(CheckDeleteUser)
+  onCheckDeleteUser(
+    ctx: StateContext<ControlCenterPageState>,
+    action: CheckDeleteUser,
+  ) {
+    if (ctx.getState().organizationUserDetailState.busy) {
+      return EMPTY;
+    }
+    this.globalStateUtils.updateNestedProperty(
+      ctx,
+      'organizationUserDetailState.busy',
+      true,
+    );
+    this.globalStateUtils.updateNestedProperty(
+      ctx,
+      'organizationUserDetailState.showUserDeletionModal',
+      true,
+    );
+    return this.apiService.checkUserDeletion(action.userId).pipe(
+      this.errorService.toastFailureRxjs('Failed loading user status'),
+      tap((data) => {
+        this.updateDeleteUserModal(ctx, Fetched.ready(data));
+      }),
+      finalize(() =>
+        this.globalStateUtils.updateNestedProperty(
+          ctx,
+          'organizationUserDetailState.busy',
+          false,
+        ),
+      ),
+    );
+  }
+
+  private updateDeleteUserModal(
+    ctx: StateContext<ControlCenterPageState>,
+    userDeletionCheck: Fetched<UserDeletionCheck>,
+  ) {
+    this.globalStateUtils.updateNestedProperty(
+      ctx,
+      'organizationUserDetailState.modalData',
+      userDeletionCheck,
+    );
+  }
+
+  @Action(DeleteUser)
+  onDeleteUser(ctx: StateContext<ControlCenterPageState>, action: DeleteUser) {
+    if (ctx.getState().organizationUserDetailState.busy) {
+      return EMPTY;
+    }
+    this.globalStateUtils.updateNestedProperty(
+      ctx,
+      'organizationUserDetailState.busy',
+      true,
+    );
+    this.globalStateUtils.updateNestedProperty(
+      ctx,
+      'organizationUserDetailState.isRequestingUserDeletion',
+      true,
+    );
+    return this.apiService.deleteUser(action.userId, action.successorId).pipe(
+      this.errorService.toastFailureRxjs('Failed deleting user', () => {
+        this.globalStateUtils.updateNestedProperty(
+          ctx,
+          'organizationUserDetailState.isRequestingUserDeletion',
+          false,
+        );
+      }),
+      tap((data) => {
+        this.globalStateUtils.updateNestedProperty(
+          ctx,
+          'organizationUserDetailState.isRequestingUserDeletion',
+          false,
+        );
+        this.globalStateUtils.updateNestedProperty(
+          ctx,
+          'organizationUserDetailState.showUserDeletionModal',
+          false,
+        );
+        this.toast.showSuccess('Successfully deleted user');
+        this.store.dispatch(new ClearMyOrganizationUserId());
+        this.router.navigate(['/control-center'], {
+          queryParams: {tab: 'my-users'},
+        });
+        this.store.dispatch(RefreshOrganization);
+      }),
+      finalize(() => {
+        this.globalStateUtils.updateNestedProperty(
+          ctx,
+          'organizationUserDetailState.busy',
+          false,
+        );
+      }),
+    );
+  }
+
+  @Action(UpdateUserDeletionModalVisibility)
+  onUpdateUserDeletionModalVisibility(
+    ctx: StateContext<ControlCenterPageState>,
+    action: UpdateUserDeletionModalVisibility,
+  ) {
+    this.globalStateUtils.updateNestedProperty(
+      ctx,
+      'organizationUserDetailState.showUserDeletionModal',
+      action.visible,
     );
   }
 

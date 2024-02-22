@@ -15,6 +15,7 @@ import {ConfirmationDialogComponent} from 'src/app/shared/components/common/conf
 import {ConfirmationDialog} from 'src/app/shared/components/common/confirmation-dialog/confirmation-dialog.model';
 import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
 import {
+  CheckDeleteUser,
   ClearMyOrganizationUserId,
   DeactivateUser,
   ReactivateUser,
@@ -38,6 +39,7 @@ export class OrganizationUsersComponent implements OnInit {
   ngOnDestroy$ = new Subject();
   headerConfig!: HeaderBarConfig;
   showDetail: boolean = false;
+  loggedInUserId: string = '';
 
   constructor(
     private store: Store,
@@ -54,9 +56,10 @@ export class OrganizationUsersComponent implements OnInit {
         this.setOrganizationMdsId(globalState.userInfo.data.organizationMdsId),
       );
 
-    this.refresh();
     this.startListeningToState();
     this.startRefreshingOnEnvChange();
+    this.startListeningToLoggedInUser();
+    this.refresh();
   }
 
   startListeningToState() {
@@ -82,6 +85,14 @@ export class OrganizationUsersComponent implements OnInit {
     });
   }
 
+  startListeningToLoggedInUser() {
+    this.globalStateUtils.userInfo$
+      .pipe(takeUntil(this.ngOnDestroy$), distinctUntilChanged())
+      .subscribe((userInfo: UserInfo) => {
+        this.loggedInUserId = userInfo.userId;
+      });
+  }
+
   setOrganizationMdsId(mdsId: string) {
     this.store.dispatch(new SetOrganizationMdsId(mdsId));
   }
@@ -103,31 +114,28 @@ export class OrganizationUsersComponent implements OnInit {
 
   setUserHeaderConfig(user: MemberInfo): HeaderBarConfig {
     let headerActions: any[] = [];
-    // check if the user is the same as the logged in user
-    this.globalStateUtils.userInfo$
-      .pipe(distinctUntilChanged())
-      .subscribe((userInfo: UserInfo) => {
-        if (userInfo.userId !== user.userId) {
-          if (user.registrationStatus === 'ACTIVE') {
-            headerActions = [
-              {
-                label: 'Deactivate user',
-                action: () => this.deactivateUser(),
-                permissions: [UserRoleDto.Admin],
-              },
-            ];
-          }
-          if (user.registrationStatus === 'DEACTIVATED') {
-            headerActions = [
-              {
-                label: 'Reactivate user',
-                action: () => this.reactivateUser(),
-                permissions: [UserRoleDto.Admin],
-              },
-            ];
-          }
-        }
+
+    if (this.loggedInUserId !== user.userId) {
+      headerActions.push({
+        label: 'Delete user',
+        action: () => this.deleteUser(),
+        permissions: [UserRoleDto.Admin],
       });
+      if (user.registrationStatus === 'ACTIVE') {
+        headerActions.push({
+          label: 'Deactivate user',
+          action: () => this.deactivateUser(),
+          permissions: [UserRoleDto.Admin],
+        });
+      }
+      if (user.registrationStatus === 'DEACTIVATED') {
+        headerActions.push({
+          label: 'Reactivate user',
+          action: () => this.reactivateUser(),
+          permissions: [UserRoleDto.Admin],
+        });
+      }
+    }
 
     return {
       title: `${user.firstName} ${user.lastName}`,
@@ -137,6 +145,7 @@ export class OrganizationUsersComponent implements OnInit {
   }
 
   refresh() {
+    this.store.dispatch(new ClearMyOrganizationUserId());
     this.store.dispatch(RefreshOrganization);
   }
 
@@ -172,6 +181,10 @@ export class OrganizationUsersComponent implements OnInit {
         this.refresh();
       }
     });
+  }
+
+  private deleteUser() {
+    this.store.dispatch(new CheckDeleteUser(this.openedUser.userId));
   }
 
   private reactivateUser() {

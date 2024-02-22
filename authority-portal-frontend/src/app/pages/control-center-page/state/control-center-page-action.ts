@@ -59,3 +59,18 @@ export class ReactivateUser {
   static readonly type = `[${tag}] Reactivate Currently Opened Organization User`;
   constructor(public userId: string) {}
 }
+
+export class CheckDeleteUser {
+  static readonly type = `[${tag}] Check Delete Info Of Currently Opened Organization User`;
+  constructor(public userId: string) {}
+}
+
+export class DeleteUser {
+  static readonly type = `[${tag}] Delete Currently Opened Organization User`;
+  constructor(public userId: string, public successorId?: string) {}
+}
+
+export class UpdateUserDeletionModalVisibility {
+  static readonly type = `[${tag}] Update User Deletion Modal Visibility`;
+  constructor(public visible: boolean) {}
+}

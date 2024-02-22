@@ -62,6 +62,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Participant Curator -> Key User
   - Participant User -> User
 - Authority admins can now delete users
+- Participant admins can now delete users in own organization
 
 #### Patch
 
