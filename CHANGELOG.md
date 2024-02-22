@@ -56,6 +56,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added the possibility to delete users
 - Added own data offers link to sidebar
 - Added the possibility for users to change their user data including the email address
+- Authority admins can now delete users
 
 #### Patch
 

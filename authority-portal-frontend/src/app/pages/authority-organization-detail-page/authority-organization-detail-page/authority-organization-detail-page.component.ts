@@ -1,9 +1,11 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
 import {Subject, distinctUntilChanged, map, takeUntil, tap} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {
   MemberInfo,
   OrganizationDetailsDto,
+  UserInfo,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {getOrganizationRegistrationStatusClasses} from 'src/app/core/utils/ui-utils';
@@ -19,11 +21,14 @@ import {SlideOverService} from 'src/app/shared/services/slide-over.service';
 import {CloseOrganizationDetail} from '../../authority-organization-list-page/state/authority-organization-list-page-actions';
 import {
   ApproveOrganization,
+  CheckDeleteUser,
   DeactivateUser,
+  DeleteUser,
   ReactivateUser,
   RefreshOrganization,
   RejectOrganization,
   SetOrganizationMdsId,
+  UpdateUserDeletionModalVisibility,
 } from '../state/authority-organization-detail-page-actions';
 import {
   AuthorityOrganizationDetailPageState,
@@ -50,12 +55,17 @@ export class AuthorityOrganizationDetailPageComponent
   titleBarConfig!: TitleBarConfig;
   slideOverContent!: AuthorityOrganizationDetailTab;
   userDetailPageConfig!: UserDetailPageConfig;
+  deleteOrganizationCreatorForm = this.formBuilder.nonNullable.group({
+    successor: ['', Validators.required],
+  });
+  currentUserId: string = '';
 
   constructor(
     private store: Store,
     @Inject('childComponentInput') childComponentInput: ChildComponentInput,
     private globalStateUtils: GlobalStateUtils,
     private slideOverService: SlideOverService,
+    private formBuilder: FormBuilder,
   ) {
     this.organizationId = childComponentInput.id;
   }
@@ -70,6 +80,18 @@ export class AuthorityOrganizationDetailPageComponent
     this.startListeningToState();
     this.startListeningToSlideOverState();
     this.startRefreshingOnEnvChange();
+    this.startListeningToCurrentUserId();
+  }
+
+  startListeningToCurrentUserId() {
+    this.globalStateUtils.userInfo$
+      .pipe(
+        takeUntil(this.ngOnDestroy$),
+        tap((info: UserInfo) => {
+          this.currentUserId = info.userId;
+        }),
+      )
+      .subscribe();
   }
 
   startListeningToState() {
@@ -213,13 +235,19 @@ export class AuthorityOrganizationDetailPageComponent
               user.registrationStatus === 'PENDING' ||
               user.registrationStatus === 'DEACTIVATED',
           },
+          {
+            label: 'Delete User',
+            icon: 'delete',
+            event: AuthorityOrganizationUserActions.DELETE_USER,
+            isDisabled: user.userId === this.currentUserId,
+          },
         ],
       },
     };
   }
 
   refresh() {
-    this.store.dispatch(RefreshOrganization);
+    return this.store.dispatch(RefreshOrganization);
   }
 
   approve() {
@@ -253,6 +281,12 @@ export class AuthorityOrganizationDetailPageComponent
         );
         break;
       }
+      case AuthorityOrganizationUserActions.DELETE_USER: {
+        this.store.dispatch(
+          new CheckDeleteUser(this.state.openedUserDetail.userId),
+        );
+        break;
+      }
     }
   }
 
@@ -283,6 +317,33 @@ export class AuthorityOrganizationDetailPageComponent
       mdsId: this.organizationId,
     };
     this.setupUserTitleBar(user);
+  }
+
+  isLastParticipantAdmin() {
+    return (
+      this.state.openedUserDetail.modalData?.data.isLastParticipantAdmin ??
+      false
+    );
+  }
+
+  isOrganizationCreator() {
+    return (
+      this.state.openedUserDetail.modalData?.data.isOrganizationCreator ?? false
+    );
+  }
+
+  cancelDeleteUser() {
+    this.store.dispatch(new UpdateUserDeletionModalVisibility(false));
+    this.deleteOrganizationCreatorForm.reset();
+  }
+
+  confirmDeleteUser() {
+    const successorId = this.deleteOrganizationCreatorForm.value.successor;
+
+    this.deleteOrganizationCreatorForm.reset();
+    this.store.dispatch(
+      new DeleteUser(this.state.openedUserDetail.userId, successorId),
+    );
   }
 
   ngOnDestroy$ = new Subject();

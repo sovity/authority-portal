@@ -17,6 +17,7 @@ import {
   OrganizationDetailsDtoToJSON,
   OrganizationOverviewResultToJSON,
   RegistrationRequestDtoFromJSON,
+  UserDeletionCheckToJSON,
   UserDetailDtoToJSON,
   UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
@@ -47,8 +48,10 @@ import {
   rejectOrganization,
 } from './impl/fake-organizations';
 import {
+  cascadeDeleteUser,
   changeApplicationRole,
   changeParticipantRole,
+  checkUserDeletion,
   clearApplicationRole,
   getUserInfo,
   inviteUser,
@@ -243,6 +246,18 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('organizations/my-org/users/*/reactivate')
     .on('PUT', (userId) => {
       throw new Error('TODO');
+    })
+
+    .url('authority/users/*/check-delete')
+    .on('GET', (userId) => {
+      const userDeletionCheck = checkUserDeletion(userId);
+      return ok(UserDeletionCheckToJSON(userDeletionCheck));
+    })
+
+    .url('authority/users/*')
+    .on('DELETE', (userId) => {
+      const successorUserId = queryParams.get('successorUserId');
+      return ok(IdResponseToJSON(cascadeDeleteUser(userId, successorUserId)));
     })
 
     .url('organizations/*/connectors/*')

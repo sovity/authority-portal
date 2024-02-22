@@ -6,6 +6,7 @@ export enum AuthorityOrganizationActions {
 export enum AuthorityOrganizationUserActions {
   REACTIVATE_USER = 'REACTIVATE_USER',
   DEACTIVATE_USER = 'DEACTIVATE_USER',
+  DELETE_USER = 'DELETE_USER',
 }
 export enum AuthorityOrganizationDetailTab {
   DETAIL = 'DETAIL',
