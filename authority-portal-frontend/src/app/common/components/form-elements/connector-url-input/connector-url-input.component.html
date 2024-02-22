@@ -1,0 +1,50 @@
+<div class="flex flex-col justify-between items-center w-full">
+  <label
+    class="w-full mb-2 text-sm"
+    [class.text-red-600]="ctrl.touched && ctrl.invalid"
+    [for]="ctrlId"
+    >{{ label }}</label
+  >
+
+  <mat-form-field
+    class="w-full min-h-min text-s"
+    appearance="outline"
+    color="accent">
+    <input
+      matInput
+      [id]="ctrlId"
+      [formControl]="ctrl"
+      [placeholder]="placeholder" />
+
+    <mat-error
+      *ngIf="ctrl.touched && ctrl.hasError('required')"
+      class="text-xs">
+      {{ 'Field is required.' }}</mat-error
+    >
+
+    <mat-error *ngIf="ctrl.touched && ctrl.hasError('url')" class="text-xs">
+      Invalid URL format. Please use the following format:
+      https://www.example.com</mat-error
+    >
+
+    <button
+      matSuffix
+      mat-icon-button
+      type="button"
+      color="black"
+      [matMenuTriggerFor]="helpConnectorUrl">
+      <mat-icon>help</mat-icon>
+    </button>
+
+    <mat-menu #helpConnectorUrl="matMenu">
+      <div class="p-6 flex flex-col text-sm w-auto">
+        <h3 class="font-bold mb-2">{{ label }}</h3>
+        <div>
+          If the Connector is deployed as recommended by the
+          <strong>Deployment Guide</strong>, the URL should be <br /><br />
+          {{ exampleBaseUrl }}<b>{{ urlSuffix }}</b>
+        </div>
+      </div>
+    </mat-menu>
+  </mat-form-field>
+</div>

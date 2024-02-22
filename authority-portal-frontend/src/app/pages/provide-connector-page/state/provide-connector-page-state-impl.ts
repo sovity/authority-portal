@@ -11,6 +11,7 @@ import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {ApiService} from '../../../core/api/api.service';
+import {buildConnectorConfig} from '../../../core/utils/connector-config-utils';
 import {
   GetOrganizations,
   Reset,
@@ -58,12 +59,19 @@ export class ProvideConnectorPageStateImpl {
           ),
       ),
       tap((res) => {
+        ctx.patchState({
+          connectorConfig: buildConnectorConfig(
+            this.globalStateUtils.snapshot.selectedEnvironment!,
+            res,
+          ),
+        });
         switch (res.status) {
           case 'OK':
             this.toast.showSuccess(
               `Connector ${action.request.name} was successfully provided`,
             );
             ctx.patchState({state: 'success'});
+            action.success();
             break;
           case 'WARNING':
             this.toast.showWarning(
@@ -71,6 +79,7 @@ export class ProvideConnectorPageStateImpl {
                 'A problem occurred while providing the connector.',
             );
             ctx.patchState({state: 'success'});
+            action.success();
             break;
           case 'ERROR':
             this.toast.showDanger(res?.message || 'Failed providing connector');

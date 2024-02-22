@@ -1,155 +1,190 @@
-<div class="bg-gray-50 flex flex-col py-24">
-  <div class="flex flex-col items-center justify-center mb-6 text-gray-700">
-    <app-loading-element *ngIf="state.connector.isLoading">
-    </app-loading-element>
+<app-loading-element
+  *ngIf="state.connector.isLoading"
+  class="flex justify-center"></app-loading-element>
 
-    <app-error-element
-      *ngIf="state.connector.isError"
-      errorMessage="connector"></app-error-element>
+<app-error-element
+  *ngIf="state.connector.isError"
+  errorMessage="connector"></app-error-element>
 
-    <ng-container *ngIf="state.connector.isReady">
-      <div
-        class="flex flex-col bg-white shadow-lg xl:w-1/2 w-2/3 p-8 rounded-3xl">
-        <div class="flex flex-row justify-start my-3 text-xl font-bold">
-          Connector Details:
+<ng-container *ngIf="state.connector.isReady">
+  <div class="flex relative">
+    <!-- Title bar -->
+    <app-title-bar
+      class="flex-1"
+      [titleBarConfig]="titleBarConfig"></app-title-bar>
+    <!-- Title bar -->
+  </div>
+  <div class="px-8 mt-8">
+    <h3 class="text-base font-semibold text-black">Connector Details</h3>
+    <div class="mt-6">
+      <dl>
+        <div class="details-row">
+          <dt
+            class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >cloud</mat-icon
+            >
+            Status:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ getConnectorStatusText(state.connector.data.status) }}
+          </dd>
         </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1 w-full">
-          <label class="connector-profile-label">Connector ID:</label>
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.connectorId"
-            [disabled]="true" />
+        <div class="details-row">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >label</mat-icon
+            >
+            Connector ID:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ state.connector.data.connectorId }}
+          </dd>
         </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label">Type:</label>
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.type"
-            [disabled]="true" />
+        <div class="details-row">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >apartment</mat-icon
+            >Organization Name:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ state.connector.data.orgName }}
+          </dd>
         </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label">Organization Name:</label>
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.orgName"
-            [disabled]="true" />
+        <div class="details-row">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >label</mat-icon
+            >
+            Organization's MDS ID:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ state.connector.data.orgMdsId }}
+          </dd>
         </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label">Organization's MDS ID:</label>
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.orgMdsId"
-            [disabled]="true" />
+        <div class="details-row">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >apartment</mat-icon
+            >Hosting organization:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ state.connector.data.hostName }}
+          </dd>
         </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label"
-            >Hosting organization (name):</label
-          >
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.hostName"
-            [disabled]="true" />
+        <div class="details-row">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >folder</mat-icon
+            >Environment:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ state.connector.data.environment.title }}
+          </dd>
         </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label"
-            >Hosting organization (MDS-ID):</label
-          >
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.hostMdsId"
-            [disabled]="true" />
+        <div class="details-row">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >power</mat-icon
+            >Connector Name:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ state.connector.data.connectorName }}
+          </dd>
         </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label">Deployment Environment:</label>
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.environment.title"
-            [disabled]="true" />
+        <div class="details-row">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >location_on</mat-icon
+            >Location:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ state.connector.data.location }}
+          </dd>
         </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label">Connector Name:</label>
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.connectorName"
-            [disabled]="true" />
+        <div class="details-row">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >link</mat-icon
+            >Frontend URL:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ state.connector.data.frontendUrl }}
+          </dd>
         </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label">Location:</label>
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.location"
-            [disabled]="true" />
+        <div class="details-row">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >link</mat-icon
+            >Connector Endpoint:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ state.connector.data.endpointUrl }}
+          </dd>
         </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label">Frontend URL:</label>
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.frontendUrl"
-            [disabled]="true" />
+        <div class="details-row">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+            <mat-icon class="material-icons-outlined text-gray-500"
+              >link</mat-icon
+            >Management API URL:
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {{ state.connector.data.managementUrl }}
+          </dd>
         </div>
+      </dl>
+    </div>
+  </div>
+</ng-container>
 
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label">Connector Endpoint:</label>
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.endpointUrl"
-            [disabled]="true" />
-        </div>
-
-        <div
-          class="select-none flex flex-col justify-start items-start p-2 my-1">
-          <label class="connector-profile-label">Management API URL:</label>
-
-          <input
-            class="my-1 p-3 bg-white border-b-2 w-full"
-            type="text"
-            [placeholder]="state.connector.data.managementUrl"
-            [disabled]="true" />
-        </div>
+<!-- Modal -->
+<div *ngIf="showModal" class="fixed z-50 inset-0 overflow-y-auto">
+  <div class="flex items-center justify-center min-h-screen">
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity"></div>
+    <div
+      class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+      <div class="px-4 py-2">
+        <h3 class="text-base font-semibold text-black">Delete Connector</h3>
       </div>
-    </ng-container>
+      <div class="px-4 py-3">
+        <p class="text-gray-700">
+          Are you sure you want to delete this connector?
+        </p>
+      </div>
+      <div class="px-4 py-3 flex justify-end gap-2">
+        <button
+          class="px-4 py-2 rounded-md hover:bg-gray-400 hover:text-white"
+          (click)="cancelDeleteConnector()">
+          Cancel
+        </button>
+        <button
+          class="px-4 py-2 bg-red-400 text-white rounded-md hover:bg-red-500"
+          (click)="confirmDeleteConnector()">
+          Delete
+        </button>
+      </div>
+    </div>
   </div>
 </div>

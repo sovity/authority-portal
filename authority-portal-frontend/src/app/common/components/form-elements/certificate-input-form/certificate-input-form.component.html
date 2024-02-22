@@ -1,0 +1,111 @@
+<div class="flex justify-center">
+  <mat-slide-toggle
+    name="hasCertificate"
+    [formControl]="group.controls.bringOwnCert"
+    >I already have a certificate
+  </mat-slide-toggle>
+</div>
+
+<div *ngIf="!isBringOwnCert" class="flex flex-col md:flex-row gap-4">
+  <!-- Left Col -->
+  <div class="flex-1 flex flex-col items-stretch gap-4">
+    <!-- Organizational Unit -->
+    <app-text-input
+      class="flex-1"
+      ctrlId="formCertGenOrganizationalUnit"
+      label="Organizational Unit"
+      placeholder="Business Unit 1"
+      [ctrl]="group.controls.organizationalUnit"></app-text-input>
+    <!-- Email -->
+    <app-text-input
+      class="flex-1"
+      ctrlId="formCertGenEmail"
+      label="E-Mail"
+      placeholder="contact@my-org.com"
+      [ctrl]="group.controls.email"></app-text-input>
+
+    <!-- City/Locality -->
+    <app-text-input
+      class="flex-1"
+      ctrlId="formCertGenCity"
+      label="City"
+      placeholder="Frankfurt am Main"
+      [ctrl]="group.controls.city"></app-text-input>
+
+    <!-- State/Province -->
+    <app-text-input
+      class="flex-1"
+      ctrlId="formCertGenState"
+      label="State / Province"
+      placeholder="Hessen"
+      [ctrl]="group.controls.state"></app-text-input>
+
+    <!-- Password -->
+    <app-password-input
+      class="flex-1"
+      ctrlId="formCertGenPassword"
+      label="Password for .p12 File"
+      [ctrl]="group.controls.password"></app-password-input>
+
+    <!-- Confirm password -->
+    <app-password-repeat-input
+      class="flex-1"
+      ctrlId="formCertGenConfirmPassword"
+      label="Confirm Password for .p12 File"
+      [ctrl]="group.controls.confirmPassword"
+      [parentFormGroup]="group"></app-password-repeat-input>
+
+    <!-- Generate Button -->
+    <div class="flex-1 flex items-center justify-center">
+      <button
+        class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        type="button"
+        [disabledBtn]="!canGenerate"
+        (click)="onGenerateCertificateClick()">
+        Generate & Download Certificate (Slow)
+      </button>
+    </div>
+  </div>
+
+  <!-- Right Col -->
+  <div class="flex-1 flex flex-col items-stretch gap-4">
+    <!-- Organizational Legal name -->
+    <app-readonly-text-input
+      ctrlId="formCertGenOrganizationalName"
+      label="Organization Legal Name"
+      [value]="organizationLegalName"></app-readonly-text-input>
+
+    <!-- Common Name  -->
+    <app-readonly-text-input
+      ctrlId="formCertGenCommonName"
+      label="Common Name"
+      [value]="commonName"></app-readonly-text-input>
+
+    <!-- Country-->
+    <app-readonly-text-input
+      ctrlId="formCertGenCountry"
+      label="Country"
+      [value]="location"></app-readonly-text-input>
+
+    <!-- Generated Certificate -->
+    <app-certificate-input
+      class="flex-1"
+      label="Generated Certificate"
+      ctrlId="formCertGenCertificate"
+      [placeholder]="
+        isGenerating
+          ? 'Generating...'
+          : 'Generated Certificate will appear here.'
+      "
+      [readonly]="true"
+      [ctrl]="group.controls.generatedCertificate"></app-certificate-input>
+  </div>
+</div>
+
+<!-- Own Certificate -->
+<app-certificate-input
+  *ngIf="isBringOwnCert"
+  class="flex-1"
+  label="Your Certificate"
+  ctrlId="formCertOwnCertificate"
+  [ctrl]="group.controls.ownCertificate"></app-certificate-input>

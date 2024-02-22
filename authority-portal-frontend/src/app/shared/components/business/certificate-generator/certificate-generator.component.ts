@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {
   CertificateAttributes,
@@ -15,7 +15,10 @@ import {
 } from 'src/app/shared/services/certificate-generate.service';
 import {passwordEntropyValidator} from '../../../../core/utils/validators/password-entropy-validator';
 import {passwordMatchValidator} from '../../../../core/utils/validators/password-match-validator';
-import {PreDefinedCertificateDetails} from './certificate-generator.model';
+import {
+  CertificateDetailsFormModel,
+  PreDefinedCertificateDetails,
+} from './certificate-generator.model';
 
 @Component({
   selector: 'app-certificate-generator',
@@ -25,41 +28,10 @@ export class CertificateGeneratorComponent implements OnInit, OnDestroy {
   @Input() preDefinedDetails!: PreDefinedCertificateDetails;
   @Output() certificateGenerated = new EventEmitter<string>();
 
-  certificateDetailsForm = this.formBuilder.nonNullable.group(
-    {
-      organizationalName: [
-        {value: this.preDefinedDetails.organizationalName, disabled: true},
-        [Validators.required],
-      ],
-      organizationalUnit: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      country: [
-        {value: this.preDefinedDetails.country, disabled: true},
-        [Validators.required],
-      ],
-      state: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      commonName: [
-        {value: this.preDefinedDetails.commonName, disabled: true},
-        [Validators.required],
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          passwordEntropyValidator,
-        ],
-      ],
-      confirmPassword: ['', [Validators.required]],
-    },
-    {validators: passwordMatchValidator('password', 'confirmPassword')},
-  );
-
+  certificateDetailsForm!: FormGroup<CertificateDetailsFormModel>;
   showPassword: boolean = false;
   isGenerating: boolean = false;
   isDisabled: boolean = false;
-  hasDownloadedKey: boolean = false;
 
   private ngOnDestroy$ = new Subject();
 
@@ -69,8 +41,43 @@ export class CertificateGeneratorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.formMaker();
     this.formListener();
   }
+
+  formMaker() {
+    this.certificateDetailsForm = this.formBuilder.nonNullable.group(
+      {
+        organizationalName: [
+          {value: this.preDefinedDetails.organizationalName, disabled: true},
+          [Validators.required],
+        ],
+        organizationalUnit: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
+        country: [
+          {value: this.preDefinedDetails.country, disabled: true},
+          [Validators.required],
+        ],
+        state: ['', [Validators.required]],
+        city: ['', [Validators.required]],
+        commonName: [
+          {value: this.preDefinedDetails.commonName, disabled: true},
+          [Validators.required],
+        ],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            passwordEntropyValidator,
+          ],
+        ],
+        confirmPassword: ['', [Validators.required]],
+      },
+      {validators: passwordMatchValidator('password', 'confirmPassword')},
+    );
+  }
+
   formListener() {
     this.certificateDetailsForm.valueChanges
       .pipe(takeUntil(this.ngOnDestroy$))

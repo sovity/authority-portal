@@ -65,7 +65,9 @@ export class AuthorityConnectorDetailPageComponent
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
-        this.setupConnectorTitleBar(this.state.connector.data, actionMenu);
+        this.state.connector.ifReady((data) =>
+          this.setupConnectorTitleBar(data, actionMenu),
+        );
       });
   }
 

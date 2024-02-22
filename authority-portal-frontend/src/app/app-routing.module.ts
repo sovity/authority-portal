@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {ParticipantUserDetailPageComponent} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page/participant-user-detail-page.component';
 import {requiresRole} from './common/auth/requires-role-guard';
+import {PortalLayoutModule} from './common/layouts/portal-layout/portal-layout.module';
 import {PortalLayoutComponent} from './common/layouts/portal-layout/portal-layout/portal-layout.component';
 import {AuthorityConnectorListPageComponent} from './pages/authority-connector-list-page/authority-connector-list-page/authority-connector-list-page.component';
 import {AuthorityOrganizationListPageComponent} from './pages/authority-organization-list-page/authority-organization-list-page/authority-organization-list-page.component';
@@ -23,6 +24,7 @@ import {OrganizationCreatePageComponent} from './pages/registration-process-wiza
 import {OrganizationPendingPageComponent} from './pages/registration-process-wizard/sub-pages/organization-pending-page/organization-pending-page.component';
 import {OrganizationRejectedPageComponent} from './pages/registration-process-wizard/sub-pages/organization-rejected-page/organization-rejected-page.component';
 import {UnauthenticatedPageComponent} from './pages/registration-process-wizard/sub-pages/unauthenticated-page/unauthenticated-page.component';
+import {SpConnectorListPageComponent} from './pages/sp-connector-list-page/sp-connector-list-page/sp-connector-list-page.component';
 
 export const UNAUTHENTICATED_ROUTES: Routes = [
   {
@@ -139,14 +141,6 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
       {
-        path: 'my-organization/connectors/provide-connector',
-        component: ProvideConnectorPageComponent,
-        data: {
-          requiresRole: ['SERVICE_PARTNER_ADMIN'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
-      {
         path: 'my-organization/connectors/:connectorId',
         component: ParticipantOwnConnectorDetailPageComponent,
         data: {
@@ -173,7 +167,23 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
 
-      // Service Provider Section
+      // Service Partner Section
+      {
+        path: 'service-partner/provided-connectors',
+        component: SpConnectorListPageComponent,
+        data: {
+          requiresRole: ['SERVICE_PARTNER_ADMIN'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
+        path: 'service-partner/provided-connectors/provide-connector',
+        component: ProvideConnectorPageComponent,
+        data: {
+          requiresRole: ['SERVICE_PARTNER_ADMIN'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
 
       // Participant Section
 

@@ -1,0 +1,16 @@
+<label class="w-full mb-2 text-sm" [for]="ctrlId">{{ label }}</label>
+
+<mat-form-field
+  class="w-full min-h-min text-s cursor-not-allowed"
+  appearance="outline"
+  color="accent">
+  <input
+    class="disabled cursor-not-allowed"
+    matInput
+    type="text"
+    readonly
+    disabled
+    [id]="ctrlId"
+    [ngModel]="value"
+    [placeholder]="placeholder" />
+</mat-form-field>

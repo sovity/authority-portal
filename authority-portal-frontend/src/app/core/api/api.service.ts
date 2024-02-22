@@ -21,6 +21,7 @@ import {
   OrganizationDetailsDto,
   OrganizationOverviewResult,
   OwnOrganizationDetailsDto,
+  ProvidedConnectorOverviewResult,
   RegistrationRequestDto,
   UiApi,
   UserDetailDto,
@@ -191,6 +192,22 @@ export class ApiService {
 
   deleteOwnConnector(connectorId: string): Observable<IdResponse> {
     return from(this.api().deleteOwnConnector({connectorId}));
+  }
+
+  getProvidedConnectors(
+    environmentId: string,
+  ): Observable<ProvidedConnectorOverviewResult> {
+    return from(this.api().getProvidedConnectors({environmentId}));
+  }
+
+  getProvidedConnectorDetails(
+    connectorId: string,
+  ): Observable<ConnectorDetailDto> {
+    return from(this.api().getProvidedConnectorDetails({connectorId}));
+  }
+
+  deleteProvidedConnector(connectorId: string): Observable<IdResponse> {
+    return from(this.api().deleteProvidedConnector({connectorId}));
   }
 
   inviteUser(request: InviteParticipantUserRequest): Observable<IdResponse> {

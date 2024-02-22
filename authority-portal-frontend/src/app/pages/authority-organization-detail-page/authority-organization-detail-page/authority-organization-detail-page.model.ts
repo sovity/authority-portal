@@ -1,13 +1,3 @@
-export enum AuthorityOrganizationActions {
-  REJECT_ORGANIZATION = 'REJECT_ORGANIZATION',
-  APPROVE_ORGANIZATION = 'APPROVE_ORGANIZATION',
-}
-
-export enum AuthorityOrganizationUserActions {
-  REACTIVATE_USER = 'REACTIVATE_USER',
-  DEACTIVATE_USER = 'DEACTIVATE_USER',
-  DELETE_USER = 'DELETE_USER',
-}
 export enum AuthorityOrganizationDetailTab {
   DETAIL = 'DETAIL',
   MEMBERS = 'MEMBERS',
@@ -24,10 +14,4 @@ export interface UserDetailPageConfig {
 export interface UserDetailPageConfig {
   userId: string;
   mdsId: string;
-}
-
-export enum OrganizationUserActions {
-  REJECT = 'REJECT_USER',
-  APPROVE = 'APPROVE_USER',
-  DELETE = 'DELETE_USER',
 }

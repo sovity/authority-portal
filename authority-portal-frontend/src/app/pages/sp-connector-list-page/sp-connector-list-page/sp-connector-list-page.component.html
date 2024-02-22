@@ -1,152 +1,141 @@
-<section class="container px-4 my-10 mx-auto">
-  <div class="sm:flex sm:items-center sm:justify-between">
-    <div>
-      <div class="flex items-center gap-x-3">
-        <h2 class="text-lg font-medium text-gray-800">Connectors</h2>
-      </div>
-
-      <p class="mt-1 text-sm text-gray-700">
-        List of all connectors of your organization
-      </p>
-    </div>
-
-    <div class="flex items-center mt-4 gap-x-3">
-      <button
-        class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-        routerLink="/my-organization/connectors/register">
-        <svg
-          class="w-5 h-5"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-
-        <span>Register Connector</span>
-      </button>
-    </div>
-  </div>
+<section class="container m-10 px-10 mx-auto">
+  <app-header [headerConfig]="headerConfig"></app-header>
 
   <!-- Table -->
   <div class="flex flex-col mt-6">
-    <div *ngIf="selectedEnvironment" class="w-full bg-brand-400 text-center">
-      You are in <strong>{{ selectedEnvironment.title }}</strong> environment.
-    </div>
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
         <div class="overflow-hidden border border-gray-200 md:rounded-lg">
           <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-200">
-              <tr class="bg-brand-400">
+            <thead class="bg-gray-200 border-l-4 border-gray-200">
+              <tr>
                 <th
-                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+                  class="py-3.5 pl-3 text-sm font-normal text-gray-700 text-left"
                   scope="col">
-                  <button class="flex items-center gap-x-3 focus:outline-none">
-                    <span>Connector ID</span>
-                  </button>
+                  Connector ID
                 </th>
 
                 <th
-                  class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
                   scope="col">
-                  Host
+                  Connector Name
                 </th>
 
                 <th
-                  class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Client Organization
+                </th>
+
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
                   scope="col">
                   Type
                 </th>
 
                 <th
-                  class="px-4 py-3.5 text-sm font-normal text-left text-gray-700"
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
                   scope="col">
                   Environment
-                </th>
-
-                <th
-                  class="px-4 py-3.5 text-sm font-normal text-left text-gray-700"
-                  scope="col">
-                  Name
-                </th>
-                <th
-                  class="px-4 py-3.5 text-sm font-normal text-left text-gray-700"
-                  scope="col">
-                  Details
                 </th>
               </tr>
             </thead>
 
             <ng-container *ngIf="state.connectors.isReady">
-              <tbody
-                *ngFor="let connector of state.connectors.data"
-                class="bg-white divide-y divide-gray-200">
+              <ng-container
+                *ngIf="state.connectors.data.length > 0; else noRows">
+                <tbody
+                  *ngFor="let connector of state.connectors.data; let i = index"
+                  class="bg-white divide-y divide-gray-200"
+                  (click)="openDetailPage(connector)">
+                  <tr
+                    class="border-l-4 border-transparent hover:bg-slate-50 hover:border-l-4 hover:border-yellow-600/70 cursor-pointer -ml-1">
+                    <td class="pl-3 py-8 text-sm font-medium whitespace-nowrap">
+                      <div class="flex items-center gap-1.5">
+                        <div
+                          class="flex items-center gap-x-1.5"
+                          [matTooltip]="
+                            getConnectorStatusText(connector.status)
+                          ">
+                          <div
+                            class="flex-none rounded-full p-1"
+                            [ngClass]="
+                              getConnectorStatusOuterRingClasses(
+                                connector.status
+                              )
+                            ">
+                            <div
+                              class="h-1.5 w-1.5 rounded-full"
+                              [ngClass]="
+                                getConnectorStatusInnerCircleClasses(
+                                  connector.status
+                                )
+                              "></div>
+                          </div>
+                        </div>
+                        <h4>
+                          {{ connector.id }}
+                        </h4>
+                      </div>
+                    </td>
+                    <td class="py-8 text-sm font-medium whitespace-nowrap">
+                      <h4 class="text-gray-700">
+                        {{ connector.name }}
+                      </h4>
+                    </td>
+                    <td class="py-8 text-sm whitespace-nowrap">
+                      <div>
+                        <h4 class="text-gray-700">
+                          {{ connector.customerOrgName }}
+                        </h4>
+                      </div>
+                    </td>
+                    <td class="py-8 text-sm whitespace-nowrap">
+                      <div
+                        class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2"
+                        [ngClass]="getConnectorsTypeClasses(connector.type)">
+                        {{ connector.type }}
+                      </div>
+                    </td>
+                    <td class="py-8 text-sm whitespace-nowrap">
+                      <div>
+                        <h4 class="text-gray-700">
+                          {{ connector.environment.title }}
+                        </h4>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+              <ng-template #noRows>
                 <tr>
-                  <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                    <h4>
-                      {{ connector.id }}
-                    </h4>
-                  </td>
-                  <td class="px-4 py-4 text-sm whitespace-nowrap">
-                    <h4 class="text-gray-700">
-                      {{ connector.hostName }}
-                    </h4>
-                  </td>
-                  <td class="px-4 py-4 text-sm whitespace-nowrap">
-                    <h4 class="text-gray-700">
-                      {{ connector.type }}
-                    </h4>
-                  </td>
-                  <td class="px-4 py-4 text-sm whitespace-nowrap">
-                    <h4 class="text-gray-700">
-                      {{ connector.environment.title }}
-                    </h4>
-                  </td>
-                  <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-                    <div
-                      class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2">
-                      {{ connector.name }}
-                    </div>
-                  </td>
-                  <td class="px-4 py-4 text-sm whitespace-nowrap">
-                    <a
-                      class="px-1 py-1 text-gray-600 transition-colors duration-200 rounded-lg"
-                      routerLink="/my-organization/connectors/{{
-                        connector.id
-                      }}">
-                      <svg
-                        class="w-6 h-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor">
-                        <path
-                          d="M12 22.4199C17.5228 22.4199 22 17.9428 22 12.4199C22 6.89707 17.5228 2.41992 12 2.41992C6.47715 2.41992 2 6.89707 2 12.4199C2 17.9428 6.47715 22.4199 12 22.4199Z"
-                          stroke="currentColor"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round" />
-                        <path
-                          d="M10.5596 8.41992L13.6196 11.29C13.778 11.4326 13.9047 11.6068 13.9914 11.8015C14.0781 11.9962 14.123 12.2068 14.123 12.4199C14.123 12.633 14.0781 12.8439 13.9914 13.0386C13.9047 13.2332 13.778 13.4075 13.6196 13.55L10.5596 16.4199"
-                          stroke="currentColor"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round" />
-                      </svg>
-                    </a>
+                  <td
+                    class="py-5 mx-auto text-sm font-normal text-center text-gray-700"
+                    colspan="6">
+                    No connectors registered yet.
                   </td>
                 </tr>
-              </tbody>
+              </ng-template>
             </ng-container>
+
+            <tr *ngIf="state.connectors.isLoading">
+              <td colspan="6">
+                <div class="flex justify-center items-center">
+                  <app-loading-element></app-loading-element>
+                </div>
+              </td>
+            </tr>
           </table>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<app-slide-over
+  *ngIf="showDetail"
+  [component]="componentToRender"
+  (close)="closeDetailPage()"
+  (navigate)="
+    handleNavigation($event, slideOverConfig.childComponentInput.id)
+  "></app-slide-over>

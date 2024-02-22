@@ -50,6 +50,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Enforced limits for free CaaS requests
 - Added accept TOS checkbox to registration form
 - New "unauthenticated page", registration now happens in the Authority Portal without Keycloak.
+- Redesigned Service Partners Connectors List page
 - Made connectors URL fields clickable/copyable in detail view
 - Added link that opens frontend in new tab to connector list view
 - Updated the form validators and validation system

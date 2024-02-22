@@ -4,7 +4,6 @@ import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
-import {PortalLayoutModule} from 'src/app/common/layouts/portal-layout/portal-layout.module';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AuthorityOrganizationListPageComponent} from './authority-organization-list-page/authority-organization-list-page.component';
 import {AuthorityOrganizationListPageStateImpl} from './state/authority-organization-list-page-state-impl';
@@ -20,7 +19,6 @@ import {AuthorityOrganizationListPageStateImpl} from './state/authority-organiza
     NgxsModule.forFeature([AuthorityOrganizationListPageStateImpl]),
 
     // Authority Portal
-    PortalLayoutModule,
     PipesAndDirectivesModule,
     LoadingElementModule,
     SharedModule,

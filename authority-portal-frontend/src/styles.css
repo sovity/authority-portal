@@ -108,7 +108,7 @@ textarea {
 }
 
 .btn-green {
-  @apply select-none cursor-pointer bg-green-200 rounded-md text-center active:bg-green-300 hover:bg-green-300 hover:text-black 
+  @apply select-none cursor-pointer bg-green-200 rounded-md text-center active:bg-green-300 hover:bg-green-300 hover:text-black
   focus:text-black focus:bg-green-300 disabled:bg-slate-500 disabled:text-gray-300 disabled:cursor-default;
 }
 
@@ -223,4 +223,8 @@ select:-webkit-autofill:disabled {
   to {
     transform: rotate(360deg);
   }
+}
+
+.mdc-notched-outline__notch {
+  border-right: 0;
 }

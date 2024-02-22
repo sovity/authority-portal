@@ -22,7 +22,7 @@ export interface ActionMenu {
 export interface MenuOption {
   label: string;
   icon: string;
-  event: string;
+  event: (menuId: string) => void;
   isDisabled: boolean;
 }
 

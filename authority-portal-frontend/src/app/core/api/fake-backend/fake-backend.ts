@@ -16,6 +16,7 @@ import {
   OnboardingUserUpdateDtoFromJSON,
   OrganizationDetailsDtoToJSON,
   OrganizationOverviewResultToJSON,
+  ProvidedConnectorOverviewResultToJSON,
   RegistrationRequestDtoFromJSON,
   UserDeletionCheckToJSON,
   UserDetailDtoToJSON,
@@ -31,12 +32,16 @@ import {
   checkFreeCaasUsage,
   createCaas,
   createOwnConnector,
+  createProvidedConnector,
   deleteOwnConnector,
-  getDetailsofOwnConnector,
+  deleteProvidedConnector,
   getFullConnectorDetails,
   getListOfAllConnectorsForTable,
   getListOfConnectorsForTable,
   getListOfOwnConnectorsForTable,
+  getOwnConnectorDetail,
+  getProvidedConnectorDetails,
+  listSpConnectors,
 } from './impl/fake-connectors';
 import {
   approveOrganization,
@@ -189,11 +194,27 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('organizations/my-org/connectors/*')
     .on('GET', (connectorId: string) => {
-      const result = getDetailsofOwnConnector(connectorId);
+      const result = getOwnConnectorDetail(connectorId);
       return ok(ConnectorDetailDtoToJSON(result));
     })
     .on('DELETE', (connectorId: string) => {
       const result = deleteOwnConnector({connectorId});
+      return ok(IdResponseToJSON(result));
+    })
+
+    .url('application/connectors')
+    .on('GET', () => {
+      const result = listSpConnectors();
+      return ok(ProvidedConnectorOverviewResultToJSON(result));
+    })
+
+    .url('application/connectors/*')
+    .on('GET', (connectorId: string) => {
+      const result = getProvidedConnectorDetails(connectorId);
+      return ok(ConnectorDetailDtoToJSON(result));
+    })
+    .on('DELETE', (connectorId: string) => {
+      const result = deleteProvidedConnector({connectorId});
       return ok(IdResponseToJSON(result));
     })
 
@@ -353,5 +374,11 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(IdResponseToJSON(result));
     })
 
+    .url('organizations/*/connectors/create-service-provided')
+    .on('POST', (mdsId) => {
+      const request = CreateConnectorRequestFromJSON(body);
+      const result = createProvidedConnector(request, mdsId);
+      return ok(CreateConnectorResponseToJSON(result));
+    })
     .tryMatch();
 };

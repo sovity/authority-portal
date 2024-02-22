@@ -74,7 +74,7 @@ export class ParticipantOwnConnectorDetailPageComponent
         {
           label: 'Delete Connector',
           icon: 'delete',
-          event: ParticipantOwnConnectorActions.DELETE_CONNECTOR,
+          event: () => this.deleteConnector(),
           isDisabled: false,
         },
       ],
@@ -94,10 +94,9 @@ export class ParticipantOwnConnectorDetailPageComponent
         }),
       )
       .subscribe((hasRole) => {
-        //render the title bar, based on the current user role
-        this.setupConnectorTitleBar(
-          this.state.connector.data,
-          hasRole ? actionMenu : undefined,
+        // render the title bar, based on the current user role
+        this.state.connector.ifReady((data) =>
+          this.setupConnectorTitleBar(data, hasRole ? actionMenu : undefined),
         );
       });
   }
@@ -122,14 +121,6 @@ export class ParticipantOwnConnectorDetailPageComponent
 
   refresh() {
     this.store.dispatch(RefreshConnector);
-  }
-
-  menuActionHandler(action: TitleBarMenuActionEvent) {
-    switch (action.event) {
-      case ParticipantOwnConnectorActions.DELETE_CONNECTOR:
-        this.deleteConnector();
-        break;
-    }
   }
 
   deleteConnector() {

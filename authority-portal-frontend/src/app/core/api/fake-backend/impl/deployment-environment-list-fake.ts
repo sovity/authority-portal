@@ -1,21 +1,13 @@
 import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
+import {fakeEnv} from './fake-environments';
 
 /**
  * Environment tList
  */
 let environmentList: DeploymentEnvironmentDto[] = [
-  {
-    environmentId: 'development',
-    title: 'Development',
-  },
-  {
-    environmentId: 'staging',
-    title: 'Staging',
-  },
-  {
-    environmentId: 'production',
-    title: 'Production',
-  },
+  fakeEnv('development'),
+  fakeEnv('staging'),
+  fakeEnv('production'),
 ];
 
 /**

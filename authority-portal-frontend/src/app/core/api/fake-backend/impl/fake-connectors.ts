@@ -2,6 +2,7 @@ import {
   CaasAvailabilityResponse,
   CheckFreeCaasUsageRequest,
   ConnectorDetailDto,
+  ConnectorOverviewEntryDto,
   ConnectorOverviewResult,
   ConnectorTypeDto,
   CreateCaasRequest,
@@ -10,7 +11,10 @@ import {
   CreateConnectorStatusDto,
   DeleteOwnConnectorRequest,
   IdResponse,
+  ProvidedConnectorOverviewEntryDto,
+  ProvidedConnectorOverviewResult,
 } from '@sovity.de/authority-portal-client';
+import {fakeEnv} from './fake-environments';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
 import {getUserInfo} from './fake-users';
 
@@ -22,7 +26,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     orgMdsId: 'MDSL1111AA',
     hostName: 'Example Host',
     hostMdsId: 'MDSL1111AA',
-    environment: {environmentId: '123', title: 'test'},
+    environment: fakeEnv('test'),
     connectorName: 'Example Connector 1',
     location: 'Germany, EU',
     frontendUrl: 'https://xample.test1/connector',
@@ -37,7 +41,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     orgMdsId: 'MDSL1111AA',
     hostName: 'Example Host',
     hostMdsId: 'MDSL1111AA',
-    environment: {environmentId: '123', title: 'test'},
+    environment: fakeEnv('test'),
     connectorName: 'Example Connector 2',
     location: 'Germany, EU',
     frontendUrl: 'https://xample.test1/connector',
@@ -52,7 +56,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     orgMdsId: 'MDSL1111AA',
     hostName: 'Example Host',
     hostMdsId: 'MDSL1111AA',
-    environment: {environmentId: '123', title: 'test'},
+    environment: fakeEnv('test'),
     connectorName: 'Example Connector 3',
     location: 'Germany, EU',
     frontendUrl: 'https://xample.test1/connector',
@@ -67,7 +71,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     orgMdsId: 'MDSL1111AA',
     hostName: 'Service Partner Organization',
     hostMdsId: 'MDSL7777AA',
-    environment: {environmentId: '123', title: 'test'},
+    environment: fakeEnv('test'),
     connectorName: 'Provided Connector 1',
     location: 'Germany, EU',
     frontendUrl: 'https://xample.test1/connector',
@@ -82,7 +86,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     orgMdsId: 'MDSL2222BB',
     hostName: 'Example Host',
     hostMdsId: 'MDSL2222BB',
-    environment: {environmentId: '123', title: 'test'},
+    environment: fakeEnv('test'),
     connectorName: 'Example Connector 1',
     location: 'Germany, EU',
     frontendUrl: 'https://xample.test1/connector',
@@ -97,7 +101,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     orgName: 'Example Organization',
     hostMdsId: 'MDSL2222BB',
     hostName: 'Example Organization',
-    environment: {environmentId: '123', title: 'test'},
+    environment: fakeEnv('test'),
     connectorName: 'Example Connector 2',
     location: 'Germany, EU',
     frontendUrl: 'https://xample.test2/connector',
@@ -112,7 +116,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     hostMdsId: 'MDSL2222BB',
     hostName: 'Example Organization',
     type: ConnectorTypeDto.Own,
-    environment: {environmentId: '123', title: 'test'},
+    environment: fakeEnv('test'),
     connectorName: 'Example Connector',
     location: 'Germany, EU',
     frontendUrl: 'https://xample.test3/connector',
@@ -140,6 +144,24 @@ export const getListOfConnectorsForTable = (
   };
 };
 
+export const listSpConnectors = (): ProvidedConnectorOverviewResult => {
+  return {
+    connectors: TEST_CONNECTORS.filter((c) => c.type === 'PROVIDED').map(
+      (c): ProvidedConnectorOverviewEntryDto => {
+        return {
+          id: c.connectorId,
+          customerOrgName: c.orgName,
+          frontendUrl: c.frontendUrl,
+          type: c.type,
+          environment: c.environment,
+          name: c.connectorName,
+          status: c.status,
+        };
+      },
+    ),
+  };
+};
+
 export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
   const mdsId = getUserInfo().organizationMdsId;
   return {
@@ -157,7 +179,7 @@ export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
   };
 };
 
-export const getDetailsofOwnConnector = (
+export const getOwnConnectorDetail = (
   connectorId: string,
 ): ConnectorDetailDto => {
   const mdsId = getUserInfo().organizationMdsId;
@@ -189,6 +211,22 @@ export const getFullConnectorDetails = (
   return TEST_CONNECTORS.filter((c) => c.connectorId === connectorId)[0];
 };
 
+export const getProvidedConnectorDetails = (
+  connectorId: string,
+): ConnectorDetailDto => {
+  return TEST_CONNECTORS.filter((c) => c.connectorId === connectorId)[0];
+};
+
+export const deleteProvidedConnector = (
+  request: DeleteOwnConnectorRequest,
+): IdResponse => {
+  TEST_CONNECTORS = TEST_CONNECTORS.filter(
+    (c) => c.connectorId !== request.connectorId,
+  );
+
+  return {id: request.connectorId, changedDate: new Date()};
+};
+
 export const createOwnConnector = (
   request: CreateConnectorRequest,
 ): CreateConnectorResponse => {
@@ -204,7 +242,7 @@ export const createOwnConnector = (
     hostMdsId: mdsId,
     hostName: orgName,
     type: ConnectorTypeDto.Own,
-    environment: {environmentId: '123', title: 'test'},
+    environment: fakeEnv('test'),
     connectorName: request.name,
     location: request.location,
     frontendUrl: request.frontendUrl,
@@ -235,7 +273,7 @@ export const createCaas = (
     hostMdsId: mdsId,
     hostName: orgName,
     type: ConnectorTypeDto.Caas,
-    environment: {environmentId: '123', title: environmentId},
+    environment: fakeEnv(environmentId),
     connectorName: request.connectorTitle,
     location: 'Germany, EU',
     frontendUrl: `https://${request.connectorSubdomain}.sovity.caas/connector`,
@@ -285,7 +323,7 @@ export const createProvidedConnector = (
     hostMdsId: hostMdsId,
     hostName: hostOrgName,
     type: ConnectorTypeDto.Provided,
-    environment: {environmentId: '123', title: 'test'},
+    environment: fakeEnv('test'),
     connectorName: request.name,
     location: request.location,
     frontendUrl: request.frontendUrl,

@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {AutoResizeDirective} from './autoResize-text-area.directive';
 import {CheckIfNotCurrentUserPipe} from './check-if-not-current-user.pipe';
 import {DisabledButtonDirective} from './disabled-button.directive';
 import {FilterByRegistrationStatusPipe} from './filter-by-registration-status.pipe';
@@ -10,7 +9,6 @@ import {SentenceCasePipe} from './sentence-case.pipe';
 
 @NgModule({
   declarations: [
-    AutoResizeDirective,
     CheckIfNotCurrentUserPipe,
     FilterByRegistrationStatusPipe,
     SentenceCasePipe,
@@ -20,7 +18,6 @@ import {SentenceCasePipe} from './sentence-case.pipe';
     DisabledButtonDirective,
   ],
   exports: [
-    AutoResizeDirective,
     CheckIfNotCurrentUserPipe,
     FilterByRegistrationStatusPipe,
     SentenceCasePipe,

@@ -13,10 +13,7 @@ import {
   ChildComponentInput,
   NavigationType,
 } from 'src/app/shared/components/common/slide-over/slide-over.model';
-import {
-  TitleBarConfig,
-  TitleBarMenuActionEvent,
-} from 'src/app/shared/components/common/title-bar/title-bar.model';
+import {TitleBarConfig} from 'src/app/shared/components/common/title-bar/title-bar.model';
 import {SlideOverService} from 'src/app/shared/services/slide-over.service';
 import {CloseOrganizationDetail} from '../../authority-organization-list-page/state/authority-organization-list-page-actions';
 import {
@@ -36,9 +33,7 @@ import {
 } from '../state/authority-organization-detail-page-state';
 import {AuthorityOrganizationDetailPageStateImpl} from '../state/authority-organization-detail-page-state-impl';
 import {
-  AuthorityOrganizationActions,
   AuthorityOrganizationDetailTab,
-  AuthorityOrganizationUserActions,
   UserDetailPageConfig,
 } from './authority-organization-detail-page.model';
 
@@ -187,7 +182,7 @@ export class AuthorityOrganizationDetailPageComponent
           {
             label: 'Approve Participant',
             icon: 'check',
-            event: AuthorityOrganizationActions.APPROVE_ORGANIZATION,
+            event: () => this.store.dispatch(ApproveOrganization),
             isDisabled: ['ACTIVE', 'REJECTED'].includes(
               organization.registrationStatus,
             ),
@@ -195,7 +190,10 @@ export class AuthorityOrganizationDetailPageComponent
           {
             label: 'Reject Participant',
             icon: 'close',
-            event: AuthorityOrganizationActions.REJECT_ORGANIZATION,
+            event: () => {
+              this.store.dispatch(RejectOrganization);
+              this.store.dispatch(CloseOrganizationDetail);
+            },
             isDisabled: ['ACTIVE', 'REJECTED'].includes(
               organization.registrationStatus,
             ),
@@ -222,14 +220,20 @@ export class AuthorityOrganizationDetailPageComponent
           {
             label: 'Re-Activate User',
             icon: 'verified',
-            event: AuthorityOrganizationUserActions.REACTIVATE_USER,
+            event: () =>
+              this.store.dispatch(
+                new ReactivateUser(this.state.openedUserDetail.userId),
+              ),
 
             isDisabled: user.registrationStatus === 'ACTIVE',
           },
           {
             label: 'Deactivate User',
             icon: 'person_cancel',
-            event: AuthorityOrganizationUserActions.DEACTIVATE_USER,
+            event: () =>
+              this.store.dispatch(
+                new DeactivateUser(this.state.openedUserDetail.userId),
+              ),
 
             isDisabled:
               user.registrationStatus === 'PENDING' ||
@@ -238,7 +242,10 @@ export class AuthorityOrganizationDetailPageComponent
           {
             label: 'Delete User',
             icon: 'delete',
-            event: AuthorityOrganizationUserActions.DELETE_USER,
+            event: () =>
+              this.store.dispatch(
+                new CheckDeleteUser(this.state.openedUserDetail.userId),
+              ),
             isDisabled: user.userId === this.currentUserId,
           },
         ],
@@ -256,38 +263,6 @@ export class AuthorityOrganizationDetailPageComponent
 
   reject() {
     this.store.dispatch(RejectOrganization);
-  }
-
-  menuActionHandler(action: TitleBarMenuActionEvent) {
-    switch (action.event) {
-      case AuthorityOrganizationActions.APPROVE_ORGANIZATION: {
-        this.store.dispatch(ApproveOrganization);
-        break;
-      }
-      case AuthorityOrganizationActions.REJECT_ORGANIZATION: {
-        this.store.dispatch(RejectOrganization);
-        this.store.dispatch(CloseOrganizationDetail);
-        break;
-      }
-      case AuthorityOrganizationUserActions.REACTIVATE_USER: {
-        this.store.dispatch(
-          new ReactivateUser(this.state.openedUserDetail.userId),
-        );
-        break;
-      }
-      case AuthorityOrganizationUserActions.DEACTIVATE_USER: {
-        this.store.dispatch(
-          new DeactivateUser(this.state.openedUserDetail.userId),
-        );
-        break;
-      }
-      case AuthorityOrganizationUserActions.DELETE_USER: {
-        this.store.dispatch(
-          new CheckDeleteUser(this.state.openedUserDetail.userId),
-        );
-        break;
-      }
-    }
   }
 
   /**

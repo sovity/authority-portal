@@ -1,14 +1,11 @@
-import {StepperSelectionEvent} from '@angular/cdk/stepper';
 import {
   Component,
-  ElementRef,
   HostBinding,
   Inject,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
@@ -26,7 +23,6 @@ import {
 } from '../state/provide-connector-page-state';
 import {ProvideConnectorPageStateImpl} from '../state/provide-connector-page-state-impl';
 import {ProvideConnectorForm} from './provide-connector-form';
-import {PredefinedCertificateValues} from './provide-connector-page-form-model';
 
 @Component({
   selector: 'app-provide-connector-page',
@@ -34,22 +30,14 @@ import {PredefinedCertificateValues} from './provide-connector-page-form-model';
   providers: [ProvideConnectorForm],
 })
 export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
-  @HostBinding('class.overflow-y-auto') overflowYAuto = true;
+  @HostBinding('class.overflow-y-auto')
+  cls = true;
   state = DEFAULT_PROVIDE_CONNECTOR_STATE;
-  stepperFormGroup!: FormGroup;
-  hasCertificate: boolean = false;
   userInfo!: UserInfo;
-  predefinedValues!: PredefinedCertificateValues;
-  enableSubmitButton: boolean = false;
 
-  connectorDetailsFormGroup = this.form.formGroup.controls.connectorDetails;
-  certificateFormGroup = this.form.formGroup.controls.certificate;
+  exitLink = '/service-partner/provided-connectors';
 
-  @ViewChild('tokenUrlElement') tokenUrlElement!: ElementRef;
-  @ViewChild('jwksUrlElement') jwksUrlElement!: ElementRef;
   @ViewChild('stepper') stepper!: MatStepper;
-
-  urlString = `https://{{Your Connector}}`;
 
   private ngOnDestroy$ = new Subject();
 
@@ -58,12 +46,10 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
     private store: Store,
     public form: ProvideConnectorForm,
     private globalStateUtils: GlobalStateUtils,
-    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit(): void {
     this.store.dispatch(GetOrganizations);
-    this.disableStepperHeader();
     this.store.dispatch(Reset);
     this.startListeningToState();
     this.getUserInfo();
@@ -87,83 +73,26 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   }
 
   registerConnector(): void {
-    this.stepperFormGroup.controls.submitConnector.setValue(true);
-    this.connectorDetailsFormGroup.disable();
-    const mdsId = this.form.connectorDetailsValue.mdsId;
+    const formValue = this.form.value;
+    const mdsId = formValue.connectorTab.organization!.mdsId;
     this.store.dispatch(
       new Submit(
         {
-          ...this.form.connectorDetailsValue,
-          certificate: this.form.certificateValue.certificate,
+          name: formValue.connectorTab.name,
+          endpointUrl: formValue.connectorTab.endpointUrl,
+          location: formValue.connectorTab.location,
+          frontendUrl: formValue.connectorTab.frontendUrl,
+          managementUrl: formValue.connectorTab.managementUrl,
+          certificate: formValue.certificateTab.bringOwnCert
+            ? formValue.certificateTab.ownCertificate
+            : formValue.certificateTab.generatedCertificate,
         },
         mdsId,
-        () => this.connectorDetailsFormGroup.enable(),
-        () => this.connectorDetailsFormGroup.disable(),
+        () => this.form.group.enable(),
+        () => this.form.group.disable(),
+        () => this.stepper.next(),
       ),
     );
-    this.stepper.next();
-  }
-
-  /**
-   * This method prepares the Generate Certificate step
-   * @param goToNext if true move to next step, if not it means the method is called while moving to the next step so no need to call it again
-   */
-  onConnectorDetailCollected(goToNext: boolean) {
-    this.predefinedValues = {
-      country: this.connectorDetailsFormGroup.controls.location.value,
-      organizationalName: this.userInfo.organizationName,
-      commonName: this.connectorDetailsFormGroup.controls.endpointUrl.value,
-    };
-    if (goToNext) this.stepper.next();
-  }
-
-  generatedCertificateHandler(certificate: string) {
-    if (!certificate || certificate == '') return;
-    this.enableSubmitButton = true;
-    this.certificateFormGroup.controls.certificate.setValue(certificate);
-    this.certificateFormGroup.controls.certificate.disable();
-  }
-
-  clearCertificateForm() {
-    this.certificateFormGroup.controls.certificate.reset();
-    if (this.hasCertificate) {
-      this.enableSubmitButton = true;
-      this.certificateFormGroup.controls.certificate.enable();
-    } else {
-      this.certificateFormGroup.controls.certificate.disable();
-      this.enableSubmitButton = false;
-    }
-  }
-
-  /**
-   * if users are stepping to Generate Certificate, method, the onConnectorDetailCollected should be called
-   * @param event
-   */
-  onStepChange(event: StepperSelectionEvent) {
-    if (event.selectedIndex === 1) this.onConnectorDetailCollected(false);
-  }
-
-  copyToClipboard() {
-    const tokenUrl = this.tokenUrlElement.nativeElement.innerText.trim();
-    const jwksUrl = this.jwksUrlElement.nativeElement.innerText.trim();
-
-    const combinedValue = `${tokenUrl}\n${jwksUrl}`;
-    const textarea = document.createElement('textarea');
-    textarea.value = combinedValue;
-
-    // Append the textarea to the document
-    document.body.appendChild(textarea);
-    textarea.select();
-    navigator.clipboard.writeText(combinedValue);
-    // Remove the textarea from the document
-    document.body.removeChild(textarea);
-  }
-
-  disableStepperHeader() {
-    // this is to disable navigation with the stepper header
-    this.stepperFormGroup = this.formBuilder.group({
-      submitConnector: [false, [Validators.requiredTrue]],
-    });
   }
 
   ngOnDestroy() {

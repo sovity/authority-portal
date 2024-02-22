@@ -5,10 +5,12 @@ export interface ProvideConnectorPageState {
   connectorId: string;
   state: 'editing' | 'submitting' | 'success' | 'error';
   organizationList: Fetched<OrganizationOverviewEntryDto[]>;
+  connectorConfig: string;
 }
 
 export const DEFAULT_PROVIDE_CONNECTOR_STATE: ProvideConnectorPageState = {
   connectorId: '',
   state: 'editing',
   organizationList: Fetched.empty(),
+  connectorConfig: '',
 };

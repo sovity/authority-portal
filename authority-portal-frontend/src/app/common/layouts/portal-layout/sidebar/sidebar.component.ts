@@ -77,6 +77,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
         ],
       },
       {
+        title: 'Service Partner Section',
+        userRoles: ['SERVICE_PARTNER_ADMIN'],
+        menus: [
+          {
+            title: 'Provided Connectors',
+            icon: 'connector',
+            rLink: '/service-partner/provided-connectors',
+          },
+        ],
+      },
+      {
         title: 'Authority Section',
         userRoles: ['AUTHORITY_USER'],
         menus: [

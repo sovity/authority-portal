@@ -45,6 +45,10 @@ export class GlobalStateUtils {
   @Select(GlobalStateImpl.roles)
   userRoles$!: Observable<Set<UserRoleDto>>;
 
+  get snapshot(): GlobalState {
+    return this.store.selectSnapshot<GlobalState>(GlobalStateImpl);
+  }
+
   constructor(private store: Store) {}
 
   getDeploymentEnvironmentId(): Observable<string> {

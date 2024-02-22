@@ -183,5 +183,23 @@
       </dd>
     </div>
     <!-- onboarded since -->
+
+    <!-- invited by -->
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">
+          person </mat-icon
+        >Invited By:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{
+          userDetailConfig.user.invitingUserFirstName +
+            ' ' +
+            userDetailConfig.user.invitingUserLastName
+        }}
+      </dd>
+    </div>
+    <!-- invited by -->
   </dl>
 </div>
