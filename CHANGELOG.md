@@ -97,6 +97,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Portal Frontend
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_DSGVO_URL`
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_AVV_URL`
+  - Added environment variable `AUTHORITY_PORTAL_FRONTEND_IFRAME_URL`
 
 - TODO: Create Deployment Migration Notes for the new Self-Registration flow
 
