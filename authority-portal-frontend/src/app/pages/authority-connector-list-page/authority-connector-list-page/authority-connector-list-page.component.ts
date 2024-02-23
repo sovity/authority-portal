@@ -117,10 +117,6 @@ export class AuthorityConnectorListPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleFilter(filterQuery: any) {
-    //TODO:implement filter handler
-  }
-
   handleNavigation(direction: SlideOverAction, currentConnectorId: string) {
     let totalConnectors = this.state.connectors.data.length;
     let currentIndex = this.state.connectors.data.findIndex(

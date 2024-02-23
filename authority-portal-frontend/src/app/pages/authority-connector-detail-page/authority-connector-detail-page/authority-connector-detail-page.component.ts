@@ -71,10 +71,6 @@ export class AuthorityConnectorDetailPageComponent
       });
   }
 
-  /**
-   * initialize the title bar component based on organization details
-   * @param organization
-   */
   setupConnectorTitleBar(
     connector: ConnectorDetailDto,
     actionMenu?: ActionMenu,

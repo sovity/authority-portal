@@ -70,6 +70,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
         userRoles: ['OPERATOR_ADMIN'],
         menus: [
           {
+            title: 'All Connectors',
+            icon: 'connector',
+            rLink: '/operator/connectors',
+          },
+          {
             title: 'Central Components',
             icon: 'extension',
             rLink: '/operator/central-components',
