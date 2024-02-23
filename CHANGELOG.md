@@ -65,6 +65,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Participant admins can now delete users in own organization
 - New Operator Admin Connector List
 - Added component status tracking
+- Redesign Central Component Page
 
 #### Patch
 

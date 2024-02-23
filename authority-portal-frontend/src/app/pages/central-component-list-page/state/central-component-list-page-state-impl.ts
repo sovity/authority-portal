@@ -16,10 +16,8 @@ import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {
-  ConfirmDeleteCentralComponent,
-  DismissDeleteCentralComponentModal,
+  DeleteCentralComponent,
   RefreshCentralComponents,
-  ShowDeleteCentralComponentModal,
 } from './central-component-list-page-actions';
 import {
   CentralComponentListPageState,
@@ -52,31 +50,19 @@ export class CentralComponentListPageStateImpl {
       ignoreElements(),
     );
   }
-  @Action(ShowDeleteCentralComponentModal)
+  @Action(DeleteCentralComponent)
   onShowDeleteCentralComponentModal(
     ctx: StateContext<CentralComponentListPageState>,
-    action: ShowDeleteCentralComponentModal,
-  ): void {
-    ctx.patchState({deleteConfirmation: action.centralComponent});
-  }
-
-  @Action(DismissDeleteCentralComponentModal)
-  onDismissDeleteCentralComponentModal(
-    ctx: StateContext<CentralComponentListPageState>,
-  ): void {
-    ctx.patchState({deleteConfirmation: null});
-  }
-
-  @Action(ConfirmDeleteCentralComponent)
-  onConfirmDeleteCentralComponent(
-    ctx: StateContext<CentralComponentListPageState>,
-  ): Observable<never> {
+    action: DeleteCentralComponent,
+  ): Observable<any> {
     if (ctx.getState().busy) {
       return EMPTY;
     }
-    let centralComponent = ctx.getState().deleteConfirmation!;
+    let centralComponent = action.centralComponent;
     ctx.patchState({
-      deleteConfirmation: null,
+      busyDeletingComponentId: centralComponent.centralComponentId,
+    });
+    ctx.patchState({
       busy: true,
       busyDeletingComponentId: centralComponent.centralComponentId,
     });

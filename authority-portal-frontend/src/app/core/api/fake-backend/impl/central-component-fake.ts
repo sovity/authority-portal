@@ -7,7 +7,7 @@ import {
 let centralComponents: Record<string, CentralComponentDto[]> = {
   development: [
     {
-      centralComponentId: '1',
+      centralComponentId: 'MDSL1234XX.C0001XX',
       name: 'Broker',
       homepageUrl: 'https://broker.dev.my-dataspace.sovity.io',
       endpointUrl: 'https://broker.dev.my-dataspace.sovity.io/backend/api/dsp',
@@ -16,7 +16,7 @@ let centralComponents: Record<string, CentralComponentDto[]> = {
       createdByOrgMdsId: 'MDSL1234XX',
     },
     {
-      centralComponentId: '2',
+      centralComponentId: 'MDSL1234XX.C0002XX',
       name: 'Broker MDS 2.0 Test',
       homepageUrl: 'https://broker2.dev.my-dataspace.sovity.io',
       endpointUrl: 'https://broker2.dev.my-dataspace.sovity.io/backend/api/dsp',
@@ -36,7 +36,8 @@ export const createCentralComponent = (
   environmentId: string,
 ): IdResponse => {
   const newCentralComponent: CentralComponentDto = {
-    centralComponentId: Math.random().toString().substring(2),
+    centralComponentId:
+      'MDSL1234XX.C' + Math.random().toString().substring(2).substring(0, 6),
     name: request.name,
     endpointUrl: request.endpointUrl,
     homepageUrl: request.homepageUrl,

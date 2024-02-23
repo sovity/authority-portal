@@ -99,14 +99,6 @@ export class ParticipantOwnConnectorListPageComponent
       subtitle: 'List of all connectors of your organization',
       headerActions: [
         {
-          label: 'Provide Connector',
-          action: () =>
-            this.router.navigate([
-              '/my-organization/connectors/provide-connector',
-            ]),
-          permissions: [UserRoleDto.ServicePartnerAdmin],
-        },
-        {
           label: 'Add Connector',
           action: () =>
             this.router.navigate(['/my-organization/connectors/registration']),

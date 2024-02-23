@@ -9,12 +9,12 @@ import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-dire
 import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {FormElementsModule} from '../../../common/components/form-elements/form-elements.module';
-import {ProvideConnectorPageComponent} from './provide-connector-page/provide-connector-page.component';
-import {ProvideConnectorPageStateImpl} from './state/provide-connector-page-state-impl';
+import {RegisterConnectorPageComponent} from './register-connector-page/register-connector-page.component';
+import {RegisterConnectorPageStateImpl} from './state/register-connector-page-state-impl';
 
 @NgModule({
-  declarations: [ProvideConnectorPageComponent],
-  exports: [ProvideConnectorPageComponent],
+  declarations: [RegisterConnectorPageComponent],
+  exports: [RegisterConnectorPageComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -22,7 +22,7 @@ import {ProvideConnectorPageStateImpl} from './state/provide-connector-page-stat
 
     FormsModule,
     ReactiveFormsModule,
-    NgxsModule.forFeature([ProvideConnectorPageStateImpl]),
+    NgxsModule.forFeature([RegisterConnectorPageStateImpl]),
 
     DevUtilsModule,
     MaterialModule,
@@ -31,4 +31,4 @@ import {ProvideConnectorPageStateImpl} from './state/provide-connector-page-stat
     FormElementsModule,
   ],
 })
-export class ProvideConnectorPageModule {}
+export class RegisterConnectorPageModule {}

@@ -1,0 +1,125 @@
+<div class="flex justify-center items-center">
+  <mat-stepper class="w-full lg:w-2/3" labelPosition="bottom" #stepper linear>
+    <!-- Central Component Tab -->
+    <mat-step
+      color="accent"
+      [editable]="state.state === 'editing' || state.state === 'error'"
+      [stepControl]="form.componentTab">
+      <form class="flex flex-col w-full justify-center">
+        <ng-template matStepLabel>Add Connector Details</ng-template>
+        <div
+          class="select-none flex flex-col justify-center items-center my-10 w-2/3 mx-auto">
+          <!-- Central Component Name -->
+          <app-text-input
+            class="w-full"
+            label="Name"
+            ctrlId="formRegCCName"
+            placeholder="Broker"
+            [ctrl]="form.componentTab.controls.name"></app-text-input>
+
+          <!-- Central Component Location -->
+          <app-text-input
+            class="w-full"
+            label="Component's Location"
+            ctrlId="formRegCcLocation"
+            placeholder="DE"
+            [ctrl]="form.componentTab.controls.location"></app-text-input>
+
+          <!-- Central Component Frontend URL -->
+          <app-text-input
+            class="w-full"
+            label="Component Home Page URL"
+            ctrlId="formRegCcFrontendUrl"
+            placeholder="https://my-broker.my-org.com"
+            [ctrl]="form.componentTab.controls.frontendUrl"></app-text-input>
+
+          <!-- Central Component Endpoint URL -->
+          <app-text-input
+            class="w-full"
+            label="Component Endpoint URL"
+            ctrlId="formRegCcEndpointUrl"
+            placeholder="https://my-broker.my-org.com/api/dsp"
+            [ctrl]="form.componentTab.controls.endpointUrl"></app-text-input>
+        </div>
+
+        <div
+          class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+          <button
+            class="btn-accent-outline"
+            type="button"
+            [routerLink]="exitLink">
+            Cancel
+          </button>
+
+          <button
+            class="btn-accent"
+            [disabledBtn]="!form.componentTab.valid"
+            (click)="stepper.next()">
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- connector details Step -->
+
+    <!-- Generate Certificate Step-->
+    <mat-step color="accent" editable="false" [stepControl]="form.componentTab">
+      <ng-template matStepLabel>Generate Certificate</ng-template>
+
+      <div class="flex justify-center items-center">
+        <app-certificate-input-form
+          class="w-full"
+          [group]="form.certificateTab"
+          [organizationLegalName]="userInfo.organizationName"
+          [commonName]="form.componentTab.controls.endpointUrl.value"
+          [location]="
+            form.componentTab.controls.location.value
+          "></app-certificate-input-form>
+      </div>
+
+      <div
+        class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+        <button class="btn-accent-outline" type="button" matStepperPrevious>
+          Back
+        </button>
+        <button
+          class="btn-accent"
+          [disabledBtn]="
+            state.state === 'submitting' || !form.certificateTab.valid
+          "
+          (click)="registerComponent()">
+          {{ createActionName }}
+        </button>
+      </div>
+    </mat-step>
+    <!-- Generate Certificate Step-->
+
+    <!-- Final Step -->
+    <mat-step
+      color="accent"
+      editable="false"
+      [stepControl]="form.group.controls.canSwitchTabs">
+      <ng-template matStepLabel>Setup Central Component</ng-template>
+
+      <h2 class="text-xl py-3">Finish setting up your component!</h2>
+      <p>The central component has been successfully registered.</p>
+      <p>
+        Your Participant ID is
+        <strong>{{ state.createdCentralComponentId }}</strong
+        >.
+        <button
+          mat-icon-button
+          aria-label="copy button with"
+          (click)="copyToClipboard()">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </p>
+
+      <div
+        class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+        <button class="btn-accent" [routerLink]="exitLink">Finish</button>
+      </div>
+    </mat-step>
+    <!-- Final Step -->
+  </mat-stepper>
+</div>

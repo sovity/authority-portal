@@ -1,33 +1,25 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ignoreElements, map, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {ignoreElements, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
-import {
-  CreateConnectorResponse,
-  OrganizationOverviewEntryDto,
-} from '@sovity.de/authority-portal-client';
+import {CreateConnectorResponse} from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
-import {Fetched} from 'src/app/core/utils/fetched';
 import {ApiService} from '../../../../core/api/api.service';
 import {buildConnectorConfig} from '../../../../core/utils/connector-config-utils';
+import {Reset, Submit} from './register-connector-page-actions';
 import {
-  GetOrganizations,
-  Reset,
-  Submit,
-} from './provide-connector-page-actions';
-import {
-  DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE,
-  ProvideConnectorPageState,
-} from './provide-connector-page-state';
+  DEFAULT_REGISTER_CONNECTOR_PAGE_STATE,
+  RegisterConnectorPageState,
+} from './register-connector-page-state';
 
-@State<ProvideConnectorPageState>({
-  name: 'ProvideConnectorPage',
-  defaults: DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE,
+@State<RegisterConnectorPageState>({
+  name: 'RegisterConnectorPage',
+  defaults: DEFAULT_REGISTER_CONNECTOR_PAGE_STATE,
 })
 @Injectable()
-export class ProvideConnectorPageStateImpl {
+export class RegisterConnectorPageStateImpl {
   constructor(
     private apiService: ApiService,
     private actions$: Actions,
@@ -37,13 +29,13 @@ export class ProvideConnectorPageStateImpl {
   ) {}
 
   @Action(Reset)
-  onReset(ctx: StateContext<ProvideConnectorPageState>): void {
-    ctx.setState(DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE);
+  onReset(ctx: StateContext<RegisterConnectorPageState>): void {
+    ctx.setState(DEFAULT_REGISTER_CONNECTOR_PAGE_STATE);
   }
 
   @Action(Submit, {cancelUncompleted: true})
   onSubmit(
-    ctx: StateContext<ProvideConnectorPageState>,
+    ctx: StateContext<RegisterConnectorPageState>,
     action: Submit,
   ): Observable<never> {
     ctx.patchState({state: 'submitting'});
@@ -52,9 +44,8 @@ export class ProvideConnectorPageStateImpl {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap(
         (deploymentEnvironmentId): Observable<CreateConnectorResponse> =>
-          this.apiService.createProvidedConnector(
+          this.apiService.createOwnConnector(
             action.request,
-            action.mdsId,
             deploymentEnvironmentId,
           ),
       ),
@@ -68,7 +59,7 @@ export class ProvideConnectorPageStateImpl {
         switch (res.status) {
           case 'OK':
             this.toast.showSuccess(
-              `Connector ${action.request.name} was successfully provided`,
+              `Connector ${action.request.name} was successfully registered`,
             );
             ctx.patchState({state: 'success'});
             action.success();
@@ -76,48 +67,26 @@ export class ProvideConnectorPageStateImpl {
           case 'WARNING':
             this.toast.showWarning(
               res?.message ||
-                'A problem occurred while providing the connector.',
+                'A problem occurred while registering the connector.',
             );
             ctx.patchState({state: 'success'});
             action.success();
             break;
           case 'ERROR':
-            this.toast.showDanger(res?.message || 'Failed providing connector');
+            this.toast.showDanger(
+              res?.message || 'Failed registering connector',
+            );
             ctx.patchState({state: 'error'});
             action.enableForm();
             break;
         }
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      this.errorService.toastFailureRxjs('Failed providing connector', () => {
+      this.errorService.toastFailureRxjs('Failed registering connector', () => {
         ctx.patchState({state: 'error'});
         action.enableForm();
       }),
       ignoreElements(),
     );
-  }
-
-  @Action(GetOrganizations, {cancelUncompleted: true})
-  onRefreshOrganizations(
-    ctx: StateContext<ProvideConnectorPageState>,
-  ): Observable<never> {
-    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
-      switchMap((deploymentEnvironmentId) =>
-        this.apiService.getOrganizationsForApplicationRoles(
-          deploymentEnvironmentId,
-        ),
-      ),
-      map((result) => result.organizations),
-      Fetched.wrap({failureMessage: 'Failed loading organizations'}),
-      tap((organizations) => this.organizationsRefreshed(ctx, organizations)),
-      ignoreElements(),
-    );
-  }
-
-  private organizationsRefreshed(
-    ctx: StateContext<ProvideConnectorPageState>,
-    newOrganizations: Fetched<OrganizationOverviewEntryDto[]>,
-  ) {
-    ctx.patchState({organizationList: newOrganizations});
   }
 }

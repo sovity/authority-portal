@@ -1,14 +1,20 @@
 import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
-import {CentralComponentDto} from '@sovity.de/authority-portal-client';
-import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
-  ConfirmDeleteCentralComponent,
-  DismissDeleteCentralComponentModal,
+  CentralComponentDto,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
+import {ConfirmationDialogComponent} from '../../../shared/components/common/confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialog} from '../../../shared/components/common/confirmation-dialog/confirmation-dialog.model';
+import {
+  DeleteCentralComponent,
   RefreshCentralComponents,
-  ShowDeleteCentralComponentModal,
 } from '../state/central-component-list-page-actions';
 import {
   CentralComponentListPageState,
@@ -27,33 +33,72 @@ export class CentralComponentListPageComponent implements OnInit, OnDestroy {
 
   state = DEFAULT_CENTRAL_COMPONENT_LIST_PAGE_STATE;
 
+  headerConfig!: HeaderBarConfig;
+
   private ngOnDestroy$ = new Subject();
 
   constructor(
     private store: Store,
     private globalStateUtils: GlobalStateUtils,
+    private router: Router,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
     this.refresh();
     this.startListeningToState();
     this.startRefreshingOnEnvChange();
+    this.initializeHeaderBar();
   }
 
   refresh() {
     this.store.dispatch(RefreshCentralComponents);
   }
 
+  initializeHeaderBar() {
+    this.headerConfig = {
+      title: 'Central Components',
+      subtitle: 'List of Central Dataspace Components registered at the DAPS.',
+      headerActions: [
+        {
+          label: 'Provide Central Component',
+          action: () =>
+            this.router.navigate(['/operator/central-components/provide']),
+          permissions: [UserRoleDto.OperatorAdmin],
+        },
+      ],
+    };
+  }
+
+  openUrl(url: string | undefined) {
+    if (!url) {
+      return;
+    }
+    window.open(url, '_blank');
+  }
+
   showDeleteModal(centralComponent: CentralComponentDto) {
-    this.store.dispatch(new ShowDeleteCentralComponentModal(centralComponent));
-  }
-
-  confirmDeleteModal() {
-    this.store.dispatch(new ConfirmDeleteCentralComponent());
-  }
-
-  dismissDeleteModal() {
-    this.store.dispatch(new DismissDeleteCentralComponentModal());
+    const data: ConfirmationDialog = {
+      title: `Delete Central Component`,
+      messageBody: `Central Component '${centralComponent.name}' with ID '${centralComponent.centralComponentId}' will be unregistered from the DAPS.`,
+      actionButtons: [
+        {
+          action: 'DELETE',
+          label: 'Delete',
+          style: 'btn-accent-danger',
+        },
+      ],
+    };
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: window.innerWidth > 640 ? '40%' : '60%',
+      data: data,
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter((it) => it === 'DELETE'))
+      .subscribe(() =>
+        this.store.dispatch(new DeleteCentralComponent(centralComponent)),
+      );
   }
 
   private startListeningToState() {

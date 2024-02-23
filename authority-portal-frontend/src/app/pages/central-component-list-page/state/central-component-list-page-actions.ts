@@ -6,15 +6,7 @@ export class RefreshCentralComponents {
   static readonly type = `[${tag}]  Refresh`;
 }
 
-export class ShowDeleteCentralComponentModal {
+export class DeleteCentralComponent {
   static readonly type = `[${tag}]  Show Central Component Delete Modal`;
   constructor(public centralComponent: CentralComponentDto) {}
-}
-
-export class DismissDeleteCentralComponentModal {
-  static readonly type = `[${tag}]  Dismiss Central Component Delete Modal`;
-}
-
-export class ConfirmDeleteCentralComponent {
-  static readonly type = `[${tag}]  Confirm Central Component Deletion`;
 }
