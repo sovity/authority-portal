@@ -36,7 +36,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - User details in the organization member list can now show more details
 - Authority admins can no longer provide connectors for other organizations
 - Backend: Sync organization data to MDS Broker(s) (Dependency from Broker development)
-- Removed Provide Connector Feature
+- Added possibility to fetch component statuses
 - Changed Connector URL persistence. Frontend URL, Endpoint URL and Management API URL are now independent of each other
 - slide-overs scrolling issue has been fixed
 - Added a connector overview for service providers and the option to unregister provided connectors
@@ -64,11 +64,13 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority admins can now delete users
 - Participant admins can now delete users in own organization
 - New Operator Admin Connector List
+- Added component status tracking
 
 #### Patch
 
 - Start page Iframe won't show if url is not set in the app-config.json
 - Issue with Env selector not updating while creating connector is fixed
+- Removed "Provide Connector" feature for Authority Users/Admins
 
 ### Known issues
 

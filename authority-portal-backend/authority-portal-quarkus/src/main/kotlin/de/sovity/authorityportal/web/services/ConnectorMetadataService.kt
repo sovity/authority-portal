@@ -1,6 +1,9 @@
 package de.sovity.authorityportal.web.services
 
+import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.db.jooq.tables.records.ConnectorDowntimesRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
+import de.sovity.authorityportal.web.pages.connectormanagement.toDb
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
 import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus
@@ -8,9 +11,14 @@ import io.quarkus.logging.Log
 import io.quarkus.scheduler.Scheduled
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.jooq.DSLContext
+import java.time.OffsetDateTime
 
 @ApplicationScoped
 class ConnectorMetadataService {
+
+    @Inject
+    lateinit var dsl: DSLContext
 
     @Inject
     lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
@@ -29,15 +37,28 @@ class ConnectorMetadataService {
 
         environments.forEach { env ->
             updateByEnvironment(env)
+            addConnectorStatusesToDbIfChanged(env)
         }
     }
 
-    fun getTotalDataOffersByMdsId(mdsId: String, environmentId: String): Int {
-        return getByEnvironment(environmentId).getByMdsId(mdsId).sumOf { it.dataOfferCount }
-    }
+    fun getConnectorInfoByEnvironment(environmentId: String): List<AuthorityPortalConnectorInfo> =
+        getByEnvironment(environmentId).connectorInfos
 
-    fun getConnectorStatus(connectorId: String, environmentId: String): ConnectorOnlineStatus {
-        return getByEnvironment(environmentId).getByConnectorId(connectorId).onlineStatus ?: ConnectorOnlineStatus.DEAD
+    fun getConnectorInfoByMdsId(mdsId: String, environmentId: String): List<AuthorityPortalConnectorInfo> =
+        getByEnvironment(environmentId).getByMdsId(mdsId)
+
+    fun getTotalDataOffersByMdsId(mdsId: String, environmentId: String): Int =
+        getByEnvironment(environmentId).getByMdsId(mdsId).sumOf { it.dataOfferCount }
+
+    fun getConnectorStatus(connectorId: String, environmentId: String): ConnectorOnlineStatus =
+        getByEnvironment(environmentId).getByConnectorId(connectorId).onlineStatus ?: ConnectorOnlineStatus.DEAD
+
+    fun getLatestConnectorStatusesFromDb(environment: String): List<ConnectorDowntimesRecord> {
+        val c = Tables.CONNECTOR_DOWNTIMES
+
+        return dsl.selectFrom(c)
+            .where(c.ENVIRONMENT.eq(environment))
+            .fetch()
     }
 
     private fun updateByEnvironment(environmentId: String) {
@@ -51,11 +72,32 @@ class ConnectorMetadataService {
         }
     }
 
+    private fun addConnectorStatusesToDbIfChanged(environment: String) {
+        val latestStatuses = getLatestConnectorStatusesFromDb(environment)
+        val connectorInfos = getByEnvironment(environment).connectorInfos
+
+        connectorInfos.forEach() { connectorInfo ->
+            val latestStatus = latestStatuses.firstOrNull { it.connectorId == connectorInfo.participantId }?.status
+            val status = connectorInfo.onlineStatus?.toDb()
+
+            if (status != null && latestStatus != status) {
+                dsl.insertInto(Tables.CONNECTOR_DOWNTIMES)
+                    .set(Tables.CONNECTOR_DOWNTIMES.CONNECTOR_ID, connectorInfo.participantId)
+                    .set(Tables.CONNECTOR_DOWNTIMES.ENVIRONMENT, environment)
+                    .set(Tables.CONNECTOR_DOWNTIMES.STATUS, status)
+                    .set(Tables.CONNECTOR_DOWNTIMES.TIME_STAMP, OffsetDateTime.now())
+                    .execute()
+
+                Log.info("Connector status changed. connectorId=${connectorInfo.participantId}, environment=$environment, newStatus=$status, oldStatus=$latestStatus.")
+            }
+        }
+    }
+
     private fun getByEnvironment(environmentId: String): BrokerData {
         return byEnvironment[environmentId] ?: BrokerData(emptyList())
     }
 
-    class BrokerData(connectorInfos: List<AuthorityPortalConnectorInfo>) {
+    class BrokerData(val connectorInfos: List<AuthorityPortalConnectorInfo>) {
         private val byConnectorId = connectorInfos.associateBy { it.participantId }
         private val byMdsId = connectorInfos.groupBy { getMdsId(it.participantId) }
 
@@ -74,6 +116,7 @@ class ConnectorMetadataService {
                 offlineSinceOrLastUpdatedAt = null
             }
         }
+
         private fun getMdsId(participantId: String): String {
             return participantId.split(".").first()
         }

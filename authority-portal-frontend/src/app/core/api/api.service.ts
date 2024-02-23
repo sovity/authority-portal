@@ -145,7 +145,7 @@ export class ApiService {
 
   // All Connectors
   getAllConnectors(
-    environmentId?: string,
+    environmentId: string,
   ): Observable<ConnectorOverviewResult> {
     return from(this.api().getAllConnectors({environmentId}));
   }
