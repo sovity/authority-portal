@@ -35,7 +35,9 @@ export class OrganizationProfileComponent implements OnInit, OnDestroy {
       .select<GlobalState>(GlobalStateImpl)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((globalState) =>
-        this.setOrganizationMdsId(globalState.userInfo.data.organizationMdsId),
+        this.store.dispatch(
+          new SetOrganizationMdsId(globalState.userInfo.data.organizationMdsId),
+        ),
       );
 
     this.refresh();
@@ -51,7 +53,13 @@ export class OrganizationProfileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
-        this.headerConfig = this.setHeaderConfig(this.state.organization.data);
+        this.state.organization.ifReady((organization) => {
+          this.headerConfig = {
+            title: organization.name,
+            subtitle: 'Details about your organization',
+            headerActions: [],
+          };
+        });
       });
   }
 
@@ -63,23 +71,9 @@ export class OrganizationProfileComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-  setOrganizationMdsId(mdsId: string) {
-    this.store.dispatch(new SetOrganizationMdsId(mdsId));
-  }
-
   refresh() {
     this.store.dispatch(RefreshOrganization);
   }
-
-  setHeaderConfig(organization: OwnOrganizationDetailsDto): HeaderBarConfig {
-    return {
-      title: organization.name,
-      subtitle: 'Details about your organization',
-      headerActions: [],
-    };
-  }
-
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();

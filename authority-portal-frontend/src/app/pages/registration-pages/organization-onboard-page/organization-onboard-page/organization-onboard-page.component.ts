@@ -112,6 +112,8 @@ export class OrganizationOnboardPageComponent implements OnInit {
       ...initial.userTab,
       firstName: user.firstName,
       lastName: user.lastName,
+      jobTitle: user.position,
+      phoneNumber: user.phone,
     };
 
     const initialOrganization: OnboardingOrganizationTabFormValue = {
@@ -121,10 +123,13 @@ export class OrganizationOnboardPageComponent implements OnInit {
 
     let userTab: FormGroup<OnboardingUserTabFormModel> =
       this.formBuilder.nonNullable.group({
-        firstName: [user.firstName, [Validators.required]],
-        lastName: [user.lastName, [Validators.required]],
-        jobTitle: [user.position, [Validators.required]],
-        phoneNumber: [user.phone, [Validators.required, phoneNumberValidator]],
+        firstName: [initialUser.firstName, [Validators.required]],
+        lastName: [initialUser.lastName, [Validators.required]],
+        jobTitle: [initialUser.jobTitle, [Validators.required]],
+        phoneNumber: [
+          initialUser.phoneNumber,
+          [Validators.required, phoneNumberValidator],
+        ],
       });
 
     let organizationTab: FormGroup<OnboardingOrganizationTabFormModel> =

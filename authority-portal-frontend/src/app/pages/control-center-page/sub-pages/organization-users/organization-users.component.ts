@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Observable, Subject, distinctUntilChanged, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
@@ -33,7 +33,7 @@ import {ControlCenterPageStateImpl} from '../../state/control-center-page-state-
   selector: 'app-organization-users',
   templateUrl: './organization-users.component.html',
 })
-export class OrganizationUsersComponent implements OnInit {
+export class OrganizationUsersComponent implements OnInit, OnDestroy {
   state = DEFAULT_ORGANIZATION_PROFILE_STATE;
   openedUser!: {userName: string; userId: string; mdsId: string};
   ngOnDestroy$ = new Subject();
@@ -48,12 +48,25 @@ export class OrganizationUsersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.headerConfig = this.setOrganizationHeaderConfig();
+    this.headerConfig = {
+      title: 'Organization users',
+      subtitle:
+        'Manage all users in your organization and their roles and rights',
+      headerActions: [
+        {
+          label: 'Invite user',
+          action: () => this.showInviteUserDialog(),
+          permissions: [UserRoleDto.Admin],
+        },
+      ],
+    };
     this.store
       .select<GlobalState>(GlobalStateImpl)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((globalState) =>
-        this.setOrganizationMdsId(globalState.userInfo.data.organizationMdsId),
+        this.store.dispatch(
+          new SetOrganizationMdsId(globalState.userInfo.data.organizationMdsId),
+        ),
       );
 
     this.startListeningToState();
@@ -72,7 +85,18 @@ export class OrganizationUsersComponent implements OnInit {
         this.state = state;
         this.showDetail = state.showMemberDetail;
         if (!this.showDetail)
-          this.headerConfig = this.setOrganizationHeaderConfig();
+          this.headerConfig = {
+            title: 'Organization users',
+            subtitle:
+              'Manage all users in your organization and their roles and rights',
+            headerActions: [
+              {
+                label: 'Invite user',
+                action: () => this.showInviteUserDialog(),
+                permissions: [UserRoleDto.Admin],
+              },
+            ],
+          };
       });
   }
 
@@ -92,26 +116,6 @@ export class OrganizationUsersComponent implements OnInit {
         this.loggedInUserId = userInfo.userId;
       });
   }
-
-  setOrganizationMdsId(mdsId: string) {
-    this.store.dispatch(new SetOrganizationMdsId(mdsId));
-  }
-
-  setOrganizationHeaderConfig(): HeaderBarConfig {
-    return {
-      title: 'Organization users',
-      subtitle:
-        'Manage all users in your organization and their roles and rights',
-      headerActions: [
-        {
-          label: 'Invite user',
-          action: () => this.showInviteUserDialog(),
-          permissions: [UserRoleDto.Admin],
-        },
-      ],
-    };
-  }
-
   setUserHeaderConfig(user: MemberInfo): HeaderBarConfig {
     let headerActions: any[] = [];
 
