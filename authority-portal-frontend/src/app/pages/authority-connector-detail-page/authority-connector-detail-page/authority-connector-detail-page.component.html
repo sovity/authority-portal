@@ -173,3 +173,10 @@
     </div>
   </div>
 </ng-container>
+
+<!-- Modal -->
+<app-delete-connector-modal
+  [visible]="showModal"
+  [isCaasConnector]="state.connector.data.type === 'CAAS'"
+  (cancel)="cancelDeleteConnector()"
+  (confirm)="confirmDeleteConnector()"></app-delete-connector-modal>

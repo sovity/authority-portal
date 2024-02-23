@@ -1,13 +1,24 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ignoreElements, map, switchMap, tap} from 'rxjs/operators';
-import {Action, State, StateContext} from '@ngxs/store';
+import {EMPTY, Observable} from 'rxjs';
+import {
+  filter,
+  finalize,
+  ignoreElements,
+  map,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
+import {Action, Actions, State, StateContext} from '@ngxs/store';
 import {ConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
+import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {
   CloseConnectorDetail,
+  DeleteConnector,
   GetConnectors,
   ShowConnectorDetail,
 } from './authority-connector-list-page-actions';
@@ -25,6 +36,9 @@ export class AuthorityConnectorListPageStateImpl {
   constructor(
     private apiService: ApiService,
     private globalStateUtils: GlobalStateUtils,
+    private actions$: Actions,
+    private errorService: ErrorService,
+    private toast: ToastService,
   ) {}
 
   @Action(GetConnectors)
@@ -47,6 +61,38 @@ export class AuthorityConnectorListPageStateImpl {
     newConnectors: Fetched<ConnectorOverviewEntryDto[]>,
   ) {
     ctx.patchState({connectors: newConnectors});
+  }
+
+  @Action(DeleteConnector)
+  onDeleteConnector(
+    ctx: StateContext<AuthorityConnectorListPageState>,
+    action: DeleteConnector,
+  ): Observable<never> {
+    if (ctx.getState().busy) {
+      return EMPTY;
+    }
+    ctx.patchState({busy: true});
+
+    return this.apiService.deleteOwnConnector(action.connectorId).pipe(
+      switchMap(() => this.globalStateUtils.getDeploymentEnvironmentId()),
+      switchMap((deploymentEnvironmentId) =>
+        this.apiService.getAllConnectors(deploymentEnvironmentId),
+      ),
+      takeUntil(
+        this.actions$.pipe(filter((action) => action instanceof GetConnectors)),
+      ),
+      this.errorService.toastFailureRxjs('Deleting connector failed'),
+      map((result) => result.connectors),
+      tap((data) => {
+        this.connectorsRefreshed(ctx, Fetched.ready(data));
+        this.toast.showSuccess(
+          `Connector ${action.connectorId} was successfully deleted`,
+        );
+        ctx.dispatch(CloseConnectorDetail);
+      }),
+      finalize(() => ctx.patchState({busy: false})),
+      ignoreElements(),
+    );
   }
 
   @Action(ShowConnectorDetail)

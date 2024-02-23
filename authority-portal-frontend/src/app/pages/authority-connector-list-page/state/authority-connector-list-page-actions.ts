@@ -11,3 +11,8 @@ export class ShowConnectorDetail {
 export class CloseConnectorDetail {
   static readonly type = `[${tag}]  Close Connector Details Slider`;
 }
+
+export class DeleteConnector {
+  static readonly type = `[${tag}]  Delete Connector`;
+  constructor(public connectorId: string) {}
+}

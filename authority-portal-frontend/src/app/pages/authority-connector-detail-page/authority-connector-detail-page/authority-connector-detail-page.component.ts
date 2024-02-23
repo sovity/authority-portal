@@ -2,7 +2,12 @@ import {Clipboard} from '@angular/cdk/clipboard';
 import {Component, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
+import {
+  ConnectorDetailDto,
+  UserInfo,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
   getConnectorStatusText,
   getConnectorsTypeClasses,
@@ -12,6 +17,7 @@ import {
   ActionMenu,
   TitleBarConfig,
 } from 'src/app/shared/components/common/title-bar/title-bar.model';
+import {DeleteConnector} from '../../authority-connector-list-page/state/authority-connector-list-page-actions';
 import {
   RefreshConnector,
   SetConnectorId,
@@ -33,6 +39,7 @@ export class AuthorityConnectorDetailPageComponent
   connectorId!: string;
   titleBarConfig!: TitleBarConfig;
   showModal = false;
+  userInfo?: UserInfo;
 
   state = DEFAULT_AUTHORITY_CONNECTOR_DETAIL_PAGE_STATE;
   getConnectorsTypeClasses = getConnectorsTypeClasses;
@@ -42,6 +49,7 @@ export class AuthorityConnectorDetailPageComponent
     private store: Store,
     @Inject('childComponentInput') childComponentInput: ChildComponentInput,
     private clipboard: Clipboard,
+    private globalStateUtils: GlobalStateUtils,
   ) {
     this.connectorId = childComponentInput.id;
   }
@@ -50,14 +58,19 @@ export class AuthorityConnectorDetailPageComponent
     this.store.dispatch(new SetConnectorId(this.connectorId));
     this.store.dispatch(RefreshConnector);
 
+    this.startListeningToUserInfo();
     this.startListeningToState();
   }
 
+  private startListeningToUserInfo() {
+    this.globalStateUtils.userInfo$
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe((userInfo) => {
+        this.userInfo = userInfo;
+      });
+  }
+
   private startListeningToState() {
-    let actionMenu: ActionMenu = {
-      id: 'actionMenu',
-      menuOptions: [],
-    };
     this.store
       .select<AuthorityConnectorDetailPageState>(
         AuthorityConnectorDetailPageStateImpl,
@@ -65,6 +78,19 @@ export class AuthorityConnectorDetailPageComponent
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
+        let actionMenu: ActionMenu = {
+          id: 'actionMenu',
+          menuOptions: [
+            {
+              label: 'Delete Connector',
+              icon: 'delete',
+              event: () => this.deleteConnectorMenuItemClick(),
+              isDisabled:
+                !this.userInfo?.roles.includes(UserRoleDto.OperatorAdmin) ??
+                true,
+            },
+          ],
+        };
         this.state.connector.ifReady((data) =>
           this.setupConnectorTitleBar(data, actionMenu),
         );
@@ -93,6 +119,19 @@ export class AuthorityConnectorDetailPageComponent
     if (s) {
       this.clipboard.copy(s);
     }
+  }
+
+  cancelDeleteConnector() {
+    this.showModal = false;
+  }
+
+  confirmDeleteConnector() {
+    this.showModal = false;
+    this.store.dispatch(new DeleteConnector(this.connectorId));
+  }
+
+  deleteConnectorMenuItemClick() {
+    this.showModal = true;
   }
 
   ngOnDestroy$ = new Subject();
