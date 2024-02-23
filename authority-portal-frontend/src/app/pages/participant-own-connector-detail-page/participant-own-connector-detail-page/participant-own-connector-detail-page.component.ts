@@ -19,7 +19,6 @@ import {ChildComponentInput} from 'src/app/shared/components/common/slide-over/s
 import {
   ActionMenu,
   TitleBarConfig,
-  TitleBarMenuActionEvent,
 } from 'src/app/shared/components/common/title-bar/title-bar.model';
 import {DeleteOwnConnector} from '../../participant-own-connector-list-page/state/participant-own-connector-list-page-actions';
 import {
@@ -31,7 +30,6 @@ import {
   ParticipantOwnConnectorDetailPageState,
 } from '../state/participant-own-connector-detail-page-state';
 import {ParticipantOwnConnectorDetailPageStateImpl} from '../state/participant-own-connector-detail-page-state-impl';
-import {ParticipantOwnConnectorActions} from './participant-own-connector-detail-page.model';
 
 @Component({
   selector: 'app-participant-own-connector-detail-page',
@@ -94,33 +92,17 @@ export class ParticipantOwnConnectorDetailPageComponent
         }),
       )
       .subscribe((hasRole) => {
-        // render the title bar, based on the current user role
-        this.state.connector.ifReady((data) =>
-          this.setupConnectorTitleBar(data, hasRole ? actionMenu : undefined),
-        );
+        this.state.connector.ifReady((data) => {
+          this.titleBarConfig = {
+            title: data.connectorName,
+            icon: 'connector-2',
+            status: data.type,
+            statusStyle: this.getConnectorsTypeClasses(data.type),
+            tabs: [],
+            actionMenu: hasRole ? actionMenu : undefined,
+          };
+        });
       });
-  }
-
-  /**
-   * initialize the title bar component based on organization details
-   * @param organization
-   */
-  setupConnectorTitleBar(
-    connector: ConnectorDetailDto,
-    actionMenu?: ActionMenu,
-  ) {
-    this.titleBarConfig = {
-      title: connector.connectorName,
-      icon: 'connector-2',
-      status: connector.type,
-      statusStyle: this.getConnectorsTypeClasses(connector.type),
-      tabs: [],
-    };
-    if (actionMenu) this.titleBarConfig.actionMenu = actionMenu;
-  }
-
-  refresh() {
-    this.store.dispatch(RefreshConnector);
   }
 
   deleteConnector() {

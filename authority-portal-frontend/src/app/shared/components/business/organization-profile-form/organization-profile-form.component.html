@@ -4,7 +4,7 @@
     class="flex-1"
     label="Organization Legal Name"
     ctrlId="formRegLegalName"
-    placeholder="Enter Your organization Legal name"
+    placeholder="My Org LLC"
     [ctrl]="orgForm.controls.legalName"></app-text-input>
 
   <!-- Legal Name -->
@@ -16,7 +16,7 @@
     class="flex-1"
     label="Website"
     ctrlId="formRegWebsite"
-    placeholder="Enter Your organization website url"
+    placeholder="https://www.my-org.com"
     [ctrl]="orgForm.controls.website"></app-text-input>
   <!-- Website -->
 </div>
@@ -27,7 +27,7 @@
     class="flex-1"
     label="Business Unit"
     ctrlId="formRegBusinessUnit"
-    placeholder="Enter Your organization Business Unit"
+    placeholder="My Department"
     [ctrl]="orgForm.controls.businessUnit"></app-text-input>
   <!-- Business Unit -->
 </div>
@@ -39,7 +39,7 @@
       class="flex-1"
       label="Street"
       ctrlId="formRegStreet"
-      placeholder="Your organization street address"
+      placeholder="Example Street"
       [ctrl]="orgForm.controls.mainAddressStreet"></app-text-input>
     <!-- Street -->
 
@@ -48,7 +48,7 @@
       class="flex-1"
       label="House No."
       ctrlId="formRegHouseNo"
-      placeholder="Your organization House Number"
+      placeholder="10b"
       [ctrl]="orgForm.controls.mainAddressHouseNo"></app-text-input>
     <!-- House No -->
   </div>
@@ -59,7 +59,7 @@
       class="flex-1"
       label="ZIP code"
       ctrlId="formRegZipCode"
-      placeholder="Your organization ZIP code"
+      placeholder="12345"
       [ctrl]="orgForm.controls.mainAddressZipCode"></app-text-input>
     <!-- ZIP Code -->
 
@@ -68,7 +68,7 @@
       class="flex-1"
       label="City"
       ctrlId="formRegCity"
-      placeholder="Your organization city"
+      placeholder="Frankfurt am Main"
       [ctrl]="orgForm.controls.mainAddressCity"></app-text-input>
     <!-- City  -->
   </div>
@@ -79,7 +79,7 @@
       class="flex-1"
       label="Country"
       ctrlId="formRegCountry"
-      placeholder="Your organization Country"
+      placeholder="Germany"
       [ctrl]="orgForm.controls.mainAddressCountry"></app-text-input>
     <!-- Country  -->
   </div>
@@ -108,7 +108,7 @@
       class="flex-1"
       label="Street"
       ctrlId="formRegBillingStreet"
-      placeholder="Your organization street address"
+      placeholder="Example Street"
       [ctrl]="orgForm.controls.billingAddressStreet"></app-text-input>
     <!-- Street -->
 
@@ -117,7 +117,7 @@
       class="flex-1"
       label="House No."
       ctrlId="formRegBillingHouseNo"
-      placeholder="Your organization House Number"
+      placeholder="10b"
       [ctrl]="orgForm.controls.billingAddressHouseNo"></app-text-input>
     <!-- House No -->
   </div>
@@ -128,7 +128,7 @@
       class="flex-1"
       label="ZIP code"
       ctrlId="formRegBillingZipCode"
-      placeholder="Your organization ZIP code"
+      placeholder="12345"
       [ctrl]="orgForm.controls.billingAddressZipCode"></app-text-input>
     <!-- ZIP Code -->
 
@@ -137,7 +137,7 @@
       class="flex-1"
       label="City"
       ctrlId="formRegBillingCity"
-      placeholder="Your organization city"
+      placeholder="Frankfurt am Main"
       [ctrl]="orgForm.controls.billingAddressCity"></app-text-input>
     <!-- City  -->
   </div>
@@ -148,7 +148,7 @@
       class="flex-1"
       label="Country"
       ctrlId="formRegBillingCountry"
-      placeholder="Your organization Country"
+      placeholder="Germany"
       [ctrl]="orgForm.controls.billingAddressCountry"></app-text-input>
     <!-- Country  -->
   </div>
@@ -194,21 +194,24 @@
       class="flex-1"
       label="Legal ID Number"
       ctrlId="formRegIdNumber"
-      placeholder="Enter your organization legal ID number"
+      [placeholder]="
+        orgForm.controls.legalIdType.value === 'TAX_ID'
+          ? 'Tax ID Number'
+          : 'Commercial Register Number'
+      "
       [ctrl]="orgForm.controls.legalId"></app-text-input>
     <!-- ID Number -->
 
-    <!-- Commercial Register Location< -->
+    <!-- Commercial Register Location -->
     <app-text-input
       *ngIf="orgForm.controls.legalIdType.value === 'COMMERCE_REGISTER_INFO'"
       class="flex-1"
       label="Commercial Register Location"
       ctrlId="formRegCommerceRegisterLocation"
-      placeholder="Enter your organization Commercial Register Location number"
+      placeholder="Commercial Register Location"
       [ctrl]="orgForm.controls.commerceRegisterLocation"></app-text-input>
+    <!-- Commercial Register Location -->
   </div>
-  <!-- Commercial Register Location< -->
-  <div class="flex flex-col flex-1"></div>
 </div>
 
 <h3 class="pb-6">Contacts</h3>
@@ -228,7 +231,7 @@
       class="flex-1"
       label="Main First Name"
       ctrlId="formRegMainFirstName"
-      placeholder="Enter main contact person first name"
+      placeholder="John"
       [ctrl]="orgForm.controls.mainContactFirstName"></app-text-input>
     <!-- User's First Name -->
 
@@ -237,7 +240,7 @@
       class="flex-1"
       label="Main Last Name"
       ctrlId="formRegMainLastName"
-      placeholder="Enter main contact person last name"
+      placeholder="Doe"
       [ctrl]="orgForm.controls.mainContactLastName"></app-text-input>
     <!-- User's Last Name -->
   </div>
@@ -248,7 +251,7 @@
       class="flex-1"
       label="Phone Number"
       ctrlId="formRegMainPhoneNumber"
-      placeholder="Enter main contact person Phone number"
+      placeholder="+49 1234 567890"
       [ctrl]="orgForm.controls.mainContactPhoneNumber"></app-text-input>
 
     <!-- User's PhoneNumber -->
@@ -258,7 +261,7 @@
       class="flex-1"
       label="Email"
       ctrlId="formRegMainEmail"
-      placeholder="Enter main contact person email"
+      placeholder="john.doe@my-org.com"
       [ctrl]="orgForm.controls.mainContactEmail"></app-text-input>
     <!-- User's Email -->
   </div>
@@ -290,7 +293,7 @@
         class="flex-1"
         label="Technical First Name"
         ctrlId="formRegTechnicalFirstName"
-        placeholder="Enter technical contact person first name"
+        placeholder="John"
         [ctrl]="orgForm.controls.technicalContactFirstName"></app-text-input>
       <!-- User's First Name -->
 
@@ -299,7 +302,7 @@
         class="flex-1"
         label="Technical Last Name"
         ctrlId="formRegTechnicalLastName"
-        placeholder="Enter technical contact person last name"
+        placeholder="Doe"
         [ctrl]="orgForm.controls.technicalContactLastName"></app-text-input>
       <!-- User's Last Name -->
     </div>
@@ -310,7 +313,7 @@
         class="flex-1"
         label="Phone Number"
         ctrlId="formRegTechnicalPhoneNumber"
-        placeholder="Enter technical contact person Phone number"
+        placeholder="+49 1234 567890"
         [ctrl]="orgForm.controls.technicalContactPhoneNumber"></app-text-input>
       <!-- User's PhoneNumber -->
 
@@ -319,7 +322,7 @@
         class="flex-1"
         label="Email"
         ctrlId="formRegTechnicalEmail"
-        placeholder="Enter technical contact person email"
+        placeholder="john.doe@my-org.com"
         [ctrl]="orgForm.controls.technicalContactEmail"></app-text-input>
       <!-- User's Email -->
     </div>

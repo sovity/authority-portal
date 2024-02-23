@@ -26,7 +26,9 @@
         <!-- user profile form -->
         <mat-step
           color="accent"
-          [editable]="state.state === 'editing' || state.state === 'error'">
+          [editable]="state.state === 'editing' || state.state === 'error'"
+          [completed]="state.state === 'success'"
+          [stepControl]="userForm">
           <div class="flex flex-col px-1 md:px-8 w-full">
             <ng-template matStepLabel>User Details</ng-template>
             <app-user-profile-form
@@ -53,7 +55,9 @@
         <mat-step
           color="accent"
           editable="false"
-          [editable]="state.state === 'editing' || state.state === 'error'">
+          [editable]="state.state === 'editing' || state.state === 'error'"
+          [completed]="state.state === 'success'"
+          [stepControl]="orgForm">
           <div class="flex flex-col px-1 md:px-8 w-full">
             <ng-template matStepLabel>Organization Profile</ng-template>
             <h3>Organization Profile</h3>
@@ -82,7 +86,7 @@
         <!-- Organization profile form -->
 
         <!-- final step -->
-        <mat-step [editable]="false">
+        <mat-step [editable]="false" [stepControl]="parentFormGroup">
           <ng-template matStepLabel>Email Verification</ng-template>
           <div class="h-36 my-12 flex flex-col justify-center items-center">
             <div class="w-full">

@@ -1,6 +1,13 @@
 import {Inject, Injectable} from '@angular/core';
-import {Observable, forkJoin} from 'rxjs';
-import {ignoreElements, takeUntil, tap} from 'rxjs/operators';
+import {Observable, combineLatest, forkJoin} from 'rxjs';
+import {
+  ignoreElements,
+  map,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {OwnOrganizationDetailsDto} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
@@ -8,8 +15,8 @@ import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {ApiService} from '../../../../core/api/api.service';
+import {GlobalStateUtils} from '../../../../core/global-state/global-state-utils';
 import {
-  GetOnboardingOrganizationDetails,
   OnboardingProcessFormSubmit,
   Reset,
 } from './organization-onboard-page-action';
@@ -30,33 +37,61 @@ export class OrganizationOnboardPageStateImpl {
     private errorService: ErrorService,
     private actions$: Actions,
     private toast: ToastService,
+    private globalStateUtils: GlobalStateUtils,
   ) {}
 
+  @Action(Reset, {cancelUncompleted: true})
+  onReset(ctx: StateContext<OrganizationOnboardPageState>): Observable<never> {
+    return this.globalStateUtils.userInfo$.pipe(
+      take(1),
+      switchMap((userInfo) =>
+        combineLatest([
+          this.apiService.getOrganizationUser(userInfo.userId),
+          this.apiService.getOwnOrganizationDetails(),
+        ]),
+      ),
+      map(([user, organization]) => ({user, organization})),
+      Fetched.wrap({failureMessage: 'Failed loading onboarding details'}),
+      tap((details) => {
+        ctx.patchState({
+          ...ctx.getState(),
+          details,
+          onboardingType:
+            details.dataOrUndefined?.organization?.registrationStatus ===
+            'ONBOARDING'
+              ? 'USER_ORGANIZATION_ONBOARDING'
+              : 'USER_ONBOARDING',
+        });
+      }),
+      ignoreElements(),
+    );
+  }
+
   @Action(OnboardingProcessFormSubmit, {cancelUncompleted: true})
-  onUpdateOrganization(
+  onSubmit(
     ctx: StateContext<OrganizationOnboardPageState>,
     action: OnboardingProcessFormSubmit,
   ): Observable<never> {
     ctx.patchState({state: 'submitting'});
     action.disableForm();
 
-    const onboardingUser$ = this.apiService.onboardingUser(
-      action.request.userProfile,
-    );
-    const onboardingOrganization$ = this.apiService.onboardingOrganization(
-      action.request.organizationProfile,
-    );
-    let requests: Observable<any>[] = [];
-    if (action.onboardingType === 'USER_ONBOARDING') {
-      requests = [onboardingUser$];
-    } else {
-      requests = [onboardingUser$, onboardingOrganization$];
+    const requests: Observable<unknown>[] = [
+      this.apiService.onboardingUser(action.request.userProfile),
+    ];
+
+    if (ctx.getState().onboardingType === 'USER_ORGANIZATION_ONBOARDING') {
+      requests.push(
+        this.apiService.onboardingOrganization(
+          action.request.organizationProfile,
+        ),
+      );
     }
 
     return forkJoin(requests).pipe(
       tap(() => {
         this.toast.showSuccess(`Onboarding completed successfully`);
         ctx.patchState({state: 'success'});
+        action.success();
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
       this.errorService.toastFailureRxjs('Onboarding Failed', () => {
@@ -65,28 +100,5 @@ export class OrganizationOnboardPageStateImpl {
       }),
       ignoreElements(),
     );
-  }
-
-  @Action(GetOnboardingOrganizationDetails, {cancelUncompleted: true})
-  onGetOrganization(
-    ctx: StateContext<OrganizationOnboardPageState>,
-  ): Observable<never> {
-    return this.apiService.getMyOrganizationDetails().pipe(
-      Fetched.wrap({failureMessage: 'Failed loading organizations'}),
-      tap((organization) => {
-        this.organizationRefreshed(ctx, organization);
-      }),
-      ignoreElements(),
-    );
-  }
-
-  private organizationRefreshed(
-    ctx: StateContext<OrganizationOnboardPageState>,
-    organization: Fetched<OwnOrganizationDetailsDto>,
-  ) {
-    ctx.patchState({
-      ...ctx.getState(),
-      organization,
-    });
   }
 }

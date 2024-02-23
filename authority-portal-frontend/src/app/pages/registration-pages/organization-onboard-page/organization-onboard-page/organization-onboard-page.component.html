@@ -14,143 +14,144 @@
   <!-- header -->
 
   <!-- registration wizard -->
-  <form *ngIf="showForm" [formGroup]="parentFormGroup">
-    <div class="flex justify-center">
-      <mat-stepper
-        class="mt-4 w-full lg:w-2/3"
-        labelPosition="bottom"
-        linear
-        #stepper>
-        <!-- user profile form -->
-        <mat-step
-          color="accent"
-          [editable]="state.state === 'editing' || state.state === 'error'">
-          <div class="flex flex-col px-1 md:px-8 w-full">
-            <ng-template matStepLabel>User Profile</ng-template>
+  <div class="flex justify-center">
+    <app-loading-element *ngIf="state.details.isLoading"></app-loading-element>
+    <app-error-element
+      *ngIf="state.details.isError"
+      [errorMessage]="state.details.error.failureMessage"></app-error-element>
+    <mat-stepper
+      *ngIf="state.details.isReady"
+      class="mt-4 w-full lg:w-2/3"
+      labelPosition="bottom"
+      linear
+      #stepper>
+      <!-- user profile form -->
+      <mat-step
+        color="accent"
+        [editable]="state.state === 'editing' || state.state === 'error'"
+        [completed]="state.state === 'success'"
+        [stepControl]="userForm">
+        <div class="flex flex-col px-1 md:px-8 w-full">
+          <ng-template matStepLabel>User Profile</ng-template>
 
-            <h2>User Profile</h2>
-            <div class="flex-grow my-4">
-              <div class="flex gap-4 flex-wrap">
-                <!-- User's First Name -->
-                <app-text-input
-                  class="flex-1"
-                  label="First Name"
-                  ctrlId="formRegFirstName"
-                  placeholder=""
-                  [ctrl]="userForm.controls.firstName"></app-text-input>
-                <!-- User's First Name -->
+          <h2>User Profile</h2>
+          <div class="flex-grow my-4">
+            <div class="flex gap-4 flex-wrap">
+              <!-- User's First Name -->
+              <app-text-input
+                class="flex-1"
+                label="First Name"
+                ctrlId="formRegFirstName"
+                placeholder="John"
+                [ctrl]="userForm.controls.firstName"></app-text-input>
 
-                <!-- User's Last Name -->
-                <app-text-input
-                  class="flex-1"
-                  label="Last Name"
-                  ctrlId="formRegLasttName"
-                  placeholder=""
-                  [ctrl]="userForm.controls.lastName"></app-text-input>
-                <!-- User's Last Name -->
-              </div>
-
-              <div class="flex gap-4 flex-wrap">
-                <!-- User's Job Title -->
-                <app-text-input
-                  class="flex-1"
-                  label="Job Title"
-                  ctrlId="formRegJobTitle"
-                  placeholder="Enter your Job Title"
-                  [ctrl]="userForm.controls.jobTitle"></app-text-input>
-
-                <!-- User's Job Title -->
-
-                <!-- User's PhoneNumber -->
-                <app-text-input
-                  class="flex-1"
-                  label="Phone Number"
-                  ctrlId="formRegPhoneNumber"
-                  placeholder="Enter your Phone number"
-                  [ctrl]="userForm.controls.phoneNumber"></app-text-input>
-                <!-- User's PhoneNumber -->
-              </div>
+              <!-- User's Last Name -->
+              <app-text-input
+                class="flex-1"
+                label="Last Name"
+                ctrlId="formRegLasttName"
+                placeholder="Doe"
+                [ctrl]="userForm.controls.lastName"></app-text-input>
             </div>
 
-            <div
-              class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
-              <button
-                *ngIf="onboardingType === 'USER_ORGANIZATION_ONBOARDING'"
-                class="btn-accent"
-                matStepperNext
-                [disabledBtn]="!userForm.valid">
-                Next
-              </button>
-              <button
-                *ngIf="onboardingType === 'USER_ONBOARDING'"
-                class="btn-accent"
-                [disabledBtn]="!userForm.valid"
-                (click)="submit()">
-                Submit
-              </button>
+            <div class="flex gap-4 flex-wrap">
+              <!-- User's Job Title -->
+              <app-text-input
+                class="flex-1"
+                label="Job Title"
+                ctrlId="formRegJobTitle"
+                placeholder="Analyst"
+                [ctrl]="userForm.controls.jobTitle"></app-text-input>
+
+              <!-- User's PhoneNumber -->
+              <app-text-input
+                class="flex-1"
+                label="Phone Number"
+                ctrlId="formRegPhoneNumber"
+                placeholder="+49 1234 567890"
+                [ctrl]="userForm.controls.phoneNumber"></app-text-input>
             </div>
           </div>
-        </mat-step>
-        <!-- user profile form -->
 
-        <!-- organization profile form -->
-        <mat-step
-          *ngIf="onboardingType === 'USER_ORGANIZATION_ONBOARDING'"
-          color="accent"
-          [editable]="state.state === 'editing' || state.state === 'error'">
-          <div class="flex flex-col px-1 md:px-8 w-full">
-            <ng-template matStepLabel>Organization Profile</ng-template>
-
-            <h2>Organization Profile</h2>
-            <app-organization-profile-form
-              class="flex-grow my-4"
-              [orgForm]="orgProfileForm"></app-organization-profile-form>
-
-            <app-tos-check
-              [ctrl]="orgForm.controls.acceptedTos"></app-tos-check>
-
-            <div
-              class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
-              <button
-                class="btn-accent-outline"
-                matStepperPrevious
-                type="button">
-                Back
-              </button>
-
-              <button
-                class="btn-accent"
-                [disabledBtn]="!parentFormGroup.valid"
-                (click)="submit()">
-                Submit
-              </button>
-            </div>
+          <div
+            class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+            <button
+              *ngIf="state.onboardingType === 'USER_ORGANIZATION_ONBOARDING'"
+              class="btn-accent"
+              matStepperNext
+              [disabledBtn]="!userForm.valid">
+              Next
+            </button>
+            <button
+              *ngIf="state.onboardingType === 'USER_ONBOARDING'"
+              class="btn-accent"
+              [disabledBtn]="!userForm.valid"
+              (click)="submit()">
+              Submit
+            </button>
           </div>
-        </mat-step>
-        <!-- organization profile form -->
+        </div>
+      </mat-step>
+      <!-- user profile form -->
 
-        <!-- final step -->
-        <mat-step [editable]="false">
-          <ng-template matStepLabel>Confirmation</ng-template>
+      <!-- organization profile form -->
+      <mat-step
+        *ngIf="state.onboardingType === 'USER_ORGANIZATION_ONBOARDING'"
+        color="accent"
+        [editable]="state.state === 'editing' || state.state === 'error'"
+        [completed]="state.state === 'success'"
+        [stepControl]="orgProfileForm">
+        <div class="flex flex-col px-1 md:px-8 w-full">
+          <ng-template matStepLabel>Organization Profile</ng-template>
+
+          <h2>Organization Profile</h2>
+          <app-organization-profile-form
+            class="flex-grow my-4"
+            [orgForm]="orgProfileForm"></app-organization-profile-form>
+
+          <app-tos-check [ctrl]="orgForm.controls.acceptedTos"></app-tos-check>
+
+          <div
+            class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+            <button class="btn-accent-outline" matStepperPrevious type="button">
+              Back
+            </button>
+
+            <button
+              class="btn-accent"
+              [disabledBtn]="
+                !parentFormGroup.valid || state.state === 'submitting'
+              "
+              (click)="submit()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </mat-step>
+      <!-- organization profile form -->
+
+      <!-- final step -->
+      <mat-step [editable]="false" [stepControl]="parentFormGroup">
+        <ng-template matStepLabel>Confirmation</ng-template>
+        <div class="h-36 my-12 flex flex-col justify-center items-center">
           <div class="h-36 my-12 flex flex-col justify-center items-center">
-            <div class="h-36 my-12 flex flex-col justify-center items-center">
-              <h3 class="py-8 text-xl text-cneter">
-                Thank you for onboarding on the MDS portal!
-              </h3>
-              <p class="text-base text-justify">
-                Congratulations on successfully onboarding to our platform!
-                We're thrilled to have you as part of our community. Explore our
-                platform and discover services tailored just for you.
-              </p>
-            </div>
+            <h3 class="py-8 text-xl text-center">
+              Thank you for onboarding on the MDS portal!
+            </h3>
+            <p class="text-base text-justify">
+              Congratulations on successfully onboarding to our platform! We're
+              thrilled to have you as part of our community. Explore our
+              platform and discover services tailored just for you.
+            </p>
           </div>
-          <div class="flex justify-end">
-            <button class="btn-accent" routerLink="/">Finish</button>
-          </div>
-        </mat-step>
-        <!-- final step -->
-      </mat-stepper>
-    </div>
-  </form>
+        </div>
+        <div class="flex justify-end">
+          <button class="btn-accent" routerLink="/">Finish</button>
+        </div>
+      </mat-step>
+      <!-- final step -->
+    </mat-stepper>
+  </div>
+
   <!-- registration wizard -->
 </div>

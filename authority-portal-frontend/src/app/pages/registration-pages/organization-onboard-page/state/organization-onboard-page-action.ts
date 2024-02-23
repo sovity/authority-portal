@@ -13,15 +13,11 @@ export interface OnboardingProcessRequest {
 export class OnboardingProcessFormSubmit {
   static readonly type = `[${tag}] Onboarding Form Submit`;
   constructor(
-    public onboardingType: 'USER_ONBOARDING' | 'USER_ORGANIZATION_ONBOARDING',
     public request: OnboardingProcessRequest,
     public enableForm: () => void,
     public disableForm: () => void,
+    public success: () => void,
   ) {}
-}
-
-export class GetOnboardingOrganizationDetails {
-  static readonly type = `[${tag}] Get Onboarding Organization Details`;
 }
 
 export class Reset {

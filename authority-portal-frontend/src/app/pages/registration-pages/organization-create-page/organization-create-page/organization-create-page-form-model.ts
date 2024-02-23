@@ -43,6 +43,7 @@ export const DEFAULT_REGISTRATION_ORGANIZATION_TAB_FORM_VALUE: RegistrationOrgan
   };
 
 export interface RegistrationWizardFormModel {
+  isEditable: FormControl<boolean>;
   userTab: FormGroup<RegistrationUserTabFormModel>;
   organizationTab: FormGroup<RegistrationOrganizationTabFormModel>;
 }
@@ -52,6 +53,7 @@ export type RegistrationWizardFormValue =
 
 export const DEFAULT_REGISTRATION_WIZARD_FORM_VALUE: RegistrationWizardFormValue =
   {
+    isEditable: true,
     userTab: DEFAULT_REGISTRATION_USER_TAB_FORM_VALUE,
     organizationTab: DEFAULT_REGISTRATION_ORGANIZATION_TAB_FORM_VALUE,
   };

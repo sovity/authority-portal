@@ -1,10 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
-import {Subject, combineLatest, take, takeUntil} from 'rxjs';
+import {Subject, take, takeUntil} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
   OwnOrganizationDetailsDto,
+  UserDetailDto,
   UserInfo,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
@@ -19,9 +21,9 @@ import {OrganizationProfileFormModel} from '../../../../shared/components/busine
 import {buildAddressString} from '../../organization-create-page/organization-create-page/address-utils';
 import {buildFullName} from '../../organization-create-page/organization-create-page/name-utils';
 import {
-  GetOnboardingOrganizationDetails,
   OnboardingProcessFormSubmit,
   OnboardingProcessRequest,
+  Reset,
 } from '../state/organization-onboard-page-action';
 import {
   DEFAULT_ORGANIZATION_ONBOARD_PAGE_PAGE_STATE,
@@ -43,7 +45,6 @@ import {
 })
 export class OrganizationOnboardPageComponent implements OnInit {
   state = DEFAULT_ORGANIZATION_ONBOARD_PAGE_PAGE_STATE;
-  onboardingType!: 'USER_ONBOARDING' | 'USER_ORGANIZATION_ONBOARDING';
   parentFormGroup!: FormGroup<OnboardingWizardFormModel>;
   showForm: boolean = false;
   ngOnDestroy$ = new Subject();
@@ -70,42 +71,47 @@ export class OrganizationOnboardPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(GetOnboardingOrganizationDetails);
+    this.store.dispatch(Reset);
+    this.setupFormOnce();
     this.startListeningToState();
   }
 
-  private startListeningToState() {
-    combineLatest({
-      state: this.store
-        .select<OrganizationOnboardPageState>(OrganizationOnboardPageStateImpl)
-        .pipe(takeUntil(this.ngOnDestroy$)),
-      userInfo: this.globalStateUtils.userInfo$.pipe(take(1)),
-    }).subscribe(({state, userInfo}) => {
-      this.state = state;
-      if (state.organization.isReady) {
+  private setupFormOnce() {
+    this.store
+      .select<OrganizationOnboardPageState>(OrganizationOnboardPageStateImpl)
+      .pipe(
+        map((it) => it.details),
+        filter((it) => it.isReady),
+        map((it) => it.data),
+        takeUntil(this.ngOnDestroy$),
+        take(1),
+      )
+      .subscribe((details) => {
         this.parentFormGroup = this.buildFormGroup(
-          userInfo,
-          state.organization.data,
+          details.user,
+          details.organization,
         );
-        if (state.organization.data.registrationStatus === 'ONBOARDING') {
-          this.onboardingType = 'USER_ORGANIZATION_ONBOARDING';
-        } else {
-          this.onboardingType = 'USER_ONBOARDING';
-        }
-        this.showForm = true;
-      }
-    });
+      });
+  }
+
+  private startListeningToState() {
+    this.store
+      .select<OrganizationOnboardPageState>(OrganizationOnboardPageStateImpl)
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe((state) => {
+        this.state = state;
+      });
   }
 
   buildFormGroup(
-    userInfo: UserInfo,
+    user: UserDetailDto,
     organizationDetail: OwnOrganizationDetailsDto,
   ): FormGroup<OnboardingWizardFormModel> {
     const initial = DEFAULT_ONBOARDING_WIZARD_FORM_VALUE;
     const initialUser: OnboardingUserTabFormValue = {
       ...initial.userTab,
-      firstName: userInfo.firstName,
-      lastName: userInfo.lastName,
+      firstName: user.firstName,
+      lastName: user.lastName,
     };
 
     const initialOrganization: OnboardingOrganizationTabFormValue = {
@@ -115,13 +121,10 @@ export class OrganizationOnboardPageComponent implements OnInit {
 
     let userTab: FormGroup<OnboardingUserTabFormModel> =
       this.formBuilder.nonNullable.group({
-        firstName: [userInfo.firstName, [Validators.required]],
-        lastName: [userInfo.lastName, [Validators.required]],
-        jobTitle: [initialUser.jobTitle, [Validators.required]],
-        phoneNumber: [
-          initialUser.phoneNumber,
-          [Validators.required, phoneNumberValidator],
-        ],
+        firstName: [user.firstName, [Validators.required]],
+        lastName: [user.lastName, [Validators.required]],
+        jobTitle: [user.position, [Validators.required]],
+        phoneNumber: [user.phone, [Validators.required, phoneNumberValidator]],
       });
 
     let organizationTab: FormGroup<OnboardingOrganizationTabFormModel> =
@@ -146,6 +149,7 @@ export class OrganizationOnboardPageComponent implements OnInit {
     );
 
     return this.formBuilder.nonNullable.group({
+      isEditable: [true, Validators.requiredTrue],
       userTab,
       organizationTab,
     });
@@ -227,12 +231,14 @@ export class OrganizationOnboardPageComponent implements OnInit {
     };
     this.store.dispatch(
       new OnboardingProcessFormSubmit(
-        this.onboardingType,
         request,
         () => this.parentFormGroup.enable(),
         () => this.parentFormGroup.disable(),
+        () => {
+          this.stepper.next();
+          this.parentFormGroup.controls.isEditable.setValue(false);
+        },
       ),
     );
-    this.stepper.next();
   }
 }
