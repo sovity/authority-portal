@@ -15,6 +15,7 @@ import {phoneNumberValidator} from '../../../../core/utils/validators/phone-numb
 import {buildOrganizationProfileForm} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-builder';
 import {organizationProfileFormEnabledCtrls} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-enabled-ctrls';
 import {OrganizationProfileFormModel} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-model';
+import {DEFAULT_ORGANIZATION_ONBOARD_PAGE_PAGE_STATE} from '../../organization-onboard-page/state/organization-onboard-page-state';
 import {CreateOrganization} from '../state/organization-create-page-action';
 import {
   DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,

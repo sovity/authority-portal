@@ -37,7 +37,7 @@ export class OrganizationOnboardPageStateImpl {
     ctx: StateContext<OrganizationOnboardPageState>,
     action: OnboardingProcessFormSubmit,
   ): Observable<never> {
-    ctx.patchState({onboardingFormState: 'submitting'});
+    ctx.patchState({state: 'submitting'});
     action.disableForm();
 
     const onboardingUser$ = this.apiService.onboardingUser(
@@ -56,11 +56,11 @@ export class OrganizationOnboardPageStateImpl {
     return forkJoin(requests).pipe(
       tap(() => {
         this.toast.showSuccess(`Onboarding completed successfully`);
-        ctx.patchState({onboardingFormState: 'success'});
+        ctx.patchState({state: 'success'});
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
       this.errorService.toastFailureRxjs('Onboarding Failed', () => {
-        ctx.patchState({onboardingFormState: 'error'});
+        ctx.patchState({state: 'error'});
         action.enableForm();
       }),
       ignoreElements(),

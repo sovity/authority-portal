@@ -17,12 +17,14 @@
   <form *ngIf="showForm" [formGroup]="parentFormGroup">
     <div class="flex justify-center">
       <mat-stepper
-        class="w-full lg:w-2/3"
+        class="mt-4 w-full lg:w-2/3"
         labelPosition="bottom"
         linear
         #stepper>
         <!-- user profile form -->
-        <mat-step color="accent">
+        <mat-step
+          color="accent"
+          [editable]="state.state === 'editing' || state.state === 'error'">
           <div class="flex flex-col px-1 md:px-8 w-full">
             <ng-template matStepLabel>User Profile</ng-template>
 
@@ -94,7 +96,8 @@
         <!-- organization profile form -->
         <mat-step
           *ngIf="onboardingType === 'USER_ORGANIZATION_ONBOARDING'"
-          color="accent">
+          color="accent"
+          [editable]="state.state === 'editing' || state.state === 'error'">
           <div class="flex flex-col px-1 md:px-8 w-full">
             <ng-template matStepLabel>Organization Profile</ng-template>
 
@@ -127,7 +130,7 @@
         <!-- organization profile form -->
 
         <!-- final step -->
-        <mat-step>
+        <mat-step [editable]="false">
           <ng-template matStepLabel>Confirmation</ng-template>
           <div class="h-36 my-12 flex flex-col justify-center items-center">
             <div class="h-36 my-12 flex flex-col justify-center items-center">

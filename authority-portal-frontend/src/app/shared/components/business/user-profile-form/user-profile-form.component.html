@@ -51,13 +51,15 @@
     <!-- User's Email -->
   </div>
 
-  <div class="flex gap-4 flex-wrap">
+  <div class="flex flex-row gap-4 flex-wrap">
     <!-- Password -->
     <app-password-input
+      class="flex-1"
       [ctrl]="userForm.controls.password"></app-password-input>
 
     <!-- Confirm password -->
     <app-password-repeat-input
+      class="flex-1"
       [ctrl]="userForm.controls.confirmPassword"
       [parentFormGroup]="userForm"></app-password-repeat-input>
   </div>

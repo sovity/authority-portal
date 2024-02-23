@@ -13,13 +13,6 @@
         <ng-template matStepLabel>Add Connector Details</ng-template>
         <div
           class="select-none flex flex-col justify-center items-center my-10 w-2/3 mx-auto">
-          <!-- MDS ID of client Organization -->
-          <app-organization-select
-            class="w-full"
-            label="Client Organization"
-            [ctrl]="form.connectorTab.controls.organization"
-            [organizations]="state.organizationList"></app-organization-select>
-
           <!-- Connector's Name -->
           <app-text-input
             class="w-full"
@@ -94,9 +87,7 @@
         <app-certificate-input-form
           class="w-full"
           [group]="form.certificateTab"
-          [organizationLegalName]="
-            form.connectorTab.controls.organization.value?.name ?? ''
-          "
+          [organizationLegalName]="userInfo.organizationName"
           [commonName]="form.connectorTab.controls.endpointUrl.value"
           [location]="
             form.connectorTab.controls.location.value

@@ -3,32 +3,30 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {NgxsModule} from '@ngxs/store';
 import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.module';
+import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {FormElementsModule} from '../../../common/components/form-elements/form-elements.module';
-import {ProvideConnectorPageComponent} from './provide-connector-page/provide-connector-page.component';
-import {ProvideConnectorPageStateImpl} from './state/provide-connector-page-state-impl';
+import {FormElementsModule} from '../../common/components/form-elements/form-elements.module';
+import {ParticipantCreateConnectorChoicePageComponent} from './participant-create-connector-choice-page/participant-create-connector-choice-page.component';
 
 @NgModule({
-  declarations: [ProvideConnectorPageComponent],
-  exports: [ProvideConnectorPageComponent],
+  declarations: [ParticipantCreateConnectorChoicePageComponent],
+  exports: [ParticipantCreateConnectorChoicePageComponent],
   imports: [
-    CommonModule,
     BrowserModule,
-    RouterModule,
-
-    FormsModule,
-    ReactiveFormsModule,
-    NgxsModule.forFeature([ProvideConnectorPageStateImpl]),
-
+    CommonModule,
     DevUtilsModule,
-    MaterialModule,
-    SharedModule,
-    PipesAndDirectivesModule,
     FormElementsModule,
+    FormsModule,
+    LoadingElementModule,
+    MaterialModule,
+
+    PipesAndDirectivesModule,
+    ReactiveFormsModule,
+    RouterModule,
+    SharedModule,
   ],
 })
-export class ProvideConnectorPageModule {}
+export class ParticipantCreateConnectorChoicePageModule {}

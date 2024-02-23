@@ -11,8 +11,6 @@ import {UserRoleFormComponent} from 'src/app/shared/components/business/user-rol
 import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
 import {FormElementsModule} from '../common/components/form-elements/form-elements.module';
 import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
-import {CertificateGeneratorDialogComponent} from './components/business/certificate-generator-dialog/certificate-generator-dialog.component';
-import {CertificateGeneratorComponent} from './components/business/certificate-generator/certificate-generator.component';
 import {ConnectorRegisteringSuccessMessagePageComponent} from './components/business/connector-registering-success-message-page/connector-registering-success-message-page.component';
 import {OrganizationProfileFormComponent} from './components/business/organization-profile-form/organization-profile-form.component';
 import {SharedOrganizationDetailComponent} from './components/business/shared-organization-detail/shared-organization-detail.component';
@@ -44,8 +42,6 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SelectionBoxComponent,
     IframeComponent,
     TitleBarComponent,
-    CertificateGeneratorComponent,
-    CertificateGeneratorDialogComponent,
     SharedUserDetailComponent,
     SharedUserListComponent,
     SharedOrganizationDetailComponent,
@@ -78,8 +74,6 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SelectionBoxComponent,
     IframeComponent,
     TitleBarComponent,
-    CertificateGeneratorComponent,
-    CertificateGeneratorDialogComponent,
     SharedUserDetailComponent,
     SharedUserListComponent,
     SharedOrganizationDetailComponent,
@@ -95,7 +89,6 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     OrganizationDetailComponent,
     UserDetailComponent,
     AvatarComponent,
-    CertificateGeneratorComponent,
   ],
 })
 export class SharedModule {

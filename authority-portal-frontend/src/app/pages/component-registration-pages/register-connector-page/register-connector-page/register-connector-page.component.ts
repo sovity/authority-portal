@@ -12,31 +12,28 @@ import {Store} from '@ngxs/store';
 import {UserInfo} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE} from '../../provide-connector-page/state/provide-connector-page-state';
+import {Reset, Submit} from '../state/register-connector-page-actions';
 import {
-  GetOrganizations,
-  Reset,
-  Submit,
-} from '../state/provide-connector-page-actions';
-import {
-  DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE,
-  ProvideConnectorPageState,
-} from '../state/provide-connector-page-state';
-import {ProvideConnectorPageStateImpl} from '../state/provide-connector-page-state-impl';
-import {ProvideConnectorPageForm} from './provide-connector-page-form';
+  DEFAULT_REGISTER_CONNECTOR_PAGE_STATE,
+  RegisterConnectorPageState,
+} from '../state/register-connector-page-state';
+import {RegisterConnectorPageStateImpl} from '../state/register-connector-page-state-impl';
+import {RegisterConnectorPageForm} from './register-connector-page-form';
 
 @Component({
-  selector: 'app-provide-connector-page',
-  templateUrl: './provide-connector-page.component.html',
-  providers: [ProvideConnectorPageForm],
+  selector: 'app-register-connector-page',
+  templateUrl: './register-connector-page.component.html',
+  providers: [RegisterConnectorPageForm],
 })
-export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
+export class RegisterConnectorPageComponent implements OnInit, OnDestroy {
   @HostBinding('class.overflow-y-auto')
   cls = true;
-  state = DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE;
+  state = DEFAULT_REGISTER_CONNECTOR_PAGE_STATE;
   userInfo!: UserInfo;
 
-  createActionName = 'Provide Connector';
-  exitLink = '/service-partner/provided-connectors';
+  createActionName = 'Register Connector';
+  exitLink = '/my-organization/connectors';
 
   @ViewChild('stepper') stepper!: MatStepper;
 
@@ -45,12 +42,11 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
     private store: Store,
-    public form: ProvideConnectorPageForm,
+    public form: RegisterConnectorPageForm,
     private globalStateUtils: GlobalStateUtils,
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(GetOrganizations);
     this.store.dispatch(Reset);
     this.startListeningToState();
     this.getUserInfo();
@@ -66,7 +62,7 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
 
   private startListeningToState() {
     this.store
-      .select<ProvideConnectorPageState>(ProvideConnectorPageStateImpl)
+      .select<RegisterConnectorPageState>(RegisterConnectorPageStateImpl)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
@@ -75,7 +71,6 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
 
   registerConnector(): void {
     const formValue = this.form.value;
-    const mdsId = formValue.connectorTab.organization!.mdsId;
     this.store.dispatch(
       new Submit(
         {
@@ -88,7 +83,6 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
             ? formValue.certificateTab.ownCertificate
             : formValue.certificateTab.generatedCertificate,
         },
-        mdsId,
         () => this.form.group.enable(),
         () => this.form.group.disable(),
         () => this.stepper.next(),
