@@ -119,7 +119,7 @@ export class ApiService {
     return from(this.api().organizationDetails({mdsId, environmentId}));
   }
 
-  getMyOrganizationDetails(): Observable<OwnOrganizationDetailsDto> {
+  getOwnOrganizationDetails(): Observable<OwnOrganizationDetailsDto> {
     return from(this.api().ownOrganizationDetails());
   }
 
@@ -144,9 +144,7 @@ export class ApiService {
   }
 
   // All Connectors
-  getAllConnectors(
-    environmentId: string,
-  ): Observable<ConnectorOverviewResult> {
+  getAllConnectors(environmentId: string): Observable<ConnectorOverviewResult> {
     return from(this.api().getAllConnectors({environmentId}));
   }
 

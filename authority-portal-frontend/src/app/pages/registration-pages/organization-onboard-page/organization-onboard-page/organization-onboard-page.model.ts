@@ -37,6 +37,7 @@ export const DEFAULT_ONBOARDING_ORGANIZATION_TAB_FORM_VALUE: OnboardingOrganizat
   };
 
 export interface OnboardingWizardFormModel {
+  isEditable: FormControl<boolean>;
   userTab: FormGroup<OnboardingUserTabFormModel>;
   organizationTab: FormGroup<OnboardingOrganizationTabFormModel>;
 }
@@ -45,6 +46,7 @@ export type OnboardingWizardFormValue =
   ɵFormGroupRawValue<OnboardingWizardFormModel>;
 
 export const DEFAULT_ONBOARDING_WIZARD_FORM_VALUE: OnboardingWizardFormValue = {
+  isEditable: true,
   userTab: DEFAULT_ONBOARDING_USER_TAB_FORM_VALUE,
   organizationTab: DEFAULT_ONBOARDING_ORGANIZATION_TAB_FORM_VALUE,
 };

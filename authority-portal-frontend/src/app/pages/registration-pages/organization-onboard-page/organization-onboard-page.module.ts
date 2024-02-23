@@ -9,7 +9,9 @@ import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.modu
 import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
+import {ErrorElementModule} from '../../../common/components/error-element/error-element.module';
 import {FormElementsModule} from '../../../common/components/form-elements/form-elements.module';
+import {LoadingElementModule} from '../../../common/components/loading-element/loading-element.module';
 import {OrganizationOnboardPageComponent} from './organization-onboard-page/organization-onboard-page.component';
 import {OrganizationOnboardPageStateImpl} from './state/organization-onboard-page-state-impl';
 
@@ -32,6 +34,8 @@ import {OrganizationOnboardPageStateImpl} from './state/organization-onboard-pag
     MaterialModule,
     SharedModule,
     PipesAndDirectivesModule,
+    LoadingElementModule,
+    ErrorElementModule,
   ],
   exports: [OrganizationOnboardPageComponent],
 })

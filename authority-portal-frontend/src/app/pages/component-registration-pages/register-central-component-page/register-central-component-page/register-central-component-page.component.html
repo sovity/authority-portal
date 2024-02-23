@@ -4,6 +4,7 @@
     <mat-step
       color="accent"
       [editable]="state.state === 'editing' || state.state === 'error'"
+      [completed]="state.state === 'success'"
       [stepControl]="form.componentTab">
       <form class="flex flex-col w-full justify-center">
         <ng-template matStepLabel>Add Connector Details</ng-template>
@@ -63,7 +64,11 @@
     <!-- connector details Step -->
 
     <!-- Generate Certificate Step-->
-    <mat-step color="accent" editable="false" [stepControl]="form.componentTab">
+    <mat-step
+      color="accent"
+      [editable]="state.state === 'editing' || state.state === 'error'"
+      [completed]="state.state === 'success'"
+      [stepControl]="form.componentTab">
       <ng-template matStepLabel>Generate Certificate</ng-template>
 
       <div class="flex justify-center items-center">
@@ -97,7 +102,7 @@
     <!-- Final Step -->
     <mat-step
       color="accent"
-      editable="false"
+      [editable]="false"
       [stepControl]="form.group.controls.canSwitchTabs">
       <ng-template matStepLabel>Setup Central Component</ng-template>
 

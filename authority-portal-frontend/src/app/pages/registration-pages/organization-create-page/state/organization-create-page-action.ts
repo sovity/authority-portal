@@ -8,6 +8,7 @@ export class CreateOrganization {
     public request: RegistrationRequestDto,
     public enableForm: () => void,
     public disableForm: () => void,
+    public success: () => void,
   ) {}
 }
 

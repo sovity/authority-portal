@@ -102,7 +102,7 @@ export class ControlCenterPageStateImpl {
     ctx: StateContext<ControlCenterPageState>,
     action: RefreshOrganization,
   ): Observable<never> {
-    return this.apiService.getMyOrganizationDetails().pipe(
+    return this.apiService.getOwnOrganizationDetails().pipe(
       Fetched.wrap({failureMessage: 'Failed loading organizations'}),
       tap((organization) => this.organizationRefreshed(ctx, organization)),
       ignoreElements(),

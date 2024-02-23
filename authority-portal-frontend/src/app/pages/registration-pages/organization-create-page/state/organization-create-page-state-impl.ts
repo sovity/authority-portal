@@ -41,18 +41,16 @@ export class OrganizationCreatePageStateImpl {
     ctx.patchState({email: action.request.userEmail});
     return this.apiService.registerOrganization(action.request).pipe(
       tap((res) => {
-        this.toast.showSuccess(`Organization registered created successfully`);
+        this.toast.showSuccess(`Successfully registered.`);
         ctx.patchState({state: 'success'});
         ctx.patchState({id: res.id ?? ''});
+        action.success();
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      this.errorService.toastFailureRxjs(
-        'Failed registering organization',
-        () => {
-          ctx.patchState({state: 'error'});
-          action.enableForm();
-        },
-      ),
+      this.errorService.toastFailureRxjs('Failed registration', () => {
+        ctx.patchState({state: 'error'});
+        action.enableForm();
+      }),
       ignoreElements(),
     );
   }

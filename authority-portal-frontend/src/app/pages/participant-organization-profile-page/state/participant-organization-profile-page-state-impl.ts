@@ -43,7 +43,7 @@ export class ParticipantOrganizationProfilePageStateImpl {
   ): Observable<never> {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
-        this.apiService.getMyOrganizationDetails(),
+        this.apiService.getOwnOrganizationDetails(),
       ),
       Fetched.wrap({failureMessage: 'Failed loading organizations'}),
       tap((organization) => this.organizationRefreshed(ctx, organization)),
