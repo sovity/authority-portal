@@ -38,7 +38,7 @@ class UserUpdateApiService {
         user.jobTitle = onboardingUserUpdateDto.jobTitle
         user.registrationStatus = UserRegistrationStatus.ACTIVE
         user.update()
-        keycloakService.updateUser(userId, onboardingUserUpdateDto.firstName, onboardingUserUpdateDto.lastName, null)
+        keycloakService.updateUser(userId, onboardingUserUpdateDto.firstName, onboardingUserUpdateDto.lastName, user.email)
         return IdResponse(userId)
     }
 }
