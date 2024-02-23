@@ -50,7 +50,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ### Known issues
 
-
 ### Deployment Migration Notes
 
 - Keycloak IAM needs to be upgraded to version 23.0.4
@@ -68,6 +67,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
     - `authority-portal.connectors.url.endpoint`
     - Please ensure that the frontend, endpoint and management API URLs are configured correctly for all connectors. If needed, remove affected connectors and re-register them with a correct URL configuration.
 - Portal Frontend
+
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_DSGVO_URL`
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_AVV_URL`
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_IFRAME_URL`
