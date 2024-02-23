@@ -189,6 +189,9 @@ AUTHORITY_PORTAL_FRONTEND_BACKEND_URL: https://[AP_FQDN] # Authority Portal URL
 # Example: https://${AP_FQDN}/oauth2/sign_out?rd=https%3A%2F%2F${KC_FQDN}%2Frealms%2Fauthority-portal%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F${AP_FQDN}
 AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: (...) # Auth Proxy: Logout URL
 AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: https://[AP_FQDN]/oauth2/sign_out # Auth Proxy: URL to invalidate sessions cookies
+AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://mobility-dataspa-5n9px2qi7r.live-website.com/mds-news # MDS Dashboard iFrame URL
+AUTHORITY_PORTAL_FRONTEND_DSGVO_URL: https://mobility-dataspace.online/dsgvo # DSGVO URL
+AUTHORITY_PORTAL_FRONTEND_AVV_URL: https://mobility-dataspace.online/avv # AVV URL
 ```
 
 ### Docker Compose Example
