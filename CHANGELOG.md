@@ -5,85 +5,58 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ## Unreleased - YYYY-MM-DD
 
+<!-- Put it down if implemented, otherwise it's v1.0.1
+- Added possibility to download own organization connectors as csv
+- Added possibility to download connectors as csv
+- Added possibility to download user details as csv
+- Added a dashboard to display component status & uptime statistics
+-->
+
 ### Overview
 
 ### Detailed Changes
 
 #### Major
 
-- Redesigned Connectors list, detail and related sub-pages
-- Redesigned Portal Sidebar, Header and other general layouts
-- Moved registration process from Keycloak into the portal
-- Upgraded Keycloak dependency to version 23.0.4
-- Redesigned authority participant management Section
-- Added the option to request a Connector-as-a-Service from the sovity portal
-- Streamlined invitation & registration process
+- Redesigned the entire Portal UI
+  - Redesigned connector overview pages
+  - Added detail panes for connectors, organizations & users
+  - Redesigned registration and onboarding processes for organizations & users
+  - Added a new "unauthenticated page", registration now happens in the Authority Portal without Keycloak.
+  - Redesigned authority participant management Section
+  - Redesigned the landing page to display information provided by MDS
+- Added a feature to request a Connector-as-a-Service from the sovity portal
+- Upgraded Keycloak to version 23.0.4
 
 #### Minor
 
-- Redesigned Portal Sidebar, Header and other general layouts
-- Added an IFrame for MDS on the start page
-- Added possibility to download own organization connectors as csv
-- Added possibility to download connectors as csv
-- Changed font from Inter to Arial
-- Added possibility to update user details
-- Added possibility to update organization details
-- Added possibility to download user details as csv
-- Adapted to new Broker API
-- Connector registration now fails when attempting to use a certificate that is already in use
-- Connector registration no longer fails when an error occurs while registering it to the Broker
-- Connectors now regularly try to re-register to Broker if previous attempts failed
-- User details in the organization member list can now show more details
-- Authority admins can no longer provide connectors for other organizations
-- Backend: Sync organization data to MDS Broker(s) (Dependency from Broker development)
-- Added possibility to fetch component statuses
-- Changed Connector URL persistence. Frontend URL, Endpoint URL and Management API URL are now independent of each other
-- slide-overs scrolling issue has been fixed
-- Added a connector overview for service providers and the option to unregister provided connectors
-- Connector status is now fetched from Broker and sovity portal and periodically updated
-- Added CaaS connector deletion consequences to confirmation dialog
-- Re-branded Participant organization and user Invitation pages
-- Re-branded Invited User and Organization onboarding pages
-- Added connector status to list and detail views
-- Added Environment switcher to the topbar
-- Implemented CaaS integration
-- Enforced limits for free CaaS requests
-- Added accept TOS checkbox to registration form
-- New "unauthenticated page", registration now happens in the Authority Portal without Keycloak.
-- Redesigned Service Partners Connectors List page
-- Made connectors URL fields clickable/copyable in detail view
-- Added link that opens frontend in new tab to connector list view
-- Updated the form validators and validation system
-- Added the possibility to delete users
-- Added own data offers link to sidebar
-- Added the possibility for users to change their user data including the email address
+- Users are now able to edit their information
+- Organization admins can now edit their organization's information
+- Updated processes to be compatible with the new Broker API
+- Changed the connector registration flow
+  - Registration now fails when attempting to use a certificate that is already in use
+  - Registration no longer fails when an error occurs while registering it to the Broker
+  - Connectors now regularly try to re-register to Broker if previous attempts failed
+  - Connector URLs can now be configured independently
+- Updated the organization member list to display more details
+- Connector status is now displayed in real-time
+- Added the ability for organization & authority admins to delete users
+- Added a link to own organization's data offers in the sidebar
 - Renamed participant roles:
   - Participant Admin -> Admin
   - Participant Curator -> Key User
   - Participant User -> User
-- Authority admins can now delete users
-- Participant admins can now delete users in own organization
-- New Operator Admin Connector List
-- Added component status tracking
-- Redesign Central Component Page
-- MDS Home Page now contains the IFrame in full size
-
-#### Patch
-
-- Start page Iframe won't show if url is not set in the app-config.json
-- Issue with Env selector not updating while creating connector is fixed
-- Removed "Provide Connector" feature for Authority Users/Admins
+- Operator admins can now access an overview of all connectors and have the ability to delete them
 
 ### Known issues
 
-- After logout, if the user leaves the login page and returns to the "previous" login page using the browser's back button, an error will be displayed upon a login attempt. The user can still log in using the appropriate button displayed on the error page
 
 ### Deployment Migration Notes
 
 - Keycloak IAM needs to be upgraded to version 23.0.4
 - Portal Backend
   - Added environment variables
-    - `quarkus.oidc-client.sovity.client-id: https://[CAAS_KC_FQDN]/realms/[REALM`
+    - `quarkus.oidc-client.sovity.client-id: https://[CAAS_KC_FQDN]/realms/[REALM]`
     - `quarkus-oidc-client.sovity.auth-server.url: [CLIENT_ID]`
     - `quarkus-oidc-client.sovity.credentials.secret: [CAAS_CLIENT_SECRET]`
     - `authority-portal.caas.sovity.url: https://[CAAS_PORTAL_FQDN]`
