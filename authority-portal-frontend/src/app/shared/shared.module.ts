@@ -22,7 +22,6 @@ import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {ConfirmationDialogComponent} from './components/common/confirmation-dialog/confirmation-dialog.component';
 import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
 import {HeaderBarComponent} from './components/common/header-bar/header-bar.component';
-import {IframeComponent} from './components/common/iframe/iframe.component';
 import {SelectionBoxComponent} from './components/common/selection-box/selection-box.component';
 import {SlideOverComponent} from './components/common/slide-over/slide-over.component';
 import {TitleBarComponent} from './components/common/title-bar/title-bar.component';
@@ -40,7 +39,6 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     FilterBarComponent,
     SlideOverComponent,
     SelectionBoxComponent,
-    IframeComponent,
     TitleBarComponent,
     SharedUserDetailComponent,
     SharedUserListComponent,
@@ -72,7 +70,6 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     FilterBarComponent,
     SlideOverComponent,
     SelectionBoxComponent,
-    IframeComponent,
     TitleBarComponent,
     SharedUserDetailComponent,
     SharedUserListComponent,

@@ -66,6 +66,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - New Operator Admin Connector List
 - Added component status tracking
 - Redesign Central Component Page
+- MDS Home Page now contains the IFrame in full size
 
 #### Patch
 
