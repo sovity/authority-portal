@@ -1,8 +1,5 @@
 package de.sovity.authorityportal.web.model
 
-/**
- * Represents data used for creating a user.
- */
 class CreateUserData {
     var email: String? = null
     var firstName: String? = null

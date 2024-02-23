@@ -158,17 +158,22 @@ authority-portal.base-url: https://[AP_FQDN] # Must equal the root URL/home URl 
 authority-portal.invitation.expiration: 43200 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
 authority-portal.caas.sovity.url: https://[CAAS_PORTAL_FQDN] # URL of the sovity CaaS Portal
 authority-portal.caas.sovity.limit-per-mdsid: 1 # Amount of free sovity CaaS per participant
+authority-portal.kuma.metrics-url: https://[UPTIME_KUMA_FQDN] # Uptime Kuma metrics endpoint
+authority-portal.kuma.api-key: [UPTIME_KUMA_API_KEY] # Uptime Kuma API key
 # Following is **one** deployment environment configuration. (See hint below)
 authority-portal.deployment.environments.test.title: Test # Env: Title of the deployment environment configuration
 authority-portal.deployment.environments.test.position: 0  # Env: Order of environments, from 0 (default) to n (least important)
 authority-portal.deployment.environments.test.broker.url: https://[BROKER_FQDN] # Env: Broker URL
 authority-portal.deployment.environments.test.broker.admin-api-key: DefaultBrokerServerAdminApiKey # Env: Broker Admin API key
 authority-portal.deployment.environments.test.broker.api-key: ApiKeyDefaultValue # Env: Broker API key
+authority-portal.deployment.environments.test.broker.kuma-name: [BROKER_KUMA_NAME] # Env: Broker Kuma name
 authority-portal.deployment.environments.test.daps.url: https://[KC_DAPS_FQDN] # Env: DAPS URL
 authority-portal.deployment.environments.test.daps.realm-name: DAPS # Env: DAPS realm name
 authority-portal.deployment.environments.test.daps.client-id: authority-portal # Env: DAPS client ID
 authority-portal.deployment.environments.test.daps.client-secret: [DAPS_CLIENT_SECRET] # Env: DAPS client secret
+authority-portal.deployment.environments.test.daps.kuma-name: [DAPS_KUMA_NAME] # Env: DAPS Kuma name
 authority-portal.deployment.environments.test.logging-house.url: https://[LOGGING_HOUSE_FQDN] # Env: Logging House URL
+authority-portal.deployment.environments.test.logging-house.kuma-name: [LOGGING_HOUSE_KUMA_NAME] # Env: Logging House Kuma name
 ```
 
 Environment `test` is mandatory. Further environments can be configured.

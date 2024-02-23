@@ -2,6 +2,7 @@ package de.sovity.authorityportal.web.pages.connectormanagement
 
 import de.sovity.authorityportal.api.model.ConnectorStatusDto
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
+import de.sovity.authorityportal.db.jooq.enums.ConnectorUptimeStatus
 import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasStatusDto
 
@@ -33,4 +34,10 @@ fun ConnectorOnlineStatus.toDto(): ConnectorStatusDto = when (this) {
     ConnectorOnlineStatus.ONLINE -> ConnectorStatusDto.ONLINE
     ConnectorOnlineStatus.OFFLINE -> ConnectorStatusDto.OFFLINE
     ConnectorOnlineStatus.DEAD -> ConnectorStatusDto.DEAD
+}
+
+fun ConnectorOnlineStatus.toDb(): ConnectorUptimeStatus = when (this) {
+    ConnectorOnlineStatus.ONLINE -> ConnectorUptimeStatus.UP
+    ConnectorOnlineStatus.OFFLINE -> ConnectorUptimeStatus.DOWN
+    ConnectorOnlineStatus.DEAD -> ConnectorUptimeStatus.DEAD
 }

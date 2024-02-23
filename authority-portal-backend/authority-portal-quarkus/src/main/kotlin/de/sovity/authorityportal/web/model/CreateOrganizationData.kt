@@ -2,9 +2,6 @@ package de.sovity.authorityportal.web.model
 
 import de.sovity.authorityportal.db.jooq.enums.OrganizationLegalIdType
 
-/**
- * Represents data used for creating an organization.
- */
 class CreateOrganizationData {
     var name: String? = null
     var url: String? = null

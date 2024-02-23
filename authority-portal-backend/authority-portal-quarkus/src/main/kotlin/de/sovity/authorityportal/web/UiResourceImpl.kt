@@ -4,6 +4,7 @@ import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.api.model.CaasAvailabilityResponse
 import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
 import de.sovity.authorityportal.api.model.CentralComponentDto
+import de.sovity.authorityportal.api.model.ComponentStatusOverview
 import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateCaasRequest
@@ -47,6 +48,7 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiServi
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
+import de.sovity.authorityportal.web.pages.ComponentStatusApiService
 import jakarta.annotation.security.PermitAll
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
@@ -107,6 +109,9 @@ class UiResourceImpl : UiResource {
 
     @Inject
     lateinit var caasManagementApiService: CaasManagementApiService
+
+    @Inject
+    lateinit var componentStatusApiService: ComponentStatusApiService
 
     // User info
     @Transactional
@@ -336,18 +341,6 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun organizationConnectors(mdsId: String, environmentId: String): ConnectorOverviewResult {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
-        return connectorManagementApiService.listOrganizationConnectors(mdsId, environmentId)
-    }
-
-    @Transactional
-    override fun connectorDetails(mdsId: String, connectorId: String): ConnectorDetailDto {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
-        return connectorManagementApiService.getConnectorDetails(connectorId, mdsId, loggedInUser.userId)
-    }
-
-    @Transactional
     override fun createOwnConnector(environmentId: String, connector: CreateConnectorRequest): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
@@ -450,5 +443,15 @@ class UiResourceImpl : UiResource {
     override fun updateOrganizationDetails(mdsId: String, organizationDto: UpdateOrganizationDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
         return organizationUpdateApiService.updateOrganization(mdsId, organizationDto)
+    }
+
+    @Transactional
+    override fun getComponentsStatus(environmentId: String): ComponentStatusOverview {
+        authUtils.requiresAuthenticated()
+        authUtils.requiresMemberOfAnyOrganization()
+        if (authUtils.hasRole(Roles.UserRoles.AUTHORITY_USER)) {
+            return componentStatusApiService.getComponentsStatus(environmentId);
+        }
+        return componentStatusApiService.getComponentsStatusForMdsId(environmentId, loggedInUser.organizationMdsId!!)
     }
 }

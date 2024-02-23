@@ -3,6 +3,7 @@ package de.sovity.authorityportal.api;
 import de.sovity.authorityportal.api.model.CaasAvailabilityResponse;
 import de.sovity.authorityportal.api.model.CentralComponentCreateRequest;
 import de.sovity.authorityportal.api.model.CentralComponentDto;
+import de.sovity.authorityportal.api.model.ComponentStatusOverview;
 import de.sovity.authorityportal.api.model.ConnectorDetailDto;
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult;
 import de.sovity.authorityportal.api.model.CreateCaasRequest;
@@ -222,6 +223,8 @@ public interface UiResource {
     @Operation(description = "Get all connectors of all participating organizations.")
     ConnectorOverviewResult getAllConnectors(
         @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
         String environmentId
     );
 
@@ -338,32 +341,6 @@ public interface UiResource {
         @Valid
         @NotBlank(message = "EnvironmentId cannot be blank")
         String environmentId
-    );
-
-    @GET
-    @Path("/organizations/{mdsId}/connectors")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Get all connectors of any organization.")
-    ConnectorOverviewResult organizationConnectors(
-        @PathParam("mdsId")
-        String mdsId,
-
-        @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
-
-    @GET
-    @Path("/organizations/{mdsId}/connectors/{connectorId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Get details of any connector of any organization.")
-    ConnectorDetailDto connectorDetails(
-        @PathParam("mdsId")
-        String mdsId,
-
-        @PathParam("connectorId")
-        String connectorId
     );
 
     @POST
@@ -530,6 +507,8 @@ public interface UiResource {
     @Operation(description = "List central components (e.g. a broker or logging house)")
     List<CentralComponentDto> getCentralComponents(
         @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
         String environmentId
     );
 
@@ -540,8 +519,12 @@ public interface UiResource {
     @Operation(description = "Register a central component (e.g. a broker or logging house)")
     IdResponse createCentralComponent(
         @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
         String environmentId,
 
+        @Valid
+        @NotNull(message = "Component cannot be null")
         CentralComponentCreateRequest componentRegistrationRequest
     );
 
@@ -552,5 +535,16 @@ public interface UiResource {
     IdResponse deleteCentralComponent(
         @PathParam("centralComponentId")
         String centralComponentId
+    );
+
+    @GET
+    @Path("/component-statuses")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Get component status information for a specific environment.")
+    ComponentStatusOverview getComponentsStatus(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
     );
 }

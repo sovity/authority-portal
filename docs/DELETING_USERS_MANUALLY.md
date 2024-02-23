@@ -20,7 +20,7 @@ _Caution: You are operating in an area which is highly prone to user errors. Do 
 2. Check if that user ID is associated with any organization as the creator.
    - Execute `SELECT * FROM organization WHERE created_by = '[userId from KC]'` on the Authority Portal DB.
    - If the query does not return any results, **skip to step 6a**.
-   - Note down the organizations `mds_id`.
+   - Otherwise, note down the organization's `mds_id`.
 
 3. Check if user is the only member of the found organization in Keycloak.
    - Search for the `mds_id` in the `authority-portal` realm's `Groups` tab.
@@ -34,16 +34,27 @@ _Caution: You are operating in an area which is highly prone to user errors. Do 
    - **Proceed with the next step**, as soon as the user has assigned another `Participant Admin`.
 
 5. Change the `created_by` attribute of the organization entry in the Portal DB.
-   - Decide on which of the other organization member with the role of `Participant Admin` should be the new creator of the organization. (User's `ID` can be obtained from the Keycloak)
+   - Decide on which of the other organization members with the role of `Participant Admin` should be the new creator of the organization. (User's `ID` can be obtained from the Keycloak)
    - Execute `UPDATE organization SET created_by = '[userId of Participant Admin]' WHERE mds_id = '[mdsId]'` on the Authority Portal DB.
 
 6. Delete user data.
    - a. With remaining organization members
+      - Obtain `mds_id` of the user's organization from the Authority Portal DB: `SELECT organization_mds_id FROM "user" WHERE id = '[userId from KC]'`.
+      - Obtain `created_by` (User ID of creator) of the user's organization from the Authority Portal DB: `SELECT created_by FROM organization WHERE mds_id = '[mdsId]'`.
+      - Update `created_by` attribute of the user's connectors in the Authority Portal DB: `UPDATE connector SET created_by = '[userId of creator]' WHERE created_by = '[userId from KC]'`.
+      - Update `created_by` attribute of the user's central components in the Authority Portal DB: `UPDATE component SET created_by = '[userId of creator]' WHERE created_by = '[userId from KC]'`.
+      - Delete `invited_by` references to the user to be deleted from the Authority Portal DB: `UPDATE "user" SET invited_by = NULL WHERE invited_by = '[userId from KC]'`.
       - Delete user from Keycloak: `Users` tab of `authority-portal` realm.
       - Delete user from Authority Portal DB: `DELETE FROM "user" WHERE id = '[userId from KC]'`.
    - b. Without remaining organization members (also deletes organization data)
-      - Delete user from Keycloak: `Users` tab of `authority-portal` realm.
-      - Remove `mds_id` from user data: `UPDATE "user" SET mds_id = NULL WHERE id = '[userId from KC]'`.
+      - Obtain `client_id` and `endpoint_url` of the organization's connectors from the Authority Portal DB: `SELECT client_id, endpoint_url FROM connector WHERE mds_id = '[mdsId]'`.
+      - Obtain `client_id` of the organization's central components from the Authority Portal DB: `SELECT client_id FROM component WHERE mds_id = '[mdsId]'`.
+      - _External_: Delete DAPS clients for the obtained `client_id`s and remove `endpoint_url`s from the Broker.
+      - Delete connectors from the Authority Portal DB: `DELETE FROM connector WHERE mds_id = '[mdsId]'`.
+      - Delete central components from the Authority Portal DB: `DELETE FROM component WHERE mds_id = '[mdsId]'`.
+      - Delete `invited_by` references to the user to be deleted from the Authority Portal DB: `UPDATE "user" SET invited_by = NULL WHERE invited_by = '[userId from KC]'`.
+      - Delete `organization_mds_id` from user data: `UPDATE "user" SET organization_mds_id = NULL WHERE id = '[userId from KC]'`.
       - Delete organization from Authority Portal DB: `DELETE FROM organization WHERE mds_id = '[mdsId]'`.
-      - Delete user from Authority Portal DB: `DELETE FROM "user" WHERE id = '[userId from KC]'`.
       - Delete organization from Keycloak: `Groups` tab of `authority-portal` realm, search for `mds_id`.
+      - Delete user from Keycloak: `Users` tab of `authority-portal` realm.
+      - Delete user from Authority Portal DB: `DELETE FROM "user" WHERE id = '[userId from KC]'`.

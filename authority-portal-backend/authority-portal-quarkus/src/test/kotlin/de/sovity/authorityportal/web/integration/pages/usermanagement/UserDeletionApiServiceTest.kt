@@ -1,7 +1,6 @@
 package de.sovity.authorityportal.web.integration.pages.usermanagement
 
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeletionApiService
-import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClient
@@ -21,7 +20,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
-import org.mockito.Mockito.anyList
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.doNothing
@@ -39,9 +37,6 @@ class UserDeletionApiServiceTest {
 
     @Inject
     lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var connectorService: ConnectorService
 
     lateinit var keycloakService: KeycloakService
 
