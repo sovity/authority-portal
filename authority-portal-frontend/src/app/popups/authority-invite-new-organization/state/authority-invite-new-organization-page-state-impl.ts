@@ -2,9 +2,17 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ignoreElements, takeUntil, tap} from 'rxjs/operators';
-import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
+import {
+  Action,
+  Actions,
+  State,
+  StateContext,
+  Store,
+  ofAction,
+} from '@ngxs/store';
 import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
+import {RefreshOrganizations} from 'src/app/pages/authority-organization-list-page/state/authority-organization-list-page-actions';
 import {ApiService} from '../../../core/api/api.service';
 import {
   InviteNewOrganization,
@@ -24,9 +32,9 @@ export class AuthorityInviteNewOrganizationPageStateImpl {
   constructor(
     private apiService: ApiService,
     private toast: ToastService,
-    private router: Router,
     private actions$: Actions,
     private errorService: ErrorService,
+    private store: Store,
   ) {}
 
   @Action(Reset)
@@ -47,6 +55,7 @@ export class AuthorityInviteNewOrganizationPageStateImpl {
           `The invitation for ${action.request.orgName} was sent.`,
         );
         ctx.patchState({state: 'success'});
+        this.store.dispatch(RefreshOrganizations);
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
       this.errorService.toastFailureRxjs('Failed Inviting Organization', () => {
