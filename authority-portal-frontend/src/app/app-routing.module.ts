@@ -204,6 +204,14 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
       {
+        path: 'operator/connectors',
+        component: AuthorityConnectorListPageComponent,
+        data: {
+          requiresRole: ['OPERATOR_ADMIN'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
         path: '**',
         redirectTo: 'dashboard',
         pathMatch: 'full',

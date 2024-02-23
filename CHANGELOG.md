@@ -63,6 +63,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Participant User -> User
 - Authority admins can now delete users
 - Participant admins can now delete users in own organization
+- New Operator Admin Connector List
 
 #### Patch
 
