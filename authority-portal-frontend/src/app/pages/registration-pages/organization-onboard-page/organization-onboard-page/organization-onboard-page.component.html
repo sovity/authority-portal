@@ -85,7 +85,7 @@
             <button
               *ngIf="state.onboardingType === 'USER_ONBOARDING'"
               class="btn-accent"
-              [disabledBtn]="!userForm.valid"
+              [disabledBtn]="!userForm.valid || state.state === 'submitting'"
               (click)="submit()">
               Submit
             </button>

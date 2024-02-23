@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject, distinctUntilChanged, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {UserDetailDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {UserDetailConfig} from 'src/app/shared/components/business/shared-user-detail/shared-user-detail.model';
 import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
@@ -31,8 +30,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.globalStateUtils.userInfo$
       .pipe(distinctUntilChanged(), takeUntil(this.ngOnDestroy$))
       .subscribe((userInfo) => {
-        if (this.state.userId === userInfo.userId) return;
-        this.setUserId(userInfo.userId);
+        if (this.state.userId !== userInfo.userId) {
+          this.store.dispatch(new RefreshUserProfile(userInfo.userId));
+        }
       });
     this.startListeningToState();
   }
@@ -50,22 +50,16 @@ export class UserProfileComponent implements OnInit, OnDestroy {
             pageFor: 'OWN',
           };
         }
-        this.headerConfig = this.setHeaderConfig(this.state.user.data);
+        this.state.user.ifReady(
+          (user) =>
+            (this.headerConfig = {
+              title: `${user.firstName}  ${user.lastName}`,
+              subtitle: 'Details about your profile',
+              headerActions: [],
+            }),
+        );
       });
   }
-
-  setUserId(userId: string) {
-    this.store.dispatch(new RefreshUserProfile(userId));
-  }
-
-  setHeaderConfig(profile: UserDetailDto): HeaderBarConfig {
-    return {
-      title: `${profile.firstName}  ${profile.lastName}`,
-      subtitle: 'Details about your profile',
-      headerActions: [],
-    };
-  }
-
   ngOnDestroy(): void {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();

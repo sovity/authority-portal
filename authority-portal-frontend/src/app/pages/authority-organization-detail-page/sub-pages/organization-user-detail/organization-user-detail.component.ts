@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
@@ -31,7 +31,7 @@ import {AuthorityOrganizationDetailPageStateImpl} from '../../state/authority-or
   selector: 'app-organization-user-detail',
   templateUrl: './organization-user-detail.component.html',
 })
-export class OrganizationUserDetailComponent {
+export class OrganizationUserDetailComponent implements OnInit, OnDestroy {
   @Input() userDetailPageConfig!: UserDetailPageConfig;
 
   userDetailConfig!: UserDetailConfig;
@@ -83,22 +83,13 @@ export class OrganizationUserDetailComponent {
   }
 
   setApplicationRoles() {
-    this.globalStateUtils.userInfo$.subscribe((userInfo) => {
-      this.availableApplicationRoles = getAvailableApplicationRoles(
-        Array.from(userInfo.roles),
-      );
-    });
-  }
-
-  userActionHandler($event: any) {
-    switch ($event.type) {
-      case 'REACTIVATE':
-        this.store.dispatch(new ReactivateUser(this.state.userId));
-        break;
-      case 'DEACTIVATE':
-        this.store.dispatch(new DeactivateUser(this.state.userId));
-        break;
-    }
+    this.globalStateUtils.userInfo$
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe((userInfo) => {
+        this.availableApplicationRoles = getAvailableApplicationRoles(
+          Array.from(userInfo.roles),
+        );
+      });
   }
 
   userRoleUpdateHandler($event: UserRoleUpdate) {

@@ -78,7 +78,6 @@ export class ControlCenterPageStateImpl {
     userId: string,
   ) {
     ctx.patchState({
-      ...ctx.getState(),
       userProfileState: {...ctx.getState().userProfileState, userId, user},
     });
   }
@@ -88,7 +87,6 @@ export class ControlCenterPageStateImpl {
     action: SetOrganizationMdsId,
   ): Observable<never> {
     ctx.patchState({
-      ...ctx.getState(),
       organizationProfileState: {
         ...ctx.getState().organizationProfileState,
         organizationMdsId: action.organizationMdsId,
