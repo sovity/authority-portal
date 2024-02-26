@@ -10,7 +10,6 @@ import {SidebarSection} from './sidebar.model';
 export class SidebarComponent implements OnInit, OnDestroy {
   isExpandedMenu: boolean = true;
   sidebarSections: SidebarSection[] = [];
-
   private ngOnDestroy$ = new Subject();
 
   constructor(private globalStateUtils: GlobalStateUtils) {}
