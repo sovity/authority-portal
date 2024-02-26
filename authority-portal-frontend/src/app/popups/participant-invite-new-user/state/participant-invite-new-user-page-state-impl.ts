@@ -4,6 +4,7 @@ import {ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
+import {RefreshOrganization} from 'src/app/pages/control-center-page/state/control-center-page-action';
 import {ApiService} from '../../../core/api/api.service';
 import {InviteNewUser, Reset} from './participant-invite-new-user-page-actions';
 import {
@@ -30,23 +31,24 @@ export class ParticipantInviteNewUserPageStateImpl {
   }
 
   @Action(InviteNewUser)
-  onInviteNewOrganization(
+  onInviteNewUser(
     ctx: StateContext<ParticipantInviteNewUserPageState>,
     action: InviteNewUser,
   ): Observable<never> {
     ctx.patchState({state: 'submitting'});
     action.disableForm();
     return this.apiService.inviteUser(action.request).pipe(
+      takeUntil(this.actions$.pipe(ofAction(Reset))),
+      this.errorService.toastFailureRxjs('Failed Inviting User', () => {
+        ctx.patchState({state: 'error'});
+        action.enableForm();
+      }),
       tap(() => {
         this.toast.showSuccess(
           `The invitation for ${action.request.firstName} ${action.request.lastName} was sent.`,
         );
         ctx.patchState({state: 'success'});
-      }),
-      takeUntil(this.actions$.pipe(ofAction(Reset))),
-      this.errorService.toastFailureRxjs('Failed Inviting User', () => {
-        ctx.patchState({state: 'error'});
-        action.enableForm();
+        ctx.dispatch(RefreshOrganization);
       }),
       ignoreElements(),
     );

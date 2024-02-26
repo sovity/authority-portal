@@ -232,7 +232,8 @@ export const inviteUser = (
   updateOrganization(getUserInfo().organizationMdsId, (organization) => {
     return {
       ...organization,
-      memberInfos: [...organization.memberList, newUser],
+      memberList: [...organization.memberList, newUser],
+      memberCount: organization.memberCount + 1,
     };
   });
 
