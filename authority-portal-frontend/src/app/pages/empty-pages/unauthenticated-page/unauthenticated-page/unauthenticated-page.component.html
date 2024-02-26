@@ -19,21 +19,22 @@
       If your organization is already participating in the MDS, please ask your
       organization's administrator to invite you.
     </p>
-    <div class="flex justify-center">
+    <div class="flex items-center flex-col gap-2">
       <a
         id="btn-login"
-        class="bg-black hover:bg-black text-white font-bold py-2 px-4 rounded"
+        class="w-[300px] bg-black hover:bg-black text-white font-bold py-2 px-4 rounded active:scale-[0.99]"
         [attr.href]="appConfig.loginUrl">
         Log In
       </a>
-    </div>
-    <div class="fixed left-20 bottom-20 bg-red-50">
       <a
         id="btn-register-organization"
-        class="bg-black hover:bg-black text-white font-bold py-3 px-4 rounded"
+        class="w-[300px] bg-white text-black border border-gray-700 font-bold py-2 px-4 rounded active:scale-[0.99]"
         routerLink="/create-organization">
         Register Organization
       </a>
     </div>
+    <footer class="fixed left-10 bottom-5 text-sm">
+      <app-footer-links></app-footer-links>
+    </footer>
   </div>
 </div>

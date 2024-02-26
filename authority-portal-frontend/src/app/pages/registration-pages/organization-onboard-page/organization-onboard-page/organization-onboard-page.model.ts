@@ -9,6 +9,7 @@ export interface OnboardingUserTabFormModel {
   lastName: FormControl<string>;
   jobTitle: FormControl<string>;
   phoneNumber: FormControl<string>;
+  acceptedTos: FormControl<boolean>;
 }
 
 export type OnboardingUserTabFormValue =
@@ -20,6 +21,7 @@ export const DEFAULT_ONBOARDING_USER_TAB_FORM_VALUE: OnboardingUserTabFormValue 
     lastName: '',
     jobTitle: '',
     phoneNumber: '',
+    acceptedTos: false,
   };
 
 export interface OnboardingOrganizationTabFormModel

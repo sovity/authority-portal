@@ -16,8 +16,7 @@ export interface AppConfig {
   useFakeBackend: boolean;
   useLocalBackend: boolean;
   iframeUrl: string;
-  dsgvoUrl: string;
-  avvUrl: string;
+  privacyPolicyUrl: string;
 }
 
 /**
@@ -33,8 +32,7 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND: string;
   AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: string;
   AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: string;
-  AUTHORITY_PORTAL_FRONTEND_DSGVO_URL: string;
-  AUTHORITY_PORTAL_FRONTEND_AVV_URL: string;
+  AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: string;
 }
 
 /**
@@ -53,7 +51,6 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
     useLocalBackend:
       envVars.AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND === 'true',
     iframeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_IFRAME_URL,
-    dsgvoUrl: envVars.AUTHORITY_PORTAL_FRONTEND_DSGVO_URL,
-    avvUrl: envVars.AUTHORITY_PORTAL_FRONTEND_AVV_URL,
+    privacyPolicyUrl: envVars.AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL,
   };
 }

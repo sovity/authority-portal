@@ -70,6 +70,11 @@
                 ctrlId="formRegPhoneNumber"
                 placeholder="+49 1234 567890"
                 [ctrl]="userForm.controls.phoneNumber"></app-text-input>
+
+              <!-- Accept Privacy Policy Checkbox -->
+              <app-tos-check
+                *ngIf="state.onboardingType === 'USER_ONBOARDING'"
+                [ctrl]="userForm.controls.acceptedTos"></app-tos-check>
             </div>
           </div>
 

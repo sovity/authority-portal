@@ -72,8 +72,8 @@ export class OrganizationOnboardPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(Reset);
-    this.setupFormOnce();
     this.startListeningToState();
+    this.setupFormOnce();
   }
 
   private setupFormOnce() {
@@ -114,6 +114,10 @@ export class OrganizationOnboardPageComponent implements OnInit {
       lastName: user.lastName,
       jobTitle: user.position,
       phoneNumber: user.phone,
+      acceptedTos:
+        this.state.onboardingType === 'USER_ONBOARDING'
+          ? initial.userTab.acceptedTos
+          : true,
     };
 
     const initialOrganization: OnboardingOrganizationTabFormValue = {
@@ -130,6 +134,7 @@ export class OrganizationOnboardPageComponent implements OnInit {
           initialUser.phoneNumber,
           [Validators.required, phoneNumberValidator],
         ],
+        acceptedTos: [initialUser.acceptedTos, Validators.requiredTrue],
       });
 
     let organizationTab: FormGroup<OnboardingOrganizationTabFormModel> =

@@ -47,6 +47,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Participant Curator -> Key User
   - Participant User -> User
 - Operator admins can now access an overview of all connectors and have the ability to delete them
+- Privacy policy link is now displayed on all pages and required to be accepted during registration flows
 
 ### Known issues
 
@@ -68,8 +69,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
     - Please ensure that the frontend, endpoint and management API URLs are configured correctly for all connectors. If needed, remove affected connectors and re-register them with a correct URL configuration.
 - Portal Frontend
 
-  - Added environment variable `AUTHORITY_PORTAL_FRONTEND_DSGVO_URL`
-  - Added environment variable `AUTHORITY_PORTAL_FRONTEND_AVV_URL`
+  - Added environment variable `AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL`
   - Added environment variable `AUTHORITY_PORTAL_FRONTEND_IFRAME_URL`
 
 - TODO: Create Deployment Migration Notes for the new Self-Registration flow

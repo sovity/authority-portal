@@ -13,6 +13,7 @@ import {FormElementsModule} from '../common/components/form-elements/form-elemen
 import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
 import {ConnectorRegisteringSuccessMessagePageComponent} from './components/business/connector-registering-success-message-page/connector-registering-success-message-page.component';
 import {DeleteConnectorModalComponent} from './components/business/delete-connector-modal/delete-connector-modal.component';
+import {FooterLinksComponent} from './components/business/footer-links/footer-links.component';
 import {OrganizationProfileFormComponent} from './components/business/organization-profile-form/organization-profile-form.component';
 import {SharedOrganizationDetailComponent} from './components/business/shared-organization-detail/shared-organization-detail.component';
 import {SharedUserDetailComponent} from './components/business/shared-user-detail/shared-user-detail.component';
@@ -49,6 +50,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     OrganizationProfileFormComponent,
     ConnectorRegisteringSuccessMessagePageComponent,
     DeleteConnectorModalComponent,
+    FooterLinksComponent,
   ],
   imports: [
     CommonModule,
@@ -81,6 +83,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     OrganizationProfileFormComponent,
     ConnectorRegisteringSuccessMessagePageComponent,
     DeleteConnectorModalComponent,
+    FooterLinksComponent,
   ],
   providers: [
     CertificateGenerateService,
