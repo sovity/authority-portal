@@ -1,0 +1,74 @@
+package de.sovity.authorityportal.web.services.reporting
+
+import de.sovity.authorityportal.db.jooq.enums.ConnectorType
+import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
+import de.sovity.authorityportal.web.services.ConnectorService
+import de.sovity.authorityportal.web.services.OrganizationService
+import de.sovity.authorityportal.web.services.reporting.utils.CsvColumn
+import de.sovity.authorityportal.web.services.reporting.utils.buildCsv
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
+import java.io.ByteArrayInputStream
+
+@ApplicationScoped
+class ConnectorParticipantCsvReportService {
+
+    @Inject
+    lateinit var connectorService: ConnectorService
+
+    @Inject
+    lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
+
+    @Inject
+    lateinit var organizationService: OrganizationService
+
+    data class ParticipantConnectorReportRow(
+        val connectorId: String,
+        val connectorName: String,
+        val connectorType: ConnectorType,
+        val environment: String,
+        val frontendUrl: String,
+        val endpointUrl: String,
+        val managementUrl: String,
+        val hostedByMdsId: String?,
+        val hostedByName: String?,
+    )
+
+    val columns = listOf<CsvColumn<ParticipantConnectorReportRow>>(
+        CsvColumn("Connector ID") { it.connectorId },
+        CsvColumn("Name") { it.connectorName },
+        CsvColumn("Type") { it.connectorType.toString() },
+        CsvColumn("Environment") { it.environment },
+        CsvColumn("Frontend URL") { it.frontendUrl },
+        CsvColumn("Endpoint URL") { it.endpointUrl },
+        CsvColumn("Management API URL") { it.managementUrl },
+        CsvColumn("Hosted By MDS ID") { it.hostedByMdsId ?: "" },
+        CsvColumn("Hosted By Name") { it.hostedByMdsId ?: "" }
+    )
+
+    fun generateParticipantConnectorCsvReport(mdsId: String, environmentId: String): ByteArrayInputStream {
+        deploymentEnvironmentService.assertValidEnvId(environmentId)
+        val rows = buildParticipantConnectorReportRows(mdsId, environmentId)
+        return buildCsv(columns, rows)
+    }
+
+    private fun buildParticipantConnectorReportRows(mdsId: String, environmentId: String): List<ParticipantConnectorReportRow> {
+        val connectors = connectorService.getConnectorsByMdsIdAndEnvironment(mdsId, environmentId)
+        val organizationNames = organizationService.getAllOrganizationNames()
+
+        return connectors.map {
+            ParticipantConnectorReportRow(
+                connectorId = it.connectorId,
+                connectorName = it.name,
+                connectorType = it.type,
+                environment = it.environment,
+                frontendUrl = it.frontendUrl,
+                endpointUrl = it.endpointUrl,
+                managementUrl = it.managementUrl,
+                hostedByMdsId = it.providerMdsId,
+                hostedByName = organizationNames[it.providerMdsId]
+            )
+        }
+    }
+
+}

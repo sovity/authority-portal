@@ -1,6 +1,7 @@
 package de.sovity.authorityportal.web.thirdparty.broker
 
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
+import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalDataOfferInfo
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadataRequest
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
@@ -52,4 +53,14 @@ interface BrokerClientResource {
         @QueryParam("adminApiKey") adminApiKey: String,
         orgMetadata: AuthorityPortalOrganizationMetadataRequest
     ): Response
+
+    @POST
+    @Path("authority-portal-api/data-offer-info")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getDataOfferInfo(
+        @HeaderParam("X-Api-Key") apiKey: String,
+        @QueryParam("adminApiKey") adminApiKey: String,
+        connectorEndpoints: List<String>
+    ): List<AuthorityPortalDataOfferInfo>
 }

@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
@@ -16,10 +15,10 @@ import jakarta.ws.rs.core.Response;
 public interface ReportingResource {
 
     @GET
-    @Path("/my-org/connectors")
+    @Path("/connectors")
     @Produces("text/csv")
     @Operation(description = "Download own organization connectors information as csv")
-    Response downloadOwnOrganizationConnectorsCsv(
+    Response createConnectorsCsvReport(
         @QueryParam("environmentId")
         @Valid
         @NotBlank(message = "EnvironmentId cannot be blank")
@@ -27,31 +26,30 @@ public interface ReportingResource {
     );
 
     @GET
-    @Path("/{mdsId}/connectors")
-    @Produces("text/csv")
-    @Operation(description = "Download organization connectors information as csv")
-    Response downloadConnectorsCsv(
-        @PathParam("mdsId")
-        String mdsId,
-
-        @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
-
-    @GET
-    @Path("/my-org/users")
-    @Produces("text/csv")
-    @Operation(description = "Download own organization's users reporting details.")
-    Response ownOrganizationUserReportingDetails();
-
-    @GET
-    @Path("/{mdsId}/users")
+    @Path("/users")
     @Produces("text/csv")
     @Operation(description = "Download organization's users reporting details.")
-    Response userReportingDetails(
-        @PathParam("mdsId")
-        String mdsId
+    Response createUsersAndRolesCsvReport();
+
+    @GET
+    @Path("/data-offers")
+    @Produces("text/csv")
+    @Operation(description = "Download data offers reporting details.")
+    Response createDataOffersCsvReport(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
+
+    @GET
+    @Path("/system-stability")
+    @Produces("text/csv")
+    @Operation(description = "Download system stability reporting details.")
+    Response createSystemStabilityCsvReport(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
     );
 }

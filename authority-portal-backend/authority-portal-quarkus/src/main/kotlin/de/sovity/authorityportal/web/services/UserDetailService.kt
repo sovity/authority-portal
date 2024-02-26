@@ -27,8 +27,8 @@ class UserDetailService {
         return buildUserDetail(dbUser)
     }
 
-    fun getUserDetailsByOrganization(mdsId: String): List<UserDetail> {
-        val dbUsers = userService.getUsersByMdsId(mdsId)
+    fun getAllUserDetails(): List<UserDetail> {
+        val dbUsers = userService.getAllUsers()
         return dbUsers.map { dbUser -> buildUserDetail(dbUser) }
     }
 

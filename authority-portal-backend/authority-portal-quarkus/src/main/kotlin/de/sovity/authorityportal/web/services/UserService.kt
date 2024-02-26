@@ -25,6 +25,14 @@ class UserService {
         return getUser(userId) ?: createUser(userId, onboardingType = userOnboardingType)
     }
 
+    fun getAllUsers(): List<UserRecord> {
+        val u = Tables.USER
+
+        return dsl.selectFrom(u)
+            .fetch()
+            .toList()
+    }
+
     fun getUsersByMdsId(mdsId: String): List<UserRecord> {
         val u = Tables.USER
 
