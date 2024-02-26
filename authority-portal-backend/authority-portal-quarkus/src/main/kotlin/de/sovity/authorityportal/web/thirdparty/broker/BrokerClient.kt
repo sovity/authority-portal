@@ -2,6 +2,7 @@ package de.sovity.authorityportal.web.thirdparty.broker
 
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment.BrokerConfig
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
+import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalDataOfferInfo
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadata
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadataRequest
 import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder
@@ -57,6 +58,12 @@ class BrokerClient(private val brokerConfig: BrokerConfig) {
         expectStatusCode(response, Response.Status.NO_CONTENT.statusCode, "setOrganizationMetadata")
     }
 
+    fun getDataOffersInfo(connectorEndpointUrls: List<String>): List<AuthorityPortalDataOfferInfo> =
+        brokerClientResource.getDataOfferInfo(
+            brokerConfig.apiKey(),
+            brokerConfig.adminApiKey(),
+            connectorEndpointUrls
+        )
 
     private fun expectStatusCode(response: Response, expectedStatusCode: Int, operationName: String) {
         if (response.status != expectedStatusCode) {

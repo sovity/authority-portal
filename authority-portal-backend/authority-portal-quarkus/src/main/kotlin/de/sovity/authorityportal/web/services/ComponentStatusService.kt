@@ -11,6 +11,7 @@ import io.quarkus.scheduler.Scheduled
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
+import org.jooq.impl.DSL
 import java.time.OffsetDateTime
 
 @ApplicationScoped
@@ -58,6 +59,15 @@ class ComponentStatusService {
 
         return dsl.selectFrom(c)
             .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment)).and(c.TIME_STAMP.greaterOrEqual(limit))
+            .orderBy(c.TIME_STAMP.asc())
+            .fetch()
+    }
+
+    fun getUpOrDownRecordsOrderByTimestampAsc(environment: String): List<ComponentDowntimesRecord> {
+        val c = Tables.COMPONENT_DOWNTIMES
+
+        return dsl.selectFrom(c)
+            .where(c.ENVIRONMENT.eq(environment), c.STATUS.eq(DSL.any(ComponentOnlineStatus.UP, ComponentOnlineStatus.DOWN)))
             .orderBy(c.TIME_STAMP.asc())
             .fetch()
     }
