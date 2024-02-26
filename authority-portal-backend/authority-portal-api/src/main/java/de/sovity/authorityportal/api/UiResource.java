@@ -343,6 +343,17 @@ public interface UiResource {
         String environmentId
     );
 
+    @GET
+    @Path("/organizations/my-org/redirects/broker")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Redirect to the specific broker catalog based on the environment.")
+    Response redirectToCatalog(
+        @QueryParam("environmentId")
+        @Valid
+        @NotBlank(message = "EnvironmentId cannot be blank")
+        String environmentId
+    );
+
     @POST
     @Path("/organizations/my-org/connectors/create-on-premise")
     @Consumes(MediaType.APPLICATION_JSON)

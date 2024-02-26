@@ -1,5 +1,6 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
+import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SidebarSection} from './sidebar.model';
 
@@ -15,8 +16,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(private globalStateUtils: GlobalStateUtils) {}
 
   ngOnInit() {
-    this.setSideBarSections();
-    this.updateSidebarSections();
+    this.startListeningToEnvironmentChanges();
+  }
+
+  startListeningToEnvironmentChanges(): void {
+    this.globalStateUtils
+      .getDeploymentEnvironment()
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe((env: DeploymentEnvironmentDto) => {
+        this.setSideBarSections(env);
+      });
   }
 
   // Listen for window resize events
@@ -38,7 +47,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isExpandedMenu = !this.isExpandedMenu;
   }
 
-  setSideBarSections(envId?: string) {
+  setSideBarSections(env: DeploymentEnvironmentDto) {
     this.sidebarSections = [
       {
         title: 'My Organization',
@@ -58,7 +67,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             title: 'Data Offers',
             icon: 'tag',
             rLink: `/api/organizations/my-org/redirects/data-offers?environmentId=${
-              envId ?? ''
+              env.environmentId ?? ''
             }`,
             isExternalLink: true,
           },
@@ -112,15 +121,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
         userRoles: ['USER'],
         menus: [
           {
-            title: 'Prod Catalog',
+            title: `${env.title} Catalog`,
             icon: 'document-text',
-            rLink: 'https://catalog.mobility-dataspace.eu/',
-            isExternalLink: true,
-          },
-          {
-            title: 'Test Catalog',
-            icon: 'document-text',
-            rLink: 'https://catalog.test.mobility-dataspace.eu/',
+            rLink: `/api/organizations/my-org/redirects/broker?environmentId=${
+              env.environmentId ?? ''
+            }`,
             isExternalLink: true,
           },
         ],
@@ -138,15 +143,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         ],
       },
     ];
-  }
-
-  updateSidebarSections() {
-    this.globalStateUtils
-      .getDeploymentEnvironment()
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((env) => {
-        this.setSideBarSections(env.environmentId);
-      });
   }
 
   ngOnDestroy(): void {

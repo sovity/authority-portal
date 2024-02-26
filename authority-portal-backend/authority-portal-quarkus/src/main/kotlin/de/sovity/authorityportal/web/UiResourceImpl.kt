@@ -340,6 +340,13 @@ class UiResourceImpl : UiResource {
         return brokerRedirectApiService.buildCatalogRedirectWithConnectorFilter(loggedInUser.organizationMdsId!!, environmentId)
     }
 
+    override fun redirectToCatalog(environmentId: String): 
+    Response {
+        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
+        authUtils.requiresMemberOfAnyOrganization()
+        return brokerRedirectApiService.getCatalogRedirect(environmentId)
+    }
+
     @Transactional
     override fun createOwnConnector(environmentId: String, connector: CreateConnectorRequest): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
