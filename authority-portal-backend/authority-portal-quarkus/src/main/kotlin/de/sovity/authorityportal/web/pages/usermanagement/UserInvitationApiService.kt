@@ -36,7 +36,12 @@ class UserInvitationApiService {
             mdsId = mdsId,
             onboardingType = UserOnboardingType.INVITATION,
             invitedBy = adminUserId
-        )
+        ).also {
+            it.firstName = userInformation.firstName
+            it.lastName = userInformation.lastName
+            it.email = userInformation.email
+            it.update()
+        }
 
         Log.info("New participant account invited. userId=$userId, role=${userInformation.role}, mdsId=$mdsId, adminUserId=$adminUserId")
 

@@ -59,6 +59,8 @@ class UserDeletionApiService {
                 successor
             }
             userDeletionCheck.possibleSuccessors.removeIf { it.userId == userId }
+        } else {
+            userDeletionCheck.possibleSuccessors = emptyList()
         }
 
         return userDeletionCheck

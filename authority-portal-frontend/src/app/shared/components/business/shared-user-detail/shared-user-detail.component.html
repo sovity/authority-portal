@@ -174,11 +174,8 @@
         >Invited By:
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{
-          config.user.invitingUserFirstName +
-            ' ' +
-            config.user.invitingUserLastName
-        }}
+        {{ config.user.invitingUserFirstName ?? '' }}
+        {{ config.user.invitingUserLastName ?? '' }}
       </dd>
     </div>
     <!-- invited by -->
