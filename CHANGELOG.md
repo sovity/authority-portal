@@ -3,14 +3,29 @@
 For documentation on how to update this changelog,
 please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
-## [v2.0.0] - YYYY-MM-DD
+## Unreleased - YYYY-MM-DD
 
-<!-- Put it down if implemented, otherwise it's v2.0.1
-- Added possibility to download own organization connectors as csv
-- Added possibility to download connectors as csv
-- Added possibility to download user details as csv
-- Added a dashboard to display component status & uptime statistics
--->
+### Overview
+
+### Detailed Changes
+
+#### Major
+
+#### Minor
+
+#### Patch
+
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Broker Server: `{{ broker version }}`
+
+## [v2.0.0] - 2024-02-27
 
 ### Overview
 
@@ -50,14 +65,13 @@ Major release, containing a UI rework and several new features.
   - Participant User -> User
 - Operator admins can now access an overview of all connectors and have the ability to delete them
 - Privacy policy link is now displayed on all pages and required to be accepted during registration flows
-- Added functions to build proper catalog redirect url based on environment for the frontend
-- Updated sidebar to redirect to the correct broker url based on environment
+- Updated catalog link to redirect to the correct broker url based on environment
 - Improved displaying of the user roles
-- Now showing registration status in organization user details titlebar
+- Now showing registration status in organization user details title bar
 
 #### Patch
 
-- Invited user roles are now set correctly
+- Roles of invited users are now set correctly
 - Fixed displaying of long organization titles in detail view
 
 ### Known issues
@@ -146,9 +160,9 @@ Major release, containing a UI rework and several new features.
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Broker Server: `{{ broker version }}`
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.0.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.0.0`
+- Broker Server: `3.4.0`
 
 ## [v0.3.3] - 2024-02-15
 
