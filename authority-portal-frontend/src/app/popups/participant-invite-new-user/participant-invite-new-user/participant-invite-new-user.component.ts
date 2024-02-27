@@ -7,9 +7,8 @@ import {
   InviteParticipantUserRequest,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
-import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
-  getAvailableRoles,
+  getParticipantRoles,
   mapRolesToReadableFormat,
 } from 'src/app/core/utils/user-role-utils';
 import {InviteNewUser} from '../state/participant-invite-new-user-page-actions';
@@ -31,7 +30,7 @@ import {
 export class ParticipantInviteNewUserComponent {
   state = DEFAULT_PARTICIPANT_INVITE_NEW_USER_PAGE_STATE;
   group = this.buildFormGroup();
-  assignableRoles: string[] = [];
+  assignableRoles: string[] = getParticipantRoles();
 
   ngOnDestroy$ = new Subject();
 
@@ -39,7 +38,6 @@ export class ParticipantInviteNewUserComponent {
     private store: Store,
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<ParticipantInviteNewUserComponent>,
-    private globalStateUtils: GlobalStateUtils,
   ) {}
 
   get value(): ParticipantInviteNewUserPageFormValue {
@@ -48,7 +46,6 @@ export class ParticipantInviteNewUserComponent {
 
   ngOnInit(): void {
     this.startListeningToState();
-    this.getAssignableRoles();
   }
 
   buildFormGroup(): FormGroup<ParticipantInviteNewUserPageFormModel> {
@@ -58,12 +55,6 @@ export class ParticipantInviteNewUserComponent {
       lastName: [initial.lastName, [Validators.required]],
       email: [initial.email, [Validators.required, Validators.email]],
       role: [initial.role, [Validators.required]],
-    });
-  }
-
-  getAssignableRoles() {
-    this.globalStateUtils.userInfo$.subscribe((userInfo) => {
-      this.assignableRoles = getAvailableRoles(Array.from(userInfo.roles));
     });
   }
 
