@@ -30,18 +30,13 @@ class BrokerRedirectApiService {
         val queryString = connectorService.getConnectorsByMdsIdAndEnvironment(mdsId, environmentId)
             .map { URLEncoder.encode(it.endpointUrl, StandardCharsets.UTF_8) }
             .joinToString("&") { "connectorEndpoint=$it" }
-        return "$brokerUrl/catalog?$queryString"
+        return "$brokerUrl?$queryString"
     }
 
     fun getCatalogRedirect(environmentId: String): Response {
-        val redirectUrl = getCatalogUrl(environmentId)
+        val redirectUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).broker().url()
         return Response.status(Response.Status.FOUND) // Status code 302
             .location(URI.create(redirectUrl))
             .build()
-    }
-
-    private fun getCatalogUrl(environmentId: String): String {
-        val brokerUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).broker().url()
-        return "$brokerUrl/catalog"
     }
 }
