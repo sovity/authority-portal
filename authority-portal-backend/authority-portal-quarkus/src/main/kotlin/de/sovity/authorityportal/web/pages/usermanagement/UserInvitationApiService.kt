@@ -28,7 +28,7 @@ class UserInvitationApiService {
         adminUserId: String
     ): IdResponse {
         val userId = keycloakService.createUser(userInformation.email, userInformation.firstName, userInformation.lastName)
-        keycloakService.sendInvitationEmail(userId)
+        keycloakService.sendInvitationEmailWithPasswordReset(userId)
         keycloakService.joinOrganization(userId, mdsId, userRoleMapper.toOrganizationRole(userInformation.role, userId, adminUserId))
 
         userService.createUser(

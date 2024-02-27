@@ -49,7 +49,7 @@ class OrganizationInvitationApiServiceTest {
         `when`(keyCloakService.createUser(eq(email), eq(USER_FIRST_NAME), eq(USER_LAST_NAME), eq(null))).thenReturn(userId)
         doNothing().`when`(keyCloakService).createOrganization(anyString())
         doNothing().`when`(keyCloakService).joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
-        doNothing().`when`(keyCloakService).sendInvitationEmail(eq(userId))
+        doNothing().`when`(keyCloakService).sendInvitationEmailWithPasswordReset(eq(userId))
         val request = InviteOrganizationRequest(
             email,
             USER_FIRST_NAME,
@@ -80,6 +80,6 @@ class OrganizationInvitationApiServiceTest {
         verify(keyCloakService).createUser(eq(email), eq(USER_FIRST_NAME), eq(USER_LAST_NAME), eq(null))
         verify(keyCloakService).createOrganization(anyString())
         verify(keyCloakService).joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
-        verify(keyCloakService).sendInvitationEmail(eq(userId))
+        verify(keyCloakService).sendInvitationEmailWithPasswordReset(eq(userId))
     }
 }

@@ -242,6 +242,14 @@ class KeycloakService {
 
     fun sendInvitationEmail(userId: String) {
         val actions = listOf(
+            RequiredAction.CONFIGURE_TOTP.stringRepresentation,
+            RequiredAction.VERIFY_EMAIL.stringRepresentation
+        )
+        keycloak.realm(keycloakRealm).users().get(userId).executeActionsEmail(keycloakClientId, baseUrl, actions)
+    }
+
+    fun sendInvitationEmailWithPasswordReset(userId: String) {
+        val actions = listOf(
             RequiredAction.UPDATE_PASSWORD.stringRepresentation,
             RequiredAction.CONFIGURE_TOTP.stringRepresentation,
             RequiredAction.VERIFY_EMAIL.stringRepresentation

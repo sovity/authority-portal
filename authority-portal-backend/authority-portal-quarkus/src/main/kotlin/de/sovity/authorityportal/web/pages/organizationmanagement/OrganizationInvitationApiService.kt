@@ -37,7 +37,7 @@ class OrganizationInvitationApiService {
         val mdsId = mdsIdUtils.generateMdsId()
         val userId = createKeycloakUserAndOrganization(mdsId, invitationInformation)
         createDbUserAndOrganization(userId, mdsId, invitationInformation)
-        keycloakService.sendInvitationEmail(userId)
+        keycloakService.sendInvitationEmailWithPasswordReset(userId)
 
         Log.info("Invited organization and corresponding initial Participant Admin. mdsId=$mdsId, userId=$userId, adminUserId=$adminUserId.")
 
