@@ -1,9 +1,15 @@
 <div
   class="flex flex-col md:flex-row flex-start md:justify-between px-2 py-2 md:px-8 gap-4 md:gap-0 items-center relative bg-[#fcfcfc]">
   <div class="absolute inset-x-0 top-0 h-1/2 bg-gray-100 z-0"></div>
-  <div class="flex gap-1 z-10 flex-wrap justify-center items-center">
+  <div class="flex gap-1 z-10 justify-center items-center">
     <mat-icon class="larger-icon" [svgIcon]="titleBarConfig.icon"></mat-icon>
-    <h2 class="text-black font-semibold text-2xl overflow-hidden px-2">
+    <h2
+      class="text-black font-semibold text-2xl overflow-hidden px-2 text-ellipsis whitespace-nowrap"
+      #title
+      matTooltipClass="modified-tooltip"
+      [style.max-width]="getTitleMaxWidthPx()"
+      [matTooltipDisabled]="!isEllipsisActive"
+      [matTooltip]="titleBarConfig.title">
       {{ titleBarConfig.title }}
     </h2>
     <span class="status" [ngClass]="titleBarConfig.statusStyle">{{

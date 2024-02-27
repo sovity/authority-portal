@@ -53,10 +53,12 @@ Major release, containing a UI rework and several new features.
 - Added functions to build proper catalog redirect url based on environment for the frontend
 - Updated sidebar to redirect to the correct broker url based on environment
 - Improved displaying of the user roles
+- Now showing registration status in organization user details titlebar
 
 #### Patch
 
 - Invited user roles are now set correctly
+- Fixed displaying of long organization titles in detail view
 
 ### Known issues
 

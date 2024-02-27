@@ -1,13 +1,16 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {Subject, combineLatest, map, takeUntil} from 'rxjs';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {isEllipsisActive} from 'src/app/core/utils/text-ellipsis-utils';
 import {SlideOverService} from 'src/app/shared/services/slide-over.service';
 import {MenuOption, TitleBarConfig} from './title-bar.model';
 
@@ -16,9 +19,13 @@ import {MenuOption, TitleBarConfig} from './title-bar.model';
   templateUrl: './title-bar.component.html',
 })
 export class TitleBarComponent implements OnChanges, OnDestroy {
+  isEllipsisActive: boolean = true;
   @Input() titleBarConfig!: TitleBarConfig;
   @Input() selectedTab!: string;
   @Output() onTabChange = new EventEmitter<string>();
+
+  @ViewChild('title', {static: true})
+  title?: ElementRef;
 
   private ngOnDestroy$ = new Subject();
 
@@ -45,6 +52,10 @@ export class TitleBarComponent implements OnChanges, OnDestroy {
       .subscribe();
   }
 
+  ngAfterViewInit() {
+    this.isEllipsisActive = isEllipsisActive(this.title?.nativeElement);
+  }
+
   tabChanged(view: string) {
     this.onTabChange.emit(view);
   }
@@ -61,6 +72,41 @@ export class TitleBarComponent implements OnChanges, OnDestroy {
           (option) => option.isDisabled,
         ))
     );
+  }
+
+  getTitleMaxWidthPx(): string {
+    // Slideover title width 762.5px
+    const slideOverContentMaxWidth = 762;
+
+    const actionMenuButtonWidth =
+      this.titleBarConfig.actionMenu?.menuOptions?.some((it) => !it.isDisabled)
+        ? 68
+        : 0;
+
+    // Titlebar tab width = 64px with 4px gap
+    const rightFlexWidth =
+      this.titleBarConfig.tabs.length * 64 +
+      (this.titleBarConfig.tabs.length - 1) * 4 +
+      actionMenuButtonWidth;
+
+    // Title 2x 8px padding
+    const titlePaddingWidth = 16;
+
+    // Title flex 2x 4px gap
+    const titleFlexGapWidth = 8;
+
+    // 36px icon
+    // Variable status width of ~10.6px per char
+    const leftFlexExceptTitleWidth =
+      titlePaddingWidth +
+      titleFlexGapWidth +
+      36 +
+      10.6 * this.titleBarConfig.status.length * 1.2;
+
+    const titleMaxWidth =
+      slideOverContentMaxWidth - rightFlexWidth - leftFlexExceptTitleWidth - 54;
+
+    return `${titleMaxWidth}px`;
   }
 
   ngOnDestroy(): void {
