@@ -47,7 +47,7 @@ class UserInvitationApiServiceTest {
         installMockForType(keyCloakService, KeycloakService::class.java)
 
         `when`(keyCloakService.createUser(eq(email), eq(USER_FIRST_NAME), eq(USER_LAST_NAME), eq(null))).thenReturn(userId)
-        doNothing().`when`(keyCloakService).sendInvitationEmail(eq(userId))
+        doNothing().`when`(keyCloakService).sendInvitationEmailWithPasswordReset(eq(userId))
         doNothing().`when`(keyCloakService).joinOrganization(eq(userId), eq(mdsId), eq(OrganizationRole.PARTICIPANT_USER))
 
         // act
@@ -63,7 +63,7 @@ class UserInvitationApiServiceTest {
 
         // verify
         verify(keyCloakService).createUser(eq(email), eq(USER_FIRST_NAME), eq(USER_LAST_NAME), eq(null))
-        verify(keyCloakService).sendInvitationEmail(eq(userId))
+        verify(keyCloakService).sendInvitationEmailWithPasswordReset(eq(userId))
         verify(keyCloakService).joinOrganization(eq(userId), eq(mdsId), eq(OrganizationRole.PARTICIPANT_USER))
     }
 }
