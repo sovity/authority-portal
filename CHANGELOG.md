@@ -51,6 +51,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added functions to build proper catalog redirect url based on environment for the frontend
 - Updated sidebar to redirect to the correct broker url based on environment
 
+#### Patch
+
+- Invited user roles are now set correctly
+
 ### Known issues
 
 ### Deployment Migration Notes

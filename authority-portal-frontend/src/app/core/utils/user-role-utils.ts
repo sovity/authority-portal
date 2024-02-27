@@ -42,9 +42,7 @@ export function getHighestRole(userRoles: UserRoleDto[]): UserRoleDto {
   ];
 }
 
-export function getAvailableApplicationRoles(
-  ownerUserRoles: string[],
-): string[] {
+export function getAvailableRoles(ownerUserRoles: string[]): string[] {
   if (ownerUserRoles.includes('AUTHORITY_ADMIN')) {
     return [
       'AUTHORITY_ADMIN',
@@ -57,7 +55,7 @@ export function getAvailableApplicationRoles(
   } else if (ownerUserRoles.includes('OPERATOR_ADMIN')) {
     return ['OPERATOR_ADMIN'];
   } else if (ownerUserRoles.includes('ADMIN')) {
-    return ['ADMIN', 'USER'];
+    return ['ADMIN', 'KEY_USER', 'USER'];
   } else {
     return [];
   }

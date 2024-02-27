@@ -3,10 +3,13 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material/dialog';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {InviteParticipantUserRequest} from '@sovity.de/authority-portal-client';
+import {
+  InviteParticipantUserRequest,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
-  getAvailableApplicationRoles,
+  getAvailableRoles,
   mapRolesToReadableFormat,
 } from 'src/app/core/utils/user-role-utils';
 import {InviteNewUser} from '../state/participant-invite-new-user-page-actions';
@@ -60,9 +63,7 @@ export class ParticipantInviteNewUserComponent {
 
   getAssignableRoles() {
     this.globalStateUtils.userInfo$.subscribe((userInfo) => {
-      this.assignableRoles = getAvailableApplicationRoles(
-        Array.from(userInfo.roles),
-      );
+      this.assignableRoles = getAvailableRoles(Array.from(userInfo.roles));
     });
   }
 
@@ -87,7 +88,7 @@ export class ParticipantInviteNewUserComponent {
       firstName: formValue.firstName,
       lastName: formValue.lastName,
       email: formValue.email,
-      role: formValue.role,
+      role: formValue.role as UserRoleDto,
     };
     this.store.dispatch(
       new InviteNewUser(
