@@ -137,7 +137,7 @@ class UserDeletionApiServiceTest {
         // assert
         assertThat(result.isLastParticipantAdmin).isTrue
         assertThat(result.isOrganizationCreator).isTrue
-        assertThat(result.possibleSuccessors).isNull()
+        assertThat(result.possibleSuccessors).isEmpty()
     }
 
     @Test

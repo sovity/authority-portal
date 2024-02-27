@@ -48,10 +48,12 @@ export class ControlCenterOrganizationMembersPageComponent
   }
 
   onSelectUser(user: MemberInfo): void {
-    this.breadcrumbService.addReplacement(
-      user.userId,
-      `${user.firstName} ${user.lastName}`,
-    );
+    if (user.firstName || user.lastName) {
+      this.breadcrumbService.addReplacement(
+        user.userId,
+        `${user.firstName} ${user.lastName}`,
+      );
+    }
     this.router.navigate(['control-center/my-users', user.userId]);
   }
 

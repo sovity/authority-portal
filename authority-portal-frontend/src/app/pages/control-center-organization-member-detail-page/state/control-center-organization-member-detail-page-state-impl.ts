@@ -47,10 +47,12 @@ export class ControlCenterOrganizationMemberDetailPageStateImpl {
       Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
       tap((user) => {
         user.ifReady((userDetails) => {
-          this.breadcrumbService.addReplacement(
-            userDetails.userId,
-            `${userDetails.firstName} ${userDetails.lastName}`,
-          );
+          if (userDetails.firstName || userDetails.lastName) {
+            this.breadcrumbService.addReplacement(
+              userDetails.userId,
+              `${userDetails.firstName} ${userDetails.lastName}`,
+            );
+          }
         });
         ctx.patchState({
           user,
