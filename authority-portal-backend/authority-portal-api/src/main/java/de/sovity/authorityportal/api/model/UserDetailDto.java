@@ -17,6 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 @Schema(description = "Information about the user.")
 public class UserDetailDto {
+    @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String userId;
     @Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String firstName;
     @Schema(description = "Last name", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -29,6 +31,8 @@ public class UserDetailDto {
     private UserRegistrationStatusDto registrationStatus;
     @Schema(description = "Creation date of the user", requiredMode = Schema.RequiredMode.REQUIRED)
     private OffsetDateTime creationDate;
+    @Schema(description = "Organization MDS ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String organizationMdsId;
     @Schema(description = "Organization name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationName;
     @Schema(description = "Phone number", requiredMode = Schema.RequiredMode.REQUIRED)

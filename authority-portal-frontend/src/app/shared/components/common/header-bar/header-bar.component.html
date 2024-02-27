@@ -15,6 +15,7 @@
           *ngIf="action.permissions | hasAnyRole | async"
           class="btn-accent"
           type="button"
+          [disabledBtn]="disabled"
           (click)="action.action()">
           {{ action.label }}
         </button>

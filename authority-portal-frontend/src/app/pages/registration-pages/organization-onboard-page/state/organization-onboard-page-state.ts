@@ -1,7 +1,6 @@
 import {
   OwnOrganizationDetailsDto,
   UserDetailDto,
-  UserInfo,
 } from '@sovity.de/authority-portal-client';
 import {Fetched} from 'src/app/core/utils/fetched';
 

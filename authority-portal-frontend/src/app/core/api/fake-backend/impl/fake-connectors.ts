@@ -2,7 +2,6 @@ import {
   CaasAvailabilityResponse,
   CheckFreeCaasUsageRequest,
   ConnectorDetailDto,
-  ConnectorOverviewEntryDto,
   ConnectorOverviewResult,
   ConnectorTypeDto,
   CreateCaasRequest,

@@ -45,6 +45,7 @@ export class AuthorityConnectorListPageStateImpl {
   onGetConnectors(
     ctx: StateContext<AuthorityConnectorListPageState>,
   ): Observable<never> {
+    ctx.patchState({showDetail: false});
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
         this.apiService.getAllConnectors(deploymentEnvironmentId),

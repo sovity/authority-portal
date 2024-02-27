@@ -18,7 +18,8 @@ import {OrganizationProfileFormComponent} from './components/business/organizati
 import {SharedOrganizationDetailComponent} from './components/business/shared-organization-detail/shared-organization-detail.component';
 import {SharedUserDetailComponent} from './components/business/shared-user-detail/shared-user-detail.component';
 import {SharedUserListComponent} from './components/business/shared-user-list/shared-user-list.component';
-import {UserDetailComponent} from './components/business/user-detail/user-detail.component';
+import {UserDeleteDialogComponent} from './components/business/user-delete-dialog/user-delete-dialog.component';
+import {UserDeleteDialogService} from './components/business/user-delete-dialog/user-delete-dialog.service';
 import {UserProfileFormComponent} from './components/business/user-profile-form/user-profile-form.component';
 import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {ConfirmationDialogComponent} from './components/common/confirmation-dialog/confirmation-dialog.component';
@@ -35,7 +36,6 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     //components
     UserRoleFormComponent,
     OrganizationDetailComponent,
-    UserDetailComponent,
     AvatarComponent,
     HeaderBarComponent,
     FilterBarComponent,
@@ -46,6 +46,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SharedUserListComponent,
     SharedOrganizationDetailComponent,
     ConfirmationDialogComponent,
+    UserDeleteDialogComponent,
     UserProfileFormComponent,
     OrganizationProfileFormComponent,
     ConnectorRegisteringSuccessMessagePageComponent,
@@ -68,7 +69,6 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
   exports: [
     //components
     OrganizationDetailComponent,
-    UserDetailComponent,
     AvatarComponent,
     HeaderBarComponent,
     FilterBarComponent,
@@ -79,6 +79,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SharedUserListComponent,
     SharedOrganizationDetailComponent,
     ConfirmationDialogComponent,
+    UserDeleteDialogComponent,
     UserProfileFormComponent,
     OrganizationProfileFormComponent,
     ConnectorRegisteringSuccessMessagePageComponent,
@@ -90,8 +91,8 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SvgIconServiceService,
     SlideOverService,
     OrganizationDetailComponent,
-    UserDetailComponent,
     AvatarComponent,
+    UserDeleteDialogService,
   ],
 })
 export class SharedModule {

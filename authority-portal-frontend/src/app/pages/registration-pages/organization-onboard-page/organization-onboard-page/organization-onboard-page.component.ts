@@ -7,7 +7,6 @@ import {Store} from '@ngxs/store';
 import {
   OwnOrganizationDetailsDto,
   UserDetailDto,
-  UserInfo,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {phoneNumberValidator} from 'src/app/core/utils/validators/phone-number-validator';

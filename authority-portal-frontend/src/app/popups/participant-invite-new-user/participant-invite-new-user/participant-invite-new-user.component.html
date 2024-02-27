@@ -56,7 +56,9 @@
         <div class="mt-3">
           <label class="w-full text-sm mb-2">Role</label>
           <mat-form-field class="w-full" appearance="outline">
-            <mat-select selected [formControl]="group.controls.role">
+            <mat-select
+              placeholder="Select Role"
+              [formControl]="group.controls.role">
               <mat-option *ngFor="let role of assignableRoles" [value]="role"
                 >{{ mapToReadable(role) }}
               </mat-option>

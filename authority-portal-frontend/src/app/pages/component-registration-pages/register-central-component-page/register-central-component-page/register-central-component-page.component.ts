@@ -16,7 +16,6 @@ import {
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {copyToClipboard} from '../../../../core/utils/clipboard-utils';
-import {DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE} from '../../provide-connector-page/state/provide-connector-page-state';
 import {Reset, Submit} from '../state/register-central-component-page-actions';
 import {
   DEFAULT_REGISTER_CENTRAL_COMPONENT_PAGE_STATE,

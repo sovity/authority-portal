@@ -5,7 +5,6 @@ import {
   finalize,
   ignoreElements,
   switchMap,
-  take,
   takeUntil,
   tap,
 } from 'rxjs/operators';
@@ -20,29 +19,19 @@ import {
 import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
-import {NavigationType} from 'src/app/shared/components/common/slide-over/slide-over.model';
 import {SlideOverService} from 'src/app/shared/services/slide-over.service';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
-import {
-  CloseOrganizationDetail,
-  RefreshOrganizations,
-} from '../../authority-organization-list-page/state/authority-organization-list-page-actions';
+import {RefreshOrganizations} from '../../authority-organization-list-page/state/authority-organization-list-page-actions';
 import {
   ApproveOrganization,
-  CheckDeleteUser,
-  ClearUserApplicationRoleAsAuthority,
   DeactivateUser,
-  DeleteUser,
   ReactivateUser,
   RefreshOrganization,
   RefreshOrganizationUser,
   RejectOrganization,
   SetOrganizationMdsId,
   SetOrganizationUserId,
-  UpdateUserApplicationRoleAsAuthority,
-  UpdateUserDeletionModalVisibility,
-  UpdateUserParticipantRole,
 } from './authority-organization-detail-page-actions';
 import {
   AuthorityOrganizationDetailPageState,
@@ -256,123 +245,6 @@ export class AuthorityOrganizationDetailPageStateImpl {
     );
   }
 
-  @Action(UpdateUserParticipantRole)
-  onUpdateUserParticipantRoleAsAuthority(
-    ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    action: UpdateUserParticipantRole,
-  ): Observable<never> {
-    this.globalStateUtils.updateNestedProperty(
-      ctx,
-      'openedUserDetail.userParticipantRolesForm.state',
-      'submitting',
-    );
-    let request: ChangeParticipantRoleRequest = {
-      userId: action.userId,
-      body: action.role,
-    };
-    return this.apiService.updateUserRoles(request).pipe(
-      this.errorService.toastFailureRxjs(
-        `Failed updating user's participant roles`,
-        () => {
-          this.globalStateUtils.updateNestedProperty(
-            ctx,
-            'openedUserDetail.userParticipantRolesForm.state',
-            'error',
-          );
-        },
-      ),
-      tap(() => {
-        this.toast.showSuccess(`User's Participant Roles updated successfully`);
-        ctx.dispatch(new RefreshOrganizationUser());
-        this.globalStateUtils.updateNestedProperty(
-          ctx,
-          'openedUserDetail.userParticipantRolesForm.state',
-          'success',
-        );
-      }),
-
-      ignoreElements(),
-    );
-  }
-
-  @Action(UpdateUserApplicationRoleAsAuthority)
-  onUpdateUserApplicationRoleAsAuthority(
-    ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    action: UpdateUserApplicationRoleAsAuthority,
-  ): Observable<never> {
-    this.globalStateUtils.updateNestedProperty(
-      ctx,
-      'openedUserDetail.userApplicationRolesForm.state',
-      'submitting',
-    );
-    let request: ChangeApplicationRoleRequest = {
-      userId: action.userId,
-      body: action.role,
-    };
-    return this.apiService.updateApplicationUserRoles(request).pipe(
-      tap(() => {
-        this.toast.showSuccess(`User's Application Roles updated successfully`);
-        ctx.dispatch(new RefreshOrganizationUser());
-
-        this.globalStateUtils.updateNestedProperty(
-          ctx,
-          'openedUserDetail.userApplicationRolesForm.state',
-          'success',
-        );
-      }),
-      this.errorService.toastFailureRxjs(
-        `Failed updating user's application roles`,
-        () => {
-          this.globalStateUtils.updateNestedProperty(
-            ctx,
-            'openedUserDetail.userApplicationRolesForm.state',
-            'error',
-          );
-        },
-      ),
-      ignoreElements(),
-    );
-  }
-
-  @Action(ClearUserApplicationRoleAsAuthority)
-  onClearUserApplicationRoleAsAuthority(
-    ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    action: UpdateUserApplicationRoleAsAuthority,
-  ): Observable<never> {
-    this.globalStateUtils.updateNestedProperty(
-      ctx,
-      'openedUserDetail.userApplicationRolesForm.state',
-      'submitting',
-    );
-    let request: ClearApplicationRoleRequest = {
-      userId: action.userId,
-    };
-
-    return this.apiService.clearApplicationRole(request).pipe(
-      tap(() => {
-        this.toast.showSuccess(`User's Application Roles cleared successfully`);
-        ctx.dispatch(new RefreshOrganizationUser());
-
-        this.globalStateUtils.updateNestedProperty(
-          ctx,
-          'openedUserDetail.userApplicationRolesForm.state',
-          'success',
-        );
-      }),
-      this.errorService.toastFailureRxjs(
-        `Failed clearing of user's application roles`,
-        () => {
-          this.globalStateUtils.updateNestedProperty(
-            ctx,
-            'openedUserDetail.userApplicationRolesForm.state',
-            'error',
-          );
-        },
-      ),
-      ignoreElements(),
-    );
-  }
-
   @Action(DeactivateUser)
   onDeactivateUser(
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
@@ -405,142 +277,6 @@ export class AuthorityOrganizationDetailPageStateImpl {
         ),
       ),
       ignoreElements(),
-    );
-  }
-
-  @Action(CheckDeleteUser)
-  onCheckDeleteUser(
-    ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    action: CheckDeleteUser,
-  ) {
-    if (ctx.getState().openedUserDetail.busy) {
-      return EMPTY;
-    }
-    this.globalStateUtils.updateNestedProperty(
-      ctx,
-      'openedUserDetail.busy',
-      true,
-    );
-    this.globalStateUtils.updateNestedProperty(
-      ctx,
-      'openedUserDetail.showUserDeletionModal',
-      true,
-    );
-    return this.apiService.checkUserDeletion(action.userId).pipe(
-      takeUntil(
-        this.actions$.pipe(
-          filter((action) => action instanceof RefreshOrganizationUser),
-        ),
-      ),
-      this.errorService.toastFailureRxjs('Failed loading user status'),
-      tap((data) => {
-        this.updateDeleteUserModal(ctx, Fetched.ready(data));
-      }),
-      finalize(() =>
-        this.globalStateUtils.updateNestedProperty(
-          ctx,
-          'openedUserDetail.busy',
-          false,
-        ),
-      ),
-    );
-  }
-
-  private updateDeleteUserModal(
-    ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    userDeletionCheck: Fetched<UserDeletionCheck>,
-  ) {
-    this.globalStateUtils.updateNestedProperty(
-      ctx,
-      'openedUserDetail.modalData',
-      userDeletionCheck,
-    );
-  }
-
-  @Action(DeleteUser)
-  onDeleteUser(
-    ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    action: DeleteUser,
-  ) {
-    if (ctx.getState().openedUserDetail.busy) {
-      return EMPTY;
-    }
-    this.globalStateUtils.updateNestedProperty(
-      ctx,
-      'openedUserDetail.busy',
-      true,
-    );
-    this.globalStateUtils.updateNestedProperty(
-      ctx,
-      'openedUserDetail.isRequestingUserDeletion',
-      true,
-    );
-    return this.apiService.deleteUser(action.userId, action.successorId).pipe(
-      takeUntil(
-        this.actions$.pipe(
-          filter((action) => action instanceof RefreshOrganizationUser),
-        ),
-      ),
-      this.errorService.toastFailureRxjs('Failed deleting user', () => {
-        this.globalStateUtils.updateNestedProperty(
-          ctx,
-          'openedUserDetail.isRequestingUserDeletion',
-          false,
-        );
-      }),
-      tap((data) => {
-        this.globalStateUtils.updateNestedProperty(
-          ctx,
-          'openedUserDetail.isRequestingUserDeletion',
-          false,
-        );
-        this.globalStateUtils.updateNestedProperty(
-          ctx,
-          'openedUserDetail.showUserDeletionModal',
-          false,
-        );
-        this.toast.showSuccess('Successfully deleted user');
-        if (
-          ctx.getState().openedUserDetail.modalData?.data.isLastParticipantAdmin
-        ) {
-          ctx.dispatch(CloseOrganizationDetail);
-          this.slideOverService.slideOverReset();
-          ctx.dispatch(RefreshOrganizations);
-          return;
-        }
-
-        ctx
-          .dispatch(RefreshOrganization)
-          .pipe(take(1))
-          .subscribe(() => {
-            this.slideOverService.setSlideOverViews(
-              {viewName: 'MEMBERS'},
-              {viewName: 'DETAIL'},
-            );
-            this.slideOverService.setSlideOverNavigationType(
-              NavigationType.STEPPER,
-            );
-          });
-      }),
-      finalize(() => {
-        this.globalStateUtils.updateNestedProperty(
-          ctx,
-          'openedUserDetail.busy',
-          false,
-        );
-      }),
-    );
-  }
-
-  @Action(UpdateUserDeletionModalVisibility)
-  onUpdateUserDeletionModalVisibility(
-    ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    action: UpdateUserDeletionModalVisibility,
-  ) {
-    this.globalStateUtils.updateNestedProperty(
-      ctx,
-      'openedUserDetail.showUserDeletionModal',
-      action.visible,
     );
   }
 

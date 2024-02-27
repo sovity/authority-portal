@@ -13,7 +13,10 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
-import {isApplicationRole} from '../../../utils/user-role-utils';
+import {
+  isApplicationRole,
+  isParticipantRole,
+} from '../../../utils/user-role-utils';
 import {
   deleteOrganization,
   getOrganizationDetails,
@@ -209,12 +212,14 @@ export const userDetails = (userId: string): UserDetailDto => {
   const user = ALL_USERS[userId];
 
   return {
+    userId,
     firstName: user.firstName,
     lastName: user.lastName,
     email: 'email@example.com',
     roles: user.roles,
     registrationStatus: user.registrationStatus!,
     creationDate: new Date(),
+    organizationMdsId: user.organizationMdsId,
     organizationName: user.organizationName,
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -259,88 +264,81 @@ export const inviteUser = (
 };
 
 const generateNewId = (): string => {
-  const usersCounter = Object.keys(TEST_USERS).length;
+  const usersCounter = Object.keys(ALL_USERS).length;
   const counterStr = usersCounter.toString().padStart(8, '0');
   return `00000000-0000-0000-0000-${counterStr + 1}`;
 };
 
 const generateRoles = (userRole: UserRoleDto): UserRoleDto[] => {
-  return [userRole];
+  if (userRole === 'ADMIN') {
+    return ['ADMIN', 'KEY_USER', 'USER'];
+  } else if (userRole === 'KEY_USER') {
+    return ['KEY_USER', 'USER'];
+  } else if (userRole === 'USER') {
+    return ['USER'];
+  } else {
+    return [];
+  }
 };
 
 export const changeParticipantRole = (
   request: ChangeParticipantRoleRequest,
 ): IdResponse => {
-  const user = TEST_USERS[request.userId];
-  const newRole = request.body;
+  patchUser(request.userId, (user) => {
+    let participantRoles: UserRoleDto[] = generateRoles(
+      request.body as UserRoleDto,
+    );
+    let applicationRoles: UserRoleDto[] = user.roles.filter(isApplicationRole);
 
-  let new_participant_roles: UserRoleDto[] = [];
-
-  if (newRole === 'ADMIN') {
-    new_participant_roles = ['ADMIN', 'KEY_USER', 'USER'];
-  } else if (newRole === 'KEY_USER') {
-    new_participant_roles = ['KEY_USER', 'USER'];
-  } else if (newRole === 'USER') {
-    new_participant_roles = ['USER'];
-  }
-
-  const oldApplicationRoles = user.roles.filter((role: UserRoleDto) =>
-    isApplicationRole(role),
-  );
-
-  TEST_USERS[request.userId] = {
-    ...user,
-    roles: [...oldApplicationRoles, ...new_participant_roles],
-  };
-
+    return {
+      roles: [...applicationRoles, ...participantRoles],
+    };
+  });
   return {id: request.userId, changedDate: new Date()};
 };
 
 export const changeApplicationRole = (
   request: ChangeApplicationRoleRequest,
 ): IdResponse => {
-  const user = TEST_USERS[request.userId];
-  const newRole = request.body;
+  patchUser(request.userId, (user) => {
+    let participantRoles: UserRoleDto[] = user.roles.filter(isParticipantRole);
+    let applicationRoles: UserRoleDto[] = [];
 
-  let new_application_roles: UserRoleDto[] = [];
+    const newRole = request.body;
+    if (newRole === 'AUTHORITY_ADMIN') {
+      applicationRoles = ['AUTHORITY_ADMIN', 'AUTHORITY_USER'];
+    } else if (newRole === 'AUTHORITY_USER') {
+      applicationRoles = ['AUTHORITY_USER'];
+    } else if (newRole === 'SERVICE_PARTNER_ADMIN') {
+      applicationRoles = ['SERVICE_PARTNER_ADMIN'];
+    } else if (newRole === 'OPERATOR_ADMIN') {
+      applicationRoles = ['OPERATOR_ADMIN'];
+    }
 
-  if (newRole === 'AUTHORITY_ADMIN') {
-    new_application_roles = ['AUTHORITY_ADMIN', 'AUTHORITY_USER'];
-  } else if (newRole === 'AUTHORITY_USER') {
-    new_application_roles = ['AUTHORITY_USER'];
-  } else if (newRole === 'SERVICE_PARTNER_ADMIN') {
-    new_application_roles = ['SERVICE_PARTNER_ADMIN'];
-  } else if (newRole === 'OPERATOR_ADMIN') {
-    new_application_roles = ['OPERATOR_ADMIN'];
-  }
-
-  const oldParticipantRoles = user.roles.filter(
-    (role: UserRoleDto) => !isApplicationRole(role),
-  );
-
-  TEST_USERS[request.userId] = {
-    ...user,
-    roles: [...new_application_roles, ...oldParticipantRoles],
-  };
-
+    return {
+      roles: [...applicationRoles, ...participantRoles],
+    };
+  });
   return {id: request.userId, changedDate: new Date()};
 };
 
 export const clearApplicationRole = (
   request: ClearApplicationRoleRequest,
 ): IdResponse => {
-  const user = TEST_USERS[request.userId];
-
-  const oldParticipantRoles = user.roles.filter(
-    (role: UserRoleDto) => !isApplicationRole(role),
-  );
-
-  TEST_USERS[request.userId] = {
-    ...user,
-    roles: [...oldParticipantRoles],
-  };
-
+  patchUser(request.userId, (user) => ({
+    roles: user.roles.filter((role: UserRoleDto) => isParticipantRole(role)),
+  }));
   return {id: request.userId, changedDate: new Date()};
+};
+
+export const deactivateUser = (userId: string): IdResponse => {
+  patchUser(userId, () => ({registrationStatus: 'DEACTIVATED'}));
+  return {id: userId, changedDate: new Date()};
+};
+
+export const reactivateUser = (userId: string): IdResponse => {
+  patchUser(userId, () => ({registrationStatus: 'ACTIVE'}));
+  return {id: userId, changedDate: new Date()};
 };
 
 export const onboardUser = (request: OnboardingUserUpdateDto): IdResponse => {
@@ -376,6 +374,11 @@ export const cascadeDeleteUser = (
   }
 
   return deleteUser(userId);
+};
+
+const patchUser = (userId: string, patcher: Patcher<UserInfo>) => {
+  const user = getUserOrThrow(userId);
+  ALL_USERS[userId] = patchObj<UserInfo>(user, patcher);
 };
 
 const deleteUser = (userId: string): IdResponse => {

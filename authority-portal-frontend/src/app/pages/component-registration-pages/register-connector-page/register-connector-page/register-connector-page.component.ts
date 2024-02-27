@@ -12,7 +12,6 @@ import {Store} from '@ngxs/store';
 import {UserInfo} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE} from '../../provide-connector-page/state/provide-connector-page-state';
 import {Reset, Submit} from '../state/register-connector-page-actions';
 import {
   DEFAULT_REGISTER_CONNECTOR_PAGE_STATE,

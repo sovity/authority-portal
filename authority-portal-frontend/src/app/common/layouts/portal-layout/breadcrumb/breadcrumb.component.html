@@ -1,6 +1,6 @@
-<ng-container *ngIf="fullRoute">
+<ng-container *ngIf="breadcrumb">
   <nav
-    *ngFor="let step of fullRoute; let i = index; let isLast = last"
+    *ngFor="let step of breadcrumb; let i = index; let isLast = last"
     class="bg-grey-light">
     <ol class="list-reset inline-flex items-center">
       <li>

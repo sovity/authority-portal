@@ -1,0 +1,26 @@
+<section class="my-4 px-8 flex flex-col">
+  <app-loading-element *ngIf="state.user.isLoading"></app-loading-element>
+
+  <app-error-element
+    *ngIf="state.user.isError"
+    [errorMessage]="state.user.error.failureMessage"></app-error-element>
+
+  <app-header
+    *ngIf="state.headerBarConfig"
+    [headerConfig]="state.headerBarConfig"
+    [disabled]="state.busy"></app-header>
+
+  <app-shared-user-detail
+    *ngIf="state.userDetailConfig"
+    class="flex w-full lg:w-10/12 gap-4 justify-between"
+    [config]="state.userDetailConfig"></app-shared-user-detail>
+
+  <div *ngIf="state.user.isReady" class="mt-8">
+    <button
+      class="btn-accent"
+      type="button"
+      routerLink="/control-center/my-users">
+      Back
+    </button>
+  </div>
+</section>

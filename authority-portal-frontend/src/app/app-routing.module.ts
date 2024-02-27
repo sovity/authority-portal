@@ -1,7 +1,6 @@
 import {NgModule, Type} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
-import {ParticipantUserDetailPageComponent} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page/participant-user-detail-page.component';
 import {requiresRole} from './common/auth/requires-role-guard';
 import {PortalLayoutComponent} from './common/layouts/portal-layout/portal-layout/portal-layout.component';
 import {AuthorityConnectorListPageComponent} from './pages/authority-connector-list-page/authority-connector-list-page/authority-connector-list-page.component';
@@ -12,6 +11,7 @@ import {RegisterCentralComponentPageComponent} from './pages/component-registrat
 import {RegisterConnectorPageComponent} from './pages/component-registration-pages/register-connector-page/register-connector-page/register-connector-page.component';
 import {RequestConnectorPageComponent} from './pages/component-registration-pages/request-connector-page/request-connector-page/request-connector-page.component';
 import {ControlCenterPageComponent} from './pages/control-center-page/control-center-page/control-center-page.component';
+import {CONTROL_CENTER_ROUTES} from './pages/control-center-page/control-center-routes';
 import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dashboard-page.component';
 import {LoadingPageComponent} from './pages/empty-pages/loading-page/loading-page/loading-page.component';
 import {UnauthenticatedPageComponent} from './pages/empty-pages/unauthenticated-page/unauthenticated-page/unauthenticated-page.component';
@@ -113,16 +113,9 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
           requiresRole: ['USER'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
+        children: CONTROL_CENTER_ROUTES,
       },
       // My Organization Section
-      {
-        path: 'my-organization/users/:userId',
-        component: ParticipantUserDetailPageComponent,
-        data: {
-          requiresRole: ['USER'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
       {
         path: 'my-organization/connectors',
         component: ParticipantOwnConnectorListPageComponent,

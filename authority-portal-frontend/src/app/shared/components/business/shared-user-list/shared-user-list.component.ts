@@ -29,22 +29,17 @@ export class SharedUserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.modifiedMembers = this.members.map((member: MemberInfo) => {
+      let highestApplicationRole = getHighestApplicationRole(member.roles);
       return {
         ...member,
-        applicationRole: this.mapToReadable(
-          getHighestApplicationRole(member.roles),
-        ),
-        participantRole: this.mapToReadable(
+        applicationRole: highestApplicationRole
+          ? mapRolesToReadableFormat(highestApplicationRole)
+          : '',
+        participantRole: mapRolesToReadableFormat(
           getHighestParticipantRole(member.roles),
         ),
       };
     });
-  }
-
-  mapToReadable(role: string): string {
-    return mapRolesToReadableFormat(role) !== 'None'
-      ? mapRolesToReadableFormat(role)
-      : '';
   }
 
   selectUser(user: MemberInfo) {

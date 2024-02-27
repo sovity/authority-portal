@@ -1,0 +1,17 @@
+<section class="my-4 px-8 flex flex-col">
+  <app-loading-element
+    *ngIf="state.organization.isLoading"></app-loading-element>
+  <app-error-element
+    *ngIf="state.organization.isError"
+    errorMessage="organization"></app-error-element>
+
+  <app-header
+    *ngIf="state.headerBarConfig"
+    [headerConfig]="state.headerBarConfig"></app-header>
+
+  <app-shared-user-list
+    *ngIf="state.organization.isReady"
+    [organizationId]="state.organization.data.mdsId"
+    [members]="state.organization.data.memberList"
+    (selectUserEvent)="onSelectUser($event)"></app-shared-user-list>
+</section>

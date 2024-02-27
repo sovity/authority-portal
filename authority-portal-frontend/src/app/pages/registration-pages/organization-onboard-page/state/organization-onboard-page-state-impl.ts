@@ -9,7 +9,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
-import {OwnOrganizationDetailsDto} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {ErrorService} from 'src/app/core/error.service';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';

@@ -1,7 +1,4 @@
-import {
-  ConnectorOverviewEntryDto,
-  ProvidedConnectorOverviewEntryDto,
-} from '@sovity.de/authority-portal-client';
+import {ProvidedConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {Fetched} from 'src/app/core/utils/fetched';
 
 export interface SpConnectorListPageState {

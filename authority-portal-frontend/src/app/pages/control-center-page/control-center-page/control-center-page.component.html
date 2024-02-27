@@ -7,21 +7,15 @@
     <a
       *ngFor="let tab of tabs"
       mat-tab-link
-      [active]="activeTab === tab.id"
-      (click)="onTabChange(tab.id)">
-      {{ tab.label }}
+      routerLinkActive
+      #rla="routerLinkActive"
+      [routerLink]="tab.routerLink"
+      [active]="rla.isActive">
+      {{ tab.title }}
     </a>
   </nav>
 
   <mat-tab-nav-panel #tabPanel>
-    <ng-container [ngSwitch]="activeTab">
-      <app-user-profile *ngSwitchCase="'my-profile'"></app-user-profile>
-
-      <app-organization-profile
-        *ngSwitchCase="'my-organization'"></app-organization-profile>
-
-      <app-organization-users
-        *ngSwitchCase="'my-users'"></app-organization-users>
-    </ng-container>
+    <router-outlet></router-outlet>
   </mat-tab-nav-panel>
 </section>

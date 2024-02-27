@@ -10,10 +10,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import {Action, Actions, State, StateContext, Store} from '@ngxs/store';
-import {
-  ConnectorOverviewEntryDto,
-  ProvidedConnectorOverviewEntryDto,
-} from '@sovity.de/authority-portal-client';
+import {ProvidedConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';

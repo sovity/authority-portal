@@ -9,9 +9,7 @@ import {NgxsModule} from '@ngxs/store';
 import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
-import {AuthorityOrganizationUserDetailPageModule} from 'src/app/pages/authority-organization-user-detail-page/authority-organization-user-detail-page.module';
 import {ParticipantOrganizationProfileModule} from 'src/app/pages/participant-organization-profile-page/participant-organization-profile.module';
-import {ParticipantUserDetailPageModule} from 'src/app/pages/participant-user-detail-page/participant-user-detail-page.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DevUtilsModule} from './common/components/dev-utils/dev-utils.module';
@@ -31,7 +29,11 @@ import {ProvideConnectorPageModule} from './pages/component-registration-pages/p
 import {RegisterCentralComponentPageModule} from './pages/component-registration-pages/register-central-component-page/register-central-component-page.module';
 import {RegisterConnectorPageModule} from './pages/component-registration-pages/register-connector-page/register-connector-page.module';
 import {RequestConnectorPageModule} from './pages/component-registration-pages/request-connector-page/request-connector-page.module';
+import {ControlCenterOrganizationMemberDetailPageModule} from './pages/control-center-organization-member-detail-page/control-center-organization-member-detail-page.module';
+import {ControlCenterOrganizationMembersPageModule} from './pages/control-center-organization-members-page/control-center-organization-members-page.module';
+import {ControlCenterOrganizationProfilePageModule} from './pages/control-center-organization-profile-page/control-center-organization-profile-page.module';
 import {ControlCenterPageModule} from './pages/control-center-page/control-center-page.module';
+import {ControlCenterUserProfilePageModule} from './pages/control-center-user-profile-page/control-center-user-profile-page.module';
 import {DashboardPageModule} from './pages/dashboard-page/dashboard-page.module';
 import {ErrorPageModule} from './pages/empty-pages/error-page/error-page.module';
 import {LoadingPageModule} from './pages/empty-pages/loading-page/loading-page.module';
@@ -77,9 +79,12 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     AuthorityConnectorListPageModule,
     AuthorityOrganizationDetailPageModule,
     AuthorityOrganizationListPageModule,
-    AuthorityOrganizationUserDetailPageModule,
     CentralComponentListPageModule,
+    ControlCenterOrganizationMemberDetailPageModule,
+    ControlCenterOrganizationMembersPageModule,
+    ControlCenterOrganizationProfilePageModule,
     ControlCenterPageModule,
+    ControlCenterUserProfilePageModule,
     DashboardPageModule,
     DevUtilsModule,
     ErrorElementModule,
@@ -96,7 +101,6 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     ParticipantOwnConnectorListPageModule,
     ParticipantCreateConnectorChoicePageModule,
     ParticipantCreateProvidedConnectorChoicePageModule,
-    ParticipantUserDetailPageModule,
     PortalLayoutModule,
     ProvideConnectorPageModule,
     RegisterConnectorPageModule,

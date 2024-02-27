@@ -16,6 +16,7 @@ import {
   OnboardingUserUpdateDtoFromJSON,
   OrganizationDetailsDtoToJSON,
   OrganizationOverviewResultToJSON,
+  OwnOrganizationDetailsDtoToJSON,
   ProvidedConnectorOverviewResultToJSON,
   RegistrationRequestDtoFromJSON,
   UserDeletionCheckToJSON,
@@ -46,8 +47,8 @@ import {
 import {
   approveOrganization,
   getListOfOrganizationsForTable,
-  getMyOrganizationDetails,
   getOrganizationDetails,
+  getOwnOrganizationDetails,
   inviteOrganization,
   onboardOrganization,
   rejectOrganization,
@@ -58,9 +59,11 @@ import {
   changeParticipantRole,
   checkUserDeletion,
   clearApplicationRole,
+  deactivateUser,
   getUserInfo,
   inviteUser,
   onboardUser,
+  reactivateUser,
   userDetails,
 } from './impl/fake-users';
 import {
@@ -261,24 +264,26 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('organizations/my-org/users/*/deactivate')
     .on('PUT', (userId) => {
-      const result = approveOrganization(userId);
+      const result = deactivateUser(userId);
       return ok(IdResponseToJSON(result));
     })
 
     .url('organizations/my-org/users/*/reactivate')
     .on('PUT', (userId) => {
-      const result = approveOrganization(userId);
+      const result = reactivateUser(userId);
       return ok(IdResponseToJSON(result));
     })
 
     .url('organizations/my-org/users/*/deactivate')
     .on('PUT', (userId) => {
-      throw new Error('TODO');
+      const result = deactivateUser(userId);
+      return ok(IdResponseToJSON(result));
     })
 
     .url('organizations/my-org/users/*/reactivate')
     .on('PUT', (userId) => {
-      throw new Error('TODO');
+      const result = reactivateUser(userId);
+      return ok(IdResponseToJSON(result));
     })
 
     .url('organizations/my-org/users/*/check-delete')
@@ -360,8 +365,8 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('organizations/my-org')
     .on('GET', () => {
-      const result = getMyOrganizationDetails();
-      return ok(OrganizationDetailsDtoToJSON(result));
+      const result = getOwnOrganizationDetails();
+      return ok(OwnOrganizationDetailsDtoToJSON(result));
     })
 
     .url('application/organizations')
