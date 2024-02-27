@@ -76,6 +76,7 @@ class UserInfoApiService {
         val roleDtos = userRoleMapper.getUserRoles(user.roles)
 
         val dto = UserDetailDto()
+        dto.userId = user.userId
         dto.email = user.email
         dto.firstName = user.firstName
         dto.lastName = user.lastName
@@ -87,6 +88,7 @@ class UserInfoApiService {
         dto.registrationStatus = user.registrationStatus.toDto()
         dto.roles = roleDtos.toList()
 
+        dto.organizationMdsId = user.organizationMdsId
         dto.organizationName = getOrganization(user.organizationMdsId)
 
         dto.invitingUserId = invitingUser?.userId

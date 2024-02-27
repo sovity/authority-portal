@@ -1,63 +1,32 @@
-import {Component, OnDestroy, inject} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
-import {Subscription, filter} from 'rxjs';
+import {Component, OnDestroy} from '@angular/core';
+import {Subject, takeUntil} from 'rxjs';
 import {BreadcrumbItem} from './breadcrumb.model';
+import {BreadcrumbService} from './breadcrumb.service';
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
 })
 export class BreadcrumbComponent implements OnDestroy {
-  fullRoute: BreadcrumbItem[] = [];
-  nonLinkable: string[] = ['authority', 'users']; // these are routes that has no associated page
-  routeSubscription!: Subscription;
-  previousUrl: string = '';
-  currentUrl: string = '';
+  breadcrumb: BreadcrumbItem[] = [];
 
-  constructor() {
-    const router = inject(Router);
-    this.routeSubscription = router.events
-      .pipe(filter((value) => value instanceof NavigationEnd))
-      .subscribe((value) => {
-        const navigationEnd = value as NavigationEnd;
-        this.previousUrl = this.currentUrl;
-        this.currentUrl = navigationEnd.url;
-        this.fullRoute = this.createBreadcrumb(router.url);
-        document.title =
-          this.fullRoute[this.fullRoute.length - 1].label || 'Portal';
+  constructor(private breadcrumbService: BreadcrumbService) {
+    this.breadcrumbService.breadcrumb$
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe((breadcrumb) => {
+        this.breadcrumb = breadcrumb;
       });
   }
 
-  createBreadcrumb(url: string): BreadcrumbItem[] {
-    let segments = url.split('/').filter((segment) => segment !== ''); // Remove empty segments
-    segments = [...segments[segments.length - 1].split('?tab=')]; // Split the last segment by query params
-    const breadcrumb: BreadcrumbItem[] = [];
-    breadcrumb.push({label: 'Home', link: '', isLinkable: true});
-
-    segments.forEach((segment, idx) => {
-      let originalSegment = segment;
-      segment = segment
-        .split('-')
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(' ');
-      if (segment.toLocaleLowerCase() != 'dashboard') {
-        breadcrumb.push({
-          link: originalSegment,
-          label: segment.replace('_', ' ').replace('-', ' '),
-          isLinkable: !this.nonLinkable.includes(originalSegment),
-        });
-      }
-    });
-
-    return breadcrumb;
-  }
+  ngOnDestroy$ = new Subject();
 
   ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
+    this.ngOnDestroy$.next(null);
+    this.ngOnDestroy$.complete();
   }
 
   getLink(idx: number) {
-    return this.fullRoute
+    return this.breadcrumb
       .slice(1, idx + 1)
       .map((s) => s.link)
       .join('/');

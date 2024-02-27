@@ -12,5 +12,6 @@ export class InviteNewUser {
     public request: InviteParticipantUserRequest,
     public enableForm: () => void,
     public disableForm: () => void,
+    public success: () => void,
   ) {}
 }

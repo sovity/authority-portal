@@ -34,7 +34,7 @@ export class UrlInterceptor {
         continue;
       }
 
-      let regexp = '^' + entry.urlPattern.replace(/\*/g, '(.*)') + '$';
+      let regexp = '^' + entry.urlPattern.replace(/\*/g, '([^/]*)') + '$';
       let match: string[] = this.requestUrl.match(regexp) || [];
       if (!match.length) {
         continue;

@@ -9,7 +9,7 @@ import {
   take,
   takeUntil,
 } from 'rxjs/operators';
-import {Select, StateContext, Store} from '@ngxs/store';
+import {StateContext, Store} from '@ngxs/store';
 import {
   DeploymentEnvironmentDto,
   UserInfo,
@@ -30,6 +30,15 @@ export class GlobalStateUtils {
       shareReplay(),
     );
 
+  get userInfo(): UserInfo {
+    return this.store.selectSnapshot<GlobalState>(GlobalStateImpl).userInfo
+      .data;
+  }
+
+  get userId(): string {
+    return this.userInfo.userId;
+  }
+
   deploymentEnvironment$: Observable<DeploymentEnvironmentDto> = this.store
     .select<GlobalState>(GlobalStateImpl)
     .pipe(
@@ -42,8 +51,9 @@ export class GlobalStateUtils {
       shareReplay(1),
     );
 
-  @Select(GlobalStateImpl.roles)
-  userRoles$!: Observable<Set<UserRoleDto>>;
+  userRoles$: Observable<Set<UserRoleDto>> = this.store.select(
+    GlobalStateImpl.roles,
+  );
 
   get snapshot(): GlobalState {
     return this.store.selectSnapshot<GlobalState>(GlobalStateImpl);

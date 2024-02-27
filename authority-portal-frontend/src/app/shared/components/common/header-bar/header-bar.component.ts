@@ -7,4 +7,6 @@ import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/heade
 })
 export class HeaderBarComponent {
   @Input() headerConfig!: HeaderBarConfig;
+
+  @Input() disabled = false;
 }

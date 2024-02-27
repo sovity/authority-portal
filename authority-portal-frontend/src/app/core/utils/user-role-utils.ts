@@ -1,4 +1,5 @@
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
+import {nonNull} from './type-utils';
 
 export function mapRolesToReadableFormat(
   role: string | UserRoleDto | null,
@@ -16,136 +17,85 @@ export function mapRolesToReadableFormat(
   return words.join(' ');
 }
 
-export function getApplicationRoles(): string[] {
-  return [
-    'AUTHORITY_ADMIN',
-    'AUTHORITY_USER',
-    'SERVICE_PARTNER_ADMIN',
-    'OPERATOR_ADMIN',
-  ];
+export function getHighestApplicationRole(
+  currentUserRoles: UserRoleDto[],
+): UserRoleDto | null {
+  return getHighestRole(currentUserRoles.filter(isApplicationRole));
 }
 
-export function getParticipantRoles(): string[] {
-  return ['ADMIN', 'KEY_USER', 'USER'];
-}
-
-export function getHighestApplicationRole(currentUserRoles: UserRoleDto[]) {
-  return getHighestRole(currentUserRoles.filter((it) => isApplicationRole(it)));
-}
-
-export function getHighestParticipantRole(currentUserRoles: UserRoleDto[]) {
-  return getHighestRole(
-    currentUserRoles.filter((it) => !isApplicationRole(it)),
-  );
+export function getHighestParticipantRole(
+  currentUserRoles: UserRoleDto[],
+): UserRoleDto {
+  return getHighestRole(currentUserRoles.filter(isParticipantRole)) ?? 'USER';
 }
 
 /**
  * returns the highest role from the given roles
  * the roles are ordered from highest to lowest
- * @param roles
- * @returns
  */
-export function getHighestRole(userRoles: UserRoleDto[]): UserRoleDto {
-  const allRoles = Object.values(UserRoleDto).filter(
-    (role: UserRoleDto) => role !== UserRoleDto.Unauthenticated,
-  );
-
-  return allRoles[
-    Math.min(
-      ...userRoles.map((uRr) => allRoles.findIndex((aRr) => uRr === aRr)),
-    )
-  ];
+export function getHighestRole(userRoles: UserRoleDto[]): UserRoleDto | null {
+  return Object.values(UserRoleDto).find((it) =>
+    userRoles.includes(it),
+  ) as UserRoleDto | null;
 }
 
-export function getAvailableRoles(ownerUserRoles: string[]): string[] {
-  if (ownerUserRoles.includes('AUTHORITY_ADMIN')) {
-    return [
-      'AUTHORITY_ADMIN',
-      'AUTHORITY_USER',
-      'SERVICE_PARTNER_ADMIN',
-      'OPERATOR_ADMIN',
-    ];
-  } else if (ownerUserRoles.includes('SERVICE_PARTNER_ADMIN')) {
-    return ['SERVICE_PARTNER_ADMIN'];
-  } else if (ownerUserRoles.includes('OPERATOR_ADMIN')) {
-    return ['OPERATOR_ADMIN'];
-  } else if (ownerUserRoles.includes('ADMIN')) {
-    return ['ADMIN', 'KEY_USER', 'USER'];
-  } else {
-    return [];
+export function getAvailableRoles(
+  ownRoles: UserRoleDto[],
+  isSameOrg: boolean,
+): UserRoleDto[] {
+  let roles: UserRoleDto[] = [];
+  if (ownRoles.includes('AUTHORITY_ADMIN')) {
+    roles.push('AUTHORITY_ADMIN', 'AUTHORITY_USER');
   }
+  if (
+    ownRoles.includes('AUTHORITY_ADMIN') ||
+    ownRoles.includes('SERVICE_PARTNER_ADMIN')
+  ) {
+    roles.push('SERVICE_PARTNER_ADMIN');
+  }
+  if (
+    ownRoles.includes('AUTHORITY_ADMIN') ||
+    ownRoles.includes('OPERATOR_ADMIN')
+  ) {
+    roles.push('OPERATOR_ADMIN');
+  }
+  if (isSameOrg && ownRoles.includes('ADMIN')) {
+    roles.push('ADMIN', 'KEY_USER', 'USER');
+  }
+  return roles;
+}
+
+export function isParticipantRole(role: UserRoleDto): boolean {
+  return !isApplicationRole(role) && role !== UserRoleDto.Unauthenticated;
+}
+
+export function getParticipantRoles(): UserRoleDto[] {
+  return Object.values(UserRoleDto).filter(isParticipantRole);
 }
 
 export function isApplicationRole(role: UserRoleDto): boolean {
   return (
     role !== UserRoleDto.Admin &&
     role !== UserRoleDto.KeyUser &&
-    role !== UserRoleDto.User
+    role !== UserRoleDto.User &&
+    role !== UserRoleDto.Unauthenticated
   );
 }
 
-export function rolesSortingFunction(firstRole: string, secondRole: string) {
-  const applicationRoles = [
-    'AUTHORITY_ADMIN',
-    'AUTHORITY_USER',
-    'SERVICE_PARTNER_ADMIN',
-    'OPERATOR_ADMIN',
-  ];
-
-  const participantRoles = ['ADMIN', 'KEY_USER', 'USER'];
-
-  if (
-    isApplicationRole(firstRole as UserRoleDto) &&
-    !isApplicationRole(secondRole as UserRoleDto)
-  ) {
-    return -1; // first argument before second
-  } else if (
-    !isApplicationRole(firstRole as UserRoleDto) &&
-    isApplicationRole(secondRole as UserRoleDto)
-  ) {
-    return 1;
-  } else if (
-    isApplicationRole(firstRole as UserRoleDto) &&
-    isApplicationRole(secondRole as UserRoleDto)
-  ) {
-    return (
-      applicationRoles.indexOf(firstRole) - applicationRoles.indexOf(secondRole)
-    );
-  } else {
-    return (
-      participantRoles.indexOf(firstRole) - participantRoles.indexOf(secondRole)
-    );
-  }
+export function getHighestRolesString(userRoles: UserRoleDto[]): string {
+  return nonNull([
+    getHighestApplicationRole(userRoles),
+    getHighestParticipantRole(userRoles),
+  ])
+    .map(mapRolesToReadableFormat)
+    .join(', ');
 }
 
-export function formatSingleRole(role: UserRoleDto): string | null {
-  const result = mapRolesToReadableFormat(role);
-
-  if (result === 'None') {
-    return null;
-  }
-  return result;
-}
-
-export function getFormattedHighestApplicationRole(
-  roles: UserRoleDto[],
-): string | null {
-  return formatSingleRole(getHighestApplicationRole(roles));
-}
-
-export function getFormattedHighestParticipantRole(
-  roles: UserRoleDto[],
-): string {
-  return formatSingleRole(getHighestParticipantRole(roles))!;
-}
-
-export function showTopRoles(userRoles: UserRoleDto[]): string {
-  const highestApplicationRole = getFormattedHighestApplicationRole(userRoles);
-  const highestParticipantRole = getFormattedHighestParticipantRole(userRoles);
-
-  if (highestApplicationRole) {
-    return `${highestApplicationRole}, ${highestParticipantRole}`;
-  } else {
-    return highestParticipantRole;
-  }
+export function getHighestRoleString(userRoles: UserRoleDto[]): string {
+  return mapRolesToReadableFormat(
+    nonNull([
+      getHighestApplicationRole(userRoles),
+      getHighestParticipantRole(userRoles),
+    ])[0],
+  );
 }

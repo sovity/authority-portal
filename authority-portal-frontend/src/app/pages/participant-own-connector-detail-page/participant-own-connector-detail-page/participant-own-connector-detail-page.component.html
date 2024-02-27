@@ -176,6 +176,6 @@
 <!-- Modal -->
 <app-delete-connector-modal
   [visible]="showModal"
-  [isCaasConnector]="state.connector.data.type === 'CAAS'"
+  [isCaasConnector]="state.connector.dataOrUndefined?.type === 'CAAS'"
   (cancel)="cancelDeleteConnector()"
   (confirm)="confirmDeleteConnector()"></app-delete-connector-modal>

@@ -1,14 +1,10 @@
 <app-loading-element
-  *ngIf="state.user.isLoading || roleFormLoading"
+  *ngIf="state.user.isLoading"
   class="flex justify-center"></app-loading-element>
 <app-error-element
   *ngIf="state.user.isError"
   errorMessage="user"></app-error-element>
 
 <app-shared-user-detail
-  *ngIf="state.user.isReady && !roleFormLoading"
-  [usageType]="'DETAIL_PAGE'"
-  [userDetailConfig]="userDetailConfig"
-  [availableApplicationRoles]="availableApplicationRoles"
-  [availableParticipantRoles]="availableParticipantRoles"
-  (onUserRoleUpdate)="userRoleUpdateHandler($event)"></app-shared-user-detail>
+  *ngIf="state.user.isReady"
+  [config]="userDetailConfig"></app-shared-user-detail>

@@ -1,6 +1,7 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Subject, distinctUntilChanged, map, takeUntil, tap} from 'rxjs';
+import {take} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
   MemberInfo,
@@ -18,17 +19,18 @@ import {
 } from 'src/app/shared/components/common/slide-over/slide-over.model';
 import {TitleBarConfig} from 'src/app/shared/components/common/title-bar/title-bar.model';
 import {SlideOverService} from 'src/app/shared/services/slide-over.service';
-import {CloseOrganizationDetail} from '../../authority-organization-list-page/state/authority-organization-list-page-actions';
+import {UserDeleteDialogService} from '../../../shared/components/business/user-delete-dialog/user-delete-dialog.service';
+import {
+  CloseOrganizationDetail,
+  RefreshOrganizations,
+} from '../../authority-organization-list-page/state/authority-organization-list-page-actions';
 import {
   ApproveOrganization,
-  CheckDeleteUser,
   DeactivateUser,
-  DeleteUser,
   ReactivateUser,
   RefreshOrganization,
   RejectOrganization,
   SetOrganizationMdsId,
-  UpdateUserDeletionModalVisibility,
 } from '../state/authority-organization-detail-page-actions';
 import {
   AuthorityOrganizationDetailPageState,
@@ -64,6 +66,7 @@ export class AuthorityOrganizationDetailPageComponent
     private globalStateUtils: GlobalStateUtils,
     private slideOverService: SlideOverService,
     private formBuilder: FormBuilder,
+    private userDeleteDialogService: UserDeleteDialogService,
   ) {
     this.organizationId = childComponentInput.id;
   }
@@ -248,8 +251,33 @@ export class AuthorityOrganizationDetailPageComponent
             label: 'Delete User',
             icon: 'delete',
             event: () =>
-              this.store.dispatch(
-                new CheckDeleteUser(this.state.openedUserDetail.userId),
+              this.userDeleteDialogService.showDeleteUserModal(
+                {
+                  userId: user.userId,
+                  userFullName: user.firstName + ' ' + user.lastName,
+                  userOrganizationName: this.organization.name,
+                  onDeleteSuccess: (deleteCheck) => {
+                    if (deleteCheck.isLastParticipantAdmin) {
+                      this.store.dispatch(CloseOrganizationDetail);
+                      this.slideOverService.slideOverReset();
+                      this.store.dispatch(RefreshOrganizations);
+                    } else {
+                      this.store
+                        .dispatch(RefreshOrganization)
+                        .pipe(take(1))
+                        .subscribe(() => {
+                          this.slideOverService.setSlideOverViews(
+                            {viewName: 'MEMBERS'},
+                            {viewName: 'DETAIL'},
+                          );
+                          this.slideOverService.setSlideOverNavigationType(
+                            NavigationType.STEPPER,
+                          );
+                        });
+                    }
+                  },
+                },
+                this.ngOnDestroy$,
               ),
             isDisabled: user.userId === this.currentUserId,
           },
@@ -260,14 +288,6 @@ export class AuthorityOrganizationDetailPageComponent
 
   refresh() {
     return this.store.dispatch(RefreshOrganization);
-  }
-
-  approve() {
-    this.store.dispatch(ApproveOrganization);
-  }
-
-  reject() {
-    this.store.dispatch(RejectOrganization);
   }
 
   /**
@@ -297,33 +317,6 @@ export class AuthorityOrganizationDetailPageComponent
       mdsId: this.organizationId,
     };
     this.setupUserTitleBar(user);
-  }
-
-  isLastParticipantAdmin() {
-    return (
-      this.state.openedUserDetail.modalData?.data.isLastParticipantAdmin ??
-      false
-    );
-  }
-
-  isOrganizationCreator() {
-    return (
-      this.state.openedUserDetail.modalData?.data.isOrganizationCreator ?? false
-    );
-  }
-
-  cancelDeleteUser() {
-    this.store.dispatch(new UpdateUserDeletionModalVisibility(false));
-    this.deleteOrganizationCreatorForm.reset();
-  }
-
-  confirmDeleteUser() {
-    const successorId = this.deleteOrganizationCreatorForm.value.successor;
-
-    this.deleteOrganizationCreatorForm.reset();
-    this.store.dispatch(
-      new DeleteUser(this.state.openedUserDetail.userId, successorId),
-    );
   }
 
   ngOnDestroy$ = new Subject();

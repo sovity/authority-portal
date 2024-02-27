@@ -6,6 +6,7 @@ import {
   OrganizationDetailsDto,
   OrganizationOverviewEntryDto,
   OrganizationOverviewResult,
+  OwnOrganizationDetailsDto,
 } from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {getUserInfo} from './fake-users';
@@ -534,8 +535,32 @@ export const getListOfOrganizationsForTable =
     };
   };
 
-export const getMyOrganizationDetails = (): OrganizationDetailsDto => {
-  return getOrganizationDetails(getUserInfo().organizationMdsId);
+export const getOwnOrganizationDetails = (): OwnOrganizationDetailsDto => {
+  const details = getOrganizationDetails(getUserInfo().organizationMdsId);
+  return {
+    mdsId: details.mdsId,
+    name: details.name,
+    businessUnit: details.businessUnit,
+    mainAddress: details.mainAddress,
+    billingAddress: details.billingAddress,
+    legalIdType: details.legalIdType,
+    legalId: details.legalId,
+    commerceRegisterLocation: details.commerceRegisterLocation,
+    url: details.url,
+    description: details.description,
+    registrationStatus: details.registrationStatus,
+    memberList: details.memberList,
+    createdByUserId: details.createdByUserId,
+    createdByFirstName: details.createdByFirstName,
+    createdByLastName: details.createdByLastName,
+    mainContactName: details.mainContactName,
+    mainContactEmail: details.mainContactEmail,
+    mainContactPhone: details.mainContactPhone,
+    techContactName: details.techContactName,
+    techContactEmail: details.techContactEmail,
+    techContactPhone: details.techContactPhone,
+    createdAt: details.createdAt,
+  };
 };
 
 export const inviteOrganization = (

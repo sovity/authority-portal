@@ -1,6 +1,6 @@
 <div
   class="mt-6"
-  [ngClass]="{'h-screen overflow-auto': usageType === 'DETAIL_PAGE'}">
+  [ngClass]="{'h-screen overflow-auto': config.usageType === 'DETAIL_PAGE'}">
   <dl>
     <!-- organization name -->
     <div class="details-row">
@@ -12,101 +12,82 @@
         Organization:
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ userDetailConfig.user.organizationName }}
+        {{ config.user.organizationName }}
       </dd>
     </div>
     <!-- organization name -->
 
-    <!-- portal roles -->
+    <!-- portal role -->
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500"
           >person</mat-icon
         >
-        Portal Roles
+        Portal Role
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        <div *ngIf="!roleFormEnable" class="flex justify-between">
-          <span class="overflow-wrap break-words w-5/6"
-            >{{ showTopRoles(userDetailConfig.user.roles) }}
-          </span>
+        <div *ngIf="!roleFormToggled" class="flex justify-between">
+          <div>
+            <span>{{ config.roles.readableRolesAsString }} </span>
+          </div>
           <mat-icon
-            *ngIf="
-              (('ADMIN' | hasRole | async) ||
-                ('AUTHORITY_ADMIN' | hasRole | async)) &&
-              (userDetailConfig.userId | CheckIfNotCurrentUser | async)
-            "
+            *ngIf="config.roles.canEdit"
             class="text-gray-700 cursor-pointer hover:text-brand-golden"
-            (click)="toggleRoleForm()"
+            (click)="onRoleEditShowClick()"
             >edit</mat-icon
           >
         </div>
-        <ng-container *ngIf="roleFormEnable">
-          <div class="px-4">
-            <label class="w-full mb-2 text-sm"
-              >Choose an Organization Role</label
-            >
-            <mat-form-field class="w-full" appearance="outline">
-              <mat-select
-                [disabled]="!('ADMIN' | hasRole | async)"
-                [(ngModel)]="newTopParticipantRole"
-                (selectionChange)="roleChangeHandled($event, 'PARTICIPANT')">
-                <mat-option
-                  *ngFor="let role of availableParticipantRoles"
-                  [value]="role"
-                  [disabled]="role === currentTopParticipantRole"
-                  >{{ mapToReadable(role) }}</mat-option
-                >
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div
-            *ngIf="
-              ['AUTHORITY_ADMIN', 'SERVICE_PARTNER_ADMIN', 'OPERATOR_ADMIN']
-                | hasAnyRole
-                | async
-            "
-            class="px-4">
+        <ng-container *ngIf="roleFormToggled">
+          <div *ngIf="config.roles.canChangeApplicationRole" class="px-4">
             <label class="w-full mb-2 text-sm"
               >Choose an Application Role</label
             >
             <mat-form-field class="w-full" appearance="outline">
               <mat-select
-                [(ngModel)]="newTopApplicationRole"
-                (selectionChange)="roleChangeHandled($event, 'APPLICATION')">
+                placeholder="None"
+                [formControl]="applicationRoleCtrl">
+                <mat-option>None</mat-option>
                 <mat-option
-                  *ngFor="
-                    let role of ['NONE'].concat(availableApplicationRoles)
-                  "
-                  [value]="role"
-                  [disabled]="
-                    role === currentTopApplicationRole ||
-                    (currentTopApplicationRole === undefined && role === 'NONE')
-                  "
-                  >{{ mapToReadable(role) }}</mat-option
-                >
+                  *ngFor="let role of config.roles.availableApplicationRoles"
+                  [value]="role">
+                  {{ mapRolesToReadableFormat(role) }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="px-4">
+            <label class="w-full mb-2 text-sm"
+              >Choose an Organization Role</label
+            >
+            <mat-form-field class="w-full" appearance="outline">
+              <mat-select [formControl]="participantRoleCtrl">
+                <mat-option
+                  *ngFor="let role of config.roles.availableParticipantRoles"
+                  [value]="role">
+                  {{ mapRolesToReadableFormat(role) }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
         </ng-container>
         <!-- actions -->
-        <div *ngIf="roleFormEnable" class="py-3 px-1 flex">
+        <div *ngIf="roleFormToggled" class="py-3 px-1 flex">
           <div class="flex w-full justify-end gap-4">
             <button
               class="btn-accent-outline"
               type="button"
-              (click)="cancelUserRoleUpdate()">
+              [disabledBtn]="roleEditBusy"
+              (click)="onRoleEditCancel()">
               Cancel
             </button>
             <button
               class="btn-accent"
               [disabledBtn]="
-                !roleFormEnable ||
-                (newTopApplicationRole === currentTopApplicationRole &&
-                  newTopParticipantRole === currentTopParticipantRole)
+                (!applicationRoleCtrl.dirty && !participantRoleCtrl.dirty) ||
+                roleEditBusy
               "
-              (click)="updateUserRoles()">
+              (click)="onRoleEditSubmitClick()">
               Save
             </button>
           </div>
@@ -114,7 +95,7 @@
         <!-- actions -->
       </dd>
     </div>
-    <!-- portal roles -->
+    <!-- portal role -->
 
     <!-- user email -->
     <div class="details-row">
@@ -124,7 +105,7 @@
         >Email:
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ userDetailConfig.user.email }}
+        {{ config.user.email }}
       </dd>
     </div>
     <!-- user email -->
@@ -139,7 +120,7 @@
         Phone:
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ userDetailConfig.user.phone }}
+        {{ config.user.phone }}
       </dd>
     </div>
     <!-- user phone -->
@@ -152,7 +133,7 @@
         >Position:
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ userDetailConfig.user.position }}
+        {{ config.user.position }}
       </dd>
     </div>
     <!-- company position -->
@@ -165,7 +146,7 @@
         >Onboarding Type:
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ onboardingType(userDetailConfig.user.onboardingType) }}
+        {{ onboardingType(config.user.onboardingType) }}
       </dd>
     </div>
     <!-- onboard type -->
@@ -179,7 +160,7 @@
         >Onboarded Since:
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ userDetailConfig.user.creationDate | date : 'mediumDate' }}
+        {{ config.user.creationDate | date : 'mediumDate' }}
       </dd>
     </div>
     <!-- onboarded since -->
@@ -194,9 +175,9 @@
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{
-          userDetailConfig.user.invitingUserFirstName +
+          config.user.invitingUserFirstName +
             ' ' +
-            userDetailConfig.user.invitingUserLastName
+            config.user.invitingUserLastName
         }}
       </dd>
     </div>

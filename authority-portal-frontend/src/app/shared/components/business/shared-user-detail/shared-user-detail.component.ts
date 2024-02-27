@@ -1,123 +1,81 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MatSelectChange} from '@angular/material/select';
-import {UserRoleDto} from '@sovity.de/authority-portal-client';
-import {
-  getHighestApplicationRole,
-  getHighestParticipantRole,
-  mapRolesToReadableFormat,
-  rolesSortingFunction,
-  showTopRoles,
-} from 'src/app/core/utils/user-role-utils';
-import {
-  UserDetailConfig,
-  UserRoleUpdate,
-  UserRoleUpdateType,
-} from './shared-user-detail.model';
+import {Component, Input} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {Observable, combineLatest, forkJoin} from 'rxjs';
+import {finalize, ignoreElements, tap} from 'rxjs/operators';
+import {IdResponse, UserRoleDto} from '@sovity.de/authority-portal-client';
+import {mapRolesToReadableFormat} from 'src/app/core/utils/user-role-utils';
+import {ApiService} from '../../../../core/api/api.service';
+import {ErrorService} from '../../../../core/error.service';
+import {ToastService} from '../../../../core/toast-notifications/toast.service';
+import {setEnabled} from '../../../../core/utils/abstract-control-utils';
+import {UserDetailConfig} from './shared-user-detail.model';
 
 @Component({
   selector: 'app-shared-user-detail',
   templateUrl: './shared-user-detail.component.html',
 })
-export class SharedUserDetailComponent implements OnInit {
-  @Input() userDetailConfig!: UserDetailConfig;
-  @Input() availableApplicationRoles: string[] = [];
-  @Input() availableParticipantRoles: string[] = [];
-  @Input() usageType: 'DETAIL_PAGE' | 'CONTROL_CENTER_PAGE' =
-    'CONTROL_CENTER_PAGE';
-  @Output() onUserRoleUpdate = new EventEmitter<UserRoleUpdate>();
+export class SharedUserDetailComponent {
+  @Input() config!: UserDetailConfig;
 
-  currentTopApplicationRole: UserRoleDto | null = null;
-  currentTopParticipantRole: UserRoleDto | null = null;
+  applicationRoleCtrl = new FormControl<UserRoleDto | null>(null);
+  participantRoleCtrl = new FormControl<UserRoleDto>('USER');
 
-  newTopApplicationRole: UserRoleDto | null = null;
-  newTopParticipantRole: UserRoleDto | null = null;
+  roleFormToggled = false;
+  roleEditBusy = false;
 
-  roleFormEnable: boolean = false;
+  constructor(
+    private apiService: ApiService,
+    private errorService: ErrorService,
+    private toast: ToastService,
+  ) {}
 
-  showTopRoles = showTopRoles;
+  onRoleEditShowClick() {
+    this.roleFormToggled = true;
+    this.applicationRoleCtrl.reset(this.config.roles.currentApplicationRole);
 
-  ngOnInit(): void {
-    this.setupRoleForm();
-  }
-
-  setupRoleForm() {
-    this.currentTopApplicationRole = getHighestApplicationRole(
-      this.userDetailConfig.user.roles,
+    this.participantRoleCtrl.enable();
+    this.participantRoleCtrl.reset(this.config.roles.currentParticipantRole);
+    setEnabled(
+      this.participantRoleCtrl,
+      this.config.roles.canChangeParticipantRole,
     );
-    this.currentTopParticipantRole = getHighestParticipantRole(
-      this.userDetailConfig.user.roles,
-    );
-
-    this.newTopApplicationRole = this.currentTopApplicationRole;
-    this.newTopParticipantRole = this.currentTopParticipantRole;
   }
 
-  toggleRoleForm() {
-    this.roleFormEnable = !this.roleFormEnable;
+  onRoleEditCancel() {
+    this.roleFormToggled = false;
   }
 
-  mapToReadable(role: string): string {
-    return mapRolesToReadableFormat(role);
-  }
+  onRoleEditSubmitClick() {
+    const newApplicationRole = this.applicationRoleCtrl.value;
+    const hasNewApplicationRole =
+      newApplicationRole !== this.config.roles.currentApplicationRole;
 
-  rolesToList(array: string[]): string {
-    return array
-      .map((element) => this.mapToReadable(element))
-      .sort(rolesSortingFunction)
-      .join(', ');
-  }
+    const newParticipantRole = this.participantRoleCtrl.value;
+    const hasNewParticipantRole =
+      newParticipantRole !== this.config.roles.currentParticipantRole &&
+      newParticipantRole != null;
 
-  roleChangeHandled(
-    event: MatSelectChange,
-    type: 'APPLICATION' | 'PARTICIPANT',
-  ) {
-    this.roleFormEnable = true;
-
-    if (type === 'APPLICATION') {
-      if (event.value === 'NONE') {
-        this.newTopApplicationRole = null;
-        return;
-      }
-
-      this.newTopApplicationRole = event.value;
-    } else if (type === 'PARTICIPANT') {
-      this.newTopParticipantRole = event.value as UserRoleDto;
+    if (this.roleEditBusy) {
+      return;
     }
-  }
 
-  updateUserRoles() {
-    this.roleFormEnable = false;
-    if (
-      this.newTopApplicationRole &&
-      this.newTopApplicationRole !== this.currentTopApplicationRole
-    ) {
-      this.onUserRoleUpdate.emit({
-        type: UserRoleUpdateType.APPLICATION,
-        role: this.newTopApplicationRole,
+    const requests$: Observable<never>[] = [];
+    if (hasNewApplicationRole) {
+      requests$.push(this.updateApplicationRole(newApplicationRole));
+    }
+    if (hasNewParticipantRole) {
+      requests$.push(this.updateParticipantRole(newParticipantRole));
+    }
+
+    this.roleEditBusy = true;
+    forkJoin(requests$)
+      .pipe(finalize(() => (this.roleEditBusy = false)))
+      .subscribe({
+        complete: () => {
+          this.config.roles.onRoleUpdateSuccessful();
+          this.roleFormToggled = false;
+        },
       });
-    }
-    if (
-      this.newTopParticipantRole &&
-      this.newTopParticipantRole !== this.currentTopParticipantRole
-    ) {
-      this.onUserRoleUpdate.emit({
-        type: UserRoleUpdateType.PARTICIPANT,
-        role: this.newTopParticipantRole,
-      });
-    }
-
-    if (this.newTopApplicationRole === null) {
-      this.onUserRoleUpdate.emit({
-        type: UserRoleUpdateType.PARTICIPANT,
-        role: null,
-      });
-    }
-  }
-
-  cancelUserRoleUpdate() {
-    this.roleFormEnable = false;
-    this.newTopApplicationRole = this.currentTopApplicationRole;
-    this.newTopParticipantRole = this.currentTopParticipantRole;
   }
 
   onboardingType(type: string) {
@@ -131,5 +89,37 @@ export class SharedUserDetailComponent implements OnInit {
     }
   }
 
-  protected readonly UserRoleDto = UserRoleDto;
+  private updateApplicationRole(newApplicationRole: UserRoleDto | null) {
+    let request$: Observable<IdResponse>;
+    if (newApplicationRole == null) {
+      request$ = this.apiService.clearApplicationRole(this.config.userId);
+    } else {
+      request$ = this.apiService.updateApplicationRole(
+        this.config.userId,
+        newApplicationRole,
+      );
+    }
+    return request$.pipe(
+      tap(() =>
+        this.toast.showSuccess(`Successfully updated application role`),
+      ),
+      this.errorService.toastFailureRxjs('Failed to update application role'),
+      ignoreElements(),
+    );
+  }
+
+  private updateParticipantRole(newParticipantRole: UserRoleDto) {
+    return this.apiService
+      .updateParticipantRole(this.config.userId, newParticipantRole)
+      .pipe(
+        tap(() =>
+          this.toast.showSuccess(`Successfully updated participant role`),
+        ),
+        this.errorService.toastFailureRxjs('Failed to update participant role'),
+        ignoreElements(),
+      );
+  }
+
+  UserRoleDto = UserRoleDto;
+  mapRolesToReadableFormat = mapRolesToReadableFormat;
 }

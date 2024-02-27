@@ -1,23 +1,13 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {
-  getAvailableRoles,
-  isApplicationRole,
-} from 'src/app/core/utils/user-role-utils';
-import {
-  UserDetailConfig,
-  UserRoleUpdate,
-} from 'src/app/shared/components/business/shared-user-detail/shared-user-detail.model';
+import {UserDetailConfig} from 'src/app/shared/components/business/shared-user-detail/shared-user-detail.model';
+import {buildUserRoleUpdateConfigFromUserInfo} from '../../../../shared/components/business/shared-user-detail/user-role-update-config';
 import {UserDetailPageConfig} from '../../authority-organization-detail-page/authority-organization-detail-page.model';
 import {
-  ClearUserApplicationRoleAsAuthority,
   RefreshOrganizationUser,
   SetOrganizationUserId,
-  UpdateUserApplicationRoleAsAuthority,
-  UpdateUserParticipantRole,
 } from '../../state/authority-organization-detail-page-actions';
 import {
   AuthorityOrganizationUserDetailState,
@@ -33,12 +23,7 @@ export class OrganizationUserDetailComponent implements OnInit, OnDestroy {
   @Input() userDetailPageConfig!: UserDetailPageConfig;
 
   userDetailConfig!: UserDetailConfig;
-  availableApplicationRoles: string[] = [];
-  availableParticipantRoles: string[] = Object.values(UserRoleDto).filter(
-    (role: UserRoleDto) => !isApplicationRole(role),
-  ) as string[];
   state = DEFAULT_AUTHORITY_ORGANIZATION_USER_DETAIL_STATE;
-  roleFormLoading: boolean = false;
   ngOnDestroy$ = new Subject();
 
   constructor(
@@ -53,7 +38,6 @@ export class OrganizationUserDetailComponent implements OnInit, OnDestroy {
     );
     this.refresh();
     this.startListeningToState();
-    this.setApplicationRoles();
   }
 
   startListeningToState() {
@@ -69,52 +53,20 @@ export class OrganizationUserDetailComponent implements OnInit, OnDestroy {
             userId: state.userId,
             user: state.user.data,
             pageFor: 'AUTHORITY_VIEW',
+            usageType: 'DETAIL_PAGE',
+            roles: buildUserRoleUpdateConfigFromUserInfo({
+              currentUser: this.globalStateUtils.userInfo,
+              target: state.user.data,
+              onRoleUpdateSuccessful: () => {
+                this.store.dispatch(new RefreshOrganizationUser());
+              },
+            }),
           };
-        this.roleFormLoading =
-          this.state.userParticipantRolesForm.state === 'submitting' ||
-          this.state.userApplicationRolesForm.state === 'submitting';
       });
   }
 
   setOrganizationUserId(mdsId: string, userId: string) {
     this.store.dispatch(new SetOrganizationUserId(mdsId, userId));
-  }
-
-  setApplicationRoles() {
-    this.globalStateUtils.userInfo$
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((userInfo) => {
-        this.availableApplicationRoles = getAvailableRoles(
-          Array.from(userInfo.roles),
-        );
-      });
-  }
-
-  userRoleUpdateHandler($event: UserRoleUpdate) {
-    if ($event.role) {
-      switch ($event.type) {
-        case 'APPLICATION':
-          this.store.dispatch(
-            new UpdateUserApplicationRoleAsAuthority(
-              this.userDetailConfig.userId,
-              $event.role,
-            ),
-          );
-          break;
-        case 'PARTICIPANT':
-          this.store.dispatch(
-            new UpdateUserParticipantRole(
-              this.userDetailConfig.userId,
-              $event.role,
-            ),
-          );
-          break;
-      }
-    } else {
-      this.store.dispatch(
-        new ClearUserApplicationRoleAsAuthority(this.userDetailConfig.userId),
-      );
-    }
   }
 
   refresh() {

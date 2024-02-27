@@ -1,8 +1,8 @@
 <div
   class="flex gap-4 py-2 px-4 items-center h-full cursor-pointer hover:text-brand-golden"
   [matMenuTriggerFor]="menu"
-  (menuOpened)="onMenuAction('OPENED')"
-  (menuClosed)="onMenuAction('CLOSED')">
+  (menuOpened)="userMenuOpen = true"
+  (menuClosed)="userMenuOpen = false">
   <div class="col-span-1 flex justify-center">
     <app-avatar [name]="userAvatar"></app-avatar>
   </div>
@@ -22,31 +22,31 @@
       <p class="font-bold">
         {{ userData.firstName + ' ' + userData.lastName }}
       </p>
-      <p>{{ mapToReadable(userData.role) }}</p>
+      <p>{{ userData.roleString }}</p>
     </div>
   </div>
 
   <div>
-    <button
+    <a
       class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
-      (click)="goToControlCenterPage('my-profile')">
+      routerLink="control-center/my-profile">
       <mat-icon svgIcon="user"></mat-icon>
       <span>My Profile</span>
-    </button>
+    </a>
   </div>
   <div>
-    <button
+    <a
       class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
-      (click)="goToControlCenterPage('my-organization')">
+      routerLink="control-center/my-organization">
       <mat-icon svgIcon="briefcase"></mat-icon>
       <span>Organization Profile</span>
-    </button>
-    <button
+    </a>
+    <a
       class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
-      (click)="goToControlCenterPage('my-users')">
+      routerLink="control-center/my-users">
       <mat-icon svgIcon="users"></mat-icon>
-      <span>Users & Roles </span>
-    </button>
+      <span>Users & Roles</span>
+    </a>
   </div>
   <hr class="my-2" />
 

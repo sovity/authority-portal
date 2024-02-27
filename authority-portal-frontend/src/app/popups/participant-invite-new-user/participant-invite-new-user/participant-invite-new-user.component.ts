@@ -86,9 +86,9 @@ export class ParticipantInviteNewUserComponent {
         request,
         () => this.group.enable(),
         () => this.group.disable(),
+        () => this.dialogRef.close(true),
       ),
     );
-    this.dialogRef.close();
   }
 
   ngOnDestroy() {
