@@ -50,6 +50,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Privacy policy link is now displayed on all pages and required to be accepted during registration flows
 - Added functions to build proper catalog redirect url based on environment for the frontend
 - Updated sidebar to redirect to the correct broker url based on environment
+- Improved displaying of the user roles
 
 #### Patch
 

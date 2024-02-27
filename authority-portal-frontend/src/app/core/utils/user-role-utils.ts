@@ -16,6 +16,19 @@ export function mapRolesToReadableFormat(
   return words.join(' ');
 }
 
+export function getApplicationRoles(): string[] {
+  return [
+    'AUTHORITY_ADMIN',
+    'AUTHORITY_USER',
+    'SERVICE_PARTNER_ADMIN',
+    'OPERATOR_ADMIN',
+  ];
+}
+
+export function getParticipantRoles(): string[] {
+  return ['ADMIN', 'KEY_USER', 'USER'];
+}
+
 export function getHighestApplicationRole(currentUserRoles: UserRoleDto[]) {
   return getHighestRole(currentUserRoles.filter((it) => isApplicationRole(it)));
 }
@@ -33,7 +46,9 @@ export function getHighestParticipantRole(currentUserRoles: UserRoleDto[]) {
  * @returns
  */
 export function getHighestRole(userRoles: UserRoleDto[]): UserRoleDto {
-  const allRoles = Object.values(UserRoleDto);
+  const allRoles = Object.values(UserRoleDto).filter(
+    (role: UserRoleDto) => role !== UserRoleDto.Unauthenticated,
+  );
 
   return allRoles[
     Math.min(
@@ -67,4 +82,70 @@ export function isApplicationRole(role: UserRoleDto): boolean {
     role !== UserRoleDto.KeyUser &&
     role !== UserRoleDto.User
   );
+}
+
+export function rolesSortingFunction(firstRole: string, secondRole: string) {
+  const applicationRoles = [
+    'AUTHORITY_ADMIN',
+    'AUTHORITY_USER',
+    'SERVICE_PARTNER_ADMIN',
+    'OPERATOR_ADMIN',
+  ];
+
+  const participantRoles = ['ADMIN', 'KEY_USER', 'USER'];
+
+  if (
+    isApplicationRole(firstRole as UserRoleDto) &&
+    !isApplicationRole(secondRole as UserRoleDto)
+  ) {
+    return -1; // first argument before second
+  } else if (
+    !isApplicationRole(firstRole as UserRoleDto) &&
+    isApplicationRole(secondRole as UserRoleDto)
+  ) {
+    return 1;
+  } else if (
+    isApplicationRole(firstRole as UserRoleDto) &&
+    isApplicationRole(secondRole as UserRoleDto)
+  ) {
+    return (
+      applicationRoles.indexOf(firstRole) - applicationRoles.indexOf(secondRole)
+    );
+  } else {
+    return (
+      participantRoles.indexOf(firstRole) - participantRoles.indexOf(secondRole)
+    );
+  }
+}
+
+export function formatSingleRole(role: UserRoleDto): string | null {
+  const result = mapRolesToReadableFormat(role);
+
+  if (result === 'None') {
+    return null;
+  }
+  return result;
+}
+
+export function getFormattedHighestApplicationRole(
+  roles: UserRoleDto[],
+): string | null {
+  return formatSingleRole(getHighestApplicationRole(roles));
+}
+
+export function getFormattedHighestParticipantRole(
+  roles: UserRoleDto[],
+): string {
+  return formatSingleRole(getHighestParticipantRole(roles))!;
+}
+
+export function showTopRoles(userRoles: UserRoleDto[]): string {
+  const highestApplicationRole = getFormattedHighestApplicationRole(userRoles);
+  const highestParticipantRole = getFormattedHighestParticipantRole(userRoles);
+
+  if (highestApplicationRole) {
+    return `${highestApplicationRole}, ${highestParticipantRole}`;
+  } else {
+    return highestParticipantRole;
+  }
 }
