@@ -53,8 +53,8 @@ We are awaiting a working Test Process with Sirius, which we can base the produc
 - The domain under which the Authority Portal should be reachable on the internet will be referred to as `[AP_FQDN]` in this
   guide.
 - Path mapping: 
-  - Frontend: `https://[AP_FQDN]` -> `oauth2-proxy:8080` -> `caddy:8080` -> `frontend:8080`
-  - Backend: `https://[AP_FQDN]/api` -> `oauth2-proxy:8080` -> `caddy:8080` -> `backend:8080/api`
+  - Frontend: `https://[AP_FQDN]` -> `caddy:8080` -> `frontend:8080`
+  - Backend: `https://[AP_FQDN]/api` -> `caddy:8080` -> `oauth2-proxy:8080` -> `caddy:8081` -> `backend:8080/api`
 
 #### Keycloak IAM Deployment
 
@@ -81,32 +81,6 @@ We are awaiting a working Test Process with Sirius, which we can base the produc
    7. Add email settings (Realm settings > Email)
       - At least `From` and `Host` are required
 
-#### OAuth2 Proxy
-
-- The Authority Portal is meant to be deployed with an OAuth2 Proxy in front of the Reverse Proxy.
-- The OAuth2 Proxy should be configured to use the Keycloak (IAM) as OAuth2 Provider.  
-
-```yaml
-OAUTH2_PROXY_PROVIDER: keycloak-oidc
-OAUTH2_PROXY_PROVIDER_DISPLAY_NAME: Keycloak
-OAUTH2_PROXY_OIDC_ISSUER_URL: https://[KC_FQDN]/realms/authority-portal
-OAUTH2_PROXY_COOKIE_SECRET: [COOKIE_SECRET] # (32-bit base64 encoded secret)
-OAUTH2_PROXY_CLIENT_ID: oauth2-proxy
-OAUTH2_PROXY_CLIENT_SECRET: [OA2_CLIENT_SECRET]
-OAUTH2_PROXY_COOKIE_REFRESH: 4m # Access Token Lifespan - 1 minute
-OAUTH2_PROXY_COOKIE_EXPIRE: 30m # Client Session Idle / SSO Session Idle
-OAUTH2_PROXY_EMAIL_DOMAINS: "*"
-OAUTH2_PROXY_UPSTREAMS: http://caddy:8080
-OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:8080
-OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
-OAUTH2_PROXY_SKIP_AUTH_ROUTE: ^/oauth2
-OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
-OAUTH2_PROXY_SHOW_DEBUG_ON_ERROR: "true"
-OAUTH2_PROXY_REDIRECT_URL: https://[AP_FQDN]/oauth2/callback
-OAUTH2_PROXY_SCOPE: openid profile
-OAUTH2_PROXY_WHITELIST_DOMAINS: [KC_FQDN]
-```
-
 #### Caddy
 
 The [Caddyfile](../sirius/remote/Caddyfile) needs to be mounted to `/etc/caddy/Caddyfile` in the Caddy container.
@@ -114,9 +88,37 @@ See the list of deployment units for the compatible Caddy image.
 
 The Caddy needs to get the following env variables it uses in the container:
 
-```yaml
+  ```yaml
 BACKEND_UPSTREAM_HOST: backend
 FRONTEND_UPSTREAM_HOST: frontend
+AUTH_PROXY_UPSTREAM_HOST: auth-proxy
+```
+
+#### OAuth2 Proxy
+
+- The Authority Portal is meant to be deployed with an OAuth2 Proxy in front of the Portal Backend.
+- The OAuth2 Proxy should be configured to use the Keycloak (IAM) as OAuth2 Provider.  
+
+```yaml
+OAUTH2_PROXY_PROVIDER: keycloak-oidc
+OAUTH2_PROXY_PROVIDER_DISPLAY_NAME: Keycloak
+OAUTH2_PROXY_OIDC_ISSUER_URL: https://[KC_FQDN]/realms/authority-portal
+OAUTH2_PROXY_COOKIE_SECRET: [COOKIE_SECRET] # (32-bit base64 encoded secret)
+OAUTH2_PROXY_COOKIE_REFRESH: 4m # Access Token Lifespan - 1 minute
+OAUTH2_PROXY_COOKIE_EXPIRE: 30m # Client Session Idle / SSO Session Idle
+OAUTH2_PROXY_CLIENT_ID: oauth2-proxy
+OAUTH2_PROXY_CLIENT_SECRET: [OA2_CLIENT_SECRET]
+OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+OAUTH2_PROXY_UPSTREAMS: http://caddy:8081/
+OAUTH2_PROXY_API_ROUTES: "^/api/"
+OAUTH2_PROXY_SKIP_AUTH_ROUTES: "^(/oauth2|/api/registration)"
+OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:8080
+OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
+OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
+OAUTH2_PROXY_SHOW_DEBUG_ON_ERROR: "true"
+OAUTH2_PROXY_REDIRECT_URL: https://[AP_FQDN]/oauth2/callback
+OAUTH2_PROXY_SCOPE: openid profile
+OAUTH2_PROXY_WHITELIST_DOMAINS: [KC_FQDN]
 ```
 
 #### Keycloak DAPS Client Creation
@@ -158,7 +160,7 @@ authority-portal.base-url: https://[AP_FQDN] # Must equal the root URL/home URl 
 authority-portal.invitation.expiration: 43200 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
 authority-portal.caas.sovity.url: https://[CAAS_PORTAL_FQDN] # URL of the sovity CaaS Portal
 authority-portal.caas.sovity.limit-per-mdsid: 1 # Amount of free sovity CaaS per participant
-authority-portal.kuma.metrics-url: https://[UPTIME_KUMA_FQDN] # Uptime Kuma metrics endpoint
+authority-portal.kuma.metrics-url: https://[UPTIME_KUMA_FQDN]/metrics # Uptime Kuma metrics endpoint
 authority-portal.kuma.api-key: [UPTIME_KUMA_API_KEY] # Uptime Kuma API key
 # Following is **one** deployment environment configuration. (See hint below)
 authority-portal.deployment.environments.test.title: Test # Env: Title of the deployment environment configuration
@@ -185,13 +187,13 @@ Environment `test` is mandatory. Further environments can be configured.
 
 ```yaml
 AUTHORITY_PORTAL_FRONTEND_BACKEND_URL: https://[AP_FQDN] # Authority Portal URL
+AUTHORITY_PORTAL_FRONTEND_LOGIN_URL: https://[AP_FQDN]/oauth2/start?rd=https%3A%2F%2F[AP_FQDN] # Auth Proxy: Login URL (with redirect to the Authority Portal)
 # Following is the URL to signal the Auth Proxy to log out the user.
-# Example: https://${AP_FQDN}/oauth2/sign_out?rd=https%3A%2F%2F${KC_FQDN}%2Frealms%2Fauthority-portal%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F${AP_FQDN}
+# Example: https://[AP_FQDN]/oauth2/sign_out?rd=https%3A%2F%2F[KC_FQDN]%2Frealms%2Fauthority-portal%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F[AP_FQDN]
 AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: (...) # Auth Proxy: Logout URL
 AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: https://[AP_FQDN]/oauth2/sign_out # Auth Proxy: URL to invalidate sessions cookies
 AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://mobility-dataspa-5n9px2qi7r.live-website.com/mds-news # MDS Dashboard iFrame URL
-AUTHORITY_PORTAL_FRONTEND_DSGVO_URL: https://mobility-dataspace.online/dsgvo # DSGVO URL
-AUTHORITY_PORTAL_FRONTEND_AVV_URL: https://mobility-dataspace.online/avv # AVV URL
+AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal # MDS Privacy Policy URL
 ```
 
 ### Docker Compose Example
