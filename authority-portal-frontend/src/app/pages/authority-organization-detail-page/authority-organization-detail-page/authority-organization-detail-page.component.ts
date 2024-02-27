@@ -8,7 +8,10 @@ import {
   UserInfo,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {getOrganizationRegistrationStatusClasses} from 'src/app/core/utils/ui-utils';
+import {
+  getOrganizationRegistrationStatusClasses,
+  getOrganizationUserRegistrationStatusClasses,
+} from 'src/app/core/utils/ui-utils';
 import {
   ChildComponentInput,
   NavigationType,
@@ -211,8 +214,10 @@ export class AuthorityOrganizationDetailPageComponent
     this.titleBarConfig = {
       title: user.firstName + ' ' + user.lastName,
       icon: 'account-circle',
-      status: '',
-      statusStyle: '',
+      status: user.registrationStatus,
+      statusStyle: getOrganizationUserRegistrationStatusClasses(
+        user.registrationStatus,
+      ),
       tabs: [],
       actionMenu: {
         id: 'actionMenu',
