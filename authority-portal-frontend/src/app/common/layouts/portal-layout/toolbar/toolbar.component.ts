@@ -3,6 +3,7 @@ import {Subject, takeUntil} from 'rxjs';
 import {UserInfo} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {getHighestRole} from 'src/app/core/utils/user-role-utils';
 import {ControlCenterModel} from '../control-center/control-center.model';
 
 @Component({
@@ -30,7 +31,7 @@ export class ToolbarComponent {
         this.userAvatarData = {
           firstName: userInfo.firstName,
           lastName: userInfo.lastName,
-          role: userInfo.roles.length ? userInfo.roles[0] : '',
+          role: getHighestRole(userInfo.roles),
         };
       });
   }

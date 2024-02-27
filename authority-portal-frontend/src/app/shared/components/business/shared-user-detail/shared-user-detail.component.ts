@@ -5,6 +5,8 @@ import {
   getHighestApplicationRole,
   getHighestParticipantRole,
   mapRolesToReadableFormat,
+  rolesSortingFunction,
+  showTopRoles,
 } from 'src/app/core/utils/user-role-utils';
 import {
   UserDetailConfig,
@@ -31,6 +33,8 @@ export class SharedUserDetailComponent implements OnInit {
   newTopParticipantRole: UserRoleDto | null = null;
 
   roleFormEnable: boolean = false;
+
+  showTopRoles = showTopRoles;
 
   ngOnInit(): void {
     this.setupRoleForm();
@@ -59,7 +63,7 @@ export class SharedUserDetailComponent implements OnInit {
   rolesToList(array: string[]): string {
     return array
       .map((element) => this.mapToReadable(element))
-      .sort()
+      .sort(rolesSortingFunction)
       .join(', ');
   }
 
