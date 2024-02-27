@@ -51,7 +51,7 @@ export class RequestConnectorPageStateImpl {
         switch (res.status) {
           case 'OK':
             this.toast.showSuccess(
-              `Connector ${action.request.connectorTitle} requested successfully`,
+              `Connector ${action.request.connectorTitle} requested successfully. You will receive an E-Mail confirming the deployment in the next few minutes.`,
             );
             ctx.patchState({state: 'success'});
             this.router.navigate(['/', 'my-organization', 'connectors']);
