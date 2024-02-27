@@ -5,7 +5,7 @@ import {Store} from '@ngxs/store';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
-  getAvailableApplicationRoles,
+  getAvailableRoles,
   isApplicationRole,
 } from 'src/app/core/utils/user-role-utils';
 import {
@@ -13,7 +13,6 @@ import {
   UserRoleUpdate,
 } from 'src/app/shared/components/business/shared-user-detail/shared-user-detail.model';
 import {
-  CheckDeleteUser,
   ClearUserApplicationRole,
   DeactivateUser,
   DeleteUser,
@@ -89,7 +88,7 @@ export class OrganizationUserComponent {
 
   setApplicationRoles() {
     this.globalStateUtils.userInfo$.subscribe((userInfo) => {
-      this.availableApplicationRoles = getAvailableApplicationRoles(
+      this.availableApplicationRoles = getAvailableRoles(
         Array.from(userInfo.roles),
       );
     });

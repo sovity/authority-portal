@@ -4,7 +4,7 @@ import {Store} from '@ngxs/store';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
-  getAvailableApplicationRoles,
+  getAvailableRoles,
   isApplicationRole,
 } from 'src/app/core/utils/user-role-utils';
 import {
@@ -14,8 +14,6 @@ import {
 import {UserDetailPageConfig} from '../../authority-organization-detail-page/authority-organization-detail-page.model';
 import {
   ClearUserApplicationRoleAsAuthority,
-  DeactivateUser,
-  ReactivateUser,
   RefreshOrganizationUser,
   SetOrganizationUserId,
   UpdateUserApplicationRoleAsAuthority,
@@ -86,7 +84,7 @@ export class OrganizationUserDetailComponent implements OnInit, OnDestroy {
     this.globalStateUtils.userInfo$
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((userInfo) => {
-        this.availableApplicationRoles = getAvailableApplicationRoles(
+        this.availableApplicationRoles = getAvailableRoles(
           Array.from(userInfo.roles),
         );
       });

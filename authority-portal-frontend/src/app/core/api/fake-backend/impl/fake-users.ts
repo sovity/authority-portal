@@ -4,6 +4,7 @@ import {
   ClearApplicationRoleRequest,
   IdResponse,
   InviteParticipantUserRequest,
+  MemberInfo,
   OnboardingUserUpdateDto,
   PossibleCreatorSuccessor,
   UserDeletionCheck,
@@ -166,7 +167,7 @@ export const OTHER_USERS: Record<string, UserInfo> = {
   },
 };
 
-export const ALL_USERS = {...TEST_USERS, ...OTHER_USERS};
+export let ALL_USERS = {...TEST_USERS, ...OTHER_USERS};
 
 /**
  * Currently "logged-in user" for local dev UI
@@ -213,12 +214,16 @@ export const userDetails = (userId: string): UserDetailDto => {
   };
 };
 
+export const addUser = (user: UserInfo) => {
+  ALL_USERS[user.userId] = user;
+};
+
 export const inviteUser = (
   request: InviteParticipantUserRequest,
 ): IdResponse => {
   const newUserId = generateNewId();
 
-  const newUser = {
+  const newUser: UserInfo = {
     authenticationStatus: 'AUTHENTICATED',
     userId: newUserId,
     firstName: request.firstName,
@@ -227,15 +232,17 @@ export const inviteUser = (
     registrationStatus: 'INVITED',
     organizationMdsId: getUserInfo().organizationMdsId,
     organizationName: getUserInfo().organizationName,
-  } satisfies UserInfo;
+  };
 
   updateOrganization(getUserInfo().organizationMdsId, (organization) => {
     return {
       ...organization,
-      memberList: [...organization.memberList, newUser],
+      memberList: [...organization.memberList, newUser as MemberInfo],
       memberCount: organization.memberCount + 1,
     };
   });
+
+  addUser(newUser);
 
   return {id: newUserId, changedDate: new Date()};
 };
@@ -243,7 +250,7 @@ export const inviteUser = (
 const generateNewId = (): string => {
   const usersCounter = Object.keys(TEST_USERS).length;
   const counterStr = usersCounter.toString().padStart(8, '0');
-  return `00000000-0000-0000-0000-${counterStr}`;
+  return `00000000-0000-0000-0000-${counterStr + 1}`;
 };
 
 const generateRoles = (userRole: UserRoleDto): UserRoleDto[] => {
