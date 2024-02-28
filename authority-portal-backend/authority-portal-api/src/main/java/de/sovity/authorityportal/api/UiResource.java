@@ -422,18 +422,6 @@ public interface UiResource {
         String environmentId
     );
 
-    @DELETE
-    @Path("/organizations/{mdsId}/connectors/{connectorId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Unregister a connector for another organization as a service provider.")
-    IdResponse deleteProvidedConnector(
-        @PathParam("mdsId")
-        String mdsId,
-
-        @PathParam("connectorId")
-        String connectorId
-    );
-
     @GET
     @Path("/deployment-environments")
     @Produces(MediaType.APPLICATION_JSON)
