@@ -13,7 +13,11 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Control Center: Edit Own Organization Details Page
+
 #### Patch
+
+- User Onboarding: Fix Privacy Policy Check not positioned correctly
 
 ### Known issues
 

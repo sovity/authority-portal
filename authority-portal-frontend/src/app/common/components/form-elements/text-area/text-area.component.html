@@ -1,0 +1,23 @@
+<label
+  class="w-full mb-2 text-sm"
+  [class.text-red-600]="ctrl.touched && ctrl.invalid"
+  [for]="ctrlId"
+  >{{ label }}</label
+>
+
+<mat-form-field
+  class="w-full min-h-min text-s"
+  appearance="outline"
+  color="accent">
+  <textarea
+    class="border-b-2 border-gray-400 mb-3 py-1 pl-1 !resize-none"
+    rows="4"
+    matInput
+    [placeholder]="placeholder"
+    [formControl]="ctrl"
+    [attr.id]="ctrlId"></textarea>
+
+  <mat-error *ngIf="ctrl.touched && ctrl.hasError('required')" class="text-xs">
+    {{ requiredMessage }}</mat-error
+  >
+</mat-form-field>

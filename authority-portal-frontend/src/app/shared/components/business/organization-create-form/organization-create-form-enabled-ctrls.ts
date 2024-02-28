@@ -1,9 +1,9 @@
 import {OrganizationLegalIdTypeDto} from '@sovity.de/authority-portal-client';
-import {OrganizationProfileFormValue} from './organization-profile-form-model';
+import {OrganizationCreateFormValue} from './organization-create-form-model';
 
-export const organizationProfileFormEnabledCtrls = (
-  value: OrganizationProfileFormValue,
-): Record<keyof OrganizationProfileFormValue, boolean> => {
+export const organizationCreateFormEnabledCtrls = (
+  value: OrganizationCreateFormValue,
+): Record<keyof OrganizationCreateFormValue, boolean> => {
   const isCommercialRegister =
     value.legalIdType === OrganizationLegalIdTypeDto.CommerceRegisterInfo;
   const billingAddressEnabled = !value.billingAddressSameAsMain;

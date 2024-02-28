@@ -61,9 +61,9 @@
           <div class="flex flex-col px-1 md:px-8 w-full">
             <ng-template matStepLabel>Organization Profile</ng-template>
             <h3>Organization Profile</h3>
-            <app-organization-profile-form
+            <app-organization-create-form
               class="flex-grow my-4"
-              [orgForm]="orgProfileForm"></app-organization-profile-form>
+              [orgForm]="orgProfileForm"></app-organization-create-form>
 
             <app-tos-check
               [ctrl]="orgForm.controls.acceptedTos"></app-tos-check>

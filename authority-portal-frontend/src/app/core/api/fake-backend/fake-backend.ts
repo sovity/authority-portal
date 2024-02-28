@@ -19,6 +19,7 @@ import {
   OwnOrganizationDetailsDtoToJSON,
   ProvidedConnectorOverviewResultToJSON,
   RegistrationRequestDtoFromJSON,
+  UpdateOrganizationDtoFromJSON,
   UserDeletionCheckToJSON,
   UserDetailDtoToJSON,
   UserInfoToJSON,
@@ -52,6 +53,7 @@ import {
   inviteOrganization,
   onboardOrganization,
   rejectOrganization,
+  updateOwnOrganization,
 } from './impl/fake-organizations';
 import {
   cascadeDeleteUser,
@@ -367,6 +369,11 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('GET', () => {
       const result = getOwnOrganizationDetails();
       return ok(OwnOrganizationDetailsDtoToJSON(result));
+    })
+    .on('PUT', () => {
+      const request = UpdateOrganizationDtoFromJSON(body);
+      const result = updateOwnOrganization(request);
+      return ok(IdResponseToJSON(result));
     })
 
     .url('application/organizations')

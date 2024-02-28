@@ -12,6 +12,7 @@ import {OrganizationSelectComponent} from './organization-select/organization-se
 import {PasswordInputComponent} from './password-input/password-input.component';
 import {PasswordRepeatInputComponent} from './password-repeat-input/password-repeat-input.component';
 import {ReadonlyTextInputComponent} from './readonly-text-input/readonly-text-input.component';
+import {TextAreaComponent} from './text-area/text-area.component';
 import {TextInputComponent} from './text-input/text-input.component';
 
 @NgModule({
@@ -33,6 +34,7 @@ import {TextInputComponent} from './text-input/text-input.component';
     OrganizationSelectComponent,
     PasswordInputComponent,
     PasswordRepeatInputComponent,
+    TextAreaComponent,
     TextInputComponent,
     TosCheckComponent,
     ReadonlyTextInputComponent,
@@ -44,6 +46,7 @@ import {TextInputComponent} from './text-input/text-input.component';
     OrganizationSelectComponent,
     PasswordInputComponent,
     PasswordRepeatInputComponent,
+    TextAreaComponent,
     TextInputComponent,
     TosCheckComponent,
     ReadonlyTextInputComponent,

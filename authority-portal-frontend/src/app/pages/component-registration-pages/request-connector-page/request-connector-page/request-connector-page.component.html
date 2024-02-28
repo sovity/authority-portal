@@ -28,32 +28,12 @@
         [ctrl]="requestConnectorPageForm.connectorSubdomain"></app-text-input>
 
       <!-- Description -->
-      <div class="flex flex-col justify-between items-center w-full">
-        <label class="w-full mb-2 text-sm" for="descriptionInput"
-          >Description</label
-        >
-        <mat-form-field
-          class="w-full text-sm"
-          appearance="outline"
-          color="accent">
-          <textarea
-            id="descriptionInput"
-            class="!h-28"
-            matInput
-            placeholder="This connector is used to..."
-            [formControl]="
-              requestConnectorPageForm.connectorDescription
-            "></textarea>
-          <mat-error
-            class="text-sm"
-            appFormControlError
-            fieldName="Description"
-            [control]="
-              requestConnectorPageForm.connectorDescription
-            "></mat-error>
-        </mat-form-field>
-      </div>
-      <!-- Description End -->
+      <app-text-area
+        class="w-full"
+        ctrlId="descriptionInput"
+        label="Description"
+        placeholder="This connector is used to..."
+        [ctrl]="requestConnectorPageForm.connectorDescription"></app-text-area>
     </div>
 
     <div class="flex items-center justify-end gap-x-6">

@@ -7,6 +7,7 @@ import {
   OrganizationOverviewEntryDto,
   OrganizationOverviewResult,
   OwnOrganizationDetailsDto,
+  UpdateOrganizationDto,
 } from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {getUserInfo} from './fake-users';
@@ -59,10 +60,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdByLastName: 'Admin',
     mainContactName: 'Authority Admin',
     mainContactEmail: 'admin@example1.com',
-    mainContactPhone: '123-456-7890',
+    mainContactPhone: '+49 1234 567890',
     techContactName: 'Tech Admin',
     techContactEmail: 'tech@example1.com',
-    techContactPhone: '987-654-3210',
+    techContactPhone: '+49 9876 543210',
     createdAt: new Date('2023-08-05T00:00:00.000Z'),
   },
 
@@ -143,10 +144,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdByLastName: 'Doe',
     mainContactName: 'John Doe',
     mainContactEmail: 'admin@example1.com',
-    mainContactPhone: '123-456-7890',
+    mainContactPhone: '+49 1234 567890',
     techContactName: 'Tech Admin',
     techContactEmail: 'tech@example1.com',
-    techContactPhone: '987-654-3210',
+    techContactPhone: '+49 9876 543210',
     createdAt: new Date('2023-08-01T00:00:00.000Z'),
   },
 
@@ -185,10 +186,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdByLastName: 'Doe',
     mainContactName: 'John Doe',
     mainContactEmail: 'admin@example1.com',
-    mainContactPhone: '123-456-7890',
+    mainContactPhone: '+49 1234 567890',
     techContactName: 'Tech Admin',
     techContactEmail: 'tech@example1.com',
-    techContactPhone: '987-654-3210',
+    techContactPhone: '+49 9876 543210',
     createdAt: new Date('2022-10-01T00:00:00.000Z'),
   },
 
@@ -227,10 +228,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdByLastName: 'Doe',
     mainContactName: 'John Doe',
     mainContactEmail: 'admin@example1.com',
-    mainContactPhone: '123-456-7890',
+    mainContactPhone: '+49 1234 567890',
     techContactName: 'Tech Admin',
     techContactEmail: 'tech@example1.com',
-    techContactPhone: '987-654-3210',
+    techContactPhone: '+49 9876 543210',
     createdAt: new Date('2022-10-02T00:00:00.000Z'),
   },
 
@@ -269,10 +270,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdByLastName: 'Doe',
     mainContactName: 'John Doe',
     mainContactEmail: 'admin@example1.com',
-    mainContactPhone: '123-456-7890',
+    mainContactPhone: '+49 1234 567890',
     techContactName: 'Tech Admin',
     techContactEmail: 'tech@example1.com',
-    techContactPhone: '987-654-3210',
+    techContactPhone: '+49 9876 543210',
     createdAt: new Date('2022-10-03T00:00:00.000Z'),
   },
 
@@ -311,10 +312,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdByLastName: 'Doe',
     mainContactName: 'John Doe',
     mainContactEmail: 'admin@example1.com',
-    mainContactPhone: '123-456-7890',
+    mainContactPhone: '+49 1234 567890',
     techContactName: 'Tech Admin',
     techContactEmail: 'tech@example1.com',
-    techContactPhone: '987-654-3210',
+    techContactPhone: '+49 9876 543210',
     createdAt: new Date('2022-10-04T00:00:00.000Z'),
   },
 
@@ -354,10 +355,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdByLastName: 'Doe',
     mainContactName: 'John Doe',
     mainContactEmail: 'admin@example1.com',
-    mainContactPhone: '123-456-7890',
+    mainContactPhone: '+49 1234 567890',
     techContactName: 'Tech Admin',
     techContactEmail: 'tech@example1.com',
-    techContactPhone: '987-654-3210',
+    techContactPhone: '+49 9876 543210',
   },
 
   {
@@ -396,10 +397,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdByLastName: 'Doe',
     mainContactName: 'John Doe',
     mainContactEmail: 'admin@example1.com',
-    mainContactPhone: '123-456-7890',
+    mainContactPhone: '+49 1234 567890',
     techContactName: 'Tech Admin',
     techContactEmail: 'tech@example1.com',
-    techContactPhone: '987-654-3210',
+    techContactPhone: '+49 9876 543210',
   },
   {
     mdsId: 'MDSL6666EE',
@@ -430,10 +431,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     createdByLastName: 'User',
     mainContactName: 'John Doe',
     mainContactEmail: 'admin@example1.com',
-    mainContactPhone: '123-456-7890',
+    mainContactPhone: '+49 1234 567890',
     techContactName: 'Tech Admin',
     techContactEmail: 'tech@example1.com',
-    techContactPhone: '987-654-3210',
+    techContactPhone: '+49 9876 543210',
   },
   {
     mdsId: 'MDSL9111ZZ',
@@ -474,10 +475,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     ],
     mainContactName: 'Authority Admin',
     mainContactEmail: 'admin@example1.com',
-    mainContactPhone: '123-456-7890',
+    mainContactPhone: '+49 1234 567890',
     techContactName: 'Tech Admin',
     techContactEmail: 'tech@example1.com',
-    techContactPhone: '987-654-3210',
+    techContactPhone: '+49 9876 543210',
     createdAt: new Date('2023-08-05T00:00:00.000Z'),
     createdByUserId: '00000000-0000-0000-0000-100000000002',
     createdByFirstName: 'Organization',
@@ -561,6 +562,25 @@ export const getOwnOrganizationDetails = (): OwnOrganizationDetailsDto => {
     techContactPhone: details.techContactPhone,
     createdAt: details.createdAt,
   };
+};
+
+export const updateOwnOrganization = (
+  request: UpdateOrganizationDto,
+): IdResponse => {
+  const mdsId = getUserInfo().organizationMdsId;
+  updateOrganization(mdsId, () => ({
+    url: request.url,
+    description: request.description,
+    businessUnit: request.businessUnit,
+    mainAddress: request.address,
+    billingAddress: request.billingAddress,
+    mainContactName: request.mainContactName,
+    mainContactEmail: request.mainContactEmail,
+    mainContactPhone: request.mainContactPhone,
+    techContactName: request.techContactName,
+    techContactEmail: request.techContactEmail,
+  }));
+  return {id: mdsId, changedDate: new Date()};
 };
 
 export const inviteOrganization = (

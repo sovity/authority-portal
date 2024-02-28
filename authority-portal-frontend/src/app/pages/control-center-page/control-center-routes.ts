@@ -1,4 +1,5 @@
 import {Route} from '@angular/router';
+import {ControlCenterOrganizationEditPageComponent} from '../control-center-organization-edit-page/control-center-organization-edit-page/control-center-organization-edit-page.component';
 import {ControlCenterOrganizationMemberDetailPageComponent} from '../control-center-organization-member-detail-page/control-center-organization-member-detail-page/control-center-organization-member-detail-page.component';
 import {ControlCenterOrganizationMembersPageComponent} from '../control-center-organization-members-page/control-center-organization-members-page/control-center-organization-members-page.component';
 import {ControlCenterOrganizationProfilePageComponent} from '../control-center-organization-profile-page/control-center-organization-profile-page/control-center-organization-profile-page.component';
@@ -27,6 +28,13 @@ export const CONTROL_CENTER_ROUTES: ControlCenterRoute[] = [
     component: ControlCenterOrganizationProfilePageComponent,
     data: {
       title: 'My Organization',
+    },
+  },
+  {
+    path: 'my-organization/edit',
+    component: ControlCenterOrganizationEditPageComponent,
+    data: {
+      excludeFromTabs: true,
     },
   },
   {
