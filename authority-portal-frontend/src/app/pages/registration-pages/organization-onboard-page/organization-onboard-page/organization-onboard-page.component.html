@@ -70,12 +70,12 @@
                 ctrlId="formRegPhoneNumber"
                 placeholder="+49 1234 567890"
                 [ctrl]="userForm.controls.phoneNumber"></app-text-input>
-
-              <!-- Accept Privacy Policy Checkbox -->
-              <app-tos-check
-                *ngIf="state.onboardingType === 'USER_ONBOARDING'"
-                [ctrl]="userForm.controls.acceptedTos"></app-tos-check>
             </div>
+
+            <!-- Accept Privacy Policy Checkbox -->
+            <app-tos-check
+              *ngIf="state.onboardingType === 'USER_ONBOARDING'"
+              [ctrl]="userForm.controls.acceptedTos"></app-tos-check>
           </div>
 
           <div
@@ -110,9 +110,9 @@
           <ng-template matStepLabel>Organization Profile</ng-template>
 
           <h2>Organization Profile</h2>
-          <app-organization-profile-form
+          <app-organization-create-form
             class="flex-grow my-4"
-            [orgForm]="orgProfileForm"></app-organization-profile-form>
+            [orgForm]="orgProfileForm"></app-organization-create-form>
 
           <app-tos-check [ctrl]="orgForm.controls.acceptedTos"></app-tos-check>
 

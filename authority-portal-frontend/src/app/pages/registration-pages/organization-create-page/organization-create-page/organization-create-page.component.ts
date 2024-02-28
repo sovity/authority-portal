@@ -12,9 +12,9 @@ import {
 import {passwordEntropyValidator} from '../../../../core/utils/validators/password-entropy-validator';
 import {passwordMatchValidator} from '../../../../core/utils/validators/password-match-validator';
 import {phoneNumberValidator} from '../../../../core/utils/validators/phone-number-validator';
-import {buildOrganizationProfileForm} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-builder';
-import {organizationProfileFormEnabledCtrls} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-enabled-ctrls';
-import {OrganizationProfileFormModel} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-model';
+import {buildOrganizationCreateForm} from '../../../../shared/components/business/organization-create-form/organization-create-form-builder';
+import {organizationCreateFormEnabledCtrls} from '../../../../shared/components/business/organization-create-form/organization-create-form-enabled-ctrls';
+import {OrganizationCreateFormModel} from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
 import {CreateOrganization} from '../state/organization-create-page-action';
 import {
   DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,
@@ -53,9 +53,9 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
     return this.parentFormGroup.controls.organizationTab;
   }
 
-  get orgProfileForm(): FormGroup<OrganizationProfileFormModel> {
+  get orgProfileForm(): FormGroup<OrganizationCreateFormModel> {
     // this only requires a cast because A extends B does not imply T<A> extend T<B>
-    return this.orgForm as unknown as FormGroup<OrganizationProfileFormModel>;
+    return this.orgForm as unknown as FormGroup<OrganizationCreateFormModel>;
   }
 
   constructor(
@@ -99,7 +99,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
 
     const organizationTab: FormGroup<RegistrationOrganizationTabFormModel> =
       mergeFormGroups(
-        buildOrganizationProfileForm(this.formBuilder, initialOrganization),
+        buildOrganizationCreateForm(this.formBuilder, initialOrganization),
         this.formBuilder.nonNullable.group({
           acceptedTos: [
             initialOrganization.acceptedTos,
@@ -112,7 +112,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
       organizationTab,
       (value: RegistrationOrganizationTabFormValue) => {
         return {
-          ...organizationProfileFormEnabledCtrls(value),
+          ...organizationCreateFormEnabledCtrls(value),
           acceptedTos: true,
         };
       },

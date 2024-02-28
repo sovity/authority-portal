@@ -1,8 +1,12 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ignoreElements, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
-import {OwnOrganizationDetailsDto} from '@sovity.de/authority-portal-client';
+import {
+  OwnOrganizationDetailsDto,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
 import {HeaderBarConfig} from '../../../shared/components/common/header-bar/header-bar.model';
@@ -20,7 +24,7 @@ type Ctx = StateContext<ControlCenterOrganizationProfilePageState>;
 })
 @Injectable()
 export class ControlCenterOrganizationProfilePageStateImpl {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   @Action(Reset)
   onReset(ctx: Ctx): Observable<never> {
@@ -44,7 +48,14 @@ export class ControlCenterOrganizationProfilePageStateImpl {
     return {
       title: organization.name,
       subtitle: 'Details about your organization',
-      headerActions: [],
+      headerActions: [
+        {
+          label: 'Edit',
+          action: () =>
+            this.router.navigate(['/control-center/my-organization/edit']),
+          permissions: [UserRoleDto.Admin],
+        },
+      ],
     };
   }
 }

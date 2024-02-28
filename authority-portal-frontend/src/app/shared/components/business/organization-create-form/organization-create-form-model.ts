@@ -1,7 +1,7 @@
 import {FormControl, ɵFormGroupRawValue} from '@angular/forms';
 import {OrganizationLegalIdTypeDto} from '@sovity.de/authority-portal-client';
 
-export interface OrganizationProfileFormModel {
+export interface OrganizationCreateFormModel {
   legalName: FormControl<string>;
   website: FormControl<string>;
   businessUnit: FormControl<string>;
@@ -36,10 +36,10 @@ export interface OrganizationProfileFormModel {
   commerceRegisterLocation: FormControl<string>;
 }
 
-export type OrganizationProfileFormValue =
-  ɵFormGroupRawValue<OrganizationProfileFormModel>;
+export type OrganizationCreateFormValue =
+  ɵFormGroupRawValue<OrganizationCreateFormModel>;
 
-export const DEFAULT_ORGANIZATION_PROFILE_FORM_MODEL: OrganizationProfileFormValue =
+export const DEFAULT_ORGANIZATION_CREATE_FORM_MODEL: OrganizationCreateFormValue =
   {
     legalName: '',
     website: '',

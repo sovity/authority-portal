@@ -7,6 +7,7 @@ import {UserDetailDto, UserRoleDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {BreadcrumbService} from '../../../common/layouts/portal-layout/breadcrumb/breadcrumb.service';
 import {ApiService} from '../../../core/api/api.service';
+import {CustomRxjsOperators} from '../../../core/custom-rxjs-operators';
 import {ErrorService} from '../../../core/error.service';
 import {ToastService} from '../../../core/toast-notifications/toast.service';
 import {Fetched} from '../../../core/utils/fetched';
@@ -37,8 +38,7 @@ export class ControlCenterOrganizationMemberDetailPageStateImpl {
     private breadcrumbService: BreadcrumbService,
     private userDeleteDialogService: UserDeleteDialogService,
     private router: Router,
-    private errorService: ErrorService,
-    private toast: ToastService,
+    private customRxjsOperators: CustomRxjsOperators,
   ) {}
 
   @Action(Reset, {cancelUncompleted: true})
@@ -138,11 +138,10 @@ export class ControlCenterOrganizationMemberDetailPageStateImpl {
     this.apiService
       .reactivateUser(user.userId)
       .pipe(
-        this.withBusyLock(ctx),
-        this.withToastResultHandling('Reactivating user'),
+        this.customRxjsOperators.withBusyLock(ctx),
+        this.customRxjsOperators.withToastResultHandling('Reactivating user'),
         tap(() => this.refresh(ctx, componentLifetime$)),
         takeUntil(componentLifetime$),
-        ignoreElements(),
       )
       .subscribe();
   }
@@ -152,34 +151,12 @@ export class ControlCenterOrganizationMemberDetailPageStateImpl {
     this.apiService
       .deactivateUser(user.userId)
       .pipe(
-        this.withBusyLock(ctx),
-        this.withToastResultHandling('Deactivating user'),
+        this.customRxjsOperators.withBusyLock(ctx),
+        this.customRxjsOperators.withToastResultHandling('Deactivating user'),
         tap(() => this.refresh(ctx, componentLifetime$)),
         takeUntil(componentLifetime$),
       )
       .subscribe();
-  }
-
-  private withToastResultHandling<T>(
-    actionName: string,
-  ): MonoTypeOperatorFunction<T> {
-    return (apiCall) => {
-      return apiCall.pipe(
-        this.errorService.toastFailureRxjs(`${actionName} failed!`),
-        tap(() => this.toast.showSuccess(`${actionName} was successful.`)),
-      );
-    };
-  }
-
-  private withBusyLock<T>(ctx: Ctx): MonoTypeOperatorFunction<T> {
-    return (apiCall) => {
-      if (ctx.getState().busy) {
-        return NEVER;
-      } else {
-        ctx.patchState({busy: true});
-        return apiCall.pipe(finalize(() => ctx.patchState({busy: false})));
-      }
-    };
   }
 
   private onDeleteUserClick(ctx: Ctx, componentLifetime$: Observable<any>) {

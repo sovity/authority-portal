@@ -1,8 +1,8 @@
 import {FormControl, FormGroup, ɵFormGroupRawValue} from '@angular/forms';
 import {
-  DEFAULT_ORGANIZATION_PROFILE_FORM_MODEL,
-  OrganizationProfileFormModel,
-} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-model';
+  DEFAULT_ORGANIZATION_CREATE_FORM_MODEL,
+  OrganizationCreateFormModel,
+} from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
 
 export interface RegistrationUserTabFormModel {
   firstName: FormControl<string>;
@@ -29,7 +29,7 @@ export const DEFAULT_REGISTRATION_USER_TAB_FORM_VALUE: RegistrationUserTabFormVa
   };
 
 export interface RegistrationOrganizationTabFormModel
-  extends OrganizationProfileFormModel {
+  extends OrganizationCreateFormModel {
   acceptedTos: FormControl<boolean>;
 }
 
@@ -38,7 +38,7 @@ export type RegistrationOrganizationTabFormValue =
 
 export const DEFAULT_REGISTRATION_ORGANIZATION_TAB_FORM_VALUE: RegistrationOrganizationTabFormValue =
   {
-    ...DEFAULT_ORGANIZATION_PROFILE_FORM_MODEL,
+    ...DEFAULT_ORGANIZATION_CREATE_FORM_MODEL,
     acceptedTos: false,
   };
 

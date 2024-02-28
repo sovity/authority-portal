@@ -21,6 +21,7 @@ import {
   ProvidedConnectorOverviewResult,
   RegistrationRequestDto,
   UiApi,
+  UpdateOrganizationDto,
   UserDetailDto,
   UserInfo,
   UserRoleDto,
@@ -140,6 +141,14 @@ export class ApiService {
 
   getOwnOrganizationDetails(): Observable<OwnOrganizationDetailsDto> {
     return this.toObservable(() => this.api().ownOrganizationDetails());
+  }
+
+  updateOwnOrganizationDetails(
+    updateOrganizationDto: UpdateOrganizationDto,
+  ): Observable<IdResponse> {
+    return this.toObservable(() =>
+      this.api().updateOwnOrganizationDetails({updateOrganizationDto}),
+    );
   }
 
   getOrganizationUser(userId: string): Observable<UserDetailDto> {

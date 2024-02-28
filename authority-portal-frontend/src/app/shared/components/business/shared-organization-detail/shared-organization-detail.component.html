@@ -25,6 +25,21 @@
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">link</mat-icon>
+        Website:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.href]="organization.url"
+          >{{ organization.url }}</a
+        >
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500"
           >corporate_fare</mat-icon
         >Organization Address:

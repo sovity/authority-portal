@@ -3,14 +3,14 @@ import {phoneNumberValidator} from '../../../../core/utils/validators/phone-numb
 import {urlValidator} from '../../../../core/utils/validators/url-validator';
 import {zipCodeValidator} from '../../../../core/utils/validators/zipcode-validator';
 import {
-  OrganizationProfileFormModel,
-  OrganizationProfileFormValue,
-} from './organization-profile-form-model';
+  OrganizationCreateFormModel,
+  OrganizationCreateFormValue,
+} from './organization-create-form-model';
 
-export const buildOrganizationProfileForm = (
+export const buildOrganizationCreateForm = (
   formBuilder: FormBuilder,
-  initialOrganization: OrganizationProfileFormValue,
-): FormGroup<OrganizationProfileFormModel> => {
+  initialOrganization: OrganizationCreateFormValue,
+): FormGroup<OrganizationCreateFormModel> => {
   return formBuilder.nonNullable.group({
     legalName: [initialOrganization.legalName, [Validators.required]],
     website: [initialOrganization.website, [Validators.required, urlValidator]],

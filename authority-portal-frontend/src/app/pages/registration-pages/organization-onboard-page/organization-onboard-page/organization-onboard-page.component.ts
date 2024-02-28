@@ -8,15 +8,14 @@ import {
   OwnOrganizationDetailsDto,
   UserDetailDto,
 } from '@sovity.de/authority-portal-client';
-import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {phoneNumberValidator} from 'src/app/core/utils/validators/phone-number-validator';
 import {
   mergeFormGroups,
   switchDisabledControls,
 } from '../../../../core/utils/form-utils';
-import {buildOrganizationProfileForm} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-builder';
-import {organizationProfileFormEnabledCtrls} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-enabled-ctrls';
-import {OrganizationProfileFormModel} from '../../../../shared/components/business/organization-profile-form/organization-profile-form-model';
+import {buildOrganizationCreateForm} from '../../../../shared/components/business/organization-create-form/organization-create-form-builder';
+import {organizationCreateFormEnabledCtrls} from '../../../../shared/components/business/organization-create-form/organization-create-form-enabled-ctrls';
+import {OrganizationCreateFormModel} from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
 import {buildAddressString} from '../../organization-create-page/organization-create-page/address-utils';
 import {buildFullName} from '../../organization-create-page/organization-create-page/name-utils';
 import {
@@ -58,16 +57,12 @@ export class OrganizationOnboardPageComponent implements OnInit {
     return this.parentFormGroup.controls.organizationTab;
   }
 
-  get orgProfileForm(): FormGroup<OrganizationProfileFormModel> {
+  get orgProfileForm(): FormGroup<OrganizationCreateFormModel> {
     // this only requires a cast because A extends B does not imply T<A> extend T<B>
-    return this.orgForm as unknown as FormGroup<OrganizationProfileFormModel>;
+    return this.orgForm as unknown as FormGroup<OrganizationCreateFormModel>;
   }
 
-  constructor(
-    private store: Store,
-    private formBuilder: FormBuilder,
-    private globalStateUtils: GlobalStateUtils,
-  ) {}
+  constructor(private store: Store, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.store.dispatch(Reset);
@@ -138,7 +133,7 @@ export class OrganizationOnboardPageComponent implements OnInit {
 
     let organizationTab: FormGroup<OnboardingOrganizationTabFormModel> =
       mergeFormGroups(
-        buildOrganizationProfileForm(this.formBuilder, initialOrganization),
+        buildOrganizationCreateForm(this.formBuilder, initialOrganization),
         this.formBuilder.nonNullable.group({
           acceptedTos: [
             initialOrganization.acceptedTos,
@@ -151,7 +146,7 @@ export class OrganizationOnboardPageComponent implements OnInit {
       organizationTab,
       (value: OnboardingOrganizationTabFormValue) => {
         return {
-          ...organizationProfileFormEnabledCtrls(value),
+          ...organizationCreateFormEnabledCtrls(value),
           acceptedTos: true,
         };
       },

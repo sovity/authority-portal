@@ -156,22 +156,12 @@
 
 <div class="flex gap-4 flex-wrap">
   <!-- Description -->
-  <div class="flex flex-col flex-1">
-    <label class="w-full mb-2 text-sm">Organization Description</label>
-    <mat-form-field class="w-full text-sm" appearance="outline" color="accent">
-      <textarea
-        id="organizationDescription"
-        matInput
-        placeholder="What does Your organization do?"
-        [formControl]="orgForm.controls.description"></textarea>
-      <mat-error
-        class="text-sm"
-        appFormControlError
-        fieldName="Organization description"
-        [control]="orgForm.controls.description"></mat-error>
-    </mat-form-field>
-  </div>
-  <!-- Description -->
+  <app-text-area
+    class="flex-1"
+    label="Organization Description"
+    ctrlId="formRegDescription"
+    placeholder="What does Your organization do?"
+    [ctrl]="orgForm.controls.description"></app-text-area>
 </div>
 
 <div class="flex flex-col gap-1">
