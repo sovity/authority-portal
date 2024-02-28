@@ -32,6 +32,7 @@ import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.auth.AuthUtils
 import de.sovity.authorityportal.web.auth.LoggedInUser
+import de.sovity.authorityportal.web.pages.ComponentStatusApiService
 import de.sovity.authorityportal.web.pages.centralcomponentmanagement.CentralComponentManagementApiService
 import de.sovity.authorityportal.web.pages.connectormanagement.CaasManagementApiService
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
@@ -48,7 +49,6 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiServi
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
-import de.sovity.authorityportal.web.pages.ComponentStatusApiService
 import jakarta.annotation.security.PermitAll
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
@@ -340,7 +340,7 @@ class UiResourceImpl : UiResource {
         return brokerRedirectApiService.buildCatalogRedirectWithConnectorFilter(loggedInUser.organizationMdsId!!, environmentId)
     }
 
-    override fun redirectToCatalog(environmentId: String): 
+    override fun redirectToCatalog(environmentId: String):
     Response {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
@@ -380,11 +380,6 @@ class UiResourceImpl : UiResource {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
         return caasManagementApiService.getFreeCaasUsageForOrganization(loggedInUser.organizationMdsId!!, environmentId)
-    }
-
-    @Transactional
-    override fun deleteProvidedConnector(mdsId: String, connectorId: String): IdResponse {
-        TODO("Not yet implemented")
     }
 
     @Transactional
