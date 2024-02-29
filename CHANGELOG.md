@@ -22,6 +22,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - User Onboarding: Fix Privacy Policy Check not positioned correctly
+- Organization Onboarding: Fix approve/reject buttons showing when organization is still invited or onboarding
 
 ### Known issues
 

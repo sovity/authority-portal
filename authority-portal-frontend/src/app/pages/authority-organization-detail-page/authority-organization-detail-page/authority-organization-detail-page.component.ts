@@ -189,9 +189,7 @@ export class AuthorityOrganizationDetailPageComponent
             label: 'Approve Participant',
             icon: 'check',
             event: () => this.store.dispatch(ApproveOrganization),
-            isDisabled: ['ACTIVE', 'REJECTED'].includes(
-              organization.registrationStatus,
-            ),
+            isDisabled: !['PENDING'].includes(organization.registrationStatus),
           },
           {
             label: 'Reject Participant',
@@ -200,9 +198,7 @@ export class AuthorityOrganizationDetailPageComponent
               this.store.dispatch(RejectOrganization);
               this.store.dispatch(CloseOrganizationDetail);
             },
-            isDisabled: ['ACTIVE', 'REJECTED'].includes(
-              organization.registrationStatus,
-            ),
+            isDisabled: !['PENDING'].includes(organization.registrationStatus),
           },
         ],
       },

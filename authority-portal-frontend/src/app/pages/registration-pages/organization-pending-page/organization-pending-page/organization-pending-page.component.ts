@@ -1,10 +1,7 @@
-import {Component, Inject} from '@angular/core';
-import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-organization-pending-page',
   templateUrl: './organization-pending-page.component.html',
 })
-export class OrganizationPendingPageComponent {
-  constructor(@Inject(APP_CONFIG) public config: AppConfig) {}
-}
+export class OrganizationPendingPageComponent {}
