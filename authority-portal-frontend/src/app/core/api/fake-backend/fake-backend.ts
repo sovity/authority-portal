@@ -20,6 +20,7 @@ import {
   ProvidedConnectorOverviewResultToJSON,
   RegistrationRequestDtoFromJSON,
   UpdateOrganizationDtoFromJSON,
+  UpdateUserDtoFromJSON,
   UserDeletionCheckToJSON,
   UserDetailDtoToJSON,
   UserInfoToJSON,
@@ -63,17 +64,18 @@ import {
   clearApplicationRole,
   deactivateUser,
   getUserInfo,
+  getUserOrThrow,
   inviteUser,
   onboardUser,
   reactivateUser,
-  userDetails,
+  updateUser,
 } from './impl/fake-users';
 import {
   createOrganization,
   registerOrganization,
 } from './impl/registration-process-fake';
 import {getBody, getMethod, getUrl} from './utils/request-utils';
-import {ok} from './utils/response-utils';
+import {buildOkFn} from './utils/response-utils';
 import {UrlInterceptor} from './utils/url-interceptor';
 
 export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
@@ -87,16 +89,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
   const method = getMethod(init);
   const body = getBody(init);
 
-  console.log(
-    ...[
-      'Fake Backend:',
-      method,
-      url,
-      'query params:',
-      queryParams.toString(),
-      body,
-    ].filter((it) => !!it),
-  );
+  const ok = buildOkFn(method, url, queryParams, body);
 
   const environmentId = queryParams.get('environmentId');
 
@@ -105,7 +98,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('user-info')
     .on('GET', () => {
       const result = getUserInfo();
-      return ok(UserInfoToJSON(result));
+      return ok(UserInfoToJSON(result), false);
     })
 
     .url('authority/organizations')
@@ -332,8 +325,13 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('users/*')
     .on('GET', (userId) => {
-      const result = userDetails(userId);
+      const result = getUserOrThrow(userId);
       return ok(UserDetailDtoToJSON(result));
+    })
+    .on('PUT', (userId) => {
+      const request = UpdateUserDtoFromJSON(body);
+      const result = updateUser(userId, request);
+      return ok(IdResponseToJSON(result));
     })
 
     .url('deployment-environments')

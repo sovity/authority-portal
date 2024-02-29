@@ -84,7 +84,13 @@ export class ControlCenterOrganizationMemberDetailPageStateImpl {
   ): HeaderBarConfig {
     let headerActions: HeaderBarAction[] = [];
 
-    if (this.globalStateUtils.userId !== user.userId) {
+    if (this.globalStateUtils.userId === user.userId) {
+      headerActions.push({
+        label: 'Edit',
+        action: () => this.router.navigate(['/control-center/my-profile/edit']),
+        permissions: [UserRoleDto.User],
+      });
+    } else {
       headerActions.push({
         label: 'Delete user',
         action: () => this.onDeleteUserClick(ctx, componentLifetime$),
@@ -110,7 +116,7 @@ export class ControlCenterOrganizationMemberDetailPageStateImpl {
 
     return {
       title: `${user.firstName} ${user.lastName}`,
-      subtitle: 'Details about your organization member',
+      subtitle: `Member Of ${user.organizationName}`,
       headerActions,
     };
   }

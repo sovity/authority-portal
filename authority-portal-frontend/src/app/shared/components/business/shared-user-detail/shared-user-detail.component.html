@@ -2,6 +2,18 @@
   class="mt-6"
   [ngClass]="{'h-screen overflow-auto': config.usageType === 'DETAIL_PAGE'}">
   <dl>
+    <!-- full name -->
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">badge</mat-icon>
+        Name:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ config.user.firstName }} {{ config.user.lastName }}
+      </dd>
+    </div>
+
     <!-- organization name -->
     <div class="details-row">
       <dt
@@ -15,14 +27,25 @@
         {{ config.user.organizationName }}
       </dd>
     </div>
-    <!-- organization name -->
+
+    <!-- company position -->
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">person</mat-icon
+        >Position:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ config.user.position }}
+      </dd>
+    </div>
 
     <!-- portal role -->
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500"
-          >person</mat-icon
+          >admin_panel_settings</mat-icon
         >
         Portal Role
       </dt>
@@ -95,7 +118,6 @@
         <!-- actions -->
       </dd>
     </div>
-    <!-- portal role -->
 
     <!-- user email -->
     <div class="details-row">
@@ -108,7 +130,6 @@
         {{ config.user.email }}
       </dd>
     </div>
-    <!-- user email -->
 
     <!-- user phone -->
     <div class="details-row">
@@ -123,20 +144,20 @@
         {{ config.user.phone }}
       </dd>
     </div>
-    <!-- user phone -->
 
-    <!-- company position -->
-    <div class="details-row">
+    <!-- invited by -->
+    <div *ngIf="config.user.invitingUserId" class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">person</mat-icon
-        >Position:
+        <mat-icon class="material-icons-outlined text-gray-500">
+          person </mat-icon
+        >Invited By:
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ config.user.position }}
+        {{ config.user.invitingUserFirstName ?? '' }}
+        {{ config.user.invitingUserLastName ?? '' }}
       </dd>
     </div>
-    <!-- company position -->
 
     <!-- onboard type -->
     <div class="details-row">
@@ -149,7 +170,6 @@
         {{ onboardingType(config.user.onboardingType) }}
       </dd>
     </div>
-    <!-- onboard type -->
 
     <!-- onboarded since -->
     <div class="details-row">
@@ -163,21 +183,5 @@
         {{ config.user.creationDate | date : 'mediumDate' }}
       </dd>
     </div>
-    <!-- onboarded since -->
-
-    <!-- invited by -->
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">
-          person </mat-icon
-        >Invited By:
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ config.user.invitingUserFirstName ?? '' }}
-        {{ config.user.invitingUserLastName ?? '' }}
-      </dd>
-    </div>
-    <!-- invited by -->
   </dl>
 </div>

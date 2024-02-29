@@ -3,6 +3,7 @@ import {ControlCenterOrganizationEditPageComponent} from '../control-center-orga
 import {ControlCenterOrganizationMemberDetailPageComponent} from '../control-center-organization-member-detail-page/control-center-organization-member-detail-page/control-center-organization-member-detail-page.component';
 import {ControlCenterOrganizationMembersPageComponent} from '../control-center-organization-members-page/control-center-organization-members-page/control-center-organization-members-page.component';
 import {ControlCenterOrganizationProfilePageComponent} from '../control-center-organization-profile-page/control-center-organization-profile-page/control-center-organization-profile-page.component';
+import {ControlCenterUserEditPageComponent} from '../control-center-user-edit-page/control-center-user-edit-page/control-center-user-edit-page.component';
 import {ControlCenterUserProfilePageComponent} from '../control-center-user-profile-page/control-center-user-profile-page/control-center-user-profile-page.component';
 
 export type ControlCenterRoute = Route & {
@@ -21,6 +22,13 @@ export const CONTROL_CENTER_ROUTES: ControlCenterRoute[] = [
     component: ControlCenterUserProfilePageComponent,
     data: {
       title: 'My Profile',
+    },
+  },
+  {
+    path: 'my-profile/edit',
+    component: ControlCenterUserEditPageComponent,
+    data: {
+      excludeFromTabs: true,
     },
   },
   {

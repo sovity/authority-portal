@@ -7,7 +7,6 @@
       ctrlId="formRegFirstName"
       placeholder="John"
       [ctrl]="userForm.controls.firstName"></app-text-input>
-    <!-- User's First Name -->
 
     <!-- User's Last Name -->
     <app-text-input
@@ -16,7 +15,6 @@
       ctrlId="formRegLastName"
       placeholder="Doe"
       [ctrl]="userForm.controls.lastName"></app-text-input>
-    <!-- User's Last Name -->
   </div>
 
   <div class="flex gap-4 flex-wrap">
@@ -28,8 +26,6 @@
       placeholder="Analyst"
       [ctrl]="userForm.controls.jobTitle"></app-text-input>
 
-    <!-- User's Job Title -->
-
     <!-- User's PhoneNumber -->
     <app-text-input
       class="flex-1"
@@ -37,7 +33,6 @@
       ctrlId="formRegPhoneNumber"
       placeholder="+49 1234 567890"
       [ctrl]="userForm.controls.phoneNumber"></app-text-input>
-    <!-- User's PhoneNumber -->
 
     <!-- User's Email -->
     <ng-container>
@@ -48,7 +43,6 @@
         placeholder="john.doe@my-org.com"
         [ctrl]="userForm.controls.email"></app-text-input>
     </ng-container>
-    <!-- User's Email -->
   </div>
 
   <div class="flex flex-row gap-4 flex-wrap">

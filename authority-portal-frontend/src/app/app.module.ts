@@ -34,6 +34,7 @@ import {ControlCenterOrganizationMemberDetailPageModule} from './pages/control-c
 import {ControlCenterOrganizationMembersPageModule} from './pages/control-center-organization-members-page/control-center-organization-members-page.module';
 import {ControlCenterOrganizationProfilePageModule} from './pages/control-center-organization-profile-page/control-center-organization-profile-page.module';
 import {ControlCenterPageModule} from './pages/control-center-page/control-center-page.module';
+import {ControlCenterUserEditPageModule} from './pages/control-center-user-edit-page/control-center-user-edit-page.module';
 import {ControlCenterUserProfilePageModule} from './pages/control-center-user-profile-page/control-center-user-profile-page.module';
 import {DashboardPageModule} from './pages/dashboard-page/dashboard-page.module';
 import {ErrorPageModule} from './pages/empty-pages/error-page/error-page.module';
@@ -86,6 +87,7 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     ControlCenterOrganizationMembersPageModule,
     ControlCenterOrganizationProfilePageModule,
     ControlCenterPageModule,
+    ControlCenterUserEditPageModule,
     ControlCenterUserProfilePageModule,
     DashboardPageModule,
     DevUtilsModule,

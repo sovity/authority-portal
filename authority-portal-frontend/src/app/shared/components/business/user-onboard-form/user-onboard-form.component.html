@@ -1,0 +1,37 @@
+<form [formGroup]="userForm">
+  <div class="flex gap-4 flex-wrap">
+    <!-- User's First Name -->
+    <app-text-input
+      class="flex-1"
+      label="First Name"
+      ctrlId="formRegFirstName"
+      placeholder="John"
+      [ctrl]="userForm.controls.firstName"></app-text-input>
+
+    <!-- User's Last Name -->
+    <app-text-input
+      class="flex-1"
+      label="Last Name"
+      ctrlId="formRegLastName"
+      placeholder="Doe"
+      [ctrl]="userForm.controls.lastName"></app-text-input>
+  </div>
+
+  <div class="flex gap-4 flex-wrap">
+    <!-- User's Job Title -->
+    <app-text-input
+      class="flex-1"
+      label="Job Title"
+      ctrlId="formRegJobTitle"
+      placeholder="Analyst"
+      [ctrl]="userForm.controls.jobTitle"></app-text-input>
+
+    <!-- User's PhoneNumber -->
+    <app-text-input
+      class="flex-1"
+      label="Phone Number"
+      ctrlId="formRegPhoneNumber"
+      placeholder="+49 1234 567890"
+      [ctrl]="userForm.controls.phoneNumber"></app-text-input>
+  </div>
+</form>

@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ignoreElements, switchMap, take, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
-import {UserDetailDto} from '@sovity.de/authority-portal-client';
+import {UserDetailDto, UserRoleDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
@@ -24,6 +25,7 @@ type Ctx = StateContext<ControlCenterUserProfilePageState>;
 @Injectable()
 export class ControlCenterUserProfilePageStateImpl {
   constructor(
+    private router: Router,
     private apiService: ApiService,
     private globalStateUtils: GlobalStateUtils,
   ) {}
@@ -53,9 +55,16 @@ export class ControlCenterUserProfilePageStateImpl {
 
   private buildHeaderBarConfig(user: UserDetailDto): HeaderBarConfig {
     return {
-      title: `${user.firstName}  ${user.lastName}`,
-      subtitle: 'Details about your profile',
-      headerActions: [],
+      title: `${user.firstName} ${user.lastName}`,
+      subtitle: 'Your User Profile',
+      headerActions: [
+        {
+          label: 'Edit',
+          action: () =>
+            this.router.navigate(['/control-center/my-profile/edit']),
+          permissions: [UserRoleDto.User],
+        },
+      ],
     };
   }
 

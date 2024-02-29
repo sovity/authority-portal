@@ -13,6 +13,21 @@
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500">link</mat-icon>
+        Website:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.href]="organization.url"
+          >{{ organization.url }}</a
+        >
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500"
           >corporate_fare</mat-icon
         >
@@ -25,16 +40,11 @@
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">link</mat-icon>
-        Website:
+        <mat-icon class="material-icons-outlined text-gray-500">notes</mat-icon
+        >Description:
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          [attr.href]="organization.url"
-          >{{ organization.url }}</a
-        >
+        {{ organization.description }}
       </dd>
     </div>
     <div class="details-row">
@@ -57,16 +67,6 @@
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ organization.billingAddress }}
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">notes</mat-icon
-        >Description:
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.description }}
       </dd>
     </div>
     <div class="details-row">
@@ -99,7 +99,6 @@
         {{ organization.commerceRegisterLocation }}
       </dd>
     </div>
-
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
@@ -127,18 +126,6 @@
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >mail_lock</mat-icon
-        >Onboarded Since:
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.createdAt | date : 'medium' }}
-      </dd>
-    </div>
-
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon
           class="material-icons-outlined text-gray-500"
           svgIcon="account-circle">
@@ -148,6 +135,17 @@
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ organization.createdByFirstName }}
         {{ organization.createdByLastName }}
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >mail_lock</mat-icon
+        >Onboarded Since:
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.createdAt | date : 'medium' }}
       </dd>
     </div>
   </dl>
