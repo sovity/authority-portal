@@ -14,6 +14,8 @@ import java.util.List;
 public class UserDeletionCheck {
     @Schema(description = "User's ID", requiredMode = Schema.RequiredMode.REQUIRED)
     private String userId;
+    @Schema(description = "Indicator if the user can be deleted", requiredMode = Schema.RequiredMode.REQUIRED)
+    private Boolean canBeDeleted;
     @Schema(description = "Indicator for the user being the last PA in their organization", requiredMode = Schema.RequiredMode.REQUIRED)
     private Boolean isLastParticipantAdmin;
     @Schema(description = "Indicator for the user being the creator of their organization", requiredMode = Schema.RequiredMode.REQUIRED)

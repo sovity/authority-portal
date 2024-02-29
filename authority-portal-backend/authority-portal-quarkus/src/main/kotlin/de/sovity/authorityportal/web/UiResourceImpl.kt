@@ -171,22 +171,6 @@ class UiResourceImpl : UiResource {
         return userDeactivationApiService.reactivateUser(userId, loggedInUser.userId)
     }
 
-    @Transactional
-    override fun checkParticipantUserDeletion(userId: String): UserDeletionCheck {
-        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
-        authUtils.requiresTargetNotSelf(userId)
-        authUtils.requiresMemberOfSameOrganizationAs(userId)
-        return userDeletionApiService.checkUserDeletion(userId)
-    }
-
-    @Transactional
-    override fun deleteParticipantUser(userId: String, successorUserId: String?): IdResponse {
-        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
-        authUtils.requiresTargetNotSelf(userId)
-        authUtils.requiresMemberOfSameOrganizationAs(userId)
-        return userDeletionApiService.handleUserDeletion(userId, successorUserId, loggedInUser.userId)
-    }
-
     // Organization management (Authority)
     @Transactional
     override fun changeApplicationRole(userId: String, roleDto: UserRoleDto): IdResponse {
@@ -225,15 +209,21 @@ class UiResourceImpl : UiResource {
 
     @Transactional
     override fun checkUserDeletion(userId: String): UserDeletionCheck {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresTargetNotSelf(userId)
+        if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
+            authUtils.requiresMemberOfSameOrganizationAs(userId)
+        }
         return userDeletionApiService.checkUserDeletion(userId)
     }
 
     @Transactional
     override fun deleteUser(userId: String, successorUserId: String?): IdResponse {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresTargetNotSelf(userId)
+        if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
+            authUtils.requiresMemberOfSameOrganizationAs(userId)
+        }
         return userDeletionApiService.handleUserDeletion(userId, successorUserId, loggedInUser.userId)
     }
 

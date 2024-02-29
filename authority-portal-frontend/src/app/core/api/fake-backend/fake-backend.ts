@@ -288,19 +288,13 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(IdResponseToJSON(result));
     })
 
-    .url('organizations/my-org/users/*/check-delete')
+    .url('users/*/check-delete')
     .on('GET', (userId) => {
       const userDeletionCheck = checkUserDeletion(userId);
       return ok(UserDeletionCheckToJSON(userDeletionCheck));
     })
 
-    .url('organizations/my-org/users/*')
-    .on('DELETE', (userId) => {
-      const successorUserId = queryParams.get('successorUserId');
-      return ok(IdResponseToJSON(cascadeDeleteUser(userId, successorUserId)));
-    })
-
-    .url('organizations/my-org/users/*')
+    .url('users/*')
     .on('DELETE', (userId) => {
       const successorUserId = queryParams.get('successorUserId');
       return ok(IdResponseToJSON(cascadeDeleteUser(userId, successorUserId)));

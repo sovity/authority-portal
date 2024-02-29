@@ -42,10 +42,12 @@ class UserDeletionApiService {
     fun checkUserDeletion(userId: String): UserDeletionCheck {
         val user = userService.getUserOrThrow(userId)
         val organization = organizationService.getOrganizationOrThrow(user.organizationMdsId)
+        val authorityAdmins = keycloakService.getAuthorityAdmins()
         val participantAdmins = keycloakService.getParticipantAdmins(organization.mdsId)
 
         val userDeletionCheck = UserDeletionCheck().apply {
             this.userId = userId
+            canBeDeleted = authorityAdmins.size > 1 || authorityAdmins.first().userId != userId
             isLastParticipantAdmin = participantAdmins.size == 1 && participantAdmins.first().userId == userId
             isOrganizationCreator = organization.createdBy == userId
         }
@@ -66,10 +68,14 @@ class UserDeletionApiService {
         return userDeletionCheck
     }
     fun handleUserDeletion(userId: String, successorUserId: String?, adminUserId: String): IdResponse {
-        // TODO: Invalidate session
         val userDeletionCheck = checkUserDeletion(userId)
         val user = userService.getUserOrThrow(userId)
         val organization = organizationService.getOrganizationOrThrow(user.organizationMdsId)
+
+        if (!userDeletionCheck.canBeDeleted) {
+            Log.error("User can not be deleted. The reason could be, that they are the last Authority Admin. userId=$userId, adminUserId=$adminUserId.")
+            error("User can not be deleted. The reason could be, that they are the last Authority Admin.")
+        }
 
         if (userDeletionCheck.isLastParticipantAdmin) {
             deleteOrganizationAndDependencies(organization, adminUserId)
