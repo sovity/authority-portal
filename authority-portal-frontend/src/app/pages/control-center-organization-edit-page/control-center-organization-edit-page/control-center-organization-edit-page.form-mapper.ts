@@ -16,7 +16,8 @@ export function buildFormValue(
 
   return {
     website: organization.url,
-    businessUnit: organization.businessUnit,
+    businessUnit: organization.businessUnit ?? '',
+    industry: organization.industry ?? null,
     description: organization.description,
 
     mainAddress: organization.mainAddress,
@@ -45,6 +46,7 @@ export function buildEditRequest(
   return {
     url: formValue.website,
     businessUnit: formValue.businessUnit,
+    industry: formValue.industry ?? undefined,
     description: formValue.description,
 
     address: formValue.mainAddress,

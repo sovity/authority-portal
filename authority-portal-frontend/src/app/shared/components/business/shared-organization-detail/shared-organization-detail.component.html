@@ -1,10 +1,10 @@
-<div class="my-6 h-screen overflow-auto">
+<div class="my-6">
   <dl>
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500">label</mat-icon>
-        MDS ID:
+        MDS ID
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ organization.mdsId }}
@@ -13,8 +13,44 @@
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >corporate_fare
+        </mat-icon>
+        Legal Name
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.name }}
+      </dd>
+    </div>
+    <div *ngIf="organization.businessUnit" class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >corporate_fare
+        </mat-icon>
+        Business Unit
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.businessUnit }}
+      </dd>
+    </div>
+    <div *ngIf="organization.industry" class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >settings
+        </mat-icon>
+        Industry
+      </dt>
+      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.industry }}
+      </dd>
+    </div>
+    <div class="details-row">
+      <dt
+        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500">link</mat-icon>
-        Website:
+        Website
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         <a
@@ -29,19 +65,9 @@
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500"
-          >corporate_fare</mat-icon
-        >
-        Legal Name:
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.name }}
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">notes</mat-icon
-        >Description:
+          >notes
+        </mat-icon>
+        Description
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ organization.description }}
@@ -50,9 +76,8 @@
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >corporate_fare</mat-icon
-        >Organization Address:
+        <mat-icon class="material-icons-outlined text-gray-500">home </mat-icon>
+        Main Address
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ organization.mainAddress }}
@@ -61,49 +86,43 @@
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >corporate_fare</mat-icon
-        >Billing Address:
+        <mat-icon class="material-icons-outlined text-gray-500">home </mat-icon>
+        Billing Address
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ organization.billingAddress }}
       </dd>
     </div>
-    <div class="details-row">
+    <div *ngIf="organization.legalIdType === 'TAX_ID'" class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">tag</mat-icon>
-        Legal ID type
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ idType[organization.legalIdType] }}
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">tag</mat-icon>
-        ID number
+        <mat-icon class="material-icons-outlined text-gray-500">gavel</mat-icon>
+        Tax ID
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ organization.legalId }}
       </dd>
     </div>
-    <div *ngIf="organization.commerceRegisterLocation" class="details-row">
+    <div
+      *ngIf="organization.legalIdType === 'COMMERCE_REGISTER_INFO'"
+      class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">tag</mat-icon>
-        Commercial Registration Location
+        <mat-icon class="material-icons-outlined text-gray-500"
+          >account_balance</mat-icon
+        >
+        Commerce Register Number
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {{ organization.legalId }}, registered in
         {{ organization.commerceRegisterLocation }}
       </dd>
     </div>
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">link</mat-icon
-        >Main Contact:
+        <mat-icon class="material-icons-outlined text-gray-500">link </mat-icon>
+        Main Contact
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         <p>{{ organization.mainContactName }}</p>
@@ -114,8 +133,8 @@
     <div class="details-row">
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">link</mat-icon
-        >Technical Contact:
+        <mat-icon class="material-icons-outlined text-gray-500">link </mat-icon>
+        Technical Contact
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         <p>{{ organization.techContactName }}</p>
@@ -129,8 +148,8 @@
         <mat-icon
           class="material-icons-outlined text-gray-500"
           svgIcon="account-circle">
-        </mat-icon
-        >Created By:
+        </mat-icon>
+        Created By
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ organization.createdByFirstName }}
@@ -141,8 +160,9 @@
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500"
-          >mail_lock</mat-icon
-        >Onboarded Since:
+          >mail_lock
+        </mat-icon>
+        Onboarded Since
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ organization.createdAt | date : 'medium' }}

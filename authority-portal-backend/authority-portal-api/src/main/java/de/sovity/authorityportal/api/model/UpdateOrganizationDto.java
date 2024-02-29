@@ -23,9 +23,11 @@ public class UpdateOrganizationDto {
     @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String description;
 
-    @NotBlank(message = "Organization's Business unit cannot be blank")
-    @Schema(description = "Organization's Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Organization's Business unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String businessUnit;
+
+    @Schema(description = "Organization's Industry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String industry;
 
     @NotBlank(message = "Organization's Address cannot be blank")
     @Schema(description = "Organization's Address", requiredMode = Schema.RequiredMode.REQUIRED)

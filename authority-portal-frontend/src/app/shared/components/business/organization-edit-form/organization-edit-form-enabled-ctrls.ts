@@ -9,6 +9,7 @@ export const organizationEditFormEnabledCtrls = (
   return {
     website: true,
     businessUnit: true,
+    industry: true,
     description: true,
 
     mainAddress: true,

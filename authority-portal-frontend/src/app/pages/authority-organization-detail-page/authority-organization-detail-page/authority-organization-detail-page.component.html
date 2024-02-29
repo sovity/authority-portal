@@ -17,7 +17,7 @@
     <!-- Title bar -->
   </div>
 
-  <div class="px-8 mt-8 h-screen overflow-auto" [ngSwitch]="slideOverContent">
+  <div class="px-8 mt-8 overflow-auto" [ngSwitch]="slideOverContent">
     <!-- organization detail info tab -->
     <div *ngSwitchCase="'DETAIL'">
       <app-organization-detail-info

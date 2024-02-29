@@ -7,7 +7,7 @@
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500">badge</mat-icon>
-        Name:
+        Name
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ config.user.firstName }} {{ config.user.lastName }}
@@ -21,7 +21,7 @@
         <mat-icon class="material-icons-outlined text-gray-500"
           >corporate_fare</mat-icon
         >
-        Organization:
+        Organization
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ config.user.organizationName }}
@@ -33,7 +33,7 @@
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500">person</mat-icon
-        >Position:
+        >Position
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ config.user.position }}
@@ -124,7 +124,7 @@
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500">mail</mat-icon
-        >Email:
+        >Email
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ config.user.email }}
@@ -138,7 +138,7 @@
         <mat-icon class="material-icons-outlined text-gray-500"
           >phone_iphone</mat-icon
         >
-        Phone:
+        Phone
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ config.user.phone }}
@@ -151,7 +151,7 @@
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500">
           person </mat-icon
-        >Invited By:
+        >Invited By
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ config.user.invitingUserFirstName ?? '' }}
@@ -164,7 +164,7 @@
       <dt
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500">sell</mat-icon
-        >Onboarding Type:
+        >Onboarding Type
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ onboardingType(config.user.onboardingType) }}
@@ -177,7 +177,7 @@
         class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
         <mat-icon class="material-icons-outlined text-gray-500">
           calendar_month </mat-icon
-        >Onboarded Since:
+        >Onboarded Since
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         {{ config.user.creationDate | date : 'mediumDate' }}

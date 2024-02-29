@@ -46,9 +46,11 @@ public class RegistrationRequestDto {
     @Schema(description = "Organization's URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationUrl;
 
-    @NotBlank(message = "Organization's Business unit cannot be blank")
-    @Schema(description = "Organization's Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Organization's Business unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String organizationBusinessUnit;
+
+    @Schema(description = "Organization's Industry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String organizationIndustry;
 
     @NotBlank(message = "Organization's Address cannot be blank")
     @Schema(description = "Organization's Address", requiredMode = Schema.RequiredMode.REQUIRED)

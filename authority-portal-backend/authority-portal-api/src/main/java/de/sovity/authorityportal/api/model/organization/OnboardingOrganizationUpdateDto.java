@@ -24,9 +24,11 @@ public class OnboardingOrganizationUpdateDto {
     @Schema(description = "Website", requiredMode = Schema.RequiredMode.REQUIRED)
     private String url;
 
-    @NotBlank(message = "Business unit cannot be blank.")
-    @Schema(description = "Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Business unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String businessUnit;
+
+    @Schema(description = "Industry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String industry;
 
     @NotBlank(message = "Address cannot be blank.")
     @Schema(description = "Address", requiredMode = Schema.RequiredMode.REQUIRED)

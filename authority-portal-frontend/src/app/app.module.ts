@@ -9,7 +9,6 @@ import {NgxsModule} from '@ngxs/store';
 import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
-import {ParticipantOrganizationProfileModule} from 'src/app/pages/participant-organization-profile-page/participant-organization-profile.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DevUtilsModule} from './common/components/dev-utils/dev-utils.module';
@@ -100,7 +99,6 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     OrganizationPendingPageModule,
     OrganizationRejectedPageModule,
     PageNotFoundPageModule,
-    ParticipantOrganizationProfileModule,
     ParticipantOwnConnectorDetailPageModule,
     ParticipantOwnConnectorListPageModule,
     ParticipantCreateConnectorChoicePageModule,

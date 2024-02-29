@@ -14,7 +14,8 @@ export const buildOrganizationCreateForm = (
   return formBuilder.nonNullable.group({
     legalName: [initialOrganization.legalName, [Validators.required]],
     website: [initialOrganization.website, [Validators.required, urlValidator]],
-    businessUnit: [initialOrganization.businessUnit, [Validators.required]],
+    businessUnit: [initialOrganization.businessUnit],
+    industry: [initialOrganization.industry],
     description: [initialOrganization.description, [Validators.required]],
     mainAddressStreet: [
       initialOrganization.mainAddressStreet,

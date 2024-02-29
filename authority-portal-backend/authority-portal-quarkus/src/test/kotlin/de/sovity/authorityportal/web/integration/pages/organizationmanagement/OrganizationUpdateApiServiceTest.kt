@@ -30,6 +30,7 @@ class OrganizationUpdateApiServiceTest {
             url = TestData.ORG_URL
             businessUnit = TestData.ORG_BUSINESS_UNIT
             address = TestData.ORG_ADDRESS
+            industry = TestData.ORG_INDUSTRY
             billingAddress = TestData.ORG_BILLING_ADDRESS
             mainContactName = TestData.ORG_MAIN_CONTACT_NAME
             mainContactEmail = TestData.ORG_MAIN_CONTACT_EMAIL
@@ -47,6 +48,7 @@ class OrganizationUpdateApiServiceTest {
         assertThat(result.id).isEqualTo(mdsId)
         assertThat(organization.url).isEqualTo(TestData.ORG_URL)
         assertThat(organization.businessUnit).isEqualTo(TestData.ORG_BUSINESS_UNIT)
+        assertThat(organization.industry).isEqualTo(TestData.ORG_INDUSTRY)
         assertThat(organization.address).isEqualTo(TestData.ORG_ADDRESS)
         assertThat(organization.billingAddress).isEqualTo(TestData.ORG_BILLING_ADDRESS)
         assertThat(organization.mainContactName).isEqualTo(TestData.ORG_MAIN_CONTACT_NAME)

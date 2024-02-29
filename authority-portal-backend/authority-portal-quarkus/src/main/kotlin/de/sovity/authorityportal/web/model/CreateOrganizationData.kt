@@ -6,6 +6,7 @@ class CreateOrganizationData {
     var name: String? = null
     var url: String? = null
     var businessUnit: String? = null
+    var industry: String? = null
     var address: String? = null
     var billingAddress: String? = null
     var description: String? = null

@@ -1,0 +1,22 @@
+<label class="w-full mb-2 text-sm" [for]="ctrlId">{{ label }}</label>
+<mat-form-field appearance="outline">
+  <mat-select
+    [placeholder]="'Select ' + label"
+    [id]="ctrlId"
+    [formControl]="ctrl">
+    <mat-option>No industry</mat-option>
+    <mat-option *ngFor="let industry of industries" [value]="industry">
+      {{ industry }}
+    </mat-option>
+    <mat-option
+      *ngIf="ctrl.value && !industries.includes(ctrl.value!)"
+      [value]="ctrl.value"
+      >{{ ctrl.value }}</mat-option
+    >
+  </mat-select>
+  <mat-error
+    class="text-sm"
+    appFormControlError
+    [fieldName]="label"
+    [control]="ctrl"></mat-error>
+</mat-form-field>
