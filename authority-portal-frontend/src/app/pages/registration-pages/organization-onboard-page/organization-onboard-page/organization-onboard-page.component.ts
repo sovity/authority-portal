@@ -8,7 +8,6 @@ import {
   OwnOrganizationDetailsDto,
   UserDetailDto,
 } from '@sovity.de/authority-portal-client';
-import {phoneNumberValidator} from 'src/app/core/utils/validators/phone-number-validator';
 import {
   mergeFormGroups,
   switchDisabledControls,
@@ -16,11 +15,10 @@ import {
 import {buildOrganizationCreateForm} from '../../../../shared/components/business/organization-create-form/organization-create-form-builder';
 import {organizationCreateFormEnabledCtrls} from '../../../../shared/components/business/organization-create-form/organization-create-form-enabled-ctrls';
 import {OrganizationCreateFormModel} from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
-import {buildAddressString} from '../../organization-create-page/organization-create-page/address-utils';
-import {buildFullName} from '../../organization-create-page/organization-create-page/name-utils';
+import {buildUserOnboardForm} from '../../../../shared/components/business/user-onboard-form/user-onboard-form-builder';
+import {UserOnboardFormModel} from '../../../../shared/components/business/user-onboard-form/user-onboard-form-model';
 import {
   OnboardingProcessFormSubmit,
-  OnboardingProcessRequest,
   Reset,
 } from '../state/organization-onboard-page-action';
 import {
@@ -29,13 +27,16 @@ import {
 } from '../state/organization-onboard-page-state';
 import {OrganizationOnboardPageStateImpl} from '../state/organization-onboard-page-state-impl';
 import {
-  DEFAULT_ONBOARDING_WIZARD_FORM_VALUE,
+  buildInitialOnboardingFormValue,
+  buildOnboardingRequest,
+} from './organization-onboard-page.form-mapper';
+import {
   OnboardingOrganizationTabFormModel,
   OnboardingOrganizationTabFormValue,
   OnboardingUserTabFormModel,
-  OnboardingUserTabFormValue,
   OnboardingWizardFormModel,
-} from './organization-onboard-page.model';
+  OnboardingWizardFormValue,
+} from './organization-onboard-page.form-model';
 
 @Component({
   selector: 'app-organization-onboard-page',
@@ -51,6 +52,10 @@ export class OrganizationOnboardPageComponent implements OnInit {
 
   get userForm(): FormGroup<OnboardingUserTabFormModel> {
     return this.parentFormGroup.controls.userTab;
+  }
+  get userOnboardForm(): FormGroup<UserOnboardFormModel> {
+    return this.parentFormGroup.controls
+      .userTab as unknown as FormGroup<UserOnboardFormModel>;
   }
 
   get orgForm(): FormGroup<OnboardingOrganizationTabFormModel> {
@@ -101,42 +106,20 @@ export class OrganizationOnboardPageComponent implements OnInit {
     user: UserDetailDto,
     organizationDetail: OwnOrganizationDetailsDto,
   ): FormGroup<OnboardingWizardFormModel> {
-    const initial = DEFAULT_ONBOARDING_WIZARD_FORM_VALUE;
-    const initialUser: OnboardingUserTabFormValue = {
-      ...initial.userTab,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      jobTitle: user.position,
-      phoneNumber: user.phone,
-      acceptedTos:
-        this.state.onboardingType === 'USER_ONBOARDING'
-          ? initial.userTab.acceptedTos
-          : true,
-    };
-
-    const initialOrganization: OnboardingOrganizationTabFormValue = {
-      ...initial.organizationTab,
-      legalName: organizationDetail.name,
-    };
-
-    let userTab: FormGroup<OnboardingUserTabFormModel> =
+    const initial = buildInitialOnboardingFormValue(user, organizationDetail);
+    let userTab: FormGroup<OnboardingUserTabFormModel> = mergeFormGroups(
+      buildUserOnboardForm(this.formBuilder, initial.userTab),
       this.formBuilder.nonNullable.group({
-        firstName: [initialUser.firstName, [Validators.required]],
-        lastName: [initialUser.lastName, [Validators.required]],
-        jobTitle: [initialUser.jobTitle, [Validators.required]],
-        phoneNumber: [
-          initialUser.phoneNumber,
-          [Validators.required, phoneNumberValidator],
-        ],
-        acceptedTos: [initialUser.acceptedTos, Validators.requiredTrue],
-      });
+        acceptedTos: [initial.userTab.acceptedTos, Validators.requiredTrue],
+      }),
+    );
 
     let organizationTab: FormGroup<OnboardingOrganizationTabFormModel> =
       mergeFormGroups(
-        buildOrganizationCreateForm(this.formBuilder, initialOrganization),
+        buildOrganizationCreateForm(this.formBuilder, initial.organizationTab),
         this.formBuilder.nonNullable.group({
           acceptedTos: [
-            initialOrganization.acceptedTos,
+            initial.organizationTab.acceptedTos,
             Validators.requiredTrue,
           ],
         }),
@@ -160,79 +143,9 @@ export class OrganizationOnboardPageComponent implements OnInit {
   }
 
   submit(): void {
-    let user = this.parentFormGroup.value.userTab;
-    let org = this.parentFormGroup.value.organizationTab;
-
-    let mainAddress = buildAddressString({
-      street: org?.mainAddressStreet,
-      houseNo: org?.mainAddressHouseNo,
-      zipCode: org?.mainAddressHouseNo,
-      city: org?.mainAddressCity,
-      country: org?.mainAddressCountry,
-    });
-
-    let billingAddress = org?.billingAddressSameAsMain
-      ? mainAddress
-      : buildAddressString({
-          street: org?.billingAddressStreet,
-          houseNo: org?.billingAddressHouseNo,
-          zipCode: org?.billingAddressHouseNo,
-          city: org?.billingAddressCity,
-          country: org?.billingAddressCountry,
-        });
-
-    let mainContactName = buildFullName(
-      org?.mainContactFirstName,
-      org?.mainContactLastName,
+    const request = buildOnboardingRequest(
+      this.parentFormGroup.value as OnboardingWizardFormValue,
     );
-    let mainContactEmail = org?.mainContactEmail || '';
-    let mainContactPhone = org?.mainContactPhoneNumber || '';
-
-    let techContactName: string;
-    let techContactEmail: string;
-    let techContactPhone: string;
-    if (org?.technicalContactSameAsMain) {
-      techContactName = mainContactName;
-      techContactEmail = mainContactEmail;
-      techContactPhone = mainContactPhone;
-    } else {
-      techContactName = buildFullName(
-        org?.technicalContactFirstName,
-        org?.technicalContactLastName,
-      );
-      techContactEmail = org?.technicalContactEmail || '';
-      techContactPhone = org?.technicalContactPhoneNumber || '';
-    }
-
-    let request: OnboardingProcessRequest = {
-      userProfile: {
-        firstName: user?.firstName || '',
-        lastName: user?.lastName || '',
-        jobTitle: user?.jobTitle || '',
-        phoneNumber: user?.phoneNumber || '',
-      },
-      organizationProfile: {
-        name: org?.legalName || '',
-
-        // Organization Metadata
-        url: org?.website || '',
-        description: org?.description || '',
-        businessUnit: org?.businessUnit || '',
-        address: mainAddress,
-        billingAddress: billingAddress,
-        legalIdType: org?.legalIdType || 'TAX_ID',
-        legalIdNumber: org?.legalId || '',
-        commerceRegisterLocation: org?.commerceRegisterLocation || '',
-
-        // Organization Contacts
-        mainContactName,
-        mainContactEmail,
-        mainContactPhone,
-        techContactName,
-        techContactEmail,
-        techContactPhone,
-      },
-    };
     this.store.dispatch(
       new OnboardingProcessFormSubmit(
         request,

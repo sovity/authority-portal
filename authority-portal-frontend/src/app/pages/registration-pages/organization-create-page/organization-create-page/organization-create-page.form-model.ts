@@ -3,30 +3,15 @@ import {
   DEFAULT_ORGANIZATION_CREATE_FORM_MODEL,
   OrganizationCreateFormModel,
 } from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
+import {
+  DEFAULT_USER_CREATE_FORM_MODEL,
+  UserCreateFormModel,
+} from '../../../../shared/components/business/user-create-form/user-create-form-model';
 
-export interface RegistrationUserTabFormModel {
-  firstName: FormControl<string>;
-  lastName: FormControl<string>;
-  jobTitle: FormControl<string>;
-  phoneNumber: FormControl<string>;
-  email: FormControl<string>;
-  password: FormControl<string>;
-  confirmPassword: FormControl<string>;
-}
+export interface RegistrationUserTabFormModel extends UserCreateFormModel {}
 
 export type RegistrationUserTabFormValue =
   ɵFormGroupRawValue<RegistrationUserTabFormModel>;
-
-export const DEFAULT_REGISTRATION_USER_TAB_FORM_VALUE: RegistrationUserTabFormValue =
-  {
-    firstName: '',
-    lastName: '',
-    jobTitle: '',
-    phoneNumber: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  };
 
 export interface RegistrationOrganizationTabFormModel
   extends OrganizationCreateFormModel {
@@ -35,12 +20,6 @@ export interface RegistrationOrganizationTabFormModel
 
 export type RegistrationOrganizationTabFormValue =
   ɵFormGroupRawValue<RegistrationOrganizationTabFormModel>;
-
-export const DEFAULT_REGISTRATION_ORGANIZATION_TAB_FORM_VALUE: RegistrationOrganizationTabFormValue =
-  {
-    ...DEFAULT_ORGANIZATION_CREATE_FORM_MODEL,
-    acceptedTos: false,
-  };
 
 export interface RegistrationWizardFormModel {
   isEditable: FormControl<boolean>;
@@ -54,6 +33,9 @@ export type RegistrationWizardFormValue =
 export const DEFAULT_REGISTRATION_WIZARD_FORM_VALUE: RegistrationWizardFormValue =
   {
     isEditable: true,
-    userTab: DEFAULT_REGISTRATION_USER_TAB_FORM_VALUE,
-    organizationTab: DEFAULT_REGISTRATION_ORGANIZATION_TAB_FORM_VALUE,
+    userTab: DEFAULT_USER_CREATE_FORM_MODEL,
+    organizationTab: {
+      ...DEFAULT_ORGANIZATION_CREATE_FORM_MODEL,
+      acceptedTos: false,
+    },
   };

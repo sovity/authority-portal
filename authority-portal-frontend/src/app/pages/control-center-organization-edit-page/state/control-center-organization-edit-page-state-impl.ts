@@ -74,7 +74,7 @@ export class ControlCenterOrganizationEditPageStateImpl {
   ): HeaderBarConfig {
     return {
       title: organization.name,
-      subtitle: 'Edit your organization details',
+      subtitle: 'Edit Your Organization Profile',
       headerActions: [],
     };
   }

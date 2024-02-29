@@ -19,9 +19,11 @@ import {OrganizationEditFormComponent} from './components/business/organization-
 import {SharedOrganizationDetailComponent} from './components/business/shared-organization-detail/shared-organization-detail.component';
 import {SharedUserDetailComponent} from './components/business/shared-user-detail/shared-user-detail.component';
 import {SharedUserListComponent} from './components/business/shared-user-list/shared-user-list.component';
+import {UserCreateFormComponent} from './components/business/user-create-form/user-create-form.component';
 import {UserDeleteDialogComponent} from './components/business/user-delete-dialog/user-delete-dialog.component';
 import {UserDeleteDialogService} from './components/business/user-delete-dialog/user-delete-dialog.service';
-import {UserProfileFormComponent} from './components/business/user-profile-form/user-profile-form.component';
+import {UserEditFormComponent} from './components/business/user-edit-form/user-edit-form.component';
+import {UserOnboardFormComponent} from './components/business/user-onboard-form/user-onboard-form.component';
 import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {ConfirmationDialogComponent} from './components/common/confirmation-dialog/confirmation-dialog.component';
 import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
@@ -48,7 +50,9 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SharedOrganizationDetailComponent,
     ConfirmationDialogComponent,
     UserDeleteDialogComponent,
-    UserProfileFormComponent,
+    UserEditFormComponent,
+    UserCreateFormComponent,
+    UserOnboardFormComponent,
     OrganizationCreateFormComponent,
     OrganizationEditFormComponent,
     ConnectorRegisteringSuccessMessagePageComponent,
@@ -82,7 +86,9 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     SharedOrganizationDetailComponent,
     ConfirmationDialogComponent,
     UserDeleteDialogComponent,
-    UserProfileFormComponent,
+    UserEditFormComponent,
+    UserCreateFormComponent,
+    UserOnboardFormComponent,
     OrganizationCreateFormComponent,
     OrganizationEditFormComponent,
     ConnectorRegisteringSuccessMessagePageComponent,

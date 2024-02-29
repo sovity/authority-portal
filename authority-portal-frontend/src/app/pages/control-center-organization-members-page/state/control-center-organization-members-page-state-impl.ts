@@ -52,9 +52,8 @@ export class ControlCenterOrganizationMembersPageStateImpl {
     organization: OwnOrganizationDetailsDto,
   ): HeaderBarConfig {
     return {
-      title: `${organization.name} Members`,
-      subtitle:
-        'Manage all members in your organization and their roles and rights',
+      title: organization.name,
+      subtitle: 'Your Organization Members',
       headerActions: [
         {
           label: 'Invite user',

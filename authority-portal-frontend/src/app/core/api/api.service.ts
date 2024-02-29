@@ -22,6 +22,7 @@ import {
   RegistrationRequestDto,
   UiApi,
   UpdateOrganizationDto,
+  UpdateUserDto,
   UserDetailDto,
   UserInfo,
   UserRoleDto,
@@ -34,6 +35,15 @@ export class ApiService {
 
   userProfile(): Observable<UserInfo> {
     return this.toObservable(() => this.api().userInfo());
+  }
+
+  updateUser(
+    userId: string,
+    updateUserDto: UpdateUserDto,
+  ): Observable<IdResponse> {
+    return this.toObservable(() =>
+      this.api().updateUser({userId, updateUserDto}),
+    );
   }
 
   updateParticipantRole(userId: string, role: UserRoleDto) {

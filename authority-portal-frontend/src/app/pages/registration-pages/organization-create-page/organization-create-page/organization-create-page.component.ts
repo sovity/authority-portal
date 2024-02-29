@@ -3,33 +3,30 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {RegistrationRequestDto} from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from '../../../../core/config/app-config';
 import {
   mergeFormGroups,
   switchDisabledControls,
 } from '../../../../core/utils/form-utils';
-import {passwordEntropyValidator} from '../../../../core/utils/validators/password-entropy-validator';
-import {passwordMatchValidator} from '../../../../core/utils/validators/password-match-validator';
-import {phoneNumberValidator} from '../../../../core/utils/validators/phone-number-validator';
 import {buildOrganizationCreateForm} from '../../../../shared/components/business/organization-create-form/organization-create-form-builder';
 import {organizationCreateFormEnabledCtrls} from '../../../../shared/components/business/organization-create-form/organization-create-form-enabled-ctrls';
 import {OrganizationCreateFormModel} from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
+import {buildUserCreateForm} from '../../../../shared/components/business/user-create-form/user-create-form-builder';
 import {CreateOrganization} from '../state/organization-create-page-action';
 import {
   DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,
   OrganizationRegistrationPageState,
 } from '../state/organization-create-page-state';
 import {OrganizationCreatePageStateImpl} from '../state/organization-create-page-state-impl';
-import {buildAddressString} from './address-utils';
-import {buildFullName} from './name-utils';
+import {buildRegistrationRequest} from './organization-create-page.form-mapper';
 import {
   DEFAULT_REGISTRATION_WIZARD_FORM_VALUE,
   RegistrationOrganizationTabFormModel,
   RegistrationOrganizationTabFormValue,
   RegistrationUserTabFormModel,
   RegistrationWizardFormModel,
-} from './organization-create-page-form-model';
+  RegistrationWizardFormValue,
+} from './organization-create-page.form-model';
 
 @Component({
   selector: 'app-organization-create',
@@ -74,28 +71,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
     const initialUser = initial.userTab;
     const initialOrganization = initial.organizationTab;
 
-    const userTab = this.formBuilder.nonNullable.group(
-      {
-        firstName: [initialUser.firstName, [Validators.required]],
-        lastName: [initialUser.lastName, [Validators.required]],
-        jobTitle: [initialUser.jobTitle, [Validators.required]],
-        phoneNumber: [
-          initialUser.phoneNumber,
-          [Validators.required, phoneNumberValidator],
-        ],
-        email: [initialUser.email, [Validators.required, Validators.email]],
-        password: [
-          initialUser.password,
-          [
-            Validators.required,
-            Validators.minLength(8),
-            passwordEntropyValidator,
-          ],
-        ],
-        confirmPassword: [initialUser.password, [Validators.required]],
-      },
-      {validators: passwordMatchValidator('password', 'confirmPassword')},
-    );
+    const userTab = buildUserCreateForm(this.formBuilder, initialUser);
 
     const organizationTab: FormGroup<RegistrationOrganizationTabFormModel> =
       mergeFormGroups(
@@ -136,84 +112,10 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**
-   * maps the form values to the request dto and dispatches the create organization action
-   */
   submit(): void {
-    let user = this.parentFormGroup.value.userTab;
-    let org = this.parentFormGroup.value.organizationTab;
-
-    let mainAddress = buildAddressString({
-      street: org?.mainAddressStreet,
-      houseNo: org?.mainAddressHouseNo,
-      zipCode: org?.mainAddressHouseNo,
-      city: org?.mainAddressCity,
-      country: org?.mainAddressCountry,
-    });
-
-    let billingAddress = org?.billingAddressSameAsMain
-      ? mainAddress
-      : buildAddressString({
-          street: org?.billingAddressStreet,
-          houseNo: org?.billingAddressHouseNo,
-          zipCode: org?.billingAddressHouseNo,
-          city: org?.billingAddressCity,
-          country: org?.billingAddressCountry,
-        });
-
-    let mainContactName = buildFullName(
-      org?.mainContactFirstName,
-      org?.mainContactLastName,
+    const request = buildRegistrationRequest(
+      this.parentFormGroup.value as RegistrationWizardFormValue,
     );
-    let mainContactEmail = org?.mainContactEmail || '';
-    let mainContactPhone = org?.mainContactPhoneNumber || '';
-
-    let technicalContactName: string;
-    let technicalContactEmail: string;
-    let technicalContactPhone: string;
-    if (org?.technicalContactSameAsMain) {
-      technicalContactName = mainContactName;
-      technicalContactEmail = mainContactEmail;
-      technicalContactPhone = mainContactPhone;
-    } else {
-      technicalContactName = buildFullName(
-        org?.technicalContactFirstName,
-        org?.technicalContactLastName,
-      );
-      technicalContactEmail = org?.technicalContactEmail || '';
-      technicalContactPhone = org?.technicalContactPhoneNumber || '';
-    }
-
-    let request: RegistrationRequestDto = {
-      // User Profile
-      userEmail: user?.email || '',
-      userFirstName: user?.firstName || '',
-      userLastName: user?.lastName || '',
-      userJobTitle: user?.jobTitle || '',
-      userPhone: user?.phoneNumber || '',
-      userPassword: user?.password || '',
-
-      // Organization
-      organizationName: org?.legalName || '',
-
-      // Organization Metadata
-      organizationUrl: org?.website || '',
-      organizationDescription: org?.description || '',
-      organizationBusinessUnit: org?.businessUnit || '',
-      organizationAddress: mainAddress,
-      organizationBillingAddress: billingAddress,
-      organizationLegalIdType: org?.legalIdType!,
-      organizationLegalIdNumber: org?.legalId || '',
-      organizationCommerceRegisterLocation: org?.commerceRegisterLocation || '',
-
-      // Organization Contacts
-      organizationMainContactName: mainContactName,
-      organizationMainContactEmail: mainContactEmail,
-      organizationMainContactPhone: mainContactPhone,
-      organizationTechContactName: technicalContactName,
-      organizationTechContactEmail: technicalContactEmail,
-      organizationTechContactPhone: technicalContactPhone,
-    };
 
     this.store.dispatch(
       new CreateOrganization(

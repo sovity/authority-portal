@@ -6,7 +6,6 @@
     ctrlId="formEditWebsite"
     placeholder="https://www.my-org.com"
     [ctrl]="orgForm.controls.website"></app-text-input>
-  <!-- Website -->
 </div>
 
 <div class="flex gap-4 flex-wrap">
@@ -17,7 +16,6 @@
     ctrlId="formEditBusinessUnit"
     placeholder="My Department"
     [ctrl]="orgForm.controls.businessUnit"></app-text-input>
-  <!-- Business Unit -->
 </div>
 
 <div class="flex flex-col">
@@ -93,8 +91,6 @@
       placeholder="+49 1234 567890"
       [ctrl]="orgForm.controls.mainContactPhoneNumber"></app-text-input>
 
-    <!-- User's PhoneNumber -->
-
     <!-- User's Email -->
     <app-text-input
       class="flex-1"
@@ -102,10 +98,8 @@
       ctrlId="formEditMainEmail"
       placeholder="john.doe@my-org.com"
       [ctrl]="orgForm.controls.mainContactEmail"></app-text-input>
-    <!-- User's Email -->
   </div>
 </div>
-<!-- Main Contact Form -->
 
 <!-- Technical Contact Form -->
 <div class="flex flex-col gap-4">
@@ -142,7 +136,6 @@
         ctrlId="formEditTechnicalPhoneNumber"
         placeholder="+49 1234 567890"
         [ctrl]="orgForm.controls.technicalContactPhoneNumber"></app-text-input>
-      <!-- User's PhoneNumber -->
 
       <!-- User's Email -->
       <app-text-input
@@ -151,8 +144,6 @@
         ctrlId="formEditTechnicalEmail"
         placeholder="john.doe@my-org.com"
         [ctrl]="orgForm.controls.technicalContactEmail"></app-text-input>
-      <!-- User's Email -->
     </div>
   </ng-container>
 </div>
-<!-- Technical Contact Form -->

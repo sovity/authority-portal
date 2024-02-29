@@ -7,6 +7,7 @@ import {
   MemberInfo,
   OnboardingUserUpdateDto,
   PossibleCreatorSuccessor,
+  UpdateUserDto,
   UserDeletionCheck,
   UserDetailDto,
   UserInfo,
@@ -24,9 +25,8 @@ import {
   updateOrganization,
 } from './fake-organizations';
 
-export const TEST_USERS: Record<string, UserInfo> = {
+export const ALL_USERS: Record<string, UserDetailDto> = {
   '00000000-0000-0000-0000-000000000001': {
-    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000001',
     firstName: 'Authority',
     lastName: 'Admin',
@@ -34,9 +34,16 @@ export const TEST_USERS: Record<string, UserInfo> = {
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',
     organizationMdsId: 'MDSL1111AA',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '',
+    invitingUserFirstName: '',
+    invitingUserLastName: '',
+    creationDate: new Date('2024-02-01'),
   },
   '00000000-0000-0000-0000-000000000002': {
-    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000002',
     firstName: 'Authority',
     lastName: 'User',
@@ -44,9 +51,16 @@ export const TEST_USERS: Record<string, UserInfo> = {
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',
     organizationMdsId: 'MDSL1111AA',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
   },
   '00000000-0000-0000-0000-000000000003': {
-    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000003',
     firstName: 'Participant',
     lastName: 'Admin',
@@ -54,10 +68,17 @@ export const TEST_USERS: Record<string, UserInfo> = {
     registrationStatus: 'ACTIVE',
     organizationName: 'Participant Organization',
     organizationMdsId: 'MDSL2222BB',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
   },
 
   '00000000-0000-0000-0000-000000000004': {
-    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000004',
     firstName: 'Participant',
     lastName: 'Key User',
@@ -65,9 +86,16 @@ export const TEST_USERS: Record<string, UserInfo> = {
     registrationStatus: 'ACTIVE',
     organizationName: 'Participant Organization',
     organizationMdsId: 'MDSL2222BB',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
   },
   '00000000-0000-0000-0000-000000000005': {
-    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000005',
     firstName: 'Participant',
     lastName: 'User',
@@ -75,9 +103,16 @@ export const TEST_USERS: Record<string, UserInfo> = {
     registrationStatus: 'ACTIVE',
     organizationName: 'Participant Organization',
     organizationMdsId: 'MDSL2222BB',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
   },
   '00000000-0000-0000-0000-000000000009': {
-    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000009',
     firstName: 'Operator',
     lastName: 'Admin',
@@ -85,9 +120,16 @@ export const TEST_USERS: Record<string, UserInfo> = {
     registrationStatus: 'ACTIVE',
     organizationName: 'Operator Organization',
     organizationMdsId: 'MDSL8888EE',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
   },
   '00000000-0000-0000-0000-000000000007': {
-    authenticationStatus: 'AUTHENTICATED',
     userId: '00000000-0000-0000-0000-000000000007',
     firstName: 'Service Partner',
     lastName: 'Admin',
@@ -95,8 +137,144 @@ export const TEST_USERS: Record<string, UserInfo> = {
     registrationStatus: 'ACTIVE',
     organizationName: 'Operator Organization',
     organizationMdsId: 'MDSL7777AA',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
   },
-  unauthenticated: {
+  '00000000-0000-0000-0000-00000013': {
+    userId: '00000000-0000-0000-0000-00000013',
+    firstName: 'Onboarding',
+    lastName: 'Organization',
+    roles: ['ADMIN'],
+    registrationStatus: 'ONBOARDING',
+    organizationName: 'Dev Organization 1',
+    organizationMdsId: 'MDSL1111AA',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
+  },
+  '00000000-0000-0000-0000-00000014': {
+    userId: '00000000-0000-0000-0000-00000014',
+    firstName: 'Onboarding',
+    lastName: 'User',
+    roles: ['USER'],
+    registrationStatus: 'ONBOARDING',
+    organizationName: 'Dev Organization 2',
+    organizationMdsId: 'MDSL2222BB',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
+  },
+  '00000000-0000-0000-0000-000000000006': {
+    userId: '00000000-0000-0000-0000-000000000006',
+    firstName: 'Pending',
+    lastName: 'User',
+    roles: [],
+    registrationStatus: 'PENDING',
+    organizationName: '',
+    organizationMdsId: 'MDSL5555EE',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
+  },
+  '00000000-0000-0000-0000-00000011': {
+    userId: '00000000-0000-0000-0000-00000011',
+    firstName: 'Rejected',
+    lastName: 'User',
+    roles: ['ADMIN', 'KEY_USER', 'USER'],
+    registrationStatus: 'REJECTED',
+    organizationName: 'Rejected Organization',
+    organizationMdsId: 'MDSL6666EE',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
+  },
+  '00000000-0000-0000-0000-100000000001': {
+    userId: '00000000-0000-0000-0000-100000000001',
+    firstName: 'New Participant',
+    lastName: 'Admin',
+    roles: ['ADMIN', 'KEY_USER', 'USER'],
+    registrationStatus: 'ACTIVE',
+    organizationName: 'Three Users',
+    organizationMdsId: 'MDSL9111ZZ',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
+  },
+  '00000000-0000-0000-0000-100000000002': {
+    userId: '00000000-0000-0000-0000-100000000002',
+    firstName: 'Organization',
+    lastName: 'Creator',
+    roles: ['ADMIN', 'KEY_USER', 'USER'],
+    registrationStatus: 'ACTIVE',
+    organizationName: 'Three Users',
+    organizationMdsId: 'MDSL9111ZZ',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
+  },
+  '00000000-0000-0000-0000-100000000003': {
+    userId: '00000000-0000-0000-0000-100000000003',
+    firstName: 'Normal',
+    lastName: 'User',
+    roles: ['AUTHORITY_USER', 'USER'],
+    registrationStatus: 'ACTIVE',
+    organizationName: 'Three Users',
+    organizationMdsId: 'MDSL9111ZZ',
+    email: 'email@example.com',
+    phone: '+49 231 1234567',
+    position: 'Employee',
+    onboardingType: 'SELF_REGISTRATION',
+    invitingUserId: '00000000-0000-0000-0000-000000000001',
+    invitingUserFirstName: 'Authority',
+    invitingUserLastName: 'Admin',
+    creationDate: new Date('2024-02-01'),
+  },
+};
+
+export const TEST_USERS: UserInfo[] = [
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000001']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000002']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000003']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000004']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000005']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000009']),
+  {
     authenticationStatus: 'UNAUTHENTICATED',
     userId: 'unauthenticated',
     roles: ['UNAUTHENTICATED'],
@@ -106,88 +284,19 @@ export const TEST_USERS: Record<string, UserInfo> = {
     organizationName: 'No Organization',
     organizationMdsId: 'unauthenticated',
   },
-  '00000000-0000-0000-0000-00000013': {
-    authenticationStatus: 'AUTHENTICATED',
-    userId: '00000000-0000-0000-0000-00000013',
-    firstName: 'Onboarding',
-    lastName: 'Organization',
-    roles: ['ADMIN'],
-    registrationStatus: 'ONBOARDING',
-    organizationName: 'Dev Organization 1',
-    organizationMdsId: 'MDSL1111AA',
-  },
-  '00000000-0000-0000-0000-00000014': {
-    authenticationStatus: 'AUTHENTICATED',
-    userId: '00000000-0000-0000-0000-00000014',
-    firstName: 'Onboarding',
-    lastName: 'User',
-    roles: ['USER'],
-    registrationStatus: 'ONBOARDING',
-    organizationName: 'Dev Organization 2',
-    organizationMdsId: 'MDSL2222BB',
-  },
-  '00000000-0000-0000-0000-000000000006': {
-    authenticationStatus: 'AUTHENTICATED',
-    userId: '00000000-0000-0000-0000-000000000006',
-    firstName: 'Pending',
-    lastName: 'User',
-    roles: [],
-    registrationStatus: 'PENDING',
-    organizationName: '',
-    organizationMdsId: 'MDSL5555EE',
-  },
-  '00000000-0000-0000-0000-00000011': {
-    authenticationStatus: 'AUTHENTICATED',
-    userId: '00000000-0000-0000-0000-00000011',
-    firstName: 'Rejected',
-    lastName: 'User',
-    roles: ['ADMIN', 'KEY_USER', 'USER'],
-    registrationStatus: 'REJECTED',
-    organizationName: 'Rejected Organization',
-    organizationMdsId: 'MDSL6666EE',
-  },
-};
-
-export const OTHER_USERS: Record<string, UserInfo> = {
-  '00000000-0000-0000-0000-100000000001': {
-    userId: '00000000-0000-0000-0000-100000000001',
-    firstName: 'New Participant',
-    lastName: 'Admin',
-    roles: ['ADMIN', 'KEY_USER', 'USER'],
-    registrationStatus: 'ACTIVE',
-    authenticationStatus: 'AUTHENTICATED',
-    organizationName: 'Three Users',
-    organizationMdsId: 'MDSL9111ZZ',
-  },
-  '00000000-0000-0000-0000-100000000002': {
-    userId: '00000000-0000-0000-0000-100000000002',
-    firstName: 'Organization',
-    lastName: 'Creator',
-    roles: ['ADMIN', 'KEY_USER', 'USER'],
-    registrationStatus: 'ACTIVE',
-    authenticationStatus: 'AUTHENTICATED',
-    organizationName: 'Three Users',
-    organizationMdsId: 'MDSL9111ZZ',
-  },
-  '00000000-0000-0000-0000-100000000003': {
-    userId: '00000000-0000-0000-0000-100000000003',
-    firstName: 'Normal',
-    lastName: 'User',
-    roles: ['AUTHORITY_USER', 'USER'],
-    registrationStatus: 'ACTIVE',
-    authenticationStatus: 'AUTHENTICATED',
-    organizationName: 'Three Users',
-    organizationMdsId: 'MDSL9111ZZ',
-  },
-};
-
-export let ALL_USERS = {...TEST_USERS, ...OTHER_USERS};
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000007']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000013']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000014']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000006']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000011']),
+];
 
 /**
  * Currently "logged-in user" for local dev UI
  */
-let currentlyLoggedInUser: UserInfo =
-  TEST_USERS['00000000-0000-0000-0000-000000000001'];
+let currentlyLoggedInUser: UserInfo = buildUserInfo(
+  ALL_USERS['00000000-0000-0000-0000-000000000001'],
+);
 
 /**
  * Update currently logged-in User for local dev UI
@@ -201,37 +310,27 @@ export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
  */
 export const getUserInfo = (): UserInfo => currentlyLoggedInUser;
 
-export const getUserOrThrow = (userId: string): UserInfo => {
+export const getUserOrThrow = (userId: string): UserDetailDto => {
   const id = Object.keys(ALL_USERS).find((id) => id === userId);
   if (!id) throw new Error(`User not found ${userId}`);
 
   return ALL_USERS[id];
 };
 
-export const userDetails = (userId: string): UserDetailDto => {
-  const user = ALL_USERS[userId];
-
-  return {
-    userId,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: 'email@example.com',
-    roles: user.roles,
-    registrationStatus: user.registrationStatus!,
-    creationDate: new Date(),
-    organizationMdsId: user.organizationMdsId,
-    organizationName: user.organizationName,
-    phone: '+49 231 1234567',
-    position: 'Employee',
-    onboardingType: 'SELF_REGISTRATION',
-    invitingUserId: '00000000-0000-0000-0000-000000000001',
-    invitingUserFirstName: 'Authority',
-    invitingUserLastName: 'Admin',
-  };
-};
-
-export const addUser = (user: UserInfo) => {
+export const addUser = (user: UserDetailDto) => {
   ALL_USERS[user.userId] = user;
+};
+export const updateUser = (userId: string, dto: UpdateUserDto): IdResponse => {
+  patchUser(userId, () => {
+    return {
+      firstName: dto.firstName,
+      lastName: dto.lastName,
+      email: dto.email,
+      phone: dto.phone,
+      position: dto.jobTitle,
+    };
+  });
+  return {id: userId, changedDate: new Date()};
 };
 
 export const inviteUser = (
@@ -239,8 +338,7 @@ export const inviteUser = (
 ): IdResponse => {
   const newUserId = generateNewId();
 
-  const newUser: UserInfo = {
-    authenticationStatus: 'AUTHENTICATED',
+  const newUser: UserDetailDto = {
     userId: newUserId,
     firstName: request.firstName,
     lastName: request.lastName,
@@ -248,6 +346,14 @@ export const inviteUser = (
     registrationStatus: 'INVITED',
     organizationMdsId: getUserInfo().organizationMdsId,
     organizationName: getUserInfo().organizationName,
+    invitingUserId: currentlyLoggedInUser.userId,
+    invitingUserFirstName: currentlyLoggedInUser.firstName,
+    invitingUserLastName: currentlyLoggedInUser.lastName,
+    email: request.email,
+    phone: '',
+    position: '',
+    creationDate: new Date(),
+    onboardingType: 'INVITATION',
   };
 
   updateOrganization(getUserInfo().organizationMdsId, (organization) => {
@@ -376,10 +482,23 @@ export const cascadeDeleteUser = (
   return deleteUser(userId);
 };
 
-const patchUser = (userId: string, patcher: Patcher<UserInfo>) => {
+const patchUser = (userId: string, patcher: Patcher<UserDetailDto>) => {
   const user = getUserOrThrow(userId);
-  ALL_USERS[userId] = patchObj<UserInfo>(user, patcher);
+  ALL_USERS[userId] = patchObj<UserDetailDto>(user, patcher);
 };
+
+function buildUserInfo(user: UserDetailDto): UserInfo {
+  return {
+    authenticationStatus: 'AUTHENTICATED',
+    userId: user.userId,
+    roles: user.roles,
+    registrationStatus: user.registrationStatus,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    organizationName: user.organizationName,
+    organizationMdsId: user.organizationMdsId,
+  };
+}
 
 const deleteUser = (userId: string): IdResponse => {
   delete ALL_USERS[userId];
