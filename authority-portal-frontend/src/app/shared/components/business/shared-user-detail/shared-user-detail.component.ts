@@ -1,13 +1,13 @@
 import {Component, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Observable, combineLatest, forkJoin} from 'rxjs';
+import {Observable, forkJoin} from 'rxjs';
 import {finalize, ignoreElements, tap} from 'rxjs/operators';
 import {IdResponse, UserRoleDto} from '@sovity.de/authority-portal-client';
 import {mapRolesToReadableFormat} from 'src/app/core/utils/user-role-utils';
 import {ApiService} from '../../../../core/api/api.service';
 import {ErrorService} from '../../../../core/error.service';
 import {ToastService} from '../../../../core/toast-notifications/toast.service';
-import {setEnabled} from '../../../../core/utils/abstract-control-utils';
+import {setEnabled} from '../../../../core/utils/form-utils';
 import {UserDetailConfig} from './shared-user-detail.model';
 
 @Component({

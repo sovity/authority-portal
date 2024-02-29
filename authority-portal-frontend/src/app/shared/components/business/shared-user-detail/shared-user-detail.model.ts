@@ -1,4 +1,4 @@
-import {UserDetailDto, UserRoleDto} from '@sovity.de/authority-portal-client';
+import {UserDetailDto} from '@sovity.de/authority-portal-client';
 import {UserRoleUpdateConfig} from './user-role-update-config';
 
 export interface UserDetailConfig {

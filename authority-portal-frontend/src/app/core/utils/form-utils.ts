@@ -1,45 +1,43 @@
 import {AbstractControl, FormControlStatus, FormGroup} from '@angular/forms';
-import {EMPTY, Observable, concat} from 'rxjs';
+import {EMPTY, Observable, concat, defer, of} from 'rxjs';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 /**
- * Enables/Disables form groups controls
+ * Enables or disables a single control
+ */
+export function setEnabled(ctrl: AbstractControl, enable: boolean) {
+  const disabled = ctrl.disabled;
+  if (enable && disabled) {
+    ctrl.enable();
+  } else if (!enable && !disabled) {
+    ctrl.disable();
+  }
+}
+
+/**
+ * Enables or disables controls of a form group depending on the value of the form group
  */
 export function switchDisabledControls<T>(
   ctrl: FormGroup,
   enabledCtrlsFn: (value: T) => Record<keyof T, boolean>,
 ) {
-  const checkForChanges = () => {
+  const updateDisabledStates = () => {
     const enabledCtrls = enabledCtrlsFn(ctrl.value);
-    const enabled = new Set<keyof T>(
-      Object.entries(enabledCtrls)
-        .filter(([_, v]) => v)
-        .map(([k, _]) => k as keyof T),
+    Object.entries(ctrl.controls).forEach(([ctrlName, ctrl]) =>
+      setEnabled(ctrl, enabledCtrls[ctrlName as keyof T]),
     );
-    Object.entries(ctrl.controls).forEach(([ctrlName, ctrl]) => {
-      const ctrlNameTyped = ctrlName as keyof T;
-
-      const currentlyDisabled = ctrl.disabled;
-      const expectedDisabled = !enabled.has(ctrlNameTyped);
-      if (currentlyDisabled == expectedDisabled) {
-        return;
-      }
-
-      if (expectedDisabled) {
-        ctrl.disable();
-      } else {
-        ctrl.enable();
-      }
-    });
   };
 
-  status$(ctrl)
-    .pipe(
-      map((status) => status != 'DISABLED'),
-      distinctUntilChanged(),
-      switchMap((enabled) => (enabled ? value$(ctrl) : EMPTY)),
-    )
-    .subscribe(() => checkForChanges());
+  // Only enable/disable controls if the form group is enabled
+  // This prevents messing with the disabled state of the entire form group when it's disabled
+  // This also correctly sets control enabled states after lifting a form group disabled state
+  const valueIfEnabled$ = status$(ctrl).pipe(
+    map((status) => status != 'DISABLED'),
+    distinctUntilChanged(),
+    switchMap((enabled) => (enabled ? value$<T>(ctrl) : EMPTY)),
+  );
+
+  valueIfEnabled$.subscribe(() => updateDisabledStates());
 }
 
 /**
@@ -47,10 +45,7 @@ export function switchDisabledControls<T>(
  */
 export function value$<T>(ctrl: AbstractControl<unknown>): Observable<T> {
   return concat(
-    new Observable<T>((obs) => {
-      obs.next(ctrl.value as T);
-      obs.complete();
-    }),
+    defer(() => of(ctrl.value as T)),
     ctrl.valueChanges as Observable<T>,
   );
 }
@@ -60,10 +55,7 @@ export function value$<T>(ctrl: AbstractControl<unknown>): Observable<T> {
  */
 export function status$(ctrl: AbstractControl): Observable<FormControlStatus> {
   return concat(
-    new Observable<FormControlStatus>((obs) => {
-      obs.next(ctrl.status);
-      obs.complete();
-    }),
+    defer(() => of(ctrl.status)),
     ctrl.statusChanges,
   );
 }
@@ -80,10 +72,12 @@ export function mergeFormGroups<
 
   Object.keys(group1.controls).forEach((key) => {
     mergedControls[key] = (group1.controls as any)[key];
+    group1.removeControl(key as any);
   });
 
   Object.keys(group2.controls).forEach((key) => {
     mergedControls[key] = (group2.controls as any)[key];
+    group2.removeControl(key as any);
   });
 
   const nonNull = <T>(array: (T | null)[]): T[] =>

@@ -1,5 +1,3 @@
-import {FormControl} from '@angular/forms';
-
 export function buildAddressString(formValue: {
   street?: string;
   houseNo?: string;

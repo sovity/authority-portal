@@ -1,5 +1,5 @@
-import {Inject, Injectable} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
 import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {kebabCaseToSentenceCase} from '../../../../core/utils/string-utils';

@@ -5,7 +5,6 @@ import {
   HostBinding,
   Input,
   OnDestroy,
-  ViewChild,
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Subject, interval, takeUntil} from 'rxjs';
