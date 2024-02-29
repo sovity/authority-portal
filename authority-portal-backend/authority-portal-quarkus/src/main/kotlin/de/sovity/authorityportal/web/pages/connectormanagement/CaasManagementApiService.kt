@@ -92,7 +92,13 @@ class CaasManagementApiService {
         return ConfigAssertion(true, "")
     }
 
-    private fun buildAuthorityPortalDeploymentDto(curatorOrganization: OrganizationRecord, caasRequest: CreateCaasRequest, connectorId: String, environmentId: String, clientId: String): CaasPortalDeploymentDto {
+    private fun buildAuthorityPortalDeploymentDto(
+        curatorOrganization: OrganizationRecord,
+        caasRequest: CreateCaasRequest,
+        connectorId: String,
+        environmentId: String,
+        clientId: String
+    ): CaasPortalDeploymentDto {
         val securityContactName = PersonNameUtils.splitName(curatorOrganization.techContactName)
         val userContactName = PersonNameUtils.splitName(curatorOrganization.mainContactName)
         return CaasPortalDeploymentDto(

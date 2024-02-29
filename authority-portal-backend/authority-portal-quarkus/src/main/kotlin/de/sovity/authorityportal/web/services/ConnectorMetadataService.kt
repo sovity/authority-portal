@@ -66,9 +66,9 @@ class ConnectorMetadataService {
             val endpointUrls = connectorService.getConnectorsByEnvironment(environmentId).map { it.endpointUrl}
             val metadata = brokerClientService.forEnvironment(environmentId).getConnectorMetadata(endpointUrls)
             byEnvironment[environmentId] = BrokerData(metadata)
-            Log.info("Connector metadata fetched for environmentId=$environmentId.")
+            Log.info("Connector metadata fetched. environmentId=$environmentId.")
         } catch (e: Exception) {
-            Log.warn("Failed to fetch connector metadata for environmentId=$environmentId.", e)
+            Log.warn("Failed to fetch connector metadata. environmentId=$environmentId.", e)
         }
     }
 

@@ -32,6 +32,7 @@ import {SlideOverComponent} from './components/common/slide-over/slide-over.comp
 import {TitleBarComponent} from './components/common/title-bar/title-bar.component';
 import {SlideOverService} from './services/slide-over.service';
 import {SvgIconServiceService} from './services/svg-icon.service.service';
+import {LogoutButtonComponent} from "./components/common/logout-button/logout-button.component";
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     ConnectorRegisteringSuccessMessagePageComponent,
     DeleteConnectorModalComponent,
     FooterLinksComponent,
+    LogoutButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -91,6 +93,7 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     ConnectorRegisteringSuccessMessagePageComponent,
     DeleteConnectorModalComponent,
     FooterLinksComponent,
+    LogoutButtonComponent,
   ],
   providers: [
     CertificateGenerateService,
