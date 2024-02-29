@@ -108,28 +108,6 @@ public interface UiResource {
     @Operation(description = "Reactivate a user of a participating organization.")
     IdResponse reactivateParticipantUser(@PathParam("userId") String userId);
 
-    @GET
-    @Path("/organizations/my-org/users/{userId}/check-delete")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Check under which conditions a user can be deleted from a participant's organization.")
-    UserDeletionCheck checkParticipantUserDeletion(
-        @PathParam("userId")
-        String userId
-    );
-
-    @DELETE
-    @Path("/organizations/my-org/users/{userId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Delete participant organization user with respect to organizations and connectors associated with them.")
-    IdResponse deleteParticipantUser(
-        @PathParam("userId")
-        String userId,
-
-        // This parameter might be null, if no successor is needed
-        @QueryParam("successorUserId")
-        String successorUserId
-    );
-
     // Organization management (Authority)
     @PUT
     @Path("/authority/users/{userId}/role")
@@ -165,7 +143,7 @@ public interface UiResource {
     IdResponse reactivateAnyUser(@PathParam("userId") String userId);
 
     @GET
-    @Path("/authority/users/{userId}/check-delete")
+    @Path("/users/{userId}/check-delete")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Check under which conditions a user can be deleted from an organization.")
     UserDeletionCheck checkUserDeletion(
@@ -174,7 +152,7 @@ public interface UiResource {
     );
 
     @DELETE
-    @Path("/authority/users/{userId}")
+    @Path("/users/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Delete user with respect to organizations and connectors associated with them.")
     IdResponse deleteUser(

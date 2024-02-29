@@ -15,7 +15,7 @@
     matInput
     [placeholder]="placeholder"
     [formControl]="ctrl"
-    [attr.id]="ctrlId"></textarea>
+    [id]="ctrlId"></textarea>
 
   <mat-error *ngIf="ctrl.touched && ctrl.hasError('required')" class="text-xs">
     {{ requiredMessage }}</mat-error

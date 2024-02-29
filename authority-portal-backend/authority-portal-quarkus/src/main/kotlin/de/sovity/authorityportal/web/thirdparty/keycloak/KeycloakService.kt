@@ -128,6 +128,14 @@ class KeycloakService {
         return orgMembers
     }
 
+    fun getAuthorityAdmins(): List<KeycloakUserDto> {
+        val groups = keycloak.realm(keycloakRealm).groups()
+        val authorityAdminGroupId = groups.groups(ApplicationRole.AUTHORITY_ADMIN.kcGroupName, 0, 1).firstOrNull()!!.id
+        return groups.group(authorityAdminGroupId).members().mapNotNull {
+            keycloakUserMapper.buildKeycloakUserDto(it)
+        }
+    }
+
     fun getParticipantAdmins(mdsId: String): List<KeycloakUserDto> {
         val groups = keycloak.realm(keycloakRealm).groups()
         val orgGroupId = groups.groups(mdsId, 0, 1).firstOrNull()!!.id

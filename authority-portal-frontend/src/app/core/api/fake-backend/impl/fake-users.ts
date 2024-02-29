@@ -400,10 +400,19 @@ export const checkUserDeletion = (userId: string): UserDeletionCheck => {
     possibleSuccessors = participantAdmins.filter((x) => x.userId !== userId);
   }
 
+  const authorityAdmins = Object.values(ALL_USERS).filter((u) =>
+    u.roles.includes('AUTHORITY_ADMIN'),
+  );
+
+  const canBeDeletedCheck = !(
+    authorityAdmins.length === 1 && userId === authorityAdmins[0].userId
+  );
+
   return {
     userId,
     isLastParticipantAdmin,
     isOrganizationCreator,
     possibleSuccessors,
+    canBeDeleted: canBeDeletedCheck,
   };
 };

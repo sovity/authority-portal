@@ -57,6 +57,14 @@ class UserDeletionApiServiceTest {
         // arrange
         val mdsId = "MDSL2222BB"
 
+        `when`(keycloakService.getAuthorityAdmins()).thenReturn(listOf(
+            KeycloakUserDto(
+                userId = "anyId",
+                firstName = "anyName",
+                lastName = "anyName",
+                email = "empty",
+            )
+        ))
         `when`(keycloakService.getParticipantAdmins(eq(mdsId))).thenReturn(listOf(
             KeycloakUserDto(
                 userId = creatorId,
@@ -76,6 +84,7 @@ class UserDeletionApiServiceTest {
         val result = userDeletionApiService.checkUserDeletion(creatorId)
 
         // assert
+        assertThat(result.canBeDeleted).isTrue
         assertThat(result.isLastParticipantAdmin).isFalse
         assertThat(result.isOrganizationCreator).isTrue
         assertThat(result.possibleSuccessors).hasSize(1)
@@ -92,6 +101,14 @@ class UserDeletionApiServiceTest {
         val creatorId = "00000000-0000-0000-0000-000000000003"
         val successorId = "00000000-0000-0000-0000-000000000007"
 
+        `when`(keycloakService.getAuthorityAdmins()).thenReturn(listOf(
+            KeycloakUserDto(
+                userId = "anyId",
+                firstName = "anyName",
+                lastName = "anyName",
+                email = "empty",
+            )
+        ))
         `when`(keycloakService.getParticipantAdmins(eq(mdsId))).thenReturn(listOf(
             KeycloakUserDto(
                 userId = creatorId,
@@ -122,6 +139,14 @@ class UserDeletionApiServiceTest {
         // arrange
         val mdsId = "MDSL1111AA"
 
+        `when`(keycloakService.getAuthorityAdmins()).thenReturn(listOf(
+            KeycloakUserDto(
+                userId = "anyId",
+                firstName = "anyName",
+                lastName = "anyName",
+                email = "empty",
+            )
+        ))
         `when`(keycloakService.getParticipantAdmins(eq(mdsId))).thenReturn(listOf(
             KeycloakUserDto(
                 userId = lastAdminId,
@@ -135,6 +160,7 @@ class UserDeletionApiServiceTest {
         val result = userDeletionApiService.checkUserDeletion(lastAdminId)
 
         // assert
+        assertThat(result.canBeDeleted).isTrue
         assertThat(result.isLastParticipantAdmin).isTrue
         assertThat(result.isOrganizationCreator).isTrue
         assertThat(result.possibleSuccessors).isEmpty()
@@ -147,6 +173,14 @@ class UserDeletionApiServiceTest {
         setupClients()
         val mdsId = "MDSL1111AA"
 
+        `when`(keycloakService.getAuthorityAdmins()).thenReturn(listOf(
+            KeycloakUserDto(
+                userId = "anyId",
+                firstName = "anyName",
+                lastName = "anyName",
+                email = "empty",
+            )
+        ))
         `when`(keycloakService.getParticipantAdmins(eq(mdsId))).thenReturn(listOf(
             KeycloakUserDto(
                 userId = lastAdminId,
@@ -165,6 +199,68 @@ class UserDeletionApiServiceTest {
         val users = userService.getUsersByMdsId(mdsId)
         assertThat(users).isEmpty()
         assertThatThrownBy { organizationService.getOrganizationOrThrow(mdsId) }.isInstanceOf(IllegalStateException::class.java)
+    }
+
+    @Test
+    @TestTransaction
+    fun testCheckUserCanNotBeDeleted() {
+        // arrange
+        val mdsId = "MDSL1111AA"
+
+        `when`(keycloakService.getAuthorityAdmins()).thenReturn(listOf(
+            KeycloakUserDto(
+                userId = lastAdminId,
+                firstName = "To Be Deleted",
+                lastName = "User",
+                email = "empty",
+            )
+        ))
+        `when`(keycloakService.getParticipantAdmins(eq(mdsId))).thenReturn(listOf(
+            KeycloakUserDto(
+                userId = lastAdminId,
+                firstName = "To Be Deleted",
+                lastName = "User",
+                email = "empty",
+            )
+        ))
+
+        // act
+        val result = userDeletionApiService.checkUserDeletion(lastAdminId)
+
+        // assert
+        assertThat(result.canBeDeleted).isFalse
+        assertThat(result.isLastParticipantAdmin).isTrue
+        assertThat(result.isOrganizationCreator).isTrue
+        assertThat(result.possibleSuccessors).isEmpty()
+    }
+
+    @Test
+    @TestTransaction
+    fun testHandleUserCanNotBeDeleted() {
+        // arrange
+        val mdsId = "MDSL1111AA"
+
+        `when`(keycloakService.getAuthorityAdmins()).thenReturn(listOf(
+            KeycloakUserDto(
+                userId = lastAdminId,
+                firstName = "To Be Deleted",
+                lastName = "User",
+                email = "empty",
+            )
+        ))
+        `when`(keycloakService.getParticipantAdmins(eq(mdsId))).thenReturn(listOf(
+            KeycloakUserDto(
+                userId = lastAdminId,
+                firstName = "To Be Deleted",
+                lastName = "User",
+                email = "empty",
+            )
+        ))
+
+        // act & assert
+        assertThatThrownBy {
+            userDeletionApiService.handleUserDeletion(lastAdminId, null, "adminUserId")
+        }.isInstanceOf(IllegalStateException::class.java)
     }
 
     private fun setupClients() {

@@ -10,7 +10,12 @@
     "></app-error-element>
 
   <div *ngIf="modalData?.isReady">
-    <div *ngIf="isLastParticipantAdmin" class="space-y-1">
+    <div *ngIf="!modalData?.data?.canBeDeleted" class="space-y-1">
+      <p class="text-gray-700">The user cannot be deleted.</p>
+    </div>
+    <div
+      *ngIf="modalData?.data?.canBeDeleted && isLastParticipantAdmin"
+      class="space-y-1">
       <p class="text-gray-700">
         You are trying to delete the last Participant Admin of
         <span class="italic"> {{ data.userOrganizationName }}</span
@@ -22,7 +27,7 @@
       </p>
       <p class="text-gray-700">Are you sure, you want to proceed?</p>
     </div>
-    <div *ngIf="!isLastParticipantAdmin">
+    <div *ngIf="modalData?.data?.canBeDeleted && !isLastParticipantAdmin">
       <div *ngIf="isOrganizationCreator" class="space-y-1">
         <p class="text-gray-700">
           You are trying to delete the creator of
@@ -78,6 +83,7 @@
         isOrganizationCreator &&
         deleteOrganizationCreatorForm.invalid) ||
       isBusy ||
+      !modalData?.data?.canBeDeleted ||
       !modalData?.isReady
     "
     (click)="onConfirmDeleteUserClick()">

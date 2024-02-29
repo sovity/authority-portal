@@ -72,14 +72,12 @@ export class ApiService {
   }
 
   checkParticipantUserDeletion(userId: string) {
-    return this.toObservable(() =>
-      this.api().checkParticipantUserDeletion({userId}),
-    );
+    return this.toObservable(() => this.api().checkUserDeletion({userId}));
   }
 
   deleteParticipantUser(userId: string, successorUserId?: string) {
     return this.toObservable(() =>
-      this.api().deleteParticipantUser({userId, successorUserId}),
+      this.api().deleteUser({userId, successorUserId}),
     );
   }
 
