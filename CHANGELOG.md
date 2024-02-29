@@ -15,12 +15,13 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Control Center: Edit Own Organization Details Page
 - Control Center: Edit Own User Details Page
-- Improved User Profiles slightly by reordering items
-- Improved Organization Profiles slightly by reordering items
 - Renamed `MDS Authority Portal` occurences to `MDS Portal`
 
 #### Patch
 
+- Improved User Profiles by reordering items, icons and showing more information.
+- Improved Organization Profiles slightly by reordering items, icons and showing more information.
+- Improved Connector Detail Pages slightly by reordering items, icons and showing more information.
 - User Onboarding: Fix Privacy Policy Check not positioned correctly
 - Organization Onboarding: Fix approve/reject buttons showing when organization is still invited or onboarding
 

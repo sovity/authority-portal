@@ -2,15 +2,10 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
-import {
-  getConnectorStatusText,
-  getConnectorsTypeClasses,
-} from 'src/app/core/utils/ui-utils';
+import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
 import {ChildComponentInput} from 'src/app/shared/components/common/slide-over/slide-over.model';
-import {
-  ActionMenu,
-  TitleBarConfig,
-} from 'src/app/shared/components/common/title-bar/title-bar.model';
+import {TitleBarConfig} from 'src/app/shared/components/common/title-bar/title-bar.model';
+import {DEFAULT_PARTICIPANT_OWN_CONNECTOR_DETAIL_PAGE_STATE} from '../../participant-own-connector-detail-page/state/participant-own-connector-detail-page-state';
 import {DeleteProvidedConnector} from '../../sp-connector-list-page/state/sp-connector-list-page-actions';
 import {
   RefreshConnector,
@@ -32,8 +27,6 @@ export class SpConnectorDetailPageComponent implements OnInit, OnDestroy {
   showModal = false;
 
   state = DEFAULT_SP_CONNECTOR_DETAIL_PAGE_STATE;
-  getConnectorsTypeClasses = getConnectorsTypeClasses;
-  getConnectorStatusText = getConnectorStatusText;
 
   private ngOnDestroy$ = new Subject();
 
@@ -52,48 +45,36 @@ export class SpConnectorDetailPageComponent implements OnInit, OnDestroy {
   }
 
   private startListeningToState() {
-    let actionMenu: ActionMenu = {
-      id: 'actionMenu',
-      menuOptions: [
-        {
-          label: 'Delete Connector',
-          icon: 'delete',
-          event: () => this.deleteConnector(),
-          isDisabled: false,
-        },
-      ],
-    };
     this.store
       .select<SpConnectorDetailPageState>(SpConnectorDetailPageStateImpl)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
         this.state.connector.ifReady((data) =>
-          this.setupConnectorTitleBar(data, actionMenu),
+          this.setupConnectorTitleBar(data),
         );
       });
   }
 
-  /**
-   * initialize the title bar component based on organization details
-   * @param organization
-   */
-  setupConnectorTitleBar(
-    connector: ConnectorDetailDto,
-    actionMenu?: ActionMenu,
-  ) {
+  setupConnectorTitleBar(connector: ConnectorDetailDto) {
     this.titleBarConfig = {
       title: connector.connectorName,
       icon: 'connector-2',
       status: connector.type,
-      statusStyle: this.getConnectorsTypeClasses(connector.type),
+      statusStyle: getConnectorsTypeClasses(connector.type),
       tabs: [],
+      actionMenu: {
+        id: 'actionMenu',
+        menuOptions: [
+          {
+            label: 'Delete Connector',
+            icon: 'delete',
+            event: () => this.deleteConnector(),
+            isDisabled: false,
+          },
+        ],
+      },
     };
-    if (actionMenu) this.titleBarConfig.actionMenu = actionMenu;
-  }
-
-  refresh() {
-    this.store.dispatch(RefreshConnector);
   }
 
   deleteConnector() {

@@ -107,11 +107,6 @@ textarea {
   @apply text-black font-bold;
 }
 
-.btn-green {
-  @apply select-none cursor-pointer bg-green-200 rounded-md text-center active:bg-green-300 hover:bg-green-300 hover:text-black
-  focus:text-black focus:bg-green-300 disabled:bg-slate-500 disabled:text-gray-300 disabled:cursor-default;
-}
-
 .btn-accent {
   @apply rounded-md bg-brand-black px-4 py-2 text-sm font-semibold text-white shadow-sm  hover:text-brand-500;
 }
@@ -120,7 +115,7 @@ textarea {
 }
 
 .btn-accent-danger {
-  @apply rounded-md bg-red-700 px-4 py-2 text-sm font-semibold text-white shadow-sm  hover:text-brand-500;
+  @apply rounded-md bg-red-700 px-4 py-2 text-sm font-semibold text-white shadow-sm  hover:bg-red-800;
 }
 
 .btn-accent-success {
@@ -160,11 +155,23 @@ textarea {
 }
 
 .details-row {
-  @apply px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 items-start transition duration-300 ease-in-out transform;
+  @apply flex flex-col px-4 py-3 md:grid md:grid-cols-3 md:gap-4 md:px-0 items-start transition duration-300 ease-in-out transform;
 }
 
 .details-row:nth-child(odd) {
   @apply bg-gray-100;
+}
+
+.details-row-key {
+  @apply md:px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2 whitespace-nowrap;
+}
+
+.details-row-key > mat-icon {
+  @apply text-gray-500;
+}
+
+.details-row-value {
+  @apply mt-1 text-sm leading-6 text-gray-700 md:col-span-2 sm:mt-0;
 }
 
 .profile .details-row {

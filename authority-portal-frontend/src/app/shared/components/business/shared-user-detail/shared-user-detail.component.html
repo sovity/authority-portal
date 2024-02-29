@@ -1,187 +1,158 @@
-<div
-  class="mt-6"
-  [ngClass]="{'h-screen overflow-auto': config.usageType === 'DETAIL_PAGE'}">
-  <dl>
-    <!-- full name -->
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">badge</mat-icon>
-        Name
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ config.user.firstName }} {{ config.user.lastName }}
-      </dd>
-    </div>
+<!-- full name -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">badge</mat-icon>
+    Name
+  </div>
+  <div class="details-row-value">
+    {{ config.user.firstName }} {{ config.user.lastName }}
+  </div>
+</div>
 
-    <!-- organization name -->
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >corporate_fare</mat-icon
-        >
-        Organization
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ config.user.organizationName }}
-      </dd>
-    </div>
+<!-- organization name -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">corporate_fare</mat-icon>
+    Organization
+  </div>
+  <div class="details-row-value">
+    {{ config.user.organizationName }}, {{ config.user.organizationMdsId }}
+  </div>
+</div>
 
-    <!-- company position -->
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">person</mat-icon
-        >Position
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ config.user.position }}
-      </dd>
-    </div>
+<!-- company position -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">person</mat-icon>
+    Position
+  </div>
+  <div class="details-row-value">
+    {{ config.user.position }}
+  </div>
+</div>
 
-    <!-- portal role -->
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >admin_panel_settings</mat-icon
-        >
-        Portal Role
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        <div *ngIf="!roleFormToggled" class="flex justify-between">
-          <div>
-            <span>{{ config.roles.readableRolesAsString }} </span>
-          </div>
-          <mat-icon
-            *ngIf="config.roles.canEdit"
-            class="text-gray-700 cursor-pointer hover:text-brand-golden"
-            (click)="onRoleEditShowClick()"
-            >edit</mat-icon
-          >
-        </div>
-        <ng-container *ngIf="roleFormToggled">
-          <div *ngIf="config.roles.canChangeApplicationRole" class="px-4">
-            <label class="w-full mb-2 text-sm"
-              >Choose an Application Role</label
-            >
-            <mat-form-field class="w-full" appearance="outline">
-              <mat-select
-                placeholder="None"
-                [formControl]="applicationRoleCtrl">
-                <mat-option>None</mat-option>
-                <mat-option
-                  *ngFor="let role of config.roles.availableApplicationRoles"
-                  [value]="role">
-                  {{ mapRolesToReadableFormat(role) }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="px-4">
-            <label class="w-full mb-2 text-sm"
-              >Choose an Organization Role</label
-            >
-            <mat-form-field class="w-full" appearance="outline">
-              <mat-select [formControl]="participantRoleCtrl">
-                <mat-option
-                  *ngFor="let role of config.roles.availableParticipantRoles"
-                  [value]="role">
-                  {{ mapRolesToReadableFormat(role) }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </ng-container>
-        <!-- actions -->
-        <div *ngIf="roleFormToggled" class="py-3 px-1 flex">
-          <div class="flex w-full justify-end gap-4">
-            <button
-              class="btn-accent-outline"
-              type="button"
-              [disabledBtn]="roleEditBusy"
-              (click)="onRoleEditCancel()">
-              Cancel
-            </button>
-            <button
-              class="btn-accent"
-              [disabledBtn]="
-                (!applicationRoleCtrl.dirty && !participantRoleCtrl.dirty) ||
-                roleEditBusy
-              "
-              (click)="onRoleEditSubmitClick()">
-              Save
-            </button>
-          </div>
-        </div>
-        <!-- actions -->
-      </dd>
+<!-- portal role -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">admin_panel_settings</mat-icon>
+    Portal Role
+  </div>
+  <div class="details-row-value">
+    <div *ngIf="!roleFormToggled" class="flex justify-between">
+      <div>
+        <span>{{ config.roles.readableRolesAsString }} </span>
+      </div>
+      <mat-icon
+        *ngIf="config.roles.canEdit"
+        class="text-gray-700 cursor-pointer hover:text-brand-golden"
+        (click)="onRoleEditShowClick()"
+        >edit</mat-icon
+      >
     </div>
+    <ng-container *ngIf="roleFormToggled">
+      <div *ngIf="config.roles.canChangeApplicationRole" class="px-4">
+        <label class="w-full mb-2 text-sm">Choose an Application Role</label>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-select placeholder="None" [formControl]="applicationRoleCtrl">
+            <mat-option>None</mat-option>
+            <mat-option
+              *ngFor="let role of config.roles.availableApplicationRoles"
+              [value]="role">
+              {{ mapRolesToReadableFormat(role) }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="px-4">
+        <label class="w-full mb-2 text-sm">Choose an Organization Role</label>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-select [formControl]="participantRoleCtrl">
+            <mat-option
+              *ngFor="let role of config.roles.availableParticipantRoles"
+              [value]="role">
+              {{ mapRolesToReadableFormat(role) }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <!-- actions -->
+    <div *ngIf="roleFormToggled" class="py-3 px-1 flex">
+      <div class="flex w-full justify-end gap-4">
+        <button
+          class="btn-accent-outline"
+          type="button"
+          [disabledBtn]="roleEditBusy"
+          (click)="onRoleEditCancel()">
+          Cancel
+        </button>
+        <button
+          class="btn-accent"
+          [disabledBtn]="
+            (!applicationRoleCtrl.dirty && !participantRoleCtrl.dirty) ||
+            roleEditBusy
+          "
+          (click)="onRoleEditSubmitClick()">
+          Save
+        </button>
+      </div>
+    </div>
+    <!-- actions -->
+  </div>
+</div>
 
-    <!-- user email -->
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">mail</mat-icon
-        >Email
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ config.user.email }}
-      </dd>
-    </div>
+<!-- user email -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">mail</mat-icon>
+    Email
+  </div>
+  <div class="details-row-value">
+    {{ config.user.email }}
+  </div>
+</div>
 
-    <!-- user phone -->
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >phone_iphone</mat-icon
-        >
-        Phone
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ config.user.phone }}
-      </dd>
-    </div>
+<!-- user phone -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">phone_iphone</mat-icon>
+    Phone
+  </div>
+  <div class="details-row-value">
+    {{ config.user.phone }}
+  </div>
+</div>
 
-    <!-- invited by -->
-    <div *ngIf="config.user.invitingUserId" class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">
-          person </mat-icon
-        >Invited By
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ config.user.invitingUserFirstName ?? '' }}
-        {{ config.user.invitingUserLastName ?? '' }}
-      </dd>
-    </div>
+<!-- invited by -->
+<div *ngIf="config.user.invitingUserId" class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">person </mat-icon>
+    Invited By
+  </div>
+  <div class="details-row-value">
+    {{ config.user.invitingUserFirstName ?? '' }}
+    {{ config.user.invitingUserLastName ?? '' }}
+  </div>
+</div>
 
-    <!-- onboard type -->
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">sell</mat-icon
-        >Onboarding Type
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ onboardingType(config.user.onboardingType) }}
-      </dd>
-    </div>
+<!-- onboard type -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">sell</mat-icon>
+    Onboarding Type
+  </div>
+  <div class="details-row-value">
+    {{ onboardingType(config.user.onboardingType) }}
+  </div>
+</div>
 
-    <!-- onboarded since -->
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">
-          calendar_month </mat-icon
-        >Onboarded Since
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ config.user.creationDate | date : 'mediumDate' }}
-      </dd>
-    </div>
-  </dl>
+<!-- onboarded since -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">calendar_month</mat-icon>
+    Onboarded Since
+  </div>
+  <div class="details-row-value">
+    {{ config.user.creationDate | date : 'mediumDate' }}
+  </div>
 </div>

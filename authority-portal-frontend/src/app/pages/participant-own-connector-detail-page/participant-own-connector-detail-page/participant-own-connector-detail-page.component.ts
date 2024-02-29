@@ -65,17 +65,6 @@ export class ParticipantOwnConnectorDetailPageComponent
   }
 
   private startListeningToState() {
-    let actionMenu: ActionMenu = {
-      id: 'actionMenu',
-      menuOptions: [
-        {
-          label: 'Delete Connector',
-          icon: 'delete',
-          event: () => this.deleteConnector(),
-          isDisabled: false,
-        },
-      ],
-    };
     this.store
       .select<ParticipantOwnConnectorDetailPageState>(
         ParticipantOwnConnectorDetailPageStateImpl,
@@ -98,7 +87,19 @@ export class ParticipantOwnConnectorDetailPageComponent
             status: data.type,
             statusStyle: this.getConnectorsTypeClasses(data.type),
             tabs: [],
-            actionMenu: hasRole ? actionMenu : undefined,
+            actionMenu: hasRole
+              ? {
+                  id: 'actionMenu',
+                  menuOptions: [
+                    {
+                      label: 'Delete Connector',
+                      icon: 'delete',
+                      event: () => this.deleteConnector(),
+                      isDisabled: false,
+                    },
+                  ],
+                }
+              : undefined,
           };
         });
       });
@@ -115,12 +116,6 @@ export class ParticipantOwnConnectorDetailPageComponent
 
   cancelDeleteConnector() {
     this.showModal = false;
-  }
-
-  copyToClipboard(s: string | undefined) {
-    if (s) {
-      this.clipboard.copy(s);
-    }
   }
 
   ngOnDestroy(): void {
