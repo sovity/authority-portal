@@ -1,9 +1,4 @@
-import {
-  OwnOrganizationDetailsDto,
-  UpdateOrganizationDto,
-  UpdateUserDto,
-  UserDetailDto,
-} from '@sovity.de/authority-portal-client';
+import {UpdateUserDto, UserDetailDto} from '@sovity.de/authority-portal-client';
 import {ControlCenterUserEditPageFormValue} from './control-center-user-edit-page.form-model';
 
 export function buildFormValue(

@@ -1,15 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {MonoTypeOperatorFunction, NEVER, Observable, takeUntil} from 'rxjs';
-import {finalize, ignoreElements, tap} from 'rxjs/operators';
+import {Observable, takeUntil} from 'rxjs';
+import {ignoreElements, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {UserDetailDto, UserRoleDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {BreadcrumbService} from '../../../common/layouts/portal-layout/breadcrumb/breadcrumb.service';
 import {ApiService} from '../../../core/api/api.service';
 import {CustomRxjsOperators} from '../../../core/custom-rxjs-operators';
-import {ErrorService} from '../../../core/error.service';
-import {ToastService} from '../../../core/toast-notifications/toast.service';
 import {Fetched} from '../../../core/utils/fetched';
 import {UserDetailConfig} from '../../../shared/components/business/shared-user-detail/shared-user-detail.model';
 import {buildUserRoleUpdateConfigFromUserInfo} from '../../../shared/components/business/shared-user-detail/user-role-update-config';

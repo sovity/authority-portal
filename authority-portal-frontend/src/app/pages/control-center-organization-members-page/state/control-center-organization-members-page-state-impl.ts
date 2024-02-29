@@ -1,16 +1,12 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {Router} from '@angular/router';
-import {EMPTY, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {filter, ignoreElements, tap} from 'rxjs/operators';
-import {Action, State, StateContext, Store} from '@ngxs/store';
+import {Action, State, StateContext} from '@ngxs/store';
 import {
   OwnOrganizationDetailsDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
-import {ErrorService} from 'src/app/core/error.service';
-import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ToastService} from 'src/app/core/toast-notifications/toast.service';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
 import {ParticipantInviteNewUserComponent} from '../../../popups/participant-invite-new-user/participant-invite-new-user/participant-invite-new-user.component';

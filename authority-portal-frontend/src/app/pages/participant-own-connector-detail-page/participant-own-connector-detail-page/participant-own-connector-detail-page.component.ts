@@ -9,7 +9,6 @@ import {
   tap,
 } from 'rxjs';
 import {Store} from '@ngxs/store';
-import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
   getConnectorStatusText,

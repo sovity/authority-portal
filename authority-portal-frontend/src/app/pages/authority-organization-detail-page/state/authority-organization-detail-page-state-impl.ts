@@ -9,13 +9,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import {Action, Actions, Selector, State, StateContext} from '@ngxs/store';
-import {
-  ChangeApplicationRoleRequest,
-  ChangeParticipantRoleRequest,
-  ClearApplicationRoleRequest,
-  OrganizationDetailsDto,
-  UserDeletionCheck,
-} from '@sovity.de/authority-portal-client';
+import {OrganizationDetailsDto} from '@sovity.de/authority-portal-client';
 import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ToastService} from 'src/app/core/toast-notifications/toast.service';
