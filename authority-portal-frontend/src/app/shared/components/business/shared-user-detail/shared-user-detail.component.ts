@@ -18,6 +18,7 @@ export class SharedUserDetailComponent {
   @HostBinding('class.flex')
   @HostBinding('class.flex-col')
   @HostBinding('class.my-6')
+  @HostBinding('class.@container') // tailwind container queries
   cls = true;
 
   @Input()

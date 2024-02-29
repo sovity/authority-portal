@@ -155,7 +155,7 @@ textarea {
 }
 
 .details-row {
-  @apply flex flex-col px-4 py-3 md:grid md:grid-cols-3 md:gap-4 md:px-0 items-start transition duration-300 ease-in-out transform;
+  @apply flex flex-col @md:grid @md:grid-cols-4 @md:gap-4 px-4 py-3 @md:px-0 items-start transition duration-300 ease-in-out transform;
 }
 
 .details-row:nth-child(odd) {
@@ -163,7 +163,8 @@ textarea {
 }
 
 .details-row-key {
-  @apply md:px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2 whitespace-nowrap;
+  @apply @2xl:col-span-1 @md:col-span-2 col-span-3;
+  @apply @md:px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2 whitespace-nowrap;
 }
 
 .details-row-key > mat-icon {
@@ -171,7 +172,8 @@ textarea {
 }
 
 .details-row-value {
-  @apply mt-1 text-sm leading-6 text-gray-700 md:col-span-2 sm:mt-0;
+  @apply @2xl:col-span-3 @md:col-span-2 col-span-1;
+  @apply mt-1 text-sm leading-6 text-gray-700 @md:mt-0;
 }
 
 .profile .details-row {

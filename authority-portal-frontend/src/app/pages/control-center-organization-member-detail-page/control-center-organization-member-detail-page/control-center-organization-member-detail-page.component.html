@@ -12,7 +12,6 @@
 
   <app-shared-user-detail
     *ngIf="state.userDetailConfig"
-    class="flex w-full lg:w-10/12 gap-4 justify-between"
     [config]="state.userDetailConfig"></app-shared-user-detail>
 
   <div *ngIf="state.user.isReady" class="mt-8">
