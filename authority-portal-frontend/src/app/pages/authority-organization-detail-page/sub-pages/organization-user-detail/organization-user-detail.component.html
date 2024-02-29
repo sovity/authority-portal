@@ -5,6 +5,11 @@
   *ngIf="state.user.isError"
   errorMessage="user"></app-error-element>
 
-<app-shared-user-detail
-  *ngIf="state.user.isReady"
-  [config]="userDetailConfig"></app-shared-user-detail>
+<ng-container *ngIf="state.user.isReady">
+  <h3 class="text-base font-semibold text-black">
+    Organization Member Details
+  </h3>
+  <app-shared-user-detail
+    class="h-screen overflow-auto"
+    [config]="userDetailConfig"></app-shared-user-detail>
+</ng-container>

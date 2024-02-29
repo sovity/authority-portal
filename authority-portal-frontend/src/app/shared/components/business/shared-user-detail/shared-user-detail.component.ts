@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, HostBinding, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable, forkJoin} from 'rxjs';
 import {finalize, ignoreElements, tap} from 'rxjs/operators';
@@ -15,7 +15,13 @@ import {UserDetailConfig} from './shared-user-detail.model';
   templateUrl: './shared-user-detail.component.html',
 })
 export class SharedUserDetailComponent {
-  @Input() config!: UserDetailConfig;
+  @HostBinding('class.flex')
+  @HostBinding('class.flex-col')
+  @HostBinding('class.my-6')
+  cls = true;
+
+  @Input()
+  config!: UserDetailConfig;
 
   applicationRoleCtrl = new FormControl<UserRoleDto | null>(null);
   participantRoleCtrl = new FormControl<UserRoleDto>('USER');

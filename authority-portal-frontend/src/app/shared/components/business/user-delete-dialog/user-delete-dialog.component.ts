@@ -14,7 +14,7 @@ import {UserDeleteDialog} from './user-delete-dialog.model';
   templateUrl: './user-delete-dialog.component.html',
 })
 export class UserDeleteDialogComponent implements OnInit, OnDestroy {
-  modalData: Fetched<UserDeletionCheck> | null = null;
+  modalData: Fetched<UserDeletionCheck> = Fetched.empty();
   deleteOrganizationCreatorForm = this.formBuilder.nonNullable.group({
     successor: ['', Validators.required],
   });

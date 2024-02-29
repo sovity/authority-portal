@@ -55,27 +55,10 @@
                     class="border-l-4 border-transparent hover:bg-slate-50 hover:border-l-4 hover:border-yellow-600/70 cursor-pointer -ml-1">
                     <td class="pl-3 py-8 text-sm font-medium whitespace-nowrap">
                       <div class="flex items-center gap-1.5">
-                        <div
-                          class="flex items-center gap-x-1.5"
-                          [matTooltip]="
-                            getConnectorStatusText(connector.status)
-                          ">
-                          <div
-                            class="flex-none rounded-full p-1"
-                            [ngClass]="
-                              getConnectorStatusOuterRingClasses(
-                                connector.status
-                              )
-                            ">
-                            <div
-                              class="h-1.5 w-1.5 rounded-full"
-                              [ngClass]="
-                                getConnectorStatusInnerCircleClasses(
-                                  connector.status
-                                )
-                              "></div>
-                          </div>
-                        </div>
+                        <app-connector-status-led
+                          [status]="
+                            connector.status
+                          "></app-connector-status-led>
                         <h4>
                           {{ connector.id }}
                         </h4>

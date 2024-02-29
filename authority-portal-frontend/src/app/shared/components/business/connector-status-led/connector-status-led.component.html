@@ -1,0 +1,11 @@
+<div
+  class="flex items-center gap-x-1.5"
+  [matTooltip]="getConnectorStatusText(status)">
+  <div
+    class="flex-none rounded-full p-1"
+    [ngClass]="getConnectorStatusOuterRingClasses(status)">
+    <div
+      class="h-1.5 w-1.5 rounded-full"
+      [ngClass]="getConnectorStatusInnerCircleClasses(status)"></div>
+  </div>
+</div>

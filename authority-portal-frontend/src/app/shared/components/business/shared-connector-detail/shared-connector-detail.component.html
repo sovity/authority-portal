@@ -1,0 +1,127 @@
+<!-- Connector ID -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">label</mat-icon>
+    Connector ID
+  </div>
+  <div class="details-row-value">
+    {{ connector.connectorId }}
+  </div>
+</div>
+
+<!-- Connector Name -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">power</mat-icon>
+    Connector Name
+  </div>
+  <div class="details-row-value">
+    {{ connector.connectorName }}
+  </div>
+</div>
+
+<!-- Organization -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">corporate_fare</mat-icon>
+    Organization
+  </div>
+  <div class="details-row-value">
+    {{ connector.orgName }}, {{ connector.orgMdsId }}
+  </div>
+</div>
+
+<!-- Environment -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">cloud_circle</mat-icon>
+    Environment
+  </div>
+  <div class="details-row-value">
+    {{ connector.environment.title }}
+  </div>
+</div>
+
+<!-- Status -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">cloud</mat-icon>
+    Status
+  </div>
+  <div class="details-row-value">
+    {{ getConnectorStatusText(connector.status) }}
+  </div>
+</div>
+
+<!-- Location -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">location_on</mat-icon>
+    Location
+  </div>
+  <div class="details-row-value">
+    {{ connector.location }}
+  </div>
+</div>
+
+<!-- Hosted By -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">corporate_fare</mat-icon>
+    Hosted By
+  </div>
+  <div class="details-row-value">
+    {{ connector.hostName }}, {{ connector.hostMdsId }}
+  </div>
+</div>
+
+<!-- Frontend URL -->
+<div *ngIf="connector.frontendUrl" class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">link</mat-icon>
+    Frontend URL
+  </div>
+  <div class="details-row-value">
+    <a
+      *ngIf="connector.frontendUrl"
+      class="flex items-center gap-1 active:scale-[0.99] select-none group"
+      target="_blank"
+      [href]="connector.frontendUrl"
+      ><div class="group-hover:underline">
+        {{ connector.frontendUrl }}
+      </div>
+      <mat-icon
+        class="!text-[17px] !mt-[8px] !text-gray-600 group-hover:!text-brand-500"
+        >open_in_new</mat-icon
+      >
+    </a>
+  </div>
+</div>
+
+<!-- Connector Endpoint -->
+<div *ngIf="connector.endpointUrl" class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">link</mat-icon>
+    Connector Endpoint
+  </div>
+  <div
+    class="details-row-value flex gap-1 items-center cursor-pointer active:scale-[0.99] select-none"
+    (click)="copyToClipboard(connector.endpointUrl)">
+    <div>{{ connector.endpointUrl }}</div>
+    <mat-icon class="!text-[17px] !mt-[7px]">content_copy</mat-icon>
+  </div>
+</div>
+
+<!-- Management API URL -->
+<div *ngIf="connector.managementUrl" class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">link</mat-icon>
+    Management API URL
+  </div>
+  <div
+    class="details-row-value flex gap-1 items-center cursor-pointer active:scale-[0.99] select-none"
+    (click)="copyToClipboard(connector.managementUrl)">
+    <div>{{ connector.managementUrl }}</div>
+    <mat-icon class="!text-[17px] !mt-[7px]">content_copy</mat-icon>
+  </div>
+</div>

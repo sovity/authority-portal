@@ -1,172 +1,167 @@
-<div class="my-6">
-  <dl>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">label</mat-icon>
-        MDS ID
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.mdsId }}
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >corporate_fare
-        </mat-icon>
-        Legal Name
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.name }}
-      </dd>
-    </div>
-    <div *ngIf="organization.businessUnit" class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >corporate_fare
-        </mat-icon>
-        Business Unit
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.businessUnit }}
-      </dd>
-    </div>
-    <div *ngIf="organization.industry" class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >settings
-        </mat-icon>
-        Industry
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.industry }}
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">link</mat-icon>
-        Website
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          [attr.href]="organization.url"
-          >{{ organization.url }}</a
-        >
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >notes
-        </mat-icon>
-        Description
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.description }}
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">home </mat-icon>
-        Main Address
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.mainAddress }}
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">home </mat-icon>
-        Billing Address
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.billingAddress }}
-      </dd>
-    </div>
-    <div *ngIf="organization.legalIdType === 'TAX_ID'" class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">gavel</mat-icon>
-        Tax ID
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.legalId }}
-      </dd>
-    </div>
-    <div
-      *ngIf="organization.legalIdType === 'COMMERCE_REGISTER_INFO'"
-      class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >account_balance</mat-icon
-        >
-        Commerce Register Number
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.legalId }}, registered in
-        {{ organization.commerceRegisterLocation }}
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">link </mat-icon>
-        Main Contact
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        <p>{{ organization.mainContactName }}</p>
-        <p>{{ organization.mainContactEmail }}</p>
-        <p>{{ organization.mainContactPhone }}</p>
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500">link </mat-icon>
-        Technical Contact
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        <p>{{ organization.techContactName }}</p>
-        <p>{{ organization.techContactEmail }}</p>
-        <p>{{ organization.techContactPhone }}</p>
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon
-          class="material-icons-outlined text-gray-500"
-          svgIcon="account-circle">
-        </mat-icon>
-        Created By
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.createdByFirstName }}
-        {{ organization.createdByLastName }}
-      </dd>
-    </div>
-    <div class="details-row">
-      <dt
-        class="px-2 text-sm font-medium leading-6 text-gray-500 flex items-center gap-2">
-        <mat-icon class="material-icons-outlined text-gray-500"
-          >mail_lock
-        </mat-icon>
-        Onboarded Since
-      </dt>
-      <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        {{ organization.createdAt | date : 'medium' }}
-      </dd>
-    </div>
-  </dl>
+<!-- MDS ID -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">label</mat-icon>
+    MDS ID
+  </div>
+  <div class="details-row-value">
+    {{ organization.mdsId }}
+  </div>
+</div>
+
+<!-- Legal Name -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">corporate_fare</mat-icon>
+    Legal Name
+  </div>
+  <div class="details-row-value">
+    {{ organization.name }}
+  </div>
+</div>
+
+<!-- Business Unit -->
+<div *ngIf="organization.businessUnit" class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">corporate_fare</mat-icon>
+    Business Unit
+  </div>
+  <div class="details-row-value">
+    {{ organization.businessUnit }}
+  </div>
+</div>
+
+<!-- Industry -->
+<div *ngIf="organization.industry" class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">settings</mat-icon>
+    Industry
+  </div>
+  <div class="details-row-value">
+    {{ organization.industry }}
+  </div>
+</div>
+
+<!-- Website -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">link</mat-icon>
+    Website
+  </div>
+  <div class="details-row-value">
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      [attr.href]="organization.url"
+      >{{ organization.url }}</a
+    >
+  </div>
+</div>
+
+<!-- Description -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">notes</mat-icon>
+    Description
+  </div>
+  <div class="details-row-value">
+    {{ organization.description }}
+  </div>
+</div>
+
+<!-- Main Address -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">home</mat-icon>
+    Main Address
+  </div>
+  <div class="details-row-value">
+    {{ organization.mainAddress }}
+  </div>
+</div>
+
+<!-- Billing Address -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">home</mat-icon>
+    Billing Address
+  </div>
+  <div class="details-row-value">
+    {{ organization.billingAddress }}
+  </div>
+</div>
+
+<!-- Tax ID -->
+<div *ngIf="organization.legalIdType === 'TAX_ID'" class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">gavel</mat-icon>
+    Tax ID
+  </div>
+  <div class="details-row-value">
+    {{ organization.legalId }}
+  </div>
+</div>
+
+<!-- Commerce Register Info -->
+<div
+  *ngIf="organization.legalIdType === 'COMMERCE_REGISTER_INFO'"
+  class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">account_balance</mat-icon>
+    Commerce Register Number
+  </div>
+  <div class="details-row-value">
+    {{ organization.legalId }}, registered in
+    {{ organization.commerceRegisterLocation }}
+  </div>
+</div>
+
+<!-- Main Contact -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">link</mat-icon>
+    Main Contact
+  </div>
+  <div class="details-row-value">
+    <p>{{ organization.mainContactName }}</p>
+    <p>{{ organization.mainContactEmail }}</p>
+    <p>{{ organization.mainContactPhone }}</p>
+  </div>
+</div>
+
+<!-- Technical Contact -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">link</mat-icon>
+    Technical Contact
+  </div>
+  <div class="details-row-value">
+    <p>{{ organization.techContactName }}</p>
+    <p>{{ organization.techContactEmail }}</p>
+    <p>{{ organization.techContactPhone }}</p>
+  </div>
+</div>
+
+<!-- Created By -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined" svgIcon="account-circle">
+    </mat-icon>
+    Created By
+  </div>
+  <div class="details-row-value">
+    {{ organization.createdByFirstName }}
+    {{ organization.createdByLastName }}
+  </div>
+</div>
+
+<!-- Onboarding Since -->
+<div class="details-row">
+  <div class="details-row-key">
+    <mat-icon class="material-icons-outlined">mail_lock</mat-icon>
+    Onboarded Since
+  </div>
+  <div class="details-row-value">
+    {{ organization.createdAt | date : 'medium' }}
+  </div>
 </div>
