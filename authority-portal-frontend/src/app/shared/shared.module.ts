@@ -6,7 +6,6 @@ import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.modu
 import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
-import {OrganizationDetailComponent} from 'src/app/shared/components/business/organization-detail/organization-detail.component';
 import {UserRoleFormComponent} from 'src/app/shared/components/business/user-role-form/user-role-form.component';
 import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
 import {FormElementsModule} from '../common/components/form-elements/form-elements.module';
@@ -38,7 +37,6 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
   declarations: [
     //components
     UserRoleFormComponent,
-    OrganizationDetailComponent,
     AvatarComponent,
     HeaderBarComponent,
     FilterBarComponent,
@@ -74,7 +72,6 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
   ],
   exports: [
     //components
-    OrganizationDetailComponent,
     AvatarComponent,
     HeaderBarComponent,
     FilterBarComponent,
@@ -99,7 +96,6 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     CertificateGenerateService,
     SvgIconServiceService,
     SlideOverService,
-    OrganizationDetailComponent,
     AvatarComponent,
     UserDeleteDialogService,
   ],

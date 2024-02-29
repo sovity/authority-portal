@@ -5,6 +5,7 @@ export interface OrganizationCreateFormModel {
   legalName: FormControl<string>;
   website: FormControl<string>;
   businessUnit: FormControl<string>;
+  industry: FormControl<string | null>;
   description: FormControl<string>;
 
   mainAddressStreet: FormControl<string>;
@@ -44,6 +45,7 @@ export const DEFAULT_ORGANIZATION_CREATE_FORM_MODEL: OrganizationCreateFormValue
     legalName: '',
     website: '',
     businessUnit: '',
+    industry: null,
     description: '',
 
     mainAddressStreet: '',

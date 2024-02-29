@@ -82,6 +82,7 @@ class OrganizationService {
             it.url = organizationData.url
             it.description = organizationData.description
             it.businessUnit = organizationData.businessUnit
+            it.industry = organizationData.industry
             it.address = organizationData.address
             it.billingAddress = organizationData.billingAddress
             updateLegalId(it, legalIdType, organizationData.legalIdNumber, organizationData.commerceRegisterLocation)
@@ -102,6 +103,7 @@ class OrganizationService {
         organization.url = dto.url
         organization.description = dto.description
         organization.businessUnit = dto.businessUnit
+        organization.industry = dto.industry
         organization.address = dto.address
         organization.billingAddress = dto.billingAddress
 
@@ -123,6 +125,7 @@ class OrganizationService {
         organization.url = dto.url
         organization.description = dto.description
         organization.businessUnit = dto.businessUnit
+        organization.industry = dto.industry
         organization.address = dto.address
         organization.billingAddress = dto.billingAddress
         updateLegalId(organization, dto.legalIdType.toDb(), dto.legalIdNumber, dto.commerceRegisterLocation)

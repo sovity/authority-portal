@@ -68,6 +68,7 @@ export function buildOnboardingRequest(
       url: org?.website || '',
       description: org?.description || '',
       businessUnit: org?.businessUnit || '',
+      industry: org?.industry || '',
       address: mainAddress,
       billingAddress: billingAddress,
       legalIdType: org?.legalIdType || 'TAX_ID',

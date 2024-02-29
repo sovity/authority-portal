@@ -8,6 +8,7 @@ import {CertificateInputFormComponent} from './certificate-input-form/certificat
 import {CertificateInputComponent} from './certificate-input/certificate-input.component';
 import {ConnectorUrlInputComponent} from './connector-url-input/connector-url-input.component';
 import {TosCheckComponent} from './dsgvo-input/tos-check.component';
+import {IndustrySelectComponent} from './industry-select/industry-select.component';
 import {OrganizationSelectComponent} from './organization-select/organization-select.component';
 import {PasswordInputComponent} from './password-input/password-input.component';
 import {PasswordRepeatInputComponent} from './password-repeat-input/password-repeat-input.component';
@@ -31,6 +32,7 @@ import {TextInputComponent} from './text-input/text-input.component';
     CertificateInputComponent,
     CertificateInputFormComponent,
     ConnectorUrlInputComponent,
+    IndustrySelectComponent,
     OrganizationSelectComponent,
     PasswordInputComponent,
     PasswordRepeatInputComponent,
@@ -43,6 +45,7 @@ import {TextInputComponent} from './text-input/text-input.component';
     CertificateInputComponent,
     CertificateInputFormComponent,
     ConnectorUrlInputComponent,
+    IndustrySelectComponent,
     OrganizationSelectComponent,
     PasswordInputComponent,
     PasswordRepeatInputComponent,

@@ -36,6 +36,7 @@ export function buildRegistrationRequest(
     organizationUrl: org?.website || '',
     organizationDescription: org?.description || '',
     organizationBusinessUnit: org?.businessUnit || '',
+    organizationIndustry: org?.industry || '',
     organizationAddress: mainAddress,
     organizationBillingAddress: billingAddress,
     organizationLegalIdType: org?.legalIdType!,

@@ -97,6 +97,7 @@ class RegistrationApiService {
             name = registrationRequest.organizationName
             url = registrationRequest.organizationUrl
             businessUnit = registrationRequest.organizationBusinessUnit
+            industry = registrationRequest.organizationIndustry
             address = registrationRequest.organizationAddress
             billingAddress = registrationRequest.organizationBillingAddress
             description = registrationRequest.organizationDescription

@@ -78,6 +78,7 @@ class OrganizationInfoApiService {
         dto.url = organizationDetails.url
         dto.description = organizationDetails.description
         dto.businessUnit = organizationDetails.businessUnit
+        dto.industry = organizationDetails.industry
         dto.mainAddress = organizationDetails.mainAddress
         dto.billingAddress = organizationDetails.billingAddress
         dto.legalIdType = organizationDetails.legalIdType
@@ -122,6 +123,7 @@ class OrganizationInfoApiService {
         dto.url = organization.url
         dto.description = organization.description
         dto.businessUnit = organization.businessUnit
+        dto.industry = organization.industry
         dto.mainAddress = organization.address
         dto.billingAddress = organization.billingAddress
         dto.legalIdType = organization.legalIdType?.toDto()

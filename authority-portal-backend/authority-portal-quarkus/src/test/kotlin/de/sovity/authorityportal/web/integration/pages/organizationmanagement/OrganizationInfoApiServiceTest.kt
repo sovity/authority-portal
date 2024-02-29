@@ -41,6 +41,7 @@ class OrganizationInfoApiServiceTest {
     private val testMdsId = "MDSL1234ZZ"
     private val testOrganizationName = "Example Organization"
     private val testBusinessUnit = "Example Business Unit"
+    private val testIndustry = "Finance"
     private val testMainAddress = "123 Main St, Anytown, USA"
     private val testBillingAddress = "321 Main St, Anytown, USA"
     private val testLegalIdType = OrganizationLegalIdTypeDto.TAX_ID
@@ -109,6 +110,7 @@ class OrganizationInfoApiServiceTest {
         assertThat(result.mdsId).isEqualTo(testMdsId)
         assertThat(result.name).isEqualTo(testOrganizationName)
         assertThat(result.businessUnit).isEqualTo(testBusinessUnit)
+        assertThat(result.industry).isEqualTo(testIndustry)
         assertThat(result.mainAddress).isEqualTo(testMainAddress)
         assertThat(result.billingAddress).isEqualTo(testBillingAddress)
         assertThat(result.legalIdType).isEqualTo(testLegalIdType)
@@ -165,6 +167,7 @@ class OrganizationInfoApiServiceTest {
         assertThat(result.mdsId).isEqualTo(testMdsId)
         assertThat(result.name).isEqualTo(testOrganizationName)
         assertThat(result.businessUnit).isEqualTo(testBusinessUnit)
+        assertThat(result.industry).isEqualTo(testIndustry)
         assertThat(result.mainAddress).isEqualTo(testMainAddress)
         assertThat(result.billingAddress).isEqualTo(testBillingAddress)
         assertThat(result.legalIdType).isEqualTo(testLegalIdType)

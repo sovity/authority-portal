@@ -63,6 +63,7 @@ class RegistrationApiServiceTest {
         assertThat(organization.url).isEqualTo(TestRegistrationData.organizationUrl)
         assertThat(organization.description).isEqualTo(TestRegistrationData.organizationDescription)
         assertThat(organization.businessUnit).isEqualTo(TestRegistrationData.organizationBusinessUnit)
+        assertThat(organization.industry).isEqualTo(TestRegistrationData.organizationIndustry)
         assertThat(organization.address).isEqualTo(TestRegistrationData.organizationAddress)
         assertThat(organization.billingAddress).isEqualTo(TestRegistrationData.organizationBillingAddress)
         assertThat(organization.legalIdType).isEqualTo(OrganizationLegalIdType.TAX_ID)
@@ -137,6 +138,7 @@ class RegistrationApiServiceTest {
             organizationUrl = TestRegistrationData.organizationUrl
             organizationDescription = TestRegistrationData.organizationDescription
             organizationBusinessUnit = TestRegistrationData.organizationBusinessUnit
+            organizationIndustry = TestRegistrationData.organizationIndustry
             organizationAddress = TestRegistrationData.organizationAddress
             organizationBillingAddress = TestRegistrationData.organizationBillingAddress
             organizationLegalIdType = OrganizationLegalIdTypeDto.TAX_ID
@@ -162,6 +164,7 @@ class RegistrationApiServiceTest {
         val organizationUrl = "http://testorg.com"
         val organizationDescription = "My Test Organization's Description."
         val organizationBusinessUnit = "IT"
+        val organizationIndustry = "Finance"
         val organizationAddress = "Test Address"
         val organizationBillingAddress = "Test Billing Address"
         val organizationTaxId = "123456"

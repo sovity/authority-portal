@@ -13,6 +13,7 @@ export const organizationCreateFormEnabledCtrls = (
     legalName: true,
     website: true,
     businessUnit: true,
+    industry: true,
     description: true,
 
     mainAddressStreet: true,
