@@ -1,0 +1,11 @@
+<canvas
+  *ngIf="data"
+  baseChart
+  [labels]="data.labels"
+  [datasets]="data.datasets"
+  [options]="data.options"
+  [legend]="false"
+  [type]="'doughnut'"
+  [style.width.px]="width"
+  [style.height.px]="height">
+</canvas>

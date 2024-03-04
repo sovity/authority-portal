@@ -4,6 +4,7 @@ import {
   CaasAvailabilityResponse,
   CentralComponentCreateRequest,
   CentralComponentDto,
+  ComponentStatusOverview,
   ConnectorDetailDto,
   ConnectorOverviewResult,
   CreateCaasRequest,
@@ -327,6 +328,14 @@ export class ApiService {
   ): Observable<CaasAvailabilityResponse> {
     return this.toObservable(() =>
       this.api().checkFreeCaasUsage({environmentId}),
+    );
+  }
+
+  getComponentStatus(
+    environmentId: string,
+  ): Observable<ComponentStatusOverview> {
+    return this.toObservable(() =>
+      this.api().getComponentsStatus({environmentId}),
     );
   }
 

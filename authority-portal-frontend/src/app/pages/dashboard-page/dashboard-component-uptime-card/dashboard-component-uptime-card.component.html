@@ -1,0 +1,48 @@
+<div class="flex items-center gap-2 justify-between">
+  <h3 class="font-semibold text-sm">
+    {{ label }}
+  </h3>
+  <div
+    *ngIf="data.isReady && data.data"
+    class="flex items-center gap-2"
+    [matTooltip]="this.upSinceTooltip!"
+    [matTooltipDisabled]="!this.upSinceTooltip">
+    <div
+      class="flex-none rounded-full p-1"
+      [ngClass]="getComponentStatusCircleClass(data.data.componentStatus)">
+      <div
+        class="h-1.5 w-1.5 rounded-full"
+        [ngClass]="
+          getComponentStatusInnerCircleClass(data.data.componentStatus)
+        "></div>
+    </div>
+    <span class="text-sm text-gray-700">{{
+      getComponentStatusText(data.data.componentStatus)
+    }}</span>
+  </div>
+</div>
+<app-loading-element
+  *ngIf="data.isLoading"
+  class="flex-1"></app-loading-element>
+<app-error-element
+  *ngIf="data.isError"
+  class="flex-1"
+  [errorMessage]="data.error.failureMessage"></app-error-element>
+<div
+  *ngIf="data.isReady && !data.data"
+  class="flex-1 flex justify-center items-center text-gray-500 text-sm mt-2">
+  <span>No uptime data</span>
+</div>
+<div
+  *ngIf="data.isReady && data.data"
+  class="flex-1 flex justify-evenly mt-10 gap-4">
+  <donut-chart [data]="this.chartData!"></donut-chart>
+  <div class="flex flex-col justify-center -mt-4">
+    <div class="truncate text-sm font-medium text-gray-500 whitespace-normal">
+      Uptime
+    </div>
+    <div class="mt-1 text-3xl tracking-tight text-gray-900">
+      {{ data.data.uptimePercentage / 100 | percent }}
+    </div>
+  </div>
+</div>

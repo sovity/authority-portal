@@ -1,5 +1,7 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {Subject, takeUntil} from 'rxjs';
+import {Subject, distinctUntilChanged, takeUntil} from 'rxjs';
+import {combineLatest} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SidebarSection} from './sidebar.model';
@@ -20,11 +22,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   startListeningToEnvironmentChanges(): void {
-    this.globalStateUtils
-      .getDeploymentEnvironment()
+    combineLatest([
+      this.globalStateUtils.getDeploymentEnvironment(),
+      this.globalStateUtils.userInfo$.pipe(
+        map((it) => it.organizationName),
+        distinctUntilChanged(),
+      ),
+    ])
       .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((env: DeploymentEnvironmentDto) => {
-        this.setSideBarSections(env);
+      .subscribe(([env, organizationName]) => {
+        this.setSideBarSections(env, organizationName);
       });
   }
 
@@ -47,16 +54,40 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isExpandedMenu = !this.isExpandedMenu;
   }
 
-  setSideBarSections(env: DeploymentEnvironmentDto) {
+  setSideBarSections(env: DeploymentEnvironmentDto, orgName: string | null) {
     this.sidebarSections = [
       {
-        title: 'My Organization',
+        title: 'MDS',
         userRoles: ['USER'],
         menus: [
           {
-            title: 'Dashboard',
+            title: 'Home',
             icon: 'home',
+            rLink: '/mds-home',
+          },
+          {
+            title: 'Dashboard',
+            icon: 'dashboard',
             rLink: '/dashboard',
+          },
+          {
+            title: `All Data Offers`,
+            icon: 'tag',
+            rLink: `/api/organizations/my-org/redirects/broker?environmentId=${
+              env.environmentId ?? ''
+            }`,
+            isExternalLink: true,
+          },
+        ],
+      },
+      {
+        title: orgName ?? 'My Organization',
+        userRoles: ['USER'],
+        menus: [
+          {
+            title: 'My Organization',
+            icon: 'home',
+            rLink: '/control-center/my-organization',
           },
           {
             title: 'Connectors',
@@ -113,20 +144,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
             title: 'All Connectors',
             icon: 'connector',
             rLink: '/authority/connectors',
-          },
-        ],
-      },
-      {
-        title: 'Links',
-        userRoles: ['USER'],
-        menus: [
-          {
-            title: `${env.title} Catalog`,
-            icon: 'document-text',
-            rLink: `/api/organizations/my-org/redirects/broker?environmentId=${
-              env.environmentId ?? ''
-            }`,
-            isExternalLink: true,
           },
         ],
       },

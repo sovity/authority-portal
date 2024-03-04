@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {APP_CONFIG, AppConfig} from "../../../../core/config/app-config";
+import {APP_CONFIG, AppConfig} from '../../../../core/config/app-config';
 
 @Component({
   selector: 'logout-button',

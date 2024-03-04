@@ -1,27 +1,73 @@
-import {Component, HostBinding, Inject} from '@angular/core';
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Subject} from 'rxjs';
+import {switchMap, takeUntil} from 'rxjs/operators';
+import {
+  ComponentStatusOverview,
+  UptimeStatusDto,
+} from '@sovity.de/authority-portal-client';
+import {ApiService} from 'src/app/core/api/api.service';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {Fetched} from 'src/app/core/utils/fetched';
+import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
+import {ConnectorData} from '../dashboard-connector-card/dashboard-connector-card.component';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard-page.component.html',
 })
-export class DashboardPageComponent {
-  @HostBinding('class.flex-1')
-  @HostBinding('class.flex')
-  @HostBinding('class.items-stretch')
-  cls = true;
-
-  iframeUrl: SafeResourceUrl | null = null;
+export class DashboardPageComponent implements OnInit, OnDestroy {
+  headerConfig: HeaderBarConfig = {
+    title: 'Dashboard',
+    subtitle: 'Uptime statistics of components',
+    headerActions: [],
+  };
+  brokerData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
+  dapsData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
+  loggingHouseData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
+  connectorData: Fetched<ConnectorData> = Fetched.empty();
 
   constructor(
     @Inject(APP_CONFIG) public appConfig: AppConfig,
-    private sanitizer: DomSanitizer,
-  ) {
-    if (this.appConfig.iframeUrl) {
-      this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-        this.appConfig.iframeUrl,
+    private globalStateUtils: GlobalStateUtils,
+    private apiService: ApiService,
+  ) {}
+
+  ngOnInit(): void {
+    this.fetchDashboardPageData();
+  }
+
+  fetchDashboardPageData() {
+    this.globalStateUtils
+      .getDeploymentEnvironmentId()
+      .pipe(
+        takeUntil(this.ngOnDestroy$),
+        switchMap((deploymentEnvironmentId) => {
+          return this.apiService.getComponentStatus(deploymentEnvironmentId);
+        }),
+        Fetched.wrap({
+          failureMessage: 'Failed fetching dashboard data',
+        }),
+      )
+      .subscribe(
+        (componentStatusOverview: Fetched<ComponentStatusOverview>) => {
+          this.brokerData = componentStatusOverview.map((x) => x.brokerStatus);
+          this.dapsData = componentStatusOverview.map((x) => x.dapsStatus);
+          this.loggingHouseData = componentStatusOverview.map(
+            (x) => x.loggingHouseStatus,
+          );
+          this.connectorData = componentStatusOverview.map((x) => ({
+            numOnline: x.onlineConnectors,
+            numDisturbed: x.disturbedConnectors,
+            numOffline: x.offlineConnectors,
+          }));
+        },
       );
-    }
+  }
+
+  private ngOnDestroy$ = new Subject();
+  ngOnDestroy(): void {
+    this.ngOnDestroy$.next(null);
+    this.ngOnDestroy$.complete();
   }
 }

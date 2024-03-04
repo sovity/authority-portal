@@ -35,7 +35,7 @@ export class BreadcrumbService {
     let withoutQuery = url.includes('?') ? url.split('?')[0] : url;
     let segments = withoutQuery.split('/').filter((segment) => segment !== '');
 
-    if (segments.length === 1 && segments[0] === 'dashboard') {
+    if (segments.length === 1 && segments[0] === 'mds-home') {
       segments = [];
     }
 
