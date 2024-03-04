@@ -8,16 +8,19 @@ import {FooterLink} from './footer-link.model';
 })
 export class FooterLinksComponent {
   @HostBinding('class.flex')
-  @HostBinding('class.flex-wrap')
   @HostBinding('class.justify-center')
   @HostBinding('class.items-center')
-  @HostBinding('class.gap-2')
+  @HostBinding('class.gap-4')
   cls = true;
 
   footerLinks: FooterLink[] = [
     {
       name: 'Privacy Policy',
       href: this.config.privacyPolicyUrl,
+    },
+    {
+      name: 'Legal Notice',
+      href: this.config.legalNoticeUrl,
     },
   ];
 

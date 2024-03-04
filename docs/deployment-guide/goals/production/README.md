@@ -193,6 +193,7 @@ AUTHORITY_PORTAL_FRONTEND_LOGIN_URL: https://[AP_FQDN]/oauth2/start?rd=https%3A%
 AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: (...) # Auth Proxy: Logout URL
 AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: https://[AP_FQDN]/oauth2/sign_out # Auth Proxy: URL to invalidate sessions cookies
 AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://mobility-dataspa-5n9px2qi7r.live-website.com/mds-news # MDS Dashboard iFrame URL
+AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://mobility-dataspace.online/legal-notice-mds-portal # Authority Portal Legal Notice URL
 AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal # MDS Privacy Policy URL
 ```
 
