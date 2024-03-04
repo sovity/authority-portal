@@ -56,28 +56,34 @@ class ComponentStatusApiServiceTest {
             AuthorityPortalConnectorInfo().also {
                 it.onlineStatus = ConnectorOnlineStatus.ONLINE
                 it.offlineSinceOrLastUpdatedAt = now
+                it.connectorEndpoint = "https://xample.test1/connector/api/dsp"
             },
             AuthorityPortalConnectorInfo().also {
                 it.onlineStatus = ConnectorOnlineStatus.ONLINE
                 it.offlineSinceOrLastUpdatedAt = now.minus(Duration.ofMinutes(5))
+                it.connectorEndpoint = "https://xample.test2/connector/api/dsp"
             },
             // disturbed
             AuthorityPortalConnectorInfo().also {
                 it.onlineStatus = ConnectorOnlineStatus.OFFLINE
                 it.offlineSinceOrLastUpdatedAt = now.minus(Duration.ofSeconds(30))
+                it.connectorEndpoint = "https://xample.test4/connector/api/dsp"
             },
             AuthorityPortalConnectorInfo().also {
                 it.onlineStatus = ConnectorOnlineStatus.DEAD
                 it.offlineSinceOrLastUpdatedAt = now.minus(Duration.ofSeconds(60))
+                it.connectorEndpoint = "https://xample.test4/connector/api/dsp"
             },
             AuthorityPortalConnectorInfo().also {
                 it.onlineStatus = ConnectorOnlineStatus.OFFLINE
                 it.offlineSinceOrLastUpdatedAt = now.minus(Duration.ofSeconds(90))
+                it.connectorEndpoint = "https://xample.test4/connector/api/dsp"
             },
             // offline
             AuthorityPortalConnectorInfo().also {
                 it.onlineStatus = ConnectorOnlineStatus.OFFLINE
                 it.offlineSinceOrLastUpdatedAt = now.minus(Duration.ofMinutes(3))
+                it.connectorEndpoint = "https://xample.test4/connector/api/dsp"
             }
         ))
 
@@ -100,7 +106,7 @@ class ComponentStatusApiServiceTest {
         assertThat(resultEnv1.loggingHouseStatus.upSince).isEqualTo(Duration.ZERO)
         assertThat(resultEnv1.onlineConnectors).isEqualTo(2)
         assertThat(resultEnv1.disturbedConnectors).isEqualTo(3)
-        assertThat(resultEnv1.offlineConnectors).isEqualTo(1)
+        assertThat(resultEnv1.offlineConnectors).isEqualTo(2)
 
         assertThat(resultEnv2.brokerStatus.componentStatus).isEqualTo(ComponentOnlineStatus.UP.toDto())
         assertThat(resultEnv2.brokerStatus.uptimePercentage).isEqualTo(100.00)
