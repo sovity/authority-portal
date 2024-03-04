@@ -12,6 +12,8 @@ import {PipesAndDirectivesModule} from '../common/components/pipes-and-directive
 import {ConnectorRegisteringSuccessMessagePageComponent} from './components/business/connector-registering-success-message-page/connector-registering-success-message-page.component';
 import {ConnectorStatusLedComponent} from './components/business/connector-status-led/connector-status-led.component';
 import {DeleteConnectorModalComponent} from './components/business/delete-connector-modal/delete-connector-modal.component';
+import {FooterCopyrightComponent} from './components/business/footer-copyright/footer-copyright.component';
+import {FooterForFullPageComponent} from './components/business/footer-for-full-page/footer-for-full-page.component';
 import {FooterLinksComponent} from './components/business/footer-links/footer-links.component';
 import {OrganizationCreateFormComponent} from './components/business/organization-create-form/organization-create-form.component';
 import {OrganizationEditFormComponent} from './components/business/organization-edit-form/organization-edit-form.component';
@@ -43,6 +45,8 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     ConnectorStatusLedComponent,
     DeleteConnectorModalComponent,
     FilterBarComponent,
+    FooterCopyrightComponent,
+    FooterForFullPageComponent,
     FooterLinksComponent,
     HeaderBarComponent,
     LogoutButtonComponent,
@@ -80,6 +84,8 @@ import {SvgIconServiceService} from './services/svg-icon.service.service';
     ConnectorStatusLedComponent,
     DeleteConnectorModalComponent,
     FilterBarComponent,
+    FooterCopyrightComponent,
+    FooterForFullPageComponent,
     FooterLinksComponent,
     HeaderBarComponent,
     LogoutButtonComponent,
