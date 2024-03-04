@@ -22,6 +22,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Improved Organization Profiles slightly by reordering items
 - Renamed `MDS Authority Portal` occurrences to `MDS Portal`
 - Footer: Added Legal Notice link
+- Made industry and business unit fields mandatory
 - Footer: Added Copyright Notice.
 - Some sites that did not have the footer before, have it now.
 

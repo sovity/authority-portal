@@ -20,13 +20,13 @@ public class UpdateOrganizationDto {
     @Schema(description = "Organization's URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
     private String url;
 
-    @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.REQUIRED)
     private String description;
 
-    @Schema(description = "Organization's Business unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Organization's Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
     private String businessUnit;
 
-    @Schema(description = "Organization's Industry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Organization's Industry", requiredMode = Schema.RequiredMode.REQUIRED)
     private String industry;
 
     @NotBlank(message = "Organization's Address cannot be blank")

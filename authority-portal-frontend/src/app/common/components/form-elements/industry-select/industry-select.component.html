@@ -1,10 +1,9 @@
-<label class="w-full mb-2 text-sm" [for]="ctrlId">{{ label }}</label>
+<label class="w-full mt-2 text-sm" [for]="ctrlId">{{ label }}</label>
 <mat-form-field appearance="outline">
   <mat-select
     [placeholder]="'Select ' + label"
     [id]="ctrlId"
     [formControl]="ctrl">
-    <mat-option>No industry</mat-option>
     <mat-option *ngFor="let industry of industries" [value]="industry">
       {{ industry }}
     </mat-option>
@@ -14,6 +13,9 @@
       >{{ ctrl.value }}</mat-option
     >
   </mat-select>
+  <mat-error *ngIf="ctrl.hasError('required')" class="text-sm"
+    >Field is required</mat-error
+  >
   <mat-error
     class="text-sm"
     appFormControlError

@@ -12,8 +12,8 @@ export const buildOrganizationEditForm = (
 ): FormGroup<OrganizationEditFormModel> => {
   return formBuilder.nonNullable.group({
     website: [initialOrganization.website, [Validators.required, urlValidator]],
-    businessUnit: [initialOrganization.businessUnit],
-    industry: [initialOrganization.industry],
+    businessUnit: [initialOrganization.businessUnit, [Validators.required]],
+    industry: [initialOrganization.industry, [Validators.required]],
     description: [initialOrganization.description, [Validators.required]],
     mainAddress: [initialOrganization.mainAddress, [Validators.required]],
     billingAddressSameAsMain: [

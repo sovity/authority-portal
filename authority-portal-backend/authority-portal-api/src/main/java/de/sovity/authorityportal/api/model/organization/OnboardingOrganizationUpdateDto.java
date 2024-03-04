@@ -17,17 +17,17 @@ public class OnboardingOrganizationUpdateDto {
     @Schema(description = "Name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
-    @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.REQUIRED)
     private String description;
 
     @NotBlank(message = "Website cannot be blank.")
     @Schema(description = "Website", requiredMode = Schema.RequiredMode.REQUIRED)
     private String url;
 
-    @Schema(description = "Business unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
     private String businessUnit;
 
-    @Schema(description = "Industry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Industry", requiredMode = Schema.RequiredMode.REQUIRED)
     private String industry;
 
     @NotBlank(message = "Address cannot be blank.")

@@ -46,10 +46,10 @@ public class RegistrationRequestDto {
     @Schema(description = "Organization's URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationUrl;
 
-    @Schema(description = "Organization's Business unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Organization's Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationBusinessUnit;
 
-    @Schema(description = "Organization's Industry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Organization's Industry", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationIndustry;
 
     @NotBlank(message = "Organization's Address cannot be blank")
@@ -60,7 +60,7 @@ public class RegistrationRequestDto {
     @Schema(description = "Organization's Billing Address", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationBillingAddress;
 
-    @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.REQUIRED)
     private String organizationDescription;
 
     @NotNull(message = "Organization's ID type cannot be null")
