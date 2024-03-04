@@ -18,7 +18,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Dashboard Page: CSV Reports: Connectors, Users, Data Offers, System Stability
 - Control Center: Edit Own Organization Details Page
 - Control Center: Edit Own User Details Page
-- Renamed `MDS Authority Portal` occurences to `MDS Portal`
+- Improved User Profiles slightly by reordering items
+- Improved Organization Profiles slightly by reordering items
+- Renamed `MDS Authority Portal` occurrences to `MDS Portal`
 - Footer: Added Legal Notice link
 - Footer: Added Copyright Notice.
 - Some sites that did not have the footer before, have it now.

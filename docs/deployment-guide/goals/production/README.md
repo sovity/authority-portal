@@ -19,6 +19,7 @@ operator company.
 
 - Each configured Dataspace Deployment Environment must have a running sovity Keycloak DAPS.
 - Each configured Dataspace Deployment Environment must have a running EDC Broker.
+- Each configured Dataspace Deployment Environment must have a running Logging House.
 
 The respective compatible versions can be found in the [CHANGELOG.md](../../../../CHANGELOG.md).
 
@@ -28,6 +29,15 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
   - URL of the CaaS-Portal, referred to as `[CAAS_PORTAL_FQDN]` in this guide.
   - URL of the Keycloak for authorizing at the CaaS-Portal, referred to as `[CAAS_KC_FQDN]` in this guide.
   - Credentials for the CaaS-Portal, referred to as `[CAAS_CLIENT_ID]` and `[CAAS_CLIENT_SECRET]` in this guide.
+- A running instance of Uptime Kuma is required.
+  - This should track the DAPS, Broker and Logging House status
+  - The statuses must be available via the API (`/metrics` endpoint)
+    - The output per component should look like this:
+      ```
+      monitor_status{monitor_name="[Component name]", ...} [INTEGER]
+      ```
+  - URL of the Uptime Kuma, referred to as `[UPTIME_KUMA_FQDN]` in this guide.
+  - API key for the Uptime Kuma, referred to as `[UPTIME_KUMA_API_KEY]` in this guide.
 
 ## Deployment
 
