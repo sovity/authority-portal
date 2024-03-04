@@ -46,14 +46,14 @@ export class DashboardConnectorCardComponent {
       label: 'Disturbed',
       classLed: 'bg-amber-500',
       classLedShadow: 'bg-amber-500/20',
-      chartColor: '#EF4444',
+      chartColor: '#F59E0B',
       kpi: (dto) => dto.numDisturbed,
     },
     {
       label: 'Offline',
       classLed: 'bg-red-500',
       classLedShadow: 'bg-red-500/20',
-      chartColor: '#F59E0B',
+      chartColor: '#EF4444',
       kpi: (dto) => dto.numOffline,
     },
   ];

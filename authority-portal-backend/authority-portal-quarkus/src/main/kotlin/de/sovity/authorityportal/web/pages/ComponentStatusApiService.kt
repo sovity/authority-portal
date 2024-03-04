@@ -2,6 +2,7 @@ package de.sovity.authorityportal.web.pages
 
 import de.sovity.authorityportal.api.model.UptimeStatusDto
 import de.sovity.authorityportal.api.model.ComponentStatusOverview
+import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.ComponentOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ComponentType
 import de.sovity.authorityportal.db.jooq.tables.records.ComponentDowntimesRecord
@@ -14,6 +15,7 @@ import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStat
 import de.sovity.authorityportal.web.thirdparty.uptimekuma.model.toDto
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.jooq.DSLContext
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.Duration
@@ -29,16 +31,19 @@ class ComponentStatusApiService {
     @Inject
     lateinit var componentStatusService: ComponentStatusService
 
+    @Inject
+    lateinit var dsl: DSLContext
+
     fun getComponentsStatus(environmentId: String): ComponentStatusOverview {
         val connectorMetadata = connectorMetadataService.getConnectorInfoByEnvironment(environmentId)
-        val connectorStatusCount = countConnectorStatuses(connectorMetadata)
+        val connectorStatusCount = countConnectorStatuses(connectorMetadata, environmentId)
 
         return buildComponenStatusOverview(connectorStatusCount, environmentId)
     }
 
     fun getComponentsStatusForMdsId(environmentId: String, mdsId: String): ComponentStatusOverview {
         val connectorMetadata = connectorMetadataService.getConnectorInfoByMdsId(environmentId, mdsId)
-        val connectorStatusCount = countConnectorStatuses(connectorMetadata)
+        val connectorStatusCount = countConnectorStatuses(connectorMetadata, environmentId)
 
         return buildComponenStatusOverview(connectorStatusCount, environmentId)
     }
@@ -122,15 +127,42 @@ class ComponentStatusApiService {
         return formatter.format(uptimePercentage).toDouble()
     }
 
-    private fun countConnectorStatuses(connectorMetadata: List<AuthorityPortalConnectorInfo>): ConnectorStatusCount {
-        val onlineCount = connectorMetadata.count { it.onlineStatus == ONLINE }
-        val disturbedCount = connectorMetadata.count {
+    private fun countConnectorStatuses(
+        connectorMetadata: List<AuthorityPortalConnectorInfo>,
+        environmentId: String
+    ): ConnectorStatusCount {
+        val metadata = withUnknownConnectors(connectorMetadata, environmentId)
+
+        val onlineCount = metadata.count { it.onlineStatus == ONLINE }
+        val disturbedCount = metadata.count {
             (it.onlineStatus == OFFLINE || it.onlineStatus == DEAD)
                 && it.offlineSinceOrLastUpdatedAt != null
                 && it.offlineSinceOrLastUpdatedAt!!.isAfter(OffsetDateTime.now().minusMinutes(2))
         }
-        val offlineCount = connectorMetadata.count { it.onlineStatus == OFFLINE || it.onlineStatus == DEAD } - disturbedCount
+        val offlineCount = metadata.count { it.onlineStatus == OFFLINE || it.onlineStatus == DEAD } - disturbedCount
         return ConnectorStatusCount(onlineCount, disturbedCount, offlineCount)
+    }
+
+    private fun withUnknownConnectors(connectorMetadata: List<AuthorityPortalConnectorInfo>, environmentId: String): List<AuthorityPortalConnectorInfo> {
+        val c = Tables.CONNECTOR
+        val connectors = dsl.selectFrom(c).where(c.ENVIRONMENT.eq(environmentId)).toList()
+        val connectorByEndpoint = connectors.associateBy { it.endpointUrl }
+
+        val allEndpoints = connectors.map { it.endpointUrl }.toSet()
+        val brokerKnownEndpoints = connectorMetadata.map { it.connectorEndpoint }.toSet()
+        val unknownEndpoints: Set<String> = allEndpoints - brokerKnownEndpoints
+
+        val unknownConnectors = unknownEndpoints.map { endpoint ->
+            AuthorityPortalConnectorInfo().also { dto ->
+                dto.connectorEndpoint = endpoint
+                dto.participantId = "does-not-matter"
+                dto.dataOfferCount = 0
+                dto.onlineStatus = DEAD
+                dto.offlineSinceOrLastUpdatedAt = connectorByEndpoint[endpoint]?.createdAt
+            }
+        }
+
+        return listOf(connectorMetadata, unknownConnectors).flatten()
     }
 
     data class ConnectorStatusCount(

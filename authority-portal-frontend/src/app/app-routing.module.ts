@@ -49,7 +49,7 @@ export const REJECTED_ROUTES: Routes = singleComponent(
 );
 
 export const ONBOARDING_ROUTES: Routes = singleComponent(
-  'onboard-organization',
+  'onboard',
   OrganizationOnboardPageComponent,
 );
 
@@ -59,6 +59,19 @@ export const LOADING_ROUTES: Routes = [
     component: LoadingPageComponent,
   },
 ];
+
+const REDIRECT_TO_HOME: string[] = [
+  '',
+  'registration/pending',
+  'registration/rejected',
+  'onboard',
+];
+
+const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
+  path,
+  redirectTo: 'mds-home',
+  pathMatch: 'full',
+}));
 
 export const AUTHORITY_PORTAL_ROUTES: Routes = [
   // participant own connector registration
@@ -99,7 +112,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     path: '',
     component: PortalLayoutComponent,
     children: [
-      {path: '', redirectTo: 'mds-home', pathMatch: 'full'},
+      ...HOME_REDIRECTS,
       {
         path: 'mds-home',
         component: MdsHomePageComponent,
@@ -205,11 +218,6 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
           requiresRole: ['OPERATOR_ADMIN'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
-      },
-      {
-        path: '',
-        redirectTo: 'mds-home',
-        pathMatch: 'full',
       },
     ],
   },

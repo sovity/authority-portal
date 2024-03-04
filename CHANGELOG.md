@@ -13,6 +13,28 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+#### Patch
+
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Broker Server: `{{ broker version }}`
+
+## [v2.1.0] - 2024-03-04
+
+### Overview
+
+Final feature release for the first Go-Live of the MDS.
+
+### Detailed Changes
+
+#### Minor
+
 - Dashboard Page: Component Status Overview
 - Dashboard Page: Connector Status Overview
 - Dashboard Page: CSV Reports: Connectors, Users, Data Offers, System Stability
@@ -20,11 +42,11 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Control Center: Edit Own User Details Page
 - Improved User Profiles slightly by reordering items
 - Improved Organization Profiles slightly by reordering items
+- Organization field "industry" was added
+- Organization field "business unit" is now mandatory
 - Renamed `MDS Authority Portal` occurrences to `MDS Portal`
 - Footer: Added Legal Notice link
-- Made industry and business unit fields mandatory
-- Footer: Added Copyright Notice.
-- Some sites that did not have the footer before, have it now.
+- Footer: Added Copyright Notice
 
 #### Patch
 
@@ -32,6 +54,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Improved User Profiles by reordering items, icons and showing more information
 - Improved Organization Profiles slightly by reordering items, icons and showing more information
 - Improved Connector Detail Pages slightly by reordering items, icons and showing more information
+- Some pages, that did not have the footer before, have it now
 - User Onboarding: Fix Privacy Policy Check not positioned correctly
 - Organization Onboarding: Fix approve/reject buttons showing when organization is still invited or onboarding
 - Multiple layouting, responsiveness and styling fixes
@@ -50,9 +73,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Broker Server: `{{ broker version }}`
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.1.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.1.0`
+- Broker: [`3.5.0`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v3.5.0)
 
 ## [v2.0.0] - 2024-02-27
 
