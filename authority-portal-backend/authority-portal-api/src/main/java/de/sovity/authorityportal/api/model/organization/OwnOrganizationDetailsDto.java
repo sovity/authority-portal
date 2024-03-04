@@ -19,9 +19,9 @@ public class OwnOrganizationDetailsDto {
     private String mdsId;
     @Schema(description = "Legal name", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
-    @Schema(description = "Business unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
     private String businessUnit;
-    @Schema(description = "Industry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Industry", requiredMode = Schema.RequiredMode.REQUIRED)
     private String industry;
     @Schema(description = "Main Address", requiredMode = Schema.RequiredMode.REQUIRED)
     private String mainAddress;

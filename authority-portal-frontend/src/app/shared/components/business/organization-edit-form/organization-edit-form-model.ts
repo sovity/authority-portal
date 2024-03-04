@@ -3,7 +3,7 @@ import {FormControl, ɵFormGroupRawValue} from '@angular/forms';
 export interface OrganizationEditFormModel {
   website: FormControl<string>;
   businessUnit: FormControl<string>;
-  industry: FormControl<string | null>;
+  industry: FormControl<string>;
   description: FormControl<string>;
 
   mainAddress: FormControl<string>;
