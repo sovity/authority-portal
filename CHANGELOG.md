@@ -28,13 +28,14 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Improved Menus and Navigation
-- Improved User Profiles by reordering items, icons and showing more information.
-- Improved Organization Profiles slightly by reordering items, icons and showing more information.
-- Improved Connector Detail Pages slightly by reordering items, icons and showing more information.
+- Improved User Profiles by reordering items, icons and showing more information
+- Improved Organization Profiles slightly by reordering items, icons and showing more information
+- Improved Connector Detail Pages slightly by reordering items, icons and showing more information
 - User Onboarding: Fix Privacy Policy Check not positioned correctly
 - Organization Onboarding: Fix approve/reject buttons showing when organization is still invited or onboarding
-- Multiple layouting, responsiveness and styling fixes.
+- Multiple layouting, responsiveness and styling fixes
 - Fix: 404 page not working
+- Changed the CaaS curator from the organization's main contact to the user requesting the CaaS
 
 ### Known issues
 

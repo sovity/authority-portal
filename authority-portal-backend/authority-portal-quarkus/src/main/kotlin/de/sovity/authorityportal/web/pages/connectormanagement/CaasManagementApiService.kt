@@ -5,9 +5,11 @@ import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
+import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
+import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasPortalDeploymentDto
 import de.sovity.authorityportal.web.utils.PersonNameUtils
@@ -39,6 +41,9 @@ class CaasManagementApiService {
     @Inject
     lateinit var clientIdUtils: ClientIdUtils
 
+    @Inject
+    lateinit var userService: UserService
+
     @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid")
     lateinit var caasLimitPerMdsId: String
 
@@ -49,10 +54,11 @@ class CaasManagementApiService {
         environmentId: String
     ): CreateConnectorResponse {
         val curatorOrganization = organizationService.getOrganizationOrThrow(mdsId)
+        val curatorUser = userService.getUserOrThrow(userId)
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(mdsId)
         val clientId = clientIdUtils.generateFromConnectorId(connectorId)
 
-        val apDeploymentDto = buildAuthorityPortalDeploymentDto(curatorOrganization, caasRequest, connectorId, environmentId, clientId)
+        val apDeploymentDto = buildAuthorityPortalDeploymentDto(curatorOrganization, caasRequest, connectorId, environmentId, clientId, curatorUser)
 
         val configAssertion = assertValidConfig(apDeploymentDto, mdsId, environmentId)
         if (!configAssertion.valid) {
@@ -97,10 +103,10 @@ class CaasManagementApiService {
         caasRequest: CreateCaasRequest,
         connectorId: String,
         environmentId: String,
-        clientId: String
+        clientId: String,
+        curatorUser: UserRecord
     ): CaasPortalDeploymentDto {
         val securityContactName = PersonNameUtils.splitName(curatorOrganization.techContactName)
-        val userContactName = PersonNameUtils.splitName(curatorOrganization.mainContactName)
         return CaasPortalDeploymentDto(
             connectorId = connectorId,
             subdomain = caasRequest.connectorSubdomain,
@@ -117,9 +123,9 @@ class CaasManagementApiService {
             securityContactLastName = securityContactName.lastName,
             securityContactEmail = curatorOrganization.techContactEmail,
             securityContactPhone = curatorOrganization.techContactPhone,
-            userContactFirstName = userContactName.firstName,
-            userContactLastName = userContactName.lastName,
-            userContactEmail = curatorOrganization.mainContactEmail
+            userContactFirstName = curatorUser.firstName,
+            userContactLastName = curatorUser.lastName,
+            userContactEmail = curatorUser.email
         )
     }
 
