@@ -24,6 +24,8 @@ import {AuthorityConnectorListPageModule} from './pages/authority-connector-list
 import {AuthorityOrganizationDetailPageModule} from './pages/authority-organization-detail-page/authority-organization-detail-page.module';
 import {AuthorityOrganizationListPageModule} from './pages/authority-organization-list-page/authority-organization-list-page.module';
 import {CentralComponentListPageModule} from './pages/central-component-list-page/central-component-list-page.module';
+import {ChooseParticipantCaasModule} from './pages/choose-participant-caas/choose-participant-caas.module';
+import {ChooseParticipantConnectorModule} from './pages/choose-participant-connector/choose-participant-connector.module';
 import {ProvideConnectorPageModule} from './pages/component-registration-pages/provide-connector-page/provide-connector-page.module';
 import {RegisterCentralComponentPageModule} from './pages/component-registration-pages/register-central-component-page/register-central-component-page.module';
 import {RegisterConnectorPageModule} from './pages/component-registration-pages/register-connector-page/register-connector-page.module';
@@ -36,12 +38,9 @@ import {ControlCenterPageModule} from './pages/control-center-page/control-cente
 import {ControlCenterUserEditPageModule} from './pages/control-center-user-edit-page/control-center-user-edit-page.module';
 import {ControlCenterUserProfilePageModule} from './pages/control-center-user-profile-page/control-center-user-profile-page.module';
 import {DashboardPageModule} from './pages/dashboard-page/dashboard-page.module';
-import {ErrorPageModule} from './pages/empty-pages/error-page/error-page.module';
 import {LoadingPageModule} from './pages/empty-pages/loading-page/loading-page.module';
 import {PageNotFoundPageModule} from './pages/empty-pages/page-not-found-page/page-not-found-page.module';
 import {UnauthenticatedPageModule} from './pages/empty-pages/unauthenticated-page/unauthenticated-page.module';
-import {ParticipantCreateConnectorChoicePageModule} from './pages/participant-create-connector-choice-page/participant-create-connector-choice-page.module';
-import {ParticipantCreateProvidedConnectorChoicePageModule} from './pages/participant-create-provided-connector-choice-page/participant-create-provided-connector-choice-page.module';
 import {ParticipantOwnConnectorDetailPageModule} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page.module';
 import {ParticipantOwnConnectorListPageModule} from './pages/participant-own-connector-list-page/participant-own-connector-list-page.module';
 import {OrganizationCreatePageModule} from './pages/registration-pages/organization-create-page/organization-create-page.module';
@@ -81,6 +80,8 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     AuthorityOrganizationDetailPageModule,
     AuthorityOrganizationListPageModule,
     CentralComponentListPageModule,
+    ChooseParticipantConnectorModule,
+    ChooseParticipantCaasModule,
     ControlCenterOrganizationEditPageModule,
     ControlCenterOrganizationMemberDetailPageModule,
     ControlCenterOrganizationMembersPageModule,
@@ -91,7 +92,6 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     DashboardPageModule,
     DevUtilsModule,
     ErrorElementModule,
-    ErrorPageModule,
     LoadingElementModule,
     LoadingPageModule,
     OrganizationCreatePageModule,
@@ -101,8 +101,6 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     PageNotFoundPageModule,
     ParticipantOwnConnectorDetailPageModule,
     ParticipantOwnConnectorListPageModule,
-    ParticipantCreateConnectorChoicePageModule,
-    ParticipantCreateProvidedConnectorChoicePageModule,
     PortalLayoutModule,
     ProvideConnectorPageModule,
     RegisterConnectorPageModule,

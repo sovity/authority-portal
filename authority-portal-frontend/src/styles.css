@@ -46,28 +46,66 @@ a {
   @apply hover:text-brand-500  focus:text-brand-500 cursor-pointer;
 }
 
-h1 {
-  @apply text-xl font-semibold text-black leading-9;
+/* TITLES */
+
+.confirmation-dialog-title {
+  @apply px-4 py-2;
+  @apply text-lg font-semibold leading-6 text-black;
 }
 
-h2 {
-  @apply text-2xl font-semibold text-black leading-8;
+.form-dialog-title {
+  @apply mb-1;
+  @apply text-2xl font-semibold leading-6 text-gray-900;
 }
 
-h3 {
+.full-screen-end-title {
+  @apply mb-4;
+  @apply text-3xl font-bold leading-9 text-black;
+}
+
+.slideover-content-title {
+  @apply font-semibold text-black leading-6;
+}
+
+.tooltip-title {
+  @apply text-base font-semibold text-black leading-6 mb-2;
+}
+
+.selection-page-title {
+  @apply text-2xl font-semibold text-black leading-9;
+}
+
+.wizard-step-title {
   @apply text-base font-semibold text-black leading-6;
 }
 
-h4 {
-  @apply text-sm font-medium text-gray-500 leading-5;
+.wizard-end-title {
+  @apply mb-10;
+  @apply text-3xl font-bold leading-9 text-black;
 }
 
-h5 {
-  @apply text-sm font-medium text-black leading-5;
+/* TEXTS */
+
+.confirmation-dialog-prose {
+  @apply text-gray-700 text-sm;
 }
 
-p {
+.form-dialog-prose {
+  @apply text-sm leading-5 text-gray-500;
+}
+
+.full-screen-end-prose {
+  @apply mb-6;
+  @apply text-base leading-7 text-gray-600;
+}
+
+.selection-page-prose {
   @apply text-sm font-normal text-gray-500 leading-5;
+}
+
+.wizard-end-prose {
+  @apply mb-8;
+  @apply text-base leading-7 text-gray-600;
 }
 
 textarea {

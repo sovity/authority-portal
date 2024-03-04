@@ -8,9 +8,10 @@ import {copyToClipboard} from '../../../../core/utils/clipboard-utils';
 export class ConnectorRegisteringSuccessMessagePageComponent {
   @HostBinding('class.flex')
   @HostBinding('class.flex-col')
-  @HostBinding('class.gap-3')
   @HostBinding('class.justify-center')
-  @HostBinding('class.px-8')
+  @HostBinding('class.items-center')
+  @HostBinding('class.text-center')
+  @HostBinding('class.my-12')
   cls = true;
 
   @Input()

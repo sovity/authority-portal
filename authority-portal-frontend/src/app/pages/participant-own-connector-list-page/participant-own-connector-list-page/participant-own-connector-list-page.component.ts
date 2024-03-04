@@ -93,7 +93,7 @@ export class ParticipantOwnConnectorListPageComponent
         {
           label: 'Add Connector',
           action: () =>
-            this.router.navigate(['/my-organization/connectors/registration']),
+            this.router.navigate(['/my-organization/connectors/new']),
           permissions: [UserRoleDto.KeyUser],
         },
       ],

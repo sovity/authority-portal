@@ -6,10 +6,13 @@
       *ngIf="config?.icon"
       [src]="'assets/images/' + config.icon"
       [alt]="config.title" />
-    <h3 class="group-hover:text-brand-500 mt-3 transition delay-100">
+    <h3
+      class="text-base font-semibold text-black leading-6 group-hover:text-brand-500 mt-3 transition delay-100">
       {{ config.title }}
     </h3>
-    <p>{{ config.subTitle }}</p>
+    <p class="text-sm font-normal text-gray-500 leading-5">
+      {{ config.subTitle }}
+    </p>
   </div>
 
   <ul

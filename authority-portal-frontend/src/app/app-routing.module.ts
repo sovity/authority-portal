@@ -6,6 +6,8 @@ import {PortalLayoutComponent} from './common/layouts/portal-layout/portal-layou
 import {AuthorityConnectorListPageComponent} from './pages/authority-connector-list-page/authority-connector-list-page/authority-connector-list-page.component';
 import {AuthorityOrganizationListPageComponent} from './pages/authority-organization-list-page/authority-organization-list-page/authority-organization-list-page.component';
 import {CentralComponentListPageComponent} from './pages/central-component-list-page/central-component-list-page/central-component-list-page.component';
+import {ChooseParticipantCaasComponent} from './pages/choose-participant-caas/choose-participant-caas/choose-participant-caas.component';
+import {ChooseParticipantConnectorComponent} from './pages/choose-participant-connector/choose-participant-connector/choose-participant-connector.component';
 import {ProvideConnectorPageComponent} from './pages/component-registration-pages/provide-connector-page/provide-connector-page/provide-connector-page.component';
 import {RegisterCentralComponentPageComponent} from './pages/component-registration-pages/register-central-component-page/register-central-component-page/register-central-component-page.component';
 import {RegisterConnectorPageComponent} from './pages/component-registration-pages/register-connector-page/register-connector-page/register-connector-page.component';
@@ -14,9 +16,8 @@ import {ControlCenterPageComponent} from './pages/control-center-page/control-ce
 import {CONTROL_CENTER_ROUTES} from './pages/control-center-page/control-center-routes';
 import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dashboard-page.component';
 import {LoadingPageComponent} from './pages/empty-pages/loading-page/loading-page/loading-page.component';
+import {PageNotFoundPageComponent} from './pages/empty-pages/page-not-found-page/page-not-found-page/page-not-found-page.component';
 import {UnauthenticatedPageComponent} from './pages/empty-pages/unauthenticated-page/unauthenticated-page/unauthenticated-page.component';
-import {ParticipantCreateConnectorChoicePageComponent} from './pages/participant-create-connector-choice-page/participant-create-connector-choice-page/participant-create-connector-choice-page.component';
-import {ParticipantCreateProvidedConnectorChoicePageComponent} from './pages/participant-create-provided-connector-choice-page/participant-create-provided-connector-choice-page/participant-create-provided-connector-choice-page.component';
 import {ParticipantOwnConnectorDetailPageComponent} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {ParticipantOwnConnectorListPageComponent} from './pages/participant-own-connector-list-page/participant-own-connector-list-page/participant-own-connector-list-page.component';
 import {OrganizationCreatePageComponent} from './pages/registration-pages/organization-create-page/organization-create-page/organization-create-page.component';
@@ -61,23 +62,23 @@ export const LOADING_ROUTES: Routes = [
 export const AUTHORITY_PORTAL_ROUTES: Routes = [
   // participant own connector registration
   {
-    path: 'my-organization/connectors/registration',
-    component: ParticipantCreateConnectorChoicePageComponent,
+    path: 'my-organization/connectors/new',
+    component: ChooseParticipantConnectorComponent,
     data: {
       requiresRole: ['KEY_USER'] satisfies UserRoleDto[],
     },
     canActivate: [requiresRole],
   },
   {
-    path: 'my-organization/connectors/registration/setup',
-    component: ParticipantCreateProvidedConnectorChoicePageComponent,
+    path: 'my-organization/connectors/new/choose-provider',
+    component: ChooseParticipantCaasComponent,
     data: {
       requiresRole: ['KEY_USER'] satisfies UserRoleDto[],
     },
     canActivate: [requiresRole],
   },
   {
-    path: 'my-organization/connectors/registration/request',
+    path: 'my-organization/connectors/new/provided',
     component: RequestConnectorPageComponent,
     data: {
       requiresRole: ['KEY_USER'] satisfies UserRoleDto[],
@@ -85,7 +86,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     canActivate: [requiresRole],
   },
   {
-    path: 'my-organization/connectors/registration/register',
+    path: 'my-organization/connectors/new/self-hosted',
     component: RegisterConnectorPageComponent,
     data: {
       requiresRole: ['KEY_USER'] satisfies UserRoleDto[],
@@ -121,14 +122,6 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         component: ParticipantOwnConnectorListPageComponent,
         data: {
           requiresRole: ['USER'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
-      {
-        path: 'my-organization/connectors/register',
-        component: RegisterConnectorPageComponent,
-        data: {
-          requiresRole: ['KEY_USER'] satisfies UserRoleDto[],
         },
         canActivate: [requiresRole],
       },
@@ -205,11 +198,15 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
       {
-        path: '**',
+        path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full',
       },
     ],
+  },
+  {
+    path: '**',
+    component: PageNotFoundPageComponent,
   },
 ];
 

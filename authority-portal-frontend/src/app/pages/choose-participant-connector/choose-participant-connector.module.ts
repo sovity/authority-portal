@@ -9,11 +9,11 @@ import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-dire
 import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {FormElementsModule} from '../../common/components/form-elements/form-elements.module';
-import {ParticipantCreateConnectorChoicePageComponent} from './participant-create-connector-choice-page/participant-create-connector-choice-page.component';
+import {ChooseParticipantConnectorComponent} from './choose-participant-connector/choose-participant-connector.component';
 
 @NgModule({
-  declarations: [ParticipantCreateConnectorChoicePageComponent],
-  exports: [ParticipantCreateConnectorChoicePageComponent],
+  declarations: [ChooseParticipantConnectorComponent],
+  exports: [ChooseParticipantConnectorComponent],
   imports: [
     BrowserModule,
     CommonModule,
@@ -29,4 +29,4 @@ import {ParticipantCreateConnectorChoicePageComponent} from './participant-creat
     SharedModule,
   ],
 })
-export class ParticipantCreateConnectorChoicePageModule {}
+export class ChooseParticipantConnectorModule {}

@@ -105,23 +105,19 @@
       [editable]="false"
       [stepControl]="form.group.controls.canSwitchTabs">
       <ng-template matStepLabel>Setup Central Component</ng-template>
-
-      <h2 class="text-xl py-3">Finish setting up your component!</h2>
-      <p>The central component has been successfully registered.</p>
-      <p>
-        Your Participant ID is
-        <strong>{{ state.createdCentralComponentId }}</strong
-        >.
-        <button
-          mat-icon-button
-          aria-label="copy button with"
-          (click)="copyToClipboard()">
-          <mat-icon>content_copy</mat-icon>
-        </button>
-      </p>
-
-      <div
-        class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+      <div class="my-12 flex flex-col justify-center items-center text-center">
+        <h2 class="wizard-end-title">Finish setting up your component!</h2>
+        <p class="wizard-end-prose">
+          The central component has been successfully registered. <br />
+          Your Participant ID:
+          <strong>{{ state.createdCentralComponentId }}</strong>
+          <button
+            mat-icon-button
+            aria-label="copy button with"
+            (click)="copyToClipboard()">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </p>
         <button class="btn-accent" [routerLink]="exitLink">Finish</button>
       </div>
     </mat-step>

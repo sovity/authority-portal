@@ -7,7 +7,14 @@ import {BreadcrumbItem} from './breadcrumb.model';
 
 @Injectable({providedIn: 'root'})
 export class BreadcrumbService {
-  nonLinkable: string[] = ['authority', 'users']; // these are routes that has no associated page
+  nonLinkable: string[] = [
+    'authority',
+    'users',
+    'service-partner',
+    'operator',
+    'my-organization',
+    'control-center',
+  ]; // these are routes that has no associated page
 
   private replacements = new Map<string, string>();
   private replacementsChange$ = new BehaviorSubject<null>(null);

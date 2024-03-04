@@ -7,8 +7,8 @@
         [ngClass]="{'bg-blue-300': user.user === currentUser}"
         (click)="setUser(user)">
         <div class="flex flex-col">
-          <p class="font-medium">{{ user.role }}</p>
-          <p class="text-gray-500">{{ user.organization }}</p>
+          <span class="font-medium">{{ user.role }}</span>
+          <span class="text-gray-500">{{ user.organization }}</span>
         </div>
       </button>
     </div>

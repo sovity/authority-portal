@@ -1,10 +1,12 @@
 import {Route} from '@angular/router';
+import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {ControlCenterOrganizationEditPageComponent} from '../control-center-organization-edit-page/control-center-organization-edit-page/control-center-organization-edit-page.component';
 import {ControlCenterOrganizationMemberDetailPageComponent} from '../control-center-organization-member-detail-page/control-center-organization-member-detail-page/control-center-organization-member-detail-page.component';
 import {ControlCenterOrganizationMembersPageComponent} from '../control-center-organization-members-page/control-center-organization-members-page/control-center-organization-members-page.component';
 import {ControlCenterOrganizationProfilePageComponent} from '../control-center-organization-profile-page/control-center-organization-profile-page/control-center-organization-profile-page.component';
 import {ControlCenterUserEditPageComponent} from '../control-center-user-edit-page/control-center-user-edit-page/control-center-user-edit-page.component';
 import {ControlCenterUserProfilePageComponent} from '../control-center-user-profile-page/control-center-user-profile-page/control-center-user-profile-page.component';
+import {PageNotFoundPageComponent} from '../empty-pages/page-not-found-page/page-not-found-page/page-not-found-page.component';
 
 export type ControlCenterRoute = Route & {
   data:
@@ -13,6 +15,7 @@ export type ControlCenterRoute = Route & {
       }
     | {
         excludeFromTabs: true;
+        requiredRoles?: UserRoleDto[];
       };
 };
 
@@ -43,6 +46,7 @@ export const CONTROL_CENTER_ROUTES: ControlCenterRoute[] = [
     component: ControlCenterOrganizationEditPageComponent,
     data: {
       excludeFromTabs: true,
+      requiredRoles: ['ADMIN'],
     },
   },
   {
@@ -61,7 +65,7 @@ export const CONTROL_CENTER_ROUTES: ControlCenterRoute[] = [
   },
   {
     path: '**',
-    redirectTo: 'user-profile',
+    component: PageNotFoundPageComponent,
     pathMatch: 'full',
     data: {
       excludeFromTabs: true,

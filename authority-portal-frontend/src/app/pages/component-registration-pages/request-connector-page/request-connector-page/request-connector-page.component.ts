@@ -24,7 +24,7 @@ export class RequestConnectorPageComponent implements OnInit {
   requestConnectorPageForm = this.form.formGroup.controls;
 
   createActionName = 'Request CaaS';
-  exitLink = '/my-organization/connectors';
+  backLink = '/my-organization/connectors/new/choose-provider';
 
   private ngOnDestroy$ = new Subject();
 

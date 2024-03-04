@@ -1,12 +1,10 @@
-<h2 class="text-xl py-3">Finish setting up your connector!</h2>
-<p>
+<h2 class="wizard-end-title">Finish setting up your connector!</h2>
+<p class="wizard-end-prose max-w-2xl">
   To setup the connector, you will have to follow the Deployment Guide in the
-  MDS Wiki.
+  MDS Wiki. <br />
+  To get you started, we have prepared the following:
 </p>
-<p>
-  <strong>To get you started, we have prepared the following:</strong>
-</p>
-<div class="relative p-4 bg-gray-100">
+<div class="relative p-4 bg-gray-100 max-w-2xl overflow-hidden">
   <div class="absolute top-0 right-0">
     <button
       mat-icon-button
@@ -16,11 +14,12 @@
     </button>
   </div>
 
-  <code class="text-sm text-gray-500 whitespace-pre">{{
-    connectorConfig
-  }}</code>
+  <code
+    class="block text-left text-sm text-gray-500 whitespace-pre overflow-hidden text-ellipsis"
+    >{{ connectorConfig }}</code
+  >
 </div>
-<div>
+<div class="mt-6">
   <a
     class="btn-outline"
     href="https://github.com/sovity/edc-extensions/releases"

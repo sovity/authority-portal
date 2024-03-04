@@ -6,7 +6,6 @@ import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.modu
 import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
 import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
 import {MaterialModule} from 'src/app/common/material/material.module';
-import {UserRoleFormComponent} from 'src/app/shared/components/business/user-role-form/user-role-form.component';
 import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
 import {FormElementsModule} from '../common/components/form-elements/form-elements.module';
 import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
@@ -29,12 +28,12 @@ import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {ConfirmationDialogComponent} from './components/common/confirmation-dialog/confirmation-dialog.component';
 import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
 import {HeaderBarComponent} from './components/common/header-bar/header-bar.component';
+import {LogoutButtonComponent} from './components/common/logout-button/logout-button.component';
 import {SelectionBoxComponent} from './components/common/selection-box/selection-box.component';
 import {SlideOverComponent} from './components/common/slide-over/slide-over.component';
 import {TitleBarComponent} from './components/common/title-bar/title-bar.component';
 import {SlideOverService} from './services/slide-over.service';
 import {SvgIconServiceService} from './services/svg-icon.service.service';
-import {LogoutButtonComponent} from "./components/common/logout-button/logout-button.component";
 
 @NgModule({
   declarations: [
@@ -60,7 +59,6 @@ import {LogoutButtonComponent} from "./components/common/logout-button/logout-bu
     UserDeleteDialogComponent,
     UserEditFormComponent,
     UserOnboardFormComponent,
-    UserRoleFormComponent,
   ],
   imports: [
     CommonModule,

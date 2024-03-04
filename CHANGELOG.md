@@ -25,6 +25,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Improved Connector Detail Pages slightly by reordering items, icons and showing more information.
 - User Onboarding: Fix Privacy Policy Check not positioned correctly
 - Organization Onboarding: Fix approve/reject buttons showing when organization is still invited or onboarding
+- Multiple layouting, responsiveness and styling fixes.
+- Fix: 404 page not working
 
 ### Known issues
 

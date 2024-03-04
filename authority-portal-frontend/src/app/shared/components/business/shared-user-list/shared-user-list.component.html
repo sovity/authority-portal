@@ -28,24 +28,22 @@
             <tr
               class="border-l-4 border-transparent hover:bg-slate-50 hover:border-l-4 hover:border-yellow-600/70 cursor-pointer -ml-1">
               <td
-                class="flex pl-3 gap-2 items-center py-4 text-sm font-medium whitespace-nowrap text-center">
+                class="flex pl-3 gap-2 items-center py-4 text-sm font-medium whitespace-nowrap text-center text-gray-700">
                 <app-avatar
                   [name]="{
                     firstName: user.firstName,
                     lastName: user.lastName
                   }"></app-avatar>
-                <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+                <span>{{ user.firstName }} {{ user.lastName }}</span>
               </td>
               <td
-                class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
-                <h4>
-                  <span *ngIf="user.applicationRole"
-                    >{{ user.applicationRole }},</span
-                  >
-                  <span *ngIf="user.participantRole">{{
-                    user.participantRole
-                  }}</span>
-                </h4>
+                class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center text-gray-700">
+                <span *ngIf="user.applicationRole"
+                  >{{ user.applicationRole }},</span
+                >
+                <span *ngIf="user.participantRole">{{
+                  user.participantRole
+                }}</span>
               </td>
               <td
                 class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
@@ -66,7 +64,7 @@
           <tr>
             <td
               class="py-5 px-6 text-sm font-normal text-center text-gray-700"
-              colspan="6">
+              colspan="100%">
               No Users registered in the organization yet.
             </td>
           </tr>

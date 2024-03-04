@@ -6,9 +6,7 @@
   errorMessage="user"></app-error-element>
 
 <ng-container *ngIf="state.user.isReady">
-  <h3 class="text-base font-semibold text-black">
-    Organization Member Details
-  </h3>
+  <h3 class="slideover-content-title">Organization Member Details</h3>
   <app-shared-user-detail
     class="h-screen overflow-auto"
     [config]="userDetailConfig"></app-shared-user-detail>

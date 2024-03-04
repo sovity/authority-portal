@@ -321,15 +321,13 @@ export const addUser = (user: UserDetailDto) => {
   ALL_USERS[user.userId] = user;
 };
 export const updateUser = (userId: string, dto: UpdateUserDto): IdResponse => {
-  patchUser(userId, () => {
-    return {
-      firstName: dto.firstName,
-      lastName: dto.lastName,
-      email: dto.email,
-      phone: dto.phone,
-      position: dto.jobTitle,
-    };
-  });
+  patchUser(userId, () => ({
+    firstName: dto.firstName,
+    lastName: dto.lastName,
+    email: dto.email,
+    phone: dto.phone,
+    position: dto.jobTitle,
+  }));
   return {id: userId, changedDate: new Date()};
 };
 
@@ -432,7 +430,7 @@ export const clearApplicationRole = (
   request: ClearApplicationRoleRequest,
 ): IdResponse => {
   patchUser(request.userId, (user) => ({
-    roles: user.roles.filter((role: UserRoleDto) => isParticipantRole(role)),
+    roles: user.roles.filter(isParticipantRole),
   }));
   return {id: request.userId, changedDate: new Date()};
 };
