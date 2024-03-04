@@ -17,6 +17,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Control Center: Edit Own User Details Page
 - Renamed `MDS Authority Portal` occurences to `MDS Portal`
 - Footer: Added Legal Notice link
+- Footer: Added Copyright Notice.
+- Some sites that did not have the footer before, have it now.
 
 #### Patch
 
