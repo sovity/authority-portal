@@ -1,6 +1,6 @@
 <div class="flex justify-center items-center">
   <mat-stepper
-    class="mt-4 w-full lg:w-2/3"
+    class="mt-10 w-full lg:w-2/3"
     labelPosition="bottom"
     #stepper
     linear>
@@ -65,8 +65,8 @@
           <button
             class="btn-accent-outline"
             type="button"
-            [routerLink]="exitLink">
-            Cancel
+            [routerLink]="backLink">
+            Back
           </button>
 
           <button
@@ -130,7 +130,7 @@
 
       <div
         class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
-        <button class="btn-accent" [routerLink]="exitLink">Finish</button>
+        <button class="btn-accent" [routerLink]="backLink">Finish</button>
       </div>
     </mat-step>
     <!-- Final Step -->

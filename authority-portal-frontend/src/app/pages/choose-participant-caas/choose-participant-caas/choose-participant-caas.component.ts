@@ -1,18 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject, switchMap, takeUntil} from 'rxjs';
+import {CaasAvailabilityResponse} from '@sovity.de/authority-portal-client';
 import {SelectionBoxModel} from 'src/app/shared/components/common/selection-box/selection-box.model';
-import {CaasAvailabilityResponse} from '../../../../../../authority-portal-backend/authority-portal-api-client-ts';
 import {ApiService} from '../../../core/api/api.service';
 import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
 
 @Component({
-  selector: 'app-participant-create-provided-connector-choice-page',
-  templateUrl:
-    './participant-create-provided-connector-choice-page.component.html',
+  selector: 'app-choose-participant-caas',
+  templateUrl: './choose-participant-caas.component.html',
 })
-export class ParticipantCreateProvidedConnectorChoicePageComponent
-  implements OnInit, OnDestroy
-{
+export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
   selectionBox: SelectionBoxModel = {
     title: 'Start Sponsored CaaS',
     subTitle: 'Managed EDC Connector to begin your journey in Data Spaces',
@@ -27,7 +24,7 @@ export class ParticipantCreateProvidedConnectorChoicePageComponent
     ],
     action: {
       label: 'Loading...',
-      url: 'my-organization/connectors/registration/request',
+      url: 'my-organization/connectors/new/provided',
       isLoading: true,
       isDisabled: true,
     },
@@ -62,7 +59,7 @@ export class ParticipantCreateProvidedConnectorChoicePageComponent
         if (x.current === undefined || x.limit === undefined) {
           this.selectionBox.action = {
             label: 'Error loading CaaS limit',
-            url: 'my-organization/connectors/registration/request',
+            url: 'my-organization/connectors/new/provided',
             isDisabled: true,
           };
           return;
@@ -72,7 +69,7 @@ export class ParticipantCreateProvidedConnectorChoicePageComponent
 
         this.selectionBox.action = {
           label: `Request CaaS (${x.current}/${x.limit})`,
-          url: 'my-organization/connectors/registration/request',
+          url: 'my-organization/connectors/new/provided',
           isDisabled: isLimitReached,
           hint: isLimitReached
             ? 'The existing CaaS connector needs to be removed before requesting a new one'

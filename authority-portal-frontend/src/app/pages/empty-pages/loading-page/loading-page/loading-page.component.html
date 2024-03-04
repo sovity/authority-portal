@@ -1,8 +1,10 @@
 <div
   *ngIf="state.userInfo.isError"
   class="flex flex-col justify-center items-center h-screen">
-  <h1 class="text-3xl font-bold mb-4">Oops! The page couldn't be loaded</h1>
-  <p class="text-lg mb-8">We're sorry, but an unexpected error occurred.</p>
+  <h1 class="full-screen-end-title">Oops! The page couldn't be loaded</h1>
+  <p class="full-screen-end-prose">
+    We're sorry, but an unexpected error occurred.
+  </p>
   <a
     class="bg-black hover:bg-black text-white font-bold py-2 px-4 rounded"
     href="/">

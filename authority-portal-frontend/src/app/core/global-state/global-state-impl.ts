@@ -9,9 +9,9 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {E2E_DEV_USERS} from 'src/app/common/components/dev-utils/e2e-dev-user-switcher/e2e-dev-users';
 import {ApiService} from '../api/api.service';
-import {isEqualSets} from '../api/fake-backend/utils/set-utils';
 import {APP_CONFIG, AppConfig} from '../config/app-config';
 import {Fetched} from '../utils/fetched';
+import {isEqualSets} from '../utils/set-utils';
 import {patchState} from '../utils/state-utils';
 import {GlobalState, INITIAL_GLOBAL_STATE_MODEL} from './global-state';
 import {

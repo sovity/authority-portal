@@ -1,5 +1,5 @@
 <mat-dialog-content class="p-4 !flex flex-col">
-  <h3 class="px-4 py-2 text-base font-semibold text-black">Delete User</h3>
+  <p class="confirmation-dialog-title">Delete User</p>
 
   <app-loading-element
     *ngIf="modalData.isLoading"
@@ -8,36 +8,34 @@
   <app-error-element
     *ngIf="modalData.isError"
     class="flex-1 px-4 py-3"
-    [errorMessage]="
-      modalData.error.failureMessage ?? 'Failed loading'
-    "></app-error-element>
+    [errorMessage]="modalData.error.failureMessage"></app-error-element>
 
-  <div *ngIf="modalData.isReady" class="px-4 py-3 !text-gray-700">
+  <div *ngIf="modalData.isReady" class="px-4 py-3 confirmation-dialog-prose">
     <div *ngIf="!modalData.data.canBeDeleted" class="space-y-1">
-      <p class="text-gray-700">The user cannot be deleted.</p>
+      <p>The user cannot be deleted.</p>
     </div>
     <div
       *ngIf="modalData.data.canBeDeleted && isLastParticipantAdmin"
       class="space-y-1">
-      <p class="text-gray-700">
+      <p>
         You are trying to delete the last Participant Admin of
-        <span class="italic"> {{ data.userOrganizationName }}</span
+        <span class="italic">{{ data.userOrganizationName }}</span
         >.
       </p>
-      <p class="text-gray-700">
+      <p>
         This will result in deleting the whole organization, including all of
         its users, connectors and central components.
       </p>
-      <p class="text-gray-700">Are you sure, you want to proceed?</p>
+      <p>Are you sure, you want to proceed?</p>
     </div>
     <div *ngIf="modalData.data.canBeDeleted && !isLastParticipantAdmin">
       <div *ngIf="isOrganizationCreator" class="space-y-1">
-        <p class="text-gray-700">
+        <p>
           You are trying to delete the creator of
           <span class="italic">{{ data.userOrganizationName }}</span
           >.
         </p>
-        <p class="text-gray-700">Please select a successor.</p>
+        <p>Please select a successor.</p>
         <form class="!mt-5" [formGroup]="deleteOrganizationCreatorForm">
           <label class="w-full mb-2 text-sm">Successor</label>
           <mat-form-field
@@ -54,7 +52,7 @@
               >
             </mat-select>
           </mat-form-field>
-          <p class="text-gray-700 text-[13px] !-mt-4">
+          <p class="text-[13px] !-mt-4">
             Connectors and central components of
             <span class="italic">{{ data.userFullName }}</span>
             will be linked to this successor
@@ -62,8 +60,8 @@
         </form>
       </div>
       <div *ngIf="!modalData.data.isOrganizationCreator" class="space-y-1">
-        <p class="text-gray-700">Are you sure, you want to delete this user?</p>
-        <p class="text-gray-700">
+        <p>Are you sure, you want to delete this user?</p>
+        <p>
           All connectors, the user is associated with, will be linked to the
           creator of
           <span class="italic"> {{ data.userOrganizationName }}</span
@@ -78,7 +76,7 @@
       Cancel
     </button>
     <button
-      class="btn-accent-danger"
+      class="btn-accent-danger flex items-center gap-1.5"
       type="button"
       [disabledBtn]="
         (!isLastParticipantAdmin &&

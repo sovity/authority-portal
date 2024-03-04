@@ -53,28 +53,24 @@
                   (click)="openDetailPage(connector)">
                   <tr
                     class="border-l-4 border-transparent hover:bg-slate-50 hover:border-l-4 hover:border-yellow-600/70 cursor-pointer -ml-1">
-                    <td class="pl-3 py-8 text-sm font-medium whitespace-nowrap">
+                    <td
+                      class="pl-3 py-8 text-sm font-medium whitespace-nowrap text-gray-700">
                       <div class="flex items-center gap-1.5">
                         <app-connector-status-led
                           [status]="
                             connector.status
                           "></app-connector-status-led>
-                        <h4>
+                        <span>
                           {{ connector.id }}
-                        </h4>
+                        </span>
                       </div>
                     </td>
-                    <td class="py-8 text-sm font-medium whitespace-nowrap">
-                      <h4 class="text-gray-700">
-                        {{ connector.name }}
-                      </h4>
+                    <td
+                      class="py-8 text-sm font-medium whitespace-nowrap text-gray-700">
+                      {{ connector.name }}
                     </td>
-                    <td class="py-8 text-sm whitespace-nowrap">
-                      <div>
-                        <h4 class="text-gray-700">
-                          {{ connector.hostName }}
-                        </h4>
-                      </div>
+                    <td class="py-8 text-sm whitespace-nowrap text-gray-700">
+                      {{ connector.hostName }}
                     </td>
                     <td class="py-8 text-sm whitespace-nowrap">
                       <div
@@ -83,12 +79,8 @@
                         {{ connector.type }}
                       </div>
                     </td>
-                    <td class="py-8 text-sm whitespace-nowrap">
-                      <div>
-                        <h4 class="text-gray-700">
-                          {{ connector.environment.title }}
-                        </h4>
-                      </div>
+                    <td class="py-8 text-sm whitespace-nowrap text-gray-700">
+                      {{ connector.environment.title }}
                     </td>
                     <td class="text-sm whitespace-nowrap">
                       <a
@@ -110,7 +102,7 @@
                 <tr>
                   <td
                     class="py-5 mx-auto text-sm font-normal text-center text-gray-700"
-                    colspan="6">
+                    colspan="100%">
                     No connectors registered yet.
                   </td>
                 </tr>

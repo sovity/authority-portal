@@ -2,17 +2,17 @@ import {Component} from '@angular/core';
 import {SelectionBoxModel} from 'src/app/shared/components/common/selection-box/selection-box.model';
 
 @Component({
-  selector: 'app-participant-create-connector-choice-page',
-  templateUrl: './participant-create-connector-choice-page.component.html',
+  selector: 'app-choose-participant-connector',
+  templateUrl: './choose-participant-connector.component.html',
 })
-export class ParticipantCreateConnectorChoicePageComponent {
+export class ChooseParticipantConnectorComponent {
   selectionBoxes: SelectionBoxModel[] = [
     {
       title: 'I have a connector',
       subTitle: 'Follow the process to set-up your self-hosted connector here',
       icon: 'self-hosted-connector_logo.svg',
       action: {
-        url: '/my-organization/connectors/registration/register',
+        url: '/my-organization/connectors/new/self-hosted',
       },
     },
     {
@@ -21,7 +21,7 @@ export class ParticipantCreateConnectorChoicePageComponent {
         'Request a managed connector to begin your journey in data spaces',
       icon: 'request-caas_logo.svg',
       action: {
-        url: '/my-organization/connectors/registration/setup',
+        url: '/my-organization/connectors/new/choose-provider',
       },
     },
   ];

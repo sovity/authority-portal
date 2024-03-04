@@ -8,7 +8,6 @@ import {PipesAndDirectivesModule} from '../../components/pipes-and-directives/pi
 import {MaterialModule} from '../../material/material.module';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {ControlCenterComponent} from './control-center/control-center.component';
-import {FooterComponent} from './footer/footer.component';
 import {PortalLayoutComponent} from './portal-layout/portal-layout.component';
 import {SidebarElementComponent} from './sidebar-element/sidebar-element.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
@@ -29,18 +28,12 @@ import {ToolbarComponent} from './toolbar/toolbar.component';
   ],
   declarations: [
     BreadcrumbComponent,
-    FooterComponent,
     PortalLayoutComponent,
     SidebarComponent,
     ControlCenterComponent,
     ToolbarComponent,
     SidebarElementComponent,
   ],
-  exports: [
-    BreadcrumbComponent,
-    FooterComponent,
-    PortalLayoutComponent,
-    SidebarComponent,
-  ],
+  exports: [BreadcrumbComponent, PortalLayoutComponent, SidebarComponent],
 })
 export class PortalLayoutModule {}

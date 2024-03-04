@@ -4,7 +4,7 @@
     class="top-0 p-8 bg-white flex justify-start items-center cursor-pointer">
     <img src="/assets/images/logo_light.svg" alt="logo" />
     <div>
-      <p class="mx-4 font-bold text-black">
+      <p class="mx-4 leading-5 font-bold text-black">
         Mobility <br />
         Data Space<br />
         Portal
@@ -35,7 +35,7 @@
         <div class="flex flex-col px-1 md:px-8 w-full">
           <ng-template matStepLabel>User Profile</ng-template>
 
-          <h2>User Profile</h2>
+          <h2 class="wizard-step-title">User Profile</h2>
           <div class="flex-grow my-4">
             <app-user-onboard-form
               [userForm]="userOnboardForm"></app-user-onboard-form>
@@ -77,7 +77,7 @@
         <div class="flex flex-col px-1 md:px-8 w-full">
           <ng-template matStepLabel>Organization Profile</ng-template>
 
-          <h2>Organization Profile</h2>
+          <h2 class="wizard-step-title">Organization Profile</h2>
           <app-organization-create-form
             class="flex-grow my-4"
             [orgForm]="orgProfileForm"></app-organization-create-form>
@@ -106,19 +106,15 @@
       <!-- final step -->
       <mat-step [editable]="false" [stepControl]="parentFormGroup">
         <ng-template matStepLabel>Confirmation</ng-template>
-        <div class="h-36 my-12 flex flex-col justify-center items-center">
-          <div class="h-36 my-12 flex flex-col justify-center items-center">
-            <h3 class="py-8 text-xl text-center">
-              Thank you for onboarding on the MDS portal!
-            </h3>
-            <p class="text-base text-justify">
-              Congratulations on successfully onboarding to our platform! We're
-              thrilled to have you as part of our community. Explore our
-              platform and discover services tailored just for you.
-            </p>
-          </div>
-        </div>
-        <div class="flex justify-end">
+        <div class="my-12 flex flex-col justify-center items-center">
+          <h3 class="wizard-end-title text-center">
+            Thank you for onboarding on the MDS Portal!
+          </h3>
+          <p class="wizard-end-prose max-w-3xl text-center">
+            Congratulations on successfully onboarding to our platform! We're
+            thrilled to have you as part of our community. Explore our platform
+            and discover services tailored just for you.
+          </p>
           <button class="btn-accent" routerLink="/">Finish</button>
         </div>
       </mat-step>

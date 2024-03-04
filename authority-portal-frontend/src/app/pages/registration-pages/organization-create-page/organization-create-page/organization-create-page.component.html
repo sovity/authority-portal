@@ -4,7 +4,7 @@
     class="top-0 p-8 bg-white flex justify-start items-center cursor-pointer">
     <img src="/assets/images/logo_light.svg" alt="logo" />
     <div>
-      <p class="mx-4 font-bold text-black">
+      <p class="mx-4 leading-5 font-bold text-black">
         Mobility <br />
         Data Space<br />
         Portal
@@ -60,7 +60,7 @@
           [stepControl]="orgForm">
           <div class="flex flex-col px-1 md:px-8 w-full">
             <ng-template matStepLabel>Organization Profile</ng-template>
-            <h3>Organization Profile</h3>
+            <h3 class="wizard-step-title">Organization Profile</h3>
             <app-organization-create-form
               class="flex-grow my-4"
               [orgForm]="orgProfileForm"></app-organization-create-form>
@@ -88,19 +88,13 @@
         <!-- final step -->
         <mat-step [editable]="false" [stepControl]="parentFormGroup">
           <ng-template matStepLabel>Email Verification</ng-template>
-          <div class="h-36 my-12 flex flex-col justify-center items-center">
-            <div class="w-full">
-              <h3 class="py-8 text-xl text-cneter">
-                Please verify your email!
-              </h3>
-              <p class="text-base text-justify">
-                You will need to verify your email to complete registration. An
-                email has been sent to {{ state.email }} with a verification
-                link.
-              </p>
-            </div>
-          </div>
-          <div class="flex justify-end">
+          <div
+            class="my-12 flex flex-col justify-center items-center text-center">
+            <h3 class="wizard-end-title">Please verify your email!</h3>
+            <p class="wizard-end-prose max-w-md">
+              You will need to verify your email to complete registration. An
+              email has been sent to {{ state.email }} with a verification link.
+            </p>
             <button class="btn-accent" (click)="finish()">Finish</button>
           </div>
         </mat-step>

@@ -59,22 +59,18 @@
                           [status]="
                             connector.status
                           "></app-connector-status-led>
-                        <h4>
+                        <span
+                          class="text-sm font-medium text-gray-500 leading-5">
                           {{ connector.id }}
-                        </h4>
+                        </span>
                       </div>
                     </td>
-                    <td class="py-8 text-sm font-medium whitespace-nowrap">
-                      <h4 class="text-gray-700">
-                        {{ connector.name }}
-                      </h4>
+                    <td
+                      class="py-8 text-sm font-medium whitespace-nowrap text-gray-700">
+                      {{ connector.name }}
                     </td>
-                    <td class="py-8 text-sm whitespace-nowrap">
-                      <div>
-                        <h4 class="text-gray-700">
-                          {{ connector.hostName }}
-                        </h4>
-                      </div>
+                    <td class="py-8 text-sm whitespace-nowrap text-gray-700">
+                      {{ connector.hostName }}
                     </td>
                     <td class="py-8 text-sm whitespace-nowrap">
                       <div
@@ -83,12 +79,8 @@
                         {{ connector.type }}
                       </div>
                     </td>
-                    <td class="py-8 text-sm whitespace-nowrap">
-                      <div>
-                        <h4 class="text-gray-700">
-                          {{ connector.environment.title }}
-                        </h4>
-                      </div>
+                    <td class="py-8 text-sm whitespace-nowrap text-gray-700">
+                      {{ connector.environment.title }}
                     </td>
                     <td class="text-sm whitespace-nowrap">
                       <a

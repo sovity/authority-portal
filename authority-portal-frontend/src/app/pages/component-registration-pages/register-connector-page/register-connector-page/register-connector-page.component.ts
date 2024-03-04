@@ -32,7 +32,7 @@ export class RegisterConnectorPageComponent implements OnInit, OnDestroy {
   userInfo!: UserInfo;
 
   createActionName = 'Register Connector';
-  exitLink = '/my-organization/connectors';
+  backLink = '/my-organization/connectors/new';
 
   @ViewChild('stepper') stepper!: MatStepper;
 

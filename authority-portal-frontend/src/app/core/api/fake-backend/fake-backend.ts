@@ -88,10 +88,9 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
   );
   const method = getMethod(init);
   const body = getBody(init);
+  const environmentId = queryParams.get('environmentId');
 
   const ok = buildOkFn(method, url, queryParams, body);
-
-  const environmentId = queryParams.get('environmentId');
 
   return new UrlInterceptor(url, method)
 
