@@ -16,6 +16,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Control Center: Edit Own Organization Details Page
 - Control Center: Edit Own User Details Page
 - Renamed `MDS Authority Portal` occurences to `MDS Portal`
+- Footer: Added Legal Notice link
 
 #### Patch
 
@@ -28,6 +29,12 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Known issues
 
 ### Deployment Migration Notes
+
+- New Authority Portal Frontend Config
+  ```yaml
+  # Authority Portal Legal Notice URL
+  AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://mobility-dataspace.online/legal-notice-mds-portal
+  ```
 
 #### Compatible Versions
 

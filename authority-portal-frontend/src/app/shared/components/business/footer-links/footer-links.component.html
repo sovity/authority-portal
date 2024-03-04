@@ -1,8 +1,7 @@
-<div
+<a
   *ngFor="let footerLink of footerLinks; let i = index"
-  class="flex items-center gap-2">
-  <a class="hover:underline" target="_blank" [href]="footerLink.href">{{
-    footerLink.name
-  }}</a
-  ><span *ngIf="i !== footerLinks.length - 1">•</span>
-</div>
+  class="hover:underline"
+  target="_blank"
+  [href]="footerLink.href"
+  >{{ footerLink.name }}</a
+>
