@@ -2,6 +2,8 @@ import {
   CaasAvailabilityResponseToJSON,
   CentralComponentCreateRequestFromJSON,
   CentralComponentDtoToJSON,
+  ComponentStatusOverview,
+  ComponentStatusOverviewToJSON,
   ConnectorDetailDtoToJSON,
   ConnectorOverviewResultToJSON,
   CreateCaasRequestFromJSON,
@@ -31,6 +33,7 @@ import {
   deleteCentralComponent,
 } from './impl/central-component-fake';
 import {deploymentEnvironmentList} from './impl/deployment-environment-list-fake';
+import {getComponentStatus} from './impl/fake-component-statuses';
 import {
   checkFreeCaasUsage,
   createCaas,
@@ -393,6 +396,12 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       const result = onboardOrganization(request);
 
       return ok(IdResponseToJSON(result));
+    })
+
+    .url('component-statuses')
+    .on('GET', () => {
+      const result = getComponentStatus();
+      return ok(ComponentStatusOverviewToJSON(result));
     })
 
     .url('organizations/*/connectors/create-service-provided')

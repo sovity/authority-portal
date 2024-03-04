@@ -50,6 +50,22 @@ export class Fetched<T> {
   }
 
   /**
+   * Map data if present and data is non-null
+   * @param mapFn mapping fn
+   */
+  mapNotNull<R>(mapFn: (t: NonNullable<T>) => R): Fetched<R> {
+    return new Fetched<R>(
+      this.state,
+      this.isReady
+        ? this.data == null
+          ? (this.data as any as R) // preserve null vs undefined
+          : mapFn(this.data)
+        : undefined,
+      this.errorOrUndefined,
+    );
+  }
+
+  /**
    * Get data or fall back to default value
    * @param defaultValue value to fall back to if no data is present
    */

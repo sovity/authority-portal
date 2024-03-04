@@ -1,0 +1,11 @@
+<app-loading-element
+  *ngIf="!loaded"
+  class="w-screen h-screen absolute top-0 left-0"></app-loading-element>
+
+<iframe
+  *ngIf="iframeUrl"
+  class="flex-1"
+  title=""
+  allowfullscreen
+  [src]="iframeUrl"
+  (load)="loaded = true"></iframe>

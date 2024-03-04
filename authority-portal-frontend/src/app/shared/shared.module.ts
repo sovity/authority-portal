@@ -128,6 +128,7 @@ export class SharedModule {
       'chevron-up',
       'connector-2',
       'connector',
+      'dashboard',
       'document-text',
       'ellipsis-horizontal',
       'extension',

@@ -13,6 +13,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Dashboard Page: Component Status Overview
+- Dashboard Page: Connector Status Overview
+- Dashboard Page: CSV Reports: Connectors, Users, Data Offers, System Stability
 - Control Center: Edit Own Organization Details Page
 - Control Center: Edit Own User Details Page
 - Renamed `MDS Authority Portal` occurences to `MDS Portal`
@@ -22,6 +25,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Improved Menus and Navigation
 - Improved User Profiles by reordering items, icons and showing more information.
 - Improved Organization Profiles slightly by reordering items, icons and showing more information.
 - Improved Connector Detail Pages slightly by reordering items, icons and showing more information.
@@ -101,7 +105,9 @@ Major release, containing a UI rework and several new features.
 
 - Keycloak IAM needs to be upgraded to version 23.0.4
 - Portal Backend
+
   - Added environment variables
+
     ```yaml
     # CaaS Portal API Client Auth
     # will be provided by sovity
@@ -110,23 +116,26 @@ Major release, containing a UI rework and several new features.
     quarkus.oidc-client.sovity.credentials.secret: [CAAS_CLIENT_SECRET]
     # CaaS Portal URL
     authority-portal.caas.sovity.url: https://[CAAS_PORTAL_FQDN]
-    
+
     # CaaS Limit: Amount of free sovity CaaS per participant
     authority-portal.caas.sovity.limit-per-mdsid: 1
-    
+
     # Uptime Kuma Configuration
     authority-portal.kuma.metrics-url: https://[UPTIME_KUMA_FQDN]/metrics
     authority-portal.kuma.api-key: [UPTIME_KUMA_API_KEY]
     # Description of a component in Uptime Kuma (ENVIRONMENT: test, prod, etc.; COMPONENT: broker, daps, logging-house)
-    authority-portal.deployment.environments.{ENVIRONMENT}.{COMPONENT}.kuma-name: [KUMA_NAME]
-    
+    authority-portal.deployment.environments.{ENVIRONMENT}.{COMPONENT}.kuma-name:
+      [KUMA_NAME]
+
     # Logging House URL (ENVIRONMENT: test, prod, etc.)
     authority-portal.deployment.environments.{ENVIRONMENT}.logging-house.url: https://[LOGGING_HOUSE_FQDN]
     ```
+
   - Removed environment variables
     - ~~`authority-portal.connectors.url.frontend`~~
     - ~~`authority-portal.connectors.url.management`~~
     - ~~`authority-portal.connectors.url.endpoint`~~
+
 - Portal Frontend
   - Added environment variables
     ```yaml
@@ -139,15 +148,17 @@ Major release, containing a UI rework and several new features.
     ```
 - Connectors now have configurable URLs for the Frontend, Endpoint and Management API. Please check existing connectors for their correct URLs. If needed, remove affected connectors and re-register them with a correct URL configuration.
 
-
 - The infrastructure was changed in a way that the Portal Frontend is now publicly reachable to enable participant self-registration.
   - UI Requests: Internet -> Caddy 8080 -> Frontend
   - Backend Requests: Internet -> Caddy 8080 -> Auth Proxy -> Caddy 8081 -> Backend
 - Caddy
+
   - The Caddy configuration needs to be updated, as it now serves as the **main entry point for the Authority Portal**.
   - Added environment variable `OAUTH_PROXY_UPSTREAM_HOST: [Auth Proxy service]`
   - Modified Caddyfile
+
     - Configuration for `:8080`
+
       ```
       :8080 {
         map {path} {target_host} {target_port} {
@@ -159,6 +170,7 @@ Major release, containing a UI rework and several new features.
         reverse_proxy {target_host}:{target_port}
       }
       ```
+
     - Configuration for `:8081`
       ```
       :8081 {
@@ -168,12 +180,15 @@ Major release, containing a UI rework and several new features.
       }
       ```
     - The whole file can be found in the [Caddyfile](docs/deployment-guide/goals/sirius/remote/Caddyfile).
+
 - Auth Proxy
+
   - Environment variables
+
     ```yaml
     # Added
     OAUTH2_PROXY_API_ROUTES: "^/api/"
-    
+
     # Changed
     OAUTH2_PROXY_UPSTREAMS: http://[Caddy service]:8081/
     OAUTH2_PROXY_SKIP_AUTH_ROUTES: "^(/oauth2|/api/registration)"

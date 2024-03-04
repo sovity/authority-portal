@@ -1,0 +1,38 @@
+<div class="flex items-center gap-2 justify-between">
+  <h3 class="font-semibold text-sm">Connectors</h3>
+</div>
+
+<app-loading-element
+  *ngIf="data.isLoading"
+  class="flex-1"></app-loading-element>
+
+<app-error-element
+  *ngIf="data.isError"
+  class="flex-1"
+  [errorMessage]="data.error.failureMessage"></app-error-element>
+
+<div
+  *ngIf="data.isReady && !visibleKpis?.length"
+  class="flex-1 flex justify-center items-center text-gray-500 text-sm mt-2">
+  <span>No connectors</span>
+</div>
+
+<div
+  *ngIf="data.isReady && visibleKpis?.length"
+  class="flex-1 flex justify-evenly mt-10 gap-4">
+  <donut-chart [data]="chartData!"></donut-chart>
+  <div class="flex flex-col justify-center -mt-4 gap-3">
+    <div *ngFor="let kpi of visibleKpis" class="flex flex-col">
+      <div
+        class="flex items-center gap-2 truncate text-sm font-medium text-gray-500 whitespace-normal">
+        <span>{{ kpi.label }}</span>
+        <div class="flex-none rounded-full p-1" [ngClass]="kpi.classLedShadow">
+          <div class="h-1.5 w-1.5 rounded-full" [ngClass]="kpi.classLed"></div>
+        </div>
+      </div>
+      <div class="mt-1 text-3xl tracking-tight text-gray-900">
+        {{ kpi.kpi(data.data) }}
+      </div>
+    </div>
+  </div>
+</div>

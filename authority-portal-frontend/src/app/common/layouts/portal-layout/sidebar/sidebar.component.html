@@ -20,7 +20,7 @@
     <div class="flex-grow">
       <ng-container *ngFor="let section of sidebarSections">
         <div *ngIf="section.userRoles | hasAnyRole | async">
-          <div class="flex justify-start">
+          <div *ngIf="section.title" class="flex justify-start">
             <p
               class="py-3 pl-5 text-xs leading-4 text-gray-300"
               [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
