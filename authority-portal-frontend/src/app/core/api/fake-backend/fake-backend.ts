@@ -400,7 +400,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('component-statuses')
     .on('GET', () => {
-      const result = getComponentStatus();
+      const result = getComponentStatus(environmentId!);
       return ok(ComponentStatusOverviewToJSON(result));
     })
 

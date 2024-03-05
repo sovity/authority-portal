@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Fixed dashboard not reloading when switching deployment environments.
+
 ### Known issues
 
 ### Deployment Migration Notes

@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
-import {switchMap, takeUntil} from 'rxjs/operators';
+import {map, switchMap, takeUntil} from 'rxjs/operators';
 import {
   ComponentStatusOverview,
   UptimeStatusDto,
@@ -38,16 +38,17 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   }
 
   fetchDashboardPageData() {
-    this.globalStateUtils
-      .getDeploymentEnvironmentId()
+    this.globalStateUtils.deploymentEnvironment$
       .pipe(
+        map((it) => it.environmentId),
+        switchMap((deploymentEnvironmentId) =>
+          this.apiService.getComponentStatus(deploymentEnvironmentId).pipe(
+            Fetched.wrap({
+              failureMessage: 'Failed fetching dashboard data',
+            }),
+          ),
+        ),
         takeUntil(this.ngOnDestroy$),
-        switchMap((deploymentEnvironmentId) => {
-          return this.apiService.getComponentStatus(deploymentEnvironmentId);
-        }),
-        Fetched.wrap({
-          failureMessage: 'Failed fetching dashboard data',
-        }),
       )
       .subscribe(
         (componentStatusOverview: Fetched<ComponentStatusOverview>) => {
