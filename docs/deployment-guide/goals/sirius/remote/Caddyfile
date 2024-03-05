@@ -1,11 +1,22 @@
+# UI Requests: Internet -> Caddy 8080 -> Frontend
+# Backend Requests: Internet -> Caddy 8080 -> Auth Proxy -> Caddy 8081 -> Backend
+
 :8080 {
   map {path} {target_host} {target_port} {
-    ~/api/.*   {$BACKEND_UPSTREAM_HOST}   8080
-
-    default    {$FRONTEND_UPSTREAM_HOST}  8080
+    ~/api/.*      {$AUTH_PROXY_UPSTREAM_HOST}   8080
+    ~/oauth2/.*   {$AUTH_PROXY_UPSTREAM_HOST}   8080
+    default       {$FRONTEND_UPSTREAM_HOST}     8080
   }
 
-  reverse_proxy {target_host}:{target_port} {
-    header_up Authorization "Bearer {header.X-Forwarded-Access-Token}"
-  }
+  reverse_proxy {target_host}:{target_port}
+}
+
+# Caddy 8081 -> Backend
+# We need this second block because the auth proxy
+# does not pass the token on the right header due to
+# kubernetes conventions.
+:8081 {
+    reverse_proxy {$BACKEND_UPSTREAM_HOST}:8080 {
+      header_up Authorization "Bearer {header.X-Forwarded-Access-Token}"
+    }
 }
