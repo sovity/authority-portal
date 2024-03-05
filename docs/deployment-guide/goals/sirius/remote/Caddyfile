@@ -3,16 +3,9 @@
 
 :8080 {
   map {path} {target_host} {target_port} {
-    ~^/api/.*         {$AUTH_PROXY_UPSTREAM_HOST}   8080
-    ~^/oauth2/.*      {$AUTH_PROXY_UPSTREAM_HOST}   8080
-    ~^/mailhog($|/.*) {$MAILHOG_UPSTREAM_HOST}      8025
-    default           {$FRONTEND_UPSTREAM_HOST}     8080
-  }
-
-  @mailhog vars {target_host} {$MAILHOG_UPSTREAM_HOST}
-  basicauth @mailhog {
-    # Password is CJgsfVlLQDAPJHK3ai7KgIbc29q7nv2iRjilh7XyTuU=
-    mailhog $2a$14$ZQ0VIDmTCD6ZilFofStvA.usM/.guwtgLhqojQZn6W1f/lx7VP6Qq
+    ~^/api/.*      {$AUTH_PROXY_UPSTREAM_HOST}   8080
+    ~^/oauth2/.*   {$AUTH_PROXY_UPSTREAM_HOST}   8080
+    default        {$FRONTEND_UPSTREAM_HOST}     8080
   }
 
   reverse_proxy {target_host}:{target_port}
