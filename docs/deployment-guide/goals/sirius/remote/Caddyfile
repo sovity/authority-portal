@@ -1,8 +1,8 @@
 :8080 {
   map {path} {target_host} {target_port} {
-    ~/api/.*  backend   8080
+    ~/api/.*   {$BACKEND_UPSTREAM_HOST}   8080
 
-    default   frontend  8080
+    default    {$FRONTEND_UPSTREAM_HOST}  8080
   }
 
   reverse_proxy {target_host}:{target_port} {
