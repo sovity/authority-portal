@@ -1,13 +1,3 @@
--- Copyright (c) 2024 sovity GmbH
---
--- This program and the accompanying materials are made available under the
--- terms of the Apache License, Version 2.0 which is available at
--- https://www.apache.org/licenses/LICENSE-2.0
---
--- SPDX-License-Identifier: Apache-2.0
---
--- Contributors:
---      sovity GmbH - initial implementation
 update "user" set email = 'user_01@test.sovity.io', first_name = 'First Name 01', last_name = 'Last Name 01', job_title = 'Job Title 01', phone = '+49 0000 01' where id = '00000000-0000-0000-0000-000000000001';
 update "user" set email = 'user_02@test.sovity.io', first_name = 'First Name 02', last_name = 'Last Name 02', job_title = 'Job Title 02', phone = '+49 0000 02' where id = '00000000-0000-0000-0000-000000000002';
 update "user" set email = 'user_03@test.sovity.io', first_name = 'First Name 03', last_name = 'Last Name 03', job_title = 'Job Title 03', phone = '+49 0000 03' where id = '00000000-0000-0000-0000-000000000003';
