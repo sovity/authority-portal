@@ -1,13 +1,3 @@
--- Copyright (c) 2024 sovity GmbH
---
--- This program and the accompanying materials are made available under the
--- terms of the Apache License, Version 2.0 which is available at
--- https://www.apache.org/licenses/LICENSE-2.0
---
--- SPDX-License-Identifier: Apache-2.0
---
--- Contributors:
---      sovity GmbH - initial implementation
 -- Insert example data
 insert into "user" (id, organization_mds_id, registration_status)
 values ('9525c6ea-34d5-4c11-b9f8-133dc2086f00', null, 'APPROVED');
