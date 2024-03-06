@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export interface RequestConnectorPageState {
   state: 'editing' | 'submitting' | 'success' | 'error';
 }

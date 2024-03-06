@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.thirdparty.keycloak
 
 import jakarta.ws.rs.WebApplicationException

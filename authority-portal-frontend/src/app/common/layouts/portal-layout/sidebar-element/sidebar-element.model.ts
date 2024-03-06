@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export interface SidebarMenu {
   title: string;
   rLink: string;

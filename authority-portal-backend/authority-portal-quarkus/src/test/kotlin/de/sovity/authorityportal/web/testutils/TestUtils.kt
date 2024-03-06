@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.testutils
 
 import de.sovity.authorityportal.client.AuthorityPortalClient

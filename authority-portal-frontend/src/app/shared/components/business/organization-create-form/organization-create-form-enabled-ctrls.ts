@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {OrganizationLegalIdTypeDto} from '@sovity.de/authority-portal-client';
 import {OrganizationCreateFormValue} from './organization-create-form-model';
 

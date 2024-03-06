@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export interface TitleBarConfig {
   title: string;
   icon: string;

@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Component, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';

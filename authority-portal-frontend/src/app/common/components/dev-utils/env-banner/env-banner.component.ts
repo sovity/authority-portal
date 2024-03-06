@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, OnChanges} from '@angular/core';
 import {Observable} from 'rxjs';
 import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';

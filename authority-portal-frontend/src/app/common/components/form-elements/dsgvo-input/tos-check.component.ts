@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, Inject, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {APP_CONFIG, AppConfig} from '../../../../core/config/app-config';

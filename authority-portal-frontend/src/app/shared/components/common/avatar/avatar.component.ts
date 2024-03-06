@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, Input, OnChanges} from '@angular/core';
 
 export interface AvatarConfig {

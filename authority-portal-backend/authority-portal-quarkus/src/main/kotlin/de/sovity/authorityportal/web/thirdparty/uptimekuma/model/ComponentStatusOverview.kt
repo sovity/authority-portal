@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.thirdparty.uptimekuma.model
 
 import io.swagger.v3.oas.annotations.media.Schema

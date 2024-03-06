@@ -142,7 +142,7 @@ npm run cold-start-e2e-dev
 
 ## License
 
-See [`LICENSE`](./LICENSE) for more information.
+See [`LICENSE`](../LICENSE) for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

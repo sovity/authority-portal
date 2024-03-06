@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.client;
 
 import de.sovity.authorityportal.client.oauth2.OAuth2ClientCredentials;

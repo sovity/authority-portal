@@ -31,7 +31,7 @@ Registration processes, however, will be fully handled by the Authority Portal.
 
 ## License
 
-See [`LICENSE`](./LICENSE) for more information.
+See [`LICENSE`](../LICENSE) for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

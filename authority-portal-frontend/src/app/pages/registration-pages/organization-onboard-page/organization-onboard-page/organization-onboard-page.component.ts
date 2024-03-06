@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';

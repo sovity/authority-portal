@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export const buildOkFn =
   (method: string, url: string, queryParams: URLSearchParams, body: any) =>
   (responseBody: any, log = true): Promise<Response> =>

@@ -39,9 +39,6 @@ Library.
 Once a feature is implemented in both the frontend and backend, it can be manually tested
 using [Local E2E Development](#local-e2e-development).
 
-As a final test before a release, consider using the [Deployment to Sirius](#deployment-to-sirius) for testing
-in a live environment with a real Keycloak + Auth Proxy.
-
 ### Local Development
 
 The backend and the frontend can be developed separately:

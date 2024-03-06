@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export function kebabCaseToSentenceCase(input: string): string {
   return input
     .split('-')

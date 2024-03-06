@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {UserEditFormModel} from './user-edit-form-model';

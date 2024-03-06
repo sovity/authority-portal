@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export interface RegisterConnectorPageState {
   state: 'editing' | 'submitting' | 'success' | 'error';
   connectorConfig: string;

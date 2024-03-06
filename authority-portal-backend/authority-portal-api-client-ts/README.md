@@ -55,7 +55,7 @@ let result: ExamplePageResult = await authorityPortalClient.uiApi.examplePage();
 
 ## License
 
-See [LICENSE](https://github.com/sovity/authority-portal/blob/main/LICENSE)
+See [LICENSE](../../LICENSE)
 
 ## Contact
 

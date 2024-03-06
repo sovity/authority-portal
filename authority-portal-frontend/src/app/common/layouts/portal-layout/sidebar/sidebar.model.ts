@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {SidebarMenu} from '../sidebar-element/sidebar-element.model';
 

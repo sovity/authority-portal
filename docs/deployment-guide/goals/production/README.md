@@ -41,8 +41,6 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 ## Deployment
 
-We are awaiting a working Test Process with Sirius, which we can base the productive deployment guide on.
-
 ### Deployment Units
 
 | Deployment Unit           | Version / Details                                                                                 |
@@ -93,7 +91,7 @@ We are awaiting a working Test Process with Sirius, which we can base the produc
 
 #### Caddy
 
-The [Caddyfile](../sirius/remote/Caddyfile) needs to be mounted to `/etc/caddy/Caddyfile` in the Caddy container.
+The [Caddyfile](./Caddyfile) needs to be mounted to `/etc/caddy/Caddyfile` in the Caddy container.
 See the list of deployment units for the compatible Caddy image.
 
 The Caddy needs to get the following env variables it uses in the container:
@@ -206,16 +204,6 @@ AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://mobility-dataspa-5n9px2qi7r.live-w
 AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://mobility-dataspace.online/legal-notice-mds-portal # Authority Portal Legal Notice URL
 AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal # MDS Privacy Policy URL
 ```
-
-### Docker Compose Example
-
-For internal testing we have a test deployment to a dev server.
-
-To assist with the productive deployment, we added our internal docker compose file. 
-
-**Please understand that this file is not functional and for reference only.**
-
-[sovity Internal Test Deployment Docker Compose File](../sirius/remote/docker-compose.yaml)
 
 ## Initial Setup
 

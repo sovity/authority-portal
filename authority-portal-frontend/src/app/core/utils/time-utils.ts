@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export function toMinutes(seconds: number): number {
   return seconds / 60;
 }

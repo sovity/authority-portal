@@ -10,4 +10,5 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 /// <reference types="vite/client" />

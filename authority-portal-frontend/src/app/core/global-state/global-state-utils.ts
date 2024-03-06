@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Injectable} from '@angular/core';
 import {Observable, distinctUntilChanged, filter, first} from 'rxjs';
 import {

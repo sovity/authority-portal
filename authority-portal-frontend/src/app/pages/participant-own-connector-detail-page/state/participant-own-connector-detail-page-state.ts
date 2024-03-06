@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
 import {Fetched} from 'src/app/core/utils/fetched';
 

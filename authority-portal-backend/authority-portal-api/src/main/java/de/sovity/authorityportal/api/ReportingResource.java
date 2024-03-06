@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.api;
 
 import io.swagger.v3.oas.annotations.Operation;

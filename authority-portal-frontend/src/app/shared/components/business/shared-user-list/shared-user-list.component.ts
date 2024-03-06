@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MemberInfo} from '@sovity.de/authority-portal-client';
 import {getOrganizationUserRegistrationStatusClasses} from 'src/app/core/utils/ui-utils';

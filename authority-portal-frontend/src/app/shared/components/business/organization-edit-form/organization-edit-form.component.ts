@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, Input, OnDestroy} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';

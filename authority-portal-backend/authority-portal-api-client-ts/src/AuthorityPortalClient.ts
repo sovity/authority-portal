@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Configuration, ConfigurationParameters, UiApi} from './generated';
 
 /**

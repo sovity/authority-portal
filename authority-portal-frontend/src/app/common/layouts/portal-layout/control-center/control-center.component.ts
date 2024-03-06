@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, Input, OnChanges} from '@angular/core';
 import {AvatarConfig} from 'src/app/shared/components/common/avatar/avatar.component';
 import {ControlCenterModel} from './control-center.model';

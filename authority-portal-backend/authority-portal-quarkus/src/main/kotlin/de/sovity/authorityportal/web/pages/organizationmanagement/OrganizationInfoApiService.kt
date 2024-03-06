@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.pages.organizationmanagement
 
 import de.sovity.authorityportal.api.model.organization.OrganizationDetailsDto

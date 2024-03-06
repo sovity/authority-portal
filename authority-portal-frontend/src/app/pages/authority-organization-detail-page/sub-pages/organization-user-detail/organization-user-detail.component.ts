@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';

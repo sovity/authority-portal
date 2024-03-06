@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 /**
  * Collects URLs + Method + ResponseFn and then matches them in order.
  *

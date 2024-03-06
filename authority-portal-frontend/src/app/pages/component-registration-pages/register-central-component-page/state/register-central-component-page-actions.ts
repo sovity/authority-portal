@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {CentralComponentCreateRequest} from '@sovity.de/authority-portal-client';
 
 const tag = 'RegisterCentralComponentPage';

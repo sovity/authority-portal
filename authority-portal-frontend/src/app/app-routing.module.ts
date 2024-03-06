@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {NgModule, Type} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';

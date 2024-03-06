@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, Input} from '@angular/core';
 import {OrganizationDetailsDto} from '@sovity.de/authority-portal-client';
 import {mapRolesToReadableFormat} from 'src/app/core/utils/user-role-utils';

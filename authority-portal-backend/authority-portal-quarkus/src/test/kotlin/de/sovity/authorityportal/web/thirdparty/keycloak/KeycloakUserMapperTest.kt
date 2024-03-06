@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.thirdparty.keycloak
 
 import org.assertj.core.api.Assertions.assertThat

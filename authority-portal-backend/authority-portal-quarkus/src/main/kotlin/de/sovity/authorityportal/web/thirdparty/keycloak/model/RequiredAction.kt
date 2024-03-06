@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.thirdparty.keycloak.model
 
 enum class RequiredAction(val stringRepresentation: String) {

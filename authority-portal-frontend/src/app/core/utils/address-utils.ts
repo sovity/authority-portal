@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export function buildAddressString(formValue: {
   street?: string;
   houseNo?: string;
