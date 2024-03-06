@@ -13,7 +13,7 @@
 <p align="center" style="padding-bottom:16px">
 Manage your Dataspace
 <br />
-<a href="https://github.com/sovity/authority-portal/issues/new?template=bug_report.md">Report Bug</a>
+<a href="https://github.com/sovity/authority-portal/issues/new?assignees=&labels=kind%2Fbug&projects=&template=bug_report.yaml">Report Bug</a>
 ·
 <a href="https://github.com/sovity/authority-portal/issues/new?template=feature_request.md">Request Feature</a>
 </p>
@@ -23,6 +23,8 @@ Manage your Dataspace
 
 Allows a Dataspace to manage its participants. Supports participant organization structure, multiple ways to get or add
 connectors and service partners that can provide their own CaaS for other participants.
+
+Since the Authority Portal is part of a dataspace administration, technical connections to other dataspace systems are necessary. If you would like to deploy the Authority Portal yourself and use it productively, please contact sovity so that we can help you.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -70,16 +72,6 @@ see [Frontend Local E2E Development](authority-portal-frontend/README.md#local-e
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Deployment
-
-### Deployment to Sirius
-
-There is a guide on [How to deploy the Authority Portal to Sirius](docs/deployment-guide/goals/sirius/README.md) in this
-repository.
-
-Use this for testing of auth-related issues, e.g. Registration Processes and to validate the productive deployment
-guide.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Productive Deployment Guide
 
