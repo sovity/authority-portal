@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {AbstractControl, ValidatorFn} from '@angular/forms';
 
 export const passwordMatchValidator =

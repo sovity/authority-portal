@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export function downloadFile(blob: Blob, filename: string) {
   let url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');

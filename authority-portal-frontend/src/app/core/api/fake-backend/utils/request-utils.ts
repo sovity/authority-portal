@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export const getUrl = (
   input: Request | string,
   baseUrl: string,

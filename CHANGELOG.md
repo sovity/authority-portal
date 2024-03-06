@@ -16,6 +16,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Fixed dashboard not reloading when switching deployment environments.
+- Cleaned up repository for open-source release:
+  - Removed internal tools and utilities
+  - Rebased the entire history to remove secrets and unrelated code
+  - Cleaned up dead links
 
 ### Known issues
 
@@ -208,7 +212,7 @@ Major release, containing a UI rework and several new features.
           }
       }
       ```
-    - The whole file can be found in the [Caddyfile](docs/deployment-guide/goals/sirius/remote/Caddyfile).
+    - The productive deployment guide contains the full file.
 
 - Auth Proxy
 
@@ -283,21 +287,21 @@ Added overview of all registered connectors in the Authority Section and fixed s
 
 **Bugfixes**
 
-- Fixed an issue where the user could register multiple connectors with identical data (closes [#407](https://github.com/sovity/authority-portal/issues/407))
-- Fixed an issue where the user could still access the portal after logout (closes [#425](https://github.com/sovity/authority-portal/issues/425))
-- Fixed an issue where rejected users would be shown a blank screen (closes [#562](https://github.com/sovity/authority-portal/pull/562))
-- Service partners can now provide connectors again (closes [#587](https://github.com/sovity/authority-portal/issues/587))
+- Fixed an issue where the user could register multiple connectors with identical data
+- Fixed an issue where the user could still access the portal after logout
+- Fixed an issue where rejected users would be shown a blank screen
+- Service partners can now provide connectors again
 - Addressed security issues
   - Updated dependencies
   - Upgraded Keycloak to version 22.0.2
 
 **Other**
 
-- Added an overview of all registered connectors in the Authority Section (closes [581](https://github.com/sovity/authority-portal/issues/581))
+- Added an overview of all registered connectors in the Authority Section
 
 **Documentation**
 
-- Moved some lines in the [Productive Deployment Guide](README.md#productive-deployment-guide) to the correct location (closes [#580](https://github.com/sovity/authority-portal/issues/580))
+- Moved some lines in the [Productive Deployment Guide](README.md#productive-deployment-guide) to the correct location
 
 ### Known issues
 
@@ -348,25 +352,25 @@ Added central component management, fixed multiple bugs and pushing organization
 
 #### Minor
 
-- Operator Admins can now manage central dataspace components and add them to the DAPS (closes [#334](https://github.com/sovity/authority-portal/issues/334) & [#403](https://github.com/sovity/authority-portal/issues/403))
+- Operator Admins can now manage central dataspace components and add them to the DAPS
 - Now pushing organization metadata to MDS Brokers (Dependency from Broker development)
-- Removed the ability to provide connectors for Authority roles (closes [#390](https://github.com/sovity/authority-portal/issues/390))
-- Improved the invitation & confirmation e-mail templates (closes [#241](https://github.com/sovity/authority-portal/issues/241) & [#331](https://github.com/sovity/authority-portal/issues/331))
+- Removed the ability to provide connectors for Authority roles
+- Improved the invitation & confirmation e-mail templates
 - Added product documentation: Registration processes, roles and rights, user onboarding
 
 #### Patch
 
 **Bugfixes**
 
-- Fixed an issue with the environment switcher (closes [#361](https://github.com/sovity/authority-portal/issues/361))
-- Fixed an issue where users could not be re-invited after failing to confirm their registration in time (closes [#423](https://github.com/sovity/authority-portal/issues/423))
-- Fixed Connector URLs not being validated (closes [#442](https://github.com/sovity/authority-portal/issues/442))
-- Fixed an issue where the user got stuck in Keycloak after registration/login (closes [#424](https://github.com/sovity/authority-portal/issues/424))
-- Fixed an issue where the scroll bar would not appear (closes [#440](https://github.com/sovity/authority-portal/issues/440))
+- Fixed an issue with the environment switcher
+- Fixed an issue where users could not be re-invited after failing to confirm their registration in time
+- Fixed Connector URLs not being validated
+- Fixed an issue where the user got stuck in Keycloak after registration/login
+- Fixed an issue where the scroll bar would not appear
 
 **Styling**
 
-- Reworded texts on landing page (closes [#535](https://github.com/sovity/authority-portal/issues/535))
+- Reworded texts on landing page
 
 ### Deployment Migration Notes
 
@@ -401,15 +405,15 @@ Patch release, regarding bugfixes and styling issues.
 **Bugfixes**
 
 - Fix role management system (Application roles)
-- Include subject and authority key identifier in generated certificates (closes [#400](https://github.com/sovity/authority-portal/issues/400))
+- Include subject and authority key identifier in generated certificates
 - Sign certificates with SHA256 instead of default SHA1
-- Fixed URL mapping for broker interactions (closes [#303](https://github.com/sovity/authority-portal/issues/303))
+- Fixed URL mapping for broker interactions
 - Fix bug during connector deletion
 
 **Styling**
 
-- Split address field into street, house no., zip and city during organization registration (closes [#406](https://github.com/sovity/authority-portal/issues/406))
-- Changed links to legal documents to english versions (closes [#269](https://github.com/sovity/authority-portal/issues/269))
+- Split address field into street, house no., zip and city during organization registration
+- Changed links to legal documents to english versions
 
 ### Deployment Migration Notes
 
@@ -436,40 +440,40 @@ Reworked initial deployment guide, fixed many bugs and styling issues.
 
 #### Minor
 
-- Added a health check endpoint `backend:8080/q/health` (closes [#318](https://github.com/sovity/authority-portal/issues/318))
-- Updated Connector form to generate self-signed certificates instead of key pairs (closes [#275](https://github.com/sovity/authority-portal/issues/275))
+- Added a health check endpoint `backend:8080/q/health`
+- Updated Connector form to generate self-signed certificates instead of key pairs
 
 #### Patch
 
 **Bugfixes**
 
-- Hardened the first user registration to prevent duplicate users (closes [#311](https://github.com/sovity/authority-portal/issues/311))
-- Hardened user invitation to prevent duplicate users (closes [#311](https://github.com/sovity/authority-portal/issues/311))
-- Fixed the registration form not showing validation messages. (closes [#311](https://github.com/sovity/authority-portal/issues/311))
-- Fixed a bug causing white screens on session expiration (closes [#251](https://github.com/sovity/authority-portal/issues/251), [#237](https://github.com/sovity/authority-portal/issues/237))
-- Fixed a bug causing errors on logout (closes [#237](https://github.com/sovity/authority-portal/issues/237))
-- Fixed "Remember me" not working (closes [#258](https://github.com/sovity/authority-portal/issues/258))
-- Fixed an issue with updating user roles (closes [#327](https://github.com/sovity/authority-portal/issues/327))
-- Fixed calculation of the highest user role, shown below the username in the sidebar (closes [#326](https://github.com/sovity/authority-portal/issues/326))
-- Fixed a bug where users can submit Organization profile without confirming they are eligible to create profile (closes [#374](https://github.com/sovity/authority-portal/issues/374))
-- Refactored breadcrumbs to distinguish between clickable and non-clickable steps (closes [#369](https://github.com/sovity/authority-portal/issues/369))
+- Hardened the first user registration to prevent duplicate users
+- Hardened user invitation to prevent duplicate users
+- Fixed the registration form not showing validation messages.
+- Fixed a bug causing white screens on session expiration
+- Fixed a bug causing errors on logout
+- Fixed "Remember me" not working
+- Fixed an issue with updating user roles
+- Fixed calculation of the highest user role, shown below the username in the sidebar
+- Fixed a bug where users can submit Organization profile without confirming they are eligible to create profile
+- Refactored breadcrumbs to distinguish between clickable and non-clickable steps
 
 **Styling**
 
-- Made Inter and Material Icon Fonts locally available (closes [#320](https://github.com/sovity/authority-portal/issues/320))
-- Redesigned the footer section (closes [#257](https://github.com/sovity/authority-portal/issues/257))
-- Fixed an issue with sidebar elements getting cropped out (closes [#252](https://github.com/sovity/authority-portal/issues/252))
-- Fixed cursor design, when hovering over items that are not clickable (closes [#256](https://github.com/sovity/authority-portal/issues/256))
-- Improved mobile responsiveness on login and registration page (closes [#369](https://github.com/sovity/authority-portal/issues/369))
-- Fixed styling issues on the OTP verification form page (closes [#259](https://github.com/sovity/authority-portal/issues/259))
-- Binding username issue on user profile page fixed (closes [#336](https://github.com/sovity/authority-portal/issues/336))
-- Updated overall Keycloak theme styling misalignment (closes [#369](https://github.com/sovity/authority-portal/issues/369), [#254](https://github.com/sovity/authority-portal/issues/254), [#259](https://github.com/sovity/authority-portal/issues/259))
-- Replaced "Registered On" by "Created On" at the user profile page (closes [#332](https://github.com/sovity/authority-portal/issues/332))
+- Made Inter and Material Icon Fonts locally available
+- Redesigned the footer section
+- Fixed an issue with sidebar elements getting cropped out
+- Fixed cursor design, when hovering over items that are not clickable
+- Improved mobile responsiveness on login and registration page
+- Fixed styling issues on the OTP verification form page
+- Binding username issue on user profile page fixed
+- Updated overall Keycloak theme styling misalignment
+- Replaced "Registered On" by "Created On" at the user profile page
 
 **Documentation**
 
-- Added an internal dev deployment to Sirius with E2E tests for automated set-up. (closes [#290](https://github.com/sovity/authority-portal/issues/290))
-- Reworked Initial Productive Deployment Guide that further materializes the interactions with the Auth Proxy. (done by [#364](https://github.com/sovity/authority-portal/pull/364))
+- Added an internal dev deployment to Sirius with E2E tests for automated set-up.
+- Reworked Initial Productive Deployment Guide that further materializes the interactions with the Auth Proxy.
 
 ### Deployment Migration Notes
 
@@ -578,6 +582,9 @@ Second Authority Portal MVP Release, providing extended features, mainly to enab
 ### Overview
 
 Initial Authority Portal MVP Release with a minimalistic feature set.
+
+> [!IMPORTANT]
+> The versioning scheme was changed after this release, so semantically this version is equivalent to a `v0.0.1`.
 
 ### Detailed Changes
 

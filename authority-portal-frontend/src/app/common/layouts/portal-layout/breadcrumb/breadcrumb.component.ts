@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, OnDestroy} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {BreadcrumbItem} from './breadcrumb.model';

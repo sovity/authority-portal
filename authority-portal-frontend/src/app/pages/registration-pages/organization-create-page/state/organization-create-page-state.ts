@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export interface OrganizationRegistrationPageState {
   id: string;
   email: string;

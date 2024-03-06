@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export const buildFullName = (...arr: (string | null | undefined)[]) =>
   arr
     .map((it) => it?.trim())

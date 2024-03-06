@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Injectable, NgZone} from '@angular/core';
 import {NgxsExecutionStrategy} from '@ngxs/store';
 

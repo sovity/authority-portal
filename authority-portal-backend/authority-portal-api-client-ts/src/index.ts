@@ -10,5 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export * from './AuthorityPortalClient';
 export * from './generated';

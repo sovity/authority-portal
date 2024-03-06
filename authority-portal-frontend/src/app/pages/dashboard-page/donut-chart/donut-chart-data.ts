@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {ChartConfiguration} from 'chart.js';
 
 export interface DonutChartData {

@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Injectable} from '@angular/core';
 import {Router, Routes} from '@angular/router';
 import {UserInfo} from '@sovity.de/authority-portal-client';

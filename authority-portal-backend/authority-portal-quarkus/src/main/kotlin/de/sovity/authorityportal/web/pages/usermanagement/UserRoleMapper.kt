@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.pages.usermanagement
 
 import de.sovity.authorityportal.api.model.UserRoleDto

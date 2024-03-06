@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {urlValidator} from 'src/app/core/utils/validators/url-validator';

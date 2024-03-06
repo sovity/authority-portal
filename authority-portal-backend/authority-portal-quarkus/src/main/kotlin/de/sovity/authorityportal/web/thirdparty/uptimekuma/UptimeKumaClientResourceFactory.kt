@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.thirdparty.uptimekuma
 
 import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder

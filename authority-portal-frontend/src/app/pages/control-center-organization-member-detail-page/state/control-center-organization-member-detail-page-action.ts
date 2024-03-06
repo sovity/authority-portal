@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Observable} from 'rxjs';
 
 const tag = 'ControlCenterOrganizationMemberDetailPage';

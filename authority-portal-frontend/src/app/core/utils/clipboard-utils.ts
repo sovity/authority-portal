@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export function copyToClipboard(text: string) {
   const textarea = document.createElement('textarea');
   textarea.value = text;

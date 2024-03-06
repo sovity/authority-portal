@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, HostBinding, Input} from '@angular/core';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
 import {copyToClipboard} from '../../../../core/utils/clipboard-utils';

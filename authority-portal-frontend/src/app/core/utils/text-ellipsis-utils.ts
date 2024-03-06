@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export const isEllipsisActive = (e: HTMLElement) => {
   return e.offsetWidth < e.scrollWidth;
 };

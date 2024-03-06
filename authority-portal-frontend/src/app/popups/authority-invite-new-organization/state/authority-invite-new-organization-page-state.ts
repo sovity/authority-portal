@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export interface AuthorityInviteNewOrganizationPageState {
   id: string;
   state: 'editing' | 'submitting' | 'success' | 'error';

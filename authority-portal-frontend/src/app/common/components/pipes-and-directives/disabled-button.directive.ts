@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Directive, HostBinding, Input} from '@angular/core';
 
 @Directive({selector: '[disabledBtn]'})

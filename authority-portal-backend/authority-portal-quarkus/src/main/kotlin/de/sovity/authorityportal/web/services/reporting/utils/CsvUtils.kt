@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.services.reporting.utils
 
 import com.opencsv.CSVWriter

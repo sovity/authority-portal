@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.thirdparty.broker
 
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService

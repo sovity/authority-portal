@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {CertificateFormValue} from './certificate-input-form-model';
 
 export const certificateInputFormEnabledCtrls = (

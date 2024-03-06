@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {InviteParticipantUserRequest} from '@sovity.de/authority-portal-client';
 
 const tag = 'ParticipantInviteNewUserPage';

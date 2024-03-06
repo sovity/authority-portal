@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, Input} from '@angular/core';
 import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
 

@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export interface SlideOverState {
   config: SlideOverConfig;
   currentView: SlideOverViews;

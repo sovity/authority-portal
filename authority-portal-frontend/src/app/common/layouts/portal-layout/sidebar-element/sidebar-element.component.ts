@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, Input} from '@angular/core';
 import {SidebarMenu} from './sidebar-element.model';
 

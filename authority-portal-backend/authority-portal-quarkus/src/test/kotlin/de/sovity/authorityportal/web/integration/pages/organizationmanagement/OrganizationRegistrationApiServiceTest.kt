@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.integration.pages.organizationmanagement
 
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus

@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.web.integration.pages.userregistration
 
 import de.sovity.authorityportal.api.model.UserRegistrationStatusDto

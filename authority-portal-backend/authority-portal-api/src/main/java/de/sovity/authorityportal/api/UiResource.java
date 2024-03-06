@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 package de.sovity.authorityportal.api;
 
 import de.sovity.authorityportal.api.model.CaasAvailabilityResponse;

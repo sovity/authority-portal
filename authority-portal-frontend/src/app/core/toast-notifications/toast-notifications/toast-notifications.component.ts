@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, OnDestroy, OnInit, TrackByFunction} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {ToastNotification, ToastService} from '../toast.service';

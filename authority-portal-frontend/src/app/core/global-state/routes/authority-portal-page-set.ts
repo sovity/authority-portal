@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 /**
  * Depending on the User we show either the registration process or the authority portal
  */

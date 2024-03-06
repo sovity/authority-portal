@@ -60,7 +60,7 @@ public class AuthorityPortalClientExample {
 
 ## License
 
-See [LICENSE](../LICENSE)
+See [LICENSE](../../LICENSE)
 
 ## Contact
 

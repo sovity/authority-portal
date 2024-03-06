@@ -27,7 +27,7 @@ As a Service Partner Admin a user is able to access the connectors page where al
 
 When clicking on the button "Provide connector" in the upper right corner a mask to register a connector opens.
 
-![Connector registration](https://github.com/sovity/authority-portal/blob/2024-02-26-update-user-documentation-for-OA-and-SPA/docs/product/user-documentation/images/Connector%20registration.png)
+![Connector registration](images/Connector%20registration.png)
 
 To provide a connector in the MDS Portal all fields of the mask must be submitted. The process is identical to the registration of connectors for users without any application role but registers the connector for another organization who is named in the slightly changed registration mask.
 After clicking on the register button the list of central components appears, where the added central component can be found.
@@ -58,13 +58,13 @@ Currently the Operator Admin role grants the following rights in addition to a u
 
 As an Operator Admin a user is able to access the "Central Components" page where all registered central components are displayed.
 
-![Central components page](https://github.com/sovity/authority-portal/blob/2024-02-26-update-user-documentation-for-OA-and-SPA/docs/product/user-documentation/images/Central%20components%20page.png)
+![Central components page](images/Central%20components%20page.png)
 
 #### 2. Register and delete central components
 
 When clicking on the button "Provide Central Component" in the upper right corner a mask to register a central component opens.
 
-![Register central component](https://github.com/sovity/authority-portal/blob/2024-02-26-update-user-documentation-for-OA-and-SPA/docs/product/user-documentation/images/Register%20central%20components.png)
+![Register central component](images/Register%20central%20components.png)
 
 To register a central component in the MDS Portal all fields of the mask must be submitted. The process is identical to the registration of connectors but does not register the added central component at the MDS Broker.
 After clicking on the register button the list of central components appears, where the added central component can be found.

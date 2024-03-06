@@ -19,14 +19,13 @@ Feel free to edit this release checklist in-progress depending on what tasks nee
         - [ ] Add a clean `Unreleased` version.
         - [ ] Add the version to the old section.
         - [ ] Add the current date to the old version.
-        - [ ] Write or review the `Deployment Migration Notes` section. Use the Git History to find out the changes to
-          sirius Docker Compose or realm.json.
+        - [ ] Write or review the `Deployment Migration Notes` section.
         - [ ] Ensure the `Deployment Migration Notes` contains the compatible docker images.
         - [ ] Write or review a release summary.
         - [ ] Remove empty sections from the patch notes.
     - [ ] Merge the `release-prep` PR.
 - [ ] Wait for the main branch to be green.
-- [ ] Deploy a version with the "main" tag to sirius and test the deployment with our E2E Tests.
+- [ ] Deploy a version with the "main" and test the deployment.
 - [ ] Create a release and re-use the changelog section as release description, and the version as title.
 - [ ] Check if the pipeline built the release versions in the Actions-Section (or you won't see it).
 - [ ] Check the contents of the Deployment Docs Zip from the GitHub Release.

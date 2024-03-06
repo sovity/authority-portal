@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, HostBinding, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {OrganizationOverviewEntryDto} from '@sovity.de/authority-portal-client';

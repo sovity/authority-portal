@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Subject, distinctUntilChanged, takeUntil} from 'rxjs';
 import {combineLatest} from 'rxjs';

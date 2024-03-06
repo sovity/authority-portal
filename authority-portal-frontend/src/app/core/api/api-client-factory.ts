@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Inject, Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {

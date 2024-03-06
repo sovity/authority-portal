@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export type Patcher<T> = (value: T) => Partial<T>;
 
 export function patchObj<T>(obj: T, patcher: Patcher<T>): T {

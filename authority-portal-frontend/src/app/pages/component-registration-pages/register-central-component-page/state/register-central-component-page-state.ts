@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export interface RegisterCentralComponentPageState {
   state: 'editing' | 'submitting' | 'success' | 'error';
   createdCentralComponentId: string | null;

@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export interface ParticipantInviteNewUserPageState {
   id: string;
   state: 'editing' | 'submitting' | 'success' | 'error';

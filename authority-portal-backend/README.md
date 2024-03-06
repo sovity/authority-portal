@@ -36,7 +36,7 @@ distinction between E2E, Integration and Unit Tests is made here purely for the 
 One might argue all the these types of tests to be unit tests:
 
 - __(Backend) E2E Tests__:
-    - These tests use the [Java Client Library](../authority-portal-client-java) to call the APIs of a running backend
+    - These tests use the [Java Client Library](./authority-portal-api-client) to call the APIs of a running backend
       started by `@QuarkusTest`.
     - These tests need to manually clean the database after themselves, since the transaction breaks from "making a call
       to the backend via REST", so `@TestTransaction` is unavailable.
@@ -91,7 +91,7 @@ Config, please refer to our [Keycloak Realm Export Documentation](docs/dev/keycl
 
 ## License
 
-See [`LICENSE`](./../LICENSE) for more information.
+See [`LICENSE`](../LICENSE) for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

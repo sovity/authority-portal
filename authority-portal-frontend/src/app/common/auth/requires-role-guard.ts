@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivateFn, Router} from '@angular/router';
 import {map} from 'rxjs/operators';

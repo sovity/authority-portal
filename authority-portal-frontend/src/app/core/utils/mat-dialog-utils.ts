@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {ComponentType} from '@angular/cdk/portal';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {Observable} from 'rxjs';

@@ -20,7 +20,7 @@ Specification of Authority Portal API endpoints, for example endpoints for the A
 
 ## License
 
-See [LICENSE](../LICENSE.md)
+See [LICENSE](../../LICENSE)
 
 ## Contact
 

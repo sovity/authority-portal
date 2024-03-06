@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 const tag = 'SpConnectorDetailPage';
 
 export class RefreshConnector {

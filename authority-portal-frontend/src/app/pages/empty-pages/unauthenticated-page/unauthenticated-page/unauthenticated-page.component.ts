@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 import {Component, Inject} from '@angular/core';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 

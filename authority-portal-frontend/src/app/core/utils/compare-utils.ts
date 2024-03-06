@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 export const isEqualBy =
   <T>(key: keyof T) =>
   (a: T, b: T) =>
