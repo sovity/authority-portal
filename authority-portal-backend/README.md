@@ -21,7 +21,7 @@ Backend + Frontend + E2E Tests
 
 ## About This Component
 
-Backend code for ... TODO
+Backend for the Authority Portal. Built with Quarkus, Kotlin and JOOQ.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -60,6 +60,8 @@ One might argue all the these types of tests to be unit tests:
     - Unit test don't work well when the unit under test contains db concerns.
       For testing code that uses JooQ Integration Tests are recommended.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ### Local E2E Development
 
 To start the backend in development mode, a JDK17 and docker are required.
@@ -70,6 +72,8 @@ To start the backend in development mode, a JDK17 and docker are required.
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 #### Local E2E Development: Basic Auth
 
 To simplify local development there are dev users available, see:
@@ -78,6 +82,8 @@ To simplify local development there are dev users available, see:
 - [realm.dev.json](authority-portal-quarkus/src/main/resources/realm.dev.json)
     - Contains the test users.
     - Roles come from the `application.properties`, though.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Keycloak
 
