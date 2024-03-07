@@ -74,26 +74,6 @@ All available configuration options can be found in
 
 ## Development
 
-For local development Node16 and NPM are required.
-
-For local development both the committed [.env.local-dev](.env.local-dev) and
-not committed `.env` files are additional sources for the config.
-
-```shell
-# (1) Build and link the TypeScript API Client Library
-# see parent README.md on how to do that
-
-# (2) Start Application in Dev Mode
-npm run start
-
-# (3) Start Karma Test Server
-npm run test
-```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Development
-
 ### Local Development
 
 For local development Node16 and NPM are required.
@@ -118,6 +98,8 @@ or
 npm run cold-start
 ```
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ### Local E2E Development
 
 Requires Node16 and NPM and a running backend in local development mode (Port
@@ -139,6 +121,8 @@ or
 # Always re-builds the API Client Library
 npm run cold-start-e2e-dev
 ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## License
 
