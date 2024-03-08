@@ -66,7 +66,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 #### Keycloak IAM Deployment
 
-- Consider consulting Keycloak's [server administration guide](https://www.keycloak.org/docs/latest/server_admin/)
+- Consider consulting Keycloak's [server administration guide](https://www.keycloak.org/docs/latest/server_admin/).
 - You need to have a running keycloak with the aforementioned compatible version.
 - The domain under which the Keycloak should be reachable on the internet will be referred to as `[KC_FQDN]` in this
   guide and should differ from the `[AP_FQDN]`.
