@@ -13,8 +13,6 @@
 import {Injectable} from '@angular/core';
 import {ToastService} from '../toast-notifications/toast.service';
 
-// adjust the path as needed
-
 @Injectable({
   providedIn: 'root',
 })
@@ -25,21 +23,17 @@ export class ClipboardUtils {
     const textarea = document.createElement('textarea');
     textarea.value = text;
 
-    // Append the textarea to the document
     document.body.appendChild(textarea);
     textarea.select();
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        // On success, show a toast notification
         this.toastService.showSuccess('Copied to clipboard');
       })
       .catch(() => {
-        // On failure, show a toast notification
         this.toastService.showDanger('Failed to copy to clipboard');
       });
 
-    // Remove the textarea from the document
     document.body.removeChild(textarea);
   }
 }
