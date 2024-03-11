@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {phoneNumberValidator} from '../../../../core/utils/validators/phone-number-validator';
 import {urlValidator} from '../../../../core/utils/validators/url-validator';
@@ -25,90 +24,105 @@ export const buildOrganizationCreateForm = (
   initialOrganization: OrganizationCreateFormValue,
 ): FormGroup<OrganizationCreateFormModel> => {
   return formBuilder.nonNullable.group({
-    legalName: [initialOrganization.legalName, [Validators.required]],
-    website: [initialOrganization.website, [Validators.required, urlValidator]],
-    businessUnit: [initialOrganization.businessUnit, [Validators.required]],
+    legalName: [
+      initialOrganization.legalName,
+      [Validators.required, Validators.maxLength(128)],
+    ],
+    website: [
+      initialOrganization.website,
+      [Validators.required, Validators.maxLength(128), urlValidator],
+    ],
+    businessUnit: [
+      initialOrganization.businessUnit,
+      [Validators.required, Validators.maxLength(128)],
+    ],
     industry: [initialOrganization.industry, [Validators.required]],
-    description: [initialOrganization.description, [Validators.required]],
+    description: [
+      initialOrganization.description,
+      [Validators.required, Validators.maxLength(128)],
+    ],
     mainAddressStreet: [
       initialOrganization.mainAddressStreet,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     mainAddressCity: [
       initialOrganization.mainAddressCity,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     mainAddressHouseNo: [
       initialOrganization.mainAddressHouseNo,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     mainAddressZipCode: [
       initialOrganization.mainAddressZipCode,
-      [Validators.required, zipCodeValidator],
+      [Validators.required, Validators.maxLength(128), zipCodeValidator],
     ],
     mainAddressCountry: [
       initialOrganization.mainAddressCountry,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     billingAddressSameAsMain: [true],
     billingAddressStreet: [
       initialOrganization.billingAddressStreet,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     billingAddressCity: [
       initialOrganization.billingAddressCity,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     billingAddressHouseNo: [
       initialOrganization.billingAddressHouseNo,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     billingAddressZipCode: [
       initialOrganization.billingAddressZipCode,
-      [Validators.required, zipCodeValidator],
+      [Validators.required, Validators.maxLength(128), zipCodeValidator],
     ],
     billingAddressCountry: [
       initialOrganization.billingAddressCountry,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     legalIdType: [initialOrganization.legalIdType, [Validators.required]],
-    legalId: [initialOrganization.legalId, [Validators.required]],
+    legalId: [
+      initialOrganization.legalId,
+      [Validators.required, Validators.maxLength(128)],
+    ],
     commerceRegisterLocation: [
       initialOrganization.commerceRegisterLocation,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     mainContactFirstName: [
       initialOrganization.mainContactFirstName,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     mainContactLastName: [
       initialOrganization.mainContactLastName,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     mainContactPhoneNumber: [
       initialOrganization.mainContactPhoneNumber,
-      [Validators.required, phoneNumberValidator],
+      [Validators.required, Validators.maxLength(128), phoneNumberValidator],
     ],
     mainContactEmail: [
       initialOrganization.mainContactEmail,
-      [Validators.required, Validators.email],
+      [Validators.required, Validators.maxLength(128), Validators.email],
     ],
     technicalContactSameAsMain: [true],
     technicalContactFirstName: [
       initialOrganization.technicalContactFirstName,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     technicalContactLastName: [
       initialOrganization.technicalContactLastName,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     technicalContactPhoneNumber: [
       initialOrganization.technicalContactPhoneNumber,
-      [Validators.required, phoneNumberValidator],
+      [Validators.required, Validators.maxLength(128), phoneNumberValidator],
     ],
     technicalContactEmail: [
       initialOrganization.technicalContactEmail,
-      [Validators.required, Validators.email],
+      [Validators.required, Validators.maxLength(128), Validators.email],
     ],
   });
 };
