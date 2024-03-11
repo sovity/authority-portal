@@ -22,6 +22,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Cleaned up dead links
 - Fixed an error with input validation that prevented the use of upper-case letters in zip codes [#21](https://github.com/sovity/authority-portal/issues/21)
 - Changed order of industry select options [#22](https://github.com/sovity/authority-portal/issues/22)
+- Added notification when user clicks on copy button [#24](https://github.com/sovity/authority-portal/issues/24)
 
 ### Known issues
 

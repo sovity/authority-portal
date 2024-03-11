@@ -10,15 +10,35 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+import {Injectable} from '@angular/core';
+import {ToastService} from '../toast-notifications/toast.service';
 
-export function copyToClipboard(text: string) {
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
+@Injectable({
+  providedIn: 'root',
+})
+export class ClipboardUtils {
+  constructor(private toastService: ToastService) {}
 
-  // Append the textarea to the document
-  document.body.appendChild(textarea);
-  textarea.select();
-  navigator.clipboard.writeText(text);
-  // Remove the textarea from the document
-  document.body.removeChild(textarea);
+  copyToClipboard(text: string | undefined) {
+    if (!text) {
+      this.toastService.showDanger('Nothing to copy');
+      return;
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+
+    document.body.appendChild(textarea);
+    textarea.select();
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        this.toastService.showSuccess('Copied to clipboard');
+      })
+      .catch(() => {
+        this.toastService.showDanger('Failed to copy to clipboard');
+      });
+
+    document.body.removeChild(textarea);
+  }
 }

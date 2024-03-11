@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {
   Component,
   HostBinding,
@@ -28,7 +27,7 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {copyToClipboard} from '../../../../core/utils/clipboard-utils';
+import {ClipboardUtils} from '../../../../core/utils/clipboard-utils';
 import {Reset, Submit} from '../state/register-central-component-page-actions';
 import {
   DEFAULT_REGISTER_CENTRAL_COMPONENT_PAGE_STATE,
@@ -62,6 +61,7 @@ export class RegisterCentralComponentPageComponent
     private store: Store,
     public form: RegisterCentralComponentPageForm,
     private globalStateUtils: GlobalStateUtils,
+    private clipboardUtils: ClipboardUtils,
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +79,9 @@ export class RegisterCentralComponentPageComponent
   }
 
   copyToClipboard() {
-    copyToClipboard(this.state.createdCentralComponentId || '');
+    this.clipboardUtils.copyToClipboard(
+      this.state.createdCentralComponentId || '',
+    );
   }
 
   private startListeningToState() {
