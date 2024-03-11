@@ -10,9 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, HostBinding, Input} from '@angular/core';
-import {copyToClipboard} from '../../../../core/utils/clipboard-utils';
+import {ClipboardUtils} from '../../../../core/utils/clipboard-utils';
 
 @Component({
   selector: 'app-connector-registering-success-message-page',
@@ -30,7 +29,9 @@ export class ConnectorRegisteringSuccessMessagePageComponent {
   @Input()
   connectorConfig: string = '...';
 
+  constructor(private clipboardUtils: ClipboardUtils) {}
+
   copyToClipboard() {
-    copyToClipboard(this.connectorConfig);
+    this.clipboardUtils.copyToClipboard(this.connectorConfig);
   }
 }

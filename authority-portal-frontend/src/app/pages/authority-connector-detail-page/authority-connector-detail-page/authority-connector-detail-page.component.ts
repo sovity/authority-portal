@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Component, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
@@ -21,6 +20,7 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {ClipboardUtils} from 'src/app/core/utils/clipboard-utils';
 import {
   getConnectorStatusText,
   getConnectorsTypeClasses,
@@ -63,6 +63,7 @@ export class AuthorityConnectorDetailPageComponent
     @Inject('childComponentInput') childComponentInput: ChildComponentInput,
     private clipboard: Clipboard,
     private globalStateUtils: GlobalStateUtils,
+    private clipboardUtils: ClipboardUtils,
   ) {
     this.connectorId = childComponentInput.id;
   }
@@ -130,7 +131,7 @@ export class AuthorityConnectorDetailPageComponent
 
   copyToClipboard(s: string | undefined) {
     if (s) {
-      this.clipboard.copy(s);
+      this.clipboardUtils.copyToClipboard(s);
     }
   }
 
