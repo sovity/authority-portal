@@ -17,9 +17,12 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Fixed dashboard not reloading when switching deployment environments.
 - Cleaned up repository for open-source release:
+
   - Removed internal tools and utilities
   - Rebased the entire history to remove secrets and unrelated code
   - Cleaned up dead links
+
+- Added notification when user clicks on copy button [#24](https://github.com/sovity/authority-portal/issues/24)
 
 ### Known issues
 
