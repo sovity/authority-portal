@@ -19,13 +19,25 @@ export const buildUserEditForm = (
   initialUser: UserEditFormValue,
 ): FormGroup<UserEditFormModel> => {
   return formBuilder.nonNullable.group({
-    firstName: [initialUser.firstName, [Validators.required]],
-    lastName: [initialUser.lastName, [Validators.required]],
-    email: [initialUser.email, [Validators.required, Validators.email]],
-    jobTitle: [initialUser.jobTitle, [Validators.required]],
+    firstName: [
+      initialUser.firstName,
+      [Validators.required, Validators.maxLength(128)],
+    ],
+    lastName: [
+      initialUser.lastName,
+      [Validators.required, Validators.maxLength(128)],
+    ],
+    email: [
+      initialUser.email,
+      [Validators.required, Validators.maxLength(128), Validators.email],
+    ],
+    jobTitle: [
+      initialUser.jobTitle,
+      [Validators.required, Validators.maxLength(128)],
+    ],
     phoneNumber: [
       initialUser.phoneNumber,
-      [Validators.required, phoneNumberValidator],
+      [Validators.required, Validators.maxLength(128), phoneNumberValidator],
     ],
   });
 };

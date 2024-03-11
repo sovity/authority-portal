@@ -20,6 +20,7 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {ClipboardUtils} from 'src/app/core/utils/clipboard-utils';
 import {
   getConnectorStatusText,
   getConnectorsTypeClasses,
@@ -60,7 +61,6 @@ export class AuthorityConnectorDetailPageComponent
   constructor(
     private store: Store,
     @Inject('childComponentInput') childComponentInput: ChildComponentInput,
-    private clipboard: Clipboard,
     private globalStateUtils: GlobalStateUtils,
   ) {
     this.connectorId = childComponentInput.id;
@@ -125,12 +125,6 @@ export class AuthorityConnectorDetailPageComponent
 
   refresh() {
     this.store.dispatch(RefreshConnector);
-  }
-
-  copyToClipboard(s: string | undefined) {
-    if (s) {
-      this.clipboard.copy(s);
-    }
   }
 
   cancelDeleteConnector() {

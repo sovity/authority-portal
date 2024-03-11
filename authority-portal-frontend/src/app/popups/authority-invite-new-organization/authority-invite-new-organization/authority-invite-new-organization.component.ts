@@ -60,10 +60,22 @@ export class AuthorityInviteNewOrganizationComponent {
   buildFormGroup(): FormGroup<AuthorityInviteNewOrganizationPageFormModel> {
     const initial = DEFAULT_AUTHORITY_INVITE_NEW_ORGANIZATION_FORM_VALUE;
     return this.formBuilder.nonNullable.group({
-      userFirstName: [initial.userFirstName, [Validators.required]],
-      userLastName: [initial.userLastName, [Validators.required]],
-      userEmail: [initial.userEmail, [Validators.required, Validators.email]],
-      orgName: [initial.orgName, [Validators.required]],
+      userFirstName: [
+        initial.userFirstName,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      userLastName: [
+        initial.userLastName,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      userEmail: [
+        initial.userEmail,
+        [Validators.required, Validators.maxLength(128), Validators.email],
+      ],
+      orgName: [
+        initial.orgName,
+        [Validators.required, Validators.maxLength(128)],
+      ],
       userJobTitle: [initial.userJobTitle],
       userPhoneNumber: [initial.userPhoneNumber, [phoneNumberValidator]],
     });

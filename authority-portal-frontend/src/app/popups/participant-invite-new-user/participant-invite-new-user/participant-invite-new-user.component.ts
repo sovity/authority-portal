@@ -63,10 +63,19 @@ export class ParticipantInviteNewUserComponent {
   buildFormGroup(): FormGroup<ParticipantInviteNewUserPageFormModel> {
     const initial = DEFAULT_PARTICIPANT_INVITE_NEW_USER_FORM_VALUE;
     return this.formBuilder.nonNullable.group({
-      firstName: [initial.firstName, [Validators.required]],
-      lastName: [initial.lastName, [Validators.required]],
-      email: [initial.email, [Validators.required, Validators.email]],
-      role: [initial.role, [Validators.required]],
+      firstName: [
+        initial.firstName,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      lastName: [
+        initial.lastName,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      email: [
+        initial.email,
+        [Validators.required, Validators.maxLength(128), Validators.email],
+      ],
+      role: [initial.role, [Validators.required, Validators.maxLength(128)]],
     });
   }
 

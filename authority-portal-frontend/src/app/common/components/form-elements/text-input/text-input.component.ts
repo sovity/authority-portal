@@ -42,4 +42,7 @@ export class TextInputComponent {
 
   @Input()
   invalidPatternMessage = 'Input does not fit pattern.';
+
+  @Input()
+  maxLengthMessage = 'Input exceeds maximum length.';
 }

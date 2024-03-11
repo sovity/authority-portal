@@ -22,12 +22,21 @@ export const buildUserOnboardForm = (
   initialUser: UserOnboardFormValue,
 ): FormGroup<UserOnboardFormModel> => {
   return formBuilder.nonNullable.group({
-    firstName: [initialUser.firstName, [Validators.required]],
-    lastName: [initialUser.lastName, [Validators.required]],
-    jobTitle: [initialUser.jobTitle, [Validators.required]],
+    firstName: [
+      initialUser.firstName,
+      [Validators.required, Validators.maxLength(128)],
+    ],
+    lastName: [
+      initialUser.lastName,
+      [Validators.required, Validators.maxLength(128)],
+    ],
+    jobTitle: [
+      initialUser.jobTitle,
+      [Validators.required, Validators.maxLength(128)],
+    ],
     phoneNumber: [
       initialUser.phoneNumber,
-      [Validators.required, phoneNumberValidator],
+      [Validators.required, Validators.maxLength(128), phoneNumberValidator],
     ],
   });
 };

@@ -25,19 +25,32 @@ export const buildUserCreateForm = (
 ): FormGroup<UserCreateFormModel> => {
   return formBuilder.nonNullable.group(
     {
-      firstName: [initialUser.firstName, [Validators.required]],
-      lastName: [initialUser.lastName, [Validators.required]],
-      jobTitle: [initialUser.jobTitle, [Validators.required]],
+      firstName: [
+        initialUser.firstName,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      lastName: [
+        initialUser.lastName,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      jobTitle: [
+        initialUser.jobTitle,
+        [Validators.required, Validators.maxLength(128)],
+      ],
       phoneNumber: [
         initialUser.phoneNumber,
-        [Validators.required, phoneNumberValidator],
+        [Validators.required, Validators.maxLength(128), phoneNumberValidator],
       ],
-      email: [initialUser.email, [Validators.required, Validators.email]],
+      email: [
+        initialUser.email,
+        [Validators.required, Validators.maxLength(128), Validators.email],
+      ],
       password: [
         initialUser.password,
         [
           Validators.required,
           Validators.minLength(8),
+          Validators.maxLength(128),
           passwordEntropyValidator,
         ],
       ],

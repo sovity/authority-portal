@@ -47,19 +47,25 @@ export class RegisterConnectorPageForm {
     const initial = DEFAULT_REGISTER_CONNECTOR_PAGE_FORM_VALUE;
 
     const connectorTab = this.formBuilder.nonNullable.group({
-      name: [initial.connectorTab.name, [Validators.required]],
-      location: [initial.connectorTab.location, [Validators.required]],
+      name: [
+        initial.connectorTab.name,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      location: [
+        initial.connectorTab.location,
+        [Validators.required, Validators.maxLength(128)],
+      ],
       frontendUrl: [
         initial.connectorTab.frontendUrl,
-        [Validators.required, urlValidator],
+        [Validators.required, Validators.maxLength(128), urlValidator],
       ],
       endpointUrl: [
         initial.connectorTab.endpointUrl,
-        [Validators.required, urlValidator],
+        [Validators.required, Validators.maxLength(128), urlValidator],
       ],
       managementUrl: [
         initial.connectorTab.managementUrl,
-        [Validators.required, urlValidator],
+        [Validators.required, Validators.maxLength(128), urlValidator],
       ],
     });
 

@@ -23,27 +23,42 @@ export const buildOrganizationEditForm = (
   initialOrganization: OrganizationEditFormValue,
 ): FormGroup<OrganizationEditFormModel> => {
   return formBuilder.nonNullable.group({
-    website: [initialOrganization.website, [Validators.required, urlValidator]],
-    businessUnit: [initialOrganization.businessUnit, [Validators.required]],
+    website: [
+      initialOrganization.website,
+      [Validators.required, Validators.maxLength(128), urlValidator],
+    ],
+    businessUnit: [
+      initialOrganization.businessUnit,
+      [Validators.required, Validators.maxLength(128)],
+    ],
     industry: [initialOrganization.industry, [Validators.required]],
-    description: [initialOrganization.description, [Validators.required]],
-    mainAddress: [initialOrganization.mainAddress, [Validators.required]],
+    description: [
+      initialOrganization.description,
+      [Validators.required, Validators.maxLength(128)],
+    ],
+    mainAddress: [
+      initialOrganization.mainAddress,
+      [Validators.required, Validators.maxLength(128)],
+    ],
     billingAddressSameAsMain: [
       initialOrganization.billingAddressSameAsMain,
       [Validators.required],
     ],
-    billingAddress: [initialOrganization.billingAddress, [Validators.required]],
+    billingAddress: [
+      initialOrganization.billingAddress,
+      [Validators.required, Validators.maxLength(128)],
+    ],
     mainContactName: [
       initialOrganization.mainContactName,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     mainContactPhoneNumber: [
       initialOrganization.mainContactPhoneNumber,
-      [Validators.required, phoneNumberValidator],
+      [Validators.required, Validators.maxLength(128), phoneNumberValidator],
     ],
     mainContactEmail: [
       initialOrganization.mainContactEmail,
-      [Validators.required, Validators.email],
+      [Validators.required, Validators.maxLength(128), Validators.email],
     ],
     technicalContactSameAsMain: [
       initialOrganization.technicalContactSameAsMain,
@@ -51,15 +66,15 @@ export const buildOrganizationEditForm = (
     ],
     technicalContactName: [
       initialOrganization.technicalContactName,
-      [Validators.required],
+      [Validators.required, Validators.maxLength(128)],
     ],
     technicalContactPhoneNumber: [
       initialOrganization.technicalContactPhoneNumber,
-      [Validators.required, phoneNumberValidator],
+      [Validators.required, Validators.maxLength(128), phoneNumberValidator],
     ],
     technicalContactEmail: [
       initialOrganization.technicalContactEmail,
-      [Validators.required, Validators.email],
+      [Validators.required, Validators.maxLength(128), Validators.email],
     ],
   });
 };

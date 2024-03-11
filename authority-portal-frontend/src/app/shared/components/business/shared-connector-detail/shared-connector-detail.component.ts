@@ -12,7 +12,7 @@
  */
 import {Component, HostBinding, Input} from '@angular/core';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
-import {copyToClipboard} from '../../../../core/utils/clipboard-utils';
+import {ClipboardUtils} from '../../../../core/utils/clipboard-utils';
 import {getConnectorStatusText} from '../../../../core/utils/ui-utils';
 
 @Component({
@@ -29,5 +29,10 @@ export class SharedConnectorDetailComponent {
   @Input() connector!: ConnectorDetailDto;
 
   getConnectorStatusText = getConnectorStatusText;
-  copyToClipboard = copyToClipboard;
+
+  constructor(private clipboardUtils: ClipboardUtils) {}
+
+  copyToClipboard(param: string) {
+    this.clipboardUtils.copyToClipboard(param);
+  }
 }
