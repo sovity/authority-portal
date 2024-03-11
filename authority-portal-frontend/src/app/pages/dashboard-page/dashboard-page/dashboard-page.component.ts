@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {map, switchMap, takeUntil} from 'rxjs/operators';

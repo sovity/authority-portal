@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {certificateValidator} from '../../../../core/utils/validators/certificate-validator';
 import {passwordEntropyValidator} from '../../../../core/utils/validators/password-entropy-validator';
@@ -31,15 +30,22 @@ export const buildCertificateInputForm = (
         initial.ownCertificate,
         [Validators.required, certificateValidator],
       ],
-      organizationalUnit: [initial.organizationalUnit, [Validators.required]],
-      email: [initial.email, [Validators.required, Validators.email]],
-      state: [initial.state, [Validators.required]],
-      city: [initial.city, [Validators.required]],
+      organizationalUnit: [
+        initial.organizationalUnit,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      email: [
+        initial.email,
+        [Validators.required, Validators.email, Validators.maxLength(128)],
+      ],
+      state: [initial.state, [Validators.required, Validators.maxLength(128)]],
+      city: [initial.city, [Validators.required, Validators.maxLength(128)]],
       password: [
         initial.password,
         [
           Validators.required,
           Validators.minLength(8),
+          Validators.maxLength(128),
           passwordEntropyValidator,
         ],
       ],

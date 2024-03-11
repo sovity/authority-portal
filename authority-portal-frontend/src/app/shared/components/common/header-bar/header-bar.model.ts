@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 
 export interface HeaderBarConfig {

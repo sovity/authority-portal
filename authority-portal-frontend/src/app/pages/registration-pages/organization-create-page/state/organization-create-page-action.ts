@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {RegistrationRequestDto} from '@sovity.de/authority-portal-client';
 
 const tag = 'OrganizationCreatePage';

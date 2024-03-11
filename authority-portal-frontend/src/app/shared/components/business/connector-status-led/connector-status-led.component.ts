@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, Input} from '@angular/core';
 import {ConnectorStatusDto} from '@sovity.de/authority-portal-client';
 import {

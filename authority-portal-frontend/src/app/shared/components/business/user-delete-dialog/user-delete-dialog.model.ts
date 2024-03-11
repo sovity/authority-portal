@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {UserDeletionCheck} from '@sovity.de/authority-portal-client';
 
 export interface UserDeleteDialog {

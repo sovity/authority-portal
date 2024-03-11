@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, HostBinding, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
@@ -43,4 +42,7 @@ export class TextInputComponent {
 
   @Input()
   invalidPatternMessage = 'Input does not fit pattern.';
+
+  @Input()
+  maxLengthMessage = 'Input exceeds maximum length.';
 }

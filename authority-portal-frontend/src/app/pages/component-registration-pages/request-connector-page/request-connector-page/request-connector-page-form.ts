@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {subdomainValidators} from 'src/app/core/utils/validators/subdomain-validator';
@@ -30,14 +29,21 @@ export class RequestConnectorPageForm {
     const initial = DEFAULT_REQUEST_CONNECTOR_PAGE_FORM_VALUE;
 
     return this.formBuilder.nonNullable.group({
-      connectorTitle: [initial.connectorTitle, [Validators.required]],
+      connectorTitle: [
+        initial.connectorTitle,
+        [Validators.required, Validators.maxLength(128)],
+      ],
       connectorSubdomain: [
         initial.connectorSubdomain,
-        [Validators.required, ...subdomainValidators],
+        [
+          Validators.required,
+          Validators.maxLength(128),
+          ...subdomainValidators,
+        ],
       ],
       connectorDescription: [
         initial.connectorDescription,
-        [Validators.required],
+        [Validators.required, Validators.maxLength(128)],
       ],
     });
   }

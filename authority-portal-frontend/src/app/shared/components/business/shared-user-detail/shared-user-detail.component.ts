@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, HostBinding, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable, forkJoin} from 'rxjs';

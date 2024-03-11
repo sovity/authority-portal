@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {CreateConnectorRequest} from '@sovity.de/authority-portal-client';
 
 const tag = 'ProvideConnectorPage';

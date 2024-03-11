@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, HostBinding, Input} from '@angular/core';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {DonutChartData} from '../donut-chart/donut-chart-data';

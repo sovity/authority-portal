@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Pipe, PipeTransform} from '@angular/core';
 import {Observable, distinctUntilChanged} from 'rxjs';
 import {map} from 'rxjs/operators';
