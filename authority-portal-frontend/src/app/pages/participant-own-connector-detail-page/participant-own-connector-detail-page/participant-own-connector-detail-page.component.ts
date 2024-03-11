@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {

@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {InviteOrganizationRequest} from '@sovity.de/authority-portal-client';
 
 const tag = 'AuthorityInviteNewOrganizationPage';

@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Inject, Injectable} from '@angular/core';
 import {Observable, combineLatest, forkJoin} from 'rxjs';
 import {

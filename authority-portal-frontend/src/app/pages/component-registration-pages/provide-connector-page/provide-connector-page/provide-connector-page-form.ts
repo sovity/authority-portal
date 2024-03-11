@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {urlValidator} from 'src/app/core/utils/validators/url-validator';
@@ -48,21 +47,30 @@ export class ProvideConnectorPageForm {
     const initial = DEFAULT_PROVIDE_CONNECTOR_PAGE_FORM_VALUE;
 
     const connectorTab = this.formBuilder.nonNullable.group({
-      name: [initial.connectorTab.name, [Validators.required]],
-      location: [initial.connectorTab.location, [Validators.required]],
+      name: [
+        initial.connectorTab.name,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      location: [
+        initial.connectorTab.location,
+        [Validators.required, Validators.maxLength(128)],
+      ],
       frontendUrl: [
         initial.connectorTab.frontendUrl,
-        [Validators.required, urlValidator],
+        [Validators.required, Validators.maxLength(128), urlValidator],
       ],
       endpointUrl: [
         initial.connectorTab.endpointUrl,
-        [Validators.required, urlValidator],
+        [Validators.required, Validators.maxLength(128), urlValidator],
       ],
       managementUrl: [
         initial.connectorTab.managementUrl,
-        [Validators.required, urlValidator],
+        [Validators.required, Validators.maxLength(128), urlValidator],
       ],
-      organization: [initial.connectorTab.organization, [Validators.required]],
+      organization: [
+        initial.connectorTab.organization,
+        [Validators.required, Validators.maxLength(128)],
+      ],
     });
 
     const certificateTab = buildCertificateInputForm(

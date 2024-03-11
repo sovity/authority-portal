@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {StateContext} from '@ngxs/store';
 import {Patcher} from './object-utils';
 

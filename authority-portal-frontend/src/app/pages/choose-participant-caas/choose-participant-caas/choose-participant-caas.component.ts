@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject, switchMap, takeUntil} from 'rxjs';
 import {CaasAvailabilityResponse} from '@sovity.de/authority-portal-client';

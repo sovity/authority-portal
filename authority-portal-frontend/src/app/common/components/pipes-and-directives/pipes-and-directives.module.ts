@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {NgModule} from '@angular/core';
 import {CheckIfNotCurrentUserPipe} from './check-if-not-current-user.pipe';
 import {DisabledButtonDirective} from './disabled-button.directive';

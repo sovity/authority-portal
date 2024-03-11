@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {SlideOverAction} from 'src/app/shared/components/common/slide-over/slide-over.model';
 
 /**

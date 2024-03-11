@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component} from '@angular/core';
 import {SelectionBoxModel} from 'src/app/shared/components/common/selection-box/selection-box.model';
 

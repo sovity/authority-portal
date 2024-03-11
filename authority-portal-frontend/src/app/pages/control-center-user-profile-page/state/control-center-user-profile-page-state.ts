@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {UserDetailDto} from '@sovity.de/authority-portal-client';
 import {Fetched} from '../../../core/utils/fetched';
 import {UserDetailConfig} from '../../../shared/components/business/shared-user-detail/shared-user-detail.model';

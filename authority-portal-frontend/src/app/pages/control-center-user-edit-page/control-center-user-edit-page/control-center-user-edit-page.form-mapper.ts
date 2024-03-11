@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {UpdateUserDto, UserDetailDto} from '@sovity.de/authority-portal-client';
 import {ControlCenterUserEditPageFormValue} from './control-center-user-edit-page.form-model';
 

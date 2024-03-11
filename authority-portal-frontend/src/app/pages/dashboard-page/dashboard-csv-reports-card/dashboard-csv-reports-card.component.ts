@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {

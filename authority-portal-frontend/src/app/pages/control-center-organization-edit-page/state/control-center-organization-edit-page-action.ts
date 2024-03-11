@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {ControlCenterOrganizationEditPageForm} from '../control-center-organization-edit-page/control-center-organization-edit-page.form';
 import {ControlCenterOrganizationEditPageFormValue} from '../control-center-organization-edit-page/control-center-organization-edit-page.form-model';
 

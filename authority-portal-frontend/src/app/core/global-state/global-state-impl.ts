@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Inject, Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ignoreElements, tap} from 'rxjs/operators';

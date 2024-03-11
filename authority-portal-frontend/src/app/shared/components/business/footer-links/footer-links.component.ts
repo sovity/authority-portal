@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, HostBinding, Inject} from '@angular/core';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {FooterLink} from './footer-link.model';
