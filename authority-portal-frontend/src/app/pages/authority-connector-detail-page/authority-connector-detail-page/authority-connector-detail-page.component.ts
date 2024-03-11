@@ -130,9 +130,7 @@ export class AuthorityConnectorDetailPageComponent
   }
 
   copyToClipboard(s: string | undefined) {
-    if (s) {
-      this.clipboardUtils.copyToClipboard(s);
-    }
+    this.clipboardUtils.copyToClipboard(s);
   }
 
   cancelDeleteConnector() {

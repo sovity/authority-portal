@@ -19,7 +19,12 @@ import {ToastService} from '../toast-notifications/toast.service';
 export class ClipboardUtils {
   constructor(private toastService: ToastService) {}
 
-  copyToClipboard(text: string) {
+  copyToClipboard(text: string | undefined) {
+    if (!text) {
+      this.toastService.showDanger('Nothing to copy');
+      return;
+    }
+
     const textarea = document.createElement('textarea');
     textarea.value = text;
 
