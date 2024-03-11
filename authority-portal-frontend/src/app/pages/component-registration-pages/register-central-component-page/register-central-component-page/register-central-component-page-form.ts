@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {urlValidator} from 'src/app/core/utils/validators/url-validator';
@@ -48,12 +47,21 @@ export class RegisterCentralComponentPageForm {
     const initial = DEFAULT_REGISTER_CENTRAL_COMPONENT_PAGE_FORM_VALUE;
 
     const componentTab = this.formBuilder.nonNullable.group({
-      name: [initial.componentTab.name, [Validators.required]],
-      location: [initial.componentTab.location, [Validators.required]],
-      frontendUrl: [initial.componentTab.frontendUrl, [urlValidator]],
+      name: [
+        initial.componentTab.name,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      location: [
+        initial.componentTab.location,
+        [Validators.required, Validators.maxLength(128)],
+      ],
+      frontendUrl: [
+        initial.componentTab.frontendUrl,
+        [Validators.required, , Validators.maxLength(128), urlValidator],
+      ],
       endpointUrl: [
         initial.componentTab.endpointUrl,
-        [Validators.required, urlValidator],
+        [Validators.required, Validators.maxLength(128), urlValidator],
       ],
     });
 
