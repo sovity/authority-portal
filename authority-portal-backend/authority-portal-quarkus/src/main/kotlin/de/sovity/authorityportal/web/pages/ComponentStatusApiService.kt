@@ -96,7 +96,7 @@ class ComponentStatusApiService {
         val limit = now.minus(timeSpan)
         var statusHistoryAsc = componentStatusService.getStatusHistoryAscSince(component, limit, environmentId)
         // If no status was found before the limit, the first record in the history is used as base for the calculation
-        var initialRecord = componentStatusService.getFirstRecordBefore(component, limit, environmentId) ?: statusHistoryAsc.first()
+        val initialRecord = componentStatusService.getFirstRecordBefore(component, limit, environmentId) ?: statusHistoryAsc.first()
 
         // If no "UP" status was found, return 0.00
         // Also, drop all entries before first "UP" status, to avoid wrong uptime calculation
@@ -122,7 +122,7 @@ class ComponentStatusApiService {
         // Add time if last status is "UP"
         val lastRecord = statusHistoryAsc.lastOrNull() ?: tmpLastUpStatus
         if (lastRecord!!.status == ComponentOnlineStatus.UP) {
-            totalUptimeDuration += Duration.between(lastRecord!!.timeStamp.toInstant(), now.toInstant()).abs()
+            totalUptimeDuration += Duration.between(lastRecord.timeStamp.toInstant(), now.toInstant()).abs()
         }
 
         // Subtract potential uptime before the limit
