@@ -61,9 +61,7 @@ export class AuthorityConnectorDetailPageComponent
   constructor(
     private store: Store,
     @Inject('childComponentInput') childComponentInput: ChildComponentInput,
-    private clipboard: Clipboard,
     private globalStateUtils: GlobalStateUtils,
-    private clipboardUtils: ClipboardUtils,
   ) {
     this.connectorId = childComponentInput.id;
   }
@@ -127,10 +125,6 @@ export class AuthorityConnectorDetailPageComponent
 
   refresh() {
     this.store.dispatch(RefreshConnector);
-  }
-
-  copyToClipboard(s: string | undefined) {
-    this.clipboardUtils.copyToClipboard(s);
   }
 
   cancelDeleteConnector() {
