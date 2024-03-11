@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+
 // noinspection JSUnusedGlobalSymbols
 import {resolve} from 'path';
 import {defineConfig} from 'vite';
