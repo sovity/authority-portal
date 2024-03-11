@@ -20,6 +20,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Removed internal tools and utilities
   - Rebased the entire history to remove secrets and unrelated code
   - Cleaned up dead links
+- Fixed an error with input validation that prevented the use of upper-case letters in zip codes [#21](https://github.com/sovity/authority-portal/issues/21)
 - Changed order of industry select options [#22](https://github.com/sovity/authority-portal/issues/22)
 
 ### Known issues
