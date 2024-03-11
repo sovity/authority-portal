@@ -23,6 +23,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added max length validator to most fields (128 symbols) [#17](https://github.com/sovity/authority-portal/issues/17)
 - Fixed an error with input validation that prevented the use of upper-case letters in zip codes [#21](https://github.com/sovity/authority-portal/issues/21)
 - Changed order of industry select options [#22](https://github.com/sovity/authority-portal/issues/22)
+- Added notification when user clicks on copy button [#24](https://github.com/sovity/authority-portal/issues/24)
 
 ### Known issues
 
