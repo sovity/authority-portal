@@ -57,11 +57,11 @@ export class RegisterCentralComponentPageForm {
       ],
       frontendUrl: [
         initial.componentTab.frontendUrl,
-        [Validators.required, , Validators.maxLength(128), urlValidator],
+        [Validators.required, urlValidator, Validators.maxLength(128)],
       ],
       endpointUrl: [
         initial.componentTab.endpointUrl,
-        [Validators.required, Validators.maxLength(128), urlValidator],
+        [Validators.required, urlValidator, Validators.maxLength(128)],
       ],
     });
 
