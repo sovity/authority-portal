@@ -161,8 +161,5 @@ class ComponentStatusApiServiceTest {
             .values(ComponentType.DAPS, ComponentOnlineStatus.DOWN, environment2, now.minus(Duration.ofDays(31)))
             // LH: Empty
             .execute()
-
-        // TODO: Add tests for Kuma client
-        // TODO: Add kuma variable to README (already done?) and .env
     }
 }

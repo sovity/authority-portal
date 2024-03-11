@@ -96,7 +96,7 @@ class ComponentStatusApiService {
         val limit = now.minus(timeSpan)
         var statusHistoryAsc = componentStatusService.getStatusHistoryAscSince(component, limit, environmentId)
         // If no status was found before the limit, the first record in the history is used as base for the calculation
-        var initialRecord = componentStatusService.getFirstRecordBefore(component, limit, environmentId) ?: statusHistoryAsc.first()
+        val initialRecord = componentStatusService.getFirstRecordBefore(component, limit, environmentId) ?: statusHistoryAsc.first()
 
         // If no "UP" status was found, return 0.00
         // Also, drop all entries before first "UP" status, to avoid wrong uptime calculation
@@ -122,7 +122,7 @@ class ComponentStatusApiService {
         // Add time if last status is "UP"
         val lastRecord = statusHistoryAsc.lastOrNull() ?: tmpLastUpStatus
         if (lastRecord!!.status == ComponentOnlineStatus.UP) {
-            totalUptimeDuration += Duration.between(lastRecord!!.timeStamp.toInstant(), now.toInstant()).abs()
+            totalUptimeDuration += Duration.between(lastRecord.timeStamp.toInstant(), now.toInstant()).abs()
         }
 
         // Subtract potential uptime before the limit
@@ -144,38 +144,24 @@ class ComponentStatusApiService {
         connectorMetadata: List<AuthorityPortalConnectorInfo>,
         environmentId: String
     ): ConnectorStatusCount {
-        val metadata = withUnknownConnectors(connectorMetadata, environmentId)
+        val unknownCount = getNumberOfUnknownConnectors(connectorMetadata, environmentId)
 
-        val onlineCount = metadata.count { it.onlineStatus == ONLINE }
-        val disturbedCount = metadata.count {
+        val onlineCount = connectorMetadata.count { it.onlineStatus == ONLINE }
+        val disturbedCount = connectorMetadata.count {
             (it.onlineStatus == OFFLINE || it.onlineStatus == DEAD)
                 && it.offlineSinceOrLastUpdatedAt != null
                 && it.offlineSinceOrLastUpdatedAt!!.isAfter(OffsetDateTime.now().minusMinutes(2))
         }
-        val offlineCount = metadata.count { it.onlineStatus == OFFLINE || it.onlineStatus == DEAD } - disturbedCount
+        val offlineCount = connectorMetadata.count { it.onlineStatus == OFFLINE || it.onlineStatus == DEAD } - disturbedCount + unknownCount
         return ConnectorStatusCount(onlineCount, disturbedCount, offlineCount)
     }
 
-    private fun withUnknownConnectors(connectorMetadata: List<AuthorityPortalConnectorInfo>, environmentId: String): List<AuthorityPortalConnectorInfo> {
+    private fun getNumberOfUnknownConnectors(connectorMetadata: List<AuthorityPortalConnectorInfo>, environmentId: String): Int {
         val c = Tables.CONNECTOR
-        val connectors = dsl.selectFrom(c).where(c.ENVIRONMENT.eq(environmentId)).toList()
-        val connectorByEndpoint = connectors.associateBy { it.endpointUrl }
-
-        val allEndpoints = connectors.map { it.endpointUrl }.toSet()
-        val brokerKnownEndpoints = connectorMetadata.map { it.connectorEndpoint }.toSet()
-        val unknownEndpoints: Set<String> = allEndpoints - brokerKnownEndpoints
-
-        val unknownConnectors = unknownEndpoints.map { endpoint ->
-            AuthorityPortalConnectorInfo().also { dto ->
-                dto.connectorEndpoint = endpoint
-                dto.participantId = "does-not-matter"
-                dto.dataOfferCount = 0
-                dto.onlineStatus = DEAD
-                dto.offlineSinceOrLastUpdatedAt = connectorByEndpoint[endpoint]?.createdAt
-            }
-        }
-
-        return listOf(connectorMetadata, unknownConnectors).flatten()
+        return dsl.selectCount().from(c).where(
+            c.ENVIRONMENT.eq(environmentId),
+            c.ENDPOINT_URL.notIn(connectorMetadata.map { it.connectorEndpoint })
+        ).fetchSingle().value1()
     }
 
     data class ConnectorStatusCount(
