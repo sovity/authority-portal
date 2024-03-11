@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, HostBinding, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
@@ -49,7 +48,6 @@ export class IndustrySelectComponent {
     'Meteorological services',
     'Micromobility provider',
     'Municipality',
-    'Other',
     'Passenger transportation',
     'Research & Development',
     'Sensor supplier',
@@ -57,5 +55,6 @@ export class IndustrySelectComponent {
     'Telecommunication',
     'Tourism',
     'Traffic engineering',
+    'Other',
   ];
 }
