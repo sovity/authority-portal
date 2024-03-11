@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {OperatorFunction, concat, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 

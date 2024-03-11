@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component} from '@angular/core';
 import {CONTROL_CENTER_ROUTES} from '../control-center-routes';
 

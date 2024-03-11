@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {FormControl, ɵFormGroupRawValue} from '@angular/forms';
 import {OrganizationLegalIdTypeDto} from '@sovity.de/authority-portal-client';
 

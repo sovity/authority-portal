@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {RegistrationRequestDto} from '@sovity.de/authority-portal-client';
 import {getMainAndBillingAddresses} from '../../../../core/utils/address-utils';
 import {getMainAndTechnicalContacts} from '../../../../core/utils/name-utils';

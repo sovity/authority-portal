@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {phoneNumberValidator} from '../../../../core/utils/validators/phone-number-validator';
 import {

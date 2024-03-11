@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {ControlCenterUserEditPageForm} from '../control-center-user-edit-page/control-center-user-edit-page.form';
 import {ControlCenterUserEditPageFormValue} from '../control-center-user-edit-page/control-center-user-edit-page.form-model';
 

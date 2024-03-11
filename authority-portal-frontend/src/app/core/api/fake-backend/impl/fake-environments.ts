@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 
 export function fakeEnv(id: string): DeploymentEnvironmentDto {

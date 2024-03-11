@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {ɵFormGroupRawValue} from '@angular/forms';
 import {UserEditFormModel} from '../../../shared/components/business/user-edit-form/user-edit-form-model';
 

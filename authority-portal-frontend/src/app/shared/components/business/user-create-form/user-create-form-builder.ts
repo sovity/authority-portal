@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {passwordEntropyValidator} from '../../../../core/utils/validators/password-entropy-validator';
 import {passwordMatchValidator} from '../../../../core/utils/validators/password-match-validator';
