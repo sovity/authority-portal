@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {FormControl, FormGroup, ɵFormGroupRawValue} from '@angular/forms';
 import {
   DEFAULT_ORGANIZATION_CREATE_FORM_MODEL,

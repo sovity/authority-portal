@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {ValidatorFn, Validators} from '@angular/forms';
 
 export const passwordEntropyPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;

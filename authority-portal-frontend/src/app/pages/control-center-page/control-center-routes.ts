@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Route} from '@angular/router';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {ControlCenterOrganizationEditPageComponent} from '../control-center-organization-edit-page/control-center-organization-edit-page/control-center-organization-edit-page.component';

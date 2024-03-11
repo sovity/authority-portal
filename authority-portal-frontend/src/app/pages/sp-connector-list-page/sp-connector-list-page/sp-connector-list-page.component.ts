@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';

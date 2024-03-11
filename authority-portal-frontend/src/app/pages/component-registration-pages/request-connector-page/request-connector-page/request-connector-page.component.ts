@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, Inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable, Subject, switchMap, takeUntil} from 'rxjs';

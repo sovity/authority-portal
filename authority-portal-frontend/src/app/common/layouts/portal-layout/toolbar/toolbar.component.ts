@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Component, Inject} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {UserInfo} from '@sovity.de/authority-portal-client';

@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {ToastNotificationsComponent} from './toast-notifications/toast-notifications.component';

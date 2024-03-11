@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
 import {

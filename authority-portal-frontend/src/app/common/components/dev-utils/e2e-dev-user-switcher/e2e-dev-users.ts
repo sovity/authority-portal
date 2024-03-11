@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {E2eDevUser} from './e2e-dev-user';
 
 export const E2E_DEV_USERS: E2eDevUser[] = [

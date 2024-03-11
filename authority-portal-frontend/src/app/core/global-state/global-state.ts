@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {
   DeploymentEnvironmentDto,
   UserInfo,

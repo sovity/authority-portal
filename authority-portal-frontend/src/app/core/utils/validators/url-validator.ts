@@ -10,7 +10,6 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
 import {ValidatorFn} from '@angular/forms';
 import {namedRegexValidator} from './named-regex-validator';
 
