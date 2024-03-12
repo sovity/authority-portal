@@ -160,16 +160,16 @@ class ComponentStatusApiService {
 
     private fun getNumberOfUnknownConnectors(connectorMetadata: List<AuthorityPortalConnectorInfo>, environmentId: String, mdsId: String? = null): Int {
         val c = Tables.CONNECTOR
-        val condition = dsl.selectCount().from(c).where(
+
+        val conditions = mutableListOf(
             c.ENVIRONMENT.eq(environmentId),
             c.ENDPOINT_URL.notIn(connectorMetadata.map { it.connectorEndpoint })
         )
-
         if (mdsId != null) {
-            condition.and(c.MDS_ID.eq(mdsId))
+            conditions += c.MDS_ID.eq(mdsId)
         }
 
-        return condition.fetchSingle().value1()
+        return dsl.selectCount().from(c).where(conditions).fetchSingle().value1()
     }
 
     data class ConnectorStatusCount(
