@@ -40,7 +40,7 @@ class UnconfirmedUserDeletionService {
     lateinit var inviteExpirationTime: String
 
     @Transactional
-    @Scheduled(every = "15m")
+    @Scheduled(every = "30s")
     fun deleteUnconfirmedUsersAndOrganizations() {
         val expirationCutoffTime = OffsetDateTime.now().minusSeconds(inviteExpirationTime.toLong())
 
