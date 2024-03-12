@@ -26,7 +26,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed the text being cut off in the connector self-hosting instructions ([#35](https://github.com/sovity/authority-portal/issues/35))
 - Fixed inconsistent placeholder values for privacy policy and legal notice links ([#41](https://github.com/sovity/authority-portal/issues/41))
 - Fixed misleading UptimeKuma endpoint documentation ([#26](https://github.com/sovity/authority-portal/issues/26))
-- Fixed components displayed as online, when UptimeKuma is unreachable
+- Fixed components being displayed as online when UptimeKuma is unreachable
 - Cleaned up repository for open-source release:
   - Removed internal tools and utilities
   - Rebased the entire history to remove secrets and unrelated code
