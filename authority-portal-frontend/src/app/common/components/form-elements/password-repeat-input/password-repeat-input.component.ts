@@ -37,5 +37,8 @@ export class PasswordRepeatInputComponent {
   @Input()
   ctrlId = 'password-repeat';
 
+  @Input()
+  required = true;
+
   showPassword = false;
 }

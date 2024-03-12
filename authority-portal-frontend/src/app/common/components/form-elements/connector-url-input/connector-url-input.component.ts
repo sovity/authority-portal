@@ -37,6 +37,9 @@ export class ConnectorUrlInputComponent {
   @Input()
   urlSuffix = '/api/dsp';
 
+  @Input()
+  required = true;
+
   get placeholder() {
     return 'https://my-connector.my-org.com' + this.urlSuffix;
   }

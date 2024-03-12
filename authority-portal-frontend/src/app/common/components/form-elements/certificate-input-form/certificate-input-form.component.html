@@ -15,6 +15,7 @@
       ctrlId="formCertGenOrganizationalUnit"
       label="Organizational Unit"
       placeholder="Business Unit 1"
+      required
       [ctrl]="group.controls.organizationalUnit"></app-text-input>
     <!-- Email -->
     <app-text-input
@@ -22,6 +23,7 @@
       ctrlId="formCertGenEmail"
       label="E-Mail"
       placeholder="contact@my-org.com"
+      required
       [ctrl]="group.controls.email"></app-text-input>
 
     <!-- City/Locality -->
@@ -30,6 +32,7 @@
       ctrlId="formCertGenCity"
       label="City"
       placeholder="Frankfurt am Main"
+      required
       [ctrl]="group.controls.city"></app-text-input>
 
     <!-- State/Province -->
@@ -38,6 +41,7 @@
       ctrlId="formCertGenState"
       label="State / Province"
       placeholder="Hessen"
+      required
       [ctrl]="group.controls.state"></app-text-input>
 
     <!-- Password -->
@@ -45,6 +49,7 @@
       class="flex-1"
       ctrlId="formCertGenPassword"
       label="Password for .p12 File"
+      required
       [ctrl]="group.controls.password"></app-password-input>
 
     <!-- Confirm password -->
