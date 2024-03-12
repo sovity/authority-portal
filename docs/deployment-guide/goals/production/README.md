@@ -169,7 +169,7 @@ authority-portal.base-url: https://[AP_FQDN] # Must equal the root URL/home URl 
 authority-portal.invitation.expiration: 43200 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
 authority-portal.caas.sovity.url: https://[CAAS_PORTAL_FQDN] # URL of the sovity CaaS Portal
 authority-portal.caas.sovity.limit-per-mdsid: 1 # Amount of free sovity CaaS per participant
-authority-portal.kuma.metrics-url: https://[UPTIME_KUMA_FQDN]/metrics # Uptime Kuma metrics endpoint
+authority-portal.kuma.metrics-url: https://[UPTIME_KUMA_FQDN] # Uptime Kuma URL (/metrics endpoint must be available)
 authority-portal.kuma.api-key: [UPTIME_KUMA_API_KEY] # Uptime Kuma API key
 # Following is **one** deployment environment configuration. (See hint below)
 authority-portal.deployment.environments.test.title: Test # Env: Title of the deployment environment configuration
