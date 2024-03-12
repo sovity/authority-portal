@@ -49,14 +49,18 @@ class ComponentStatusApiService {
 
     fun getComponentsStatus(environmentId: String): ComponentStatusOverview {
         val connectorMetadata = connectorMetadataService.getConnectorInfoByEnvironment(environmentId)
-        val connectorStatusCount = countConnectorStatuses(connectorMetadata, environmentId)
+
+        val unknownConnectorCount = getNumberOfUnknownConnectors(connectorMetadata, environmentId)
+        val connectorStatusCount = countConnectorStatuses(connectorMetadata, unknownConnectorCount)
 
         return buildComponenStatusOverview(connectorStatusCount, environmentId)
     }
 
     fun getComponentsStatusForMdsId(environmentId: String, mdsId: String): ComponentStatusOverview {
         val connectorMetadata = connectorMetadataService.getConnectorInfoByMdsId(environmentId, mdsId)
-        val connectorStatusCount = countConnectorStatuses(connectorMetadata, environmentId)
+
+        val unknownConnectorCount = getNumberOfUnknownConnectors(connectorMetadata, environmentId, mdsId)
+        val connectorStatusCount = countConnectorStatuses(connectorMetadata, unknownConnectorCount)
 
         return buildComponenStatusOverview(connectorStatusCount, environmentId)
     }
@@ -142,10 +146,8 @@ class ComponentStatusApiService {
 
     private fun countConnectorStatuses(
         connectorMetadata: List<AuthorityPortalConnectorInfo>,
-        environmentId: String
+        unknownCount: Int,
     ): ConnectorStatusCount {
-        val unknownCount = getNumberOfUnknownConnectors(connectorMetadata, environmentId)
-
         val onlineCount = connectorMetadata.count { it.onlineStatus == ONLINE }
         val disturbedCount = connectorMetadata.count {
             (it.onlineStatus == OFFLINE || it.onlineStatus == DEAD)
@@ -156,12 +158,18 @@ class ComponentStatusApiService {
         return ConnectorStatusCount(onlineCount, disturbedCount, offlineCount)
     }
 
-    private fun getNumberOfUnknownConnectors(connectorMetadata: List<AuthorityPortalConnectorInfo>, environmentId: String): Int {
+    private fun getNumberOfUnknownConnectors(connectorMetadata: List<AuthorityPortalConnectorInfo>, environmentId: String, mdsId: String? = null): Int {
         val c = Tables.CONNECTOR
-        return dsl.selectCount().from(c).where(
+        val condition = dsl.selectCount().from(c).where(
             c.ENVIRONMENT.eq(environmentId),
             c.ENDPOINT_URL.notIn(connectorMetadata.map { it.connectorEndpoint })
-        ).fetchSingle().value1()
+        )
+
+        if (mdsId != null) {
+            condition.and(c.MDS_ID.eq(mdsId))
+        }
+
+        return condition.fetchSingle().value1()
     }
 
     data class ConnectorStatusCount(
