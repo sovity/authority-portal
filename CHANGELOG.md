@@ -26,6 +26,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Changed order of industry select options [#22](https://github.com/sovity/authority-portal/issues/22)
 - Added notification when user clicks on copy button [#24](https://github.com/sovity/authority-portal/issues/24)
 - Fix provisioning CaaS breaking dashboard [#27](https://github.com/sovity/authority-portal/issues/27)
+- Fixed the text being cut off in the connector self-hosting instructions [#35](https://github.com/sovity/authority-portal/issues/35)
 
 ### Known issues
 
