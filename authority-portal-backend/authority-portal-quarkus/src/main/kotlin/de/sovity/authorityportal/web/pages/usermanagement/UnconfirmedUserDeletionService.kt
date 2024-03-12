@@ -48,18 +48,18 @@ class UnconfirmedUserDeletionService {
 
         val unconfirmedMdsIds = organizationService.getUnconfirmedOrganizationMdsIds(expirationCutoffTime)
         val deletedOrgsAmount = organizationService.deleteUnconfirmedOrganizations(unconfirmedMdsIds)
+        Log.info("Deleted unconfirmed organizations in DB. amount=$deletedOrgsAmount.")
         unconfirmedMdsIds.forEach { mdsId ->
             keycloakService.deleteOrganization(mdsId)
             Log.info("Deleted unconfirmed organization in Keycloak. mdsId=$mdsId.")
         }
-        Log.info("Deleted unconfirmed organizations in DB. amount=$deletedOrgsAmount.")
 
         val unconfirmedUserIds = userService.getUnconfirmedUserIds(expirationCutoffTime)
         val deletedUsersAmount = userService.deleteUnconfirmedUsers(unconfirmedUserIds)
+        Log.info("Deleted unconfirmed users in DB. amount=$deletedUsersAmount.")
         unconfirmedUserIds.forEach { userId ->
             keycloakService.deleteUser(userId)
             Log.info("Deleted unconfirmed user in Keycloak. userId=$userId.")
         }
-        Log.info("Deleted unconfirmed users in DB. amount=$deletedUsersAmount.")
     }
 }
