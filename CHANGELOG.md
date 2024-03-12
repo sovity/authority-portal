@@ -29,6 +29,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fix provisioning CaaS breaking dashboard ([#27](https://github.com/sovity/authority-portal/issues/27))
 - Fixed the text being cut off in the connector self-hosting instructions ([#35](https://github.com/sovity/authority-portal/issues/35))
 - Fixed inconsistent placeholder values for privacy policy and legal notice links ([#41](https://github.com/sovity/authority-portal/issues/41))
+- Added asterisks to highlight required fields on registration ([#7](https://github.com/sovity/authority-portal/issues/7))
 
 ### Known issues
 
