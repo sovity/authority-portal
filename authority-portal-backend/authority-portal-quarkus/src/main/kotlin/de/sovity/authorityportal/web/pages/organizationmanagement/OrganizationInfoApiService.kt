@@ -55,7 +55,7 @@ class OrganizationInfoApiService {
         val userCounts = userService.getUserCountsByMdsIds()
         val dtos = organizations.map {
             buildOrganizationOverviewEntryDto(it, userCounts, connectorCounts, environmentId)
-        }
+        }.sortedWith(compareBy { it.name })
         return OrganizationOverviewResult(dtos)
     }
 

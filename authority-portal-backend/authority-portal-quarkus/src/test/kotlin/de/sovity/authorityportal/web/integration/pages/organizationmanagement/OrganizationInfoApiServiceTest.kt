@@ -79,7 +79,7 @@ class OrganizationInfoApiServiceTest {
         val result = organizationInfoApiService.organizationsOverview("test")
 
         // assert
-        val organization1 = result.organizations[0]
+        val organization1 = result.organizations[8]
         assertThat(result.organizations.size).isEqualTo(9)
         assertThat(organization1.mdsId).isEqualTo(testMdsId)
         assertThat(organization1.name).isEqualTo(testOrganizationName)
