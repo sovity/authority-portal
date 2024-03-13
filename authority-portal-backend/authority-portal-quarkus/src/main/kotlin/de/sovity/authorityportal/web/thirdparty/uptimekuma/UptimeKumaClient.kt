@@ -17,6 +17,7 @@ import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfigurat
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.thirdparty.uptimekuma.model.ComponentStatus
 import de.sovity.authorityportal.web.thirdparty.uptimekuma.model.ComponentStatusOverview
+import io.quarkus.logging.Log
 import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder
 import jakarta.annotation.PostConstruct
 import jakarta.enterprise.context.ApplicationScoped
@@ -56,10 +57,16 @@ class UptimeKumaClient {
     private fun getComponentStatus(componentName: String, response: String): ComponentStatus {
         val regex = Regex("""monitor_status\{[^}]*monitor_name="$componentName"[^}]*\} (\d+)""")
         val matchResult = regex.find(response)
-        val statusNumber = matchResult?.groupValues?.get(1)?.toInt()
-            ?: error("Invalid response from Uptime Kuma. Cannot parse statuses.")
+        val statusNumber = matchResult?.groupValues?.get(1)?.toIntOrNull()
+            ?: run {
+                Log.error("Invalid response from Uptime Kuma. Cannot parse statuses.")
+                return ComponentStatus.DOWN
+            }
 
         return ComponentStatus.fromInt(statusNumber)
-            ?: error("Invalid response from Uptime Kuma. Status number $statusNumber is not known.")
+            ?: run {
+                Log.error("Invalid response from Uptime Kuma. Status number $statusNumber is not known.")
+                return ComponentStatus.DOWN
+            }
     }
 }

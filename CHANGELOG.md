@@ -29,6 +29,12 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fix provisioning CaaS breaking dashboard ([#27](https://github.com/sovity/authority-portal/issues/27))
 - Fixed the text being cut off in the connector self-hosting instructions ([#35](https://github.com/sovity/authority-portal/issues/35))
 - Fixed inconsistent placeholder values for privacy policy and legal notice links ([#41](https://github.com/sovity/authority-portal/issues/41))
+- Fixed misleading UptimeKuma endpoint documentation ([#26](https://github.com/sovity/authority-portal/issues/26))
+- Fixed components being displayed as online when UptimeKuma is unreachable
+- Cleaned up repository for open-source release:
+  - Removed internal tools and utilities
+  - Rebased the entire history to remove secrets and unrelated code
+  - Cleaned up dead links
 - Added asterisks to highlight required fields on registration ([#7](https://github.com/sovity/authority-portal/issues/7))
 
 ### Known issues
@@ -164,7 +170,7 @@ Major release, containing a UI rework and several new features.
     authority-portal.caas.sovity.limit-per-mdsid: 1
 
     # Uptime Kuma Configuration
-    authority-portal.kuma.metrics-url: https://[UPTIME_KUMA_FQDN]/metrics
+    authority-portal.kuma.metrics-url: https://[UPTIME_KUMA_FQDN]
     authority-portal.kuma.api-key: [UPTIME_KUMA_API_KEY]
     # Description of a component in Uptime Kuma (ENVIRONMENT: test, prod, etc.; COMPONENT: broker, daps, logging-house)
     authority-portal.deployment.environments.{ENVIRONMENT}.{COMPONENT}.kuma-name:
