@@ -1,4 +1,4 @@
-<label class="w-full mt-2 text-sm" [for]="ctrlId">{{ label }}</label>
+<label class="w-full mt-2 text-sm" [for]="ctrlId">{{ required ? label + " *" : label }}</label>
 <mat-form-field appearance="outline">
   <mat-select
     [placeholder]="'Select ' + label"
