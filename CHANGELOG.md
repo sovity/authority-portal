@@ -40,6 +40,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Renamed "All Data Offers" into "Data Catalogue" ([#52](https://github.com/sovity/authority-portal/issues/52))
 - Fixed Authority Users not being able to invite participants ([#65](https://github.com/sovity/authority-portal/issues/65))
 - Fixed the organization address being displayed incorrectly ([#58](https://github.com/sovity/authority-portal/issues/58))
+- Fixed styling, remove hover effect on avatar component ([#55](https://github.com/sovity/authority-portal/issues/55))
 
 ### Known issues
 
