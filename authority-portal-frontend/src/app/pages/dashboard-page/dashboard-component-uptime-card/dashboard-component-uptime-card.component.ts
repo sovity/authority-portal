@@ -46,7 +46,7 @@ export class DashboardComponentUptimeCardComponent {
     this.upSinceTooltip = value
       .mapNotNull((it) =>
         it.upSince.seconds
-          ? `Up for ${humanizeDuration(it.upSince.seconds)}`
+          ? `Up for ${humanizeDuration(+it.upSince.seconds.toFixed(2))}`
           : null,
       )
       .orElse(null);
