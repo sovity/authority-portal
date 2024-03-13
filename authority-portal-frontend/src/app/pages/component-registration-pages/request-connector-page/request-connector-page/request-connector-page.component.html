@@ -15,6 +15,7 @@
         ctrlId="titleInput"
         label="Connector Title"
         placeholder="My Connector"
+        required
         [ctrl]="requestConnectorPageForm.connectorTitle">
       </app-text-input>
 
@@ -25,6 +26,7 @@
         label="Connector Subdomain"
         placeholder="pallene-123456"
         invalidPatternMessage="Not a valid subdomain. Only lowercase latin characters, numbers and dashes."
+        required
         [ctrl]="requestConnectorPageForm.connectorSubdomain"></app-text-input>
 
       <!-- Description -->
@@ -33,6 +35,7 @@
         ctrlId="descriptionInput"
         label="Description"
         placeholder="This connector is used to..."
+        required
         [ctrl]="requestConnectorPageForm.connectorDescription"></app-text-area>
     </div>
 

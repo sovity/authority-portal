@@ -16,6 +16,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Fixed dashboard not reloading when switching deployment environments.
+- Cleaned up repository for open-source release:
+  - Removed internal tools and utilities
+  - Rebased the entire history to remove secrets and unrelated code
+  - Cleaned up dead links
 - Added max length validator to most fields (128 symbols) ([#17](https://github.com/sovity/authority-portal/issues/17))
 - Added missing variables to show "hide/show" icon in reset password keycloak page ([#18](https://github.com/sovity/authority-portal/issues/18))
 - Certificate generation: Added a notice below the generate button ([#19](https://github.com/sovity/authority-portal/issues/19))
@@ -32,6 +36,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Removed internal tools and utilities
   - Rebased the entire history to remove secrets and unrelated code
   - Cleaned up dead links
+- Added asterisks to highlight required fields on registration ([#7](https://github.com/sovity/authority-portal/issues/7))
 
 ### Known issues
 

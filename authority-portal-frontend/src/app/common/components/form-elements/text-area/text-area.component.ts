@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, Input} from '@angular/core';
+import {booleanAttribute, Component, HostBinding, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -39,4 +39,7 @@ export class TextAreaComponent {
 
   @Input()
   requiredMessage = 'Field is required.';
+
+  @Input({transform: booleanAttribute})
+  required = false;
 }

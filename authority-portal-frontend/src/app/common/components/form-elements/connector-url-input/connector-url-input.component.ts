@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, Input} from '@angular/core';
+import {booleanAttribute, Component, HostBinding, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -36,6 +36,9 @@ export class ConnectorUrlInputComponent {
 
   @Input()
   urlSuffix = '/api/dsp';
+
+  @Input({transform: booleanAttribute})
+  required = true;
 
   get placeholder() {
     return 'https://my-connector.my-org.com' + this.urlSuffix;

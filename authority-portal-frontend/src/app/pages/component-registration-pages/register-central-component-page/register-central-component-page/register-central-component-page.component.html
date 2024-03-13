@@ -16,6 +16,7 @@
             label="Name"
             ctrlId="formRegCCName"
             placeholder="Broker"
+            required
             [ctrl]="form.componentTab.controls.name"></app-text-input>
 
           <!-- Central Component Location -->
@@ -24,6 +25,7 @@
             label="Component's Location"
             ctrlId="formRegCcLocation"
             placeholder="DE"
+            required
             [ctrl]="form.componentTab.controls.location"></app-text-input>
 
           <!-- Central Component Frontend URL -->
@@ -32,6 +34,7 @@
             label="Component Home Page URL"
             ctrlId="formRegCcFrontendUrl"
             placeholder="https://my-broker.my-org.com"
+            required
             [ctrl]="form.componentTab.controls.frontendUrl"></app-text-input>
 
           <!-- Central Component Endpoint URL -->
@@ -40,6 +43,7 @@
             label="Component Endpoint URL"
             ctrlId="formRegCcEndpointUrl"
             placeholder="https://my-broker.my-org.com/api/dsp"
+            required
             [ctrl]="form.componentTab.controls.endpointUrl"></app-text-input>
         </div>
 
