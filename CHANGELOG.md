@@ -29,6 +29,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fix provisioning CaaS breaking dashboard ([#27](https://github.com/sovity/authority-portal/issues/27))
 - Fixed the text being cut off in the connector self-hosting instructions ([#35](https://github.com/sovity/authority-portal/issues/35))
 - Fixed inconsistent placeholder values for privacy policy and legal notice links ([#41](https://github.com/sovity/authority-portal/issues/41))
+- Fixed favicon and page titles being not aligned with breadcrumb ([[#48](https://github.com/sovity/authority-portal/issues/48)])
 - Fixed misleading UptimeKuma endpoint documentation ([#26](https://github.com/sovity/authority-portal/issues/26))
 - Fixed components being displayed as online when UptimeKuma is unreachable
 - Cleaned up repository for open-source release:

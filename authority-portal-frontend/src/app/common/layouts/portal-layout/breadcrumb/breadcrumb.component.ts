@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnDestroy} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {Subject, takeUntil} from 'rxjs';
 import {BreadcrumbItem} from './breadcrumb.model';
 import {BreadcrumbService} from './breadcrumb.service';
@@ -22,11 +23,17 @@ import {BreadcrumbService} from './breadcrumb.service';
 export class BreadcrumbComponent implements OnDestroy {
   breadcrumb: BreadcrumbItem[] = [];
 
-  constructor(private breadcrumbService: BreadcrumbService) {
+  constructor(
+    private breadcrumbService: BreadcrumbService,
+    private titleService: Title,
+  ) {
     this.breadcrumbService.breadcrumb$
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((breadcrumb) => {
         this.breadcrumb = breadcrumb;
+        this.titleService.setTitle(
+          'MDS ' + breadcrumb[breadcrumb.length - 1].label || 'Portal',
+        );
       });
   }
 
