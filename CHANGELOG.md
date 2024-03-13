@@ -38,6 +38,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Cleaned up dead links
 - Added asterisks to highlight required fields on registration ([#7](https://github.com/sovity/authority-portal/issues/7))
 - Renamed "All Data Offers" into "Data Catalogue" ([#52](https://github.com/sovity/authority-portal/issues/52))
+- Fixed Authority Users not being able to invite participants ([#65](https://github.com/sovity/authority-portal/issues/65))
 
 ### Known issues
 
