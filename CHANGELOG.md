@@ -43,7 +43,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Changed the logo to redirect to MDS home ([#64](https://github.com/sovity/authority-portal/issues/64))
 - Fixed styling, remove hover effect on avatar component ([#55](https://github.com/sovity/authority-portal/issues/55))
 
-
 ### Known issues
 
 ### Deployment Migration Notes
