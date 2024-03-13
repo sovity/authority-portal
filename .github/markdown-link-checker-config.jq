@@ -7,7 +7,7 @@
     {"pattern": "^https://www\\.linkedin\\.com"},
     {"pattern": "https://(.*?)\\.azure\\.sovity\\.io"},
     {"pattern": "http://edc[0-9]*:"},
-    {"pattern": "https://test-connector.hosting-environment.io"}
+    {"pattern": "https://test-connector.hosting-environment.io"},
     {"pattern": "https://github.com/sovity/authority-portal-ee"}
   ],
   "replacementPatterns": [
