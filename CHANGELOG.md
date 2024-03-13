@@ -38,11 +38,12 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Changed the wording of the reset password functionality ([#51](https://github.com/sovity/authority-portal/issues/51))
 - Removed "Control Center" from breadcrumb path to improve UX ([#54](https://github.com/sovity/authority-portal/issues/54))
 - Adjusted the ordering of users in the organization details page ([#50](https://github.com/sovity/authority-portal/issues/50))
+- Adjusted the ordering of organizations in the organization overview page ([#49](https://github.com/sovity/authority-portal/issues/49))
 - Cleaned up repository for open-source release:
-  - Removed internal tools and utilities
-  - Rebased the entire history to remove secrets and unrelated code
-  - Cleaned up dead links
-  - Adjusted release issue template
+    - Removed internal tools and utilities
+    - Rebased the entire history to remove secrets and unrelated code
+    - Cleaned up dead links
+    - Adjusted release issue template
 
 ### Known issues
 
