@@ -43,7 +43,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Changed the logo to redirect to MDS home ([#64](https://github.com/sovity/authority-portal/issues/64))
 - Fixed styling, remove hover effect on avatar component ([#55](https://github.com/sovity/authority-portal/issues/55))
 - Fixed the display of user roles missing spaces between words ([#56](https://github.com/sovity/authority-portal/issues/56))
-- Changed the wording of the reset password functionality ([#51](https://github.com/sovity/authority-portal/issues/56))
+- Changed the wording of the reset password functionality ([#51](https://github.com/sovity/authority-portal/issues/51))
+- Removed "Control Center" from Path to improve UX ([#54](https://github.com/sovity/authority-portal/issues/54))
 
 ### Known issues
 
