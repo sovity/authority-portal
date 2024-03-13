@@ -37,6 +37,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Rebased the entire history to remove secrets and unrelated code
   - Cleaned up dead links
 - Added asterisks to highlight required fields on registration ([#7](https://github.com/sovity/authority-portal/issues/7))
+- Renamed "All Data Offers" into "Data Catalogue" ([#52](https://github.com/sovity/authority-portal/issues/52))
 
 ### Known issues
 
