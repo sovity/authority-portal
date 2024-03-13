@@ -90,7 +90,7 @@ export class AuthorityOrganizationListPageComponent
           action: () => this.inviteOrganization(),
           permissions: [
             UserRoleDto.AuthorityAdmin,
-            UserRoleDto.ServicePartnerAdmin,
+            UserRoleDto.AuthorityUser
           ],
         },
       ],
