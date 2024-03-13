@@ -40,6 +40,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Renamed "All Data Offers" into "Data Catalogue" ([#52](https://github.com/sovity/authority-portal/issues/52))
 - Fixed Authority Users not being able to invite participants ([#65](https://github.com/sovity/authority-portal/issues/65))
 - Fixed the organization address being displayed incorrectly ([#58](https://github.com/sovity/authority-portal/issues/58))
+- Changed the logo to redirect to MDS home ([#64](https://github.com/sovity/authority-portal/issues/64))
 
 ### Known issues
 
