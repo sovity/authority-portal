@@ -41,7 +41,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed Authority Users not being able to invite participants ([#65](https://github.com/sovity/authority-portal/issues/65))
 - Fixed the organization address being displayed incorrectly ([#58](https://github.com/sovity/authority-portal/issues/58))
 - Changed the logo to redirect to MDS home ([#64](https://github.com/sovity/authority-portal/issues/64))
-- - Fixed the display of user roles missing spaces between words ([#56](https://github.com/sovity/authority-portal/issues/56))
+- Fixed the display of user roles missing spaces between words ([#56](https://github.com/sovity/authority-portal/issues/56))
 
 ### Known issues
 
