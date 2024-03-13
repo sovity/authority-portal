@@ -32,14 +32,15 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed favicon and page titles being not aligned with breadcrumb ([[#48](https://github.com/sovity/authority-portal/issues/48)])
 - Fixed misleading UptimeKuma endpoint documentation ([#26](https://github.com/sovity/authority-portal/issues/26))
 - Fixed components being displayed as online when UptimeKuma is unreachable
-- Cleaned up repository for open-source release:
-  - Removed internal tools and utilities
-  - Rebased the entire history to remove secrets and unrelated code
-  - Cleaned up dead links
 - Added asterisks to highlight required fields on registration ([#7](https://github.com/sovity/authority-portal/issues/7))
 - Renamed "All Data Offers" into "Data Catalogue" ([#52](https://github.com/sovity/authority-portal/issues/52))
 - Fixed Authority Users not being able to invite participants ([#65](https://github.com/sovity/authority-portal/issues/65))
 - Fixed the organization address being displayed incorrectly ([#58](https://github.com/sovity/authority-portal/issues/58))
+- Cleaned up repository for open-source release:
+  - Removed internal tools and utilities
+  - Rebased the entire history to remove secrets and unrelated code
+  - Cleaned up dead links
+  - Adjusted release issue template
 
 ### Known issues
 
