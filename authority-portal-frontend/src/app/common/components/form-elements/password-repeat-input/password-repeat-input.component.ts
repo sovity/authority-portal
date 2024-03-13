@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, Input} from '@angular/core';
+import {booleanAttribute, Component, HostBinding, Input} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
@@ -37,7 +37,7 @@ export class PasswordRepeatInputComponent {
   @Input()
   ctrlId = 'password-repeat';
 
-  @Input()
+  @Input({transform: booleanAttribute})
   required = true;
 
   showPassword = false;
