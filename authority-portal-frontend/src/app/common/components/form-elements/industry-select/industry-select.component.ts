@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, Input} from '@angular/core';
+import {booleanAttribute, Component, HostBinding, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -31,6 +31,9 @@ export class IndustrySelectComponent {
 
   @Input()
   ctrlId = 'industry';
+
+  @Input({transform: booleanAttribute})
+  required = true;
 
   industries = [
     'Automotive industry',

@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, Input} from '@angular/core';
+import {booleanAttribute, Component, HostBinding, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -45,4 +45,7 @@ export class TextInputComponent {
 
   @Input()
   maxLengthMessage = 'Input exceeds maximum length.';
+
+  @Input({transform: booleanAttribute})
+  required = false;
 }

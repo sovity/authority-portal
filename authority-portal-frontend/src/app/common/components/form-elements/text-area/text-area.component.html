@@ -2,7 +2,7 @@
   class="w-full mb-2 text-sm"
   [class.text-red-600]="ctrl.touched && ctrl.invalid"
   [for]="ctrlId"
-  >{{ label }}</label
+  >{{ required ? label + " *" : label }}</label
 >
 
 <mat-form-field

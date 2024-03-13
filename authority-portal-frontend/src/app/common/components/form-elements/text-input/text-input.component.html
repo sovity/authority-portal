@@ -2,7 +2,7 @@
   class="w-full mb-2 text-sm"
   [class.text-red-600]="ctrl.touched && ctrl.invalid"
   [for]="ctrlId"
-  >{{ label }}</label
+  >{{ required ? label + " *" : label }}</label
 >
 
 <mat-form-field
@@ -14,7 +14,7 @@
     type="text"
     [id]="ctrlId"
     [formControl]="ctrl"
-    [placeholder]="placeholder" />
+    [placeholder]="placeholder"/>
 
   <mat-error *ngIf="ctrl.touched && ctrl.hasError('required')" class="text-xs">
     {{ requiredMessage }}</mat-error

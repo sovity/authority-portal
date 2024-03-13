@@ -20,6 +20,7 @@
             label="Connector's Name"
             ctrlId="formRegOConName"
             placeholder="My Connector"
+            required
             [ctrl]="form.connectorTab.controls.name"></app-text-input>
 
           <!-- Connector's Location -->
@@ -28,6 +29,7 @@
             label="Connector's Location"
             ctrlId="formRegOConLocation"
             placeholder="DE"
+            required
             [ctrl]="form.connectorTab.controls.location"></app-text-input>
 
           <!-- Frontend URL -->
@@ -35,6 +37,7 @@
             class="w-full"
             label="Connector's Frontend URL"
             ctrlId="formRegOConFrontendUrl"
+            required
             [ctrl]="
               form.connectorTab.controls.frontendUrl
             "></app-connector-url-input>
@@ -45,6 +48,7 @@
             label="Connector's Endpoint URL"
             ctrlId="formRegOConEndpointUrl"
             urlSuffix="/api/dsp"
+            required
             [ctrl]="
               form.connectorTab.controls.endpointUrl
             "></app-connector-url-input>
@@ -55,6 +59,7 @@
             label="Connector's Management URL"
             ctrlId="formRegOConManagementUrl"
             urlSuffix="/api/management"
+            required
             [ctrl]="
               form.connectorTab.controls.managementUrl
             "></app-connector-url-input>

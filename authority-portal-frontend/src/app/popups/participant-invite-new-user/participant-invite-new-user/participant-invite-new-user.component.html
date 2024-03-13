@@ -27,6 +27,7 @@
           label="First Name"
           ctrlId="formRegFirstName"
           placeholder="John"
+          required
           [ctrl]="group.controls.firstName"></app-text-input>
         <!-- First Name -->
 
@@ -36,6 +37,7 @@
           label="Last Name"
           ctrlId="formRegLastName"
           placeholder="Doe"
+          required
           [ctrl]="group.controls.lastName"></app-text-input>
         <!-- Last Name -->
 
@@ -45,12 +47,13 @@
           label="Email"
           ctrlId="formRegEmail"
           placeholder="john.doe@my-org.com"
+          required
           [ctrl]="group.controls.email"></app-text-input>
         <!-- Email -->
 
         <!-- User Roles -->
         <div class="mt-3">
-          <label class="w-full text-sm mb-2">Role</label>
+          <label class="w-full text-sm mb-2">Role *</label>
           <mat-form-field class="w-full" appearance="outline">
             <mat-select
               placeholder="Select Role"

@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, Input} from '@angular/core';
+import {booleanAttribute, Component, HostBinding, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -33,6 +33,9 @@ export class PasswordInputComponent {
 
   @Input()
   ctrlId = 'password';
+
+  @Input({transform: booleanAttribute})
+  required = true;
 
   showPassword = false;
 }

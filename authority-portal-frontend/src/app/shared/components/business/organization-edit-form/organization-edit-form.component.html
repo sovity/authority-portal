@@ -5,6 +5,7 @@
     label="Website"
     ctrlId="formEditWebsite"
     placeholder="https://www.my-org.com"
+    required
     [ctrl]="orgForm.controls.website"></app-text-input>
 </div>
 
@@ -15,12 +16,14 @@
     label="Business Unit"
     ctrlId="formEditBusinessUnit"
     placeholder="My Department"
+    required
     [ctrl]="orgForm.controls.businessUnit"></app-text-input>
 </div>
 
 <div class="flex gap-4 flex-wrap">
   <app-industry-select
     class="flex-1"
+    required
     [ctrl]="orgForm.controls.industry"></app-industry-select>
 </div>
 
@@ -30,6 +33,7 @@
     label="Main Adddress"
     placeholder="Example Street 10b, 12345 Frankfurt am Main, Germany"
     ctrlId="formEditMainAddress"
+    required
     [ctrl]="orgForm.controls.mainAddress"></app-text-area>
 
   <mat-checkbox
@@ -55,6 +59,7 @@
     label="Billing Adddress"
     placeholder="Example Street 10b, 12345 Frankfurt am Main, Germany"
     ctrlId="formEditBillingAddress"
+    required
     [ctrl]="orgForm.controls.billingAddress"></app-text-area>
 </div>
 
@@ -65,6 +70,7 @@
     label="Organization Description"
     ctrlId="formEditOrganizationDescription"
     placeholder="What does Your organization do?"
+    required
     [ctrl]="orgForm.controls.description"></app-text-area>
 </div>
 
@@ -86,6 +92,7 @@
     label="Main Full Name"
     ctrlId="formEditMainName"
     placeholder="John Doe"
+    required
     [ctrl]="orgForm.controls.mainContactName"></app-text-input>
 
   <div class="flex gap-4 flex-wrap">
@@ -95,6 +102,7 @@
       label="Phone Number"
       ctrlId="formEditMainPhoneNumber"
       placeholder="+49 1234 567890"
+      required
       [ctrl]="orgForm.controls.mainContactPhoneNumber"></app-text-input>
 
     <!-- User's Email -->
@@ -103,6 +111,7 @@
       label="Email"
       ctrlId="formEditMainEmail"
       placeholder="john.doe@my-org.com"
+      required
       [ctrl]="orgForm.controls.mainContactEmail"></app-text-input>
   </div>
 </div>
@@ -132,6 +141,7 @@
       label="Technical Full Name"
       ctrlId="formEditTechnicalName"
       placeholder="John Doe"
+      required
       [ctrl]="orgForm.controls.technicalContactName"></app-text-input>
 
     <div class="flex gap-4 flex-wrap">
@@ -141,6 +151,7 @@
         label="Phone Number"
         ctrlId="formEditTechnicalPhoneNumber"
         placeholder="+49 1234 567890"
+        required
         [ctrl]="orgForm.controls.technicalContactPhoneNumber"></app-text-input>
 
       <!-- User's Email -->
@@ -149,6 +160,7 @@
         label="Email"
         ctrlId="formEditTechnicalEmail"
         placeholder="john.doe@my-org.com"
+        required
         [ctrl]="orgForm.controls.technicalContactEmail"></app-text-input>
     </div>
   </ng-container>
