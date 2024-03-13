@@ -44,6 +44,7 @@
             class="w-full"
             label="Connector's Frontend URL"
             ctrlId="formRegOConFrontendUrl"
+            required
             [ctrl]="
               form.connectorTab.controls.frontendUrl
             "></app-connector-url-input>
@@ -54,6 +55,7 @@
             label="Connector's Endpoint URL"
             ctrlId="formRegOConEndpointUrl"
             urlSuffix="/api/dsp"
+            required
             [ctrl]="
               form.connectorTab.controls.endpointUrl
             "></app-connector-url-input>
@@ -64,6 +66,7 @@
             label="Connector's Management URL"
             ctrlId="formRegOConManagementUrl"
             urlSuffix="/api/management"
+            required
             [ctrl]="
               form.connectorTab.controls.managementUrl
             "></app-connector-url-input>
