@@ -38,7 +38,7 @@ export function getMainAndBillingAddresses(formValue?: {
   let mainAddress = buildAddressString({
     street: formValue?.mainAddressStreet,
     houseNo: formValue?.mainAddressHouseNo,
-    zipCode: formValue?.mainAddressHouseNo,
+    zipCode: formValue?.mainAddressZipCode,
     city: formValue?.mainAddressCity,
     country: formValue?.mainAddressCountry,
   });
@@ -48,7 +48,7 @@ export function getMainAndBillingAddresses(formValue?: {
     : buildAddressString({
         street: formValue?.billingAddressStreet,
         houseNo: formValue?.billingAddressHouseNo,
-        zipCode: formValue?.billingAddressHouseNo,
+        zipCode: formValue?.billingAddressZipCode,
         city: formValue?.billingAddressCity,
         country: formValue?.billingAddressCountry,
       });
