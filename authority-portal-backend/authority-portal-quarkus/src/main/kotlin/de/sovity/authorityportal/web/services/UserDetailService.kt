@@ -71,7 +71,7 @@ class UserDetailService {
                 getHighestUserRoles(it),
                 dbUser.registrationStatus.toDto(),
             )
-        }.sortedBy { it.lastName }
+        }.sortedWith(compareBy({ it.roles.first() }, { it.lastName }))
     }
 
     private fun getHighestUserRoles(user: KeycloakUserDto): List<UserRoleDto> {
