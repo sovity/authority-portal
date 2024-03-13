@@ -28,9 +28,10 @@ Feel free to edit this release checklist in-progress depending on what tasks nee
 - [ ] Deploy a version with the "main" and test the deployment.
 - [ ] Create a release and re-use the changelog section as release description, and the version as title.
 - [ ] Check if the pipeline built the release versions in the Actions-Section (or you won't see it).
-- [ ] Create a release in the [Authority Portal EE](https://github.com/sovity/authority-portal-ee) repo
-  - [ ] Copy the [Keycloak theme](../../authority-portal-keycloak) from here to the EE repo
-  - [ ] Create a release, re-use the changelog section as release description
+- [ ] Create a release in the [Authority Portal EE](https://github.com/sovity/authority-portal-ee) repository
+  - [ ] Copy the [Keycloak theme](../../authority-portal-keycloak) from here to the EE repository
+  - [ ] Link this release in the EE changelog
+  - [ ] Create a release, re-use the changelog section as EE release description
   - [ ] Re-use the version of this release as the title for the EE release
 - [ ] Notify the deployment team with Deployment Docs Zip file attached to the release, which should now contain both product changes and a deployment migration guide. // TODO: remove?
 - [ ] `release-cleanup` PR:
