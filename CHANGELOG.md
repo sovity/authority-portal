@@ -17,10 +17,17 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Fixed the placeholder for the connector Frontend URL ([#86](https://github.com/sovity/authority-portal/issues/86))
 - Fixed connectors not showing on operator's "All connectors" list ([#119](https://github.com/sovity/authority-portal/issues/119))
+- TODO: Reduce acceess token lifespan Issue 111...
 
 ### Known issues
 
 ### Deployment Migration Notes
+
+- Keycloak 
+  - TODO: Access Token Lifespan
+- Auth Proxy
+  - Change cookie refresh to 30s
+    - => Productive Deployment Guide (refresh 30s)
 
 #### Compatible Versions
 
