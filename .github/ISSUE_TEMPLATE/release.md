@@ -27,7 +27,6 @@ Feel free to edit this release checklist in-progress depending on what tasks nee
 - [ ] Wait for the main branch to be green.
 - [ ] Deploy a version with the "main" and test the deployment.
 - [ ] Create a release and re-use the changelog section as release description, and the version as title.
-- [ ] Check if the pipeline built the release versions in the Actions-Section (or you won't see it).
 - [ ] Create a release in the [Authority Portal EE](https://github.com/sovity/authority-portal-ee) repository.
   - [ ] `release-prep` PR:
     - [ ] Copy the [Keycloak theme](https://github.com/sovity/authority-portal/tree/main/authority-portal-keycloak) from here to the EE repository.
