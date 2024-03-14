@@ -17,17 +17,19 @@ import {Component, HostBinding} from '@angular/core';
   templateUrl: './footer-for-full-page.component.html',
 })
 export class FooterForFullPageComponent {
-  @HostBinding('class.md:fixed')
-  @HostBinding('class.md:left-0')
-  @HostBinding('class.md:bottom-0')
+  @HostBinding('class.fixed')
+  @HostBinding('class.bottom-0')
   @HostBinding('class.bg-white')
-  @HostBinding('class.px-6')
+  @HostBinding('class.w-full')
+  // @HostBinding('class.left-0')
+  // @HostBinding('class.right-0')
   @HostBinding('class.py-3')
   @HostBinding('class.text-xs')
   @HostBinding('class.text-gray-700')
   @HostBinding('class.flex')
   @HostBinding('class.flex-col')
   @HostBinding('class.justify-center')
+  @HostBinding('class.items-center')
   @HostBinding('class.gap-1')
   cls = true;
 }
