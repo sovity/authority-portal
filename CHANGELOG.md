@@ -35,37 +35,37 @@ First bugfix release for version 2.1.0.
 
 #### Patch
 
-- Fixed dashboard not reloading when switching deployment environments
-- Added max length validator to most fields (128 symbols) ([#17](https://github.com/sovity/authority-portal/issues/17))
-- Added missing variables to show "hide/show" icon in reset password keycloak page ([#18](https://github.com/sovity/authority-portal/issues/18))
-- Certificate generation: Added a notice below the generate button ([#19](https://github.com/sovity/authority-portal/issues/19))
+- Fixed the dashboard not reloading when switching deployment environments
 - Fixed an error with input validation that prevented the use of upper-case letters in zip codes ([#21](https://github.com/sovity/authority-portal/issues/21))
-- Changed order of industry select options ([#22](https://github.com/sovity/authority-portal/issues/22))
-- Added notification when user clicks on copy button ([#24](https://github.com/sovity/authority-portal/issues/24))
-- Fix provisioning CaaS breaking dashboard ([#27](https://github.com/sovity/authority-portal/issues/27))
+- Fixed an error with provisioning CaaS breaking the dashboard ([#27](https://github.com/sovity/authority-portal/issues/27))
 - Fixed the text being cut off in the connector self-hosting instructions ([#35](https://github.com/sovity/authority-portal/issues/35))
 - Fixed inconsistent placeholder values for privacy policy and legal notice links ([#41](https://github.com/sovity/authority-portal/issues/41))
-- Fixed favicon and page titles being not aligned with breadcrumb ([[#48](https://github.com/sovity/authority-portal/issues/48)])
+- Fixed favicon and page titles being not aligned with breadcrumbs ([[#48](https://github.com/sovity/authority-portal/issues/48)])
 - Fixed misleading UptimeKuma endpoint documentation ([#26](https://github.com/sovity/authority-portal/issues/26))
 - Fixed components being displayed as online when UptimeKuma is unreachable
-- Added asterisks to highlight required fields on registration ([#7](https://github.com/sovity/authority-portal/issues/7))
-- Renamed "All Data Offers" into "Data Catalogue" ([#52](https://github.com/sovity/authority-portal/issues/52))
 - Fixed Authority Users not being able to invite participants ([#65](https://github.com/sovity/authority-portal/issues/65))
 - Fixed the organization address being displayed incorrectly ([#58](https://github.com/sovity/authority-portal/issues/58))
-- Changed the logo to redirect to MDS home ([#64](https://github.com/sovity/authority-portal/issues/64))
-- Fixed styling, remove hover effect on avatar component ([#55](https://github.com/sovity/authority-portal/issues/55))
+- Fixed styling, removed hover effect on unclickable avatar components ([#55](https://github.com/sovity/authority-portal/issues/55))
 - Fixed the display of user roles missing spaces between words ([#56](https://github.com/sovity/authority-portal/issues/56))
+- Fixed certificate generation failing when using special characters ([#84](https://github.com/sovity/authority-portal/issues/84))
+- Changed the order of industry select options ([#22](https://github.com/sovity/authority-portal/issues/22))
+- Changed the logo to redirect to MDS home ([#64](https://github.com/sovity/authority-portal/issues/64))
 - Changed the wording of the reset password functionality ([#51](https://github.com/sovity/authority-portal/issues/51))
-- Removed "Control Center" from breadcrumb path to improve UX ([#54](https://github.com/sovity/authority-portal/issues/54))
+- Renamed "All Data Offers" to "Data Catalogue" ([#52](https://github.com/sovity/authority-portal/issues/52))
 - Adjusted the ordering of users in the organization details page ([#50](https://github.com/sovity/authority-portal/issues/50))
 - Adjusted the ordering of organizations in the organization overview page ([#49](https://github.com/sovity/authority-portal/issues/49))
-- Restrict user re-/deactivation to respective statuses ([#82](https://github.com/sovity/authority-portal/issues/82))
-- Fix certificate generation with special characters ([#84](https://github.com/sovity/authority-portal/issues/84))
-- Cleaned up repository for open-source release:
+- Added a character limit to most input fields (128 characters) ([#17](https://github.com/sovity/authority-portal/issues/17))
+- Added missing variables to show "hide/show" icon in reset password keycloak page ([#18](https://github.com/sovity/authority-portal/issues/18))
+- Added a notification when the user clicks on a copy button ([#24](https://github.com/sovity/authority-portal/issues/24))
+- Added asterisks to highlight required fields on registration ([#7](https://github.com/sovity/authority-portal/issues/7))
+- Certificate generation: Added a notice below the generate button ([#19](https://github.com/sovity/authority-portal/issues/19))
+- Removed "Control Center" from breadcrumb path to improve UX ([#54](https://github.com/sovity/authority-portal/issues/54))
+- Restricted user re-/deactivation to appropriate statuses ([#82](https://github.com/sovity/authority-portal/issues/82))
+- Cleaned up the repository for open-source release:
   - Removed internal tools and utilities
   - Rebased the entire history to remove secrets and unrelated code
   - Cleaned up dead links
-  - Adjusted release issue template
+  - Adjusted the release issue template
 
 ### Known issues
 
