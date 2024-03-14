@@ -5,16 +5,15 @@
       [ngClass]="isExpandedMenu ? 'lg:p-5 space-x-3 mx-3' : 'mr-0 space-x-0'"
       (click)="openNewTab()">
       <img
-        src="/assets/images/logo.svg"
-        alt="logo"
-        [ngClass]="isExpandedMenu ? '' : 'scale-75'" />
-      <div [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
-        <p class="text-brand-yellow font-bold leading-5">
-          Mobility <br />
-          <span>Data Space</span><br />
-          Portal
-        </p>
-      </div>
+        *ngIf="isExpandedMenu"
+        class="scale-95"
+        src="/assets/images/mds_logo_yellow.svg"
+        alt="logo" />
+      <img
+        *ngIf="!isExpandedMenu"
+        class="scale-[0.7]"
+        src="/assets/images/mds_logo_no_text.svg"
+        alt="logo" />
     </div>
 
     <div class="flex-grow">

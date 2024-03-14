@@ -21,11 +21,12 @@ export class FooterForFullPageComponent {
   @HostBinding('class.md:left-0')
   @HostBinding('class.md:bottom-0')
   @HostBinding('class.px-10')
-  @HostBinding('class.py-5')
+  @HostBinding('class.py-3')
   @HostBinding('class.text-xs')
   @HostBinding('class.text-gray-700')
   @HostBinding('class.flex')
+  @HostBinding('class.flex-col')
   @HostBinding('class.justify-center')
-  @HostBinding('class.gap-4')
+  @HostBinding('class.gap-1')
   cls = true;
 }
