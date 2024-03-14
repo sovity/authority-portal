@@ -172,7 +172,7 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun deactivateParticipantUser(userId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
-        authUtils.requiresRegistrationStatus(userId, UserRegistrationStatus.ACTIVE)
+        authUtils.requiresTargetRegistrationStatus(userId, UserRegistrationStatus.ACTIVE)
         authUtils.requiresTargetNotSelf(userId)
         authUtils.requiresMemberOfSameOrganizationAs(userId)
         return userDeactivationApiService.deactivateUser(userId, loggedInUser.userId)
@@ -181,7 +181,7 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun reactivateParticipantUser(userId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
-        authUtils.requiresRegistrationStatus(userId, UserRegistrationStatus.DEACTIVATED)
+        authUtils.requiresTargetRegistrationStatus(userId, UserRegistrationStatus.DEACTIVATED)
         authUtils.requiresMemberOfSameOrganizationAs(userId)
         return userDeactivationApiService.reactivateUser(userId, loggedInUser.userId)
     }
@@ -212,7 +212,7 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun deactivateAnyUser(userId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
-        authUtils.requiresRegistrationStatus(userId, UserRegistrationStatus.ACTIVE)
+        authUtils.requiresTargetRegistrationStatus(userId, UserRegistrationStatus.ACTIVE)
         authUtils.requiresTargetNotSelf(userId)
         return userDeactivationApiService.deactivateUser(userId, loggedInUser.userId)
     }
@@ -220,7 +220,7 @@ class UiResourceImpl : UiResource {
     @Transactional
     override fun reactivateAnyUser(userId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
-        authUtils.requiresRegistrationStatus(userId, UserRegistrationStatus.DEACTIVATED)
+        authUtils.requiresTargetRegistrationStatus(userId, UserRegistrationStatus.DEACTIVATED)
         return userDeactivationApiService.reactivateUser(userId, loggedInUser.userId)
     }
 

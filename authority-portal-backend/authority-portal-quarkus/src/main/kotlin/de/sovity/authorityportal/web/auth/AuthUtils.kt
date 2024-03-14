@@ -75,7 +75,7 @@ class AuthUtils {
         }
     }
 
-    fun requiresRegistrationStatus(userId: String, status: UserRegistrationStatus) {
+    fun requiresTargetRegistrationStatus(userId: String, status: UserRegistrationStatus) {
         val userRegistrationStatus = userService.getUserOrThrow(userId).registrationStatus
 
         if (userRegistrationStatus != status) {
