@@ -11,7 +11,7 @@
       <div [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
         <p class="text-brand-yellow font-bold leading-5">
           Mobility <br />
-          Data Space<br />
+          <span>Data Space</span><br />
           Portal
         </p>
       </div>
@@ -42,8 +42,11 @@
       </ng-container>
     </div>
   </div>
-  <footer class="flex flex-col text-gray-400 text-[11px] py-3 gap-1.5">
-    <app-footer-links class="max-w-sm"></app-footer-links>
-    <app-footer-copyright></app-footer-copyright>
+  <footer
+    class="flex flex-col text-gray-400 text-[11px] py-3 gap-1.5"
+    [ngClass]="isExpandedMenu ? '' : 'pl-2 pt-6'">
+    <app-footer-links [isExpandedMenu]="isExpandedMenu"></app-footer-links>
+    <app-footer-copyright
+      [isExpandedMenu]="isExpandedMenu"></app-footer-copyright>
   </footer>
 </aside>

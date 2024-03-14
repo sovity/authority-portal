@@ -1,7 +1,12 @@
-<a
-  *ngFor="let footerLink of footerLinks; let i = index"
-  class="hover:underline"
-  target="_blank"
-  [href]="footerLink.href"
-  >{{ footerLink.name }}</a
->
+<div
+  class="flex text-gray-400 py-3 gap-1.5 justify-center"
+  [ngClass]="isExpandedMenu ? 'flex-row' : 'flex-col'">
+  <a
+    *ngFor="let footerLink of footerLinks; let i = index"
+    class="hover:underline whitespace-normal"
+    target="_blank"
+    [ngClass]="isExpandedMenu ? 'items-center' : 'items-start max-w-min'"
+    [href]="footerLink.href"
+    >{{ footerLink.name }}</a
+  >
+</div>
