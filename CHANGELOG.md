@@ -15,6 +15,26 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Broker Server: `{{ broker version }}`
+
+## [v2.1.1] - 2024-03-14
+
+### Overview
+
+First bugfix release for version 2.1.0.
+
+### Detailed Changes
+
+#### Patch
+
 - Fixed dashboard not reloading when switching deployment environments
 - Added max length validator to most fields (128 symbols) ([#17](https://github.com/sovity/authority-portal/issues/17))
 - Added missing variables to show "hide/show" icon in reset password keycloak page ([#18](https://github.com/sovity/authority-portal/issues/18))
@@ -52,13 +72,13 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Deployment Migration Notes
 
 - Keycloak
-  - Replace [MDS theme](authority-portal-keycloak/mds-theme) with new version
+  - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Broker Server: `{{ broker version }}`
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.1.1`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.1.1`
+- Broker Server: [`3.5.0`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v3.5.0)
 
 ## [v2.1.0] - 2024-03-04
 
