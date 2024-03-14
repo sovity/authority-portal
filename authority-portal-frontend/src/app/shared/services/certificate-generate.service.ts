@@ -65,42 +65,52 @@ export class CertificateGenerateService {
     cert.validity.notBefore = new Date();
     cert.validity.notAfter = validUntil;
 
+    // To support international characters in the certificate, we use the UTF8 type for everything.
+    // The default type is ASN.1 PrintableString, which has an extremely restricted set of supported characters.
     let attrs: forge.pki.CertificateField[] = [
       {
         name: 'commonName',
         value: attributes['commonName'],
+        // The naming of this attribute and the type definitions are incorrect;
+        // it holds an ASN.1 type, not a class.
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         name: 'countryName',
         value: attributes['countryName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         shortName: 'ST',
         value: attributes['stateName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         name: 'localityName',
         value: attributes['localityName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         name: 'organizationName',
         value: attributes['organizationName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         name: 'organizationalUnitName',
         value: attributes['organizationalUnitName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         name: 'emailAddress',
         value: attributes['emailAddress'],
-        // Email addresses contain the character '@',
-        // which is invalid for the default field type of PrintableString.
-        // RFC5280 suggests IA5String.
-        // https://datatracker.ietf.org/doc/html/rfc5280#appendix-B
-        // The naming of this attribute and the type definitions are incorrect;
-        // it holds an ASN.1 type, not a class.
         // @ts-expect-error
-        valueTagClass: forge.asn1.Type.IA5STRING,
+        valueTagClass: forge.asn1.Type.UTF8,
       },
     ];
 
