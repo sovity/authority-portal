@@ -16,10 +16,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Fixed dashboard not reloading when switching deployment environments.
-- Cleaned up repository for open-source release:
-  - Removed internal tools and utilities
-  - Rebased the entire history to remove secrets and unrelated code
-  - Cleaned up dead links
 - Added max length validator to most fields (128 symbols) ([#17](https://github.com/sovity/authority-portal/issues/17))
 - Added missing variables to show "hide/show" icon in reset password keycloak page ([#18](https://github.com/sovity/authority-portal/issues/18))
 - Certificate generation: Added a notice below the generate button ([#19](https://github.com/sovity/authority-portal/issues/19))
@@ -32,10 +28,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed favicon and page titles being not aligned with breadcrumb ([[#48](https://github.com/sovity/authority-portal/issues/48)])
 - Fixed misleading UptimeKuma endpoint documentation ([#26](https://github.com/sovity/authority-portal/issues/26))
 - Fixed components being displayed as online when UptimeKuma is unreachable
-- Cleaned up repository for open-source release:
-  - Removed internal tools and utilities
-  - Rebased the entire history to remove secrets and unrelated code
-  - Cleaned up dead links
 - Added asterisks to highlight required fields on registration ([#7](https://github.com/sovity/authority-portal/issues/7))
 - Renamed "All Data Offers" into "Data Catalogue" ([#52](https://github.com/sovity/authority-portal/issues/52))
 - Fixed Authority Users not being able to invite participants ([#65](https://github.com/sovity/authority-portal/issues/65))
@@ -45,6 +37,13 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed the display of user roles missing spaces between words ([#56](https://github.com/sovity/authority-portal/issues/56))
 - Changed the wording of the reset password functionality ([#51](https://github.com/sovity/authority-portal/issues/51))
 - Removed "Control Center" from breadcrumb path to improve UX ([#54](https://github.com/sovity/authority-portal/issues/54))
+- Adjusted the ordering of users in the organization details page ([#50](https://github.com/sovity/authority-portal/issues/50))
+- Adjusted the ordering of organizations in the organization overview page ([#49](https://github.com/sovity/authority-portal/issues/49))
+- Cleaned up repository for open-source release:
+  - Removed internal tools and utilities
+  - Rebased the entire history to remove secrets and unrelated code
+  - Cleaned up dead links
+  - Adjusted release issue template
 
 ### Known issues
 
