@@ -14,7 +14,6 @@ import {
   CaasAvailabilityResponseToJSON,
   CentralComponentCreateRequestFromJSON,
   CentralComponentDtoToJSON,
-  ComponentStatusOverview,
   ComponentStatusOverviewToJSON,
   ConnectorDetailDtoToJSON,
   ConnectorOverviewResultToJSON,

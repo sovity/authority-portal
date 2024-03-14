@@ -43,11 +43,9 @@ export class DashboardComponentUptimeCardComponent {
     this.chartData = value
       .mapNotNull((it) => this.buildDonutChartData(it))
       .orElse(null);
-    this.upSinceTooltip = value
+    this.upSinceHumanized = value
       .mapNotNull((it) =>
-        it.upSince.seconds
-          ? `Up for ${humanizeDuration(+it.upSince.seconds.toFixed(2))}`
-          : null,
+        it.upSince.seconds ? humanizeDuration(it.upSince.seconds) : null,
       )
       .orElse(null);
   }
@@ -55,7 +53,14 @@ export class DashboardComponentUptimeCardComponent {
     return this._data;
   }
   chartData: DonutChartData | null = null;
-  upSinceTooltip: string | null = null;
+  upSinceHumanized: string | null = null;
+
+  humanizeDuration(seconds: number | undefined | null): string {
+    if (seconds !== undefined && seconds !== null) {
+      return humanizeDuration(seconds);
+    }
+    return 'time period';
+  }
 
   getComponentStatusCircleClass(status: ComponentStatusDto): string {
     switch (status) {
@@ -84,7 +89,9 @@ export class DashboardComponentUptimeCardComponent {
   getComponentStatusText(status: ComponentStatusDto): string {
     switch (status) {
       case ComponentStatusDto.Up:
-        return 'Up';
+        return `Up ${
+          this.upSinceHumanized ? 'for ' + this.upSinceHumanized : ''
+        }`;
       case ComponentStatusDto.Pending:
         return 'Pending';
       case ComponentStatusDto.Maintenance:
