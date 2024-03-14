@@ -241,7 +241,7 @@ export class AuthorityOrganizationDetailPageComponent
                 new ReactivateUser(this.state.openedUserDetail.userId),
               ),
 
-            isDisabled: user.registrationStatus === 'ACTIVE',
+            isDisabled: user.registrationStatus !== 'DEACTIVATED',
           },
           {
             label: 'Deactivate User',
@@ -251,9 +251,7 @@ export class AuthorityOrganizationDetailPageComponent
                 new DeactivateUser(this.state.openedUserDetail.userId),
               ),
 
-            isDisabled:
-              user.registrationStatus === 'PENDING' ||
-              user.registrationStatus === 'DEACTIVATED',
+            isDisabled: user.registrationStatus !== 'ACTIVE'
           },
           {
             label: 'Delete User',
