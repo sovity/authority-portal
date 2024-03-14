@@ -75,6 +75,15 @@ class AuthUtils {
         }
     }
 
+    fun requiresTargetRegistrationStatus(userId: String, status: UserRegistrationStatus) {
+        val userRegistrationStatus = userService.getUserOrThrow(userId).registrationStatus
+
+        if (userRegistrationStatus != status) {
+            Log.error("User registration status is invalid. userRegistrationStatus: $userRegistrationStatus, expectedRegistrationStatus: $status, userId=$userId, adminUserId=${loggedInUser.userId}.")
+            unauthorized("User registration status is invalid. Expected: $status. Has: $userRegistrationStatus")
+        }
+    }
+
     fun requiresMemberOfAnyOrganization() {
         requiresAuthenticated()
         if (loggedInUser.organizationMdsId.isNullOrEmpty()) {
@@ -117,6 +126,7 @@ class AuthUtils {
     }
 
     fun hasRole(role: String): Boolean {
+        requiresAuthenticated()
         return loggedInUser.roles.contains(role);
     }
 

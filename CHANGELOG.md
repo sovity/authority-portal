@@ -39,6 +39,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Removed "Control Center" from breadcrumb path to improve UX ([#54](https://github.com/sovity/authority-portal/issues/54))
 - Adjusted the ordering of users in the organization details page ([#50](https://github.com/sovity/authority-portal/issues/50))
 - Adjusted the ordering of organizations in the organization overview page ([#49](https://github.com/sovity/authority-portal/issues/49))
+- Restrict user re-/deactivation to respective statuses ([#82](https://github.com/sovity/authority-portal/issues/82))
 - Fixed MDS logo, footer (in compact view) ([#57](https://github.com/sovity/authority-portal/issues/57))
 - Fixed text overlapping in fullscreen pages ([#80](https://github.com/sovity/authority-portal/issues/80))
 - Cleaned up repository for open-source release:
