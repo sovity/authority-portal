@@ -17,6 +17,21 @@ import {Component, HostBinding, Input} from '@angular/core';
   templateUrl: './footer-copyright.component.html',
 })
 export class FooterCopyrightComponent {
+  @HostBinding('class.flex')
+  @HostBinding('class.items-center')
+  cls = true;
+
+  @HostBinding('class.justify-center')
+  get justifyCenter() {
+    return this.isExpandedMenu;
+  }
+
+  @HostBinding('class.justify-start')
+  @HostBinding('class.max-w-min')
+  get isJustifyStartAndMaxWidthMin() {
+    return !this.isExpandedMenu;
+  }
+
   @Input()
   isExpandedMenu: boolean = true;
 

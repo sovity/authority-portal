@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, Inject, Input} from '@angular/core';
+import {Component, HostBinding, Inject, Input} from '@angular/core';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {FooterLink} from './footer-link.model';
 
@@ -19,6 +19,23 @@ import {FooterLink} from './footer-link.model';
   templateUrl: './footer-links.component.html',
 })
 export class FooterLinksComponent {
+  @HostBinding('class.flex')
+  @HostBinding('class.justify-center')
+  @HostBinding('class.text-gray-400')
+  @HostBinding('class.py-3')
+  @HostBinding('class.gap-1.5')
+  cls = true;
+
+  @HostBinding('class.flex-row')
+  get isFlexRow() {
+    return this.isExpandedMenu;
+  }
+
+  @HostBinding('class.flex-col')
+  get isFlexCol() {
+    return !this.isExpandedMenu;
+  }
+
   @Input()
   isExpandedMenu: boolean = true;
 
