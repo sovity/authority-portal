@@ -69,26 +69,38 @@ export class CertificateGenerateService {
       {
         name: 'commonName',
         value: attributes['commonName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         name: 'countryName',
         value: attributes['countryName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         shortName: 'ST',
         value: attributes['stateName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         name: 'localityName',
         value: attributes['localityName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         name: 'organizationName',
         value: attributes['organizationName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         name: 'organizationalUnitName',
         value: attributes['organizationalUnitName'],
+        // @ts-expect-error
+        valueTagClass: forge.asn1.Type.UTF8,
       },
       {
         name: 'emailAddress',
@@ -100,7 +112,7 @@ export class CertificateGenerateService {
         // The naming of this attribute and the type definitions are incorrect;
         // it holds an ASN.1 type, not a class.
         // @ts-expect-error
-        valueTagClass: forge.asn1.Type.IA5STRING,
+        valueTagClass: forge.asn1.Type.UTF8,
       },
     ];
 
