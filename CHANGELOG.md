@@ -47,7 +47,7 @@ First bugfix release for version 2.1.0.
 - Fixed components being displayed as online when UptimeKuma is unreachable
 - Fixed Authority Users not being able to invite participants ([#65](https://github.com/sovity/authority-portal/issues/65))
 - Fixed the organization address being displayed incorrectly ([#101](https://github.com/sovity/authority-portal/issues/101))
-- Fixed styling, removed hover effect on unclickable avatar components ([#55](https://github.com/sovity/authority-portal/issues/55))
+- Fixed styling, removed hover effect on unclickable avatar components ([#99](https://github.com/sovity/authority-portal/issues/99))
 - Fixed the display of user roles missing spaces between words ([#100](https://github.com/sovity/authority-portal/issues/100))
 - Fixed certificate generation failing when using special characters ([#84](https://github.com/sovity/authority-portal/issues/84))
 - Changed the order of industry select options ([#22](https://github.com/sovity/authority-portal/issues/22))
