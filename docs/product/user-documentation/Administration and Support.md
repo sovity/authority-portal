@@ -2,19 +2,24 @@
 
 ## User Management
 
-Managing users within your organization can be done on the organization profile page.
-There, click on “User list”.
-The User list shows a list of all registered users in your organization.
-To manage a user, click on the arrow under "Actions" next to the user.
+Maneuver to the list of users to manage your organizations users by
+
+a) clicking on your name in the top right corner and then "Users & Roles"
+or b) Click on "My Organization" and then "Users & Roles"
+
+//add image highlighting the two options
+
+The "User & Roles" list shows a list of all registered members in your organization.
+To manage a user, click somewhere in the row the user of interest is listed in.
 
 Only Participant Admins have the rights to make changes here!
  
- ![user-management-1](images/user-management-1.png)
+ //add image of "User & Roles"
   
 As a Participant Admin you are able to:
 
 - Change the organization role of a user
-- Deactivate or reactivate users
+- Delete, deactivate or reactivate users
 
 The Organization Roles are defined as follows:
 
@@ -22,12 +27,15 @@ The Organization Roles are defined as follows:
 - _Participant Curator_: The role allows creating and editing connectors for the user's organization
 - _Participant Admin_: Can additionally manage users, invite new users and deactivate existing users
 
+Any user is able to edit his own information by maneuvering to his own profile and clicking "Edit". First name, last name, Job title, e-mail and phone number can be updated and changes persisted by clicking "Update".
+
 ## Organization management
 
 Organization management is only available to Authority Admins and Authority Users. If you have one of these application roles you can see the Authority section on the navigation bar. 
 
-![organization-management](images/organization-management.png)
- 
+// Add image of organizations page
+// Update section below with screenshots and instructions
+
 On the Organization page you can see all organizations registered in the MDS Portal. They can be sorted by:
 
 - _Active_: Fully registered organizations
@@ -41,7 +49,7 @@ As an Authority User you have the rights to:
 
 - See the list of all registered, pending & invited organizations
 - Invite new organizations and their first user, the Participant Admin
-- Accept & reject pending requests 
+- Accept & reject pending organizations's requests 
 - Access any organization's profile
 
 As an Authority Admin you can additionally:
@@ -53,9 +61,9 @@ As an Authority Admin you can additionally:
 Under "All Connectors", Authority Users and Admins can see all registered connectors of all organizations in the MDS Portal.
 Also, the connector details can be accessed from here.
 
-![connector-overview](images/connector-overview.png)
+// add image with all connectors overview
 
 ## Ticket System
 
-In case of any need for support, e.g. when encountering malfunctions, problems finding information or questions regarding the provided information, click on “Support” to access the Fault Management system.
+In case of any need for support, e.g. when encountering malfunctions, problems finding information or questions regarding the provided information, click on “MDS Support” to access the Fault Management system.
 Find further documentation [here](https://mobility-dataspace.online/).
