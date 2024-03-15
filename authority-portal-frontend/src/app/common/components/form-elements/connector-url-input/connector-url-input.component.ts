@@ -35,7 +35,7 @@ export class ConnectorUrlInputComponent {
   ctrlId = 'connector-url-' + Math.random().toString(36).substring(7);
 
   @Input()
-  urlSuffix = '/api/dsp';
+  urlSuffix = '';
 
   @Input({transform: booleanAttribute})
   required = true;
