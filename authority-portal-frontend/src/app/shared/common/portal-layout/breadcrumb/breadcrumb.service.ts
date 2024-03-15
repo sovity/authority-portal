@@ -61,6 +61,10 @@ export class BreadcrumbService {
       segments = [];
     }
 
+    if (this.activeFeatureSet.usesBritishCatalogue()) {
+      this.replaceCatalogSpelling(segments);
+    }
+
     return [
       {label: 'Home', link: '', isLinkable: true},
       ...segments.map((segment) => ({
@@ -71,6 +75,14 @@ export class BreadcrumbService {
         isLinkable: !this.nonLinkable.includes(segment),
       })),
     ];
+  }
+
+  private replaceCatalogSpelling(segments: string[]) {
+    segments.find((segment, index) => {
+      if (segment === 'catalog') {
+        segments[index] = 'catalogue';
+      }
+    });
   }
 
   private url$(): Observable<string> {

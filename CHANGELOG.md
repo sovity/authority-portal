@@ -36,6 +36,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - `RUNNING (CaaS) -> ONLINE`
   - `STOPPED (CaaS) -> OFFLINE`
   - `DEAD -> OFFLINE`
+- Breadcrumbs now show "Catalogue" properly when using the MDS theme
 
 ### Known issues
 
