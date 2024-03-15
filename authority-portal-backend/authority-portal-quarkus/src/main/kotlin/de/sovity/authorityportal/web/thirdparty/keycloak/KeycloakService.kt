@@ -13,6 +13,7 @@
 
 package de.sovity.authorityportal.web.thirdparty.keycloak
 
+import de.sovity.authorityportal.web.auth.LoggedInUserFactory
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.ApplicationRole
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
