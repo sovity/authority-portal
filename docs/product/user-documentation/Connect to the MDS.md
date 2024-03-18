@@ -22,26 +22,27 @@ The installation of an on-premise connector consists of two steps:
 
 If you seek to add a Connector to your oranization in the MDS, click "Add Connector" and select if you already have a Connector or need a Connector.
 
-// add choose connector image
+![choose-connector](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/choose%20connector%20registration.png)
 
 Fill out the "Add Connector Details"-mask and click "Next" to proceed.
 
-//add example connector registration image
+![example-connector-registration](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/example-values-connector-registration.png)
 
 After entering your Connector details, you now need to give the stated information in the "Generate Certificate"-mask. and click "Generate & Download Certificate".
 
-//add genereate certificate image
+![example-certificate](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/example-certificate-generation.png)
 
 The certificate will automatically be filled into the respective field in the registration form and the download will be triggered.
 Click on “Register Connector” to finalize the connector registration process.
 
-//add finalize-connector-registration image
+![finalize-connctor-registration](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/finalize-connector-registration.png)
 
 On the following page you will find further instructions to set up your on premise Connector and a link to the open-source repository edc-extensions providing all you need to set up your Connector.
 
 Find your newly registered Connector in the "Conenctors" list.
 
 //add example edc connector list image
+![connector-list](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/connector-list-with-example-edc.png)
 
 ### 2. Setup and configure the connector
 
