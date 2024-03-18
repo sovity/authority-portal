@@ -27,7 +27,7 @@ As a Service Partner Admin a user is able to access the "Provided Connectors" pa
 
 When clicking on the button "Provide Connector" in the upper right corner a mask to register a new connector opens.
 
-// add connector registration mask image
+![connector_registration_mask](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/connector-registration-mask.png)
 
 To provide a connector in the MDS Portal all fields of the mask must be submitted. The process is identical to the registration of connectors for users without any application role but registers the connector for another organization who is named in the slightly changed registration mask.
 After clicking on the register button the list of provided conenctors appears, where the added connector can be found.
@@ -58,13 +58,14 @@ Currently the Operator Admin role grants the following rights in addition to a u
 
 As an Operator Admin a user is able to access the "Central Components" page where all registered central components are displayed.
 
-// add image og central components page
+![central_components](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/central-components-page.png)
 
 #### 2. Register and delete central components
 
 When clicking on the button "Provide Central Component" in the upper right corner a mask to register a central component opens.
 
 // add provide central component mask image
+![provide_central_component](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/provide-central-component-mask.png)
 
 To register a central component in the MDS Portal all fields of the mask must be submitted. The process is identical to the registration of connectors but does not register the added central component at the MDS Broker.
 After clicking on the register button the list of central components appears, where the added central component can be found.
