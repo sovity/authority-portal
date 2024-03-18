@@ -31,8 +31,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
     # Changed
     OAUTH2_PROXY_COOKIE_REFRESH: 30s
     ```
-  - Change cookie refresh to 30s
-    - => Productive Deployment Guide (refresh 30s)
 
 #### Compatible Versions
 
