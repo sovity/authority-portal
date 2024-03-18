@@ -257,14 +257,14 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun getAuthorityConnector(connectorId: String): ConnectorDetailDto {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
+    override fun getConnector(connectorId: String): ConnectorDetailDto {
+        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_USER, Roles.UserRoles.OPERATOR_ADMIN)
         return connectorManagementApiService.getAuthorityConnectorDetails(connectorId)
     }
 
     @Transactional
     override fun getAllConnectors(environmentId: String): ConnectorOverviewResult {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
+        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_USER, Roles.UserRoles.OPERATOR_ADMIN)
         return connectorManagementApiService.listAllConnectors(environmentId)
     }
 

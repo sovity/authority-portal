@@ -202,8 +202,8 @@ public interface UiResource {
     @GET
     @Path("/authority/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Get all connectors of all participating organizations.")
-    ConnectorDetailDto getAuthorityConnector(
+    @Operation(description = "Get details of any connector.")
+    ConnectorDetailDto getConnector(
         @PathParam("connectorId")
         String connectorId
     );
