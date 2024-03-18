@@ -39,7 +39,7 @@ export class AuthorityConnectorDetailPageStateImpl {
     ctx: StateContext<AuthorityConnectorDetailPageState>,
   ): Observable<never> {
     return this.apiService
-      .getAuthorityConnector(ctx.getState().connectorId)
+      .getConnector(ctx.getState().connectorId)
       .pipe(
         Fetched.wrap({failureMessage: 'Failed loading Connector'}),
         tap((connector) => this.connectorRefreshed(ctx, connector)),
