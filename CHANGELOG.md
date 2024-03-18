@@ -17,15 +17,20 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Fixed the placeholder for the connector Frontend URL ([#86](https://github.com/sovity/authority-portal/issues/86))
 - Fixed connectors not showing on operator's "All connectors" list ([#119](https://github.com/sovity/authority-portal/issues/119))
-- TODO: Reduce acceess token lifespan Issue 111...
+- Changed Access Token Lifespan to be one minute ([#111](https://github.com/sovity/authority-portal/issues/111))
 
 ### Known issues
 
 ### Deployment Migration Notes
 
-- Keycloak 
-  - TODO: Access Token Lifespan
+- Keycloak
+  - Set Access Token Lifespan to 1 minute (Realm Settings -> Tokens -> Access Token Lifespan)
 - Auth Proxy
+  - Environment variables
+    ```yaml
+    # Changed
+    OAUTH2_PROXY_COOKIE_REFRESH: 30s
+    ```
   - Change cookie refresh to 30s
     - => Productive Deployment Guide (refresh 30s)
 
