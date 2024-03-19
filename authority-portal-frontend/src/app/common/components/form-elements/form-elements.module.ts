@@ -21,6 +21,7 @@ import {CertificateInputComponent} from './certificate-input/certificate-input.c
 import {ConnectorUrlInputComponent} from './connector-url-input/connector-url-input.component';
 import {TosCheckComponent} from './dsgvo-input/tos-check.component';
 import {IndustrySelectComponent} from './industry-select/industry-select.component';
+import {OrganizationRolesTooltipComponent} from './organization-roles-tooltip/organization-roles-tooltip.component';
 import {OrganizationSelectComponent} from './organization-select/organization-select.component';
 import {PasswordInputComponent} from './password-input/password-input.component';
 import {PasswordRepeatInputComponent} from './password-repeat-input/password-repeat-input.component';
@@ -52,6 +53,7 @@ import {TextInputComponent} from './text-input/text-input.component';
     TextInputComponent,
     TosCheckComponent,
     ReadonlyTextInputComponent,
+    OrganizationRolesTooltipComponent,
   ],
   exports: [
     CertificateInputComponent,
@@ -65,6 +67,7 @@ import {TextInputComponent} from './text-input/text-input.component';
     TextInputComponent,
     TosCheckComponent,
     ReadonlyTextInputComponent,
+    OrganizationRolesTooltipComponent,
   ],
 })
 export class FormElementsModule {}

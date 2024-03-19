@@ -55,12 +55,7 @@
         <div class="flex flex-col justify-start items-start">
           <div class="flex items-center mb-2">
             <h4 class="text-sm">User's Role</h4>
-            <mat-icon
-              class="scale-75"
-              matTooltipClass="roles-tooltip"
-              [matTooltip]="rolesTooltip"
-              >info</mat-icon
-            >
+            <app-organization-roles-tooltip></app-organization-roles-tooltip>
           </div>
           <mat-form-field class="w-full" appearance="outline">
             <mat-select
