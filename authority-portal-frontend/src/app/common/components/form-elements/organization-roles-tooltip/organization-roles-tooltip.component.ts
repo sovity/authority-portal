@@ -19,11 +19,11 @@ import {Component} from '@angular/core';
 export class OrganizationRolesTooltipComponent {
   organizationRolesTooltip = `
 USER
-is the basic role that allows a person to open multiple participant related sections in portal.
+Basic role that allows access to multiple participant related sections in the portal.
 
 KEY USER
-can additionally manage and interact with an organization's connectors and data offerings/requests.
+Can additionally manage their organization's connectors and data offerings/requests.
 
 ADMIN
-can additionally manage users, invite new users and update the organization's profile.`;
+Can additionally manage their organization, e.g. change organization details and manage members.`;
 }
