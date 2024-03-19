@@ -2,7 +2,7 @@
   class="w-full mb-2 text-sm"
   [class.text-red-600]="ctrl.touched && ctrl.invalid"
   [for]="ctrlId"
-  >{{ required ? label + " *" : label }}</label
+  >{{ required ? label + ' *' : label }}</label
 >
 
 <mat-form-field
@@ -14,7 +14,7 @@
     type="text"
     [id]="ctrlId"
     [formControl]="ctrl"
-    [placeholder]="placeholder"/>
+    [placeholder]="placeholder" />
 
   <mat-error *ngIf="ctrl.touched && ctrl.hasError('required')" class="text-xs">
     {{ requiredMessage }}</mat-error
@@ -47,7 +47,6 @@
   <mat-error
     *ngIf="ctrl.touched && ctrl.hasError('phoneNumber')"
     class="text-xs">
-    Invalid phone number. Please use 5 or more numbers and optionally '+' or '
-    '</mat-error
+    Invalid phone number. Only digits, whitespaces and '+' allowed</mat-error
   >
 </mat-form-field>
