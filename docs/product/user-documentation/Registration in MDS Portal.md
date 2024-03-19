@@ -14,7 +14,7 @@ Start the process in the MDS Portal.
 Click on “Register Organization” and follow the registration process.
 You will be asked to provide information about the user and the organization.
 
-![self-registration](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/self-registration.png)
+![self-registration](images/self-registration.png)
 
 After you finish entering your user and organization details, you will receive a verification email including the finalization of your account by setting up a two-factor authentication.
 
@@ -25,8 +25,7 @@ Once received, click on the verification link in the email and wait for your org
 Within the MDS Portal, the organization profile page provides an overview of your organization's information and by clicking on “User list”, it displays a list of all registered users in your organization.
 From there, you can invite new users to your organization.
 
-//add invite user image
-![invite_user](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/invite-user.png)
+![invite-user](images/invite-user.png)
 
 To invite new users into your organization, you must have the role Admin!
 

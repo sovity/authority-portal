@@ -20,33 +20,32 @@ The installation of an on-premise connector consists of two steps:
 
 ### 1. Register your connector
 
-If you seek to add a Connector to your oranization in the MDS, click "Add Connector" and select if you already have a Connector or need a Connector.
+If you seek to add a Connector to your organization in the MDS, click "Add Connector" and select if you already have a Connector or need a Connector.
 
-![choose-connector](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/choose%20connector%20registration.png)
+![choose-connector](images/choose-connector-registration.png)
 
 Fill out the "Add Connector Details"-mask and click "Next" to proceed.
 
-![example-connector-registration](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/example-values-connector-registration.png)
+![example-connector-registration](images/example-values-connector-registration.png)
 
 After entering your Connector details, you now need to give the stated information in the "Generate Certificate"-mask. and click "Generate & Download Certificate".
 
-![example-certificate](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/example-certificate-generation.png)
+![example-certificate](images/example-certificate-generation.png)
 
 The certificate will automatically be filled into the respective field in the registration form and the download will be triggered.
 Click on “Register Connector” to finalize the connector registration process.
 
-![finalize-connctor-registration](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/finalize-connector-registration.png)
+![finalize-connector-registration](images/finalize-connector-registration.png)
 
-On the following page you will find further instructions to set up your on premise Connector and a link to the open-source repository edc-extensions providing all you need to set up your Connector.
+On the following page you will find further instructions on how to set up your on-premise Connector and a link to the open-source repository edc-extensions providing all you need to set up your Connector.
 
-Find your newly registered Connector in the "Conenctors" list.
+Find your newly registered Connector in the "Connectors" list.
 
-//add example edc connector list image
-![connector-list](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/connector-list-with-example-edc.png)
+![connector-list](images/connector-list-with-example-edc.png)
 
 ### 2. Setup and configure the connector
 
-We recommend to use the MDS Version of the Eclipse Dataspace Connector, which is used as reference for configuration. Nevertheless, you can use any other connector which is compatible with the EDC, MDS Catalogue and MDS Logging House.
+We recommend using the MDS version of the Eclipse Dataspace Connector, which is used as reference for configuration. Nevertheless, you can use any other connector which is compatible with the EDC, MDS Catalogue and MDS Logging House.
 
 A deployment guide for self-hosting a functional MDS CE EDC Connector can be found in the [MDS Wiki](https://github.com/Mobility-Data-Space/mobility-data-space/wiki) under Connector On-Premise - 2. Step (Configuration).
 

@@ -7,15 +7,14 @@ Maneuver to the list of users to manage your organizations users by
 a) clicking on your name in the top right corner and then "Users & Roles"
 or b) Click on "My Organization" and then "Users & Roles"
 
-//add image highlighting the two options
-![Usermanagement](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/usermanagmanagement.png)
+![user-management](images/usermanagmanagement.png)
 
 The "User & Roles" list shows a list of all registered members in your organization.
 To manage a user, click somewhere in the row the user of interest is listed in.
 
 Only Participant Admins have the rights to make changes here!
  
- //add image of "User & Roles" ![users list](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/users-list-select-one.png)
+![users-list](images/users-list-select-one.png)
   
 As a Participant Admin you are able to:
 
@@ -34,7 +33,7 @@ Any user is able to edit his own information by maneuvering to his own profile a
 
 Organization management is only available to Authority Admins and Authority Users. If you have one of these application roles you can see the Authority section on the navigation bar. 
 
-![organizations_page](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/organizations_page.png)
+![organizations-page](images/organizations-page.png)
 
 On the Organization page you can see all organizations registered in the MDS Portal. They can be filtered by:
 
@@ -45,17 +44,17 @@ On the Organization page you can see all organizations registered in the MDS Por
 
 Click in the row of an organization to view the organization details. Quickly switch between two organization detail pages by using the arrows at the top.
 
-![organization_detail_page](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/organization_detail_page.png)
+![organization-detail-page](images/organization-detail-page.png)
 
 From the organization detail page, authority users and admins are able to manage the organization of interest and e.g approve or reject an organization or see the different users of it.
 
-![manage_organizations](https://github.com/sovity/authority-portal/blob/5-Update-user-documentation-to-match-v2.1.1/docs/product/user-documentation/images/authority_external_users_list.png)
+![manage-organizations](images/authority-external-users-list.png)
 
 As an Authority User you have the rights to:
 
 - See the list of all registered, pending & invited organizations
 - Invite new organizations and their first user, the Participant Admin
-- Accept & reject pending organizations's requests 
+- Accept & reject pending organization's requests 
 - Access any organization's profile
 
 As an Authority Admin you can additionally:
@@ -66,9 +65,6 @@ As an Authority Admin you can additionally:
 
 Under "All Connectors", Authority Users and Admins can see all registered connectors of all organizations in the MDS Portal.
 Also, the connector details can be accessed from here.
-
-// add image with all connectors overview
-![]()
 
 ## Ticket System
 
