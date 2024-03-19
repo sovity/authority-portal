@@ -19,7 +19,7 @@ import {Component} from '@angular/core';
 export class ApplicationRolesTooltipComponent {
   applicationRolesTooltip = `
 - AUTHORITY USER
-user has the rights to see the list and details of all organizations, invite new organizations, accept & reject pending requests
+has the rights to see the list and details of all organizations, invite new organizations, accept & reject pending requests
 
 - AUTHORITY ADMIN 
 can additionally manage application roles of users of any organization via the user list of each organization
