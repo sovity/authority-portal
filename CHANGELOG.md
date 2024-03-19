@@ -76,7 +76,6 @@ First bugfix release for version 2.1.0.
 - Certificate generation: Added a notice below the generate button ([#94](https://github.com/sovity/authority-portal/issues/94))
 - Removed "Control Center" from breadcrumb path to improve UX ([#54](https://github.com/sovity/authority-portal/issues/54))
 - Restricted user re-/deactivation to appropriate statuses ([#82](https://github.com/sovity/authority-portal/issues/82))
-
 - Cleaned up the repository for open-source release:
   - Removed internal tools and utilities
   - Rebased the entire history to remove secrets and unrelated code
