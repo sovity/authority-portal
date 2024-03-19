@@ -44,6 +44,20 @@ export class ParticipantInviteNewUserComponent {
   group = this.buildFormGroup();
   assignableRoles: string[] = getParticipantRoles();
 
+  rolesTooltip = `
+- USER
+is the basic role that allows a person to open multiple participant
+related sections in portal but basically cannot change anything.
+
+- KEY USER
+role allows creating and editing of organization's connectors and
+data offerings/requests.
+
+- ADMIN
+can additionally manage users, invite new users and update
+organization's profile.
+  `;
+
   ngOnDestroy$ = new Subject();
 
   constructor(
