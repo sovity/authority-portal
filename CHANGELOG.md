@@ -20,6 +20,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Changed Access Token Lifespan to be one minute ([#111](https://github.com/sovity/authority-portal/issues/111))
 - Fixed an issue with connector URLs not being validated correctly in the UI ([#115](https://github.com/sovity/authority-portal/issues/115))
 - Added tooltips explaining user roles ([#76](https://github.com/sovity/authority-portal/issues/76))
+- Dashboard: Changed the component uptime duration to be shown next to the status instead of showing it in a tooltip ([#62](https://github.com/sovity/authority-portal/issues/62))
 
 ### Known issues
 
