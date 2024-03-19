@@ -43,19 +43,18 @@ export class DashboardComponentUptimeCardComponent {
     this.chartData = value
       .mapNotNull((it) => this.buildDonutChartData(it))
       .orElse(null);
-    this.upSinceTooltip = value
-      .mapNotNull((it) =>
-        it.upSince.seconds
-          ? `Up for ${humanizeDuration(it.upSince.seconds)}`
-          : null,
-      )
+    this.upSinceHumanized = value
+      .mapNotNull((it) => it.upSinceSeconds)
+      .mapNotNull(humanizeDuration)
       .orElse(null);
   }
   get data(): Fetched<UptimeStatusDto | undefined> {
     return this._data;
   }
   chartData: DonutChartData | null = null;
-  upSinceTooltip: string | null = null;
+  upSinceHumanized: string | null = null;
+
+  humanizeDuration = humanizeDuration;
 
   getComponentStatusCircleClass(status: ComponentStatusDto): string {
     switch (status) {
@@ -84,7 +83,9 @@ export class DashboardComponentUptimeCardComponent {
   getComponentStatusText(status: ComponentStatusDto): string {
     switch (status) {
       case ComponentStatusDto.Up:
-        return 'Up';
+        return `Up ${
+          this.upSinceHumanized ? 'for ' + this.upSinceHumanized : ''
+        }`;
       case ComponentStatusDto.Pending:
         return 'Pending';
       case ComponentStatusDto.Maintenance:
@@ -96,8 +97,8 @@ export class DashboardComponentUptimeCardComponent {
 
   buildDonutChartData(dto: UptimeStatusDto): DonutChartData {
     let timeFrameMessage = '';
-    if (dto.timeSpan.seconds) {
-      timeFrameMessage = ` (last ${humanizeDuration(dto.timeSpan.seconds)})`;
+    if (dto.timeSpanSeconds) {
+      timeFrameMessage = ` (last ${humanizeDuration(dto.timeSpanSeconds)})`;
     }
 
     let upPercent = dto.uptimePercentage;
