@@ -87,12 +87,13 @@ class ComponentStatusApiService {
         }
 
         val upSince = Duration.between(latestStatus.timeStamp.toInstant(), now.toInstant()).abs()
+        val timeSpan = Duration.ofDays(30)
 
         return UptimeStatusDto().also {
             it.componentStatus = latestStatus.status.toDto()
-            it.upSince = upSince.takeIf { latestStatus.status == ComponentOnlineStatus.UP } ?: Duration.ZERO
-            it.timeSpan = Duration.ofDays(30)
-            it.uptimePercentage = calculateUptimePercentage(latestStatus.component, it.timeSpan, environmentId, now)
+            it.upSinceSeconds = upSince.toSeconds().takeIf { latestStatus.status == ComponentOnlineStatus.UP } ?: 0
+            it.timeSpanSeconds = timeSpan.toSeconds()
+            it.uptimePercentage = calculateUptimePercentage(latestStatus.component, timeSpan, environmentId, now)
         }
     }
 
