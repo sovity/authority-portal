@@ -282,6 +282,7 @@ select:-webkit-autofill:disabled {
 
 .roles-tooltip > .mdc-tooltip__surface {
   max-width: 400px !important;
+  max-height: unset !important;
   padding: 1rem !important;
   white-space: pre-wrap !important;
 }

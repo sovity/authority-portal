@@ -16,6 +16,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../../material/material.module';
 import {LoadingElementModule} from '../loading-element/loading-element.module';
 import {PipesAndDirectivesModule} from '../pipes-and-directives/pipes-and-directives.module';
+import {ApplicationRolesTooltipComponent} from './application-roles-tooltip/application-roles-tooltip.component';
 import {CertificateInputFormComponent} from './certificate-input-form/certificate-input-form.component';
 import {CertificateInputComponent} from './certificate-input/certificate-input.component';
 import {ConnectorUrlInputComponent} from './connector-url-input/connector-url-input.component';
@@ -54,6 +55,7 @@ import {TextInputComponent} from './text-input/text-input.component';
     TosCheckComponent,
     ReadonlyTextInputComponent,
     OrganizationRolesTooltipComponent,
+    ApplicationRolesTooltipComponent,
   ],
   exports: [
     CertificateInputComponent,
@@ -68,6 +70,7 @@ import {TextInputComponent} from './text-input/text-input.component';
     TosCheckComponent,
     ReadonlyTextInputComponent,
     OrganizationRolesTooltipComponent,
+    ApplicationRolesTooltipComponent,
   ],
 })
 export class FormElementsModule {}
