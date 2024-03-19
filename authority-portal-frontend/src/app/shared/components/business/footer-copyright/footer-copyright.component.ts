@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, Input} from '@angular/core';
+import {Component, HostBinding} from '@angular/core';
 
 @Component({
   selector: 'app-footer-copyright',
@@ -20,9 +20,6 @@ export class FooterCopyrightComponent {
   @HostBinding('class.flex')
   @HostBinding('class.items-center')
   cls = true;
-
-  @Input()
-  isExpandedMenu: boolean = true;
 
   thisYear: number = new Date().getFullYear();
 }
