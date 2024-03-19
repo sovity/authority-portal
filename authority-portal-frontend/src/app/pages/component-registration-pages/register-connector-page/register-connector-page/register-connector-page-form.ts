@@ -12,7 +12,6 @@
  */
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {urlValidator} from 'src/app/core/utils/validators/url-validator';
 import {buildCertificateInputForm} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-builder';
 import {certificateInputFormEnabledCtrls} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-enabled-ctrls';
 import {switchDisabledControls} from '../../../../core/utils/form-utils';
@@ -24,6 +23,7 @@ import {
   RegisterConnectorPageFormModel,
   RegisterConnectorPageFormValue,
 } from './register-connector-page-form-model';
+import {connectorUrlValidator} from "../../../../core/utils/validators/connector-url-validator";
 
 @Injectable()
 export class RegisterConnectorPageForm {
@@ -57,15 +57,15 @@ export class RegisterConnectorPageForm {
       ],
       frontendUrl: [
         initial.connectorTab.frontendUrl,
-        [Validators.required, Validators.maxLength(128), urlValidator],
+        [Validators.required, Validators.maxLength(128), connectorUrlValidator],
       ],
       endpointUrl: [
         initial.connectorTab.endpointUrl,
-        [Validators.required, Validators.maxLength(128), urlValidator],
+        [Validators.required, Validators.maxLength(128), connectorUrlValidator],
       ],
       managementUrl: [
         initial.connectorTab.managementUrl,
-        [Validators.required, Validators.maxLength(128), urlValidator],
+        [Validators.required, Validators.maxLength(128), connectorUrlValidator],
       ],
     });
 
