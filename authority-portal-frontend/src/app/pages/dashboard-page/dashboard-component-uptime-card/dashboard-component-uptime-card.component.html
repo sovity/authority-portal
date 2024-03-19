@@ -1,12 +1,6 @@
 <div class="flex items-center gap-2 justify-between">
-  <h3 class="font-semibold text-sm">
-    {{ label }}
-  </h3>
-  <div
-    *ngIf="data.isReady && data.data"
-    class="flex items-center gap-2"
-    [matTooltip]="this.upSinceTooltip!"
-    [matTooltipDisabled]="!this.upSinceTooltip">
+  <h3 class="font-semibold text-sm">{{ label }}</h3>
+  <div *ngIf="data.isReady && data.data" class="flex items-center gap-2">
     <div
       class="flex-none rounded-full p-1"
       [ngClass]="getComponentStatusCircleClass(data.data.componentStatus)">
@@ -41,8 +35,11 @@
     <div class="truncate text-sm font-medium text-gray-500 whitespace-normal">
       Uptime
     </div>
-    <div class="mt-1 text-3xl tracking-tight text-gray-900">
+    <div class="my-1 text-3xl tracking-tight text-gray-900">
       {{ data.data.uptimePercentage / 100 | percent }}
+    </div>
+    <div class="text-sm text-gray-500">
+      in the last {{ humanizeDuration(data.data.timeSpanSeconds) }}
     </div>
   </div>
 </div>
