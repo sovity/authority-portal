@@ -2,7 +2,6 @@
   *ngFor="let footerLink of footerLinks; let i = index"
   class="hover:underline whitespace-normal"
   target="_blank"
-  [ngClass]="isExpandedMenu ? 'items-center' : 'items-start max-w-min'"
   [href]="footerLink.href"
   >{{ footerLink.name }}</a
 >

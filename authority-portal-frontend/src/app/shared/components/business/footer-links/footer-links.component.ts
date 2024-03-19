@@ -24,6 +24,7 @@ export class FooterLinksComponent {
   @HostBinding('class.text-gray-400')
   @HostBinding('class.py-3')
   @HostBinding('class.gap-1.5')
+  @HostBinding('class.whitespace-normal')
   cls = true;
 
   @HostBinding('class.flex-row')
@@ -33,6 +34,11 @@ export class FooterLinksComponent {
 
   @HostBinding('class.flex-col')
   get isFlexCol() {
+    return !this.isExpandedMenu;
+  }
+
+  @HostBinding('class.max-w-min')
+  get isMaxWidthMin() {
     return !this.isExpandedMenu;
   }
 
