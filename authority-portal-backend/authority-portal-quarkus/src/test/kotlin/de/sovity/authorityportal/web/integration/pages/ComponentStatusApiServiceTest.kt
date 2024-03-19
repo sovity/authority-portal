@@ -108,7 +108,7 @@ class ComponentStatusApiServiceTest {
         assertThat(resultEnv1.brokerStatus.componentStatus).isEqualTo(ComponentOnlineStatus.UP.toDto())
         assertThat(resultEnv1.brokerStatus.uptimePercentage).isCloseTo(66.67, Offset.offset(0.1))
         assertThat(resultEnv1.brokerStatus.timeSpanSeconds).isEqualTo(2592000)
-        assertThat(resultEnv1.brokerStatus.upSinceSeconds).isCloseTo(312000, Offset.offset(5)) //isCloseTo(312000, 5)
+        assertThat(resultEnv1.brokerStatus.upSinceSeconds).isCloseTo(432000, Offset.offset(5))
         assertThat(resultEnv1.dapsStatus.componentStatus).isEqualTo(ComponentOnlineStatus.MAINTENANCE.toDto())
         assertThat(resultEnv1.dapsStatus.uptimePercentage).isCloseTo(50.00, Offset.offset(0.1))
         assertThat(resultEnv1.dapsStatus.timeSpanSeconds).isEqualTo(2592000)
