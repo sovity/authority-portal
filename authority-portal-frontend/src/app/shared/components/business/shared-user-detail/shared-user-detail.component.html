@@ -51,7 +51,10 @@
     </div>
     <ng-container *ngIf="roleFormToggled">
       <div *ngIf="config.roles.canChangeApplicationRole" class="px-4">
-        <label class="w-full mb-2 text-sm">Choose an Application Role</label>
+        <div class="flex flex-row justify-start items-start w-full">
+          <label>Choose an Application Role</label>
+          <app-application-roles-tooltip></app-application-roles-tooltip>
+        </div>
         <mat-form-field class="w-full" appearance="outline">
           <mat-select placeholder="None" [formControl]="applicationRoleCtrl">
             <mat-option>None</mat-option>
@@ -64,7 +67,10 @@
         </mat-form-field>
       </div>
       <div class="px-4">
-        <label class="w-full mb-2 text-sm">Choose an Organization Role</label>
+        <div class="flex flex-row justify-start items-start w-full">
+          <label>Choose an Organization Role</label>
+          <app-organization-roles-tooltip></app-organization-roles-tooltip>
+        </div>
         <mat-form-field class="w-full" appearance="outline">
           <mat-select [formControl]="participantRoleCtrl">
             <mat-option
