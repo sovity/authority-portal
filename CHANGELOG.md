@@ -19,6 +19,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed connectors not showing on operator's "All connectors" list ([#119](https://github.com/sovity/authority-portal/issues/119))
 - Changed Access Token Lifespan to be one minute ([#111](https://github.com/sovity/authority-portal/issues/111))
 - Fixed an issue with connector URLs not being validated correctly in the UI ([#115](https://github.com/sovity/authority-portal/issues/115))
+- Fixed MDS logo, footer (in compact view) ([#57](https://github.com/sovity/authority-portal/issues/57))
+- Fixed text overlapping in fullscreen pages ([#80](https://github.com/sovity/authority-portal/issues/80))
 
 ### Known issues
 
@@ -68,9 +70,6 @@ First bugfix release for version 2.1.0.
 - Renamed "All Data Offers" to "Data Catalogue" ([#52](https://github.com/sovity/authority-portal/issues/52))
 - Adjusted the ordering of users in the organization details page ([#98](https://github.com/sovity/authority-portal/issues/98))
 - Adjusted the ordering of organizations in the organization overview page ([#49](https://github.com/sovity/authority-portal/issues/49))
-- Restrict user re-/deactivation to respective statuses ([#82](https://github.com/sovity/authority-portal/issues/82))
-- Fixed MDS logo, footer (in compact view) ([#57](https://github.com/sovity/authority-portal/issues/57))
-- Fixed text overlapping in fullscreen pages ([#80](https://github.com/sovity/authority-portal/issues/80))
 - Added a character limit to most input fields (128 characters) ([#17](https://github.com/sovity/authority-portal/issues/17))
 - Added missing variables to show "hide/show" icon in reset password keycloak page ([#93](https://github.com/sovity/authority-portal/issues/93))
 - Added a notification when the user clicks on a copy button ([#24](https://github.com/sovity/authority-portal/issues/24))
