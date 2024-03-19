@@ -55,12 +55,7 @@ export class DashboardComponentUptimeCardComponent {
   chartData: DonutChartData | null = null;
   upSinceHumanized: string | null = null;
 
-  getHumanizedDuration(seconds: number | undefined | null): string {
-    if (seconds !== undefined && seconds !== null) {
-      return humanizeDuration(seconds);
-    }
-    return 'time period';
-  }
+  humanizeDuration = humanizeDuration;
 
   getComponentStatusCircleClass(status: ComponentStatusDto): string {
     switch (status) {

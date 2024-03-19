@@ -39,7 +39,7 @@
       {{ data.data.uptimePercentage / 100 | percent }}
     </div>
     <div class="text-sm text-gray-500">
-      in the last {{ getHumanizedDuration(data.data.timeSpanSeconds) }}
+      in the last {{ humanizeDuration(data.data.timeSpanSeconds) }}
     </div>
   </div>
 </div>
