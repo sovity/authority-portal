@@ -44,9 +44,8 @@ export class DashboardComponentUptimeCardComponent {
       .mapNotNull((it) => this.buildDonutChartData(it))
       .orElse(null);
     this.upSinceHumanized = value
-      .mapNotNull((it) =>
-        it.upSinceSeconds ? humanizeDuration(it.upSinceSeconds) : null,
-      )
+      .mapNotNull((it) => it.upSinceSeconds)
+      .mapNotNull(humanizeDuration)
       .orElse(null);
   }
   get data(): Fetched<UptimeStatusDto | undefined> {
