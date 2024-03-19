@@ -45,7 +45,7 @@ export class DashboardComponentUptimeCardComponent {
       .orElse(null);
     this.upSinceHumanized = value
       .mapNotNull((it) =>
-        it.upSince.seconds ? humanizeDuration(it.upSince.seconds) : null,
+        it.upSinceSeconds ? humanizeDuration(it.upSinceSeconds) : null,
       )
       .orElse(null);
   }
@@ -103,8 +103,8 @@ export class DashboardComponentUptimeCardComponent {
 
   buildDonutChartData(dto: UptimeStatusDto): DonutChartData {
     let timeFrameMessage = '';
-    if (dto.timeSpan.seconds) {
-      timeFrameMessage = ` (last ${humanizeDuration(dto.timeSpan.seconds)})`;
+    if (dto.timeSpanSeconds) {
+      timeFrameMessage = ` (last ${humanizeDuration(dto.timeSpanSeconds)})`;
     }
 
     let upPercent = dto.uptimePercentage;
