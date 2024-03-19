@@ -18,6 +18,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed the placeholder for the connector Frontend URL ([#86](https://github.com/sovity/authority-portal/issues/86))
 - Fixed connectors not showing on operator's "All connectors" list ([#119](https://github.com/sovity/authority-portal/issues/119))
 - Changed Access Token Lifespan to be one minute ([#111](https://github.com/sovity/authority-portal/issues/111))
+- Fixed an issue with connector URLs not being validated correctly in the UI ([#115](https://github.com/sovity/authority-portal/issues/115))
 
 ### Known issues
 
