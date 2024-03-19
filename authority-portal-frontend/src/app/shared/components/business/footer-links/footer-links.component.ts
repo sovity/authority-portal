@@ -27,24 +27,6 @@ export class FooterLinksComponent {
   @HostBinding('class.whitespace-normal')
   cls = true;
 
-  @HostBinding('class.flex-row')
-  get isFlexRow() {
-    return this.isExpandedMenu;
-  }
-
-  @HostBinding('class.flex-col')
-  get isFlexCol() {
-    return !this.isExpandedMenu;
-  }
-
-  @HostBinding('class.max-w-min')
-  get isMaxWidthMin() {
-    return !this.isExpandedMenu;
-  }
-
-  @Input()
-  isExpandedMenu: boolean = true;
-
   footerLinks: FooterLink[] = [
     {
       name: 'Privacy Policy',

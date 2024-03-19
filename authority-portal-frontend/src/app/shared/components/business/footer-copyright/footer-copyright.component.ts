@@ -21,17 +21,6 @@ export class FooterCopyrightComponent {
   @HostBinding('class.items-center')
   cls = true;
 
-  @HostBinding('class.justify-center')
-  get justifyCenter() {
-    return this.isExpandedMenu;
-  }
-
-  @HostBinding('class.justify-start')
-  @HostBinding('class.max-w-min')
-  get isJustifyStartAndMaxWidthMin() {
-    return !this.isExpandedMenu;
-  }
-
   @Input()
   isExpandedMenu: boolean = true;
 
