@@ -18,34 +18,22 @@ import {
 const up = (): UptimeStatusDto => ({
   componentStatus: 'UP',
   uptimePercentage: 99.1,
-  timeSpan: {
-    seconds: 2592000,
-  },
-  upSince: {
-    seconds: 2592000,
-  },
+  timeSpanSeconds: 2592000,
+  upSinceSeconds: 2592000,
 });
 
 const maintenance = (): UptimeStatusDto => ({
   componentStatus: 'MAINTENANCE',
   uptimePercentage: 69.9,
-  timeSpan: {
-    seconds: 2592000,
-  },
-  upSince: {
-    seconds: 0,
-  },
+  timeSpanSeconds: 2592000,
+  upSinceSeconds: 0,
 });
 
 const down = (): UptimeStatusDto => ({
   componentStatus: 'DOWN',
   uptimePercentage: 51.2,
-  timeSpan: {
-    seconds: 2592000,
-  },
-  upSince: {
-    seconds: 0,
-  },
+  timeSpanSeconds: 2592000,
+  upSinceSeconds: 0,
 });
 
 export const getComponentStatus = (

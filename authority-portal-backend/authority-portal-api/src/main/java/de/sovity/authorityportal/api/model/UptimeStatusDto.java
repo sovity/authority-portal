@@ -17,7 +17,7 @@ public class UptimeStatusDto {
     @Schema(description = "Uptime in percent", requiredMode = Schema.RequiredMode.REQUIRED)
     private Double uptimePercentage;
     @Schema(description = "Time span used for uptime percentage calculation", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Duration timeSpan;
+    private Long timeSpanSeconds;
     @Schema(description = "Time span since last incident", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Duration upSince;
+    private Long upSinceSeconds;
 }

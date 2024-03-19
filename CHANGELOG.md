@@ -21,6 +21,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed an issue with connector URLs not being validated correctly in the UI ([#115](https://github.com/sovity/authority-portal/issues/115))
 - Fixed MDS logo, footer (in compact view) ([#57](https://github.com/sovity/authority-portal/issues/57))
 - Fixed text overlapping in fullscreen pages ([#80](https://github.com/sovity/authority-portal/issues/80))
+- Dashboard: Changed the component uptime duration to be shown next to the status instead of showing it in a tooltip ([#62](https://github.com/sovity/authority-portal/issues/62))
 
 ### Known issues
 
