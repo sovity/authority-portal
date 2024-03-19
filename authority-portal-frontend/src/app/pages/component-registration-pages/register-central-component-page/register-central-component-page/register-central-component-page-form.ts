@@ -24,6 +24,7 @@ import {
   RegisterCentralComponentPageFormModel,
   RegisterCentralComponentPageFormValue,
 } from './register-central-component-page-form-model';
+import {connectorUrlValidator} from "../../../../core/utils/validators/connector-url-validator";
 
 @Injectable()
 export class RegisterCentralComponentPageForm {
@@ -57,11 +58,11 @@ export class RegisterCentralComponentPageForm {
       ],
       frontendUrl: [
         initial.componentTab.frontendUrl,
-        [Validators.required, urlValidator, Validators.maxLength(128)],
+        [Validators.required, connectorUrlValidator, Validators.maxLength(128)],
       ],
       endpointUrl: [
         initial.componentTab.endpointUrl,
-        [Validators.required, urlValidator, Validators.maxLength(128)],
+        [Validators.required, connectorUrlValidator, Validators.maxLength(128)],
       ],
     });
 

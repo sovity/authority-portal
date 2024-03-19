@@ -24,6 +24,7 @@ import {
   RegisterConnectorPageFormModel,
   RegisterConnectorPageFormValue,
 } from './register-connector-page-form-model';
+import {connectorUrlValidator} from "../../../../core/utils/validators/connector-url-validator";
 
 @Injectable()
 export class RegisterConnectorPageForm {
@@ -57,15 +58,15 @@ export class RegisterConnectorPageForm {
       ],
       frontendUrl: [
         initial.connectorTab.frontendUrl,
-        [Validators.required, Validators.maxLength(128), urlValidator],
+        [Validators.required, Validators.maxLength(128), connectorUrlValidator],
       ],
       endpointUrl: [
         initial.connectorTab.endpointUrl,
-        [Validators.required, Validators.maxLength(128), urlValidator],
+        [Validators.required, Validators.maxLength(128), connectorUrlValidator],
       ],
       managementUrl: [
         initial.connectorTab.managementUrl,
-        [Validators.required, Validators.maxLength(128), urlValidator],
+        [Validators.required, Validators.maxLength(128), connectorUrlValidator],
       ],
     });
 
