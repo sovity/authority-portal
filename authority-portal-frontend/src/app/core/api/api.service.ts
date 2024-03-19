@@ -201,9 +201,9 @@ export class ApiService {
     );
   }
 
-  getAuthorityConnector(connectorId: string): Observable<ConnectorDetailDto> {
+  getConnector(connectorId: string): Observable<ConnectorDetailDto> {
     return this.toObservable(() =>
-      this.api().getAuthorityConnector({connectorId}),
+      this.api().getConnector({connectorId}),
     );
   }
 
