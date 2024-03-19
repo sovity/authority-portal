@@ -21,8 +21,6 @@ export class FooterForFullPageComponent {
   @HostBinding('class.bottom-0')
   @HostBinding('class.bg-white')
   @HostBinding('class.w-full')
-  // @HostBinding('class.left-0')
-  // @HostBinding('class.right-0')
   @HostBinding('class.py-3')
   @HostBinding('class.text-xs')
   @HostBinding('class.text-gray-700')
