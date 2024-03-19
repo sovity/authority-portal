@@ -19,6 +19,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed connectors not showing on operator's "All connectors" list ([#119](https://github.com/sovity/authority-portal/issues/119))
 - Changed Access Token Lifespan to be one minute ([#111](https://github.com/sovity/authority-portal/issues/111))
 - Fixed an issue with connector URLs not being validated correctly in the UI ([#115](https://github.com/sovity/authority-portal/issues/115))
+- Add tooltip with info about participant roles ([#76](https://github.com/sovity/authority-portal/issues/76))
 
 ### Known issues
 
@@ -75,7 +76,7 @@ First bugfix release for version 2.1.0.
 - Certificate generation: Added a notice below the generate button ([#94](https://github.com/sovity/authority-portal/issues/94))
 - Removed "Control Center" from breadcrumb path to improve UX ([#54](https://github.com/sovity/authority-portal/issues/54))
 - Restricted user re-/deactivation to appropriate statuses ([#82](https://github.com/sovity/authority-portal/issues/82))
-- Add tooltip with info about participant roles ([#76](https://github.com/sovity/authority-portal/issues/76))
+
 - Cleaned up the repository for open-source release:
   - Removed internal tools and utilities
   - Rebased the entire history to remove secrets and unrelated code

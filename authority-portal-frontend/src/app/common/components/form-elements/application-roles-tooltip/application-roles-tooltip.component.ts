@@ -20,15 +20,15 @@ export class ApplicationRolesTooltipComponent {
   // may need refinements
   applicationRolesTooltip = `
 AUTHORITY USER
-has the rights to see the list and details of all organizations, invite new organizations, accept & reject pending requests
+Can view all participant details, invite new participants and manage pending registration requests
 
 AUTHORITY ADMIN 
-can additionally manage application roles of users of any organization via the user list of each organization
+Can additionally manage application roles for all users
 
 SERVICE PARTNER ADMIN
-role allows user to provide connectors, delete them and see the list of all provided connectors
+Can provide connectors for other participants and manage them
 
 OPERATOR ADMIN
-role allows user to see the list of all provided connectors and delete them and also provide Central Components and see the list of Central Dataspace Components registered at the DAPS.
+Can provide and manage central components in DAPS and manage all connectors
   `;
 }
