@@ -74,8 +74,8 @@ After clicking on the register button the list of central components appears, wh
 
 #### 3. Assign Operator admin role to users within own organization
 
-Click on "My Organization" in the side bar menu.
-Head to the "Users & Roles" page.
-Select a user's profile of the user that shall become an Operator Admin.
-Edit the application role and change it to Operator Admin.
-Result: An additional Operator Admin has been created.
+1. Click on "My Organization" in the side bar menu.
+2. Head to the "Users & Roles" page.
+3. Select a user's profile of the user that shall become an Operator Admin.
+4. Edit the application role and change it to Operator Admin.
+5. Result: An additional Operator Admin has been created.
