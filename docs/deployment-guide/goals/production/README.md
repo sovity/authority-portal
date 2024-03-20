@@ -75,12 +75,12 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
    2. Import [realm.json](../../../../authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json) to create `authority-portal` realm
    3. Adjust settings for `oauth2-proxy` client (Clients > `oauth2-proxy` > Settings)
       - `Root URL`: URL of the auth proxy, e.g. `https://authority-portal.example.url`
-      - `Home URL`: (Most likely) same as `Root URL`
+      - `Home URL`: (Relative) sign in URL of auth proxy, e.g. `/oauth2/sign_in`
       - `Valid Redirect URIs`: (Relative) callback URL of auth proxy, e.g. `/oauth2/callback`
       - `Valid post logout redirect URIs`: `/*`
    4. Adjust settings for `authority-portal-client` client (Clients > `authority-portal-client` > Settings)
       - `Root URL`: URL of the authority portal, e.g. `https://authority-portal.example.url`
-      - `Home URL`: (Most likely) same as `Root URL`
+      - `Home URL`: (Relative) sign in URL of auth proxy, e.g. `/oauth2/sign_in`
    5. Regenerate client secrets for `oauth2-proxy` and `authority-portal-client` clients
       - Clients > `[client]` > Credentials > Regenerate (Client secret)
    6. Select MDS theme for login & email templates
