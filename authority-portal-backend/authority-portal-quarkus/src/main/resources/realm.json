@@ -909,7 +909,7 @@
       "description": "",
       "rootUrl": "https://authority-portal.sirius.sovity.io",
       "adminUrl": "",
-      "baseUrl": "https://authority-portal.sirius.sovity.io",
+      "baseUrl": "https://authority-portal.sirius.sovity.io/oauth2/sign_in",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,

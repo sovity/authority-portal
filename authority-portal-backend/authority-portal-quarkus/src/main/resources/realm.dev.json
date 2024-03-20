@@ -1300,7 +1300,7 @@
       "description": "",
       "rootUrl": "https://authority-portal.example.com",
       "adminUrl": "",
-      "baseUrl": "https://authority-portal.example.com",
+      "baseUrl": "https://authority-portal.example.com/oauth2/sign_in",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
