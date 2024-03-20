@@ -31,7 +31,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Keycloak
   - Change the configuration for the oauth2-proxy client:
-    - Set `Home URL` to the relative auth proxy sign in URL, most likely `/oauth2/sign_in`
+    - Set `Home URL` to the relative auth proxy sign in URL, e.g. `/oauth2/sign_in`
   - Set Access Token Lifespan to 1 minute (Realm Settings -> Tokens -> Access Token Lifespan)
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
 - Auth Proxy
