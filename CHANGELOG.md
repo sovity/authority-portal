@@ -25,6 +25,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added legal notices to the login page ([#79](https://github.com/sovity/authority-portal/issues/79))
 - Adjust user documentation to current status ([#5](https://github.com/sovity/authority-portal/issues/5))
 - Fixed an issue where upon clicking "back to application" on the logout confirmation page, the user would appear to be logged out instead of the logout being canceled ([#8](https://github.com/sovity/authority-portal/issues/8))
+- Fixed an issue where an error 403 would be displayed under certain circumstances ([#107](https://github.com/sovity/authority-portal/issues/107))
 
 ### Known issues
 
@@ -36,10 +37,12 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Set Access Token Lifespan to 1 minute (Realm Settings -> Tokens -> Access Token Lifespan)
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
 - Auth Proxy
+  - Copy the contents from [resources](../../../../authority-portal-oauth2-proxy/resources) to a directory the OAuth2 proxy can access (`CUSTOM_TEMPLATES_DIR`)
   - Environment variables
     ```yaml
     # Changed
     OAUTH2_PROXY_COOKIE_REFRESH: 30s
+    OAUTH2_PROXY_CUSTOM_TEMPLATES_DIR: [CUSTOM_TEMPLATES_DIR]
     ```
 
 #### Compatible Versions
