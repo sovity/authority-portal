@@ -1,4 +1,4 @@
-<#macro registrationLayout bodyClass="" displayInfo=false displayMessage=true displayRequiredFields=false>
+<#macro registrationLayout bodyClass="" displayInfo=true displayMessage=true displayRequiredFields=false>
     <!DOCTYPE html>
     <html class="${properties.kcHtmlClass!}"<#if realm.internationalizationEnabled> lang="${locale.currentLanguageTag}"</#if>>
 
@@ -136,15 +136,15 @@
                         </form>
                     </#if>
 
-                    <#nested "socialProviders">
-
-                    <#if displayInfo>
-                        <div id="kc-info" class="${properties.kcSignUpClass!}">
-                            <div id="kc-info-wrapper" class="${properties.kcInfoAreaWrapperClass!}">
-                                <#nested "info">
+                    <div id="kc-info" class="${properties.kcSignUpClass!}">
+                        <div id="kc-info-wrapper" class="${properties.kcInfoAreaWrapperClass!}">
+                            © 2024 DRM Datenraum Mobilität GmbH<br>
+                            <div class="legal-notices">
+                                <p><a href="https://mobility-dataspace.online/privacy-policy-mds-portal" target="_blank">Privacy Policy</a></p>
+                                <p><a href="https://mobility-dataspace.eu/legal-notice" target="_blank">Legal Notice</a></p>
                             </div>
                         </div>
-                    </#if>
+                    </div>
                 </div>
             </div>
 

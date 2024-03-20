@@ -381,3 +381,8 @@ div.form-group.login-pf-settings {
     margin-left: 5% !important;
   }
 }
+
+.legal-notices {
+  display: flex;
+  justify-content: center;
+}
