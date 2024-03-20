@@ -36,11 +36,11 @@ After clicking on the register button the list of provided connectors appears, w
 
 #### 3. Assign Service Partner Admin role to users within own organization
 
-Click on "My Organization" in the sidebar menu.
-Head to the "Users & Roles" page.
-Select a user's profile of the user that shall become a Service Partner Admin.
-Edit the application role and change it to Service Partner Admin.
-Result: An additional Service Partner Admin has been created.
+1. Click on "My Organization" in the sidebar menu.
+2. Head to the "Users & Roles" page.
+3. Select a user's profile of the user that shall become a Service Partner Admin.
+4. Edit the application role and change it to Service Partner Admin.
+5. Result: An additional Service Partner Admin has been created.
 
 ## Application role: Operator Admin
 
