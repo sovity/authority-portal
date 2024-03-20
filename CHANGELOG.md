@@ -37,7 +37,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Set Access Token Lifespan to 1 minute (Realm Settings -> Tokens -> Access Token Lifespan)
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
 - Auth Proxy
-  - Copy the contents from [resources](../../../../authority-portal-oauth2-proxy/resources) to a directory the OAuth2 proxy can access (`CUSTOM_TEMPLATES_DIR`)
+  - Copy the contents from [resources](authority-portal-oauth2-proxy/resources) to a directory the OAuth2 proxy can access (`CUSTOM_TEMPLATES_DIR`)
   - Environment variables
     ```yaml
     # Changed
