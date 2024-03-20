@@ -24,12 +24,15 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed text overlapping in registration form ([#120](https://github.com/sovity/authority-portal/issues/120))
 - Added legal notices to the login page ([#79](https://github.com/sovity/authority-portal/issues/79))
 - Adjust user documentation to current status ([#5](https://github.com/sovity/authority-portal/issues/5))
+- Fixed an issue where upon clicking "back to application" on the logout confirmation page, the user would appear to be logged out instead of the logout being canceled ([#8](https://github.com/sovity/authority-portal/issues/8))
 
 ### Known issues
 
 ### Deployment Migration Notes
 
 - Keycloak
+  - Change the configuration for the oauth2-proxy client:
+    - Set `Home URL` to the relative auth proxy sign in URL, e.g. `/oauth2/sign_in`
   - Set Access Token Lifespan to 1 minute (Realm Settings -> Tokens -> Access Token Lifespan)
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
 - Auth Proxy
