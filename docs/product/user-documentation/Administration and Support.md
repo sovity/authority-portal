@@ -23,9 +23,9 @@ As a Participant Admin you are able to:
 
 The Organization Roles are defined as follows:
 
-- _Participant User_: The basic role that allows a person to open multiple participant related sections in the MDS Portal, but basically cannot change anything
-- _Participant Curator_: The role allows creating and editing connectors for the user's organization
-- _Participant Admin_: Can additionally manage users, invite new users and deactivate existing users
+- _User_: The basic role that allows a person to open multiple participant related sections in the MDS Portal, but basically cannot change anything
+- _Key User_: The role allows creating and editing connectors for the user's organization
+- _Admin_: Can additionally manage users, invite new users and deactivate existing users
 
 Any user is able to edit his own information by maneuvering to his own profile and clicking "Edit". First name, last name, Job title, e-mail and phone number can be updated and changes persisted by clicking "Update".
 
