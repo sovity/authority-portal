@@ -1,10 +1,23 @@
 html {
   margin: 0;
   padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 form {
   width: 100%;
+}
+
+a {
+  color: #9ca3af !important;
+}
+
+a:hover {
+  color: #ffc000 !important;
 }
 
 .login-pf {
@@ -15,19 +28,33 @@ form {
   background: white repeat-x 50% 0 !important;
 }
 
+.login-pf-page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
 /* default - IE compatibility */
 .pf-m-primary {
   display: block;
-  background-color: #fdfd09 !important;
+  background-color: black !important;
+  color: white;
   text-transform: uppercase;
+  border-radius: 0.25rem;
   line-height: 1;
-  border-radius: 50px;
   height: 2.5em;
   margin: 0 auto;
-  padding: 0 2em;
+  padding: 0 5em 0 5em;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+}
+
+.pf-m-primary:hover {
+  color: #ffc000 !important;
 }
 
 /* default - IE compatibility */
@@ -77,7 +104,7 @@ h1#kc-page-title {
 }
 
 #kc-content {
-  width: 100%;
+  width: 35rem;
 }
 
 #kc-attempted-username {
@@ -95,14 +122,6 @@ h1#kc-page-title {
 
 #kc-webauthn-settings-form {
   padding-top: 8px;
-}
-
-#kc-content-wrapper {
-  margin-top: 20px;
-}
-
-#kc-form-wrapper {
-  margin-top: 10px;
 }
 
 #kc-info-wrapper {
@@ -176,12 +195,6 @@ ul#kc-totp-supported-apps {
     background: #ffffff no-repeat center center fixed;
     background-size: cover;
   }
-
-  .login-pf-page {
-    padding-top: 0px;
-    min-height: 100vh;
-    overflow: auto;
-  }
 }
 
 .card-pff {
@@ -190,8 +203,6 @@ ul#kc-totp-supported-apps {
   max-width: 500px;
   border-radius: 25px;
   height: auto;
-  margin-top: 40px;
-  margin-bottom: 100px;
 }
 
 .login-pf-page .login-pf-signup {
@@ -246,10 +257,7 @@ ul#kc-totp-supported-apps {
 .cardContainer {
   display: flex;
   flex-direction: column;
-  background-color: #f2f2f2;
-  padding: 20px;
   border-radius: 4px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .formContainer {
@@ -271,10 +279,17 @@ ul#kc-totp-supported-apps {
   border: 1px solid #474747;
   margin: 10px auto;
   color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: white !important;
   text-align: center;
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 1.5rem;
+}
+
+#kc-logout-confirm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .text-input::placeholder {
@@ -287,7 +302,7 @@ ul#kc-totp-supported-apps {
   background-image: url(../img/truzzt.png);
   background-repeat: no-repeat;
   background-position: top;
-  height: 110px;
+  height: 80px;
   max-width: 350px;
   background-size: 63%;
 }
@@ -316,17 +331,11 @@ div.form-group.login-pf-settings {
   margin-bottom: 10px !important;
   max-width: 211px;
   height: 40px;
-  margin-bottom: 70px;
-  border-radius: 30px;
-  color: #202020;
+  background-color: black;
+  color: white;
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.pf-c-button.pf-m-primary.pf-m-block.btn-lg:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .kc-registration-container.a:link {
