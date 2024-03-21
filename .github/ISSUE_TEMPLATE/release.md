@@ -30,6 +30,7 @@ Feel free to edit this release checklist in-progress depending on what tasks nee
 - [ ] Create a release in the [Authority Portal EE](https://github.com/sovity/authority-portal-ee) repository.
   - [ ] `release-prep` PR:
     - [ ] Copy the [Keycloak theme](https://github.com/sovity/authority-portal/tree/main/authority-portal-keycloak) from here to the EE repository.
+    - [ ] Copy the [OAuth2 proxy templates](https://github.com/sovity/authority-portal/tree/main/authority-portal-oauth2-proxy) from here to the EE repository.
     - [ ] Copy the [realm.json](https://github.com/sovity/authority-portal/blob/main/authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json) from here to the EE repository.
     - [ ] Link this release in the EE changelog.
     - [ ] Merge the `release-prep` PR.
