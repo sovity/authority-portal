@@ -32,6 +32,7 @@ import de.sovity.authorityportal.web.services.ConnectorMetadataService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
+import de.sovity.authorityportal.web.thirdparty.broker.model.AddedConnector
 import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
@@ -254,7 +255,12 @@ class ConnectorManagementApiService {
 
     private fun registerConnectorInBroker(deploymentEnvId: String, connector: CreateConnectorRequest, connectorId: String, mdsId: String, userId: String): Boolean {
         try {
-            brokerClientService.forEnvironment(deploymentEnvId).addConnector(connector.endpointUrl)
+            brokerClientService.forEnvironment(deploymentEnvId).addConnector(
+                AddedConnector().also {
+                    it.connectorEndpoint = connector.endpointUrl
+                    it.mdsId = mdsId
+                }
+            )
             connectorService.setConnectorBrokerRegistrationStatus(connectorId, ConnectorBrokerRegistrationStatus.REGISTERED)
         } catch (e: Exception) {
             Log.warn("Broker registration for connector unsuccessful. Connector was registered in DAPS & AP regardless. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.", e)

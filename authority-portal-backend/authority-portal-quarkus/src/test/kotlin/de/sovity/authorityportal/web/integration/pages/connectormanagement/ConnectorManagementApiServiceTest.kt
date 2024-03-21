@@ -23,6 +23,7 @@ import de.sovity.authorityportal.web.services.ConnectorMetadataService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClient
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
+import de.sovity.authorityportal.web.thirdparty.broker.model.AddedConnector
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
 import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClient
@@ -40,6 +41,7 @@ import org.mockito.Mockito.anyList
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.eq
@@ -204,7 +206,7 @@ class ConnectorManagementApiServiceTest {
         val brokerClient = mock(BrokerClient::class.java)
         val brokerClientService = mock(BrokerClientService::class.java)
         `when`(brokerClientService.forEnvironment(eq(test))).thenReturn(brokerClient)
-        doNothing().`when`(brokerClient).addConnector(eq(connectorEndpointUrl))
+        doNothing().`when`(brokerClient).addConnector(any())
 
         QuarkusMock.installMockForType(clientIdUtilsMock, ClientIdUtils::class.java)
         QuarkusMock.installMockForType(brokerClientService, BrokerClientService::class.java)
@@ -217,7 +219,7 @@ class ConnectorManagementApiServiceTest {
         // assert
         verify(clientIdUtilsMock).generateFromCertificate(eq(connectorCertificate))
         verify(brokerClientService).forEnvironment(eq(test))
-        verify(brokerClient).addConnector(eq(connectorEndpointUrl))
+        verify(brokerClient).addConnector(any())
         verify(dapsClientService).forEnvironment(eq(test))
         assertThat(response.status).isIn(CreateConnectorStatusDto.OK, CreateConnectorStatusDto.WARNING)
         assertConnector(response.id, ConnectorType.OWN)
@@ -237,7 +239,7 @@ class ConnectorManagementApiServiceTest {
         val brokerClient = mock(BrokerClient::class.java)
         val brokerClientService = mock(BrokerClientService::class.java)
         `when`(brokerClientService.forEnvironment(eq(test))).thenReturn(brokerClient)
-        doNothing().`when`(brokerClient).addConnector(eq(connectorEndpointUrl))
+        doNothing().`when`(brokerClient).addConnector(any())
 
         QuarkusMock.installMockForType(clientIdUtilsMock, ClientIdUtils::class.java)
         QuarkusMock.installMockForType(brokerClientService, BrokerClientService::class.java)
@@ -250,7 +252,7 @@ class ConnectorManagementApiServiceTest {
         // assert
         verify(clientIdUtilsMock).generateFromCertificate(eq(connectorCertificate))
         verify(brokerClientService).forEnvironment(eq(test))
-        verify(brokerClient).addConnector(eq(connectorEndpointUrl))
+        verify(brokerClient).addConnector(any())
         verify(dapsClientService).forEnvironment(eq(test))
         assertThat(response.status).isIn(CreateConnectorStatusDto.OK, CreateConnectorStatusDto.WARNING)
         assertConnector(response.id, ConnectorType.PROVIDED)

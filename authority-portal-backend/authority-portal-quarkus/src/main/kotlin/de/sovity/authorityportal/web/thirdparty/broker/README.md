@@ -15,7 +15,9 @@ _This documentation refers to the [BrokerClientResource](BrokerClientResource.kt
 Base Path: `backend/api/management/wrapper/broker`  
 Config of URL and API keys happens via environment variables: `authority-portal.deployment.environments.[environmentId].broker.[...]`
 
-- `PUT /connectors`
+TODO: Check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+- `PUT /connectors-with-mdsid`
     - Description: Add connector endpoints for the Broker to query.
     - Request
         - Header Parameters:
@@ -24,6 +26,18 @@ Config of URL and API keys happens via environment variables: `authority-portal.
             - `adminApiKey`: Admin API key from config
         - Body
             - Type: `application/json`
+            - Schema: `List<AuthorityPortalOrganizationMetadataRequest>`
+                ```
+                    {
+                        "organizations": [
+                            {
+                                "mdsId": String, (Part of the participantId of a connector)
+                                "name": String
+                            },
+                            ...
+                        ]
+                    }
+                ```
             - Schema: `List<String>` (Connector **endpoints**)
     - Response
         - Status Code: `204`

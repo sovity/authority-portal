@@ -308,6 +308,7 @@ class ConnectorService {
         val c = Tables.CONNECTOR
         return dsl.select(
             c.CONNECTOR_ID.`as`("connectorId"),
+            c.MDS_ID.`as`("mdsId"),
             c.ENDPOINT_URL.`as`("connectorEndpointUrl"),
             c.ENVIRONMENT.`as`("environmentId")
         )
@@ -319,6 +320,7 @@ class ConnectorService {
 
     data class UnregisteredBrokerConnector(
         val connectorId: String,
+        val mdsId: String,
         val connectorEndpointUrl: String,
         val environmentId: String
     )

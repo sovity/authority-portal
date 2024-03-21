@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2024 sovity GmbH
  *
@@ -16,6 +17,7 @@ package de.sovity.authorityportal.web.thirdparty.broker
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalDataOfferInfo
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadataRequest
+import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorCreationRequest
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.HeaderParam
@@ -31,12 +33,12 @@ import jakarta.ws.rs.core.Response
 interface BrokerClientResource {
 
     @PUT
-    @Path("connectors")
+    @Path("connectors-with-mdsid")
     @Consumes(MediaType.APPLICATION_JSON)
     fun addConnectors(
         @HeaderParam("X-Api-Key") apiKey: String,
         @QueryParam("adminApiKey") adminApiKey: String,
-        connectors: List<String>
+        connectors: ConnectorCreationRequest
     ): Response
 
     @DELETE

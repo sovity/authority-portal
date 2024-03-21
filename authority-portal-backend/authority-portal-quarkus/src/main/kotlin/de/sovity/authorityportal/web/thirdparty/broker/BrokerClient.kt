@@ -14,10 +14,12 @@
 package de.sovity.authorityportal.web.thirdparty.broker
 
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment.BrokerConfig
+import de.sovity.authorityportal.web.thirdparty.broker.model.AddedConnector
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalDataOfferInfo
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadata
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalOrganizationMetadataRequest
+import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorCreationRequest
 import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder
 import jakarta.ws.rs.core.Response
 import java.net.URI
@@ -28,15 +30,15 @@ class BrokerClient(private val brokerConfig: BrokerConfig) {
         .baseUri(brokerConfig.url().let(URI::create))
         .build(BrokerClientResource::class.java)!!
 
-    fun addConnector(connectorEndpointUrl: String) {
-        addConnectors(listOf(connectorEndpointUrl))
+    fun addConnector(connector: AddedConnector) {
+        addConnectors(listOf(connector))
     }
 
-    fun addConnectors(connectorEndpointUrls: List<String>) {
+    fun addConnectors(connectors: List<AddedConnector>) {
         val response = brokerClientResource.addConnectors(
             brokerConfig.apiKey(),
             brokerConfig.adminApiKey(),
-            connectorEndpointUrls
+            ConnectorCreationRequest().also { it.connectors = connectors }
         )
 
         expectStatusCode(response, Response.Status.NO_CONTENT.statusCode, "addConnectors")
