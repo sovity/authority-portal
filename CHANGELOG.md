@@ -29,6 +29,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed an issue where upon clicking "back to application" on the logout confirmation page, the user would appear to be logged out instead of the logout being canceled ([#8](https://github.com/sovity/authority-portal/issues/8))
 - Fixed redirection to broker catalog with participant's data offers pre-filtered ([#44](https://github.com/sovity/authority-portal/issues/44))
 - Fixed an issue where an error 403 would be displayed under certain circumstances ([#107](https://github.com/sovity/authority-portal/issues/107))
+- Changed Keycloak custom theme for login and logout pages [#113](https://github.com/sovity/authority-portal/issues/113)
 
 ### Known issues
 
