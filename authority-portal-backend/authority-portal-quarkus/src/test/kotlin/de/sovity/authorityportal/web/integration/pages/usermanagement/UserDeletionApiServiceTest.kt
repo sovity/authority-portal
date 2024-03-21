@@ -13,7 +13,11 @@
 
 package de.sovity.authorityportal.web.integration.pages.usermanagement
 
+import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.db.jooq.enums.CaasStatus
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeletionApiService
+import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClient
@@ -29,6 +33,7 @@ import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.jooq.DSLContext
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -51,17 +56,28 @@ class UserDeletionApiServiceTest {
     @Inject
     lateinit var organizationService: OrganizationService
 
+    @Inject
+    lateinit var connectorService: ConnectorService
+
+    @Inject
+    lateinit var dsl: DSLContext
+
     lateinit var keycloakService: KeycloakService
 
     private val test = "test"
     private val creatorId = "00000000-0000-0000-0000-000000000003"
     private val successorId = "00000000-0000-0000-0000-000000000007"
     private val lastAdminId = "00000000-0000-0000-0000-000000000001"
+    private val lastAdminMdsId = "MDSL1111AA"
+    private val creatorMdsId = "MDSL2222BB"
 
     @BeforeEach
     fun setup() {
         keycloakService = Mockito.mock(KeycloakService::class.java)
         QuarkusMock.installMockForType(keycloakService, KeycloakService::class.java)
+
+        dsl.deleteFrom(Tables.CONNECTOR).execute()
+        createExampleConnectors()
     }
 
     @Test
@@ -293,5 +309,49 @@ class UserDeletionApiServiceTest {
 
         QuarkusMock.installMockForType(caasClient, CaasClient::class.java)
         doNothing().`when`(caasClient).deleteCaas(Mockito.anyList())
+    }
+
+    private fun createExampleConnectors() {
+        connectorService.createOwnConnector(
+            "$lastAdminMdsId.C1234ZZ",
+            lastAdminMdsId,
+            "test",
+            "test",
+            CreateConnectorRequest(
+                "test",
+                "test",
+                "test",
+                "test",
+                "test",
+                "test"
+            ),
+            lastAdminId
+        )
+
+        connectorService.createCaas(
+            "$lastAdminMdsId.C5678ZZ",
+            "test",
+            lastAdminMdsId,
+            "test",
+            lastAdminId,
+            CaasStatus.RUNNING,
+            "test"
+        )
+
+        connectorService.createOwnConnector(
+            "$creatorMdsId.C4321ZZ",
+            creatorMdsId,
+            "test",
+            "test",
+            CreateConnectorRequest(
+                "test",
+                "test",
+                "test",
+                "test",
+                "test",
+                "test"
+            ),
+            creatorId
+        )
     }
 }
