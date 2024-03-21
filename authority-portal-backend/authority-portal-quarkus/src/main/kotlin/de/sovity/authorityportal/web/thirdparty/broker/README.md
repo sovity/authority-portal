@@ -15,8 +15,6 @@ _This documentation refers to the [BrokerClientResource](BrokerClientResource.kt
 Base Path: `backend/api/management/wrapper/broker`  
 Config of URL and API keys happens via environment variables: `authority-portal.deployment.environments.[environmentId].broker.[...]`
 
-TODO: Check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 - `PUT /connectors-with-mdsid`
     - Description: Add connector endpoints for the Broker to query.
     - Request
