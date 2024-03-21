@@ -16,6 +16,7 @@ package de.sovity.authorityportal.web.thirdparty.broker
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.ConnectorService.UnregisteredBrokerConnector
+import de.sovity.authorityportal.web.thirdparty.broker.model.AddedConnector
 import io.quarkus.logging.Log
 import io.quarkus.scheduler.Scheduled
 import jakarta.enterprise.context.ApplicationScoped
@@ -43,9 +44,14 @@ class BrokerSyncService {
 
     private fun registerConnectors(envId: String, connectors: List<UnregisteredBrokerConnector>) {
         try {
-            val connectorUrls = connectors.map { it.connectorEndpointUrl }
+            val addedConnectors = connectors.map { cr ->
+                AddedConnector().also {
+                    it.connectorEndpoint = cr.connectorEndpointUrl
+                    it.mdsId = cr.mdsId
+                }
+            }
             val connectorIds = connectors.map { it.connectorId }
-            brokerClientService.forEnvironment(envId).addConnectors(connectorUrls)
+            brokerClientService.forEnvironment(envId).addConnectors(addedConnectors)
             connectorService.setConnectorBrokerRegistrationStatus(connectorIds, ConnectorBrokerRegistrationStatus.REGISTERED)
         } catch (e: Exception) {
             Log.error("Failed to re-register connectors in broker. envId=$envId", e)
