@@ -26,13 +26,13 @@ TODO: Check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             - `adminApiKey`: Admin API key from config
         - Body
             - Type: `application/json`
-            - Schema: `List<AuthorityPortalOrganizationMetadataRequest>`
+            - Schema: `ConnectorCreationRequest`
                 ```
                     {
-                        "organizations": [
+                        "connectors": [
                             {
-                                "mdsId": String, (Part of the participantId of a connector)
-                                "name": String
+                                "connectorEndpoint": String,
+                                "mdsId": String
                             },
                             ...
                         ]
@@ -94,7 +94,7 @@ TODO: Check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             - `adminApiKey`: Admin API key from config
         - Body
             - Type: `application/json`
-            - Schema: `List<AuthorityPortalOrganizationMetadataRequest>`
+            - Schema: `AuthorityPortalOrganizationMetadataRequest`
                 ```
                     {
                         "organizations": [
@@ -109,3 +109,37 @@ TODO: Check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     - Response
         - Status Code: `204`
         - Body: empty
+
+- `POST /authority-portal-api/data-offer-info`
+    - Description: Fetch information about data offers for certain connectors from the Broker. This includes for the connector: participantId (known as connectorId in the Authority Portal), onlineStatus and offlineSinceOrLastUpdatedAt and for each data offer: dataOfferName and dataOfferId.
+    - Request
+        - Header Parameters:
+            - `X-Api-Key`: API key from config
+        - Query Parameters:
+            - `adminApiKey`: Admin API key from config
+        - Body
+            - Type: `application/json`
+            - Schema: `List<String>` (Connector **endpoints**)
+    - Response
+        - Status Code: `200`
+        - Body
+            - Type: `application/json`
+            - Schema: `List<AuthorityPortalDataOfferInfo>`
+                ```
+                    [
+                        {
+                            "connectorEndpoint": String,
+                            "participantId": String, (known as connectorId in the Authority Portal)
+                            "onlineStatus": ConnectorOnlineStatus?,
+                            "offlineSinceOrLastUpdatedAt": OffsetDateTime?,
+                            "dataOffers": [
+                                {
+                                    "dataOfferName": String,
+                                    "dataOfferId": String
+                                },
+                                ...
+                            ]
+                        },
+                        ...
+                    ]
+                ```
