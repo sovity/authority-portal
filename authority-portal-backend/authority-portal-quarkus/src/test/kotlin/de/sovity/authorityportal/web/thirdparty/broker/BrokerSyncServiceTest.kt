@@ -14,11 +14,13 @@
 package de.sovity.authorityportal.web.thirdparty.broker
 
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.web.services.ConnectorService
 import io.quarkus.test.junit.QuarkusMock
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
+import org.jooq.DSLContext
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -38,6 +40,9 @@ class BrokerSyncServiceTest {
 
     @Inject
     lateinit var brokerSyncService: BrokerSyncService
+
+    @Inject
+    lateinit var dsl: DSLContext
 
     private val connectorIdOwn = "MDSL2222BB.CP69I8U"
     private val connectorFrontendUrlOwn = "https://testUrl"
@@ -61,6 +66,8 @@ class BrokerSyncServiceTest {
 
     @BeforeEach
     fun setup() {
+        dsl.deleteFrom(Tables.CONNECTOR).execute()
+
         connectorService.createOwnConnector(
             connectorId = connectorIdOwn,
             mdsId = mdsId,
