@@ -72,7 +72,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
   guide and should differ from the `[AP_FQDN]`.
 - The steps to set up the realm are the following
    1. Copy [mds-theme](../../../../authority-portal-keycloak/mds-theme) directory to `{keycloakRoot}/themes/` directory
-   2. Import [realm.json](../../../../authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json) to create `authority-portal` realm
+   2. Import [realm.json](../../../../authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json) to create `mds-portal` realm
    3. Adjust settings for `oauth2-proxy` client (Clients > `oauth2-proxy` > Settings)
       - `Root URL`: URL of the auth proxy, e.g. `https://authority-portal.example.url`
       - `Home URL`: (Relative) sign in URL of auth proxy, e.g. `/oauth2/sign_in`
@@ -80,11 +80,11 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
       - `Valid post logout redirect URIs`: `/*`
    4. Adjust settings for `authority-portal-client` client (Clients > `authority-portal-client` > Settings)
       - `Root URL`: URL of the authority portal, e.g. `https://authority-portal.example.url`
-      - `Home URL`: (Relative) sign in URL of auth proxy, e.g. `/oauth2/sign_in`
+      - `Home URL`: (Most likely) same as `Root URL`
    5. Regenerate client secrets for `oauth2-proxy` and `authority-portal-client` clients
       - Clients > `[client]` > Credentials > Regenerate (Client secret)
    6. Select MDS theme for login & email templates
-      - Select `authority-portal` realm
+      - Select `mds-portal` realm
       - Realm settings > Themes > Login theme: Select `mds-theme`
       - Realm settings > Themes > Email theme: Select `mds-theme`
    7. Add email settings (Realm settings > Email)
@@ -112,7 +112,7 @@ AUTH_PROXY_UPSTREAM_HOST: auth-proxy
 ```yaml
 OAUTH2_PROXY_PROVIDER: keycloak-oidc
 OAUTH2_PROXY_PROVIDER_DISPLAY_NAME: Keycloak
-OAUTH2_PROXY_OIDC_ISSUER_URL: https://[KC_FQDN]/realms/authority-portal
+OAUTH2_PROXY_OIDC_ISSUER_URL: https://[KC_FQDN]/realms/mds-portal
 OAUTH2_PROXY_COOKIE_SECRET: [COOKIE_SECRET] # (32-bit base64 encoded secret)
 OAUTH2_PROXY_COOKIE_REFRESH: 30s # Access Token Lifespan - 30 seconds
 OAUTH2_PROXY_COOKIE_EXPIRE: 30m # Client Session Idle / SSO Session Idle
@@ -157,9 +157,9 @@ This client must have the following settings:
 quarkus.datasource.jdbc.url: jdbc:postgresql://portal-db/authority_portal # Postgres URL
 quarkus.datasource.username: postgres # Postgres user
 quarkus.datasource.password: postgres # Postgres password
-quarkus.oidc.auth-server-url: https://[KC_FQDN]/realms/authority-portal # Base URL of the OIDC server (Keycloak). Must contain the '/realms/{realm}' part of the URL
+quarkus.oidc.auth-server-url: https://[KC_FQDN]/realms/mds-portal # Base URL of the OIDC server (Keycloak). Must contain the '/realms/{realm}' part of the URL
 quarkus.keycloak.admin-client.server-url: https://[KC_FQDN] # Keycloak Admin Client: Server URL
-quarkus.keycloak.admin-client.realm: authority-portal # Keycloak Admin Client: Realm
+quarkus.keycloak.admin-client.realm: mds-portal # Keycloak Admin Client: Realm
 quarkus.keycloak.admin-client.client-id: authority-portal-client # Keycloak Admin Client: Client ID
 quarkus.keycloak.admin-client.client-secret: [AP_CLIENT_SECRET] # Keycloak Admin Client: Client secret
 quarkus.keycloak.admin-client.grant-type: CLIENT_CREDENTIALS # Keycloak Admin Client: Grant type
@@ -200,7 +200,7 @@ Environment `test` is mandatory. Further environments can be configured.
 AUTHORITY_PORTAL_FRONTEND_BACKEND_URL: https://[AP_FQDN] # Authority Portal URL
 AUTHORITY_PORTAL_FRONTEND_LOGIN_URL: https://[AP_FQDN]/oauth2/start?rd=https%3A%2F%2F[AP_FQDN] # Auth Proxy: Login URL (with redirect to the Authority Portal)
 # Following is the URL to signal the Auth Proxy to log out the user.
-# Example: https://[AP_FQDN]/oauth2/sign_out?rd=https%3A%2F%2F[KC_FQDN]%2Frealms%2Fauthority-portal%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F[AP_FQDN]
+# Example: https://[AP_FQDN]/oauth2/sign_out?rd=https%3A%2F%2F[KC_FQDN]%2Frealms%2Fmds-portal%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F[AP_FQDN]
 AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: (...) # Auth Proxy: Logout URL
 AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: https://[AP_FQDN]/oauth2/sign_out # Auth Proxy: URL to invalidate sessions cookies
 AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://mobility-dataspa-5n9px2qi7r.live-website.com/mds-news # MDS Dashboard iFrame URL
