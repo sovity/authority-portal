@@ -1,0 +1,16 @@
+{{define "error.html"}}
+<!DOCTYPE html>
+<html lang="en" charset="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="0; url=/oauth2/sign_in">
+    <script type="text/javascript">
+      window.location.href = "/oauth2/sign_in"
+    </script>
+    <title>Redirecting...</title>
+  </head>
+  <body class="has-background-light">
+    If you are not redirected automatically, follow this <a href="/oauth2/sign_in">link</a>.
+  </body>
+</html>
+{{end}}

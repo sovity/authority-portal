@@ -106,7 +106,8 @@ AUTH_PROXY_UPSTREAM_HOST: auth-proxy
 #### OAuth2 Proxy
 
 - The Authority Portal is meant to be deployed with an OAuth2 Proxy in front of the Portal Backend.
-- The OAuth2 Proxy should be configured to use the Keycloak (IAM) as OAuth2 Provider.  
+- The OAuth2 Proxy should be configured to use the Keycloak (IAM) as OAuth2 Provider.
+- Copy the contents from [resources](../../../../authority-portal-oauth2-proxy/resources) to a directory the OAuth2 proxy can access (`CUSTOM_TEMPLATES_DIR`)
 
 ```yaml
 OAUTH2_PROXY_PROVIDER: keycloak-oidc
@@ -128,6 +129,7 @@ OAUTH2_PROXY_SHOW_DEBUG_ON_ERROR: "true"
 OAUTH2_PROXY_REDIRECT_URL: https://[AP_FQDN]/oauth2/callback
 OAUTH2_PROXY_SCOPE: openid profile
 OAUTH2_PROXY_WHITELIST_DOMAINS: [KC_FQDN]
+OAUTH2_PROXY_CUSTOM_TEMPLATES_DIR: [CUSTOM_TEMPLATES_DIR]
 ```
 
 #### Keycloak DAPS Client Creation
