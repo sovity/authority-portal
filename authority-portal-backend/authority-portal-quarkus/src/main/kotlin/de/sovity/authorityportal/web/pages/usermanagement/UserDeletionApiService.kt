@@ -111,7 +111,7 @@ class UserDeletionApiService {
         keycloakService.deleteOrganization(organizationMdsId)
         organizationService.deleteOrganization(organizationMdsId)
         keycloakService.deleteUsers(orgMemberIds)
-        userService.deleteUsersByMdsId(organizationMdsId)
+        userService.deleteUsers(orgMemberIds)
 
         Log.info("Organization and related users, connectors and central components deleted. " +
             "mdsId=${organizationMdsId}, adminUserId=$adminUserId.")
