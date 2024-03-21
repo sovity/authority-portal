@@ -121,11 +121,11 @@ class UserService {
             .execute()
     }
 
-    fun deleteUsersByMdsId(mdsId: String) {
+    fun deleteUsers(userIds: List<String>) {
         val u = Tables.USER
 
         dsl.deleteFrom(u)
-            .where(u.ORGANIZATION_MDS_ID.eq(mdsId))
+            .where(u.ID.`in`(userIds))
             .execute()
     }
 
