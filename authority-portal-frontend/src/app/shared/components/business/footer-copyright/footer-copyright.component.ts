@@ -18,7 +18,6 @@ import {Component, HostBinding} from '@angular/core';
 })
 export class FooterCopyrightComponent {
   @HostBinding('class.flex')
-  @HostBinding('class.justify-center')
   @HostBinding('class.items-center')
   cls = true;
 
