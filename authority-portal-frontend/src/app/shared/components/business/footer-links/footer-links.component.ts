@@ -21,8 +21,10 @@ import {FooterLink} from './footer-link.model';
 export class FooterLinksComponent {
   @HostBinding('class.flex')
   @HostBinding('class.justify-center')
-  @HostBinding('class.items-center')
-  @HostBinding('class.gap-4')
+  @HostBinding('class.text-gray-400')
+  @HostBinding('class.py-3')
+  @HostBinding('class.gap-1.5')
+  @HostBinding('class.whitespace-normal')
   cls = true;
 
   footerLinks: FooterLink[] = [

@@ -18,6 +18,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import de.sovity.authorityportal.web.pages.connectormanagement.toDb
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
+import de.sovity.authorityportal.web.thirdparty.broker.model.AddedConnector
 import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasStatusDto
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasStatusResponse
@@ -103,7 +104,12 @@ class CaasUpdateService {
 
     private fun registerCaasAtBroker(connector: ConnectorRecord) {
         try {
-            brokerClientService.forEnvironment(connector.environment).addConnector(connector.endpointUrl)
+            brokerClientService.forEnvironment(connector.environment).addConnector(
+                AddedConnector().also {
+                    it.connectorEndpoint = connector.endpointUrl
+                    it.mdsId
+                }
+            )
             connectorService.setConnectorBrokerRegistrationStatus(connector.connectorId, ConnectorBrokerRegistrationStatus.REGISTERED)
         } catch (e: Exception) {
             Log.warn("Broker registration for CaaS unsuccessful, we will try again later. connectorId=${connector.connectorId}, mdsId=${connector.mdsId}.", e)

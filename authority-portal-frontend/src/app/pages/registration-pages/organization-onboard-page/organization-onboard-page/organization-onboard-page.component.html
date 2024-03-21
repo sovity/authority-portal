@@ -1,17 +1,12 @@
 <div class="relative h-screen">
   <!-- header -->
   <div
-    class="top-0 p-8 bg-white flex justify-start items-center cursor-pointer">
-    <img src="/assets/images/logo_light.svg" alt="logo" />
-    <div>
-      <p class="mx-4 leading-5 font-bold text-black">
-        Mobility <br />
-        Data Space<br />
-        Portal
-      </p>
+    class="top-0 p-8 bg-white flex justify-between items-center cursor-pointer">
+    <img src="/assets/images/mds_logo_black.svg" alt="logo" />
+    <div class="static top-10 right-10">
+      <logout-button></logout-button>
     </div>
   </div>
-  <logout-button></logout-button>
   <!-- header -->
 
   <!-- registration wizard -->
@@ -85,7 +80,7 @@
           <app-tos-check [ctrl]="orgForm.controls.acceptedTos"></app-tos-check>
 
           <div
-            class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+            class="border-t border-gray-900/10 pt-6 mt-6 mb-24 flex items-center justify-end gap-x-6">
             <button class="btn-accent-outline" matStepperPrevious type="button">
               Back
             </button>

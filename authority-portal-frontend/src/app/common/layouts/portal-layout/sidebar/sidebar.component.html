@@ -5,16 +5,15 @@
       [ngClass]="isExpandedMenu ? 'lg:p-5 space-x-3 mx-3' : 'mr-0 space-x-0'"
       (click)="openNewTab()">
       <img
-        src="/assets/images/logo.svg"
-        alt="logo"
-        [ngClass]="isExpandedMenu ? '' : 'scale-75'" />
-      <div [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
-        <p class="text-brand-yellow font-bold leading-5">
-          Mobility <br />
-          Data Space<br />
-          Portal
-        </p>
-      </div>
+        *ngIf="isExpandedMenu"
+        class="scale-95"
+        src="/assets/images/mds_logo_yellow.svg"
+        alt="logo" />
+      <img
+        *ngIf="!isExpandedMenu"
+        class="scale-[0.7]"
+        src="/assets/images/mds_logo_no_text.svg"
+        alt="logo" />
     </div>
 
     <div class="flex-grow">
@@ -42,8 +41,14 @@
       </ng-container>
     </div>
   </div>
-  <footer class="flex flex-col text-gray-400 text-[11px] py-3 gap-1.5">
-    <app-footer-links class="max-w-sm"></app-footer-links>
-    <app-footer-copyright></app-footer-copyright>
+  <footer class="sidebarFooter" [ngClass]="isExpandedMenu ? '' : 'pl-2 pt-6'">
+    <app-footer-links
+      [ngClass]="
+        isExpandedMenu ? 'flex-row' : 'flex-col max-w-min'
+      "></app-footer-links>
+    <app-footer-copyright
+      [ngClass]="
+        isExpandedMenu ? 'justify-center' : 'justify-start max-w-min'
+      "></app-footer-copyright>
   </footer>
 </aside>

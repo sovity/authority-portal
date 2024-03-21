@@ -344,7 +344,7 @@ class UiResourceImpl : UiResource {
     override fun redirectToOwnOrganizationCatalog(environmentId: String): Response {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
-        return brokerRedirectApiService.buildCatalogRedirectWithConnectorFilter(loggedInUser.organizationMdsId!!, environmentId)
+        return brokerRedirectApiService.buildCatalogRedirectWithMdsFilter(loggedInUser.organizationMdsId!!, environmentId)
     }
 
     override fun redirectToCatalog(environmentId: String):

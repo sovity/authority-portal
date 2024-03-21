@@ -286,6 +286,11 @@ export const TEST_USERS: UserInfo[] = [
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000004']),
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000005']),
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000009']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000007']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000013']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000014']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000006']),
+  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000011']),
   {
     authenticationStatus: 'UNAUTHENTICATED',
     userId: 'unauthenticated',
@@ -296,11 +301,6 @@ export const TEST_USERS: UserInfo[] = [
     organizationName: 'No Organization',
     organizationMdsId: 'unauthenticated',
   },
-  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000007']),
-  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000013']),
-  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000014']),
-  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000006']),
-  buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000011']),
 ];
 
 /**

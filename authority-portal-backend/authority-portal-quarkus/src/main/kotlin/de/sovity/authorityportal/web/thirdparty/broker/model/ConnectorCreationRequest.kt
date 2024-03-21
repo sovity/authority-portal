@@ -10,16 +10,13 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding} from '@angular/core';
 
-@Component({
-  selector: 'app-footer-copyright',
-  templateUrl: './footer-copyright.component.html',
-})
-export class FooterCopyrightComponent {
-  @HostBinding('class.flex')
-  @HostBinding('class.items-center')
-  cls = true;
+package de.sovity.authorityportal.web.thirdparty.broker.model
 
-  thisYear: number = new Date().getFullYear();
+import io.swagger.v3.oas.annotations.media.Schema
+
+@Schema(description = "Wrapper for adding unknown Connectors with MDS IDs.")
+class ConnectorCreationRequest {
+    @Schema(description = "Connectors")
+    var connectors: List<AddedConnector>? = null
 }

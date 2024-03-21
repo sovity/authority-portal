@@ -31,19 +31,12 @@ class BrokerRedirectApiService {
     @Inject
     lateinit var connectorService: ConnectorService
 
-    fun buildCatalogRedirectWithConnectorFilter(mdsId: String, environmentId: String): Response {
-        val redirectUrl = buildCatalogUrlWithConnectorFilter(mdsId, environmentId)
+    fun buildCatalogRedirectWithMdsFilter(mdsId: String, environmentId: String): Response {
+        val brokerUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).broker().url()
+        val redirectUrl = "$brokerUrl?mdsId=$mdsId"
         return Response.status(Response.Status.FOUND) // Status code 302
             .location(URI.create(redirectUrl))
             .build()
-    }
-
-    private fun buildCatalogUrlWithConnectorFilter(mdsId: String, environmentId: String): String {
-        val brokerUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).broker().url()
-        val queryString = connectorService.getConnectorsByMdsIdAndEnvironment(mdsId, environmentId)
-            .map { URLEncoder.encode(it.endpointUrl, StandardCharsets.UTF_8) }
-            .joinToString("&") { "connectorEndpoint=$it" }
-        return "$brokerUrl?$queryString"
     }
 
     fun getCatalogRedirect(environmentId: String): Response {
