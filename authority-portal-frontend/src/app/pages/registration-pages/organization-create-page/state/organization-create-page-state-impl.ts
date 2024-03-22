@@ -65,10 +65,9 @@ export class OrganizationCreatePageStateImpl {
         if (err.status === 409) {
           errorMessage = 'This e-mail address is already registered.'
         }
-        this.errorService.toastFailureRxjs(errorMessage, () => {
-          ctx.patchState({state: 'error'});
-          action.enableForm();
-        })
+        this.toast.showDanger(errorMessage);
+        ctx.patchState({state: 'error'});
+        action.enableForm()
         return of(null);
       }),
       ignoreElements(),
