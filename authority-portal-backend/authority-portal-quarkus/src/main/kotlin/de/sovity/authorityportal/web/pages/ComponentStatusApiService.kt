@@ -165,7 +165,7 @@ class ComponentStatusApiService {
 
         val conditions = mutableListOf(
             c.ENVIRONMENT.eq(environmentId),
-            DSL.coalesce(c.ENDPOINT_URL, "null").notIn(connectorMetadata.map { it.connectorEndpoint })
+            DSL.or(c.ENDPOINT_URL.isNull, c.ENDPOINT_URL.notIn(connectorMetadata.map { it.connectorEndpoint }))
         )
         if (mdsId != null) {
             conditions += c.MDS_ID.eq(mdsId)
