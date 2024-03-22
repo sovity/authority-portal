@@ -174,11 +174,13 @@ Final feature release for the first Go-Live of the MDS.
 
 ### Deployment Migration Notes
 
-- New Authority Portal Frontend Config
-  ```yaml
-  # Authority Portal Legal Notice URL
-  AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice
-  ```
+- Portal Frontend
+  - Environment Variables
+    ```yaml
+    # Added 
+    # Authority Portal Legal Notice URL
+    AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice
+    ```
 
 #### Compatible Versions
 
