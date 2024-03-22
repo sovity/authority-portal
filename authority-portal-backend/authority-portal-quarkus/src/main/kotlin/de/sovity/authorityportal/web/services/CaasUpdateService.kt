@@ -110,7 +110,6 @@ class CaasUpdateService {
                     it.mdsId = connector.mdsId
                 }
             )
-            Log.info("Broker registration for CaaS successful. connectorEndpoint=${connector.endpointUrl}, mdsId=${connector.mdsId}.")
             connectorService.setConnectorBrokerRegistrationStatus(connector.connectorId, ConnectorBrokerRegistrationStatus.REGISTERED)
         } catch (e: Exception) {
             Log.warn("Broker registration for CaaS unsuccessful, we will try again later. connectorId=${connector.connectorId}, mdsId=${connector.mdsId}.", e)
