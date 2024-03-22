@@ -29,6 +29,7 @@ import de.sovity.authorityportal.web.thirdparty.uptimekuma.model.toDto
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
+import org.jooq.impl.DSL
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.Duration
@@ -57,7 +58,7 @@ class ComponentStatusApiService {
     }
 
     fun getComponentsStatusForMdsId(environmentId: String, mdsId: String): ComponentStatusOverview {
-        val connectorMetadata = connectorMetadataService.getConnectorInfoByMdsId(environmentId, mdsId)
+        val connectorMetadata = connectorMetadataService.getConnectorInfoByMdsId(mdsId, environmentId)
 
         val unknownConnectorCount = getNumberOfUnknownConnectors(connectorMetadata, environmentId, mdsId)
         val connectorStatusCount = countConnectorStatuses(connectorMetadata, unknownConnectorCount)
@@ -164,7 +165,7 @@ class ComponentStatusApiService {
 
         val conditions = mutableListOf(
             c.ENVIRONMENT.eq(environmentId),
-            c.ENDPOINT_URL.notIn(connectorMetadata.map { it.connectorEndpoint })
+            DSL.or(c.ENDPOINT_URL.isNull, c.ENDPOINT_URL.notIn(connectorMetadata.map { it.connectorEndpoint }))
         )
         if (mdsId != null) {
             conditions += c.MDS_ID.eq(mdsId)

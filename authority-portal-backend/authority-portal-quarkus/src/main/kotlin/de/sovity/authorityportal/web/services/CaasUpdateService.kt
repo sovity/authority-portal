@@ -107,7 +107,7 @@ class CaasUpdateService {
             brokerClientService.forEnvironment(connector.environment).addConnector(
                 AddedConnector().also {
                     it.connectorEndpoint = connector.endpointUrl
-                    it.mdsId
+                    it.mdsId = connector.mdsId
                 }
             )
             connectorService.setConnectorBrokerRegistrationStatus(connector.connectorId, ConnectorBrokerRegistrationStatus.REGISTERED)
