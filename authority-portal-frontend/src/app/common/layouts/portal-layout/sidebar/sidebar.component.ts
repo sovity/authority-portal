@@ -59,7 +59,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   openNewTab() {
-    window.open('/mds-home', "_self");
+    window.open('/mds-home', '_self');
   }
 
   toggleMenuSize() {

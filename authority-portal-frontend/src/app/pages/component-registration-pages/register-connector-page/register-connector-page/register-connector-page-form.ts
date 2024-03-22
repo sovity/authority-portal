@@ -15,6 +15,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {buildCertificateInputForm} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-builder';
 import {certificateInputFormEnabledCtrls} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-enabled-ctrls';
 import {switchDisabledControls} from '../../../../core/utils/form-utils';
+import {connectorUrlValidator} from '../../../../core/utils/validators/connector-url-validator';
 import {
   CertificateTabFormModel,
   CertificateTabFormValue,
@@ -23,7 +24,6 @@ import {
   RegisterConnectorPageFormModel,
   RegisterConnectorPageFormValue,
 } from './register-connector-page-form-model';
-import {connectorUrlValidator} from "../../../../core/utils/validators/connector-url-validator";
 
 @Injectable()
 export class RegisterConnectorPageForm {

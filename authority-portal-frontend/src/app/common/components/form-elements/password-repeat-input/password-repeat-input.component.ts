@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {booleanAttribute, Component, HostBinding, Input} from '@angular/core';
+import {Component, HostBinding, Input, booleanAttribute} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({

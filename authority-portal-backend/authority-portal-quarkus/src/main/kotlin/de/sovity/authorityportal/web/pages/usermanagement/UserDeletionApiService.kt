@@ -91,7 +91,7 @@ class UserDeletionApiService {
         }
 
         if (userDeletionCheck.isLastParticipantAdmin) {
-            deleteOrganizationAndDependencies(organization, adminUserId)
+            deleteOrganizationAndDependencies(organization.mdsId, adminUserId)
         } else {
             deleteUserAndHandleDependencies(userDeletionCheck, successorUserId, userId, adminUserId, organization)
         }
@@ -99,22 +99,22 @@ class UserDeletionApiService {
         return IdResponse(userId)
     }
 
-    private fun deleteOrganizationAndDependencies(organization: OrganizationRecord, adminUserId: String) {
-        connectorManagementApiService.deleteAllOrganizationConnectors(organization.mdsId)
-        connectorService.deleteProviderReferences(organization.mdsId)
-        centralComponentManagementApiService.deleteAllOrganizationCentralComponents(organization.mdsId)
+    private fun deleteOrganizationAndDependencies(organizationMdsId: String, adminUserId: String) {
+        connectorManagementApiService.deleteAllOrganizationConnectors(organizationMdsId)
+        connectorService.deleteProviderReferences(organizationMdsId)
+        centralComponentManagementApiService.deleteAllOrganizationCentralComponents(organizationMdsId)
 
-        val orgMemberIds = userService.getUsersByMdsId(organization.mdsId).map { it.id }
+        val orgMemberIds = userService.getUsersByMdsId(organizationMdsId).map { it.id }
         userService.deleteInvitationReferencesToOrgMembers(orgMemberIds)
         userService.deleteMdsIds(orgMemberIds)
 
-        keycloakService.deleteOrganization(organization.mdsId)
-        organizationService.deleteOrganization(organization.mdsId)
+        keycloakService.deleteOrganization(organizationMdsId)
+        organizationService.deleteOrganization(organizationMdsId)
         keycloakService.deleteUsers(orgMemberIds)
-        userService.deleteUsersByMdsId(organization.mdsId)
+        userService.deleteUsers(orgMemberIds)
 
         Log.info("Organization and related users, connectors and central components deleted. " +
-            "mdsId=${organization.mdsId}, adminUserId=$adminUserId.")
+            "mdsId=${organizationMdsId}, adminUserId=$adminUserId.")
     }
 
     private fun deleteUserAndHandleDependencies(
