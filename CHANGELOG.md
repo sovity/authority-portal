@@ -31,8 +31,11 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed an issue where an error 403 would be displayed under certain circumstances ([#107](https://github.com/sovity/authority-portal/issues/107))
 - Fixed an issue where deleting the last user of an organization would delete the organization but leave the user in an invalid state ([#45](https://github.com/sovity/authority-portal/issues/45))
 - Changed the Keycloak realm ID to `mds-portal` ([#139](https://github.com/sovity/authority-portal/issues/139))
+- Changed error messages on the registration form to be more user-friendly ([#106](https://github.com/sovity/authority-portal/issues/106))
 
 ### Known issues
+
+- Due to the change of the Keycloak realm name, some auth-related URLs might be outdated in your browser. If you run into this issue. please clear your browser cache and hard-reload the page.
 
 ### Deployment Migration Notes
 

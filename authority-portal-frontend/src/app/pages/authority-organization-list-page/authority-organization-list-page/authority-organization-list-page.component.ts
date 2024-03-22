@@ -88,10 +88,7 @@ export class AuthorityOrganizationListPageComponent
         {
           label: 'Invite Organization',
           action: () => this.inviteOrganization(),
-          permissions: [
-            UserRoleDto.AuthorityAdmin,
-            UserRoleDto.AuthorityUser
-          ],
+          permissions: [UserRoleDto.AuthorityAdmin, UserRoleDto.AuthorityUser],
         },
       ],
     };

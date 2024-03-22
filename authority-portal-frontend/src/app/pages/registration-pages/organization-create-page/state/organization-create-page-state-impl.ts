@@ -10,9 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+import {HttpErrorResponse} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ignoreElements, takeUntil, tap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {ErrorService} from 'src/app/core/error.service';
@@ -59,9 +60,17 @@ export class OrganizationCreatePageStateImpl {
         action.success();
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      this.errorService.toastFailureRxjs('Failed registration', () => {
+      catchError((err) => {
+        let errorMessage = 'Registration failed due to an unknown error.';
+        console.log(err);
+        console.log(err.status);
+        if (err?.response?.status === 409) {
+          errorMessage = 'This e-mail address is already registered.';
+        }
+        this.toast.showDanger(errorMessage);
         ctx.patchState({state: 'error'});
         action.enableForm();
+        return of(null);
       }),
       ignoreElements(),
     );
