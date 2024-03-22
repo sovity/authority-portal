@@ -202,9 +202,7 @@ export class ApiService {
   }
 
   getConnector(connectorId: string): Observable<ConnectorDetailDto> {
-    return this.toObservable(() =>
-      this.api().getConnector({connectorId}),
-    );
+    return this.toObservable(() => this.api().getConnector({connectorId}));
   }
 
   getOwnOrganizationConnectorDetails(

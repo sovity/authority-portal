@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+import {HttpErrorResponse} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {catchError, ignoreElements, takeUntil, tap} from 'rxjs/operators';
@@ -23,7 +24,6 @@ import {
   DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,
   OrganizationRegistrationPageState,
 } from './organization-create-page-state';
-import {HttpErrorResponse} from "@angular/common/http";
 
 @State<OrganizationRegistrationPageState>({
   name: 'OrganizationCreatePage',
@@ -60,16 +60,16 @@ export class OrganizationCreatePageStateImpl {
         action.success();
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      catchError((err: HttpErrorResponse) => {
+      catchError((err) => {
         let errorMessage = 'Registration failed due to an unknown error.';
-        console.log(err)
-        console.log(err.status)
-        if (err.status === 409) {
-          errorMessage = 'This e-mail address is already registered.'
+        console.log(err);
+        console.log(err.status);
+        if (err?.response?.status === 409) {
+          errorMessage = 'This e-mail address is already registered.';
         }
         this.toast.showDanger(errorMessage);
         ctx.patchState({state: 'error'});
-        action.enableForm()
+        action.enableForm();
         return of(null);
       }),
       ignoreElements(),

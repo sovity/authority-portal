@@ -3,7 +3,7 @@
     class="w-full mb-2 text-sm"
     [class.text-red-600]="ctrl.touched && ctrl.invalid"
     [for]="ctrlId"
-    >{{ required ? label + " *" : label }}</label
+    >{{ required ? label + ' *' : label }}</label
   >
   <mat-form-field
     class="w-full min-h-min text-s"
@@ -21,7 +21,9 @@
       {{ 'Field is required.' }}</mat-error
     >
 
-    <mat-error *ngIf="ctrl.touched && ctrl.hasError('connector-url')" class="text-xs">
+    <mat-error
+      *ngIf="ctrl.touched && ctrl.hasError('connector-url')"
+      class="text-xs">
       Invalid URL format. Please use the following format:
       https://www.example.com</mat-error
     >

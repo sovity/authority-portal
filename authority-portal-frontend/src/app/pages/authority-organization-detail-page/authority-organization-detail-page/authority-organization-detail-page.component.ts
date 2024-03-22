@@ -251,7 +251,7 @@ export class AuthorityOrganizationDetailPageComponent
                 new DeactivateUser(this.state.openedUserDetail.userId),
               ),
 
-            isDisabled: user.registrationStatus !== 'ACTIVE'
+            isDisabled: user.registrationStatus !== 'ACTIVE',
           },
           {
             label: 'Delete User',

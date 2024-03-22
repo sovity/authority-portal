@@ -16,18 +16,4 @@ import {Component, HostBinding} from '@angular/core';
   selector: 'app-footer-for-full-page',
   templateUrl: './footer-for-full-page.component.html',
 })
-export class FooterForFullPageComponent {
-  @HostBinding('class.fixed')
-  @HostBinding('class.bottom-0')
-  @HostBinding('class.bg-white')
-  @HostBinding('class.w-full')
-  @HostBinding('class.py-3')
-  @HostBinding('class.text-xs')
-  @HostBinding('class.text-gray-700')
-  @HostBinding('class.flex')
-  @HostBinding('class.flex-col')
-  @HostBinding('class.justify-center')
-  @HostBinding('class.items-center')
-  @HostBinding('class.gap-1')
-  cls = true;
-}
+export class FooterForFullPageComponent {}
