@@ -103,7 +103,7 @@ This release addresses several issues and adds minor improvements to the Authori
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.1.2`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.1.2`
-- Broker Server: [`3.5.1`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v3.5.1)
+- Broker Server: [`4.0.0`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v4.0.0)
 
 ## [v2.1.1] - 2024-03-14
 
