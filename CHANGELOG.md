@@ -15,25 +15,45 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Broker Server: `{{ broker version }}`
+
+## [2.1.2] - 2024-03-22
+
+### Overview
+
+This release addresses several issues and adds minor improvements to the Authority Portal.
+
+### Detailed Changes
+
+#### Patch
+
 - Fixed the placeholder for the connector Frontend URL ([#86](https://github.com/sovity/authority-portal/issues/86))
 - Fixed connectors not showing on operator's "All connectors" list ([#119](https://github.com/sovity/authority-portal/issues/119))
-- Changed Access Token Lifespan to be one minute ([#111](https://github.com/sovity/authority-portal/issues/111))
 - Fixed an issue with connector URLs not being validated correctly in the UI ([#115](https://github.com/sovity/authority-portal/issues/115))
-- Fixed MDS logo, footer (in compact view) ([#57](https://github.com/sovity/authority-portal/issues/57))
-- Fixed text overlapping in fullscreen pages ([#80](https://github.com/sovity/authority-portal/issues/80))
-- Added tooltips explaining user roles ([#76](https://github.com/sovity/authority-portal/issues/76))
-- Dashboard: Changed the component uptime duration to be shown next to the status instead of showing it in a tooltip ([#62](https://github.com/sovity/authority-portal/issues/62))
-- Fixed text overlapping in registration form ([#120](https://github.com/sovity/authority-portal/issues/120))
-- Added legal notices to the login page ([#79](https://github.com/sovity/authority-portal/issues/79))
-- Adjust user documentation to current status ([#5](https://github.com/sovity/authority-portal/issues/5))
-- Fixed an issue where upon clicking "back to application" on the logout confirmation page, the user would appear to be logged out instead of the logout being canceled ([#8](https://github.com/sovity/authority-portal/issues/8))
-- Fixed redirection to broker catalog with participant's data offers pre-filtered ([#44](https://github.com/sovity/authority-portal/issues/44))
-- Fixed an issue where an error 403 would be displayed under certain circumstances ([#107](https://github.com/sovity/authority-portal/issues/107))
-- Changed Keycloak custom theme for login and logout pages [#113](https://github.com/sovity/authority-portal/issues/113)
+- Fixed MDS logo & footer (in compact view) ([#57](https://github.com/sovity/authority-portal/issues/57))
+- Fixed text overlapping on fullscreen pages ([#80](https://github.com/sovity/authority-portal/issues/80))
+- Fixed text overlapping in the registration form ([#120](https://github.com/sovity/authority-portal/issues/120))
+- Fixed an issue where clicking "back to application" on the logout confirmation page would not properly cancel the logout process ([#8](https://github.com/sovity/authority-portal/issues/8))
+- Fixed an issue where clicking "Data Offers" without having a registered connector would redirect the user to a wrong page ([#44](https://github.com/sovity/authority-portal/issues/44))
+- Fixed an issue where an error would be displayed during login under certain circumstances ([#107](https://github.com/sovity/authority-portal/issues/107))
 - Fixed an issue where deleting the last user of an organization would delete the organization but leave the user in an invalid state ([#45](https://github.com/sovity/authority-portal/issues/45))
+- Fixed the dashboard for non-authority users ([#118](https://github.com/sovity/authority-portal/issues/118))
+- Dashboard: Changed the component uptime duration to be shown next to the status instead of showing it in a tooltip ([#62](https://github.com/sovity/authority-portal/issues/62))
+- Changed the Keycloak custom theme for login and logout pages [#113](https://github.com/sovity/authority-portal/issues/113)
 - Changed the Keycloak realm ID to `mds-portal` ([#139](https://github.com/sovity/authority-portal/issues/139))
-- Fixed dashboard for non-authority users ([#118](https://github.com/sovity/authority-portal/issues/118))
+- Changed the Access Token Lifespan to one minute ([#111](https://github.com/sovity/authority-portal/issues/111))
 - Changed error messages on the registration form to be more user-friendly ([#106](https://github.com/sovity/authority-portal/issues/106))
+- Updated user documentation to reflect the current version ([#5](https://github.com/sovity/authority-portal/issues/5))
+- Added legal notices to the login page ([#79](https://github.com/sovity/authority-portal/issues/79))
+- Added tooltips explaining user roles ([#76](https://github.com/sovity/authority-portal/issues/76))
 
 ### Known issues
 
@@ -81,9 +101,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Broker Server: `{{ broker version }}`
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.1.2`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.1.2`
+- Broker Server: [`3.5.1`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v3.5.1)
 
 ## [v2.1.1] - 2024-03-14
 
