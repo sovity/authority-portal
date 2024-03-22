@@ -60,7 +60,7 @@ export class OrganizationCreatePageStateImpl {
         action.success();
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      catchError((err) => {
+      catchError((err: HttpErrorResponse) => {
         let errorMessage = 'Registration failed due to an unknown error.';
         console.log(err)
         console.log(err.status)
