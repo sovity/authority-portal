@@ -38,6 +38,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Known issues
 
 - Due to the change of the Keycloak realm name, some auth-related URLs might be outdated in your browser. If you run into this issue. please clear your browser cache and hard-reload the page.
+- Login and first-login related Keycloak pages may look broken. This will be fixed in the next release.
 
 ### Deployment Migration Notes
 
