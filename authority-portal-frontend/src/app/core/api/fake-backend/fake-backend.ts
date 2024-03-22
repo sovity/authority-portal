@@ -105,6 +105,8 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
   const environmentId = queryParams.get('environmentId');
 
   const ok = buildOkFn(method, url, queryParams, body);
+  const failed = async (status: number) =>
+    new Response(JSON.stringify('failed'), {status});
 
   return new UrlInterceptor(url, method)
 
@@ -326,7 +328,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('POST', () => {
       const request = RegistrationRequestDtoFromJSON(body);
       const result = registerOrganization(request);
-      return ok(IdResponseToJSON(result));
+      return failed(409);
     })
 
     .url('registration')

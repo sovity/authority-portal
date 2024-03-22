@@ -38,13 +38,11 @@ export class AuthorityConnectorDetailPageStateImpl {
   onRefreshConnector(
     ctx: StateContext<AuthorityConnectorDetailPageState>,
   ): Observable<never> {
-    return this.apiService
-      .getConnector(ctx.getState().connectorId)
-      .pipe(
-        Fetched.wrap({failureMessage: 'Failed loading Connector'}),
-        tap((connector) => this.connectorRefreshed(ctx, connector)),
-        ignoreElements(),
-      );
+    return this.apiService.getConnector(ctx.getState().connectorId).pipe(
+      Fetched.wrap({failureMessage: 'Failed loading Connector'}),
+      tap((connector) => this.connectorRefreshed(ctx, connector)),
+      ignoreElements(),
+    );
   }
 
   private connectorRefreshed(
