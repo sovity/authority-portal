@@ -24,8 +24,6 @@ values ('00000000-0000-0000-0000-000000000007', null, 'APPROVED');
 insert into "user" (id, organization_mds_id, registration_status)
 values ('00000000-0000-0000-0000-000000000008', null, 'PENDING');
 insert into "user" (id, organization_mds_id, registration_status)
-values ('00000000-0000-0000-0000-000000000009', null, 'PENDING');
-insert into "user" (id, organization_mds_id, registration_status)
 values ('00000000-0000-0000-0000-000000000010', null, 'PENDING');
 
 insert into "organization" (mds_id, name, address, duns, url, security_email, created_by, registration_status)
@@ -59,6 +57,7 @@ update "user" set organization_mds_id = 'MDSL2222BB' where id = '00000000-0000-0
 update "user" set organization_mds_id = 'MDSL2222BB' where id = '00000000-0000-0000-0000-000000000004';
 update "user" set organization_mds_id = 'MDSL3333CC' where id = '00000000-0000-0000-0000-000000000005';
 update "user" set organization_mds_id = 'MDSL2222BB' where id = '00000000-0000-0000-0000-000000000007';
+update "user" set organization_mds_id = 'MDSL2222CC' where id = '00000000-0000-0000-0000-000000000008';
 update "user" set organization_mds_id = 'MDSL3334C4' where id = '00000000-0000-0000-0000-000000000010';
 
 insert into "connector" (connector_id, mds_id, provider_mds_id, type, environment, client_id, name, location, url, created_by, created_at)

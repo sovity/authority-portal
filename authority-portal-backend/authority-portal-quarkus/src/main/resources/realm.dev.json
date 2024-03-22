@@ -809,7 +809,8 @@
       ],
       "notBefore": 0,
       "groups": [
-        "/MDSL1111AA/Participant User"
+        "/MDSL1111AA/Participant User",
+        "/ROLE_AUTHORITY_ADMIN"
       ]
     },
     {
@@ -912,7 +913,8 @@
       ],
       "notBefore": 0,
       "groups": [
-        "/MDSL3333CC/Participant Admin"
+        "/MDSL3333CC/Participant Admin",
+        "/ROLE_AUTHORITY_ADMIN"
       ]
     },
     {

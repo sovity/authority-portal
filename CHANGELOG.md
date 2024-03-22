@@ -29,14 +29,19 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed an issue where upon clicking "back to application" on the logout confirmation page, the user would appear to be logged out instead of the logout being canceled ([#8](https://github.com/sovity/authority-portal/issues/8))
 - Fixed redirection to broker catalog with participant's data offers pre-filtered ([#44](https://github.com/sovity/authority-portal/issues/44))
 - Fixed an issue where an error 403 would be displayed under certain circumstances ([#107](https://github.com/sovity/authority-portal/issues/107))
+- Fixed an issue where deleting the last user of an organization would delete the organization but leave the user in an invalid state ([#45](https://github.com/sovity/authority-portal/issues/45))
+- Changed the Keycloak realm ID to `mds-portal` ([#139](https://github.com/sovity/authority-portal/issues/139))
 
 ### Known issues
 
 ### Deployment Migration Notes
 
 - Keycloak
-  - Change the configuration for the oauth2-proxy client:
-    - Set `Home URL` to the relative auth proxy sign in URL, e.g. `/oauth2/sign_in`
+  - Change realm ID and name
+    - Realm settings > General > Realm ID: `mds-portal`
+    - Realm settings > General > Display name: `MDS Portal`
+  - Change the configuration for the oauth2-proxy client
+    - Clients > oauth2-proxy > Settings > Home URL: `/oauth2/sign_in`
   - Set Access Token Lifespan to 1 minute (Realm Settings -> Tokens -> Access Token Lifespan)
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
 - Auth Proxy
@@ -44,8 +49,28 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Environment variables
     ```yaml
     # Changed
+    OAUTH2_PROXY_OIDC_ISSUER_URL: https://[KC_FQDN]/realms/mds-portal
     OAUTH2_PROXY_COOKIE_REFRESH: 30s
     OAUTH2_PROXY_CUSTOM_TEMPLATES_DIR: [CUSTOM_TEMPLATES_DIR]
+    ```
+- Portal Backend
+  - Environment variables
+    ```yaml
+    # Changed
+    
+    # Base URL of the OIDC server (Keycloak). Must contain the '/realms/{realm}' part of the URL
+    quarkus.oidc.auth-server-url: https://[KC_FQDN]/realms/mds-portal
+    
+    # Keycloak Admin Client: Realm
+    quarkus.keycloak.admin-client.realm: mds-portal
+    ```
+- Portal Frontend
+  - Environment variables
+    ```yaml
+    # Changed
+    
+    # Auth Proxy: Logout URL (please replace ALL placeholders: [EXAMPLE])
+    AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: https://[AP_FQDN]/oauth2/sign_out?rd=https%3A%2F%2F[KC_FQDN]%2Frealms%2Fmds-portal%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F[AP_FQDN]
     ```
 
 #### Compatible Versions
