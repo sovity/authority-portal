@@ -81,7 +81,6 @@
                             <div class="col-md-10">
                                 <#nested "show-username">
                                 <div id="kc-username" class="${properties.kcFormGroupClass!}">
-                                    <label id="kc-attempted-username">${auth.attemptedUsername}</label>
                                     <a id="reset-login" href="${url.loginRestartFlowUrl}" aria-label="${msg("restartLoginTooltip")}">
                                         <div class="kc-login-tooltip">
                                             <i class="${properties.kcResetFlowIcon!}"></i>
@@ -89,12 +88,13 @@
                                         </div>
                                     </a>
                                 </div>
+                                <br>
+                                <br>
                             </div>
                         </div>
                     <#else>
                         <#nested "show-username">
                         <div id="kc-username" class="${properties.kcFormGroupClass!}">
-                            <label id="kc-attempted-username">${auth.attemptedUsername}</label>
                             <a id="reset-login" href="${url.loginRestartFlowUrl}" aria-label="${msg("restartLoginTooltip")}">
                                 <div class="kc-login-tooltip">
                                     <i class="${properties.kcResetFlowIcon!}"></i>
@@ -102,6 +102,8 @@
                                 </div>
                             </a>
                         </div>
+                        <br>
+                        <br>
                     </#if>
                 </#if>
             </header>

@@ -3,9 +3,6 @@
     <#if section = "header">
     <#elseif section = "form">
             <div class="formContainer">
-                <div class="formHeader">
-                    <h3>USER LOGIN</h3>
-                </div>
                 <div class="formBody">
                     <div id="kc-form">
                         <div id="kc-form-wrapper">

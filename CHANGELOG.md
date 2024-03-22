@@ -29,6 +29,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed an issue where upon clicking "back to application" on the logout confirmation page, the user would appear to be logged out instead of the logout being canceled ([#8](https://github.com/sovity/authority-portal/issues/8))
 - Fixed redirection to broker catalog with participant's data offers pre-filtered ([#44](https://github.com/sovity/authority-portal/issues/44))
 - Fixed an issue where an error 403 would be displayed under certain circumstances ([#107](https://github.com/sovity/authority-portal/issues/107))
+- Changed Keycloak custom theme for login and logout pages [#113](https://github.com/sovity/authority-portal/issues/113)
 - Fixed an issue where deleting the last user of an organization would delete the organization but leave the user in an invalid state ([#45](https://github.com/sovity/authority-portal/issues/45))
 - Changed the Keycloak realm ID to `mds-portal` ([#139](https://github.com/sovity/authority-portal/issues/139))
 - Fixed dashboard for non-authority users ([#118](https://github.com/sovity/authority-portal/issues/118))
@@ -37,6 +38,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Known issues
 
 - Due to the change of the Keycloak realm name, some auth-related URLs might be outdated in your browser. If you run into this issue. please clear your browser cache and hard-reload the page.
+- Login and first-login related Keycloak pages may look broken. This will be fixed in the next release.
 
 ### Deployment Migration Notes
 
