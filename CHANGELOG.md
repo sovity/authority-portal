@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Fixed provided connectors' statuses missing on the dashboard ([#138](https://github.com/sovity/authority-portal/issues/138))
+
 ### Known issues
 
 ### Deployment Migration Notes
