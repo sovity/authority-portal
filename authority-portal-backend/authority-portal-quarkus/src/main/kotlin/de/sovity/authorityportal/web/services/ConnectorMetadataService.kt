@@ -57,9 +57,6 @@ class ConnectorMetadataService {
     fun getConnectorInfoByEnvironment(environmentId: String): List<AuthorityPortalConnectorInfo> =
         getByEnvironment(environmentId).connectorInfos
 
-    fun getConnectorInfoByMdsId(mdsId: String, environmentId: String): List<AuthorityPortalConnectorInfo> =
-        getByEnvironment(environmentId).getByMdsId(mdsId)
-
     fun getTotalDataOffersByMdsId(mdsId: String, environmentId: String): Int =
         getByEnvironment(environmentId).getByMdsId(mdsId).sumOf { it.dataOfferCount }
 
