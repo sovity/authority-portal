@@ -62,10 +62,13 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiServi
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
+import io.quarkus.logging.Log
 import jakarta.annotation.security.PermitAll
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 import jakarta.ws.rs.core.Response
+import org.jboss.logmanager.LogManager
+import java.util.logging.Level
 
 @PermitAll // auth checks will be in code in this unit
 class UiResourceImpl : UiResource {
@@ -462,5 +465,12 @@ class UiResourceImpl : UiResource {
             return componentStatusApiService.getComponentsStatus(environmentId);
         }
         return componentStatusApiService.getComponentsStatusForMdsId(environmentId, loggedInUser.organizationMdsId!!)
+    }
+
+    @Transactional
+    override fun setLogLevel(level: String): String {
+        LogManager.getLogManager().getLogger("").level = Level.parse(level)
+        Log.info("Log level set to $level.")
+        return "Log level set to $level"
     }
 }
