@@ -64,7 +64,7 @@ class ConnectorAuthorityCsvReportService {
         CsvColumn("Endpoint URL") { it.endpointUrl },
         CsvColumn("Management API URL") { it.managementUrl },
         CsvColumn("Hosted By MDS ID") { it.hostedByMdsId ?: "" },
-        CsvColumn("Hosted By Name") { it.hostedByMdsId ?: "" },
+        CsvColumn("Hosted By Name") { it.hostedByName ?: "" },
     )
 
     fun generateAuthorityConnectorCsvReport(environmentId: String): ByteArrayInputStream {
