@@ -13,6 +13,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Enable users to delete themselves ([#127](https://github.com/sovity/authority-portal/issues/127))
+
 #### Patch
 
 ### Known issues

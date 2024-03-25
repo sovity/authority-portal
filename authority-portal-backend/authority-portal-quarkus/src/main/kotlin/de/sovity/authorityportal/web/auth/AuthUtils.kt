@@ -102,6 +102,14 @@ class AuthUtils {
         }
     }
 
+    fun requiresTargetSelf(userId: String) {
+        requiresAuthenticated()
+        if (userId != loggedInUser.userId) {
+            Log.error("User is not allowed to perform requested action on anyone but themselves. userId=$userId, loggedInUserId=${loggedInUser.userId}.")
+            unauthorized("User is not allowed to perform requested action on anyone but themselves")
+        }
+    }
+
     fun requiresTargetNotSelf(userId: String) {
         requiresAuthenticated()
         if (userId == loggedInUser.userId) {
