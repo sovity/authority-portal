@@ -22,6 +22,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Fixed Keycloak notifications, OTP pages ([#146](https://github.com/sovity/authority-portal/issues/146)), ([#151](https://github.com/sovity/authority-portal/issues/151))
 - Fixed provided connectors' statuses missing on the dashboard ([#138](https://github.com/sovity/authority-portal/issues/138))
 - Fixed "Hosted By Name" column in Connector CSV report ([#149](https://github.com/sovity/authority-portal/issues/149))
 - Adjusted wording in the sidebar menu ([#117](https://github.com/sovity/authority-portal/issues/117))
@@ -111,10 +112,8 @@ This release addresses several issues and adds minor improvements to the Authori
   - Environment variables
     ```yaml
     # Changed
-    
     # Base URL of the OIDC server (Keycloak). Must contain the '/realms/{realm}' part of the URL
     quarkus.oidc.auth-server-url: https://[KC_FQDN]/realms/mds-portal
-    
     # Keycloak Admin Client: Realm
     quarkus.keycloak.admin-client.realm: mds-portal
     ```
@@ -122,7 +121,6 @@ This release addresses several issues and adds minor improvements to the Authori
   - Environment variables
     ```yaml
     # Changed
-    
     # Auth Proxy: Logout URL (please replace ALL placeholders: [EXAMPLE])
     AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: https://[AP_FQDN]/oauth2/sign_out?rd=https%3A%2F%2F[KC_FQDN]%2Frealms%2Fmds-portal%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F[AP_FQDN]
     ```
@@ -231,7 +229,7 @@ Final feature release for the first Go-Live of the MDS.
 - Portal Frontend
   - Environment Variables
     ```yaml
-    # Added 
+    # Added
     # Authority Portal Legal Notice URL
     AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice
     ```

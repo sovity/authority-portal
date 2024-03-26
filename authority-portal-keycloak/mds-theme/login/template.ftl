@@ -39,7 +39,6 @@
     <body class="${properties.kcBodyClass!}">
     <div class="${properties.kcLoginClass!}">
         <div id="kc-header" class="${properties.kcHeaderClass!}">
-
         </div>
         <div class="${properties.kcFormCardClass!}">
             <header class="${properties.kcFormHeaderClass!}">
@@ -81,12 +80,6 @@
                             <div class="col-md-10">
                                 <#nested "show-username">
                                 <div id="kc-username" class="${properties.kcFormGroupClass!}">
-                                    <a id="reset-login" href="${url.loginRestartFlowUrl}" aria-label="${msg("restartLoginTooltip")}">
-                                        <div class="kc-login-tooltip">
-                                            <i class="${properties.kcResetFlowIcon!}"></i>
-                                            <span class="kc-tooltip-text">${msg("restartLoginTooltip")}</span>
-                                        </div>
-                                    </a>
                                 </div>
                                 <br>
                                 <br>
@@ -95,12 +88,6 @@
                     <#else>
                         <#nested "show-username">
                         <div id="kc-username" class="${properties.kcFormGroupClass!}">
-                            <a id="reset-login" href="${url.loginRestartFlowUrl}" aria-label="${msg("restartLoginTooltip")}">
-                                <div class="kc-login-tooltip">
-                                    <i class="${properties.kcResetFlowIcon!}"></i>
-                                    <span class="kc-tooltip-text">${msg("restartLoginTooltip")}</span>
-                                </div>
-                            </a>
                         </div>
                         <br>
                         <br>
@@ -127,6 +114,16 @@
                     <div class="cardContainer">
                         <#nested "form">
                     </div>
+                    
+                    <#if (auth.showUsername() || auth.showResetCredentials())>
+                        <a id="reset-login" href="${url.loginRestartFlowUrl}" aria-label="${msg("restartLoginTooltip")}">
+                            <div class="kc-login-tooltip">
+                                <i class="${properties.kcResetFlowIcon!}"></i>
+                                <span class="kc-tooltip-text">${msg("restartLoginTooltip")}</span>
+                            </div>
+                        </a>
+                    </#if> 
+
 
                     <#if auth?has_content && auth.showTryAnotherWayLink()>
                         <form id="kc-select-try-another-way-form" action="${url.loginAction}" method="post">
