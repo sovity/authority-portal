@@ -19,7 +19,6 @@ class ConfigApiKeyFilter {
             val apiKeyHeader = containerRequestContext.getHeaderString("x-api-key")
 
             if (apiKey != apiKeyHeader) {
-                Log.info("Invalid API key. actual=$apiKeyHeader, expected=$apiKey")
                 unauthorized("Invalid API key")
             }
         }

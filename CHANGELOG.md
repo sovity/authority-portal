@@ -13,6 +13,13 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Added an API endpoint to set the backend log level during runtime: `https://[AP_FQDN]/api/config/log-level?level=[LOG_LEVEL]` ([#2](https://github.com/sovity/authority-portal/issues/2))
+  - `x-api-key` header must be set correctly to access this endpoint
+  - Example:
+  ```bash
+  curl -X PUT 'https://authority-portal.example.com/api/config/log-level?level=DEBUG' --header 'x-api-key: uYtR_wNsvXU4EbV9GioACnj!NHML_HRX'
+  ```
+
 #### Patch
 
 - Fixed provided connectors' statuses missing on the dashboard ([#138](https://github.com/sovity/authority-portal/issues/138))
@@ -21,6 +28,20 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Known issues
 
 ### Deployment Migration Notes
+
+- Portal Backend
+  - Environment variables
+  ```yaml
+  # Added
+  # API key to protect config endpoints, like /api/config/log-level
+  authority-portal.config.api-key: [API_KEY]
+  ```
+- Auth Proxy
+  - Environment variables
+  ```yaml
+  # Changed
+  OAUTH2_PROXY_SKIP_AUTH_ROUTES: "^(/oauth2|/api/registration|/api/config)"
+  ```
 
 #### Compatible Versions
 
