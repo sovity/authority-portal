@@ -26,6 +26,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed provided connectors' statuses missing on the dashboard ([#138](https://github.com/sovity/authority-portal/issues/138))
 - Fixed "Hosted By Name" column in Connector CSV report ([#149](https://github.com/sovity/authority-portal/issues/149))
 - Adjusted wording in the sidebar menu ([#117](https://github.com/sovity/authority-portal/issues/117))
+- Fixed wording in "Reset Password" email ([#116](https://github.com/sovity/authority-portal/issues/116))
 
 ### Known issues
 
@@ -44,6 +45,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   # Changed
   OAUTH2_PROXY_SKIP_AUTH_ROUTES: "^(/oauth2|/api/registration|/api/config)"
   ```
+- Keycloak
+  - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
 
 #### Compatible Versions
 
