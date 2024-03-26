@@ -25,7 +25,7 @@
 
             <div class="${properties.kcFormGroupClass!}">
                 <div class="${properties.kcLabelWrapperClass!}">
-                    <label for="otp" class="${properties.kcLabelClass!}">${msg("loginOtpOneTime")}</label>
+                    <label for="otp" class="${properties.kcLabelClass!} otp-label">${msg("loginOtpOneTime")}</label>
                 </div>
 
                 <div class="${properties.kcInputWrapperClass!}">
