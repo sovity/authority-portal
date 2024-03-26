@@ -62,10 +62,13 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiServi
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
+import io.quarkus.logging.Log
 import jakarta.annotation.security.PermitAll
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 import jakarta.ws.rs.core.Response
+import org.jboss.logmanager.LogManager
+import java.util.logging.Level
 
 @PermitAll // auth checks will be in code in this unit
 class UiResourceImpl : UiResource {
