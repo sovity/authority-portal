@@ -537,15 +537,4 @@ public interface UiResource {
         @NotBlank(message = "EnvironmentId cannot be blank")
         String environmentId
     );
-
-    @PUT
-    @Path("/config/log-level")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Operation(description = "Set the log level of the backend.")
-    String setLogLevel(
-        @QueryParam("level")
-        @Valid
-        @NotBlank(message = "Log level cannot be blank")
-        String level
-    );
 }

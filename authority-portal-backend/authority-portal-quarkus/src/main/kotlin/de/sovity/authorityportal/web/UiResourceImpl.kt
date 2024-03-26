@@ -466,11 +466,4 @@ class UiResourceImpl : UiResource {
         }
         return componentStatusApiService.getComponentsStatusForMdsId(environmentId, loggedInUser.organizationMdsId!!)
     }
-
-    @Transactional
-    override fun setLogLevel(level: String): String {
-        LogManager.getLogManager().getLogger("").level = Level.parse(level)
-        Log.info("Log level set to $level.")
-        return "Log level set to $level"
-    }
 }
