@@ -25,8 +25,7 @@
       <mat-step
         color="accent"
         [editable]="state.state === 'editing' || state.state === 'error'"
-        [completed]="state.state === 'success'"
-        [stepControl]="userForm">
+        [completed]="userForm.valid">
         <div class="flex flex-col px-1 md:px-8 w-full">
           <ng-template matStepLabel>User Profile</ng-template>
 
