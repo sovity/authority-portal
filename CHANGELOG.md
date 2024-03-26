@@ -44,6 +44,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   # Changed
   OAUTH2_PROXY_SKIP_AUTH_ROUTES: "^(/oauth2|/api/registration|/api/config)"
   ```
+- Keycloak
+  - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
 
 #### Compatible Versions
 
