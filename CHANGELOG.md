@@ -84,26 +84,18 @@ This release addresses several issues and adds minor improvements to the Authori
     OAUTH2_PROXY_CUSTOM_TEMPLATES_DIR: [CUSTOM_TEMPLATES_DIR]
     ```
 - Portal Backend
-
   - Environment variables
-
     ```yaml
     # Changed
-
     # Base URL of the OIDC server (Keycloak). Must contain the '/realms/{realm}' part of the URL
     quarkus.oidc.auth-server-url: https://[KC_FQDN]/realms/mds-portal
-
     # Keycloak Admin Client: Realm
     quarkus.keycloak.admin-client.realm: mds-portal
     ```
-
 - Portal Frontend
-
   - Environment variables
-
     ```yaml
     # Changed
-
     # Auth Proxy: Logout URL (please replace ALL placeholders: [EXAMPLE])
     AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: https://[AP_FQDN]/oauth2/sign_out?rd=https%3A%2F%2F[KC_FQDN]%2Frealms%2Fmds-portal%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F[AP_FQDN]
     ```
@@ -280,7 +272,6 @@ Major release, containing a UI rework and several new features.
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
   - Keycloak IAM needs to be upgraded to version 23.0.4
 - Portal Backend
-
   - Added environment variables
 
     ```yaml
