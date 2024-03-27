@@ -11,7 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
 import {Subject, take, takeUntil} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
