@@ -46,9 +46,9 @@ class ConnectorAuthorityCsvReportService {
         val connectorName: String,
         val connectorType: ConnectorType,
         val environment: String,
-        val frontendUrl: String,
-        val endpointUrl: String,
-        val managementUrl: String,
+        val frontendUrl: String?,
+        val endpointUrl: String?,
+        val managementUrl: String?,
         val hostedByMdsId: String?,
         val hostedByName: String?,
     )
@@ -60,11 +60,11 @@ class ConnectorAuthorityCsvReportService {
         CsvColumn("Name") { it.connectorName },
         CsvColumn("Type") { it.connectorType.toString() },
         CsvColumn("Environment") { it.environment },
-        CsvColumn("Frontend URL") { it.frontendUrl },
-        CsvColumn("Endpoint URL") { it.endpointUrl },
-        CsvColumn("Management API URL") { it.managementUrl },
+        CsvColumn("Frontend URL") { it.frontendUrl ?: "" },
+        CsvColumn("Endpoint URL") { it.endpointUrl ?: "" },
+        CsvColumn("Management API URL") { it.managementUrl ?: "" },
         CsvColumn("Hosted By MDS ID") { it.hostedByMdsId ?: "" },
-        CsvColumn("Hosted By Name") { it.hostedByMdsId ?: "" },
+        CsvColumn("Hosted By Name") { it.hostedByName ?: "" },
     )
 
     fun generateAuthorityConnectorCsvReport(environmentId: String): ByteArrayInputStream {

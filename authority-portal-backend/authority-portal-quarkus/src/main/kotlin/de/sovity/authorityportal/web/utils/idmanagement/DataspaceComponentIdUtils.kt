@@ -41,6 +41,10 @@ class DataspaceComponentIdUtils {
         return dataspaceComponentId
     }
 
+    fun toMdsId(dataspaceComponentId: String): String {
+        return dataspaceComponentId.substringBefore(".")
+    }
+
     private fun getDataspaceComponentIdCandidate(mdsId: String): String {
         val prefix = "$mdsId.C"
         val identifier = idUtils.randomIdentifier(dataspaceComponentIdLength)

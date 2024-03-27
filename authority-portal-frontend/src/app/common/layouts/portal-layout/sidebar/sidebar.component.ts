@@ -102,12 +102,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
             rLink: '/control-center/my-organization',
           },
           {
-            title: 'Connectors',
+            title: 'My Connectors',
             icon: 'connector',
             rLink: '/my-organization/connectors',
           },
           {
-            title: 'Data Offers',
+            title: 'My Data Offers',
             icon: 'tag',
             rLink: `/api/organizations/my-org/redirects/data-offers?environmentId=${
               env.environmentId ?? ''
@@ -164,7 +164,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         userRoles: ['USER'],
         menus: [
           {
-            title: 'Support',
+            title: 'MDS Support',
             icon: 'question-mark-circle',
             rLink: 'https://mobility-dataspace.online/',
             isExternalLink: true,

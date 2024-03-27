@@ -121,7 +121,7 @@ OAUTH2_PROXY_CLIENT_SECRET: [OA2_CLIENT_SECRET]
 OAUTH2_PROXY_EMAIL_DOMAINS: "*"
 OAUTH2_PROXY_UPSTREAMS: http://caddy:8081/
 OAUTH2_PROXY_API_ROUTES: "^/api/"
-OAUTH2_PROXY_SKIP_AUTH_ROUTES: "^(/oauth2|/api/registration)"
+OAUTH2_PROXY_SKIP_AUTH_ROUTES: "^(/oauth2|/api/registration|/api/config)"
 OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:8080
 OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
 OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
@@ -168,6 +168,7 @@ quarkus.oidc-client.sovity.auth-server-url: https://[CAAS_KC_FQDN]/realms/[REALM
 quarkus.oidc-client.sovity.client-id: [CAAS_CLIENT_ID] # CaaS Portal: Client ID
 quarkus.oidc-client.sovity.credentials.secret: [CAAS_CLIENT_SECRET] # CaaS Portal: Client Secret
 authority-portal.base-url: https://[AP_FQDN] # Must equal the root URL/home URl from the Keycloak configuration - see above)
+authority-portal.config.api-key: [AP_CONFIG_API_KEY] # API key to protect config endpoints, like /api/config/log-level
 authority-portal.invitation.expiration: 43200 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
 authority-portal.caas.sovity.url: https://[CAAS_PORTAL_FQDN] # URL of the sovity CaaS Portal
 authority-portal.caas.sovity.limit-per-mdsid: 1 # Amount of free sovity CaaS per participant
@@ -190,6 +191,14 @@ authority-portal.deployment.environments.test.logging-house.kuma-name: [LOGGING_
 ```
 
 Environment `test` is mandatory. Further environments can be configured.
+
+The log level can be changed during runtime via a request to the `/api/config/log-level` endpoint. 
+The API key is required for this.
+Example:
+
+```bash
+curl -X PUT 'https://authority-portal.example.com/api/config/log-level?level=DEBUG' --header 'x-api-key: uYtR_wNsvXU4EbV9GioACnj!NHML_HRX'
+```
 
 #### Authority Portal Frontend
 

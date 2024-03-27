@@ -4,8 +4,8 @@
 
 Maneuver to the list of users to manage your organizations users by
 
-a) clicking on your name in the top right corner and then "Users & Roles"
-or b) Click on "My Organization" and then "Users & Roles"
+a) clicking on your name in the top right corner and then "Users and Roles"
+or b) Click on "My Organization" and then "Users and Roles"
 
 ![user-management](images/usermanagmanagement.png)
 
@@ -13,9 +13,9 @@ The "User & Roles" list shows a list of all registered members in your organizat
 To manage a user, click somewhere in the row the user of interest is listed in.
 
 Only Participant Admins have the rights to make changes here!
- 
+
 ![users-list](images/users-list-select-one.png)
-  
+
 As a Participant Admin you are able to:
 
 - Change the organization role of a user
@@ -31,7 +31,7 @@ Any user is able to edit their own information by maneuvering to his own profile
 
 ## Organization management
 
-Organization management is only available to Authority Admins and Authority Users. If you have one of these application roles you can see the Authority section on the navigation bar. 
+Organization management is only available to Authority Admins and Authority Users. If you have one of these application roles you can see the Authority section on the navigation bar.
 
 ![organizations-page](images/organizations-page.png)
 
@@ -54,12 +54,12 @@ As an Authority User you have the rights to:
 
 - See the list of all registered, pending & invited organizations
 - Invite new organizations and their first user, the Participant Admin
-- Accept & reject pending organization's requests 
+- Accept & reject pending organization's requests
 - Access any organization's profile
 
 As an Authority Admin you can additionally:
 
-  - Manage application roles (Authority Admin/User, Service Partner and Operator) of users of any organization via the user list of each organization
+- Manage application roles (Authority Admin/User, Service Partner and Operator) of users of any organization via the user list of each organization
 
 ## Connector overview
 

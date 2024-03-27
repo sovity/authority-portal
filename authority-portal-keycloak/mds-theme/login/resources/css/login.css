@@ -377,13 +377,30 @@ div.form-group.login-pf-settings {
 
 .alert-warning,
 .alert-error,
-.alert-info {
+.alert-info,
+.alert-success {
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin: 10px 0;
-  border-radius: 4px;
+  margin: 3px 0;
+  padding: 7px 3px;
+  border-radius: 0.5rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
+.pf-c-alert__icon {
+  margin: 0 10px 0 6px;
+}
+
+.kc-login-tooltip {
+  display: flex;
+  justify-content: center;
+}
+
+.otp-label {
+  text-align: center;
+}
+
 
 @media screen and (max-width: 425px) {
   .login-pf-header {

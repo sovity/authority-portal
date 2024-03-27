@@ -107,7 +107,6 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
     );
 
     return this.formBuilder.nonNullable.group({
-      isEditable: [true, Validators.requiredTrue],
       userTab,
       organizationTab,
     });
@@ -135,8 +134,9 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
         () => this.parentFormGroup.enable(),
         () => this.parentFormGroup.disable(),
         () => {
-          this.stepper.next();
-          this.parentFormGroup.controls.isEditable.setValue(false);
+          setTimeout(() => {
+            this.stepper.next();
+          }, 0);
         },
       ),
     );

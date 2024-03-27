@@ -95,6 +95,18 @@ class ConnectorService {
             .fetchOneInto(ConnectorDetailRs::class.java)
     }
 
+    fun getProvidedConnectorsByMdsId(mdsId: String, environment: String): List<ConnectorRecord> {
+        val c = Tables.CONNECTOR
+
+        return dsl.selectFrom(c)
+            .where(
+                c.TYPE.eq(ConnectorType.PROVIDED),
+                c.PROVIDER_MDS_ID.eq(mdsId),
+                c.ENVIRONMENT.eq(environment)
+            )
+            .fetch()
+    }
+
     fun updateConnectorsCreator(newCreatedBy: String, oldCreatedBy: String) {
         val c = Tables.CONNECTOR
         dsl.update(c)
