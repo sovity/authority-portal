@@ -43,14 +43,12 @@ export const DEFAULT_CERTIFICATE_TAB_FORM_VALUE: CertificateTabFormValue =
 export interface RegisterConnectorPageFormModel {
   connectorTab: FormGroup<ConnectorTabFormModel>;
   certificateTab: FormGroup<CertificateTabFormModel>;
-  canSwitchTabs: FormControl<boolean>;
 }
 
 export const DEFAULT_REGISTER_CONNECTOR_PAGE_FORM_VALUE: RegisterConnectorPageFormValue =
   {
     connectorTab: DEFAULT_CONNECTOR_TAB_FORM_VALUE,
     certificateTab: DEFAULT_CERTIFICATE_TAB_FORM_VALUE,
-    canSwitchTabs: true,
   };
 export type RegisterConnectorPageFormValue =
   ɵFormGroupRawValue<RegisterConnectorPageFormModel>;

@@ -79,7 +79,6 @@ export class RegisterConnectorPageForm {
     );
 
     return this.formBuilder.nonNullable.group({
-      canSwitchTabs: [true, Validators.requiredTrue],
       connectorTab,
       certificateTab,
     });

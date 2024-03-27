@@ -30,7 +30,6 @@ export type OnboardingOrganizationTabFormValue =
   ɵFormGroupRawValue<OnboardingOrganizationTabFormModel>;
 
 export interface OnboardingWizardFormModel {
-  isEditable: FormControl<boolean>;
   userTab: FormGroup<OnboardingUserTabFormModel>;
   organizationTab: FormGroup<OnboardingOrganizationTabFormModel>;
 }
