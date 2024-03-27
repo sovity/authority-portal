@@ -4,8 +4,7 @@
     <mat-step
       color="accent"
       [editable]="state.state === 'editing' || state.state === 'error'"
-      [completed]="state.state === 'success'"
-      [stepControl]="form.componentTab">
+      [completed]="state.state === 'success' || form.componentTab.valid">
       <form class="flex flex-col w-full justify-center">
         <ng-template matStepLabel>Add Component Details</ng-template>
         <div
@@ -71,8 +70,7 @@
     <mat-step
       color="accent"
       [editable]="state.state === 'editing' || state.state === 'error'"
-      [completed]="state.state === 'success'"
-      [stepControl]="form.componentTab">
+      [completed]="state.state === 'success'">
       <ng-template matStepLabel>Generate Certificate</ng-template>
 
       <div class="flex justify-center items-center">
@@ -94,7 +92,9 @@
         <button
           class="btn-accent"
           [disabledBtn]="
-            state.state === 'submitting' || !form.certificateTab.valid
+            state.state === 'submitting' ||
+            !form.componentTab.valid ||
+            !form.certificateTab.valid
           "
           (click)="registerComponent()">
           {{ createActionName }}
@@ -104,10 +104,7 @@
     <!-- Generate Certificate Step-->
 
     <!-- Final Step -->
-    <mat-step
-      color="accent"
-      [editable]="false"
-      [stepControl]="form.group.controls.canSwitchTabs">
+    <mat-step color="accent" [editable]="false">
       <ng-template matStepLabel>Setup Central Component</ng-template>
       <div class="my-12 flex flex-col justify-center items-center text-center">
         <h2 class="wizard-end-title">Finish setting up your component!</h2>
