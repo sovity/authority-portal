@@ -298,10 +298,9 @@ Major release, containing a UI rework and several new features.
 - Keycloak
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
   - Keycloak IAM needs to be upgraded to version 23.0.4
+
 - Portal Backend
-
   - Added environment variables
-
     ```yaml
     # CaaS Portal API Client Auth
     # will be provided by sovity
