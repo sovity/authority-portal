@@ -41,14 +41,12 @@ export const DEFAULT_CERTIFICATE_TAB_FORM_VALUE: CertificateTabFormValue =
 export interface RegisterCentralComponentPageFormModel {
   componentTab: FormGroup<ComponentTabFormModel>;
   certificateTab: FormGroup<CertificateTabFormModel>;
-  canSwitchTabs: FormControl<boolean>;
 }
 
 export const DEFAULT_REGISTER_CENTRAL_COMPONENT_PAGE_FORM_VALUE: RegisterCentralComponentPageFormValue =
   {
     componentTab: DEFAULT_COMPONENT_TAB_FORM_VALUE,
     certificateTab: DEFAULT_CERTIFICATE_TAB_FORM_VALUE,
-    canSwitchTabs: true,
   };
 export type RegisterCentralComponentPageFormValue =
   ɵFormGroupRawValue<RegisterCentralComponentPageFormModel>;
