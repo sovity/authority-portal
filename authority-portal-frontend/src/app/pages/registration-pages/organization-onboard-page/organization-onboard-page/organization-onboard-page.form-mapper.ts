@@ -46,6 +46,7 @@ export function buildInitialOnboardingFormValue(
     userTab,
     organizationTab,
     isEditable: true,
+    submitted: false,
   };
 }
 

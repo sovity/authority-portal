@@ -31,6 +31,7 @@ export type OnboardingOrganizationTabFormValue =
 
 export interface OnboardingWizardFormModel {
   isEditable: FormControl<boolean>;
+  submitted: FormControl<boolean>;
   userTab: FormGroup<OnboardingUserTabFormModel>;
   organizationTab: FormGroup<OnboardingOrganizationTabFormModel>;
 }

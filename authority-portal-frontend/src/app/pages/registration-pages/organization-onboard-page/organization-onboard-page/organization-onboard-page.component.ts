@@ -11,7 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
 import {Subject, take, takeUntil} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
@@ -149,6 +149,7 @@ export class OrganizationOnboardPageComponent implements OnInit {
 
     return this.formBuilder.nonNullable.group({
       isEditable: [true, Validators.requiredTrue],
+      submitted: [false, Validators.requiredTrue],
       userTab,
       organizationTab,
     });
@@ -164,8 +165,11 @@ export class OrganizationOnboardPageComponent implements OnInit {
         () => this.parentFormGroup.enable(),
         () => this.parentFormGroup.disable(),
         () => {
-          this.stepper.next();
+          this.parentFormGroup.controls.submitted.setValue(true);
           this.parentFormGroup.controls.isEditable.setValue(false);
+          setTimeout(() => {
+            this.stepper.next();
+          }, 0);
         },
       ),
     );
