@@ -97,7 +97,11 @@ export class RegisterConnectorPageComponent implements OnInit, OnDestroy {
         },
         () => this.form.group.enable(),
         () => this.form.group.disable(),
-        () => this.stepper.next(),
+        () => {
+          setTimeout(() => {
+            this.stepper.next();
+          }, 0);
+        },
       ),
     );
   }

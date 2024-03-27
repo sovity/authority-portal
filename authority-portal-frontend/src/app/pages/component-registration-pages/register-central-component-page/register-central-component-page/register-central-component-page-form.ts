@@ -75,7 +75,6 @@ export class RegisterCentralComponentPageForm {
     );
 
     return this.formBuilder.nonNullable.group({
-      canSwitchTabs: [true, Validators.requiredTrue],
       componentTab,
       certificateTab,
     });

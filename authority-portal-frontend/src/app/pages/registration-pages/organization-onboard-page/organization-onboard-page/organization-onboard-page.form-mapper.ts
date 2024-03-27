@@ -45,7 +45,6 @@ export function buildInitialOnboardingFormValue(
   return {
     userTab,
     organizationTab,
-    isEditable: true,
   };
 }
 
