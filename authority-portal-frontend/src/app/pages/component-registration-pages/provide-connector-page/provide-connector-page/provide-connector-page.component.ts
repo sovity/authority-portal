@@ -106,7 +106,7 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
         () => {
           setTimeout(() => {
             this.stepper.next();
-          }, 1000);
+          }, 0);
         },
       ),
     );

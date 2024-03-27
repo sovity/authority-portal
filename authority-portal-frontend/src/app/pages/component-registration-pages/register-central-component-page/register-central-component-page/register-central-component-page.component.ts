@@ -113,7 +113,7 @@ export class RegisterCentralComponentPageComponent
         () => {
           setTimeout(() => {
             this.stepper.next();
-          }, 1000);
+          }, 0);
         },
       ),
     );
