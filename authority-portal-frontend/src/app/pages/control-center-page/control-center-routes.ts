@@ -65,7 +65,7 @@ export const CONTROL_CENTER_ROUTES: ControlCenterRoute[] = [
     path: 'users-and-roles',
     component: ControlCenterOrganizationMembersPageComponent,
     data: {
-      title: 'Users & Roles',
+      title: 'Users and Roles',
     },
   },
   {
