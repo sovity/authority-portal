@@ -66,7 +66,7 @@ export class ControlCenterOrganizationMembersPageComponent
         `${user.firstName} ${user.lastName}`,
       );
     }
-    this.router.navigate(['control-center/my-users', user.userId]);
+    this.router.navigate(['control-center/users-and-roles', user.userId]);
   }
 
   ngOnDestroy$ = new Subject();
