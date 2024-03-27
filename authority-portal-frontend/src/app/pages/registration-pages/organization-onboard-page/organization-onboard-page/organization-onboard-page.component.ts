@@ -148,8 +148,6 @@ export class OrganizationOnboardPageComponent implements OnInit {
     );
 
     return this.formBuilder.nonNullable.group({
-      isEditable: [true, Validators.requiredTrue],
-      submitted: [false, Validators.requiredTrue],
       userTab,
       organizationTab,
     });
@@ -165,8 +163,6 @@ export class OrganizationOnboardPageComponent implements OnInit {
         () => this.parentFormGroup.enable(),
         () => this.parentFormGroup.disable(),
         () => {
-          this.parentFormGroup.controls.submitted.setValue(true);
-          this.parentFormGroup.controls.isEditable.setValue(false);
           setTimeout(() => {
             this.stepper.next();
           }, 0);

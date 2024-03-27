@@ -25,9 +25,7 @@
       <mat-step
         color="accent"
         [editable]="state.state === 'editing' || state.state === 'error'"
-        [completed]="
-          userForm.valid || parentFormGroup.controls.submitted.value
-        ">
+        [completed]="userForm.valid || state.state === 'success'">
         <div class="flex flex-col px-1 md:px-8 w-full">
           <ng-template matStepLabel>User Profile</ng-template>
 
@@ -68,7 +66,7 @@
         *ngIf="state.onboardingType === 'USER_ORGANIZATION_ONBOARDING'"
         color="accent"
         [editable]="state.state === 'editing' || state.state === 'error'"
-        [completed]="parentFormGroup.controls.submitted.value">
+        [completed]="state.state === 'success'">
         <div class="flex flex-col px-1 md:px-8 w-full">
           <ng-template matStepLabel>Organization Profile</ng-template>
 
