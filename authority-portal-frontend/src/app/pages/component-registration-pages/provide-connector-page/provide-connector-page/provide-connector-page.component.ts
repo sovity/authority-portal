@@ -103,7 +103,11 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
         mdsId,
         () => this.form.group.enable(),
         () => this.form.group.disable(),
-        () => this.stepper.next(),
+        () => {
+          setTimeout(() => {
+            this.stepper.next();
+          }, 1000);
+        },
       ),
     );
   }
