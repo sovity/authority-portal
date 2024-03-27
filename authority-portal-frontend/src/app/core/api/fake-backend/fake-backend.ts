@@ -328,13 +328,6 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('POST', () => {
       const request = RegistrationRequestDtoFromJSON(body);
       const result = registerOrganization(request);
-      return failed(409);
-    })
-
-    .url('registration')
-    .on('POST', () => {
-      const request = RegistrationRequestDtoFromJSON(body);
-      const result = registerOrganization(request);
       return ok(IdResponseToJSON(result));
     })
 
