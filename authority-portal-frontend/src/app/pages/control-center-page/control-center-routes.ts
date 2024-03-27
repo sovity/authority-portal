@@ -62,14 +62,14 @@ export const CONTROL_CENTER_ROUTES: ControlCenterRoute[] = [
     },
   },
   {
-    path: 'my-users',
+    path: 'users-and-roles',
     component: ControlCenterOrganizationMembersPageComponent,
     data: {
       title: 'Users & Roles',
     },
   },
   {
-    path: 'my-users/:userId',
+    path: 'users-and-roles/:userId',
     component: ControlCenterOrganizationMemberDetailPageComponent,
     data: {
       excludeFromTabs: true,

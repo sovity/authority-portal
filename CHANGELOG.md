@@ -28,6 +28,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Adjusted wording in the sidebar menu ([#117](https://github.com/sovity/authority-portal/issues/117))
 - Fixed wording in "Reset Password" email ([#116](https://github.com/sovity/authority-portal/issues/116))
 - Fixed wording in "Provide Central Component" form ([#112](https://github.com/sovity/authority-portal/issues/112))
+- Fixed wrong Users & Roles path [#150](https://github.com/sovity/authority-portal/issues/150)
 
 ### Known issues
 
@@ -298,6 +299,7 @@ Major release, containing a UI rework and several new features.
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
   - Keycloak IAM needs to be upgraded to version 23.0.4
 - Portal Backend
+
   - Added environment variables
 
     ```yaml
