@@ -14,6 +14,10 @@
 export function kebabCaseToSentenceCase(input: string): string {
   return input
     .split('-')
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .map((w) => {
+      return w.toLowerCase() === 'and'
+        ? w
+        : w.charAt(0).toUpperCase() + w.slice(1);
+    })
     .join(' ');
 }
