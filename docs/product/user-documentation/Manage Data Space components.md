@@ -2,8 +2,8 @@
 
 Besides the Data Space Authority roles, there are two other application roles that are able to manage elements of the Data Space.
 
-  - Service Partner Admin
-  - Operator Admin
+- Service Partner Admin
+- Operator Admin
 
 ## Application role: Service Partner Admin
 
@@ -37,7 +37,7 @@ After clicking on the register button the list of provided connectors appears, w
 #### 3. Assign Service Partner Admin role to users within own organization
 
 1. Click on "My Organization" in the sidebar menu.
-2. Head to the "Users & Roles" page.
+2. Head to the "Users and Roles" page.
 3. Select a user's profile of the user that shall become a Service Partner Admin.
 4. Edit the application role and change it to Service Partner Admin.
 5. Result: An additional Service Partner Admin has been created.
@@ -75,7 +75,7 @@ After clicking on the register button the list of central components appears, wh
 #### 3. Assign Operator admin role to users within own organization
 
 1. Click on "My Organization" in the side bar menu.
-2. Head to the "Users & Roles" page.
+2. Head to the "Users and Roles" page.
 3. Select a user's profile of the user that shall become an Operator Admin.
 4. Edit the application role and change it to Operator Admin.
 5. Result: An additional Operator Admin has been created.

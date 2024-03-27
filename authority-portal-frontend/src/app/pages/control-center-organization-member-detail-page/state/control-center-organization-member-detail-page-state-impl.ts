@@ -184,7 +184,7 @@ export class ControlCenterOrganizationMemberDetailPageStateImpl {
         userFullName: user.firstName + ' ' + user.lastName,
         userOrganizationName: user.organizationName,
         onDeleteSuccess: () => {
-          this.router.navigate(['/control-center/my-users']);
+          this.router.navigate(['/control-center/users-and-roles']);
         },
       },
       componentLifetime$,

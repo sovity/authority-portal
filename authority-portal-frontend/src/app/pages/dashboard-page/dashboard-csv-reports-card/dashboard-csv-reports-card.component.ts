@@ -74,7 +74,7 @@ export class DashboardCsvReportsCardComponent implements OnInit, OnDestroy {
         roles: ['USER'],
       },
       {
-        title: 'Users & Roles Report',
+        title: 'Users and Roles Report',
         subTitle: '.csv',
         url: '/api/reporting/users',
         roles: ['AUTHORITY_ADMIN', 'AUTHORITY_USER'],
