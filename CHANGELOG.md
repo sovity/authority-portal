@@ -31,6 +31,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed wording in "Provide Central Component" form ([#112](https://github.com/sovity/authority-portal/issues/112))
 - Fixed wrong Users and Roles path [#150](https://github.com/sovity/authority-portal/issues/150)
 - Fixed phone number and description validators ([#161](https://github.com/sovity/authority-portal/issues/161))
+- Fixed Page not found for "MyUsers" route ([#163](https://github.com/sovity/authority-portal/issues/163))
 
 ### Known issues
 
