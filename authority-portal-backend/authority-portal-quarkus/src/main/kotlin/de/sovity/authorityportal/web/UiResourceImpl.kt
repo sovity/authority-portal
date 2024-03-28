@@ -229,7 +229,6 @@ class UiResourceImpl : UiResource {
 
     @Transactional
     override fun checkUserDeletion(userId: String): UserDeletionCheck {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.PARTICIPANT_ADMIN)
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
             if (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_ADMIN)) {
                 authUtils.requiresMemberOfSameOrganizationAs(userId)
@@ -242,7 +241,6 @@ class UiResourceImpl : UiResource {
 
     @Transactional
     override fun deleteUser(userId: String, successorUserId: String?): IdResponse {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.PARTICIPANT_ADMIN)
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
             if (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_ADMIN)) {
                 authUtils.requiresMemberOfSameOrganizationAs(userId)
