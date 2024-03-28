@@ -150,6 +150,11 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
         children: CONTROL_CENTER_ROUTES,
       },
+      {
+        path: 'users-and-roles',
+        redirectTo: 'control-center/users-and-roles',
+        pathMatch: 'full',
+      },
       // My Organization Section
       {
         path: 'my-organization/connectors',
