@@ -36,7 +36,12 @@ export const buildUserOnboardForm = (
     ],
     phoneNumber: [
       initialUser.phoneNumber,
-      [Validators.required, Validators.maxLength(128), phoneNumberValidator],
+      [
+        Validators.required,
+        phoneNumberValidator,
+        Validators.minLength(5),
+        Validators.maxLength(28),
+      ],
     ],
   });
 };

@@ -69,7 +69,7 @@ class OrganizationService {
     ) {
         dsl.newRecord(Tables.ORGANIZATION).also {
             it.mdsId = mdsId
-            it.name = orgName
+            it.name = orgName.trim()
             it.createdBy = userId
             it.registrationStatus = OrganizationRegistrationStatus.INVITED
             it.createdAt = OffsetDateTime.now()
@@ -87,25 +87,25 @@ class OrganizationService {
         val legalIdType = organizationData.legalIdType
         dsl.newRecord(Tables.ORGANIZATION).also {
             it.mdsId = mdsId
-            it.name = organizationData.name
+            it.name = organizationData.name?.trim()
             it.registrationStatus = registrationStatus
             it.createdAt = OffsetDateTime.now()
             it.createdBy = userId
 
-            it.url = organizationData.url
-            it.description = organizationData.description
-            it.businessUnit = organizationData.businessUnit
-            it.industry = organizationData.industry
-            it.address = organizationData.address
-            it.billingAddress = organizationData.billingAddress
+            it.url = organizationData.url?.trim()
+            it.description = organizationData.description?.trim()
+            it.businessUnit = organizationData.businessUnit?.trim()
+            it.industry = organizationData.industry?.trim()
+            it.address = organizationData.address?.trim()
+            it.billingAddress = organizationData.billingAddress?.trim()
             updateLegalId(it, legalIdType, organizationData.legalIdNumber, organizationData.commerceRegisterLocation)
 
-            it.mainContactName = organizationData.mainContactName
-            it.mainContactEmail = organizationData.mainContactEmail
-            it.mainContactPhone = organizationData.mainContactPhone
-            it.techContactName = organizationData.techContactName
-            it.techContactEmail = organizationData.techContactEmail
-            it.techContactPhone = organizationData.techContactPhone
+            it.mainContactName = organizationData.mainContactName?.trim()
+            it.mainContactEmail = organizationData.mainContactEmail?.trim()
+            it.mainContactPhone = organizationData.mainContactPhone?.trim()
+            it.techContactName = organizationData.techContactName?.trim()
+            it.techContactEmail = organizationData.techContactEmail?.trim()
+            it.techContactPhone = organizationData.techContactPhone?.trim()
 
             it.insert()
         }
@@ -113,42 +113,42 @@ class OrganizationService {
 
     fun updateOrganization(mdsId: String, dto: UpdateOrganizationDto) {
         val organization = getOrganizationOrThrow(mdsId)
-        organization.url = dto.url
-        organization.description = dto.description
-        organization.businessUnit = dto.businessUnit
-        organization.industry = dto.industry
-        organization.address = dto.address
-        organization.billingAddress = dto.billingAddress
+        organization.url = dto.url.trim()
+        organization.description = dto.description.trim()
+        organization.businessUnit = dto.businessUnit.trim()
+        organization.industry = dto.industry.trim()
+        organization.address = dto.address.trim()
+        organization.billingAddress = dto.billingAddress.trim()
 
-        organization.mainContactName = dto.mainContactName
-        organization.mainContactEmail = dto.mainContactEmail
-        organization.mainContactPhone = dto.mainContactPhone
-        organization.techContactName = dto.techContactName
-        organization.techContactEmail = dto.techContactEmail
-        organization.techContactPhone = dto.techContactPhone
+        organization.mainContactName = dto.mainContactName.trim()
+        organization.mainContactEmail = dto.mainContactEmail.trim()
+        organization.mainContactPhone = dto.mainContactPhone.trim()
+        organization.techContactName = dto.techContactName.trim()
+        organization.techContactEmail = dto.techContactEmail.trim()
+        organization.techContactPhone = dto.techContactPhone.trim()
         organization.update()
     }
 
     fun onboardOrganization(mdsId: String, dto: OnboardingOrganizationUpdateDto) {
         val organization = getOrganizationOrThrow(mdsId)
-        organization.name = dto.name
+        organization.name = dto.name.trim()
         organization.registrationStatus = OrganizationRegistrationStatus.ACTIVE
         organization.createdAt = OffsetDateTime.now()
 
-        organization.url = dto.url
-        organization.description = dto.description
-        organization.businessUnit = dto.businessUnit
+        organization.url = dto.url.trim()
+        organization.description = dto.description.trim()
+        organization.businessUnit = dto.businessUnit.trim()
         organization.industry = dto.industry
-        organization.address = dto.address
-        organization.billingAddress = dto.billingAddress
+        organization.address = dto.address.trim()
+        organization.billingAddress = dto.billingAddress.trim()
         updateLegalId(organization, dto.legalIdType.toDb(), dto.legalIdNumber, dto.commerceRegisterLocation)
 
-        organization.mainContactName = dto.mainContactName
-        organization.mainContactEmail = dto.mainContactEmail
-        organization.mainContactPhone = dto.mainContactPhone
-        organization.techContactName = dto.techContactName
-        organization.techContactEmail = dto.techContactEmail
-        organization.techContactPhone = dto.techContactPhone
+        organization.mainContactName = dto.mainContactName.trim()
+        organization.mainContactEmail = dto.mainContactEmail.trim()
+        organization.mainContactPhone = dto.mainContactPhone.trim()
+        organization.techContactName = dto.techContactName.trim()
+        organization.techContactEmail = dto.techContactEmail.trim()
+        organization.techContactPhone = dto.techContactPhone.trim()
 
         organization.update()
     }
@@ -160,9 +160,9 @@ class OrganizationService {
         commerceRegisterLocation: String?
     ) {
         organization.legalIdType = legalIdType
-        organization.taxId = legalIdNumber.takeIf { legalIdType == OrganizationLegalIdType.TAX_ID }
-        organization.commerceRegisterNumber = legalIdNumber.takeIf { legalIdType == OrganizationLegalIdType.COMMERCE_REGISTER_INFO }
-        organization.commerceRegisterLocation = commerceRegisterLocation.takeIf { legalIdType == OrganizationLegalIdType.COMMERCE_REGISTER_INFO }
+        organization.taxId = legalIdNumber.takeIf { legalIdType == OrganizationLegalIdType.TAX_ID }?.trim()
+        organization.commerceRegisterNumber = legalIdNumber.takeIf { legalIdType == OrganizationLegalIdType.COMMERCE_REGISTER_INFO }?.trim()
+        organization.commerceRegisterLocation = commerceRegisterLocation.takeIf { legalIdType == OrganizationLegalIdType.COMMERCE_REGISTER_INFO }?.trim()
     }
 
     fun deleteOrganization(mdsId: String) {

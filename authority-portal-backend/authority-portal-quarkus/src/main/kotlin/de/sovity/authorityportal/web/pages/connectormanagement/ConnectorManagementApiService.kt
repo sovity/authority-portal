@@ -257,7 +257,7 @@ class ConnectorManagementApiService {
         try {
             brokerClientService.forEnvironment(deploymentEnvId).addConnector(
                 AddedConnector().also {
-                    it.connectorEndpoint = connector.endpointUrl
+                    it.connectorEndpoint = connector.endpointUrl.trim()
                     it.mdsId = mdsId
                 }
             )

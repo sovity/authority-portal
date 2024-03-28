@@ -242,7 +242,7 @@ class ConnectorService {
             it.connectorId = connectorId
             it.clientId = clientId
             it.mdsId = mdsId
-            it.name = name
+            it.name = name.trim()
             it.createdBy = createdBy
             it.createdAt = OffsetDateTime.now()
             it.caasStatus = status
@@ -284,11 +284,11 @@ class ConnectorService {
             it.type = type
             it.environment = environment
             it.clientId = clientId
-            it.name = connector.name
-            it.location = connector.location
-            it.frontendUrl = connector.frontendUrl
-            it.endpointUrl = connector.endpointUrl
-            it.managementUrl = connector.managementUrl
+            it.name = connector.name.trim()
+            it.location = connector.location.trim()
+            it.frontendUrl = connector.frontendUrl.trim()
+            it.endpointUrl = connector.endpointUrl.trim()
+            it.managementUrl = connector.managementUrl.trim()
             it.createdBy = createdBy
             it.createdAt = OffsetDateTime.now()
             it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
