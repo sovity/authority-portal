@@ -103,7 +103,7 @@ export class ControlCenterOrganizationMemberDetailPageStateImpl {
       headerActions.push({
         label: 'Delete user',
         action: () => this.onDeleteUserClick(ctx, componentLifetime$),
-        permissions: [UserRoleDto.Admin],
+        permissions: [UserRoleDto.User],
       });
     } else {
       headerActions.push({
