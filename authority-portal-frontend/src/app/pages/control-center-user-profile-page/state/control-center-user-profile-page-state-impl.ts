@@ -10,13 +10,15 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ignoreElements, switchMap, take, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {UserDetailDto, UserRoleDto} from '@sovity.de/authority-portal-client';
+import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {UserDeleteDialogService} from 'src/app/shared/components/business/user-delete-dialog/user-delete-dialog.service';
 import {ApiService} from '../../../core/api/api.service';
 import {Fetched} from '../../../core/utils/fetched';
 import {UserDetailConfig} from '../../../shared/components/business/shared-user-detail/shared-user-detail.model';
@@ -37,13 +39,15 @@ type Ctx = StateContext<ControlCenterUserProfilePageState>;
 @Injectable()
 export class ControlCenterUserProfilePageStateImpl {
   constructor(
+    @Inject(APP_CONFIG) public config: AppConfig,
     private router: Router,
     private apiService: ApiService,
     private globalStateUtils: GlobalStateUtils,
+    private userDeleteDialogService: UserDeleteDialogService,
   ) {}
 
   @Action(Reset)
-  onReset(ctx: Ctx): Observable<never> {
+  onReset(ctx: Ctx, componentLifetime$: Observable<any>): Observable<never> {
     return this.globalStateUtils.userInfo$.pipe(
       take(1),
       switchMap((userInfo) =>
@@ -54,7 +58,9 @@ export class ControlCenterUserProfilePageStateImpl {
         ctx.patchState({
           user,
           headerBarConfig: user
-            .map((userDetails) => this.buildHeaderBarConfig(userDetails))
+            .map((userDetails) =>
+              this.buildHeaderBarConfig(userDetails, componentLifetime$),
+            )
             .orElse(null),
           userDetailConfig: user
             .map((userDetails) => this.buildUserDetailConfig(userDetails))
@@ -65,7 +71,10 @@ export class ControlCenterUserProfilePageStateImpl {
     );
   }
 
-  private buildHeaderBarConfig(user: UserDetailDto): HeaderBarConfig {
+  private buildHeaderBarConfig(
+    user: UserDetailDto,
+    componentLifetime$: Observable<any>,
+  ): HeaderBarConfig {
     return {
       title: `${user.firstName} ${user.lastName}`,
       subtitle: 'Your User Profile',
@@ -74,6 +83,22 @@ export class ControlCenterUserProfilePageStateImpl {
           label: 'Edit',
           action: () =>
             this.router.navigate(['/control-center/my-profile/edit']),
+          permissions: [UserRoleDto.User],
+        },
+        {
+          label: 'Delete',
+          action: () => {
+            this.userDeleteDialogService.showDeleteUserModal(
+              {
+                userId: user.userId,
+                userFullName: user.firstName + ' ' + user.lastName,
+                userOrganizationName: user.organizationName,
+                onDeleteSuccess: () =>
+                  (window.location.href = this.config.logoutUrl),
+              },
+              componentLifetime$,
+            );
+          },
           permissions: [UserRoleDto.User],
         },
       ],

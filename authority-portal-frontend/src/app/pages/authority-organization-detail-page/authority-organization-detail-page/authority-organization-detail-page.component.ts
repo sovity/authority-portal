@@ -285,7 +285,7 @@ export class AuthorityOrganizationDetailPageComponent
                 },
                 this.ngOnDestroy$,
               ),
-            isDisabled: user.userId === this.currentUserId,
+            isDisabled: false,
           },
         ],
       },
