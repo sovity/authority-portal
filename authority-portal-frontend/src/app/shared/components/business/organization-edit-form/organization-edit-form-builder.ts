@@ -34,7 +34,7 @@ export const buildOrganizationEditForm = (
     industry: [initialOrganization.industry, [Validators.required]],
     description: [
       initialOrganization.description,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(4096)],
     ],
     mainAddress: [
       initialOrganization.mainAddress,
