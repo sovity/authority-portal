@@ -77,7 +77,15 @@ export class AuthorityInviteNewOrganizationComponent {
         [Validators.required, Validators.maxLength(128)],
       ],
       userJobTitle: [initial.userJobTitle],
-      userPhoneNumber: [initial.userPhoneNumber, [phoneNumberValidator]],
+      userPhoneNumber: [
+        initial.userPhoneNumber,
+        [
+          Validators.required,
+          phoneNumberValidator,
+          Validators.minLength(5),
+          Validators.maxLength(28),
+        ],
+      ],
     });
   }
 

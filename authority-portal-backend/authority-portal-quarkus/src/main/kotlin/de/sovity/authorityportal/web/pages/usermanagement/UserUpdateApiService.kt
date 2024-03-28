@@ -33,11 +33,11 @@ class UserUpdateApiService {
 
     fun updateUserDetails(userId: String, updateUserDto: UpdateUserDto): IdResponse {
         val user = userService.getUserOrThrow(userId)
-        user.firstName = updateUserDto.firstName
-        user.lastName = updateUserDto.lastName
-        user.phone = updateUserDto.phone
-        user.jobTitle = updateUserDto.jobTitle
-        user.email = updateUserDto.email
+        user.firstName = updateUserDto.firstName.trim()
+        user.lastName = updateUserDto.lastName.trim()
+        user.phone = updateUserDto.phone.trim()
+        user.jobTitle = updateUserDto.jobTitle.trim()
+        user.email = updateUserDto.email.trim()
         user.update()
         keycloakService.updateUser(userId, updateUserDto.firstName, updateUserDto.lastName, updateUserDto.email)
         return IdResponse(userId)
@@ -45,10 +45,10 @@ class UserUpdateApiService {
 
     fun updateOnboardingUserDetails(userId: String, onboardingUserUpdateDto: OnboardingUserUpdateDto): IdResponse {
         val user = userService.getUserOrThrow(userId)
-        user.firstName = onboardingUserUpdateDto.firstName
-        user.lastName = onboardingUserUpdateDto.lastName
-        user.phone = onboardingUserUpdateDto.phoneNumber
-        user.jobTitle = onboardingUserUpdateDto.jobTitle
+        user.firstName = onboardingUserUpdateDto.firstName.trim()
+        user.lastName = onboardingUserUpdateDto.lastName.trim()
+        user.phone = onboardingUserUpdateDto.phoneNumber.trim()
+        user.jobTitle = onboardingUserUpdateDto.jobTitle.trim()
         user.registrationStatus = UserRegistrationStatus.ACTIVE
         user.update()
         keycloakService.updateUser(userId, onboardingUserUpdateDto.firstName, onboardingUserUpdateDto.lastName, user.email)
