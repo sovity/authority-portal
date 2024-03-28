@@ -105,7 +105,7 @@ class CaasManagementApiService {
         if (!connectorService.assertCaasRegistrationLimit(mdsId, environmentId)) {
             return ConfigAssertion(false, "Connector limit reached for mdsId: $mdsId")
         }
-        if (!caasClient.validateSubdomain(apDeploymentDto.subdomain)) {
+        if (!caasClient.validateSubdomain(apDeploymentDto.subdomain.trim())) {
             return ConfigAssertion(false, "Subdomain ${apDeploymentDto.subdomain} is not available! mdsId: $mdsId")
         }
         return ConfigAssertion(true, "")
@@ -122,10 +122,10 @@ class CaasManagementApiService {
         val securityContactName = PersonNameUtils.splitName(curatorOrganization.techContactName)
         return CaasPortalDeploymentDto(
             connectorId = connectorId,
-            subdomain = caasRequest.connectorSubdomain,
+            subdomain = caasRequest.connectorSubdomain.trim(),
             clientId = clientId,
-            connectorTitle = caasRequest.connectorTitle,
-            connectorDescription = caasRequest.connectorDescription,
+            connectorTitle = caasRequest.connectorTitle.trim(),
+            connectorDescription = caasRequest.connectorDescription.trim(),
             participantOrganizationUrl = curatorOrganization.url,
             participantOrganizationLegalName = curatorOrganization.name,
             clearingHouseUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).loggingHouse().url(),

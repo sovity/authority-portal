@@ -44,6 +44,7 @@ class OrganizationUpdateApiServiceTest {
             businessUnit = TestData.ORG_BUSINESS_UNIT
             address = TestData.ORG_ADDRESS
             industry = TestData.ORG_INDUSTRY
+            description = TestData.ORG_DESCRIPTION
             billingAddress = TestData.ORG_BILLING_ADDRESS
             mainContactName = TestData.ORG_MAIN_CONTACT_NAME
             mainContactEmail = TestData.ORG_MAIN_CONTACT_EMAIL

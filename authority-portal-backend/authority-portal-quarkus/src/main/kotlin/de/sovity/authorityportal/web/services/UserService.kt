@@ -93,11 +93,11 @@ class UserService {
     ): UserRecord {
         return dsl.newRecord(Tables.USER).also {
             it.id = userId
-            it.email = userData.email
-            it.firstName = userData.firstName
-            it.lastName = userData.lastName
-            it.jobTitle = userData.jobTitle
-            it.phone = userData.phone
+            it.email = userData.email?.trim()
+            it.firstName = userData.firstName?.trim()
+            it.lastName = userData.lastName?.trim()
+            it.jobTitle = userData.jobTitle?.trim()
+            it.phone = userData.phone?.trim()
             it.organizationMdsId = mdsId
             it.registrationStatus = initialRegistrationStatus(onboardingType)
             it.createdAt = OffsetDateTime.now()
