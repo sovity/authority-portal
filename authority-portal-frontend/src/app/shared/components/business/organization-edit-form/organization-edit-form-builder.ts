@@ -54,7 +54,12 @@ export const buildOrganizationEditForm = (
     ],
     mainContactPhoneNumber: [
       initialOrganization.mainContactPhoneNumber,
-      [Validators.required, Validators.maxLength(128), phoneNumberValidator],
+      [
+        Validators.required,
+        phoneNumberValidator,
+        Validators.minLength(5),
+        Validators.maxLength(28),
+      ],
     ],
     mainContactEmail: [
       initialOrganization.mainContactEmail,
@@ -70,7 +75,12 @@ export const buildOrganizationEditForm = (
     ],
     technicalContactPhoneNumber: [
       initialOrganization.technicalContactPhoneNumber,
-      [Validators.required, Validators.maxLength(128), phoneNumberValidator],
+      [
+        Validators.required,
+        phoneNumberValidator,
+        Validators.minLength(5),
+        Validators.maxLength(28),
+      ],
     ],
     technicalContactEmail: [
       initialOrganization.technicalContactEmail,
