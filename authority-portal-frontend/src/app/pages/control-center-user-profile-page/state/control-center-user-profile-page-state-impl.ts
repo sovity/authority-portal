@@ -47,7 +47,7 @@ export class ControlCenterUserProfilePageStateImpl {
   ) {}
 
   @Action(Reset)
-  onReset(ctx: Ctx, componentLifetime$: Observable<any>): Observable<never> {
+  onReset(ctx: Ctx, action: Reset): Observable<never> {
     return this.globalStateUtils.userInfo$.pipe(
       take(1),
       switchMap((userInfo) =>
@@ -59,7 +59,7 @@ export class ControlCenterUserProfilePageStateImpl {
           user,
           headerBarConfig: user
             .map((userDetails) =>
-              this.buildHeaderBarConfig(userDetails, componentLifetime$),
+              this.buildHeaderBarConfig(userDetails, action.componentLifetime$),
             )
             .orElse(null),
           userDetailConfig: user

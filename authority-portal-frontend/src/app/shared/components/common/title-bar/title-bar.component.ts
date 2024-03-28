@@ -55,9 +55,11 @@ export class TitleBarComponent implements OnChanges, OnDestroy {
         takeUntil(this.ngOnDestroy$),
         map(([userInfo, slideOverState]) => {
           if (userInfo.userId === slideOverState.currentView?.viewData) {
-            this.titleBarConfig.actionMenu?.menuOptions.forEach((menu) => {
-              menu.isDisabled = true;
-            });
+            this.titleBarConfig.actionMenu?.menuOptions.forEach(
+              (menu: MenuOption) => {
+                if (menu.label !== 'Delete User') menu.isDisabled = true;
+              },
+            );
           }
         }),
       )
