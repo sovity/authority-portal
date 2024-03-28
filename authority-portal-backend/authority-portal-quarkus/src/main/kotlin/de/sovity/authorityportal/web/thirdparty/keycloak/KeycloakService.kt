@@ -54,9 +54,9 @@ class KeycloakService {
                 RequiredAction.CONFIGURE_TOTP.stringRepresentation,
                 RequiredAction.VERIFY_EMAIL.stringRepresentation
             )
-            it.email = email
-            it.firstName = firstName
-            it.lastName = lastName
+            it.email = email.trim()
+            it.firstName = firstName.trim()
+            it.lastName = lastName.trim()
 
             if (password != null) {
                 it.credentials = listOf(
@@ -102,11 +102,11 @@ class KeycloakService {
     fun updateUser(userId: String, firstName: String, lastName: String, email: String?) {
         val userResource = keycloak.realm(keycloakRealm).users().get(userId)
         val user = userResource.toRepresentation()
-        user.firstName = firstName
-        user.lastName = lastName
+        user.firstName = firstName.trim()
+        user.lastName = lastName.trim()
 
         if (user != null && user.email != email) {
-            user.email = email
+            user.email = email?.trim()
             user.isEmailVerified = false
             user.requiredActions = listOf(
                 RequiredAction.VERIFY_EMAIL.stringRepresentation
