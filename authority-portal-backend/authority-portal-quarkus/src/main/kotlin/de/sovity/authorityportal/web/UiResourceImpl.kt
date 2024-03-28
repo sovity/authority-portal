@@ -229,20 +229,24 @@ class UiResourceImpl : UiResource {
 
     @Transactional
     override fun checkUserDeletion(userId: String): UserDeletionCheck {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.PARTICIPANT_ADMIN)
-        authUtils.requiresTargetNotSelf(userId)
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
-            authUtils.requiresMemberOfSameOrganizationAs(userId)
+            if (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_ADMIN)) {
+                authUtils.requiresMemberOfSameOrganizationAs(userId)
+            } else {
+                authUtils.requiresTargetSelf(userId)
+            }
         }
         return userDeletionApiService.checkUserDeletion(userId)
     }
 
     @Transactional
     override fun deleteUser(userId: String, successorUserId: String?): IdResponse {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.PARTICIPANT_ADMIN)
-        authUtils.requiresTargetNotSelf(userId)
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
-            authUtils.requiresMemberOfSameOrganizationAs(userId)
+            if (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_ADMIN)) {
+                authUtils.requiresMemberOfSameOrganizationAs(userId)
+            } else {
+                authUtils.requiresTargetSelf(userId)
+            }
         }
         return userDeletionApiService.handleUserDeletion(userId, successorUserId, loggedInUser.userId)
     }

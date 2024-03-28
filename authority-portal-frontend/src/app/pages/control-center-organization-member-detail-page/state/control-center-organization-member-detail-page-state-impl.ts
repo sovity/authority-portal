@@ -100,6 +100,11 @@ export class ControlCenterOrganizationMemberDetailPageStateImpl {
         action: () => this.router.navigate(['/control-center/my-profile/edit']),
         permissions: [UserRoleDto.User],
       });
+      headerActions.push({
+        label: 'Delete user',
+        action: () => this.onDeleteUserClick(ctx, componentLifetime$),
+        permissions: [UserRoleDto.User],
+      });
     } else {
       headerActions.push({
         label: 'Delete user',

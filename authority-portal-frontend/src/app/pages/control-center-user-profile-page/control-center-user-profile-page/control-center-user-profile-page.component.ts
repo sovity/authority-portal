@@ -38,7 +38,7 @@ export class ControlCenterUserProfilePageComponent
   }
 
   refresh(): void {
-    this.store.dispatch(Reset);
+    this.store.dispatch(new Reset(this.ngOnDestroy$));
   }
 
   startListeningToState(): void {

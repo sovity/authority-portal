@@ -30,7 +30,7 @@ import {MenuOption, TitleBarConfig} from './title-bar.model';
   selector: 'app-title-bar',
   templateUrl: './title-bar.component.html',
 })
-export class TitleBarComponent implements OnChanges, OnDestroy {
+export class TitleBarComponent implements OnDestroy {
   isEllipsisActive: boolean = true;
   @Input() titleBarConfig!: TitleBarConfig;
   @Input() selectedTab!: string;
@@ -45,24 +45,6 @@ export class TitleBarComponent implements OnChanges, OnDestroy {
     private slideOverService: SlideOverService,
     private globalStateUtils: GlobalStateUtils,
   ) {}
-
-  ngOnChanges(): void {
-    combineLatest([
-      this.globalStateUtils.userInfo$,
-      this.slideOverService.slideOverState$,
-    ])
-      .pipe(
-        takeUntil(this.ngOnDestroy$),
-        map(([userInfo, slideOverState]) => {
-          if (userInfo.userId === slideOverState.currentView?.viewData) {
-            this.titleBarConfig.actionMenu?.menuOptions.forEach((menu) => {
-              menu.isDisabled = true;
-            });
-          }
-        }),
-      )
-      .subscribe();
-  }
 
   ngAfterViewInit() {
     this.isEllipsisActive = isEllipsisActive(this.title?.nativeElement);

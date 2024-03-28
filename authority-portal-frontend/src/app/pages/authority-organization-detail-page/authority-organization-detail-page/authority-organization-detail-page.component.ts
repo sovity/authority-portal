@@ -241,7 +241,9 @@ export class AuthorityOrganizationDetailPageComponent
                 new ReactivateUser(this.state.openedUserDetail.userId),
               ),
 
-            isDisabled: user.registrationStatus !== 'DEACTIVATED',
+            isDisabled:
+              user.registrationStatus !== 'DEACTIVATED' ||
+              user.userId === this.currentUserId,
           },
           {
             label: 'Deactivate User',
@@ -251,7 +253,9 @@ export class AuthorityOrganizationDetailPageComponent
                 new DeactivateUser(this.state.openedUserDetail.userId),
               ),
 
-            isDisabled: user.registrationStatus !== 'ACTIVE',
+            isDisabled:
+              user.registrationStatus !== 'ACTIVE' ||
+              user.userId === this.currentUserId,
           },
           {
             label: 'Delete User',
@@ -285,7 +289,7 @@ export class AuthorityOrganizationDetailPageComponent
                 },
                 this.ngOnDestroy$,
               ),
-            isDisabled: user.userId === this.currentUserId,
+            isDisabled: false,
           },
         ],
       },

@@ -10,9 +10,11 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+import {Observable} from 'rxjs';
 
 const tag = 'ControlCenterUserProfilePage';
 
 export class Reset {
   static readonly type = `[${tag}] Reset`;
+  constructor(public componentLifetime$: Observable<any>) {}
 }

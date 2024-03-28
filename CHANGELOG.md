@@ -13,6 +13,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Enable users to delete themselves ([#127](https://github.com/sovity/authority-portal/issues/127))
 - Added an API endpoint to set the backend log level during runtime: `https://[AP_FQDN]/api/config/log-level?level=[LOG_LEVEL]` ([#2](https://github.com/sovity/authority-portal/issues/2))
   - `x-api-key` header must be set correctly to access this endpoint
   - Example:
