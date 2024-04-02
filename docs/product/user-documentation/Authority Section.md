@@ -10,22 +10,23 @@ On the Organization page you can see all organizations registered in the MDS Por
 
 - _Active_: Fully registered organizations
 - _Invited_: Organization invitation has been sent, but was not yet accepted
-- _Pending_: Organization has send a registration request
+- _Onboarding_: The Admin of an invited organization has already logged-in at least once and needs to fill in organization details
+- _Pending_: Organization has sent a registration request
 - _Rejected_: Organization registration request has been rejected
 
 Click in the row of an organization to view the organization details. Quickly switch between two organization detail pages by using the arrows at the top.
 
 ![organization-detail-page](images/authority-section/organization-detail-page.png)
 
-From the organization detail page, authority users and admins are able to manage the organization of interest and e.g approve or reject an organization or see the different users of it.
+From the organization detail page, Authority Users and Admins are able to manage the organization of interest and e.g. approve or reject an organization or see the different users of it.
 
 ![manage-organizations](images/authority-section/manage-organization.png)
 
 As an Authority User you have the rights to:
 
 - See the list of all registered, pending & invited organizations
-- Invite new organizations and their first user, the Participant Admin
-- Accept & reject pending organization's requests
+- Invite new organizations and their respective initial Admin
+- Accept & reject pending organizations' requests
 - Access any organization's profile
 
 As an Authority Admin you can additionally:

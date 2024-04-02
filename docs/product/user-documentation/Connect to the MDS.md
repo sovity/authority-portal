@@ -60,11 +60,11 @@ Select "I have a connector".
 
 ![choose-connector](images/connect-to-the-mds/choose-connector-registration.png)
 
-Fill out the "Add Connector Details"-mask and click "Next" to proceed.
+Fill out the "Add Connector Details" form and click "Next" to proceed.
 
 ![register-connector-form](images/connect-to-the-mds/register-connector-form.png)
 
-After entering your Connector details, you now need to give the stated information in the "Generate Certificate"-mask. and click "Generate & Download Certificate".
+After entering your Connector details, you now need to give the stated information in the "Generate Certificate" form and click "Generate & Download Certificate".
 
 ![register-connector-generate-certificate](images/connect-to-the-mds/register-connector-generate-certificate.png)
 

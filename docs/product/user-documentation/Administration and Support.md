@@ -5,7 +5,7 @@
 A user can see their profile by clicking on their name in the top right corner and then "My Profile".
 
 Any user is able to edit their own information by maneuvering to his own profile and clicking "Edit".
-First name, last name, Job title, email and phone number can be updated and changes persisted by clicking "Update".
+First name, last name, job title, email and phone number can be updated and changes persisted by clicking "Update".
 
 Also, a user can see the roles assigned to them here.
 As a participant in the MDS, you can have one of the following roles:
@@ -32,7 +32,7 @@ Only Admins have the rights to make changes here!
 
 As an Admin you are able to:
 
-- Change the role of a user (via user details)
+- Change user roles (via user details)
 - Delete, deactivate or reactivate users (via user details)
 - Invite new users to your organization
 
@@ -49,7 +49,7 @@ Click on "Send invitation" to add the user to the list of registered users.
 ![invited-user](images/administration-and-support/invited-user.png)
 
 The invited user will receive an invitation email with a link.
-When clicking the link, the user will be asked to set a password for their account and to add a two-factor authentication.
+When clicking the link, the user will be asked to set a password for their account and to set up two-factor authentication.
 
 ## Dashboard
 
