@@ -27,12 +27,13 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed Keycloak notifications, OTP pages ([#146](https://github.com/sovity/authority-portal/issues/146)), ([#151](https://github.com/sovity/authority-portal/issues/151))
 - Fixed provided connectors' statuses missing on the dashboard ([#138](https://github.com/sovity/authority-portal/issues/138))
 - Fixed "Hosted By Name" column in Connector CSV report ([#149](https://github.com/sovity/authority-portal/issues/149))
-- Adjusted wording in the sidebar menu ([#117](https://github.com/sovity/authority-portal/issues/117))
 - Fixed wording in "Reset Password" email ([#116](https://github.com/sovity/authority-portal/issues/116))
 - Fixed wording in "Provide Central Component" form ([#112](https://github.com/sovity/authority-portal/issues/112))
 - Fixed wrong Users and Roles path [#150](https://github.com/sovity/authority-portal/issues/150)
 - Fixed phone number and description validators ([#161](https://github.com/sovity/authority-portal/issues/161))
 - Fixed Page not found for "MyUsers" route ([#163](https://github.com/sovity/authority-portal/issues/163))
+- Adjusted wording in the sidebar menu ([#117](https://github.com/sovity/authority-portal/issues/117))
+- Adjusted documentation ([#159](https://github.com/sovity/authority-portal/issues/159))
 
 ### Known issues
 
