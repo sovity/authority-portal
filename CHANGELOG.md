@@ -34,6 +34,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed Page not found for "MyUsers" route ([#163](https://github.com/sovity/authority-portal/issues/163))
 - Adjusted wording in the sidebar menu ([#117](https://github.com/sovity/authority-portal/issues/117))
 - Adjusted documentation ([#159](https://github.com/sovity/authority-portal/issues/159))
+- Fixed logo in Keycloak Theme being cut off ([#165](https://github.com/sovity/authority-portal/issues/165))
 
 ### Known issues
 

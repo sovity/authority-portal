@@ -31,10 +31,10 @@ a:hover {
 .login-pf-page {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: 100vh;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
 }
 
 /* default - IE compatibility */
@@ -202,7 +202,8 @@ ul#kc-totp-supported-apps {
   padding: 10px 20px !important;
   max-width: 500px;
   border-radius: 25px;
-  height: auto;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
 }
 
 .login-pf-page .login-pf-signup {
@@ -231,10 +232,18 @@ ul#kc-totp-supported-apps {
   width: 100%;
 }
 
+#kc-update-profile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  color: rgb(0, 0, 0);
+}
+
 #kc-form-login div.form-group:last-of-type,
 #kc-update-profile-form div.form-group:last-of-type {
-  align-items: center;
   display: flex;
+  align-items: center;
   justify-content: center;
   color: rgb(0, 0, 0);
 }
@@ -400,7 +409,6 @@ div.form-group.login-pf-settings {
 .otp-label {
   text-align: center;
 }
-
 
 @media screen and (max-width: 425px) {
   .login-pf-header {
