@@ -33,6 +33,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed wrong Users and Roles path [#150](https://github.com/sovity/authority-portal/issues/150)
 - Fixed phone number and description validators ([#161](https://github.com/sovity/authority-portal/issues/161))
 - Fixed Page not found for "MyUsers" route ([#163](https://github.com/sovity/authority-portal/issues/163))
+- Fixed logo in Keycloak Theme being cut off ([#165](https://github.com/sovity/authority-portal/issues/165))
 
 ### Known issues
 
@@ -300,11 +301,14 @@ Major release, containing a UI rework and several new features.
 ### Deployment Migration Notes
 
 - Keycloak
+
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
   - Keycloak IAM needs to be upgraded to version 23.0.4
 
 - Portal Backend
+
   - Added environment variables
+
     ```yaml
     # CaaS Portal API Client Auth
     # will be provided by sovity
