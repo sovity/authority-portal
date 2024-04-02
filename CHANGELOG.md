@@ -13,6 +13,28 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+#### Patch
+
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Broker Server: `{{ broker version }}`
+
+## [v2.2.0] - 20240-04-02
+
+### Overview
+
+This release addresses several issues and adds minor improvements to the Authority Portal.
+
+### Detailed Changes
+
+#### Minor
+
 - Enable users to delete themselves ([#127](https://github.com/sovity/authority-portal/issues/127))
 - Added an API endpoint to set the backend log level during runtime: `https://[AP_FQDN]/api/config/log-level?level=[LOG_LEVEL]` ([#2](https://github.com/sovity/authority-portal/issues/2))
   - `x-api-key` header must be set correctly to access this endpoint
@@ -27,16 +49,14 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed Keycloak notifications, OTP pages ([#146](https://github.com/sovity/authority-portal/issues/146)), ([#151](https://github.com/sovity/authority-portal/issues/151))
 - Fixed provided connectors' statuses missing on the dashboard ([#138](https://github.com/sovity/authority-portal/issues/138))
 - Fixed "Hosted By Name" column in Connector CSV report ([#149](https://github.com/sovity/authority-portal/issues/149))
-- Fixed wording in "Reset Password" email ([#116](https://github.com/sovity/authority-portal/issues/116))
-- Fixed wording in "Provide Central Component" form ([#112](https://github.com/sovity/authority-portal/issues/112))
 - Fixed wrong Users and Roles path [#150](https://github.com/sovity/authority-portal/issues/150)
 - Fixed phone number and description validators ([#161](https://github.com/sovity/authority-portal/issues/161))
 - Fixed Page not found for "MyUsers" route ([#163](https://github.com/sovity/authority-portal/issues/163))
+- Fixed logo in Keycloak Theme being cut off ([#165](https://github.com/sovity/authority-portal/issues/165))
+- Fixed wording in "Reset Password" email ([#116](https://github.com/sovity/authority-portal/issues/116))
+- Fixed wording in "Provide Central Component" form ([#112](https://github.com/sovity/authority-portal/issues/112))
 - Adjusted wording in the sidebar menu ([#117](https://github.com/sovity/authority-portal/issues/117))
 - Adjusted documentation ([#159](https://github.com/sovity/authority-portal/issues/159))
-- Fixed logo in Keycloak Theme being cut off ([#165](https://github.com/sovity/authority-portal/issues/165))
-
-### Known issues
 
 ### Deployment Migration Notes
 
@@ -58,11 +78,11 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Broker Server: `{{ broker version }}`
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.2.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.2.0`
+- Broker Server: [`4.1.0`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v4.1.0)
 
-## [2.1.2] - 2024-03-22
+## [v2.1.2] - 2024-03-22
 
 ### Overview
 
