@@ -16,6 +16,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Fixed "Provided Connectors" view for Service Partners ([#172](https://github.com/sovity/authority-portal/issues/172))
+- Fixed red fields in organization create page ([#122](https://github.com/sovity/authority-portal/issues/122))
 
 ### Known issues
 
@@ -55,10 +56,9 @@ This release addresses several issues and adds minor improvements to the Authori
 - Fixed phone number and description validators ([#161](https://github.com/sovity/authority-portal/issues/161))
 - Fixed Page not found for "MyUsers" route ([#163](https://github.com/sovity/authority-portal/issues/163))
 - Fixed logo in Keycloak Theme being cut off ([#165](https://github.com/sovity/authority-portal/issues/165))
-- Fixed red fields in organization create page ([#122](https://github.com/sovity/authority-portal/issues/122))
 
 ### Known issues
-=======
+
 - Fixed wording in "Reset Password" email ([#116](https://github.com/sovity/authority-portal/issues/116))
 - Fixed wording in "Provide Central Component" form ([#112](https://github.com/sovity/authority-portal/issues/112))
 - Adjusted wording in the sidebar menu ([#117](https://github.com/sovity/authority-portal/issues/117))
@@ -328,11 +328,14 @@ Major release, containing a UI rework and several new features.
 ### Deployment Migration Notes
 
 - Keycloak
+
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
   - Keycloak IAM needs to be upgraded to version 23.0.4
 
 - Portal Backend
+
   - Added environment variables
+
     ```yaml
     # CaaS Portal API Client Auth
     # will be provided by sovity
