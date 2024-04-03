@@ -16,6 +16,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Fixed "Provided Connectors" view for Service Partners ([#172](https://github.com/sovity/authority-portal/issues/172))
+- Fixed red fields in organization create page ([#122](https://github.com/sovity/authority-portal/issues/122))
 
 ### Known issues
 
