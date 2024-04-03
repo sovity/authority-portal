@@ -34,6 +34,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed phone number and description validators ([#161](https://github.com/sovity/authority-portal/issues/161))
 - Fixed Page not found for "MyUsers" route ([#163](https://github.com/sovity/authority-portal/issues/163))
 - Fixed logo in Keycloak Theme being cut off ([#165](https://github.com/sovity/authority-portal/issues/165))
+- Fixed red fields in organization create page ([#122](https://github.com/sovity/authority-portal/issues/122))
 
 ### Known issues
 
