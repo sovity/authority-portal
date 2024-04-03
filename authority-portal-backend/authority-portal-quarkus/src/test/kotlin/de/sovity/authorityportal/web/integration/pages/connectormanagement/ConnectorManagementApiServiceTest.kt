@@ -183,13 +183,12 @@ class ConnectorManagementApiServiceTest {
 
         // assert
         assertThat(result).isNotNull
-        assertThat(result.connectors).hasSize(2)
+        assertThat(result.connectors).hasSize(1)
         assertThat(result.connectors.map { it.id }).allSatisfy { assertThat(it).isNotNull() }
         assertThat(result.connectors.map { it.customerOrgName }).anySatisfy { assertThat(it).isEqualTo("Dev Organization 3.5") }
-        assertThat(result.connectors.map { it.customerOrgName }).anySatisfy { assertThat(it).isEqualTo("Dev Organization 1") }
         assertThat(result.connectors.map { it.environment.environmentId }).allSatisfy { assertThat(it).isEqualTo("test") }
         assertThat(result.connectors.map { it.environment.title }).allSatisfy { assertThat(it).isEqualTo("Test Environment") }
-        assertThat(result.connectors.map { it.type }).anySatisfy { assertThat(it).isEqualTo(ConnectorTypeDto.PROVIDED) }
+        assertThat(result.connectors.map { it.type }).allSatisfy { assertThat(it).isEqualTo(ConnectorTypeDto.PROVIDED) }
     }
 
     @Test
