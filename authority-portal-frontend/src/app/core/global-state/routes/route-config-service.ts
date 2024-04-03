@@ -71,8 +71,19 @@ export class RouteConfigService {
     // Change routes
     this.router.resetConfig(this.mapping[nextPageSet]);
 
-    // Force refresh
-    this.forceRefreshCurrentRoute();
+    if (
+      previousPageSet === 'ONBOARDING_PROCESS' &&
+      nextPageSet === 'AUTHORITY_PORTAL'
+    ) {
+      this.router
+        .navigateByUrl('/random-redirect-for-force-refresh', {
+          skipLocationChange: true,
+        })
+        .then(() => this.router.navigate(['/mds-home']));
+    } else {
+      // Force refresh
+      this.forceRefreshCurrentRoute();
+    }
   }
 
   forceRefreshCurrentRoute() {
