@@ -17,8 +17,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Fixed "Provided Connectors" view for Service Partners ([#172](https://github.com/sovity/authority-portal/issues/172))
 - Fixed red fields in organization create page ([#122](https://github.com/sovity/authority-portal/issues/122))
-- Adjusted headers for improved security ([#176](https://github.com/sovity/authority-portal/issues/176))
-- Fixed wrong path after onboarding ([#103](https://github.com/sovity/authority-portal/issues/103))
 - Fixed yellow inactive sidebar item ([#123](https://github.com/sovity/authority-portal/issues/123))
 
 ### Known issues
