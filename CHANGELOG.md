@@ -18,35 +18,38 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed "Provided Connectors" view for Service Partners ([#172](https://github.com/sovity/authority-portal/issues/172))
 - Fixed red fields in organization create page ([#122](https://github.com/sovity/authority-portal/issues/122))
 - Adjusted headers for improved security ([#176](https://github.com/sovity/authority-portal/issues/176))
+- Fixed wrong path after onboarding ([#103](https://github.com/sovity/authority-portal/issues/103))
 
 ### Known issues
 
 ### Deployment Migration Notes
 
 - Caddy
+
   - Headers to improve security are now set
   - Modified Caddyfile:
+
   ```
   # UI Requests: Internet -> Caddy 8080 -> Frontend
   # Backend Requests: Internet -> Caddy 8080 -> Auth Proxy -> Caddy 8081 -> Backend
-  
+
   :8080 {
     map {path} {target_host} {target_port} {
       ~^/api/.*      {$AUTH_PROXY_UPSTREAM_HOST}   8080
       ~^/oauth2/.*   {$AUTH_PROXY_UPSTREAM_HOST}   8080
       default        {$FRONTEND_UPSTREAM_HOST}     8080
     }
-  
+
     reverse_proxy {target_host}:{target_port} {
       header_down -Gap-Auth
     }
-  
+
     # Set security headers for UI responses
     header {
       X-Frame-Options "DENY"
       +Content-Security-Policy "frame-ancestors 'none'"
     }
-  
+
     # Set security headers for API responses
     header /api/* {
       X-Content-Type-Options nosniff
@@ -59,7 +62,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
       +Cache-Control "public, max-age=2592000, immutable"
     }
   }
-  
+
   # Caddy 8081 -> Backend
   # We need this second block because the auth proxy
   # does not pass the token on the right header due to
@@ -374,11 +377,14 @@ Major release, containing a UI rework and several new features.
 ### Deployment Migration Notes
 
 - Keycloak
+
   - Replace [MDS theme](authority-portal-keycloak/mds-theme) with the new version
   - Keycloak IAM needs to be upgraded to version 23.0.4
 
 - Portal Backend
+
   - Added environment variables
+
     ```yaml
     # CaaS Portal API Client Auth
     # will be provided by sovity
