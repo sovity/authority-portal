@@ -30,24 +30,24 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   ```
   # UI Requests: Internet -> Caddy 8080 -> Frontend
   # Backend Requests: Internet -> Caddy 8080 -> Auth Proxy -> Caddy 8081 -> Backend
-
+  
   :8080 {
     map {path} {target_host} {target_port} {
       ~^/api/.*      {$AUTH_PROXY_UPSTREAM_HOST}   8080
       ~^/oauth2/.*   {$AUTH_PROXY_UPSTREAM_HOST}   8080
       default        {$FRONTEND_UPSTREAM_HOST}     8080
     }
-
+  
     reverse_proxy {target_host}:{target_port} {
       header_down -Gap-Auth
     }
-
+  
     # Set security headers for UI responses
     header {
       X-Frame-Options "DENY"
       +Content-Security-Policy "frame-ancestors 'none'"
     }
-
+  
     # Set security headers for API responses
     header /api/* {
       X-Content-Type-Options nosniff
