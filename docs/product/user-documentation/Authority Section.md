@@ -46,3 +46,11 @@ The process is as follows:
 
 Under "All Connectors", Authority Users and Admins can see all registered connectors of all organizations in the MDS Portal.
 Also, the connector details can be accessed from here.
+
+## Dashboard & Reporting
+
+Additionally to the features listed in [Administration and Support](Administration%20and%20Support.md#dashboard--reporting), Authority Users and Admins have access to the following features.
+
+- They can download a report about all users and their roles.
+- Instead of only their own, all connectors are respected in the connector report.
+- Instead of only their own, they see the status of all connectors.

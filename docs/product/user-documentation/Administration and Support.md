@@ -51,15 +51,14 @@ Click on "Send invitation" to add the user to the list of registered users.
 The invited user will receive an invitation email with a link.
 When clicking the link, the user will be asked to set a password for their account and to set up two-factor authentication.
 
-## Dashboard
+## Dashboard & Reporting
 
 The Dashboard provides an overview over the current status of central Data Space Components as well as the organization's connectors.
-(As an Authority User or Admin, you see the status of all connectors here.)
-
 Also, it is possible to download reports about connectors, data offers and system stability from here.
-(As an Authority User or Admin, you can download a report about all users and their roles.)
 
-![invited-user](images/administration-and-support/dashboard.png)
+_Note_: As the MDS Portal is the instance, which tracks the status of the Data Space Components and connectors, downtimes that occur when the MDS Portal is offline, are not captured. 
+
+![dashboard](images/administration-and-support/dashboard.png)
 
 ## Ticket System
 
