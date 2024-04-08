@@ -19,6 +19,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed red fields in organization create page ([#122](https://github.com/sovity/authority-portal/issues/122))
 - Adjusted headers for improved security ([#176](https://github.com/sovity/authority-portal/issues/176))
 - Fixed wrong path after onboarding ([#103](https://github.com/sovity/authority-portal/issues/103))
+- Adjusted documentation ([#181](https://github.com/sovity/authority-portal/issues/181))
+
 
 ### Known issues
 
