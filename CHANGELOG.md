@@ -22,7 +22,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed yellow inactive sidebar item ([#123](https://github.com/sovity/authority-portal/issues/123))
 - Adjusted documentation ([#181](https://github.com/sovity/authority-portal/issues/181))
 
-
 ### Known issues
 
 ### Deployment Migration Notes
