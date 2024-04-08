@@ -3,5 +3,6 @@
   class="hover:underline whitespace-normal"
   target="_blank"
   [href]="footerLink.href"
+  (click)="blurFocus($event)"
   >{{ footerLink.name }}</a
 >
