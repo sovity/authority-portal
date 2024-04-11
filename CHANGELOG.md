@@ -15,12 +15,32 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Broker Server: `{{ broker version }}`
+
+## [v2.2.1] - 2024-04-11
+
+### Overview
+
+This release addresses several security issues and adds minor improvements to the Authority Portal.
+
+### Detailed Changes
+
+#### Patch
+
 - Fixed "Provided Connectors" view for Service Partners ([#172](https://github.com/sovity/authority-portal/issues/172))
 - Fixed red fields in organization create page ([#122](https://github.com/sovity/authority-portal/issues/122))
 - Fixed wrong path after onboarding ([#103](https://github.com/sovity/authority-portal/issues/103))
 - Fixed yellow inactive sidebar item ([#123](https://github.com/sovity/authority-portal/issues/123))
 - Fixed vulnerability from [CVE-2024-2700](https://github.com/advisories/GHSA-f8h5-v2vg-46rr)
-- Adjusted headers for improved security ([#176](https://github.com/sovity/authority-portal/issues/176)
+- Adjusted headers for improved security ([#176](https://github.com/sovity/authority-portal/issues/176))
 - Adjusted Keycloak SSL settings for improved security ([#183](https://github.com/sovity/authority-portal/issues/183))
 - Adjusted documentation ([#181](https://github.com/sovity/authority-portal/issues/181))
 
@@ -81,9 +101,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Broker Server: `{{ broker version }}`
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.2.1`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.2.1`
+- Broker Server: [`4.1.1`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v4.1.1)
 
 ## [v2.2.0] - 20240-04-02
 
