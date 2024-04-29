@@ -258,9 +258,10 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
-        authUtils.requiresAnyRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
-        return organizationInfoApiService.organizationsOverview(environmentId)
+    override fun organizationsOverviewForProvidingConnectors(environmentId: String): OrganizationOverviewResult {
+        authUtils.requiresAnyRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        authUtils.requiresMemberOfAnyOrganization()
+        return organizationInfoApiService.organizationsOverviewForProvidingConnectors(loggedInUser.organizationMdsId!!, environmentId)
     }
 
     @Transactional

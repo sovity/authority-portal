@@ -147,7 +147,7 @@ export class ApiService {
     environmentId: string,
   ): Observable<OrganizationOverviewResult> {
     return this.toObservable(() =>
-      this.api().organizationsOverview({environmentId}),
+      this.api().organizationsOverviewForProvidingConnectors({environmentId}),
     );
   }
 

@@ -59,6 +59,12 @@ class OrganizationInfoApiService {
         return OrganizationOverviewResult(dtos)
     }
 
+    fun organizationsOverviewForProvidingConnectors(providerMdsId: String, environmentId: String): OrganizationOverviewResult {
+        val organizations = organizationsOverview(environmentId).organizations
+            .filter { it.mdsId != providerMdsId }
+        return OrganizationOverviewResult(organizations)
+    }
+
     private fun buildOrganizationOverviewEntryDto(
         organization: OrganizationRecord,
         userCounts: Map<String, Int>,

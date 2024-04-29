@@ -18,6 +18,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed the connector status missing in the CSV reports ([#190](https://github.com/sovity/authority-portal/issues/189))
 - Fixed naming of EDC variable in instructions ([#195](https://github.com/sovity/authority-portal/issues/195))
 - Fixed error message for already existing CaaS subdomains ([#196](https://github.com/sovity/authority-portal/issues/196))
+- Removed possibility to provide a connector for one self as a Service Partner ([#191](https://github.com/sovity/authority-portal/issues/191))
 
 ### Known issues
 
