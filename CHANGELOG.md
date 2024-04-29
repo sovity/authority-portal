@@ -13,6 +13,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Changed connector status DEAD to OFFLINE in UI responses ([#184](https://github.com/sovity/authority-portal/issues/184))
+
 #### Patch
 
 - Fixed the connector status missing in the CSV reports ([#190](https://github.com/sovity/authority-portal/issues/189))
