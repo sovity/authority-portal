@@ -103,10 +103,10 @@ class CaasManagementApiService {
 
     private fun assertValidConfig(apDeploymentDto: CaasPortalDeploymentDto, mdsId: String, environmentId: String): ConfigAssertion {
         if (!connectorService.assertCaasRegistrationLimit(mdsId, environmentId)) {
-            return ConfigAssertion(false, "Connector limit reached for mdsId: $mdsId")
+            return ConfigAssertion(false, "Connector limit reached for MDS ID: $mdsId")
         }
         if (!caasClient.validateSubdomain(apDeploymentDto.subdomain.trim())) {
-            return ConfigAssertion(false, "Subdomain ${apDeploymentDto.subdomain} is not available! mdsId: $mdsId")
+            return ConfigAssertion(false, "Subdomain ${apDeploymentDto.subdomain} is not available! Please choose a different one.")
         }
         return ConfigAssertion(true, "")
     }
