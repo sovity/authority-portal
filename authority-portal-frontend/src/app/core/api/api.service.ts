@@ -143,7 +143,7 @@ export class ApiService {
     );
   }
 
-  getOrganizationsForApplicationRoles(
+  getOrganizationsForProvidingConnectors(
     environmentId: string,
   ): Observable<OrganizationOverviewResult> {
     return this.toObservable(() =>

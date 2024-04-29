@@ -115,7 +115,7 @@ export class ProvideConnectorPageStateImpl {
   ): Observable<never> {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
-        this.apiService.getOrganizationsForApplicationRoles(
+        this.apiService.getOrganizationsForProvidingConnectors(
           deploymentEnvironmentId,
         ),
       ),
