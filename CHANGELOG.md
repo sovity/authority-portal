@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Fixed naming of EDC variable in instructions ([#195](https://github.com/sovity/authority-portal/issues/195))
+
 ### Known issues
 
 ### Deployment Migration Notes
