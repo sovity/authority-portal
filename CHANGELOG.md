@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Fixed error message for already existing CaaS subdomains ([#196](https://github.com/sovity/authority-portal/issues/196))
+
 ### Known issues
 
 ### Deployment Migration Notes
