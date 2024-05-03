@@ -39,7 +39,11 @@ build
 
 **/.env
 !.env
+<<<<<<< HEAD
 !launchers/.env
+=======
+!connector/.env
+>>>>>>> refs/rewritten/Merge-unrelated-tree-from-broker-into-edc-extensions
 
 # Log files
 *.log
