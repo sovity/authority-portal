@@ -37,4 +37,8 @@ export class FooterLinksComponent {
   ];
 
   constructor(@Inject(APP_CONFIG) public config: AppConfig) {}
+
+  blurFocus(event: MouseEvent) {
+    (event.target as HTMLElement).blur();
+  }
 }

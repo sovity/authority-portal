@@ -189,10 +189,10 @@ public interface UiResource {
     );
 
     @GET
-    @Path("/application/organizations")
+    @Path("/service-partner/providable-organizations")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Get all participating organizations with their status. (For Service Partners and Operators)")
-    OrganizationOverviewResult organizationsOverview(
+    @Operation(description = "Get all organizations a service partner can provide a connector to. (For Service Partners)")
+    OrganizationOverviewResult organizationsOverviewForProvidingConnectors(
         @QueryParam("environmentId")
         @Valid
         @NotBlank(message = "EnvironmentId cannot be blank")

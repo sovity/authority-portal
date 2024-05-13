@@ -33,6 +33,7 @@ import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
 import de.sovity.authorityportal.web.thirdparty.broker.model.AddedConnector
+import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
@@ -109,7 +110,7 @@ class ConnectorManagementApiService {
             connector.frontendUrl,
             connector.endpointUrl,
             connector.managementUrl,
-            buildConnectorStatus(connector)
+            buildConnectorStatusFromConnectorDetails(connector)
         )
     }
 
@@ -148,6 +149,7 @@ class ConnectorManagementApiService {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
         val connectors = connectorService.getConnectorsByHostMdsId(mdsId, environmentId)
+            .filter { it.mdsId != it.providerMdsId }
         val orgNames = organizationService.getAllOrganizationNames()
 
         val connectorDtos = connectors.map {
@@ -157,7 +159,7 @@ class ConnectorManagementApiService {
                 it.type.toDto(),
                 deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
                 it.name,
-                if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).toDto(),
+                buildConnectorStatusFromConnectorRecord(it),
                 it.frontendUrl
             )
         }
@@ -345,11 +347,28 @@ class ConnectorManagementApiService {
         dapsClient.configureMappers(clientId, connectorId, connector.certificate)
     }
 
-    private fun buildConnectorStatus(connector: ConnectorService.ConnectorDetailRs): ConnectorStatusDto {
-        return if (connector.type == ConnectorType.CAAS) {
+    private fun buildConnectorStatusFromConnectorDetails(connector: ConnectorService.ConnectorDetailRs) =
+        if (connector.type == ConnectorType.CAAS) {
             connector.caasStatus!!.toDto()
         } else {
-            connectorMetadataService.getConnectorStatus(connector.connectorId, connector.environment).toDto()
+            connectorMetadataService.getConnectorStatus(connector.connectorId, connector.environment).let { status ->
+                filterDeadConnectorStatus(status)
+            }.toDto()
         }
-    }
+
+    private fun buildConnectorStatusFromConnectorRecord(it: ConnectorRecord) =
+        if (it.type == ConnectorType.CAAS) {
+            it.caasStatus.toDto()
+        } else {
+            connectorMetadataService.getConnectorStatus(it.connectorId, it.environment).let { status ->
+                filterDeadConnectorStatus(status)
+            }.toDto()
+        }
+
+    private fun filterDeadConnectorStatus(status: ConnectorOnlineStatus) =
+        if (status == ConnectorOnlineStatus.DEAD) {
+            ConnectorOnlineStatus.OFFLINE
+        } else {
+            status
+        }
 }

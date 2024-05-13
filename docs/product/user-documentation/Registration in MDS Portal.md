@@ -1,53 +1,34 @@
 # Registration in the MDS Portal
 
-## User Registration
+## Organization Registration
 
-Registration to the MDS as a user can be done on two ways:
+If your organization is not yet registered in the MDS Portal, there are two possibilities to get started.
 
-- Self-registration 
-- By receiving an invitation
+### Invitation
+
+The first option is to receive an invitation from the Data Space Authority (MDS).
+This would be an email invitation to the organization representative, which will contain a link to the registration process.
 
 ### Self-registration
 
-Self-registration is only suitable for the first user of an organization within the MDS Portal. 
-Start the process in the MDS Portal.
-Click on “Register Organization” and follow the registration process.
-You will be asked to provide information about the user and the organization.
+The other option is to register your organization yourself.
+To do so, click on “Register Organization” in the MDS Portal and follow the registration process.
+During this process, you will be asked to provide information about the organization and the user who will be the organization representative.
 
-![self-registration](images/self-registration.png)
+![self-registration](images/registration-in-mds-portal/self-registration.png)
 
 After you finish entering your user and organization details, you will receive a verification email including the finalization of your account by setting up a two-factor authentication.
 
 Once received, click on the verification link in the email and wait for your organization to be approved or rejected by the Data Space Authority.
 
-### Invitation
+## User Registration
 
-Within the MDS Portal, the organization profile page provides an overview of your organization's information and by clicking on “User list”, it displays a list of all registered users in your organization.
-From there, you can invite new users to your organization.
+If your organization is already registered in the MDS Portal, you can register as a user by receiving an invitation from an organization Admin.
+Therefore, please ask one of your Admins to send you an invitation.
+The user invitation process is described at the [User Invitation section](Administration%20and%20Support.md#user-invitation) in "Administration & Support"
 
-![invite-user](images/invite-user.png)
+## The Portal
 
-To invite new users into your organization, you must have the role Admin!
-
-Click on "Invite new User" and specify the user's name, email and role.
-Click on "Send invitation" to add the user to the list of registered users.
-
-The invited user will receive an invitation email with a link.
-When clicking the link, the user will be asked to set a password for their account and to add a two-factor authentication.
-
-## Organization registration
-
-There are two ways to register in the MDS as an organization:
-
-- Self-registration (see User registration – Self-registration)
-- Invitations
-
-### Organization invitations
-
-Invitations for organizations can only be sent by the Data Space Authority (MDS). 
-The process is as follows:
-
-1. The Data Space Authority (MDS) sends an organization invitation to an organization representative. 
-2. The organization representative receives an e-mail with a link to the user registration process (see User Self-Registration).
-
-The organization representative invited by the MDS will automatically be accepted and assigned with an Admin role.
+After finishing the registration process, you will be able to log in to the MDS Portal.
+Depending on your role, you will have access to different sections and functionalities.
+In general this includes the management of your connectors, organization and users.

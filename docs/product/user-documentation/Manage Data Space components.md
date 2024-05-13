@@ -29,7 +29,7 @@ As a Service Partner Admin a user is able to access the "Provided Connectors" pa
 
 When clicking on the button "Provide Connector" in the upper right corner a mask to register a new connector opens.
 
-![connector-registration-mask](images/connector-registration-mask.png)
+![provide-connector](images/manage-dataspace-components/provide-connector.png)
 
 To provide a connector in the MDS Portal all fields of the mask must be submitted. The process is identical to the registration of connectors for users without any application role but registers the connector for another organization who is named in the slightly changed registration mask.
 After clicking on the register button the list of provided connectors appears, where the added connector can be found.
@@ -61,20 +61,20 @@ Currently, the Operator Admin role grants the following rights in addition to a 
 
 As an Operator Admin a user is able to access the "Central Components" page where all registered central components are displayed.
 
-![central-components](images/central-components-page.png)
+![central-components](images/manage-dataspace-components/central-components-list.png)
 
 #### 2. Register and delete central components
 
 When clicking on the button "Provide Central Component" in the upper right corner a mask to register a central component opens.
 
-![provide-central-component](images/provide-central-component-mask.png)
+![provide-central-component](images/manage-dataspace-components/provide-central-component.png)
 
 To register a central component in the MDS Portal all fields of the mask must be submitted. The process is identical to the registration of connectors but does not register the added central component at the MDS Broker.
 After clicking on the register button the list of central components appears, where the added central component can be found.
 
-#### 3. Assign Operator admin role to users within own organization
+#### 3. Assign Operator Admin role to users within own organization
 
-1. Click on "My Organization" in the side bar menu.
+1. Click on "My Organization" in the sidebar menu.
 2. Head to the "Users and Roles" page.
 3. Select a user's profile of the user that shall become an Operator Admin.
 4. Edit the application role and change it to Operator Admin.
