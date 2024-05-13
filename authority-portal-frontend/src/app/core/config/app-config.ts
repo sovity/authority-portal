@@ -30,6 +30,7 @@ export interface AppConfig {
   iframeUrl: string;
   privacyPolicyUrl: string;
   legalNoticeUrl: string;
+  supportUrl: string;
 }
 
 /**
@@ -47,6 +48,7 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: string;
   AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: string;
   AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: string;
+  AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: string;
 }
 
 /**
@@ -67,5 +69,6 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
     iframeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_IFRAME_URL,
     privacyPolicyUrl: envVars.AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL,
     legalNoticeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL,
+    supportUrl: envVars.AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL,
   };
 }

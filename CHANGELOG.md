@@ -21,10 +21,19 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed naming of EDC variable in instructions ([#195](https://github.com/sovity/authority-portal/issues/195))
 - Fixed error message for already existing CaaS subdomains ([#196](https://github.com/sovity/authority-portal/issues/196))
 - Removed possibility to provide a connector for oneself as a Service Partner ([#191](https://github.com/sovity/authority-portal/issues/191))
+- Added an environment variable to enable configuration of the support page URL. See deployment migration notes. ([#203](https://github.com/sovity/authority-portal/issues/203))
 
 ### Known issues
 
 ### Deployment Migration Notes
+
+- Portal Frontend
+  - Environment variables
+  ```yaml
+  # Added
+  # Variable to set the support page URL
+  AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu
+  ```
 
 #### Compatible Versions
 
