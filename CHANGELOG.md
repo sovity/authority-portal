@@ -25,7 +25,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
 - Broker Server: `{{ broker version }}`
 
-## [v.2.3.0] - 2024-05-13
+## [v2.3.0] - 2024-05-13
 
 ### Overview
 
