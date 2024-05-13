@@ -10,13 +10,14 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, distinctUntilChanged, takeUntil} from 'rxjs';
 import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SidebarSection} from './sidebar.model';
+import {APP_CONFIG, AppConfig} from "../../../../core/config/app-config";
 
 @Component({
   selector: 'app-sidebar',
@@ -27,7 +28,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
   sidebarSections: SidebarSection[] = [];
   private ngOnDestroy$ = new Subject();
 
-  constructor(private globalStateUtils: GlobalStateUtils) {}
+  constructor(
+    @Inject(APP_CONFIG) public config: AppConfig,
+    private globalStateUtils: GlobalStateUtils
+  ) {}
 
   ngOnInit() {
     this.startListeningToEnvironmentChanges();
@@ -166,7 +170,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           {
             title: 'MDS Support',
             icon: 'question-mark-circle',
-            rLink: 'https://mobility-dataspace.online/',
+            rLink: this.config.supportUrl,
             isExternalLink: true,
           },
         ],
