@@ -13,20 +13,118 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Changed connector status DEAD to OFFLINE in UI responses ([#184](https://github.com/sovity/authority-portal/issues/184))
+
 #### Patch
 
-- Fixed "Provided Connectors" view for Service Partners ([#172](https://github.com/sovity/authority-portal/issues/172))
-- Fixed red fields in organization create page ([#122](https://github.com/sovity/authority-portal/issues/122))
+- Fixed the connector status missing in the CSV reports ([#190](https://github.com/sovity/authority-portal/issues/189))
+- Fixed naming of EDC variable in instructions ([#195](https://github.com/sovity/authority-portal/issues/195))
+- Fixed error message for already existing CaaS subdomains ([#196](https://github.com/sovity/authority-portal/issues/196))
+- Removed possibility to provide a connector for oneself as a Service Partner ([#191](https://github.com/sovity/authority-portal/issues/191))
+- Added an environment variable to enable configuration of the support page URL. See deployment migration notes. ([#203](https://github.com/sovity/authority-portal/issues/203))
 
 ### Known issues
 
 ### Deployment Migration Notes
+
+- Added environment variables
+  - Portal Frontend
+    ```yaml
+    # Support page URL
+    AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu
+    ```
+  - Keycloak
+    ```yaml
+    # Privacy policy and legal notice URLs
+    KEYCLOAK_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal
+    KEYCLOAK_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice
+    ```
 
 #### Compatible Versions
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
 - Broker Server: `{{ broker version }}`
+
+## [v2.2.1] - 2024-04-11
+
+### Overview
+
+This release addresses several security issues and adds minor improvements to the Authority Portal.
+
+### Detailed Changes
+
+#### Patch
+
+- Fixed "Provided Connectors" view for Service Partners ([#172](https://github.com/sovity/authority-portal/issues/172))
+- Fixed red fields in organization create page ([#122](https://github.com/sovity/authority-portal/issues/122))
+- Fixed wrong path after onboarding ([#103](https://github.com/sovity/authority-portal/issues/103))
+- Fixed yellow inactive sidebar item ([#123](https://github.com/sovity/authority-portal/issues/123))
+- Fixed vulnerability from [CVE-2024-2700](https://github.com/advisories/GHSA-f8h5-v2vg-46rr)
+- Adjusted headers for improved security ([#176](https://github.com/sovity/authority-portal/issues/176))
+- Adjusted Keycloak SSL settings for improved security ([#183](https://github.com/sovity/authority-portal/issues/183))
+- Adjusted documentation ([#181](https://github.com/sovity/authority-portal/issues/181))
+
+### Known issues
+
+### Deployment Migration Notes
+
+- Keycloak
+  - Change SSL settings
+    - Realm settings > General > Require SSL: `All requests`
+- Caddy
+  - Headers to improve security are now set
+  - Modified Caddyfile:
+  ```
+  # UI Requests: Internet -> Caddy 8080 -> Frontend
+  # Backend Requests: Internet -> Caddy 8080 -> Auth Proxy -> Caddy 8081 -> Backend
+  
+  :8080 {
+    map {path} {target_host} {target_port} {
+      ~^/api/.*      {$AUTH_PROXY_UPSTREAM_HOST}   8080
+      ~^/oauth2/.*   {$AUTH_PROXY_UPSTREAM_HOST}   8080
+      default        {$FRONTEND_UPSTREAM_HOST}     8080
+    }
+  
+    reverse_proxy {target_host}:{target_port} {
+      header_down -Gap-Auth
+    }
+  
+    # Set security headers for UI responses
+    header {
+      X-Frame-Options "DENY"
+      +Content-Security-Policy "frame-ancestors 'none'"
+    }
+  
+    # Set security headers for API responses
+    header /api/* {
+      X-Content-Type-Options nosniff
+      +Content-Security-Policy "script-src 'none'"
+      +Cache-Control "no-store"
+    }
+
+    # Set Cache-Control for UI assets
+    header /assets/* {
+      +Cache-Control "public, max-age=2592000, immutable"
+    }
+  }
+  
+  # Caddy 8081 -> Backend
+  # We need this second block because the auth proxy
+  # does not pass the token on the right header due to
+  # kubernetes conventions.
+  :8081 {
+    reverse_proxy {$BACKEND_UPSTREAM_HOST}:8080 {
+      header_up Authorization "Bearer {header.X-Forwarded-Access-Token}"
+    }
+  }
+  ```
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.2.1`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.2.1`
+- Broker Server: [`4.1.1`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v4.1.1)
 
 ## [v2.2.0] - 20240-04-02
 

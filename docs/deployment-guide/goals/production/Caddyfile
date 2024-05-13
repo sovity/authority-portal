@@ -8,7 +8,27 @@
     default        {$FRONTEND_UPSTREAM_HOST}     8080
   }
 
-  reverse_proxy {target_host}:{target_port}
+  reverse_proxy {target_host}:{target_port} {
+    header_down -Gap-Auth
+  }
+
+  # Set security headers for UI responses
+  header {
+    X-Frame-Options "DENY"
+    +Content-Security-Policy "frame-ancestors 'none'"
+  }
+
+  # Set security headers for API responses
+  header /api/* {
+    X-Content-Type-Options nosniff
+    +Content-Security-Policy "script-src 'none'"
+    +Cache-Control "no-store"
+  }
+
+  # Set Cache-Control for UI assets
+  header /assets/* {
+    +Cache-Control "public, max-age=2592000, immutable"
+  }
 }
 
 # Caddy 8081 -> Backend
