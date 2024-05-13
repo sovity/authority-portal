@@ -66,6 +66,14 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 #### Keycloak IAM Deployment
 
+- The Keycloak needs to get the following env variables it uses in the container:
+
+```yaml
+  # Variables to set privacy policy and legal notice URLs on Keycloak pages
+  KEYCLOAK_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal
+  KEYCLOAK_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice
+```
+
 - Consider consulting Keycloak's [server administration guide](https://www.keycloak.org/docs/latest/server_admin/).
 - You need to have a running keycloak with the aforementioned compatible version.
 - The domain under which the Keycloak should be reachable on the internet will be referred to as `[KC_FQDN]` in this
