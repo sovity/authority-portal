@@ -34,6 +34,14 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   # Variable to set the support page URL
   AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu
   ```
+- Keycloak
+  - Environment variables
+  ```yaml
+  # Added
+  # Variables to set privacy policy and legal notice URLs on Keycloak pages
+  KEYCLOAK_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal
+  KEYCLOAK_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice
+  ```
 
 #### Compatible Versions
 
