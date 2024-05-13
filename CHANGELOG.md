@@ -13,6 +13,28 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+#### Patch
+
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Broker Server: `{{ broker version }}`
+
+## [v2.3.0] - 2024-05-13
+
+### Overview
+
+This release includes fixes for several minor issues and security vulnerabilities.
+
+### Detailed Changes
+
+#### Minor
+
 - Changed connector status DEAD to OFFLINE in UI responses ([#184](https://github.com/sovity/authority-portal/issues/184))
 
 #### Patch
@@ -24,6 +46,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added an environment variable to enable configuration of the support page URL. See deployment migration notes. ([#203](https://github.com/sovity/authority-portal/issues/203))
 
 ### Known issues
+
+- The provider shown in details of CaaS connectors is currently misformatted ([#206](https://github.com/sovity/authority-portal/issues/206))
 
 ### Deployment Migration Notes
 
@@ -42,9 +66,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Broker Server: `{{ broker version }}`
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.3.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.3.0`
+- Broker Server: [`4.2.0`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v4.2.0)
 
 ## [v2.2.1] - 2024-04-11
 

@@ -114,7 +114,7 @@
                     <div class="cardContainer">
                         <#nested "form">
                     </div>
-                    
+
                     <#if (auth.showUsername() || auth.showResetCredentials())>
                         <a id="reset-login" href="${url.loginRestartFlowUrl}" aria-label="${msg("restartLoginTooltip")}">
                             <div class="kc-login-tooltip">
@@ -122,7 +122,7 @@
                                 <span class="kc-tooltip-text">${msg("restartLoginTooltip")}</span>
                             </div>
                         </a>
-                    </#if> 
+                    </#if>
 
 
                     <#if auth?has_content && auth.showTryAnotherWayLink()>
@@ -139,8 +139,8 @@
                         <div id="kc-info-wrapper" class="${properties.kcInfoAreaWrapperClass!}">
                             © 2024 DRM Datenraum Mobilität GmbH<br>
                             <div class="legal-notices">
-                                <p><a href="https://mobility-dataspace.online/privacy-policy-mds-portal" target="_blank">Privacy Policy</a></p>
-                                <p><a href="https://mobility-dataspace.eu/legal-notice" target="_blank">Legal Notice</a></p>
+                                <p><a href=${properties.privacyPolicyUrl} target="_blank">Privacy Policy</a></p>
+                                <p><a href=${properties.legalNoticeUrl} target="_blank">Legal Notice</a></p>
                             </div>
                         </div>
                     </div>
