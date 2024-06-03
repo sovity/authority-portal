@@ -26,6 +26,9 @@ export function toDays(seconds: number): number {
 export function humanizeDuration(seconds: number): string {
   const days = toDays(seconds);
   if (days >= 1) {
+    if (days > 30) {
+      return '30+ days'
+    }
     return `${days.toFixed(0)} ${days === 1 ? 'day' : 'days'}`;
   }
 
