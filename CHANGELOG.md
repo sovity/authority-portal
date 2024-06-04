@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Component uptime now displays up to '30+ days' [#211](https://github.com/sovity/authority-portal/issues/211)
+
 ### Known issues
 
 ### Deployment Migration Notes
