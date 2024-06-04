@@ -31,12 +31,7 @@ export const buildOrganizationCreateForm = (
     ],
     website: [
       initialOrganization.website,
-      [
-        Validators.required,
-        Validators.maxLength(128),
-        notBlankValidator(),
-        urlValidator,
-      ],
+      [Validators.required, Validators.maxLength(128), urlValidator],
     ],
     businessUnit: [
       initialOrganization.businessUnit,
@@ -45,7 +40,7 @@ export const buildOrganizationCreateForm = (
     industry: [initialOrganization.industry, [Validators.required]],
     description: [
       initialOrganization.description,
-      [Validators.required, Validators.maxLength(4096)],
+      [Validators.required, Validators.maxLength(4096), notBlankValidator()],
     ],
     mainAddressStreet: [
       initialOrganization.mainAddressStreet,
@@ -61,12 +56,7 @@ export const buildOrganizationCreateForm = (
     ],
     mainAddressZipCode: [
       initialOrganization.mainAddressZipCode,
-      [
-        Validators.required,
-        Validators.maxLength(128),
-        notBlankValidator(),
-        zipCodeValidator,
-      ],
+      [Validators.required, Validators.maxLength(128), zipCodeValidator],
     ],
     mainAddressCountry: [
       initialOrganization.mainAddressCountry,
@@ -87,12 +77,7 @@ export const buildOrganizationCreateForm = (
     ],
     billingAddressZipCode: [
       initialOrganization.billingAddressZipCode,
-      [
-        Validators.required,
-        Validators.maxLength(128),
-        notBlankValidator(),
-        zipCodeValidator,
-      ],
+      [Validators.required, Validators.maxLength(128), zipCodeValidator],
     ],
     billingAddressCountry: [
       initialOrganization.billingAddressCountry,
@@ -122,16 +107,12 @@ export const buildOrganizationCreateForm = (
         phoneNumberValidator,
         Validators.minLength(5),
         Validators.maxLength(28),
+        notBlankValidator(),
       ],
     ],
     mainContactEmail: [
       initialOrganization.mainContactEmail,
-      [
-        Validators.required,
-        Validators.maxLength(128),
-        notBlankValidator(),
-        Validators.email,
-      ],
+      [Validators.required, Validators.maxLength(128), Validators.email],
     ],
     technicalContactSameAsMain: [true],
     technicalContactFirstName: [
@@ -149,16 +130,12 @@ export const buildOrganizationCreateForm = (
         phoneNumberValidator,
         Validators.minLength(5),
         Validators.maxLength(28),
+        notBlankValidator(),
       ],
     ],
     technicalContactEmail: [
       initialOrganization.technicalContactEmail,
-      [
-        Validators.required,
-        Validators.maxLength(128),
-        notBlankValidator(),
-        Validators.email,
-      ],
+      [Validators.required, Validators.maxLength(128), Validators.email],
     ],
   });
 };

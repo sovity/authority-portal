@@ -74,12 +74,7 @@ export class ParticipantInviteNewUserComponent {
       ],
       email: [
         initial.email,
-        [
-          Validators.required,
-          Validators.maxLength(128),
-          notBlankValidator(),
-          Validators.email,
-        ],
+        [Validators.required, Validators.maxLength(128), Validators.email],
       ],
       role: [
         initial.role,

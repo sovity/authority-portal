@@ -42,6 +42,7 @@ export const buildUserOnboardForm = (
         phoneNumberValidator,
         Validators.minLength(5),
         Validators.maxLength(28),
+        notBlankValidator(),
       ],
     ],
   });

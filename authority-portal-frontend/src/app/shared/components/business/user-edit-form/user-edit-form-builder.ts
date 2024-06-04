@@ -30,12 +30,7 @@ export const buildUserEditForm = (
     ],
     email: [
       initialUser.email,
-      [
-        Validators.required,
-        Validators.maxLength(128),
-        notBlankValidator(),
-        Validators.email,
-      ],
+      [Validators.required, Validators.maxLength(128), Validators.email],
     ],
     jobTitle: [
       initialUser.jobTitle,
@@ -48,6 +43,7 @@ export const buildUserEditForm = (
         phoneNumberValidator,
         Validators.minLength(5),
         Validators.maxLength(28),
+        notBlankValidator(),
       ],
     ],
   });

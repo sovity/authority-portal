@@ -45,16 +45,12 @@ export const buildUserCreateForm = (
           phoneNumberValidator,
           Validators.minLength(5),
           Validators.maxLength(28),
+          notBlankValidator(),
         ],
       ],
       email: [
         initialUser.email,
-        [
-          Validators.required,
-          Validators.maxLength(128),
-          notBlankValidator(),
-          Validators.email,
-        ],
+        [Validators.required, Validators.maxLength(128), Validators.email],
       ],
       password: [
         initialUser.password,

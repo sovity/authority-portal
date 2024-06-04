@@ -85,7 +85,7 @@ export class ProvideConnectorPageForm {
       ],
       organization: [
         initial.connectorTab.organization,
-        [Validators.required, Validators.maxLength(128), notBlankValidator()],
+        [Validators.required, Validators.maxLength(128)],
       ],
     });
 

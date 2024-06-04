@@ -37,12 +37,7 @@ export const buildCertificateInputForm = (
       ],
       email: [
         initial.email,
-        [
-          Validators.required,
-          Validators.email,
-          Validators.maxLength(128),
-          notBlankValidator(),
-        ],
+        [Validators.required, Validators.email, Validators.maxLength(128)],
       ],
       state: [
         initial.state,

@@ -26,12 +26,7 @@ export const buildOrganizationEditForm = (
   return formBuilder.nonNullable.group({
     website: [
       initialOrganization.website,
-      [
-        Validators.required,
-        Validators.maxLength(128),
-        notBlankValidator(),
-        urlValidator,
-      ],
+      [Validators.required, Validators.maxLength(128), urlValidator],
     ],
     businessUnit: [
       initialOrganization.businessUnit,
@@ -40,7 +35,7 @@ export const buildOrganizationEditForm = (
     industry: [initialOrganization.industry, [Validators.required]],
     description: [
       initialOrganization.description,
-      [Validators.required, Validators.maxLength(4096)],
+      [Validators.required, Validators.maxLength(4096), notBlankValidator()],
     ],
     mainAddress: [
       initialOrganization.mainAddress,
@@ -65,16 +60,12 @@ export const buildOrganizationEditForm = (
         phoneNumberValidator,
         Validators.minLength(5),
         Validators.maxLength(28),
+        notBlankValidator(),
       ],
     ],
     mainContactEmail: [
       initialOrganization.mainContactEmail,
-      [
-        Validators.required,
-        Validators.maxLength(128),
-        notBlankValidator(),
-        Validators.email,
-      ],
+      [Validators.required, Validators.maxLength(128), Validators.email],
     ],
     technicalContactSameAsMain: [
       initialOrganization.technicalContactSameAsMain,
@@ -91,16 +82,12 @@ export const buildOrganizationEditForm = (
         phoneNumberValidator,
         Validators.minLength(5),
         Validators.maxLength(28),
+        notBlankValidator(),
       ],
     ],
     technicalContactEmail: [
       initialOrganization.technicalContactEmail,
-      [
-        Validators.required,
-        Validators.maxLength(128),
-        notBlankValidator(),
-        Validators.email,
-      ],
+      [Validators.required, Validators.maxLength(128), Validators.email],
     ],
   });
 };
