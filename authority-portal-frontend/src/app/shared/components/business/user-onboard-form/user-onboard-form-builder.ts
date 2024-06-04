@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {phoneNumberValidator} from '../../../../core/utils/validators/phone-number-validator';
 import {
   UserOnboardFormModel,
@@ -24,15 +25,15 @@ export const buildUserOnboardForm = (
   return formBuilder.nonNullable.group({
     firstName: [
       initialUser.firstName,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     lastName: [
       initialUser.lastName,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     jobTitle: [
       initialUser.jobTitle,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     phoneNumber: [
       initialUser.phoneNumber,

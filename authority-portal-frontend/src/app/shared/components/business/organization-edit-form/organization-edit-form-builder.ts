@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {phoneNumberValidator} from '../../../../core/utils/validators/phone-number-validator';
 import {urlValidator} from '../../../../core/utils/validators/url-validator';
 import {
@@ -25,11 +26,16 @@ export const buildOrganizationEditForm = (
   return formBuilder.nonNullable.group({
     website: [
       initialOrganization.website,
-      [Validators.required, Validators.maxLength(128), urlValidator],
+      [
+        Validators.required,
+        Validators.maxLength(128),
+        notBlankValidator(),
+        urlValidator,
+      ],
     ],
     businessUnit: [
       initialOrganization.businessUnit,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     industry: [initialOrganization.industry, [Validators.required]],
     description: [
@@ -38,7 +44,7 @@ export const buildOrganizationEditForm = (
     ],
     mainAddress: [
       initialOrganization.mainAddress,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     billingAddressSameAsMain: [
       initialOrganization.billingAddressSameAsMain,
@@ -46,11 +52,11 @@ export const buildOrganizationEditForm = (
     ],
     billingAddress: [
       initialOrganization.billingAddress,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     mainContactName: [
       initialOrganization.mainContactName,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     mainContactPhoneNumber: [
       initialOrganization.mainContactPhoneNumber,
@@ -63,7 +69,12 @@ export const buildOrganizationEditForm = (
     ],
     mainContactEmail: [
       initialOrganization.mainContactEmail,
-      [Validators.required, Validators.maxLength(128), Validators.email],
+      [
+        Validators.required,
+        Validators.maxLength(128),
+        notBlankValidator(),
+        Validators.email,
+      ],
     ],
     technicalContactSameAsMain: [
       initialOrganization.technicalContactSameAsMain,
@@ -71,7 +82,7 @@ export const buildOrganizationEditForm = (
     ],
     technicalContactName: [
       initialOrganization.technicalContactName,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     technicalContactPhoneNumber: [
       initialOrganization.technicalContactPhoneNumber,
@@ -84,7 +95,12 @@ export const buildOrganizationEditForm = (
     ],
     technicalContactEmail: [
       initialOrganization.technicalContactEmail,
-      [Validators.required, Validators.maxLength(128), Validators.email],
+      [
+        Validators.required,
+        Validators.maxLength(128),
+        notBlankValidator(),
+        Validators.email,
+      ],
     ],
   });
 };

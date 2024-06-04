@@ -16,6 +16,7 @@ import {MatDialogRef} from '@angular/material/dialog';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {InviteOrganizationRequest} from '@sovity.de/authority-portal-client';
+import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {phoneNumberValidator} from 'src/app/core/utils/validators/phone-number-validator';
 import {InviteNewOrganization} from '../state/authority-invite-new-organization-page-actions';
 import {
@@ -62,19 +63,24 @@ export class AuthorityInviteNewOrganizationComponent {
     return this.formBuilder.nonNullable.group({
       userFirstName: [
         initial.userFirstName,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
       userLastName: [
         initial.userLastName,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
       userEmail: [
         initial.userEmail,
-        [Validators.required, Validators.maxLength(128), Validators.email],
+        [
+          Validators.required,
+          Validators.maxLength(128),
+          notBlankValidator(),
+          Validators.email,
+        ],
       ],
       orgName: [
         initial.orgName,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
       userJobTitle: [initial.userJobTitle],
       userPhoneNumber: [
