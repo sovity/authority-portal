@@ -12,6 +12,7 @@
  */
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {subdomainValidators} from 'src/app/core/utils/validators/subdomain-validator';
 import {
   DEFAULT_REQUEST_CONNECTOR_PAGE_FORM_VALUE,
@@ -31,7 +32,7 @@ export class RequestConnectorPageForm {
     return this.formBuilder.nonNullable.group({
       connectorTitle: [
         initial.connectorTitle,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
       connectorSubdomain: [
         initial.connectorSubdomain,
@@ -43,7 +44,7 @@ export class RequestConnectorPageForm {
       ],
       connectorDescription: [
         initial.connectorDescription,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
     });
   }

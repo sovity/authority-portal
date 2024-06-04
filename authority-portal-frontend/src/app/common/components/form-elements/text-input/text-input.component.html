@@ -49,4 +49,10 @@
     class="text-xs">
     Invalid phone number. Only digits, whitespaces and '+' allowed</mat-error
   >
+
+  <mat-error
+    *ngIf="ctrl.touched && ctrl.hasError('trimmedBlank')"
+    class="text-xs">
+    The field cannot be blank.
+  </mat-error>
 </mat-form-field>
