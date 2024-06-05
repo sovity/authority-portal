@@ -242,6 +242,14 @@ textarea {
   max-width: fit-content !important;
 }
 
+.mat-mdc-form-field-error {
+  display: none !important;
+}
+
+.mat-mdc-form-field-error:first-child {
+  display: block !important;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
