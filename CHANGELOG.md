@@ -15,7 +15,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
-- Fix not handling whitespaces as text fields input [#193](https://github.com/sovity/authority-portal/issues/193)
+- Input fields containing only whitespaces are now properly validated and an appropriate error message is shown [#193](https://github.com/sovity/authority-portal/issues/193)
 - Component uptime now displays up to '30+ days' [#211](https://github.com/sovity/authority-portal/issues/211)
 
 ### Known issues
