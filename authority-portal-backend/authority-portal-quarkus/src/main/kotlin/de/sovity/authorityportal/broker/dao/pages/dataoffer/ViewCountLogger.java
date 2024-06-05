@@ -14,7 +14,7 @@
 
 package de.sovity.authorityportal.broker.dao.pages.dataoffer;
 
-import de.sovity.edc.ext.brokerserver.db.jooq.Tables;
+import de.sovity.authorityportal.broker.db.jooq.Tables;
 import org.jooq.DSLContext;
 
 import java.time.OffsetDateTime;

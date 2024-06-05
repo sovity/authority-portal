@@ -14,7 +14,7 @@
 
 package de.sovity.authorityportal.broker.client.client;
 
-import de.sovity.edc.ext.brokerserver.client.gen.api.BrokerServerApi;
+import de.sovity.authorityportal.broker.client.gen.api.BrokerServerApi;
 import lombok.Value;
 import lombok.experimental.Accessors;
 

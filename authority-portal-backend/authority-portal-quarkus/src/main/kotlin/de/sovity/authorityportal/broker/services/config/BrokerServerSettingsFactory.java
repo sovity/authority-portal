@@ -14,7 +14,7 @@
 
 package de.sovity.authorityportal.broker.services.config;
 
-import de.sovity.edc.ext.brokerserver.BrokerServerExtension;
+import de.sovity.authorityportal.broker.BrokerServerExtension;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

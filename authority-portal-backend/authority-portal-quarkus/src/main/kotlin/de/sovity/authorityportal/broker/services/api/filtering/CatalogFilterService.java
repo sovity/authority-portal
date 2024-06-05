@@ -14,16 +14,16 @@
 
 package de.sovity.authorityportal.broker.services.api.filtering;
 
-import de.sovity.edc.ext.brokerserver.api.model.CnfFilter;
-import de.sovity.edc.ext.brokerserver.api.model.CnfFilterAttribute;
-import de.sovity.edc.ext.brokerserver.api.model.CnfFilterItem;
-import de.sovity.edc.ext.brokerserver.api.model.CnfFilterValue;
-import de.sovity.edc.ext.brokerserver.api.model.CnfFilterValueAttribute;
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.CatalogQueryFields;
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.models.CatalogQueryFilter;
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.models.CatalogQuerySelectedFilterQuery;
-import de.sovity.edc.ext.brokerserver.dao.utils.JsonDeserializationUtils;
-import de.sovity.edc.ext.brokerserver.utils.CollectionUtils2;
+import de.sovity.authorityportal.broker.api.model.CnfFilter;
+import de.sovity.authorityportal.broker.api.model.CnfFilterAttribute;
+import de.sovity.authorityportal.broker.api.model.CnfFilterItem;
+import de.sovity.authorityportal.broker.api.model.CnfFilterValue;
+import de.sovity.authorityportal.broker.api.model.CnfFilterValueAttribute;
+import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
+import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter;
+import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQuerySelectedFilterQuery;
+import de.sovity.authorityportal.broker.dao.utils.JsonDeserializationUtils;
+import de.sovity.authorityportal.broker.utils.CollectionUtils2;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.Validate;
 import org.jooq.impl.DSL;

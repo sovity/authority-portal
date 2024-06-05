@@ -14,10 +14,10 @@
 
 package de.sovity.authorityportal.broker.services.schedules;
 
-import de.sovity.edc.ext.brokerserver.db.DslContextFactory;
-import de.sovity.edc.ext.brokerserver.db.jooq.enums.ConnectorOnlineStatus;
-import de.sovity.edc.ext.brokerserver.services.queue.ConnectorQueueFiller;
-import de.sovity.edc.ext.brokerserver.services.queue.ConnectorRefreshPriority;
+import de.sovity.authorityportal.broker.db.DslContextFactory;
+import de.sovity.authorityportal.broker.db.jooq.enums.ConnectorOnlineStatus;
+import de.sovity.authorityportal.broker.services.queue.ConnectorQueueFiller;
+import de.sovity.authorityportal.broker.services.queue.ConnectorRefreshPriority;
 import lombok.RequiredArgsConstructor;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

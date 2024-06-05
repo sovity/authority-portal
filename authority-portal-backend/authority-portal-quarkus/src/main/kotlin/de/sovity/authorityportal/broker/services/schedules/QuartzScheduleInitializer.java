@@ -14,8 +14,8 @@
 
 package de.sovity.authorityportal.broker.services.schedules;
 
-import de.sovity.edc.ext.brokerserver.services.schedules.utils.CronJobRef;
-import de.sovity.edc.ext.brokerserver.services.schedules.utils.JobFactoryImpl;
+import de.sovity.authorityportal.broker.services.schedules.utils.CronJobRef;
+import de.sovity.authorityportal.broker.services.schedules.utils.JobFactoryImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;

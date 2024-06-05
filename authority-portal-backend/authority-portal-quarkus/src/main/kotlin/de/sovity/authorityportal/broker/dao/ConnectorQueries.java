@@ -14,10 +14,10 @@
 
 package de.sovity.authorityportal.broker.dao;
 
-import de.sovity.edc.ext.brokerserver.dao.utils.PostgresqlUtils;
-import de.sovity.edc.ext.brokerserver.db.jooq.Tables;
-import de.sovity.edc.ext.brokerserver.db.jooq.enums.ConnectorOnlineStatus;
-import de.sovity.edc.ext.brokerserver.db.jooq.tables.records.ConnectorRecord;
+import de.sovity.authorityportal.broker.dao.utils.PostgresqlUtils;
+import de.sovity.authorityportal.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
+import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord;
 import org.jooq.DSLContext;
 
 import java.time.Duration;
@@ -30,25 +30,25 @@ public class ConnectorQueries {
 
     public ConnectorRecord findByEndpoint(DSLContext dsl, String endpoint) {
         var c = Tables.CONNECTOR;
-        return dsl.selectFrom(c).where(c.ENDPOINT.eq(endpoint)).fetchOne();
+        return dsl.selectFrom(c).where(c.ENDPOINT_URL.eq(endpoint)).fetchOne();
     }
 
     public Set<String> findConnectorsForScheduledRefresh(DSLContext dsl, ConnectorOnlineStatus onlineStatus) {
         var c = Tables.CONNECTOR;
-        return dsl.select(c.ENDPOINT).from(c).where(c.ONLINE_STATUS.eq(onlineStatus)).fetchSet(c.ENDPOINT);
+        return dsl.select(c.ENDPOINT_URL).from(c).where(c.ONLINE_STATUS.eq(onlineStatus)).fetchSet(c.ENDPOINT_URL);
     }
 
     public Set<String> findExistingConnectors(DSLContext dsl, Collection<String> connectorEndpoints) {
         var c = Tables.CONNECTOR;
-        return dsl.select(c.ENDPOINT).from(c)
-                .where(PostgresqlUtils.in(c.ENDPOINT, connectorEndpoints))
-                .fetchSet(c.ENDPOINT);
+        return dsl.select(c.ENDPOINT_URL).from(c)
+                .where(PostgresqlUtils.in(c.ENDPOINT_URL, connectorEndpoints))
+                .fetchSet(c.ENDPOINT_URL);
     }
 
     public List<String> findAllConnectorsForKilling(DSLContext dsl, Duration deleteOfflineConnectorsAfter) {
         var c = Tables.CONNECTOR;
-        return dsl.select(c.ENDPOINT).from(c)
+        return dsl.select(c.ENDPOINT_URL).from(c)
                 .where(c.LAST_SUCCESSFUL_REFRESH_AT.lt(OffsetDateTime.now().minus(deleteOfflineConnectorsAfter)))
-                .fetch(c.ENDPOINT);
+                .fetch(c.ENDPOINT_URL);
     }
 }

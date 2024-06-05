@@ -14,13 +14,13 @@
 
 package de.sovity.authorityportal.broker.dao.pages.connector;
 
-import de.sovity.edc.ext.brokerserver.api.model.ConnectorPageSortingType;
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.CatalogQueryFields;
-import de.sovity.edc.ext.brokerserver.dao.pages.connector.model.ConnectorListEntryRs;
-import de.sovity.edc.ext.brokerserver.dao.utils.SearchUtils;
-import de.sovity.edc.ext.brokerserver.db.jooq.Tables;
-import de.sovity.edc.ext.brokerserver.db.jooq.enums.ConnectorOnlineStatus;
-import de.sovity.edc.ext.brokerserver.db.jooq.tables.Connector;
+import de.sovity.authorityportal.broker.api.model.ConnectorPageSortingType;
+import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
+import de.sovity.authorityportal.broker.dao.pages.connector.model.ConnectorListEntryRs;
+import de.sovity.authorityportal.broker.dao.utils.SearchUtils;
+import de.sovity.authorityportal.broker.db.jooq.Tables;
+import de.sovity.authorityportal.broker.db.jooq.enums.ConnectorOnlineStatus;
+import de.sovity.authorityportal.broker.db.jooq.tables.Connector;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;

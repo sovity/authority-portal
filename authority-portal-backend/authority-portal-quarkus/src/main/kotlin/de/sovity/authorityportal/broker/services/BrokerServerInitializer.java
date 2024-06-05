@@ -14,8 +14,8 @@
 
 package de.sovity.authorityportal.broker.services;
 
-import de.sovity.edc.ext.brokerserver.db.DslContextFactory;
-import de.sovity.edc.ext.brokerserver.services.schedules.QuartzScheduleInitializer;
+import de.sovity.authorityportal.broker.db.DslContextFactory;
+import de.sovity.authorityportal.broker.services.schedules.QuartzScheduleInitializer;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

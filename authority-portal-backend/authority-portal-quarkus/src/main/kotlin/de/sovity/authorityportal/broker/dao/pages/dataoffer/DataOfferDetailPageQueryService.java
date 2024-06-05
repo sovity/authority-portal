@@ -14,11 +14,11 @@
 
 package de.sovity.authorityportal.broker.dao.pages.dataoffer;
 
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.CatalogQueryContractOfferFetcher;
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.CatalogQueryFields;
-import de.sovity.edc.ext.brokerserver.dao.pages.dataoffer.model.DataOfferDetailRs;
-import de.sovity.edc.ext.brokerserver.db.jooq.Tables;
-import de.sovity.edc.ext.brokerserver.services.config.BrokerServerSettings;
+import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryContractOfferFetcher;
+import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
+import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.DataOfferDetailRs;
+import de.sovity.authorityportal.broker.db.jooq.Tables;
+import de.sovity.authorityportal.broker.services.config.BrokerServerSettings;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 

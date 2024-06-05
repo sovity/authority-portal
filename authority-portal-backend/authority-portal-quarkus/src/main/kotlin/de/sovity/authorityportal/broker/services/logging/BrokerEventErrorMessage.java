@@ -14,13 +14,13 @@
 
 package de.sovity.authorityportal.broker.services.logging;
 
-import de.sovity.edc.ext.brokerserver.utils.StringUtils2;
+import de.sovity.authorityportal.broker.utils.StringUtils2;
 import lombok.NonNull;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  * Helper Dto that contains User Message + Error Stack Trace to be written into
- * {@link de.sovity.edc.ext.brokerserver.db.jooq.tables.BrokerEventLog}.
+ * {@link de.sovity.authorityportal.broker.db.jooq.tables.BrokerEventLog}.
  * <br>
  * This class exists so that logging exceptions has a consistent format.
  *

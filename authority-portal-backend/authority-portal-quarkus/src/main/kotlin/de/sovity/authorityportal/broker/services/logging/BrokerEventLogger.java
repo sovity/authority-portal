@@ -14,9 +14,9 @@
 
 package de.sovity.authorityportal.broker.services.logging;
 
-import de.sovity.edc.ext.brokerserver.db.jooq.Tables;
-import de.sovity.edc.ext.brokerserver.db.jooq.enums.BrokerEventStatus;
-import de.sovity.edc.ext.brokerserver.db.jooq.enums.BrokerEventType;
+import de.sovity.authorityportal.broker.db.jooq.Tables;
+import de.sovity.authorityportal.broker.db.jooq.enums.BrokerEventStatus;
+import de.sovity.authorityportal.broker.db.jooq.enums.BrokerEventType;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 

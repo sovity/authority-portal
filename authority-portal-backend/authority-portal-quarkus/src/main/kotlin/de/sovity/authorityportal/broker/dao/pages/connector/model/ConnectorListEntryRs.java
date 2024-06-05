@@ -14,7 +14,7 @@
 
 package de.sovity.authorityportal.broker.dao.pages.connector.model;
 
-import de.sovity.edc.ext.brokerserver.db.jooq.enums.ConnectorOnlineStatus;
+import de.sovity.authorityportal.broker.db.jooq.enums.ConnectorOnlineStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

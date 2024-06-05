@@ -14,7 +14,7 @@
 
 package de.sovity.authorityportal.broker.dao.utils;
 
-import de.sovity.edc.ext.brokerserver.utils.StringUtils2;
+import de.sovity.authorityportal.broker.utils.StringUtils2;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jooq.Condition;

@@ -14,8 +14,8 @@
 
 package de.sovity.authorityportal.broker.services.schedules;
 
-import de.sovity.edc.ext.brokerserver.db.DslContextFactory;
-import de.sovity.edc.ext.brokerserver.services.OfflineConnectorKiller;
+import de.sovity.authorityportal.broker.db.DslContextFactory;
+import de.sovity.authorityportal.broker.services.OfflineConnectorKiller;
 import lombok.RequiredArgsConstructor;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

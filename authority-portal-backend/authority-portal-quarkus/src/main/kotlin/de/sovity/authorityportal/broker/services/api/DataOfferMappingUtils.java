@@ -14,10 +14,6 @@
 
 package de.sovity.authorityportal.broker.services.api;
 
-import de.sovity.edc.ext.wrapper.api.common.mappers.AssetMapper;
-import de.sovity.edc.ext.wrapper.api.common.mappers.PolicyMapper;
-import de.sovity.edc.ext.wrapper.api.common.model.UiAsset;
-import de.sovity.edc.ext.wrapper.api.common.model.UiPolicy;
 import de.sovity.edc.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 

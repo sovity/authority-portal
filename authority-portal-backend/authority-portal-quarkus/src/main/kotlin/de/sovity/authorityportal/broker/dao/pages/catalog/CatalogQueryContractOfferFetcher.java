@@ -14,10 +14,10 @@
 
 package de.sovity.authorityportal.broker.dao.pages.catalog;
 
-import de.sovity.edc.ext.brokerserver.dao.pages.dataoffer.model.ContractOfferRs;
-import de.sovity.edc.ext.brokerserver.dao.utils.MultisetUtils;
-import de.sovity.edc.ext.brokerserver.db.jooq.Tables;
-import de.sovity.edc.ext.brokerserver.db.jooq.tables.DataOffer;
+import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs;
+import de.sovity.authorityportal.broker.dao.utils.MultisetUtils;
+import de.sovity.authorityportal.broker.db.jooq.Tables;
+import de.sovity.authorityportal.broker.db.jooq.tables.DataOffer;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Field;
 import org.jooq.impl.DSL;

@@ -14,11 +14,11 @@
 
 package de.sovity.authorityportal.broker.dao.pages.connector;
 
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.CatalogQueryFields;
-import de.sovity.edc.ext.brokerserver.dao.pages.connector.model.ConnectorDetailsRs;
-import de.sovity.edc.ext.brokerserver.db.jooq.Tables;
-import de.sovity.edc.ext.brokerserver.db.jooq.enums.MeasurementErrorStatus;
-import de.sovity.edc.ext.brokerserver.db.jooq.tables.Connector;
+import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
+import de.sovity.authorityportal.broker.dao.pages.connector.model.ConnectorDetailsRs;
+import de.sovity.authorityportal.broker.db.jooq.Tables;
+import de.sovity.authorityportal.broker.db.jooq.enums.MeasurementErrorStatus;
+import de.sovity.authorityportal.broker.db.jooq.tables.Connector;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
 import org.jooq.Field;

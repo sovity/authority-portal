@@ -14,13 +14,13 @@
 
 package de.sovity.authorityportal.broker.services.api;
 
-import de.sovity.edc.ext.brokerserver.api.model.ConnectorOnlineStatus;
+import de.sovity.authorityportal.broker.api.model.ConnectorOnlineStatus;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class ConnectorOnlineStatusMapper {
 
-    public ConnectorOnlineStatus getOnlineStatus(de.sovity.edc.ext.brokerserver.db.jooq.enums.ConnectorOnlineStatus onlineStatus) {
+    public ConnectorOnlineStatus getOnlineStatus(de.sovity.authorityportal.broker.db.jooq.enums.ConnectorOnlineStatus onlineStatus) {
         return switch (onlineStatus) {
             case ONLINE -> ConnectorOnlineStatus.ONLINE;
             case OFFLINE -> ConnectorOnlineStatus.OFFLINE;

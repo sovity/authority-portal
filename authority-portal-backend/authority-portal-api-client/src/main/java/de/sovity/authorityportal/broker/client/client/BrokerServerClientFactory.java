@@ -14,8 +14,8 @@
 
 package de.sovity.authorityportal.broker.client.client;
 
-import de.sovity.edc.ext.brokerserver.client.gen.ApiClient;
-import de.sovity.edc.ext.brokerserver.client.gen.api.BrokerServerApi;
+import de.sovity.authorityportal.broker.client.gen.ApiClient;
+import de.sovity.authorityportal.broker.client.gen.api.BrokerServerApi;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

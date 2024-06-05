@@ -14,8 +14,8 @@
 
 package de.sovity.authorityportal.broker.services.api;
 
-import de.sovity.edc.ext.brokerserver.api.model.AuthorityPortalConnectorDataOfferDetails;
-import de.sovity.edc.ext.brokerserver.api.model.AuthorityPortalConnectorDataOfferInfo;
+import de.sovity.authorityportal.broker.api.model.AuthorityPortalConnectorDataOfferDetails;
+import de.sovity.authorityportal.broker.api.model.AuthorityPortalConnectorDataOfferInfo;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 

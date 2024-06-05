@@ -20,6 +20,7 @@ import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageResult;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.DataOfferDetailPageQueryService;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.ViewCountLogger;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
@@ -27,6 +28,7 @@ import org.jooq.DSLContext;
 import java.util.List;
 import java.util.Objects;
 
+@ApplicationScoped
 @RequiredArgsConstructor
 public class DataOfferDetailApiService {
     private final DataOfferDetailPageQueryService dataOfferDetailPageQueryService;
@@ -59,7 +61,7 @@ public class DataOfferDetailApiService {
     }
 
     private ConnectorOnlineStatus mapConnectorOnlineStatus(
-            de.sovity.edc.ext.brokerserver.db.jooq.enums.ConnectorOnlineStatus connectorOnlineStatus
+            de.sovity.authorityportal.broker.db.jooq.enums.ConnectorOnlineStatus connectorOnlineStatus
     ) {
         if (connectorOnlineStatus == null) {
             return ConnectorOnlineStatus.OFFLINE;

@@ -14,8 +14,8 @@
 
 package de.sovity.authorityportal.broker.services.api.filtering;
 
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.CatalogQueryFields;
-import de.sovity.edc.ext.brokerserver.dao.utils.PostgresqlUtils;
+import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
+import de.sovity.authorityportal.broker.dao.utils.PostgresqlUtils;
 import org.jooq.Field;
 
 import java.util.function.Function;

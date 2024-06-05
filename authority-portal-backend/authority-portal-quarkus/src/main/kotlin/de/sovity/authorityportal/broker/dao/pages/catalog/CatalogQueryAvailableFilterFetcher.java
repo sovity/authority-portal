@@ -14,8 +14,8 @@
 
 package de.sovity.authorityportal.broker.dao.pages.catalog;
 
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.models.CatalogQueryFilter;
-import de.sovity.edc.ext.brokerserver.utils.CollectionUtils2;
+import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter;
+import de.sovity.authorityportal.broker.utils.CollectionUtils2;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Field;
 import org.jooq.JSON;

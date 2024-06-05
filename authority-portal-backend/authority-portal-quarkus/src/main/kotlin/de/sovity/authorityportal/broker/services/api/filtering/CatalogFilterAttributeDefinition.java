@@ -14,7 +14,7 @@
 
 package de.sovity.authorityportal.broker.services.api.filtering;
 
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.models.AvailableFilterValuesQuery;
+import de.sovity.authorityportal.broker.dao.pages.catalog.models.AvailableFilterValuesQuery;
 
 /**
  * Implementation of a filter attribute definition for the catalog.

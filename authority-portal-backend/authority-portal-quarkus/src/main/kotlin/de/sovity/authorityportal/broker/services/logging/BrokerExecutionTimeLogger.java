@@ -14,9 +14,9 @@
 
 package de.sovity.authorityportal.broker.services.logging;
 
-import de.sovity.edc.ext.brokerserver.db.jooq.Tables;
-import de.sovity.edc.ext.brokerserver.db.jooq.enums.MeasurementErrorStatus;
-import de.sovity.edc.ext.brokerserver.db.jooq.enums.MeasurementType;
+import de.sovity.authorityportal.broker.db.jooq.Tables;
+import de.sovity.authorityportal.broker.db.jooq.enums.MeasurementErrorStatus;
+import de.sovity.authorityportal.broker.db.jooq.enums.MeasurementType;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 

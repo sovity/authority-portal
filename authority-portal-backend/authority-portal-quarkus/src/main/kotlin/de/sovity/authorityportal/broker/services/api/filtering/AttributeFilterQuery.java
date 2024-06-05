@@ -14,7 +14,7 @@
 
 package de.sovity.authorityportal.broker.services.api.filtering;
 
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.CatalogQueryFields;
+import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
 import org.jooq.Condition;
 
 import java.util.Collection;

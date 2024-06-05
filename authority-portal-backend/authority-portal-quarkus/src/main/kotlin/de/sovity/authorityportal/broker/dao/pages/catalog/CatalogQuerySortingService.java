@@ -14,7 +14,7 @@
 
 package de.sovity.authorityportal.broker.dao.pages.catalog;
 
-import de.sovity.edc.ext.brokerserver.api.model.CatalogPageSortingType;
+import de.sovity.authorityportal.broker.api.model.CatalogPageSortingType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

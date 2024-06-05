@@ -14,8 +14,8 @@
 
 package de.sovity.authorityportal.broker.services.api.filtering;
 
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.CatalogQueryFields;
-import de.sovity.edc.ext.brokerserver.dao.utils.SearchUtils;
+import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
+import de.sovity.authorityportal.broker.dao.utils.SearchUtils;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Condition;
 
