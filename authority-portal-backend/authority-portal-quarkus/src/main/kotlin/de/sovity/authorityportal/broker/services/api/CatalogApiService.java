@@ -14,26 +14,26 @@
 
 package de.sovity.authorityportal.broker.services.api;
 
-import de.sovity.edc.ext.brokerserver.api.model.CatalogContractOffer;
-import de.sovity.edc.ext.brokerserver.api.model.CatalogDataOffer;
-import de.sovity.edc.ext.brokerserver.api.model.CatalogPageQuery;
-import de.sovity.edc.ext.brokerserver.api.model.CatalogPageResult;
-import de.sovity.edc.ext.brokerserver.api.model.CatalogPageSortingItem;
-import de.sovity.edc.ext.brokerserver.api.model.CatalogPageSortingType;
-import de.sovity.edc.ext.brokerserver.api.model.ConnectorOnlineStatus;
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.CatalogQueryService;
-import de.sovity.edc.ext.brokerserver.dao.pages.catalog.models.DataOfferListEntryRs;
-import de.sovity.edc.ext.brokerserver.dao.pages.dataoffer.model.ContractOfferRs;
-import de.sovity.edc.ext.brokerserver.services.api.filtering.CatalogFilterService;
-import de.sovity.edc.ext.brokerserver.services.config.BrokerServerSettings;
-import lombok.RequiredArgsConstructor;
+import de.sovity.authorityportal.broker.api.model.CatalogContractOffer;
+import de.sovity.authorityportal.broker.api.model.CatalogDataOffer;
+import de.sovity.authorityportal.broker.api.model.CatalogPageQuery;
+import de.sovity.authorityportal.broker.api.model.CatalogPageResult;
+import de.sovity.authorityportal.broker.api.model.CatalogPageSortingItem;
+import de.sovity.authorityportal.broker.api.model.CatalogPageSortingType;
+import de.sovity.authorityportal.broker.api.model.ConnectorOnlineStatus;
+import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryService;
+import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs;
+import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs;
+import de.sovity.authorityportal.broker.services.api.filtering.CatalogFilterService;
+import de.sovity.authorityportal.broker.services.config.BrokerServerSettings;
+import jakarta.enterprise.context.ApplicationScoped;
 import org.jooq.DSLContext;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class CatalogApiService {
     private final PaginationMetadataUtils paginationMetadataUtils;
     private final CatalogQueryService catalogQueryService;
