@@ -235,6 +235,7 @@ jobs:
           npm publish --access public --tag "${{ env.DIST_TAG }}"
         env:
           NODE_USER: richardtreier-sovity
+<<<<<<< HEAD
           NODE_AUTH_TOKEN: ${{ secrets.SOVITY_BROKER_SERVER_CLIENT_NPM_AUTH }}
   markdown-link-checks:
     name: Markdown Link Checks
@@ -251,3 +252,6 @@ jobs:
           config-file: '.github/markdown-link-checker-config.json'
 =======
 >>>>>>> refs/rewritten/main
+=======
+          NODE_AUTH_TOKEN: ${{ secrets.SOVITY_BROKER_CLIENT_NPM_AUTH }}
+>>>>>>> a68f9ccb (chore: fix the Broker's NPM publishing (#961))
