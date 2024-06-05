@@ -40,6 +40,12 @@
     https://www.example.com</mat-error
   >
 
+  <mat-error
+    *ngIf="ctrl.touched && ctrl.hasError('connector-url')"
+    class="text-xs">
+    Invalid URL format. Please use the following format: https://www.example.com
+  </mat-error>
+
   <mat-error *ngIf="ctrl.touched && ctrl.hasError('zipCode')" class="text-xs">
     Invalid Zip Code. Please use 5 or more letters, numbers and '-'.</mat-error
   >
@@ -49,4 +55,10 @@
     class="text-xs">
     Invalid phone number. Only digits, whitespaces and '+' allowed</mat-error
   >
+
+  <mat-error
+    *ngIf="ctrl.touched && ctrl.hasError('trimmedBlank')"
+    class="text-xs">
+    The field cannot be blank.
+  </mat-error>
 </mat-form-field>

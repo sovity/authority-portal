@@ -12,6 +12,7 @@
  */
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {buildCertificateInputForm} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-builder';
 import {certificateInputFormEnabledCtrls} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-enabled-ctrls';
 import {switchDisabledControls} from '../../../../core/utils/form-utils';
@@ -49,23 +50,38 @@ export class RegisterConnectorPageForm {
     const connectorTab = this.formBuilder.nonNullable.group({
       name: [
         initial.connectorTab.name,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
       location: [
         initial.connectorTab.location,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
       frontendUrl: [
         initial.connectorTab.frontendUrl,
-        [Validators.required, Validators.maxLength(128), connectorUrlValidator],
+        [
+          Validators.required,
+          Validators.maxLength(128),
+          notBlankValidator(),
+          connectorUrlValidator,
+        ],
       ],
       endpointUrl: [
         initial.connectorTab.endpointUrl,
-        [Validators.required, Validators.maxLength(128), connectorUrlValidator],
+        [
+          Validators.required,
+          Validators.maxLength(128),
+          notBlankValidator(),
+          connectorUrlValidator,
+        ],
       ],
       managementUrl: [
         initial.connectorTab.managementUrl,
-        [Validators.required, Validators.maxLength(128), connectorUrlValidator],
+        [
+          Validators.required,
+          Validators.maxLength(128),
+          notBlankValidator(),
+          connectorUrlValidator,
+        ],
       ],
     });
 
