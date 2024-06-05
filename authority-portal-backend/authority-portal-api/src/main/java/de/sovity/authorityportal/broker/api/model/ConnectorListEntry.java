@@ -49,7 +49,7 @@ public class ConnectorListEntry {
     private OffsetDateTime lastRefreshAttemptAt;
 
     @Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private ConnectorOnlineStatus onlineStatus;
+    private ConnectorOnlineStatusDto onlineStatus;
 
     @Schema(description = "Number of known data offerings")
     private Integer numDataOffers;

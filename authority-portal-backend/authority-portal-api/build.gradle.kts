@@ -17,6 +17,8 @@ dependencies {
     implementation("io.swagger.core.v3:swagger-jaxrs2-jakarta:2.2.15")
     implementation("jakarta.servlet:jakarta.servlet-api:5.0.0")
     implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("de.sovity.edc:client:7.5.0")
+    implementation("de.sovity.edc:json-and-jsonld-utils:7.5.0")
 }
 
 val openapiFileDir = "${project.buildDir}/openapi"

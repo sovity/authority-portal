@@ -40,6 +40,8 @@ dependencies {
     implementation("io.quarkus:quarkus-hibernate-validator")
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
     implementation("com.opencsv:opencsv:5.9")
+    implementation("de.sovity.edc:client:7.5.0")
+    implementation("de.sovity.edc:json-and-jsonld-utils:7.5.0")
 
     testImplementation(project(":authority-portal-api-client"))
     testImplementation("io.rest-assured:rest-assured:3.0.0")

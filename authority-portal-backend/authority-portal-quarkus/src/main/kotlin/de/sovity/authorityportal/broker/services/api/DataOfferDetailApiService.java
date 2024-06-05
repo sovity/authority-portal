@@ -14,13 +14,12 @@
 
 package de.sovity.authorityportal.broker.services.api;
 
-import de.sovity.edc.ext.brokerserver.api.model.ConnectorOnlineStatus;
-import de.sovity.edc.ext.brokerserver.api.model.DataOfferDetailContractOffer;
-import de.sovity.edc.ext.brokerserver.api.model.DataOfferDetailPageQuery;
-import de.sovity.edc.ext.brokerserver.api.model.DataOfferDetailPageResult;
-import de.sovity.edc.ext.brokerserver.dao.pages.dataoffer.DataOfferDetailPageQueryService;
-import de.sovity.edc.ext.brokerserver.dao.pages.dataoffer.ViewCountLogger;
-import de.sovity.edc.ext.brokerserver.dao.pages.dataoffer.model.ContractOfferRs;
+import de.sovity.authorityportal.broker.api.model.DataOfferDetailContractOffer;
+import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageQuery;
+import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageResult;
+import de.sovity.authorityportal.broker.dao.pages.dataoffer.DataOfferDetailPageQueryService;
+import de.sovity.authorityportal.broker.dao.pages.dataoffer.ViewCountLogger;
+import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;

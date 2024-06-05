@@ -14,7 +14,6 @@
 
 package de.sovity.authorityportal.broker.api.model;
 
-import de.sovity.edc.ext.wrapper.api.common.model.UiAsset;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,7 +38,7 @@ public class CatalogDataOffer {
     private String connectorEndpoint;
 
     @Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private ConnectorOnlineStatus connectorOnlineStatus;
+    private ConnectorOnlineStatusDto connectorOnlineStatus;
 
     @Schema(description = "Date to be displayed as last update date, for online connectors it's the last refresh date, for offline connectors it's the creation date or last successful fetch.")
     private OffsetDateTime connectorOfflineSinceOrLastUpdatedAt;

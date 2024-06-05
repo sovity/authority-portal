@@ -39,7 +39,7 @@ public class DataOfferDetailPageResult {
     private String connectorEndpoint;
 
     @Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private ConnectorOnlineStatus connectorOnlineStatus;
+    private ConnectorOnlineStatusDto connectorOnlineStatusDto;
 
     @Schema(description = "Date to be displayed as last update date, for online connectors it's the last refresh date, for offline connectors it's the creation date or last successful fetch.")
     private OffsetDateTime connectorOfflineSinceOrLastUpdatedAt;

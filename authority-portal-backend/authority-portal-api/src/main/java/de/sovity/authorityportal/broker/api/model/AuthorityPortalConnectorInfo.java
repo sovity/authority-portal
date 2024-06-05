@@ -36,7 +36,7 @@ public class AuthorityPortalConnectorInfo {
     @Schema(description = "Number of public Data Offers in this connector, as tracked by the broker", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer dataOfferCount;
     @Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private ConnectorOnlineStatus onlineStatus;
+    private ConnectorOnlineStatusDto onlineStatus;
     @Schema(description = "Last successful refresh time stamp of the online status", requiredMode = Schema.RequiredMode.REQUIRED)
     private OffsetDateTime offlineSinceOrLastUpdatedAt;
 }

@@ -39,7 +39,7 @@ public class AuthorityPortalConnectorDataOfferInfo {
     private String participantId;
 
     @Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private ConnectorOnlineStatus onlineStatus;
+    private ConnectorOnlineStatusDto onlineStatus;
 
     @Schema(description = "Date to be displayed as last update date, for online connectors it's the last refresh date, for offline connectors it's the creation date or last successful fetch.")
     private OffsetDateTime offlineSinceOrLastUpdatedAt;
