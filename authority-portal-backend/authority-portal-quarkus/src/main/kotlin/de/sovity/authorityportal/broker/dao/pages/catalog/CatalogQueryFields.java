@@ -14,10 +14,10 @@
 
 package de.sovity.authorityportal.broker.dao.pages.catalog;
 
-import de.sovity.authorityportal.broker.db.jooq.Tables;
-import de.sovity.authorityportal.broker.db.jooq.tables.Connector;
-import de.sovity.authorityportal.broker.db.jooq.tables.DataOffer;
-import de.sovity.authorityportal.broker.db.jooq.tables.DataOfferViewCount;
+import de.sovity.authorityportal.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.tables.Connector;
+import de.sovity.authorityportal.db.jooq.tables.DataOffer;
+import de.sovity.authorityportal.db.jooq.tables.DataOfferViewCount;
 import de.sovity.authorityportal.broker.services.config.DataSpaceConfig;
 import lombok.AccessLevel;
 import lombok.Getter;

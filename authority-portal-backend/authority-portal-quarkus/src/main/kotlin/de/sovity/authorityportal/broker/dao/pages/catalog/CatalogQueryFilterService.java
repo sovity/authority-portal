@@ -15,8 +15,8 @@
 package de.sovity.authorityportal.broker.dao.pages.catalog;
 
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter;
-import de.sovity.authorityportal.broker.db.jooq.enums.ConnectorOnlineStatus;
-import de.sovity.authorityportal.broker.db.jooq.tables.Connector;
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
+import de.sovity.authorityportal.db.jooq.tables.Connector;
 import de.sovity.authorityportal.broker.services.api.filtering.CatalogSearchService;
 import de.sovity.authorityportal.broker.services.config.BrokerServerSettings;
 import lombok.RequiredArgsConstructor;

@@ -30,22 +30,22 @@ public class CatalogQuerySortingService {
         if (sorting == CatalogPageSortingType.TITLE) {
             orderBy = List.of(
                     fields.getDataOfferTable().ASSET_TITLE.asc(),
-                    fields.getConnectorTable().ENDPOINT.asc()
+                    fields.getConnectorTable().CONNECTOR_ID.asc()
             );
         } else if (sorting == CatalogPageSortingType.MOST_RECENT) {
             orderBy = List.of(
                     fields.getDataOfferTable().CREATED_AT.desc(),
-                    fields.getConnectorTable().ENDPOINT.asc()
+                    fields.getConnectorTable().CONNECTOR_ID.asc()
             );
         } else if (sorting == CatalogPageSortingType.ORIGINATOR) {
             orderBy = List.of(
-                    fields.getConnectorTable().ENDPOINT.asc(),
+                    fields.getConnectorTable().CONNECTOR_ID.asc(),
                     fields.getDataOfferTable().ASSET_TITLE.asc()
             );
         } else if (sorting == CatalogPageSortingType.VIEW_COUNT) {
             orderBy = List.of(
                     fields.getViewCount().desc(),
-                    fields.getConnectorTable().ENDPOINT.asc()
+                    fields.getConnectorTable().CONNECTOR_ID.asc()
             );
         } else {
             throw new IllegalArgumentException("Unknown %s: %s".formatted(CatalogPageSortingType.class.getName(), sorting));

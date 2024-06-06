@@ -56,13 +56,12 @@ public class CatalogQueryDataOfferFetcher {
 
         var select = DSL.select(
                 d.ASSET_ID.as("assetId"),
-                d.ASSET_JSON_LD.cast(String.class).as("assetJsonLd"),
                 d.CREATED_AT,
                 d.UPDATED_AT,
                 catalogQueryContractOfferFetcher.getContractOffers(d).as("contractOffers"),
-                c.ENDPOINT.as("connectorEndpoint"),
+                c.CONNECTOR_ID.as("connectorId"),
                 c.ONLINE_STATUS.as("connectorOnlineStatus"),
-                c.PARTICIPANT_ID.as("connectorParticipantId"),
+                c.MDS_ID.as("connectorParticipantId"),
                 fields.getOrganizationName().as("organizationName"),
                 fields.getOfflineSinceOrLastUpdatedAt().as("connectorOfflineSinceOrLastUpdatedAt")
         );
@@ -92,6 +91,6 @@ public class CatalogQueryDataOfferFetcher {
     private <T extends Record> SelectOnConditionStep<T> from(SelectSelectStep<T> select, CatalogQueryFields fields) {
         var c = fields.getConnectorTable();
         var d = fields.getDataOfferTable();
-        return select.from(d).leftJoin(c).on(c.ENDPOINT.eq(d.CONNECTOR_ENDPOINT));
+        return select.from(d).leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID));
     }
 }

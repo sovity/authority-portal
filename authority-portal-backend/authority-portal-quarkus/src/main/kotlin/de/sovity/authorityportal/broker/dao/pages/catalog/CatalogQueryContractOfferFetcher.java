@@ -16,8 +16,8 @@ package de.sovity.authorityportal.broker.dao.pages.catalog;
 
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs;
 import de.sovity.authorityportal.broker.dao.utils.MultisetUtils;
-import de.sovity.authorityportal.broker.db.jooq.Tables;
-import de.sovity.authorityportal.broker.db.jooq.tables.DataOffer;
+import de.sovity.authorityportal.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.tables.DataOffer;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
@@ -42,7 +42,7 @@ public class CatalogQueryContractOfferFetcher {
                 co.CREATED_AT,
                 co.UPDATED_AT
         ).from(co).where(
-                co.CONNECTOR_ENDPOINT.eq(d.CONNECTOR_ENDPOINT),
+                co.CONNECTOR_ID.eq(d.CONNECTOR_ID),
                 co.ASSET_ID.eq(d.ASSET_ID)).orderBy(co.CREATED_AT.desc()
         );
 

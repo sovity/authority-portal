@@ -18,7 +18,7 @@ import de.sovity.authorityportal.broker.api.model.CatalogPageSortingType;
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogPageRs;
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter;
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery;
-import de.sovity.authorityportal.broker.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.Tables;
 import de.sovity.authorityportal.broker.services.config.BrokerServerSettings;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
