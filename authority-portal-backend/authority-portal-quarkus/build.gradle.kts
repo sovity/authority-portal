@@ -42,6 +42,7 @@ dependencies {
     implementation("com.opencsv:opencsv:5.9")
     implementation("de.sovity.edc:client:7.5.0")
     implementation("de.sovity.edc:json-and-jsonld-utils:7.5.0")
+    implementation("de.sovity.edc:wrapper-common-mappers:7.5.0")
 
     testImplementation(project(":authority-portal-api-client"))
     testImplementation("io.rest-assured:rest-assured:3.0.0")

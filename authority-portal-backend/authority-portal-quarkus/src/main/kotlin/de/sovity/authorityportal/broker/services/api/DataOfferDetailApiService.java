@@ -14,12 +14,14 @@
 
 package de.sovity.authorityportal.broker.services.api;
 
+import de.sovity.authorityportal.broker.api.model.ConnectorOnlineStatusDto;
 import de.sovity.authorityportal.broker.api.model.DataOfferDetailContractOffer;
 import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageQuery;
 import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageResult;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.DataOfferDetailPageQueryService;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.ViewCountLogger;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs;
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -60,17 +62,15 @@ public class DataOfferDetailApiService {
         return result;
     }
 
-    private ConnectorOnlineStatus mapConnectorOnlineStatus(
-            de.sovity.authorityportal.broker.db.jooq.enums.ConnectorOnlineStatus connectorOnlineStatus
-    ) {
+    private ConnectorOnlineStatusDto mapConnectorOnlineStatus(ConnectorOnlineStatus connectorOnlineStatus) {
         if (connectorOnlineStatus == null) {
-            return ConnectorOnlineStatus.OFFLINE;
+            return ConnectorOnlineStatusDto.OFFLINE;
         }
 
         return switch (connectorOnlineStatus) {
-            case ONLINE -> ConnectorOnlineStatus.ONLINE;
-            case OFFLINE -> ConnectorOnlineStatus.OFFLINE;
-            case DEAD -> ConnectorOnlineStatus.DEAD;
+            case ONLINE -> ConnectorOnlineStatusDto.ONLINE;
+            case OFFLINE -> ConnectorOnlineStatusDto.OFFLINE;
+            case DEAD -> ConnectorOnlineStatusDto.DEAD;
         };
     }
 

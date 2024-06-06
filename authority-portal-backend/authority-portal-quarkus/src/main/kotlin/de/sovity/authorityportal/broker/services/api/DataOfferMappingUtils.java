@@ -14,10 +14,16 @@
 
 package de.sovity.authorityportal.broker.services.api;
 
+import de.sovity.edc.ext.wrapper.api.common.model.UiAsset;
+import de.sovity.edc.ext.wrapper.api.common.model.UiPolicy;
+import de.sovity.edc.ext.wrapper.api.common.mappers.AssetMapper;
+import de.sovity.edc.ext.wrapper.api.common.mappers.PolicyMapper;
 import de.sovity.edc.utils.JsonUtils;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@ApplicationScoped
 public class DataOfferMappingUtils {
     private final PolicyMapper policyMapper;
     private final AssetMapper assetMapper;
