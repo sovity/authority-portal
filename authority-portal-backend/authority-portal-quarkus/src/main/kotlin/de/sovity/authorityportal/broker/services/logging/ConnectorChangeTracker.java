@@ -23,18 +23,12 @@ import java.util.List;
 /**
  * Utility for collecting the information required to build log messages about what was updated.
  */
+@Setter
 @Getter
 public class ConnectorChangeTracker {
-    @Setter
     private int numOffersAdded = 0;
-
-    @Setter
     private int numOffersDeleted = 0;
-
-    @Setter
     private int numOffersUpdated = 0;
-
-    @Setter
     private String participantIdChanged = null;
 
     public boolean isEmpty() {

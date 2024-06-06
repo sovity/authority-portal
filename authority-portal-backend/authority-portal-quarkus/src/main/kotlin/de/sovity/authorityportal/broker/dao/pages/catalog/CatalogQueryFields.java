@@ -101,7 +101,7 @@ public class CatalogQueryFields {
         var subquery = DSL.select(DSL.count())
                 .from(dataOfferViewCountTable)
                 .where(dataOfferViewCountTable.ASSET_ID.eq(dataOfferTable.ASSET_ID)
-                        .and(dataOfferViewCountTable.CONNECTOR_ENDPOINT.eq(connectorTable.ENDPOINT)));
+                        .and(dataOfferViewCountTable.CONNECTOR_ID.eq(connectorTable.CONNECTOR_ID)));
 
         return subquery.asField();
     }
@@ -118,12 +118,11 @@ public class CatalogQueryFields {
     }
 
     public static Field<String> organizationName(Field<String> mdsId) {
-        var om = Tables.ORGANIZATION_METADATA;
-        var organizationName = DSL.select(om.NAME)
-                .from(om)
-                .where(om.MDS_ID.eq(mdsId))
+        var o = Tables.ORGANIZATION;
+        return DSL.select(o.NAME)
+                .from(o)
+                .where(o.MDS_ID.eq(mdsId))
                 .asField()
                 .cast(String.class);
-        return coalesce(organizationName, "Unknown");
     }
 }

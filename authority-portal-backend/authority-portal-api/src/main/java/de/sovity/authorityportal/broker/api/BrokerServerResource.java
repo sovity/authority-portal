@@ -55,11 +55,4 @@ public interface BrokerServerResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Query a Data Offer's Detail Page")
     DataOfferDetailPageResult dataOfferDetailPage(DataOfferDetailPageQuery query);
-
-    @POST
-    @Path("authority-portal-api/data-offer-info")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Provides information about Data Offers for given Connectors.")
-    List<AuthorityPortalConnectorDataOfferInfo> getConnectorDataOffers(List<String> endpoints, @QueryParam("adminApiKey") String adminApiKey);
 }

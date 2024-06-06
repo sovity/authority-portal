@@ -14,7 +14,10 @@
 
 package de.sovity.authorityportal.broker.services.config;
 
+import de.sovity.authorityportal.broker.BrokerConfiguration;
 import de.sovity.authorityportal.broker.BrokerServerExtension;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -26,21 +29,19 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class BrokerServerSettingsFactory {
-    private final Config config;
-    private final Monitor monitor;
 
     public BrokerServerSettings buildBrokerServerSettings() {
-        var adminApiKey = Validate.notBlank(config.getString(BrokerServerExtension.ADMIN_API_KEY),
-                "Need to configure %s.".formatted(BrokerServerExtension.ADMIN_API_KEY));
-        var hideOfflineDataOffersAfter = getDuration(BrokerServerExtension.HIDE_OFFLINE_DATA_OFFERS_AFTER, null);
-        var catalogPagePageSize = config.getInteger(BrokerServerExtension.CATALOG_PAGE_PAGE_SIZE, 20);
-        var dataSpaceConfig = buildDataSpaceConfig(config);
-        var numThreads = config.getInteger(BrokerServerExtension.NUM_THREADS, 1);
-        var killOfflineConnectorsAfter = getDuration(BrokerServerExtension.KILL_OFFLINE_CONNECTORS_AFTER, Duration.ofDays(5));
-        var maxDataOffers = config.getInteger(BrokerServerExtension.MAX_DATA_OFFERS_PER_CONNECTOR, -1);
-        var maxContractOffers = config.getInteger(BrokerServerExtension.MAX_CONTRACT_OFFERS_PER_DATA_OFFER, -1);
+        var adminApiKey = Validate.notBlank(BrokerConfiguration.ADMIN_API_KEY,
+                "Need to configure %s.".formatted(BrokerConfiguration.ADMIN_API_KEY));
+        var hideOfflineDataOffersAfter = getDuration(BrokerConfiguration.HIDE_OFFLINE_DATA_OFFERS_AFTER, null);
+        var catalogPagePageSize = BrokerConfiguration.CATALOG_PAGE_PAGE_SIZE;
+        var dataSpaceConfig = buildDataSpaceConfig();
+        var numThreads = config.getInteger(BrokerConfiguration.NUM_THREADS, 1);
+        var killOfflineConnectorsAfter = getDuration(BrokerConfiguration.KILL_OFFLINE_CONNECTORS_AFTER, Duration.ofDays(5));
+        var maxDataOffers = config.getInteger(BrokerConfiguration.MAX_DATA_OFFERS_PER_CONNECTOR, -1);
+        var maxContractOffers = config.getInteger(BrokerConfiguration.MAX_CONTRACT_OFFERS_PER_DATA_OFFER, -1);
 
         return BrokerServerSettings.builder()
                 .adminApiKey(adminApiKey)
@@ -67,7 +68,7 @@ public class BrokerServerSettingsFactory {
 
     private List<DataSpaceConnector> getKnownDataSpaceEndpoints(Config config) {
         // Example: "Example1=http://connector-endpoint1.org,Example2=http://connector-endpoint2.org"
-        var dataSpacesConfig = config.getString(BrokerServerExtension.KNOWN_DATASPACE_CONNECTORS, "");
+        var dataSpacesConfig = config.getString(BrokerConfiguration.KNOWN_DATASPACE_CONNECTORS, "");
 
         return Arrays.stream(dataSpacesConfig.split(","))
                 .map(String::trim)
@@ -83,7 +84,7 @@ public class BrokerServerSettingsFactory {
     }
 
     private String getDefaultDataSpace(Config config) {
-        return config.getString(BrokerServerExtension.DEFAULT_CONNECTOR_DATASPACE, "Default");
+        return config.getString(BrokerConfiguration.DEFAULT_CONNECTOR_DATASPACE, "Default");
     }
 
     private Duration getDuration(@NonNull String configProperty, Duration defaultValue) {

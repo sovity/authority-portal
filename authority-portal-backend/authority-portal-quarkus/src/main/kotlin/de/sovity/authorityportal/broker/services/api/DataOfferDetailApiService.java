@@ -23,6 +23,7 @@ import de.sovity.authorityportal.broker.dao.pages.dataoffer.ViewCountLogger;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs;
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
@@ -31,12 +32,15 @@ import java.util.List;
 import java.util.Objects;
 
 @ApplicationScoped
-@RequiredArgsConstructor
 public class DataOfferDetailApiService {
-    private final DataOfferDetailPageQueryService dataOfferDetailPageQueryService;
-    private final ViewCountLogger viewCountLogger;
-    private final DataOfferMappingUtils dataOfferMappingUtils;
-    private final DSLContext dsl;
+    @Inject
+    DataOfferDetailPageQueryService dataOfferDetailPageQueryService;
+    @Inject
+    ViewCountLogger viewCountLogger;
+    @Inject
+    DataOfferMappingUtils dataOfferMappingUtils;
+    @Inject
+    DSLContext dsl;
 
     public DataOfferDetailPageResult dataOfferDetailPage(DataOfferDetailPageQuery query) {
         Objects.requireNonNull(query, "query must not be null");

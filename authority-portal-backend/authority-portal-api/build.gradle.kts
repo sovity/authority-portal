@@ -19,6 +19,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("de.sovity.edc:client:7.5.0")
     implementation("de.sovity.edc:json-and-jsonld-utils:7.5.0")
+    implementation("de.sovity.edc:wrapper-common-mappers:7.5.0")
 }
 
 val openapiFileDir = "${project.buildDir}/openapi"

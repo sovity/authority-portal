@@ -24,7 +24,8 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFil
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQuerySelectedFilterQuery;
 import de.sovity.authorityportal.broker.dao.utils.JsonDeserializationUtils;
 import de.sovity.authorityportal.broker.utils.CollectionUtils2;
-import lombok.RequiredArgsConstructor;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.apache.commons.lang3.Validate;
 import org.jooq.impl.DSL;
 
@@ -35,9 +36,11 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class CatalogFilterService {
-    private final CatalogFilterAttributeDefinitionService catalogFilterAttributeDefinitionService;
+
+    @Inject
+    CatalogFilterAttributeDefinitionService catalogFilterAttributeDefinitionService;
 
     private final Comparator<String> caseInsensitiveEmptyStringLast = (s1, s2) -> {
         int result = s1.compareToIgnoreCase(s2);
@@ -49,7 +52,6 @@ public class CatalogFilterService {
             return result;
         }
     };
-
 
     /**
      * Currently supported filters for the catalog page.

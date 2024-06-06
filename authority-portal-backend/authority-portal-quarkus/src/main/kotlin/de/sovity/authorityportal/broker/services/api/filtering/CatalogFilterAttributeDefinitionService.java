@@ -16,10 +16,12 @@ package de.sovity.authorityportal.broker.services.api.filtering;
 
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
 import de.sovity.authorityportal.broker.dao.utils.PostgresqlUtils;
+import jakarta.enterprise.context.ApplicationScoped;
 import org.jooq.Field;
 
 import java.util.function.Function;
 
+@ApplicationScoped
 public class CatalogFilterAttributeDefinitionService {
 
     public CatalogFilterAttributeDefinition forField(
@@ -41,15 +43,6 @@ public class CatalogFilterAttributeDefinitionService {
             "Data Space",
             CatalogQueryFields::getDataSpace,
             (fields, values) -> PostgresqlUtils.in(fields.getDataSpace(), values)
-        );
-    }
-
-    public CatalogFilterAttributeDefinition buildConnectorEndpointFilter() {
-        return new CatalogFilterAttributeDefinition(
-            "connectorEndpoint",
-            "Connector",
-            fields -> fields.getDataOfferTable().CONNECTOR_ENDPOINT,
-            (fields, values) -> PostgresqlUtils.in(fields.getDataOfferTable().CONNECTOR_ENDPOINT, values)
         );
     }
 }

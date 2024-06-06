@@ -16,14 +16,15 @@ package de.sovity.authorityportal.broker.services.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.util.Map;
 
-@RequiredArgsConstructor
 public class AssetPropertyParser {
-    private final ObjectMapper objectMapper;
+    @Inject
+    ObjectMapper objectMapper;
 
     private final TypeReference<Map<String, String>> typeToken = new TypeReference<>() {
     };

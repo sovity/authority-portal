@@ -20,7 +20,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  * Helper Dto that contains User Message + Error Stack Trace to be written into
- * {@link de.sovity.authorityportal.broker.db.jooq.tables.BrokerEventLog}.
+ * {@link de.sovity.authorityportal.db.jooq.tables.BrokerEventLog}.
  * <br>
  * This class exists so that logging exceptions has a consistent format.
  *

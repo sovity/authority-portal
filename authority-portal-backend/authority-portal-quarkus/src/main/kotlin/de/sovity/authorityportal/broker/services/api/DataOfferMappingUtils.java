@@ -20,13 +20,15 @@ import de.sovity.edc.ext.wrapper.api.common.mappers.AssetMapper;
 import de.sovity.edc.ext.wrapper.api.common.mappers.PolicyMapper;
 import de.sovity.edc.utils.JsonUtils;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @ApplicationScoped
 public class DataOfferMappingUtils {
-    private final PolicyMapper policyMapper;
-    private final AssetMapper assetMapper;
+    @Inject
+    PolicyMapper policyMapper;
+    @Inject
+    AssetMapper assetMapper;
 
     public UiAsset buildUiAsset(String assetJsonLd, String endpoint, String participantId, String organizationName) {
         var asset = assetMapper.buildAsset(JsonUtils.parseJsonObj(assetJsonLd));

@@ -33,7 +33,6 @@ import jakarta.transaction.Transactional
 class BrokerServerResourceImpl(
     private val catalogApiService: CatalogApiService,
     private val dataOfferDetailApiService: DataOfferDetailApiService,
-    private val authorityPortalConnectorDataOffersApiService: AuthorityPortalConnectorDataOfferApiService,
     private val authUtils: AuthUtils
 ) : BrokerServerResource {
 

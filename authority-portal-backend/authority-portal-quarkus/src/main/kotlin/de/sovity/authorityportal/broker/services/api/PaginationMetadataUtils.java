@@ -16,10 +16,11 @@ package de.sovity.authorityportal.broker.services.api;
 
 import de.sovity.authorityportal.broker.api.model.PaginationMetadata;
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class PaginationMetadataUtils {
 
     @NotNull

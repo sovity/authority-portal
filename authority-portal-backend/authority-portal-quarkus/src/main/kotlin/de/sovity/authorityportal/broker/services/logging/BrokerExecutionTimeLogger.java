@@ -14,10 +14,11 @@
 
 package de.sovity.authorityportal.broker.services.logging;
 
-import de.sovity.authorityportal.broker.db.jooq.Tables;
-import de.sovity.authorityportal.broker.db.jooq.enums.MeasurementErrorStatus;
-import de.sovity.authorityportal.broker.db.jooq.enums.MeasurementType;
-import lombok.RequiredArgsConstructor;
+import de.sovity.authorityportal.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.enums.MeasurementErrorStatus;
+import de.sovity.authorityportal.db.jooq.enums.MeasurementType;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.jooq.DSLContext;
 
 import java.time.OffsetDateTime;
@@ -25,9 +26,12 @@ import java.time.OffsetDateTime;
 /**
  * Updates a single connector.
  */
-@RequiredArgsConstructor
+@ApplicationScoped
 public class BrokerExecutionTimeLogger {
-    public void logExecutionTime(DSLContext dsl, String connectorEndpoint, long executionTimeInMs, MeasurementErrorStatus errorStatus) {
+    @Inject
+    DSLContext dsl;
+
+    public void logExecutionTime(String connectorEndpoint, long executionTimeInMs, MeasurementErrorStatus errorStatus) {
         var logEntry = dsl.newRecord(Tables.BROKER_EXECUTION_TIME_MEASUREMENT);
         logEntry.setConnectorEndpoint(connectorEndpoint);
         logEntry.setDurationInMs(executionTimeInMs);

@@ -14,10 +14,11 @@
 
 package de.sovity.authorityportal.broker.services.logging;
 
-import de.sovity.authorityportal.broker.db.jooq.Tables;
-import de.sovity.authorityportal.broker.db.jooq.enums.BrokerEventStatus;
-import de.sovity.authorityportal.broker.db.jooq.enums.BrokerEventType;
-import lombok.RequiredArgsConstructor;
+import de.sovity.authorityportal.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.enums.BrokerEventStatus;
+import de.sovity.authorityportal.db.jooq.enums.BrokerEventType;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.jooq.DSLContext;
 
 import java.time.OffsetDateTime;
@@ -28,10 +29,12 @@ import java.util.stream.Collectors;
 /**
  * Updates a single connector.
  */
-@RequiredArgsConstructor
+@ApplicationScoped
 public class BrokerEventLogger {
+    @Inject
+    DSLContext dsl;
 
-    public void logConnectorsDeleted(DSLContext dsl, Collection<String> connectorEndpoints) {
+    public void logConnectorsDeleted(Collection<String> connectorEndpoints) {
         var records = connectorEndpoints.stream().map(connectorEndpoint -> {
             var logEntry = dsl.newRecord(Tables.BROKER_EVENT_LOG);
             logEntry.setEvent(BrokerEventType.CONNECTOR_DELETED);
@@ -44,7 +47,7 @@ public class BrokerEventLogger {
         dsl.batchInsert(records).execute();
     }
 
-    public void logConnectorUpdated(DSLContext dsl, String connectorEndpoint, ConnectorChangeTracker changes) {
+    public void logConnectorUpdated(String connectorEndpoint, ConnectorChangeTracker changes) {
         var logEntry = dsl.newRecord(Tables.BROKER_EVENT_LOG);
         logEntry.setEvent(BrokerEventType.CONNECTOR_UPDATED);
         logEntry.setEventStatus(BrokerEventStatus.OK);
@@ -54,7 +57,7 @@ public class BrokerEventLogger {
         logEntry.insert();
     }
 
-    public void logConnectorOffline(DSLContext dsl, String connectorEndpoint, BrokerEventErrorMessage errorMessage) {
+    public void logConnectorOffline(String connectorEndpoint, BrokerEventErrorMessage errorMessage) {
         var logEntry = dsl.newRecord(Tables.BROKER_EVENT_LOG);
         logEntry.setEvent(BrokerEventType.CONNECTOR_STATUS_CHANGE_OFFLINE);
         logEntry.setEventStatus(BrokerEventStatus.ERROR);
@@ -65,7 +68,7 @@ public class BrokerEventLogger {
         logEntry.insert();
     }
 
-    public void logConnectorOnline(DSLContext dsl, String connectorEndpoint) {
+    public void logConnectorOnline(String connectorEndpoint) {
         var logEntry = dsl.newRecord(Tables.BROKER_EVENT_LOG);
         logEntry.setEvent(BrokerEventType.CONNECTOR_STATUS_CHANGE_ONLINE);
         logEntry.setEventStatus(BrokerEventStatus.OK);
@@ -75,7 +78,7 @@ public class BrokerEventLogger {
         logEntry.insert();
     }
 
-    public void logConnectorUpdateDataOfferLimitExceeded(DSLContext dsl, Integer maxDataOffersPerConnector, String endpoint) {
+    public void logConnectorUpdateDataOfferLimitExceeded(Integer maxDataOffersPerConnector, String endpoint) {
         var logEntry = dsl.newRecord(Tables.BROKER_EVENT_LOG);
         logEntry.setEvent(BrokerEventType.CONNECTOR_DATA_OFFER_LIMIT_EXCEEDED);
         logEntry.setEventStatus(BrokerEventStatus.OK);
@@ -85,7 +88,7 @@ public class BrokerEventLogger {
         logEntry.insert();
     }
 
-    public void logConnectorUpdateDataOfferLimitOk(DSLContext dsl, String endpoint) {
+    public void logConnectorUpdateDataOfferLimitOk(String endpoint) {
         var logEntry = dsl.newRecord(Tables.BROKER_EVENT_LOG);
         logEntry.setEvent(BrokerEventType.CONNECTOR_DATA_OFFER_LIMIT_OK);
         logEntry.setEventStatus(BrokerEventStatus.OK);
@@ -95,7 +98,7 @@ public class BrokerEventLogger {
         logEntry.insert();
     }
 
-    public void logConnectorUpdateContractOfferLimitExceeded(DSLContext dsl, Integer maxContractOffersPerConnector, String endpoint) {
+    public void logConnectorUpdateContractOfferLimitExceeded(Integer maxContractOffersPerConnector, String endpoint) {
         var logEntry = dsl.newRecord(Tables.BROKER_EVENT_LOG);
         logEntry.setEvent(BrokerEventType.CONNECTOR_CONTRACT_OFFER_LIMIT_EXCEEDED);
         logEntry.setEventStatus(BrokerEventStatus.OK);
@@ -105,7 +108,7 @@ public class BrokerEventLogger {
         logEntry.insert();
     }
 
-    public void logConnectorUpdateContractOfferLimitOk(DSLContext dsl, String endpoint) {
+    public void logConnectorUpdateContractOfferLimitOk(String endpoint) {
         var logEntry = dsl.newRecord(Tables.BROKER_EVENT_LOG);
         logEntry.setEvent(BrokerEventType.CONNECTOR_CONTRACT_OFFER_LIMIT_OK);
         logEntry.setEventStatus(BrokerEventStatus.OK);
@@ -115,7 +118,7 @@ public class BrokerEventLogger {
         logEntry.insert();
     }
 
-    public void addKilledDueToOfflineTooLongMessages(DSLContext dsl, List<String> deletedConnectorEndpoints) {
+    public void addKilledDueToOfflineTooLongMessages(List<String> deletedConnectorEndpoints) {
         var logEntries = deletedConnectorEndpoints.stream().map(endpoint -> {
             var logEntry = dsl.newRecord(Tables.BROKER_EVENT_LOG);
             logEntry.setEvent(BrokerEventType.CONNECTOR_KILLED_DUE_TO_OFFLINE_FOR_TOO_LONG);

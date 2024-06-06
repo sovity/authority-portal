@@ -16,12 +16,13 @@ package de.sovity.authorityportal.broker.services.api.filtering;
 
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
 import de.sovity.authorityportal.broker.dao.utils.SearchUtils;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Condition;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class CatalogSearchService {
 
     public Condition filterBySearch(CatalogQueryFields fields, String searchQuery) {

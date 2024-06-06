@@ -27,6 +27,7 @@ import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferR
 import de.sovity.authorityportal.broker.services.api.filtering.CatalogFilterService;
 import de.sovity.authorityportal.broker.services.config.BrokerServerSettings;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 
@@ -35,14 +36,19 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 @ApplicationScoped
-@RequiredArgsConstructor
 public class CatalogApiService {
-    private final PaginationMetadataUtils paginationMetadataUtils;
-    private final CatalogQueryService catalogQueryService;
-    private final DataOfferMappingUtils dataOfferMappingUtils;
-    private final CatalogFilterService catalogFilterService;
-    private final BrokerServerSettings brokerServerSettings;
-    private final DSLContext dsl;
+    @Inject
+    PaginationMetadataUtils paginationMetadataUtils;
+    @Inject
+    CatalogQueryService catalogQueryService;
+    @Inject
+    DataOfferMappingUtils dataOfferMappingUtils;
+    @Inject
+    CatalogFilterService catalogFilterService;
+    @Inject
+    BrokerServerSettings brokerServerSettings;
+    @Inject
+    DSLContext dsl;
 
     public CatalogPageResult catalogPage(CatalogPageQuery query) {
         Objects.requireNonNull(query, "query must not be null");
