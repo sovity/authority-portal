@@ -23,6 +23,7 @@ import {
   getParticipantRoles,
   mapRolesToReadableFormat,
 } from 'src/app/core/utils/user-role-utils';
+import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {InviteNewUser} from '../state/participant-invite-new-user-page-actions';
 import {
   DEFAULT_PARTICIPANT_INVITE_NEW_USER_PAGE_STATE,
@@ -65,17 +66,20 @@ export class ParticipantInviteNewUserComponent {
     return this.formBuilder.nonNullable.group({
       firstName: [
         initial.firstName,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
       lastName: [
         initial.lastName,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
       email: [
         initial.email,
         [Validators.required, Validators.maxLength(128), Validators.email],
       ],
-      role: [initial.role, [Validators.required, Validators.maxLength(128)]],
+      role: [
+        initial.role,
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
+      ],
     });
   }
 

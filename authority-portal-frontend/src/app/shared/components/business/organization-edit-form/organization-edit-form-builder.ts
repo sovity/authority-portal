@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {phoneNumberValidator} from '../../../../core/utils/validators/phone-number-validator';
 import {urlValidator} from '../../../../core/utils/validators/url-validator';
 import {
@@ -29,16 +30,16 @@ export const buildOrganizationEditForm = (
     ],
     businessUnit: [
       initialOrganization.businessUnit,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     industry: [initialOrganization.industry, [Validators.required]],
     description: [
       initialOrganization.description,
-      [Validators.required, Validators.maxLength(4096)],
+      [Validators.required, Validators.maxLength(4096), notBlankValidator()],
     ],
     mainAddress: [
       initialOrganization.mainAddress,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     billingAddressSameAsMain: [
       initialOrganization.billingAddressSameAsMain,
@@ -46,11 +47,11 @@ export const buildOrganizationEditForm = (
     ],
     billingAddress: [
       initialOrganization.billingAddress,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     mainContactName: [
       initialOrganization.mainContactName,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     mainContactPhoneNumber: [
       initialOrganization.mainContactPhoneNumber,
@@ -59,6 +60,7 @@ export const buildOrganizationEditForm = (
         phoneNumberValidator,
         Validators.minLength(5),
         Validators.maxLength(28),
+        notBlankValidator(),
       ],
     ],
     mainContactEmail: [
@@ -71,7 +73,7 @@ export const buildOrganizationEditForm = (
     ],
     technicalContactName: [
       initialOrganization.technicalContactName,
-      [Validators.required, Validators.maxLength(128)],
+      [Validators.required, Validators.maxLength(128), notBlankValidator()],
     ],
     technicalContactPhoneNumber: [
       initialOrganization.technicalContactPhoneNumber,
@@ -80,6 +82,7 @@ export const buildOrganizationEditForm = (
         phoneNumberValidator,
         Validators.minLength(5),
         Validators.maxLength(28),
+        notBlankValidator(),
       ],
     ],
     technicalContactEmail: [

@@ -25,4 +25,10 @@
     At most {{ ctrl.errors!.maxlength.requiredLength }} characters
     allowed.</mat-error
   >
+
+  <mat-error
+    *ngIf="ctrl.touched && ctrl.hasError('trimmedBlank')"
+    class="text-xs">
+    The field cannot be blank.
+  </mat-error>
 </mat-form-field>

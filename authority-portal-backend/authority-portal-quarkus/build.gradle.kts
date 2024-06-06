@@ -18,7 +18,7 @@ dependencies {
     implementation("io.quarkus:quarkus-scheduler")
     implementation("io.quarkus:quarkus-oidc")
     implementation("io.quarkus:quarkus-keycloak-authorization")
-    implementation("io.quarkus:quarkus-keycloak-admin-client-reactive:3.6.6")
+    implementation("io.quarkus:quarkus-keycloak-admin-client-reactive:3.11.0")
     implementation("io.quarkus:quarkus-elytron-security-properties-file")
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-flyway")

@@ -12,6 +12,7 @@
  */
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {buildCertificateInputForm} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-builder';
 import {certificateInputFormEnabledCtrls} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-enabled-ctrls';
 import {switchDisabledControls} from '../../../../core/utils/form-utils';
@@ -49,11 +50,11 @@ export class RegisterCentralComponentPageForm {
     const componentTab = this.formBuilder.nonNullable.group({
       name: [
         initial.componentTab.name,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
       location: [
         initial.componentTab.location,
-        [Validators.required, Validators.maxLength(128)],
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
       frontendUrl: [
         initial.componentTab.frontendUrl,
