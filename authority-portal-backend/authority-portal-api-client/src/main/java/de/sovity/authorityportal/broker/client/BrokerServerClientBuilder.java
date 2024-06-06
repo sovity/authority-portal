@@ -12,7 +12,7 @@
  *
  */
 
-package de.sovity.authorityportal.broker.client.client;
+package de.sovity.authorityportal.broker.client;
 
 import lombok.Getter;
 import lombok.Setter;

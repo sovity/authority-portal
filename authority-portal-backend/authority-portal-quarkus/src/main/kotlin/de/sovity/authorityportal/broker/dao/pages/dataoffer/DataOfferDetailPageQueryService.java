@@ -17,7 +17,7 @@ package de.sovity.authorityportal.broker.dao.pages.dataoffer;
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryContractOfferFetcher;
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.DataOfferDetailRs;
-import de.sovity.authorityportal.broker.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.Tables;
 import de.sovity.authorityportal.broker.services.config.BrokerServerSettings;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -41,19 +41,18 @@ public class DataOfferDetailPageQueryService {
 
         return dsl.select(
                         d.ASSET_ID,
-                        d.ASSET_JSON_LD.cast(String.class).as("assetJsonLd"),
                         d.CREATED_AT,
                         d.UPDATED_AT,
                         catalogQueryContractOfferFetcher.getContractOffers(fields.getDataOfferTable()).as("contractOffers"),
                         fields.getOfflineSinceOrLastUpdatedAt().as("connectorOfflineSinceOrLastUpdatedAt"),
-                        c.ENDPOINT.as("connectorEndpoint"),
+                        c.CONNECTOR_ID.as("connectorId"),
                         c.ONLINE_STATUS.as("connectorOnlineStatus"),
-                        c.PARTICIPANT_ID.as("connectorParticipantId"),
+                        c.MDS_ID.as("connectorParticipantId"),
                         fields.getOrganizationName().as("organizationName"),
                         fields.getViewCount().as("viewCount"))
                 .from(d)
-                .leftJoin(c).on(c.ENDPOINT.eq(d.CONNECTOR_ENDPOINT))
-                .where(d.ASSET_ID.eq(assetId).and(d.CONNECTOR_ENDPOINT.eq(endpoint)))
+                .leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
+                .where(d.ASSET_ID.eq(assetId).and(d.CONNECTOR_ID.eq(endpoint)))
                 .fetchOneInto(DataOfferDetailRs.class);
     }
 }

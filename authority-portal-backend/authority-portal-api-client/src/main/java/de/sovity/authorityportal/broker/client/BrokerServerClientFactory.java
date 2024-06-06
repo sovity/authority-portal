@@ -12,10 +12,10 @@
  *
  */
 
-package de.sovity.authorityportal.broker.client.client;
+package de.sovity.authorityportal.broker.client;
 
-import de.sovity.authorityportal.broker.client.gen.ApiClient;
-import de.sovity.authorityportal.broker.client.gen.api.BrokerServerApi;
+import de.sovity.authorityportal.client.gen.ApiClient;
+import de.sovity.authorityportal.client.gen.api.BrokerServerApi;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
