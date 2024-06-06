@@ -14,17 +14,18 @@
 
 package de.sovity.authorityportal.broker.services.api;
 
-import de.sovity.authorityportal.broker.api.model.ConnectorOnlineStatus;
+import de.sovity.authorityportal.broker.api.model.ConnectorOnlineStatusDto;
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class ConnectorOnlineStatusMapper {
 
-    public ConnectorOnlineStatus getOnlineStatus(de.sovity.authorityportal.broker.db.jooq.enums.ConnectorOnlineStatus onlineStatus) {
+    public ConnectorOnlineStatusDto getOnlineStatus(ConnectorOnlineStatus onlineStatus) {
         return switch (onlineStatus) {
-            case ONLINE -> ConnectorOnlineStatus.ONLINE;
-            case OFFLINE -> ConnectorOnlineStatus.OFFLINE;
-            case DEAD -> ConnectorOnlineStatus.DEAD;
+            case ONLINE -> ConnectorOnlineStatusDto.ONLINE;
+            case OFFLINE -> ConnectorOnlineStatusDto.OFFLINE;
+            case DEAD -> ConnectorOnlineStatusDto.DEAD;
             default -> throw new IllegalStateException("Unknown ConnectorOnlineStatus from DAO for API: " + onlineStatus);
         };
     }

@@ -36,8 +36,9 @@ public class DataOfferDetailApiService {
     private final DataOfferDetailPageQueryService dataOfferDetailPageQueryService;
     private final ViewCountLogger viewCountLogger;
     private final DataOfferMappingUtils dataOfferMappingUtils;
+    private final DSLContext dsl;
 
-    public DataOfferDetailPageResult dataOfferDetailPage(DSLContext dsl, DataOfferDetailPageQuery query) {
+    public DataOfferDetailPageResult dataOfferDetailPage(DataOfferDetailPageQuery query) {
         Objects.requireNonNull(query, "query must not be null");
 
         var dataOffer = dataOfferDetailPageQueryService.queryDataOfferDetailsPage(dsl, query.getAssetId(), query.getConnectorEndpoint());

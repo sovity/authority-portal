@@ -25,8 +25,9 @@ import java.util.List;
 public class AuthorityPortalConnectorDataOfferApiService {
     private final AuthorityPortalConnectorQueryService authorityPortalConnectorQueryService;
     private final ConnectorOnlineStatusMapper connectorOnlineStatusMapper;
+    private final DSLContext dsl;
 
-    public List<AuthorityPortalConnectorDataOfferInfo> getConnectorDataOffersByEndpoints(DSLContext dsl, List<String> endpoints) {
+    public List<AuthorityPortalConnectorDataOfferInfo> getConnectorDataOffersByEndpoints(List<String> endpoints) {
         return authorityPortalConnectorQueryService.getConnectorsDataOffers(dsl, endpoints).stream()
             .map(it -> new AuthorityPortalConnectorDataOfferInfo(
                 it.getConnectorEndpoint(),

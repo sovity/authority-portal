@@ -22,7 +22,7 @@ import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageResult
 import de.sovity.authorityportal.broker.services.api.AuthorityPortalConnectorDataOfferApiService
 import de.sovity.authorityportal.broker.services.api.CatalogApiService
 import de.sovity.authorityportal.broker.services.api.DataOfferDetailApiService
-import de.sovity.authorityportal.broker.services.config.AdminApiKeyValidator
+import de.sovity.authorityportal.web.auth.AuthUtils
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 
@@ -33,8 +33,8 @@ import jakarta.transaction.Transactional
 class BrokerServerResourceImpl(
     private val catalogApiService: CatalogApiService,
     private val dataOfferDetailApiService: DataOfferDetailApiService,
-    private val adminApiKeyValidator: AdminApiKeyValidator,
     private val authorityPortalConnectorDataOffersApiService: AuthorityPortalConnectorDataOfferApiService,
+    private val authUtils: AuthUtils
 ) : BrokerServerResource {
 
 
@@ -53,7 +53,7 @@ class BrokerServerResourceImpl(
         endpoints: List<String>,
         adminApiKey: String
     ): MutableList<AuthorityPortalConnectorDataOfferInfo> {
-        adminApiKeyValidator.validateAdminApiKey(adminApiKey)
+        authUtils.requiresAuthenticated()
         return authorityPortalConnectorDataOffersApiService.getConnectorDataOffersByEndpoints(endpoints)
     }
 }

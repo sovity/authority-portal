@@ -42,10 +42,10 @@ public class CatalogApiService {
     private final DataOfferMappingUtils dataOfferMappingUtils;
     private final CatalogFilterService catalogFilterService;
     private final BrokerServerSettings brokerServerSettings;
+    private final DSLContext dsl;
 
-    public CatalogPageResult catalogPage(DSLContext dsl, CatalogPageQuery query) {
+    public CatalogPageResult catalogPage(CatalogPageQuery query) {
         Objects.requireNonNull(query, "query must not be null");
-
 
         var filters = catalogFilterService.getCatalogQueryFilters(query.getFilter());
 

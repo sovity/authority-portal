@@ -50,56 +50,11 @@ public interface BrokerServerResource {
     CatalogPageResult catalogPage(CatalogPageQuery query);
 
     @POST
-    @Path("connector-page")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Query the List of Known Connectors")
-    ConnectorPageResult connectorPage(ConnectorPageQuery query);
-
-    @POST
     @Path("data-offer-detail-page")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Query a Data Offer's Detail Page")
     DataOfferDetailPageResult dataOfferDetailPage(DataOfferDetailPageQuery query);
-
-    @POST
-    @Path("connector-detail-page")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Query a known Connector's Detail Page")
-    ConnectorDetailPageResult connectorDetailPage(ConnectorDetailPageQuery query);
-
-    @PUT
-    @Path("connectors")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Operation(description = "Add unknown Connectors to the Broker Server")
-    void addConnectors(List<String> endpoints, @QueryParam("adminApiKey") String adminApiKey);
-
-    @PUT
-    @Path("connectors-with-mdsid")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Operation(description = "Add unknown Connectors with MDS IDs to the Broker Server")
-    void addConnectorsWithMdsIds(ConnectorCreationRequest connectors, @QueryParam("adminApiKey") String adminApiKey);
-
-    @DELETE
-    @Path("connectors")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Operation(description = "Delete known Connectors from the Broker Server")
-    void deleteConnectors(List<String> endpoints, @QueryParam("adminApiKey") String adminApiKey);
-
-    @POST
-    @Path("authority-portal-api/connectors")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Provide Connector metadata by provided Connector Endpoints")
-    List<AuthorityPortalConnectorInfo> getConnectorMetadata(List<String> endpoints, @QueryParam("adminApiKey") String adminApiKey);
-
-    @POST
-    @Path("authority-portal-api/organization-metadata")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Operation(description = "Update organization metadata. Organizations not contained in the payload will be deleted.")
-    void setOrganizationMetadata(AuthorityPortalOrganizationMetadataRequest organizationMetadataRequest, @QueryParam("adminApiKey") String adminApiKey);
 
     @POST
     @Path("authority-portal-api/data-offer-info")
