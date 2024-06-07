@@ -56,10 +56,12 @@ public class CatalogQueryDataOfferFetcher {
 
         var select = DSL.select(
                 d.ASSET_ID.as("assetId"),
+                d.ASSET_JSON_LD.as("assetJsonLd"),
                 d.CREATED_AT,
                 d.UPDATED_AT,
                 catalogQueryContractOfferFetcher.getContractOffers(d).as("contractOffers"),
                 c.CONNECTOR_ID.as("connectorId"),
+                c.ENDPOINT_URL.as("connectorEndpointUrl"),
                 c.ONLINE_STATUS.as("connectorOnlineStatus"),
                 c.MDS_ID.as("connectorParticipantId"),
                 fields.getOrganizationName().as("organizationName"),

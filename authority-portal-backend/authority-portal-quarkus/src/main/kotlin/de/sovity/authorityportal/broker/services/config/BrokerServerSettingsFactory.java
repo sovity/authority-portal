@@ -16,6 +16,7 @@ package de.sovity.authorityportal.broker.services.config;
 
 import de.sovity.authorityportal.broker.BrokerConfiguration;
 import de.sovity.authorityportal.broker.BrokerServerExtension;
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.NonNull;
@@ -57,11 +58,11 @@ public class BrokerServerSettingsFactory {
 
     private DataSpaceConfig buildDataSpaceConfig(Config config) {
         var dataSpaceConfig = new DataSpaceConfig(getKnownDataSpaceEndpoints(config), getDefaultDataSpace(config));
-        monitor.info("Default Dataspace Name: %s".formatted(dataSpaceConfig.defaultDataSpace()));
-        dataSpaceConfig.dataSpaceConnectors().forEach(dataSpaceConnector -> monitor.info("Using Dataspace Name %s for %s."
+        Log.info("Default Dataspace Name: %s".formatted(dataSpaceConfig.defaultDataSpace()));
+        dataSpaceConfig.dataSpaceConnectors().forEach(dataSpaceConnector -> Log.info("Using Dataspace Name %s for %s."
                 .formatted(dataSpaceConnector.dataSpaceName(), dataSpaceConnector.endpoint())));
         if (dataSpaceConfig.dataSpaceConnectors().isEmpty()) {
-            monitor.info("No additional data space names configured.");
+            Log.info("No additional data space names configured.");
         }
         return dataSpaceConfig;
     }

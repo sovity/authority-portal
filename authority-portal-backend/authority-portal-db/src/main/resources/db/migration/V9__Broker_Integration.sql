@@ -34,7 +34,7 @@ create table data_offer
     connector_id              text                     not null,
     asset_id                  text                     not null,
     environment               text                     not null,
-    ui_asset_json             jsonb                    not null,
+    asset_json_ld             jsonb                    not null,
     created_at                timestamp with time zone not null,
     updated_at                timestamp with time zone,
     asset_title               text                     not null,

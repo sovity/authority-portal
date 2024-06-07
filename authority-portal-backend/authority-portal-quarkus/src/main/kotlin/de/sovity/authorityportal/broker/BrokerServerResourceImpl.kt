@@ -14,12 +14,10 @@
 package de.sovity.authorityportal.broker
 
 import de.sovity.authorityportal.broker.api.BrokerServerResource
-import de.sovity.authorityportal.broker.api.model.AuthorityPortalConnectorDataOfferInfo
 import de.sovity.authorityportal.broker.api.model.CatalogPageQuery
 import de.sovity.authorityportal.broker.api.model.CatalogPageResult
 import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageQuery
 import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageResult
-import de.sovity.authorityportal.broker.services.api.AuthorityPortalConnectorDataOfferApiService
 import de.sovity.authorityportal.broker.services.api.CatalogApiService
 import de.sovity.authorityportal.broker.services.api.DataOfferDetailApiService
 import de.sovity.authorityportal.web.auth.AuthUtils
@@ -39,20 +37,13 @@ class BrokerServerResourceImpl(
 
     @Transactional
     override fun catalogPage(query: CatalogPageQuery): CatalogPageResult {
+        authUtils.requiresAuthenticated()
         return catalogApiService.catalogPage(query)
     }
 
     @Transactional
     override fun dataOfferDetailPage(query: DataOfferDetailPageQuery): DataOfferDetailPageResult {
-        return dataOfferDetailApiService.dataOfferDetailPage(query)
-    }
-
-    @Transactional
-    override fun getConnectorDataOffers(
-        endpoints: List<String>,
-        adminApiKey: String
-    ): MutableList<AuthorityPortalConnectorDataOfferInfo> {
         authUtils.requiresAuthenticated()
-        return authorityPortalConnectorDataOffersApiService.getConnectorDataOffersByEndpoints(endpoints)
+        return dataOfferDetailApiService.dataOfferDetailPage(query)
     }
 }

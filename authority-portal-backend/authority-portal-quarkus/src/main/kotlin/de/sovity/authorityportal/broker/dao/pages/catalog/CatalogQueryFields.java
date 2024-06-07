@@ -67,7 +67,7 @@ public class CatalogQueryFields {
     }
 
     private Field<String> buildDataSpaceField(Connector connectorTable, DataSpaceConfig dataSpaceConfig) {
-        var endpoint = connectorTable.ENDPOINT;
+        var endpoint = connectorTable.ENDPOINT_URL;
 
         var connectors = dataSpaceConfig.dataSpaceConnectors();
         if (connectors.isEmpty()) {

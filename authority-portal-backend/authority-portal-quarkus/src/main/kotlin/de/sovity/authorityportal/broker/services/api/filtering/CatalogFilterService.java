@@ -88,15 +88,24 @@ public class CatalogFilterService {
             ),
             catalogFilterAttributeDefinitionService.forField(
                 CatalogQueryFields::getOrganizationName,
-                "curatorOrganizationName",
+                "organizationName",
                 "Organization Name"
             ),
             catalogFilterAttributeDefinitionService.forField(
-                fields -> DSL.coalesce(fields.getConnectorTable().MDS_ID, "Unknown"),
-                "curatorMdsId",
+                fields -> fields.getConnectorTable().MDS_ID,
+                "mdsId",
                 "MDS ID"
             ),
-            catalogFilterAttributeDefinitionService.buildConnectorEndpointFilter()
+            catalogFilterAttributeDefinitionService.forField(
+                fields -> fields.getConnectorTable().CONNECTOR_ID,
+                "connectorId",
+                "Connector ID"
+            ),
+            catalogFilterAttributeDefinitionService.forField(
+                fields -> fields.getConnectorTable().ENDPOINT_URL,
+                "connectorEndpoint",
+                "Connector Endpoint"
+            )
         );
     }
 

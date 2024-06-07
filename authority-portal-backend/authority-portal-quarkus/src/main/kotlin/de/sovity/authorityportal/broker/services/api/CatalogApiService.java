@@ -99,7 +99,7 @@ public class CatalogApiService {
     private CatalogDataOffer buildCatalogDataOffer(DataOfferListEntryRs dataOfferRs) {
         var asset = dataOfferMappingUtils.buildUiAsset(
             dataOfferRs.getAssetJsonLd(),
-            dataOfferRs.getConnectorEndpoint(),
+            dataOfferRs.getConnectorEndpointUrl(),
             dataOfferRs.getConnectorParticipantId(),
             dataOfferRs.getOrganizationName()
         );
@@ -110,7 +110,7 @@ public class CatalogApiService {
         dataOffer.setUpdatedAt(dataOfferRs.getUpdatedAt());
         dataOffer.setAsset(asset);
         dataOffer.setContractOffers(buildCatalogContractOffers(dataOfferRs));
-        dataOffer.setConnectorEndpoint(dataOfferRs.getConnectorEndpoint());
+        dataOffer.setConnectorEndpoint(dataOfferRs.getConnectorEndpointUrl());
         dataOffer.setConnectorOfflineSinceOrLastUpdatedAt(dataOfferRs.getConnectorOfflineSinceOrLastUpdatedAt());
         dataOffer.setConnectorOnlineStatus(getOnlineStatus(dataOfferRs));
         return dataOffer;
