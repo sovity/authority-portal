@@ -20,16 +20,21 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFil
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery;
 import de.sovity.authorityportal.db.jooq.Tables;
 import de.sovity.authorityportal.broker.services.config.BrokerServerDataspaceSettings;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class CatalogQueryService {
-    private final CatalogQueryDataOfferFetcher catalogQueryDataOfferFetcher;
-    private final CatalogQueryAvailableFilterFetcher catalogQueryAvailableFilterFetcher;
-    private final BrokerServerDataspaceSettings brokerServerDataspaceSettings;
+    @Inject
+    CatalogQueryDataOfferFetcher catalogQueryDataOfferFetcher;
+    @Inject
+    CatalogQueryAvailableFilterFetcher catalogQueryAvailableFilterFetcher;
+    @Inject
+    BrokerServerDataspaceSettings brokerServerDataspaceSettings;
 
     /**
      * Query all data required for the catalog page
@@ -43,6 +48,7 @@ public class CatalogQueryService {
      */
     public CatalogPageRs queryCatalogPage(
             DSLContext dsl,
+            String environment,
             String searchQuery,
             List<CatalogQueryFilter> filters,
             CatalogPageSortingType sorting,
@@ -56,11 +62,11 @@ public class CatalogQueryService {
         );
 
         var availableFilterValues = catalogQueryAvailableFilterFetcher
-                .queryAvailableFilterValues(fields, searchQuery, filters);
+                .queryAvailableFilterValues(environment, fields, searchQuery, filters);
 
-        var dataOffers = catalogQueryDataOfferFetcher.queryDataOffers(fields, searchQuery, filters, sorting, pageQuery);
+        var dataOffers = catalogQueryDataOfferFetcher.queryDataOffers(environment, fields, searchQuery, filters, sorting, pageQuery);
 
-        var numTotalDataOffers = catalogQueryDataOfferFetcher.queryNumDataOffers(fields, searchQuery, filters);
+        var numTotalDataOffers = catalogQueryDataOfferFetcher.queryNumDataOffers(environment, fields, searchQuery, filters);
 
         return dsl.select(
                 dataOffers.as("dataOffers"),

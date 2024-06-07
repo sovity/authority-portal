@@ -22,28 +22,32 @@ import de.sovity.authorityportal.broker.services.api.CatalogApiService
 import de.sovity.authorityportal.broker.services.api.DataOfferDetailApiService
 import de.sovity.authorityportal.web.auth.AuthUtils
 import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 
 /**
  * Implementation of [BrokerServerResource]
  */
 @ApplicationScoped
-class BrokerServerResourceImpl(
-    private val catalogApiService: CatalogApiService,
-    private val dataOfferDetailApiService: DataOfferDetailApiService,
-    private val authUtils: AuthUtils
-) : BrokerServerResource {
+class BrokerServerResourceImpl : BrokerServerResource {
+
+    @Inject
+    lateinit var catalogApiService: CatalogApiService
+    @Inject
+    lateinit var dataOfferDetailApiService: DataOfferDetailApiService
+    @Inject
+    lateinit var authUtils: AuthUtils
 
 
     @Transactional
-    override fun catalogPage(query: CatalogPageQuery): CatalogPageResult {
+    override fun catalogPage(environment: String, query: CatalogPageQuery): CatalogPageResult {
         authUtils.requiresAuthenticated()
-        return catalogApiService.catalogPage(query)
+        return catalogApiService.catalogPage(environment, query)
     }
 
     @Transactional
-    override fun dataOfferDetailPage(query: DataOfferDetailPageQuery): DataOfferDetailPageResult {
+    override fun dataOfferDetailPage(environment: String, query: DataOfferDetailPageQuery): DataOfferDetailPageResult {
         authUtils.requiresAuthenticated()
-        return dataOfferDetailApiService.dataOfferDetailPage(query)
+        return dataOfferDetailApiService.dataOfferDetailPage(environment, query)
     }
 }

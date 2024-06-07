@@ -19,6 +19,8 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFil
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs;
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery;
 import de.sovity.authorityportal.broker.dao.utils.MultisetUtils;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Field;
 import org.jooq.Record;
@@ -28,11 +30,14 @@ import org.jooq.impl.DSL;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class CatalogQueryDataOfferFetcher {
-    private final CatalogQuerySortingService catalogQuerySortingService;
-    private final CatalogQueryFilterService catalogQueryFilterService;
-    private final CatalogQueryContractOfferFetcher catalogQueryContractOfferFetcher;
+    @Inject
+    CatalogQuerySortingService catalogQuerySortingService;
+    @Inject
+    CatalogQueryFilterService catalogQueryFilterService;
+    @Inject
+    CatalogQueryContractOfferFetcher catalogQueryContractOfferFetcher;
 
     /**
      * Query data offers
@@ -45,6 +50,7 @@ public class CatalogQueryDataOfferFetcher {
      * @return {@link Field} of {@link DataOfferListEntryRs}s
      */
     public Field<List<DataOfferListEntryRs>> queryDataOffers(
+            String environment,
             CatalogQueryFields fields,
             String searchQuery,
             List<CatalogQueryFilter> filters,
@@ -69,7 +75,7 @@ public class CatalogQueryDataOfferFetcher {
         );
 
         var query = from(select, fields)
-                .where(catalogQueryFilterService.filterDbQuery(fields, searchQuery, filters))
+                .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))
                 .orderBy(catalogQuerySortingService.getOrderBy(fields, sorting))
                 .limit(pageQuery.offset(), pageQuery.limit());
 
@@ -84,9 +90,9 @@ public class CatalogQueryDataOfferFetcher {
      * @param filters     filters (queries + filter clauses)
      * @return {@link Field} with number of data offers
      */
-    public Field<Integer> queryNumDataOffers(CatalogQueryFields fields, String searchQuery, List<CatalogQueryFilter> filters) {
+    public Field<Integer> queryNumDataOffers(String environment, CatalogQueryFields fields, String searchQuery, List<CatalogQueryFilter> filters) {
         var query = from(DSL.select(DSL.count()), fields)
-                .where(catalogQueryFilterService.filterDbQuery(fields, searchQuery, filters));
+                .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters));
         return DSL.field(query);
     }
 

@@ -25,7 +25,7 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryService;
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs;
 import de.sovity.authorityportal.broker.services.api.filtering.CatalogFilterService;
-import de.sovity.authorityportal.broker.services.config.BrokerServerDataspaceSettings;
+import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jooq.DSLContext;
@@ -45,18 +45,19 @@ public class CatalogApiService {
     @Inject
     CatalogFilterService catalogFilterService;
     @Inject
-    BrokerServerDataspaceSettings brokerServerDataspaceSettings;
-    @Inject
     DSLContext dsl;
+    @Inject
+    DeploymentEnvironmentService deploymentEnvironmentService;
 
-    public CatalogPageResult catalogPage(CatalogPageQuery query) {
+    public CatalogPageResult catalogPage(String environment, CatalogPageQuery query) {
         Objects.requireNonNull(query, "query must not be null");
+        var brokerConfig = deploymentEnvironmentService.findByIdOrThrow(environment).broker();
 
         var filters = catalogFilterService.getCatalogQueryFilters(query.getFilter());
 
         var pageQuery = paginationMetadataUtils.getPageQuery(
             query.getPageOneBased(),
-            brokerServerDataspaceSettings.getCatalogPagePageSize()
+            brokerConfig.catalogPagePageSize()
         );
 
         var availableSortings = buildAvailableSortings();
@@ -68,6 +69,7 @@ public class CatalogApiService {
         // execute db query
         var catalogPageRs = catalogQueryService.queryCatalogPage(
             dsl,
+            environment,
             query.getSearchQuery(),
             filters,
             sorting,
@@ -76,7 +78,7 @@ public class CatalogApiService {
 
         var paginationMetadata = paginationMetadataUtils.buildPaginationMetadata(
             query.getPageOneBased(),
-            brokerServerDataspaceSettings.getCatalogPagePageSize(),
+            brokerConfig.catalogPagePageSize(),
             catalogPageRs.getDataOffers().size(),
             catalogPageRs.getNumTotalDataOffers()
         );

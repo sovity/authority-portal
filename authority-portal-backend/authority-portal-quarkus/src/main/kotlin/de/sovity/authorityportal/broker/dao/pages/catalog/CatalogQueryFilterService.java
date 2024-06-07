@@ -19,6 +19,9 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import de.sovity.authorityportal.db.jooq.tables.Connector;
 import de.sovity.authorityportal.broker.services.api.filtering.CatalogSearchService;
 import de.sovity.authorityportal.broker.services.config.BrokerServerDataspaceSettings;
+import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.Condition;
@@ -29,30 +32,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class CatalogQueryFilterService {
-    private final BrokerServerDataspaceSettings brokerServerDataspaceSettings;
-    private final CatalogSearchService catalogSearchService;
+    @Inject
+    CatalogSearchService catalogSearchService;
+    @Inject
+    DeploymentEnvironmentService deploymentEnvironmentService;
 
-    public Condition filterDbQuery(CatalogQueryFields fields, String searchQuery, List<CatalogQueryFilter> filters) {
+    public Condition filterDbQuery(String environment, CatalogQueryFields fields, String searchQuery, List<CatalogQueryFilter> filters) {
         var conditions = new ArrayList<Condition>();
         conditions.add(catalogSearchService.filterBySearch(fields, searchQuery));
-        conditions.add(onlyOnlineOrRecentlyOfflineConnectors(fields.getConnectorTable()));
+        conditions.add(onlyOnlineOrRecentlyOfflineConnectors(environment, fields.getConnectorTable()));
         conditions.addAll(filters.stream().map(CatalogQueryFilter::queryFilterClauseOrNull)
                 .filter(Objects::nonNull).map(it -> it.filterDataOffers(fields)).toList());
         return DSL.and(conditions);
     }
 
     @NotNull
-    private Condition onlyOnlineOrRecentlyOfflineConnectors(Connector c) {
-        var maxOfflineDuration = brokerServerDataspaceSettings.getHideOfflineDataOffersAfter();
+    private Condition onlyOnlineOrRecentlyOfflineConnectors(String environment, Connector c) {
+        var maxOfflineDuration = deploymentEnvironmentService.findByIdOrThrow(environment)
+            .broker()
+            .hideOfflineDataOffersAfter();
 
         Condition maxOfflineDurationNotExceeded;
-        if (maxOfflineDuration == null) {
-            maxOfflineDurationNotExceeded = DSL.trueCondition();
-        } else {
-            maxOfflineDurationNotExceeded = c.LAST_SUCCESSFUL_REFRESH_AT.greaterThan(OffsetDateTime.now().minus(maxOfflineDuration));
-        }
+        maxOfflineDurationNotExceeded = c.LAST_SUCCESSFUL_REFRESH_AT.greaterThan(OffsetDateTime.now().minus(maxOfflineDuration));
 
         return DSL.or(
                 c.ONLINE_STATUS.eq(ConnectorOnlineStatus.ONLINE),

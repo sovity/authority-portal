@@ -16,6 +16,8 @@ package de.sovity.authorityportal.broker.dao.pages.catalog;
 
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter;
 import de.sovity.authorityportal.broker.utils.CollectionUtils2;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Field;
 import org.jooq.JSON;
@@ -25,9 +27,10 @@ import org.jooq.impl.SQLDataType;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class CatalogQueryAvailableFilterFetcher {
-    private final CatalogQueryFilterService catalogQueryFilterService;
+    @Inject
+    CatalogQueryFilterService catalogQueryFilterService;
 
     /**
      * Query available filter values.
@@ -38,6 +41,7 @@ public class CatalogQueryAvailableFilterFetcher {
      * @return {@link Field} with field[iFilter][iValue]
      */
     public Field<JSON> queryAvailableFilterValues(
+            String environment,
             CatalogQueryFields fields,
             String searchQuery,
             List<CatalogQueryFilter> filters
@@ -47,13 +51,14 @@ public class CatalogQueryAvailableFilterFetcher {
             // When querying a filter's values we apply all filters except for the current filter's values
             var currentFilter = filters.get(i);
             var otherFilters = CollectionUtils2.allElementsExceptForIndex(filters, i);
-            var resultField = queryFilterValues(fields, currentFilter, searchQuery, otherFilters);
+            var resultField = queryFilterValues(environment, fields, currentFilter, searchQuery, otherFilters);
             resultFields.add(resultField);
         }
         return DSL.select(DSL.jsonArray(resultFields)).asField();
     }
 
     private Field<JSON> queryFilterValues(
+            String environment,
             CatalogQueryFields parentQueryFields,
             CatalogQueryFilter currentFilter,
             String searchQuery,
@@ -67,8 +72,8 @@ public class CatalogQueryAvailableFilterFetcher {
 
         return DSL.select(DSL.coalesce(DSL.arrayAggDistinct(value), DSL.array().cast(SQLDataType.VARCHAR.array())))
                 .from(d)
-                .leftJoin(c).on(c.ENDPOINT.eq(d.CONNECTOR_ENDPOINT))
-                .where(catalogQueryFilterService.filterDbQuery(fields, searchQuery, otherFilters))
+                .leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
+                .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, otherFilters))
                 .asField();
     }
 }

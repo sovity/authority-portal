@@ -19,6 +19,7 @@ import de.sovity.authorityportal.db.jooq.tables.Connector;
 import de.sovity.authorityportal.db.jooq.tables.DataOffer;
 import de.sovity.authorityportal.db.jooq.tables.DataOfferViewCount;
 import de.sovity.authorityportal.broker.services.config.DataSpaceConfig;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;

@@ -18,13 +18,14 @@ import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferR
 import de.sovity.authorityportal.broker.dao.utils.MultisetUtils;
 import de.sovity.authorityportal.db.jooq.Tables;
 import de.sovity.authorityportal.db.jooq.tables.DataOffer;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class CatalogQueryContractOfferFetcher {
 
     /**

@@ -14,6 +14,7 @@
 
 package de.sovity.authorityportal.broker.services.config;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.Builder;
 import lombok.Value;
 

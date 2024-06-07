@@ -42,7 +42,7 @@ public class DataOfferDetailApiService {
     @Inject
     DSLContext dsl;
 
-    public DataOfferDetailPageResult dataOfferDetailPage(DataOfferDetailPageQuery query) {
+    public DataOfferDetailPageResult dataOfferDetailPage(String environment, DataOfferDetailPageQuery query) {
         Objects.requireNonNull(query, "query must not be null");
 
         var dataOffer = dataOfferDetailPageQueryService.queryDataOfferDetailsPage(dsl, query.getAssetId(), query.getConnectorEndpoint());

@@ -15,6 +15,7 @@
 package de.sovity.authorityportal.broker.dao.pages.catalog;
 
 import de.sovity.authorityportal.broker.api.model.CatalogPageSortingType;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ import org.jooq.OrderField;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class CatalogQuerySortingService {
     @NotNull
     public List<OrderField<?>> getOrderBy(CatalogQueryFields fields, @NonNull CatalogPageSortingType sorting) {

@@ -15,10 +15,12 @@
 package de.sovity.authorityportal.broker.dao.pages.dataoffer;
 
 import de.sovity.authorityportal.db.jooq.Tables;
+import jakarta.enterprise.context.ApplicationScoped;
 import org.jooq.DSLContext;
 
 import java.time.OffsetDateTime;
 
+@ApplicationScoped
 public class ViewCountLogger {
     public void increaseDataOfferViewCount(DSLContext dsl, String assetId, String endpoint) {
         var v = Tables.DATA_OFFER_VIEW_COUNT;

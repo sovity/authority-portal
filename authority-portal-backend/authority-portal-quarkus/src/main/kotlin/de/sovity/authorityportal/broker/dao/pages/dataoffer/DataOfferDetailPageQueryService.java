@@ -19,13 +19,17 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.DataOfferDetailRs;
 import de.sovity.authorityportal.db.jooq.Tables;
 import de.sovity.authorityportal.broker.services.config.BrokerServerDataspaceSettings;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 
-@RequiredArgsConstructor
+@ApplicationScoped
 public class DataOfferDetailPageQueryService {
-    private final CatalogQueryContractOfferFetcher catalogQueryContractOfferFetcher;
-    private final BrokerServerDataspaceSettings brokerServerDataspaceSettings;
+    @Inject
+    CatalogQueryContractOfferFetcher catalogQueryContractOfferFetcher;
+    @Inject
+    BrokerServerDataspaceSettings brokerServerDataspaceSettings;
 
     public DataOfferDetailRs queryDataOfferDetailsPage(DSLContext dsl, String assetId, String endpoint) {
         // We are re-using the catalog page query stuff as long as we can get away with it
