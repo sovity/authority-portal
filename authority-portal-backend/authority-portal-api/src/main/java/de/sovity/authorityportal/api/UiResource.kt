@@ -366,7 +366,8 @@ interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Check if a CaaS registration is available for your organization.")
     fun checkFreeCaasUsage(
-        @Valid @NotBlank(message = "EnvironmentId cannot be blank")@QueryParam("environmentId")
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        @QueryParam("environmentId")
         environmentId: String
     ): CaasAvailabilityResponse
 
