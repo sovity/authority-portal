@@ -11,17 +11,17 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Visible connector in connector overview page(s).")
 public class ProvidedConnectorOverviewEntryDto {
     @Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String id;
+    String id;
     @Schema(description = "Customer organization name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String customerOrgName;
+    String customerOrgName;
     @Schema(description = "Type", requiredMode = Schema.RequiredMode.REQUIRED)
-    private ConnectorTypeDto type;
+    ConnectorTypeDto type;
     @Schema(description = "Deployment Environment", requiredMode = Schema.RequiredMode.REQUIRED)
-    private DeploymentEnvironmentDto environment;
+    DeploymentEnvironmentDto environment;
     @Schema(description = "Connector Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String name;
+    String name;
     @Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private ConnectorStatusDto status;
+    ConnectorStatusDto status;
     @Schema(description = "Frontend link", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String frontendUrl;
+    String frontendUrl;
 }

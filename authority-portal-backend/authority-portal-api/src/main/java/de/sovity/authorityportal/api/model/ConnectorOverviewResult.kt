@@ -1,0 +1,10 @@
+package de.sovity.authorityportal.api.model
+
+import io.swagger.v3.oas.annotations.media.Schema
+
+@Schema(description = "All data for connector overview page(s).")
+class ConnectorOverviewResult(
+    @Schema(description = "Visible connectors.", requiredMode = Schema.RequiredMode.REQUIRED)
+    val connectors: List<ConnectorOverviewEntryDto>
+)
+

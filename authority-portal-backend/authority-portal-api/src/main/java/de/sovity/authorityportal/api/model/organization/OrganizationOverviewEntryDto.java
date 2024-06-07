@@ -15,23 +15,23 @@ import lombok.ToString;
 @Schema(description = "Visible organization in organization overview page.")
 public class OrganizationOverviewEntryDto {
     @Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String mdsId;
+    String mdsId;
 
     @Schema(description = "Legal Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String name;
+    String name;
 
     @Schema(description = "Main Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String mainContactEmail;
+    String mainContactEmail;
 
     @Schema(description = "Number of Users", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer numberOfUsers;
+    Integer numberOfUsers;
 
     @Schema(description = "Number of Connectors", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer numberOfConnectors;
+    Integer numberOfConnectors;
 
     @Schema(description = "Number of Data Offers", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer numberOfDataOffers;
+    Integer numberOfDataOffers;
 
     @Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private OrganizationRegistrationStatusDto registrationStatus;
+    OrganizationRegistrationStatusDto registrationStatus;
 }

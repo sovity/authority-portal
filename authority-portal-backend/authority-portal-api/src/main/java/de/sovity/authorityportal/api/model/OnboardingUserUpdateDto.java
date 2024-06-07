@@ -14,17 +14,17 @@ public class OnboardingUserUpdateDto {
 
     @NotBlank(message = "First name cannot be blank.")
     @Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String firstName;
+    String firstName;
 
     @NotBlank(message = "Last name cannot be blank.")
     @Schema(description = "Last name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String lastName;
+    String lastName;
 
     @NotBlank(message = "Job title cannot be blank.")
     @Schema(description = "Job title", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String jobTitle;
+    String jobTitle;
 
     @NotBlank(message = "Phone number cannot be blank.")
     @Schema(description = "Phone number", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String phoneNumber;
+    String phoneNumber;
 }

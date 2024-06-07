@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Possible successor (Participant Admin), if a users gets deleted, that is creator of an organization.")
 public class PossibleCreatorSuccessor {
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String userId;
+    String userId;
     @Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String firstName;
+    String firstName;
     @Schema(description = "Last name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String lastName;
+    String lastName;
 }

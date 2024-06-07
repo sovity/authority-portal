@@ -1,27 +1,17 @@
-package de.sovity.authorityportal.api.model;
+package de.sovity.authorityportal.api.model
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import io.swagger.v3.oas.annotations.media.Schema
 
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Connector deployment environment.")
-public class DeploymentEnvironmentDto {
+class DeploymentEnvironmentDto(
     @Schema(description = "Deployment environment ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String environmentId;
+    val environmentId: String,
     @Schema(description = "Environment localized name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String title;
+    val title: String,
     @Schema(description = "DAPS Token URL", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String dapsTokenUrl;
+    val dapsTokenUrl: String,
     @Schema(description = "DAPS JWKS URL", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String dapsJwksUrl;
+    val dapsJwksUrl: String,
     @Schema(description = "Logging House URL", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String loggingHouseUrl;
-}
+    val loggingHouseUrl: String,
+)

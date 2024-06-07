@@ -1,26 +1,19 @@
-package de.sovity.authorityportal.api.model;
+package de.sovity.authorityportal.api.model
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Status information for components and connectors.")
-public class ComponentStatusOverview {
+class ComponentStatusOverview(
     @Schema(description = "Broker Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private UptimeStatusDto brokerStatus;
+    val brokerStatus: UptimeStatusDto?,
     @Schema(description = "DAPS Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private UptimeStatusDto dapsStatus;
+    val dapsStatus: UptimeStatusDto?,
     @Schema(description = "Logging House Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private UptimeStatusDto loggingHouseStatus;
+    val loggingHouseStatus: UptimeStatusDto?,
     @Schema(description = "Number of online connectors", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer onlineConnectors;
+    val onlineConnectors: Int,
     @Schema(description = "Number of disturbed connectors", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer disturbedConnectors;
+    val disturbedConnectors: Int,
     @Schema(description = "Number of offline connectors", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer offlineConnectors;
-}
-
+    val offlineConnectors: Int,
+)

@@ -17,21 +17,21 @@ import lombok.ToString;
 public class UpdateUserDto {
 
     @Schema(description = "User's First name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String firstName;
+    String firstName;
 
     @NotBlank(message = "User's Last name cannot be blank")
     @Schema(description = "User's Last name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String lastName;
+    String lastName;
 
     @NotBlank(message = "User's Job title cannot be blank")
     @Schema(description = "User's Job title", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String jobTitle;
+    String jobTitle;
 
     @NotBlank(message = "User's Phone number cannot be blank")
     @Schema(description = "User's Phone number", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String phone;
+    String phone;
 
     @NotBlank(message = "User's email cannot be blank")
     @Schema(description = "User's email", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String email;
+    String email;
 }

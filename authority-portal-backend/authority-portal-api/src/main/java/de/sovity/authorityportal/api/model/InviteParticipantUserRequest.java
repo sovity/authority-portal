@@ -17,17 +17,17 @@ import lombok.ToString;
 public class InviteParticipantUserRequest {
     @NotBlank(message = "Email address cannot be blank")
     @Schema(description = "Email address", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String email;
+    String email;
 
     @NotBlank(message = "First name cannot be blank")
     @Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String firstName;
+    String firstName;
 
     @NotBlank(message = "Last name cannot be blank")
     @Schema(description = "Last name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String lastName;
+    String lastName;
 
     @NotNull(message = "Role cannot be null")
     @Schema(description = "Participant role", requiredMode = Schema.RequiredMode.REQUIRED)
-    private UserRoleDto role;
+    UserRoleDto role;
 }

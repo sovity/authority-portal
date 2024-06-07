@@ -15,61 +15,61 @@ public class OnboardingOrganizationUpdateDto {
 
     @NotBlank(message = "Name cannot be blank.")
     @Schema(description = "Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String name;
+    String name;
 
     @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String description;
+    String description;
 
     @NotBlank(message = "Website cannot be blank.")
     @Schema(description = "Website", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String url;
+    String url;
 
     @Schema(description = "Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String businessUnit;
+    String businessUnit;
 
     @Schema(description = "Industry", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String industry;
+    String industry;
 
     @NotBlank(message = "Address cannot be blank.")
     @Schema(description = "Address", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String address;
+    String address;
 
     @NotBlank(message = "Billing address cannot be blank.")
     @Schema(description = "Billing address", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String billingAddress;
+    String billingAddress;
 
     @NotNull(message = "Legal identification type cannot be null")
     @Schema(description = "Legal identification type", requiredMode = Schema.RequiredMode.REQUIRED)
-    private OrganizationLegalIdTypeDto legalIdType;
+    OrganizationLegalIdTypeDto legalIdType;
 
     @NotBlank(message = "Legal identification number cannot be blank")
     @Schema(description = "Legal identification number", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String legalIdNumber;
+    String legalIdNumber;
 
     @Schema(description = "Commerce register location", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String commerceRegisterLocation;
+    String commerceRegisterLocation;
 
     @NotBlank(message = "Main contact name cannot be blank")
     @Schema(description = "Main contact name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String mainContactName;
+    String mainContactName;
 
     @NotBlank(message = "Main contact email cannot be blank")
     @Schema(description = "Main contact email", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String mainContactEmail;
+    String mainContactEmail;
 
     @NotBlank(message = "Main contact phone cannot be blank")
     @Schema(description = "Main contact phone", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String mainContactPhone;
+    String mainContactPhone;
 
     @NotBlank(message = "Technical contact name cannot be blank")
     @Schema(description = "Technical contact name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String techContactName;
+    String techContactName;
 
     @NotBlank(message = "Technical contact email cannot be blank")
     @Schema(description = "Technical contact email", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String techContactEmail;
+    String techContactEmail;
 
     @NotBlank(message = "Technical contact phone cannot be blank")
     @Schema(description = "Technical contact phone", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String techContactPhone;
+    String techContactPhone;
 }

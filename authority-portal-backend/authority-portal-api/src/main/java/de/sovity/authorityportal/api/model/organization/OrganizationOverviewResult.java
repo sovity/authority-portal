@@ -17,6 +17,6 @@ import java.util.List;
 @Schema(description = "All data for organization overview page.")
 public class OrganizationOverviewResult {
     @Schema(description = "Visible organizations.", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<OrganizationOverviewEntryDto> organizations;
+    List<OrganizationOverviewEntryDto> organizations;
 }
 

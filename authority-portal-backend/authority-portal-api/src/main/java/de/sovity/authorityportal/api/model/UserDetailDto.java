@@ -18,33 +18,33 @@ import java.util.List;
 @Schema(description = "Information about the user.")
 public class UserDetailDto {
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String userId;
+    String userId;
     @Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String firstName;
+    String firstName;
     @Schema(description = "Last name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String lastName;
+    String lastName;
     @Schema(description = "Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String email;
+    String email;
     @Schema(description = "Roles of the user", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<UserRoleDto> roles;
+    List<UserRoleDto> roles;
     @Schema(description = "Registration status of the user", requiredMode = Schema.RequiredMode.REQUIRED)
-    private UserRegistrationStatusDto registrationStatus;
+    UserRegistrationStatusDto registrationStatus;
     @Schema(description = "Creation date of the user", requiredMode = Schema.RequiredMode.REQUIRED)
-    private OffsetDateTime creationDate;
+    OffsetDateTime creationDate;
     @Schema(description = "Organization MDS ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String organizationMdsId;
+    String organizationMdsId;
     @Schema(description = "Organization name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String organizationName;
+    String organizationName;
     @Schema(description = "Phone number", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String phone;
+    String phone;
     @Schema(description = "Job description", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String position;
+    String position;
     @Schema(description = "Onboarding type", requiredMode = Schema.RequiredMode.REQUIRED)
-    private UserOnboardingTypeDto onboardingType;
+    UserOnboardingTypeDto onboardingType;
     @Schema(description = "Inviting user's id if applicable", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String invitingUserId;
+    String invitingUserId;
     @Schema(description = "Inviting user's first name if applicable", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String invitingUserFirstName;
+    String invitingUserFirstName;
     @Schema(description = "Inviting user's last name if applicable", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String invitingUserLastName;
+    String invitingUserLastName;
 }

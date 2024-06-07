@@ -1,39 +1,33 @@
-package de.sovity.authorityportal.api.model;
+package de.sovity.authorityportal.api.model
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Detail information about a deployed connector.")
-public class ConnectorDetailDto {
+class ConnectorDetailDto(
     @Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String connectorId;
+    val connectorId: String,
     @Schema(description = "Type", requiredMode = Schema.RequiredMode.REQUIRED)
-    private ConnectorTypeDto type;
+    val type: ConnectorTypeDto,
     @Schema(description = "Owning organization (name)", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String orgName;
+    val orgName: String,
     @Schema(description = "Owning organization (MDS-ID)", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String orgMdsId;
+    val orgMdsId: String,
     @Schema(description = "Hosting organization (name)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String hostName;
+    val hostName: String?,
     @Schema(description = "Hosting organization (MDS-ID)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String hostMdsId;
+    val hostMdsId: String?,
     @Schema(description = "Deployment Environment", requiredMode = Schema.RequiredMode.REQUIRED)
-    private DeploymentEnvironmentDto environment;
+    val environment: DeploymentEnvironmentDto,
     @Schema(description = "Connector Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String connectorName;
+    val connectorName: String,
     @Schema(description = "Location", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String location;
+    val location: String,
     @Schema(description = "Frontend URL", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String frontendUrl;
+    val frontendUrl: String?,
     @Schema(description = "Endpoint URL", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String endpointUrl;
+    val endpointUrl: String?,
     @Schema(description = "Management URL", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String managementUrl;
+    val managementUrl: String?,
     @Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private ConnectorStatusDto status;
-}
+    val status: ConnectorStatusDto,
+)

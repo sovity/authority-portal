@@ -1,33 +1,27 @@
-package de.sovity.authorityportal.api.model;
+package de.sovity.authorityportal.api.model
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Information of a central dataspace component.")
-public class CentralComponentDto {
+class CentralComponentDto (
     @Schema(description = "Central Component ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String centralComponentId;
+    val centralComponentId: String,
 
     @Schema(description = "Component Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String name;
+    val name: String,
 
-    @Schema(description = "Home Page URL")
-    private String homepageUrl;
+    @Schema(description = "Home Page URL", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val homepageUrl: String?,
 
     @Schema(description = "Endpoint URL", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String endpointUrl;
+    val endpointUrl: String,
 
     @Schema(description = "Created By Full Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String createdByUserFullName;
+    val createdByUserFullName: String,
 
     @Schema(description = "Created By Organization Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String createdByOrgName;
+    val createdByOrgName: String,
 
     @Schema(description = "Created By Organization MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String createdByOrgMdsId;
-}
+    val createdByOrgMdsId: String,
+)

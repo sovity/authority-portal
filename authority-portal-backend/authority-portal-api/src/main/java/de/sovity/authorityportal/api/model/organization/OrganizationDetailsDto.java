@@ -16,55 +16,55 @@ import java.util.List;
 public class OrganizationDetailsDto {
 
     @Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String mdsId;
+    String mdsId;
     @Schema(description = "Legal name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String name;
+    String name;
     @Schema(description = "Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String businessUnit;
+    String businessUnit;
     @Schema(description = "Industry", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String industry;
+    String industry;
     @Schema(description = "Main Address", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String mainAddress;
+    String mainAddress;
     @Schema(description = "Billing Address", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String billingAddress;
+    String billingAddress;
     @Schema(description = "Legal ID type", requiredMode = Schema.RequiredMode.REQUIRED)
-    private OrganizationLegalIdTypeDto legalIdType;
+    OrganizationLegalIdTypeDto legalIdType;
     @Schema(description = "Legal ID number", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String legalId;
+    String legalId;
     @Schema(description = "Commerce register location (if applicable)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String commerceRegisterLocation;
+    String commerceRegisterLocation;
     @Schema(description = "URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String url;
+    String url;
     @Schema(description = "Description of what the company does/is", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String description;
+    String description;
     @Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private OrganizationRegistrationStatusDto registrationStatus;
+    OrganizationRegistrationStatusDto registrationStatus;
     @Schema(description = "Member count", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer memberCount;
+    Integer memberCount;
     @Schema(description = "Connector count", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer connectorCount;
+    Integer connectorCount;
     @Schema(description = "Data offer count", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer dataOfferCount;
+    Integer dataOfferCount;
     @Schema(description = "Member information", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<MemberInfo> memberList;
+    List<MemberInfo> memberList;
     @Schema(description = "Organization creator: User Id", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String createdByUserId;
+    String createdByUserId;
     @Schema(description = "Organization creator: First Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String createdByFirstName;
+    String createdByFirstName;
     @Schema(description = "Organization creator: Last Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String createdByLastName;
+    String createdByLastName;
     @Schema(description = "Main Contact Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String mainContactName;
+    String mainContactName;
     @Schema(description = "Main Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String mainContactEmail;
+    String mainContactEmail;
     @Schema(description = "Main Contact Phone", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String mainContactPhone;
+    String mainContactPhone;
     @Schema(description = "Tech Contact Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String techContactName;
+    String techContactName;
     @Schema(description = "Tech Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String techContactEmail;
+    String techContactEmail;
     @Schema(description = "Tech Contact Phone", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String techContactPhone;
+    String techContactPhone;
     @Schema(description = "Creation date of organization or organization invite", requiredMode = Schema.RequiredMode.REQUIRED)
-    private OffsetDateTime createdAt;
+    OffsetDateTime createdAt;
 }

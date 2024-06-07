@@ -13,5 +13,5 @@ import java.util.List;
 @Schema(description = "All data for connector overview page(s).")
 public class ProvidedConnectorOverviewResult {
     @Schema(description = "Visible connectors", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<ProvidedConnectorOverviewEntryDto> connectors;
+    List<ProvidedConnectorOverviewEntryDto> connectors;
 }

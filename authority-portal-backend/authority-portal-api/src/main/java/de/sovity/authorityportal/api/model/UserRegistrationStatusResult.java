@@ -15,6 +15,6 @@ import lombok.ToString;
 @Schema(description = "Object for containing the current registration status for a user.")
 public class UserRegistrationStatusResult {
     @Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
-    private UserRegistrationStatusDto registrationStatus;
+    UserRegistrationStatusDto registrationStatus;
 }
 

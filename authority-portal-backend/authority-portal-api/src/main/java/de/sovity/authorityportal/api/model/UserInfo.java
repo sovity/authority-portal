@@ -17,19 +17,19 @@ import java.util.List;
 @Schema(description = "Information about the logged in user.")
 public class UserInfo {
     @Schema(description = "Authentication Status. Is the user logged in or not", requiredMode = Schema.RequiredMode.REQUIRED)
-    private UserAuthenticationStatusDto authenticationStatus;
+    UserAuthenticationStatusDto authenticationStatus;
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String userId;
+    String userId;
     @Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String firstName;
+    String firstName;
     @Schema(description = "Last name", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String lastName;
+    String lastName;
     @Schema(description = "Name of the user's organization", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String organizationName;
+    String organizationName;
     @Schema(description = "MDS-ID of the user's organization", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String organizationMdsId;
+    String organizationMdsId;
     @Schema(description = "Roles of the user", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<UserRoleDto> roles;
+    List<UserRoleDto> roles;
     @Schema(description = "Registration status of the user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private UserRegistrationStatusDto registrationStatus;
+    UserRegistrationStatusDto registrationStatus;
 }

@@ -13,11 +13,11 @@ import java.time.Duration;
 @Schema(description = "Uptime information for a single component.")
 public class UptimeStatusDto {
     @Schema(description = "Status of the component", requiredMode = Schema.RequiredMode.REQUIRED)
-    private ComponentStatusDto componentStatus;
+    ComponentStatusDto componentStatus;
     @Schema(description = "Uptime in percent", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Double uptimePercentage;
+    Double uptimePercentage;
     @Schema(description = "Time span used for uptime percentage calculation", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Long timeSpanSeconds;
+    Long timeSpanSeconds;
     @Schema(description = "Time span since last incident", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Long upSinceSeconds;
+    Long upSinceSeconds;
 }
