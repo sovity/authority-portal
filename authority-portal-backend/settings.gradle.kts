@@ -9,6 +9,5 @@ pluginManagement {
 }
 
 include(":authority-portal-api")
-include(":authority-portal-api-client")
 include(":authority-portal-db")
 include(":authority-portal-quarkus")

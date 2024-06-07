@@ -9,7 +9,7 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
 
     val libs = rootProject.libs
-    group = "de.sovity.customer-portal"
+    group = "de.sovity.authorityportal"
     version = "0.0.1-SNAPSHOT"
 
     repositories {
