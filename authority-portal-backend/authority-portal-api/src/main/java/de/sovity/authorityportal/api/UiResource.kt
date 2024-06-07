@@ -10,78 +10,74 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+package de.sovity.authorityportal.api
 
-package de.sovity.authorityportal.api;
-
-import de.sovity.authorityportal.api.model.CaasAvailabilityResponse;
-import de.sovity.authorityportal.api.model.CentralComponentCreateRequest;
-import de.sovity.authorityportal.api.model.CentralComponentDto;
-import de.sovity.authorityportal.api.model.ComponentStatusOverview;
-import de.sovity.authorityportal.api.model.ConnectorDetailDto;
-import de.sovity.authorityportal.api.model.ConnectorOverviewResult;
-import de.sovity.authorityportal.api.model.CreateCaasRequest;
-import de.sovity.authorityportal.api.model.CreateConnectorRequest;
-import de.sovity.authorityportal.api.model.CreateConnectorResponse;
-import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto;
-import de.sovity.authorityportal.api.model.IdResponse;
-import de.sovity.authorityportal.api.model.InviteOrganizationRequest;
-import de.sovity.authorityportal.api.model.InviteParticipantUserRequest;
-import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto;
-import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult;
-import de.sovity.authorityportal.api.model.RegistrationRequestDto;
-import de.sovity.authorityportal.api.model.UpdateOrganizationDto;
-import de.sovity.authorityportal.api.model.UpdateUserDto;
-import de.sovity.authorityportal.api.model.UserDeletionCheck;
-import de.sovity.authorityportal.api.model.UserDetailDto;
-import de.sovity.authorityportal.api.model.UserInfo;
-import de.sovity.authorityportal.api.model.UserRegistrationStatusResult;
-import de.sovity.authorityportal.api.model.UserRoleDto;
-import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUpdateDto;
-import de.sovity.authorityportal.api.model.organization.OrganizationDetailsDto;
-import de.sovity.authorityportal.api.model.organization.OrganizationOverviewResult;
-import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDto;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-
-import java.util.List;
+import de.sovity.authorityportal.api.model.CaasAvailabilityResponse
+import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
+import de.sovity.authorityportal.api.model.CentralComponentDto
+import de.sovity.authorityportal.api.model.ComponentStatusOverview
+import de.sovity.authorityportal.api.model.ConnectorDetailDto
+import de.sovity.authorityportal.api.model.ConnectorOverviewResult
+import de.sovity.authorityportal.api.model.CreateCaasRequest
+import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.api.model.CreateConnectorResponse
+import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
+import de.sovity.authorityportal.api.model.IdResponse
+import de.sovity.authorityportal.api.model.InviteOrganizationRequest
+import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
+import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto
+import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
+import de.sovity.authorityportal.api.model.RegistrationRequestDto
+import de.sovity.authorityportal.api.model.UpdateOrganizationDto
+import de.sovity.authorityportal.api.model.UpdateUserDto
+import de.sovity.authorityportal.api.model.UserDeletionCheck
+import de.sovity.authorityportal.api.model.UserDetailDto
+import de.sovity.authorityportal.api.model.UserInfo
+import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
+import de.sovity.authorityportal.api.model.UserRoleDto
+import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUpdateDto
+import de.sovity.authorityportal.api.model.organization.OrganizationDetailsDto
+import de.sovity.authorityportal.api.model.organization.OrganizationOverviewResult
+import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDto
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+import jakarta.ws.rs.Consumes
+import jakarta.ws.rs.DELETE
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.POST
+import jakarta.ws.rs.PUT
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.PathParam
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response
 
 @Path("/api/")
 @Tag(name = "Ui", description = "Authority Portal UI API Endpoints.")
-public interface UiResource {
-
+interface UiResource {
     // User info
     @GET
     @Path("/user-info")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get the current user's info.")
-    UserInfo userInfo();
+    fun userInfo(): UserInfo
 
     @GET
     @Path("/users/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get the user's details.")
-    UserDetailDto userDetails(@PathParam("userId") String userId);
+    fun userDetails(@PathParam("userId") userId: String): UserDetailDto
 
     // Registration
     @GET
     @Path("/registration/registration-status")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get a user's own registration status.")
-    UserRegistrationStatusResult userRegistrationStatus();
+    fun userRegistrationStatus(): UserRegistrationStatusResult
 
     // Organization management (Internal)
     @PUT
@@ -89,37 +85,34 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Change a user's participant role (PARTICIPANT_*) within their organization.")
-    IdResponse changeParticipantRole(
-        @PathParam("userId")
-        String userId,
+    fun changeParticipantRole(
+        @PathParam("userId") userId: String,
 
-        @Valid
-        @NotNull(message = "Role cannot be null")
-        UserRoleDto role
-    );
+        @Valid @NotNull(message = "Role cannot be null")
+        role: UserRoleDto
+    ): IdResponse
 
     @POST
     @Path("/organizations/my-org/users/invite")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Invite new user to a participating organization.")
-    IdResponse inviteUser(
-        @Valid
-        @NotNull(message = "Invitation information cannot be null")
-        InviteParticipantUserRequest invitationInformation
-    );
+    fun inviteUser(
+        @Valid @NotNull(message = "Invitation information cannot be null")
+        invitationInformation: InviteParticipantUserRequest
+    ): IdResponse
 
     @PUT
     @Path("/organizations/my-org/users/{userId}/deactivate")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Deactivate a user of a participating organization.")
-    IdResponse deactivateParticipantUser(@PathParam("userId") String userId);
+    fun deactivateParticipantUser(@PathParam("userId") userId: String): IdResponse
 
     @PUT
     @Path("/organizations/my-org/users/{userId}/reactivate")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Reactivate a user of a participating organization.")
-    IdResponse reactivateParticipantUser(@PathParam("userId") String userId);
+    fun reactivateParticipantUser(@PathParam("userId") userId: String): IdResponse
 
     // Organization management (Authority)
     @PUT
@@ -127,414 +120,363 @@ public interface UiResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Change a user's application role.")
-    IdResponse changeApplicationRole(
-        @PathParam("userId")
-        String userId,
+    fun changeApplicationRole(
+        @PathParam("userId") userId: String,
 
-        @Valid
-        @NotNull(message = "Role cannot be null")
-        UserRoleDto role
-    );
+        @Valid @NotNull(message = "Role cannot be null")
+        role: UserRoleDto
+    ): IdResponse
 
     @DELETE
     @Path("/authority/users/{userId}/role")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Clear a user's application role.")
-    IdResponse clearApplicationRole(@PathParam("userId") String userId);
+    fun clearApplicationRole(@PathParam("userId") userId: String): IdResponse
 
     @PUT
     @Path("/authority/users/{userId}/deactivate")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Deactivate a user of any organization.")
-    IdResponse deactivateAnyUser(@PathParam("userId") String userId);
+    fun deactivateAnyUser(@PathParam("userId") userId: String): IdResponse
 
     @PUT
     @Path("/authority/users/{userId}/reactivate")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Reactivate a user of any organization.")
-    IdResponse reactivateAnyUser(@PathParam("userId") String userId);
+    fun reactivateAnyUser(@PathParam("userId") userId: String): IdResponse
 
     @GET
     @Path("/users/{userId}/check-delete")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Check under which conditions a user can be deleted from an organization.")
-    UserDeletionCheck checkUserDeletion(
-        @PathParam("userId")
-        String userId
-    );
+    fun checkUserDeletion(@PathParam("userId") userId: String): UserDeletionCheck
 
     @DELETE
     @Path("/users/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Delete user with respect to organizations and connectors associated with them.")
-    IdResponse deleteUser(
+    fun deleteUser(
         @PathParam("userId")
-        String userId,
+        userId: String,  // This parameter might be null, if no successor is needed
 
-        // This parameter might be null, if no successor is needed
         @QueryParam("successorUserId")
-        String successorUserId
-    );
+        successorUserId: String
+    ): IdResponse
 
     @GET
     @Path("/authority/organizations")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all participating organizations with their status.")
-    OrganizationOverviewResult organizationsOverviewForAuthority(
+    fun organizationsOverviewForAuthority(
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        environmentId: String
+    ): OrganizationOverviewResult
 
     @GET
     @Path("/service-partner/providable-organizations")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all organizations a service partner can provide a connector to. (For Service Partners)")
-    OrganizationOverviewResult organizationsOverviewForProvidingConnectors(
+    fun organizationsOverviewForProvidingConnectors(
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        environmentId: String
+    ): OrganizationOverviewResult
 
     @GET
     @Path("/authority/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any connector.")
-    ConnectorDetailDto getConnector(
-        @PathParam("connectorId")
-        String connectorId
-    );
+    fun getConnector(@PathParam("connectorId") connectorId: String): ConnectorDetailDto
 
     @GET
     @Path("/authority/connectors")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all connectors of all participating organizations.")
-    ConnectorOverviewResult getAllConnectors(
+    fun getAllConnectors(
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        environmentId: String
+    ): ConnectorOverviewResult
 
     @GET
     @Path("/organizations/my-org")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of own organization.")
-    OwnOrganizationDetailsDto ownOrganizationDetails();
+    fun ownOrganizationDetails(): OwnOrganizationDetailsDto
 
     @GET
     @Path("/authority/organizations/{mdsId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any organization.")
-    OrganizationDetailsDto organizationDetailsForAuthority(
-        @PathParam("mdsId")
-        String mdsId,
+    fun organizationDetailsForAuthority(
+        @PathParam("mdsId") mdsId: String,
 
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        environmentId: String
+    ): OrganizationDetailsDto
 
     @GET
     @Path("/application/organizations/{mdsId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any organization. (For Service Partners and Operators)")
-    OrganizationDetailsDto organizationDetails(
-        @PathParam("mdsId")
-        String mdsId,
+    fun organizationDetails(
+        @PathParam("mdsId") mdsId: String,
 
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        environmentId: String
+    ): OrganizationDetailsDto
 
     @GET
     @Path("/application/connectors")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all connectors provided by own organization. (For Service Partners)")
-    ProvidedConnectorOverviewResult getProvidedConnectors(
+    fun getProvidedConnectors(
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        environmentId: String
+    ): ProvidedConnectorOverviewResult
 
     @GET
     @Path("/application/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of a connector provided by own organization. (For Service Partners)")
-    ConnectorDetailDto getProvidedConnectorDetails(
-        @PathParam("connectorId")
-        String connectorId
-    );
+    fun getProvidedConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailDto
 
     @DELETE
     @Path("/application/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Unregister a connector provided by own organization. (For Service Partners)")
-    IdResponse deleteProvidedConnector(
-        @PathParam("connectorId")
-        String connectorId
-    );
+    fun deleteProvidedConnector(@PathParam("connectorId") connectorId: String): IdResponse
 
     @POST
     @Path("/authority/organizations/invite")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Invite a new organization via a new Participant Admin.")
-    IdResponse inviteOrganization(
-        @Valid
-        @NotNull(message = "Invitation information cannot be null")
-        InviteOrganizationRequest invitationInformation
-    );
+    fun inviteOrganization(
+        @Valid @NotNull(message = "Invitation information cannot be null")
+        invitationInformation: InviteOrganizationRequest
+    ): IdResponse
 
     @PUT
     @Path("/authority/organizations/{mdsId}/approve")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Approve a newly registered organization.")
-    IdResponse approveOrganization(@PathParam("mdsId") String mdsId);
+    fun approveOrganization(@PathParam("mdsId") mdsId: String): IdResponse
 
     @PUT
     @Path("/authority/organizations/{mdsId}/reject")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Reject a newly registered organization.")
-    IdResponse rejectOrganization(@PathParam("mdsId") String mdsId);
+    fun rejectOrganization(@PathParam("mdsId") mdsId: String): IdResponse
 
     // Connector management
     @GET
     @Path("/organizations/my-org/connectors")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get all connectors of a user's own organization.")
-    ConnectorOverviewResult ownOrganizationConnectors(
+    fun ownOrganizationConnectors(
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        environmentId: String
+    ): ConnectorOverviewResult
 
     @GET
     @Path("/organizations/my-org/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of a user's own organization's connector.")
-    ConnectorDetailDto ownOrganizationConnectorDetails(@PathParam("connectorId") String connectorId);
+    fun ownOrganizationConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailDto
 
     @GET
     @Path("/organizations/my-org/redirects/data-offers")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Redirect to the environment specific broker, with filters for connector endpoints of the own organization preselected.")
-    Response redirectToOwnOrganizationCatalog(
+    fun redirectToOwnOrganizationCatalog(
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        environmentId: String
+    ): Response
 
     @GET
     @Path("/organizations/my-org/redirects/broker")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Redirect to the specific broker catalog based on the environment.")
-    Response redirectToCatalog(
+    fun redirectToCatalog(
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        environmentId: String
+    ): Response
 
     @POST
     @Path("/organizations/my-org/connectors/create-on-premise")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a self-hosted connector.")
-    CreateConnectorResponse createOwnConnector(
+    fun createOwnConnector(
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId,
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        environmentId: String,
 
-        @Valid
-        @NotNull(message = "Connector cannot be null")
-        CreateConnectorRequest connector
-    );
+        @Valid @NotNull(message = "Connector cannot be null")
+        connector: CreateConnectorRequest
+    ): CreateConnectorResponse
 
     @DELETE
     @Path("/organizations/my-org/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Unregister a self-hosted connector.")
-    IdResponse deleteOwnConnector(@PathParam("connectorId") String connectorId);
+    fun deleteOwnConnector(@PathParam("connectorId") connectorId: String): IdResponse
 
     @POST
     @Path("/organizations/{mdsId}/connectors/create-service-provided")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a connector for another organization as a service provider.")
-    CreateConnectorResponse createProvidedConnector(
-        @PathParam("mdsId")
-        String mdsId,
+    fun createProvidedConnector(
+        @PathParam("mdsId") mdsId: String,
 
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId,
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        environmentId: String,
 
-        @Valid
-        @NotNull(message = "Connector cannot be null")
-        CreateConnectorRequest connector
-    );
+        @Valid @NotNull(message = "Connector cannot be null")
+        connector: CreateConnectorRequest
+    ): CreateConnectorResponse
 
     @POST
     @Path("/organizations/my-org/connectors/request-caas")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Request a CaaS registration.")
-    CreateConnectorResponse createCaas(
+    fun createCaas(
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId,
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        environmentId: String,
 
-        @Valid
-        @NotNull(message = "CaaS request cannot be null")
-        CreateCaasRequest caasRequest
-    );
+        @Valid @NotNull(message = "CaaS request cannot be null")
+        caasRequest: CreateCaasRequest
+    ): CreateConnectorResponse
 
     @GET
     @Path("/organizations/my-org/connectors/check-free-caas-usage")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Check if a CaaS registration is available for your organization.")
-    CaasAvailabilityResponse checkFreeCaasUsage(
-        @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+    fun checkFreeCaasUsage(
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")@QueryParam("environmentId")
+        environmentId: String
+    ): CaasAvailabilityResponse
 
     @GET
     @Path("/deployment-environments")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get a list of all deployment environment.")
-    List<DeploymentEnvironmentDto> deploymentEnvironmentList();
+    fun deploymentEnvironmentList(): List<DeploymentEnvironmentDto>
 
     @POST
     @Path("/registration")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Register user and organization.")
-    IdResponse registerUser(
-        @Valid
-        @NotNull(message = "Registration request cannot be null")
-        RegistrationRequestDto registrationRequest
-    );
+    fun registerUser(
+        @Valid @NotNull(message = "Registration request cannot be null")
+        registrationRequest: RegistrationRequestDto
+    ): IdResponse
 
     @POST
     @Path("/registration/me/update")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Update user information during onboarding.")
-    IdResponse updateOnboardingUser(
-        @Valid
-        @NotNull(message = "Update user request cannot be null")
-        OnboardingUserUpdateDto onboardingUserUpdateDto
-    );
+    fun updateOnboardingUser(
+        @Valid @NotNull(message = "Update user request cannot be null")
+        onboardingUserUpdateDto: OnboardingUserUpdateDto
+    ): IdResponse
 
     @POST
     @Path("/registration/my-org/update")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Update organization information during onboarding.")
-    IdResponse updateOnboardingOrganization(
-        @Valid
-        @NotNull(message = "Update organization request cannot be null")
-        OnboardingOrganizationUpdateDto onboardingOrganizationUpdateDto
-    );
+    fun updateOnboardingOrganization(
+        @Valid @NotNull(message = "Update organization request cannot be null")
+        onboardingOrganizationUpdateDto: OnboardingOrganizationUpdateDto
+    ): IdResponse
 
     @PUT
     @Path("/users/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Update user information")
-    IdResponse updateUser(
-        @PathParam("userId")
-        String userId,
+    fun updateUser(
+        @PathParam("userId") userId: String,
 
-        @Valid
-        @NotNull(message = "Update user request cannot be null")
-        UpdateUserDto updateUserDto
-    );
+        @Valid @NotNull(message = "Update user request cannot be null")
+        updateUserDto: UpdateUserDto
+    ): IdResponse
 
     @PUT
     @Path("/organizations/my-org")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Update own organization information")
-    IdResponse updateOwnOrganizationDetails(
-        @Valid
-        @NotNull(message = "Update organization request cannot be null")
-        UpdateOrganizationDto organizationDto
-    );
+    fun updateOwnOrganizationDetails(
+        @Valid @NotNull(message = "Update organization request cannot be null")
+        organizationDto: UpdateOrganizationDto
+    ): IdResponse
 
     @PUT
     @Path("/authority/organizations/{mdsId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Update organization information")
-    IdResponse updateOrganizationDetails(
-        @PathParam("mdsId")
-        String mdsId,
+    fun updateOrganizationDetails(
+        @PathParam("mdsId") mdsId: String,
 
-        @Valid
-        @NotNull(message = "Update organization request cannot be null")
-        UpdateOrganizationDto organizationDto
-    );
+        @Valid @NotNull(message = "Update organization request cannot be null")
+        organizationDto: UpdateOrganizationDto
+    ): IdResponse
 
     @GET
     @Path("/authority/central-components")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "List central components (e.g. a broker or logging house)")
-    List<CentralComponentDto> getCentralComponents(
+    fun getCentralComponents(
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        environmentId: String
+    ): List<CentralComponentDto>
 
     @POST
     @Path("/authority/central-components")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a central component (e.g. a broker or logging house)")
-    IdResponse createCentralComponent(
+    fun createCentralComponent(
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId,
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        environmentId: String,
 
-        @Valid
-        @NotNull(message = "Component cannot be null")
-        CentralComponentCreateRequest componentRegistrationRequest
-    );
+        @Valid @NotNull(message = "Component cannot be null")
+        componentRegistrationRequest: CentralComponentCreateRequest
+    ): IdResponse
 
     @DELETE
     @Path("/authority/central-components/{centralComponentId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Delete a central component (e.g. a broker or logging house)")
-    IdResponse deleteCentralComponent(
-        @PathParam("centralComponentId")
-        String centralComponentId
-    );
+    fun deleteCentralComponent(@PathParam("centralComponentId") centralComponentId: String): IdResponse
 
     @GET
     @Path("/component-statuses")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get component status information for a specific environment.")
-    ComponentStatusOverview getComponentsStatus(
+    fun getComponentsStatus(
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        environmentId: String
+    ): ComponentStatusOverview
 }
