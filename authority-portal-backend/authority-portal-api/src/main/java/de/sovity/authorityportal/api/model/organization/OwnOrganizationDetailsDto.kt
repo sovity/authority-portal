@@ -1,70 +1,58 @@
-package de.sovity.authorityportal.api.model.organization;
+package de.sovity.authorityportal.api.model.organization
 
-import de.sovity.authorityportal.api.model.MemberInfo;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import de.sovity.authorityportal.api.model.MemberInfo
+import io.swagger.v3.oas.annotations.media.Schema
+import java.time.OffsetDateTime
 
-import java.time.OffsetDateTime;
-import java.util.List;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Schema(description = "Organization information.")
-public class OrganizationDetailsDto {
-
+@Schema(description = "Own organization information.")
+class OwnOrganizationDetailsDto(
     @Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    String mdsId;
+    val mdsId: String,
     @Schema(description = "Legal name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String name;
+    val name: String,
     @Schema(description = "Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
-    String businessUnit;
+    val businessUnit: String,
     @Schema(description = "Industry", requiredMode = Schema.RequiredMode.REQUIRED)
-    String industry;
+    val industry: String,
     @Schema(description = "Main Address", requiredMode = Schema.RequiredMode.REQUIRED)
-    String mainAddress;
+    val mainAddress: String,
     @Schema(description = "Billing Address", requiredMode = Schema.RequiredMode.REQUIRED)
-    String billingAddress;
+    val billingAddress: String,
     @Schema(description = "Legal ID type", requiredMode = Schema.RequiredMode.REQUIRED)
-    OrganizationLegalIdTypeDto legalIdType;
+    val legalIdType: OrganizationLegalIdTypeDto,
     @Schema(description = "Legal ID number", requiredMode = Schema.RequiredMode.REQUIRED)
-    String legalId;
+    val legalId: String,
     @Schema(description = "Commerce register location (if applicable)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    String commerceRegisterLocation;
+    val commerceRegisterLocation: String?,
     @Schema(description = "URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
-    String url;
+    val url: String,
     @Schema(description = "Description of what the company does/is", requiredMode = Schema.RequiredMode.REQUIRED)
-    String description;
+    val description: String,
     @Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
-    OrganizationRegistrationStatusDto registrationStatus;
-    @Schema(description = "Member count", requiredMode = Schema.RequiredMode.REQUIRED)
-    Integer memberCount;
-    @Schema(description = "Connector count", requiredMode = Schema.RequiredMode.REQUIRED)
-    Integer connectorCount;
-    @Schema(description = "Data offer count", requiredMode = Schema.RequiredMode.REQUIRED)
-    Integer dataOfferCount;
+    val registrationStatus: OrganizationRegistrationStatusDto,
     @Schema(description = "Member information", requiredMode = Schema.RequiredMode.REQUIRED)
-    List<MemberInfo> memberList;
+    val memberList: List<MemberInfo>,
     @Schema(description = "Organization creator: User Id", requiredMode = Schema.RequiredMode.REQUIRED)
-    String createdByUserId;
+    val createdByUserId: String,
     @Schema(description = "Organization creator: First Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String createdByFirstName;
+    val createdByFirstName: String,
     @Schema(description = "Organization creator: Last Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String createdByLastName;
+    val createdByLastName: String,
     @Schema(description = "Main Contact Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String mainContactName;
+    val mainContactName: String,
     @Schema(description = "Main Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    String mainContactEmail;
+    val mainContactEmail: String,
     @Schema(description = "Main Contact Phone", requiredMode = Schema.RequiredMode.REQUIRED)
-    String mainContactPhone;
+    val mainContactPhone: String,
     @Schema(description = "Tech Contact Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String techContactName;
+    val techContactName: String,
     @Schema(description = "Tech Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    String techContactEmail;
+    val techContactEmail: String,
     @Schema(description = "Tech Contact Phone", requiredMode = Schema.RequiredMode.REQUIRED)
-    String techContactPhone;
-    @Schema(description = "Creation date of organization or organization invite", requiredMode = Schema.RequiredMode.REQUIRED)
-    OffsetDateTime createdAt;
-}
+    val techContactPhone: String,
+    @Schema(
+        description = "Creation date of organization or organization invite",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    val createdAt: OffsetDateTime,
+)

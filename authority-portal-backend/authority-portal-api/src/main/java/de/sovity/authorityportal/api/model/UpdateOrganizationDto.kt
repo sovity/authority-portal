@@ -1,63 +1,52 @@
-package de.sovity.authorityportal.api.model;
+package de.sovity.authorityportal.api.model
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.validation.constraints.NotBlank
 
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Information about the Organization.")
-public class UpdateOrganizationDto {
-
+class UpdateOrganizationDto(
     @NotBlank(message = "Organization's URL of the organization website cannot be blank")
     @Schema(description = "Organization's URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
-    String url;
+    val url: String,
 
     @Schema(description = "Organization description", requiredMode = Schema.RequiredMode.REQUIRED)
-    String description;
+    val description: String,
 
     @Schema(description = "Organization's Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
-    String businessUnit;
+    val businessUnit: String,
 
     @Schema(description = "Organization's Industry", requiredMode = Schema.RequiredMode.REQUIRED)
-    String industry;
+    val industry: String,
 
     @NotBlank(message = "Organization's Address cannot be blank")
     @Schema(description = "Organization's Address", requiredMode = Schema.RequiredMode.REQUIRED)
-    String address;
+    val address: String,
 
     @NotBlank(message = "Organization's Billing Address cannot be blank")
     @Schema(description = "Organization's Billing Address", requiredMode = Schema.RequiredMode.REQUIRED)
-    String billingAddress;
+    val billingAddress: String,
 
     @NotBlank(message = "Organization's Main Contact Name cannot be blank")
     @Schema(description = "Organization's Main Contact Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String mainContactName;
+    val mainContactName: String,
 
     @NotBlank(message = "Organization's Main Contact Email cannot be blank")
     @Schema(description = "Organization's Main Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    String mainContactEmail;
+    val mainContactEmail: String,
 
     @NotBlank(message = "Organization's Main Contact Phone cannot be blank")
     @Schema(description = "Organization's Main Contact Phone", requiredMode = Schema.RequiredMode.REQUIRED)
-    String mainContactPhone;
+    val mainContactPhone: String,
 
     @NotBlank(message = "Organization's Tech Contact Name cannot be blank")
     @Schema(description = "Organization's Tech Contact Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String techContactName;
+    val techContactName: String,
 
     @NotBlank(message = "Organization's Tech Contact Email cannot be blank")
     @Schema(description = "Organization's Tech Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    String techContactEmail;
+    val techContactEmail: String,
 
     @NotBlank(message = "Organization's Tech Contact Phone cannot be blank")
     @Schema(description = "Organization's Tech Contact Phone", requiredMode = Schema.RequiredMode.REQUIRED)
-    String techContactPhone;
-}
+    val techContactPhone: String,
+)

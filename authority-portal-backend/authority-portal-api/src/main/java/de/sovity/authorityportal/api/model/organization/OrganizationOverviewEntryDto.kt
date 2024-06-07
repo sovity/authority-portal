@@ -1,37 +1,27 @@
-package de.sovity.authorityportal.api.model.organization;
+package de.sovity.authorityportal.api.model.organization
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import io.swagger.v3.oas.annotations.media.Schema
 
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Visible organization in organization overview page.")
-public class OrganizationOverviewEntryDto {
+class OrganizationOverviewEntryDto(
     @Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    String mdsId;
+    mdsId: String,
 
     @Schema(description = "Legal Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String name;
+    name: String,
 
     @Schema(description = "Main Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    String mainContactEmail;
+    mainContactEmail: String,
 
     @Schema(description = "Number of Users", requiredMode = Schema.RequiredMode.REQUIRED)
-    Integer numberOfUsers;
+    numberOfUsers: Int,
 
     @Schema(description = "Number of Connectors", requiredMode = Schema.RequiredMode.REQUIRED)
-    Integer numberOfConnectors;
+    numberOfConnectors: Int,
 
     @Schema(description = "Number of Data Offers", requiredMode = Schema.RequiredMode.REQUIRED)
-    Integer numberOfDataOffers;
+    numberOfDataOffers: Int,
 
     @Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
-    OrganizationRegistrationStatusDto registrationStatus;
-}
+    registrationStatus: OrganizationRegistrationStatusDto,
+)

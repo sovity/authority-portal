@@ -1,19 +1,13 @@
-package de.sovity.authorityportal.api.model;
+package de.sovity.authorityportal.api.model
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Possible successor (Participant Admin), if a users gets deleted, that is creator of an organization.")
-public class PossibleCreatorSuccessor {
+class PossibleCreatorSuccessor(
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    String userId;
+    val userId: String,
     @Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String firstName;
+    val firstName: String,
     @Schema(description = "Last name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String lastName;
-}
+    val lastName: String,
+)

@@ -1,50 +1,52 @@
-package de.sovity.authorityportal.api.model;
+package de.sovity.authorityportal.api.model
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import io.swagger.v3.oas.annotations.media.Schema
+import java.time.OffsetDateTime
 
-import java.time.OffsetDateTime;
-import java.util.List;
-
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Information about the user.")
-public class UserDetailDto {
+class UserDetailDto(
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    String userId;
+    val userId: String,
+
     @Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String firstName;
+    val firstName: String,
+
     @Schema(description = "Last name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String lastName;
+    val lastName: String,
+
     @Schema(description = "Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    String email;
+    val email: String,
+
     @Schema(description = "Roles of the user", requiredMode = Schema.RequiredMode.REQUIRED)
-    List<UserRoleDto> roles;
+    val roles: List<UserRoleDto>,
+
     @Schema(description = "Registration status of the user", requiredMode = Schema.RequiredMode.REQUIRED)
-    UserRegistrationStatusDto registrationStatus;
+    val registrationStatus: UserRegistrationStatusDto,
+
     @Schema(description = "Creation date of the user", requiredMode = Schema.RequiredMode.REQUIRED)
-    OffsetDateTime creationDate;
+    val creationDate: OffsetDateTime,
+
     @Schema(description = "Organization MDS ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    String organizationMdsId;
+    val organizationMdsId: String,
+
     @Schema(description = "Organization name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String organizationName;
+    val organizationName: String,
+
     @Schema(description = "Phone number", requiredMode = Schema.RequiredMode.REQUIRED)
-    String phone;
+    val phone: String,
+
     @Schema(description = "Job description", requiredMode = Schema.RequiredMode.REQUIRED)
-    String position;
+    val position: String,
+
     @Schema(description = "Onboarding type", requiredMode = Schema.RequiredMode.REQUIRED)
-    UserOnboardingTypeDto onboardingType;
+    val onboardingType: UserOnboardingTypeDto,
+
     @Schema(description = "Inviting user's id if applicable", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    String invitingUserId;
+    val invitingUserId: String?,
+
     @Schema(description = "Inviting user's first name if applicable", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    String invitingUserFirstName;
+    val invitingUserFirstName: String?,
+
     @Schema(description = "Inviting user's last name if applicable", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    String invitingUserLastName;
-}
+    val invitingUserLastName: String?,
+)

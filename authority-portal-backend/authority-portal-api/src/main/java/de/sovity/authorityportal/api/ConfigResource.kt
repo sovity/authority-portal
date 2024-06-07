@@ -10,31 +10,29 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+package de.sovity.authorityportal.api
 
-package de.sovity.authorityportal.api;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotBlank
+import jakarta.ws.rs.PUT
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
 
 @Path("/api/config/")
 @Tag(name = "Configuration", description = "Authority Portal configuration API endpoints.")
-public interface ConfigResource {
-
+interface ConfigResource {
     @PUT
     @Path("/log-level")
     @Produces(MediaType.TEXT_PLAIN)
     @Operation(description = "Set the log level of the backend.")
-    String setLogLevel(
+    fun setLogLevel(
         @QueryParam("level")
         @Valid
         @NotBlank(message = "Log level cannot be blank")
-        String level
-    );
+        level: String
+    ): String
 }

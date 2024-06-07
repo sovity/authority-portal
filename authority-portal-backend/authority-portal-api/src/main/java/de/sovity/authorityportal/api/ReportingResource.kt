@@ -10,59 +10,54 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+package de.sovity.authorityportal.api
 
-package de.sovity.authorityportal.api;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.Response;
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotBlank
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.Response
 
 @Path("/api/reporting/")
 @Tag(name = "Reporting", description = "Authority Portal Reporting API Endpoints.")
-public interface ReportingResource {
-
+interface ReportingResource {
     @GET
     @Path("/connectors")
     @Produces("text/csv")
     @Operation(description = "Download own organization connectors information as csv")
-    Response createConnectorsCsvReport(
+    fun createConnectorsCsvReport(
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        environmentId: String
+    ): Response
 
     @GET
     @Path("/users")
     @Produces("text/csv")
     @Operation(description = "Download organization's users reporting details.")
-    Response createUsersAndRolesCsvReport();
+    fun createUsersAndRolesCsvReport(): Response
 
     @GET
     @Path("/data-offers")
     @Produces("text/csv")
     @Operation(description = "Download data offers reporting details.")
-    Response createDataOffersCsvReport(
+    fun createDataOffersCsvReport(
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        environmentId: String
+    ): Response
 
     @GET
     @Path("/system-stability")
     @Produces("text/csv")
     @Operation(description = "Download system stability reporting details.")
-    Response createSystemStabilityCsvReport(
+    fun createSystemStabilityCsvReport(
         @QueryParam("environmentId")
-        @Valid
-        @NotBlank(message = "EnvironmentId cannot be blank")
-        String environmentId
-    );
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        environmentId: String
+    ): Response
 }

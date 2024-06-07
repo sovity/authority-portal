@@ -1,27 +1,24 @@
-package de.sovity.authorityportal.api.model;
+package de.sovity.authorityportal.api.model
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema
+import lombok.AllArgsConstructor
+import lombok.Data
+import lombok.NoArgsConstructor
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Visible connector in connector overview page(s).")
-public class ProvidedConnectorOverviewEntryDto {
+class ProvidedConnectorOverviewEntryDto(
     @Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    String id;
+    val id: String,
     @Schema(description = "Customer organization name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String customerOrgName;
+    val customerOrgName: String,
     @Schema(description = "Type", requiredMode = Schema.RequiredMode.REQUIRED)
-    ConnectorTypeDto type;
+    val type: ConnectorTypeDto,
     @Schema(description = "Deployment Environment", requiredMode = Schema.RequiredMode.REQUIRED)
-    DeploymentEnvironmentDto environment;
+    val environment: DeploymentEnvironmentDto,
     @Schema(description = "Connector Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String name;
+    val name: String,
     @Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
-    ConnectorStatusDto status;
+    val status: ConnectorStatusDto,
     @Schema(description = "Frontend link", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    String frontendUrl;
-}
+    val frontendUrl: String,
+)

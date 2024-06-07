@@ -10,35 +10,30 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+package de.sovity.authorityportal.api
 
-package de.sovity.authorityportal.api;
-
-import io.swagger.v3.oas.annotations.ExternalDocumentation;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Contact;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
-import jakarta.ws.rs.core.Application;
+import io.swagger.v3.oas.annotations.ExternalDocumentation
+import io.swagger.v3.oas.annotations.OpenAPIDefinition
+import io.swagger.v3.oas.annotations.info.Contact
+import io.swagger.v3.oas.annotations.info.Info
+import io.swagger.v3.oas.annotations.info.License
+import jakarta.ws.rs.core.Application
 
 @OpenAPIDefinition(
-    info = @Info(
+    info = Info(
         title = "Authority Portal API",
         version = "0.0.0",
         description = "REST API for sovity's Dataspace Authority Portal.",
-        contact = @Contact(
+        contact = Contact(
             name = "sovity GmbH",
             email = "contact@sovity.de",
             url = "https://github.com/sovity/ authority-portal/issues/new/choose"
         ),
-        license = @License(
-            name = "UNLICENSED",
-            url = "https://github.com/sovity/ authority-portal/blob/main/LICENSE"
-        )
+        license = License(name = "UNLICENSED", url = "https://github.com/sovity/ authority-portal/blob/main/LICENSE")
     ),
-    externalDocs = @ExternalDocumentation(
+    externalDocs = ExternalDocumentation(
         description = "Authority Portal API definitions.",
         url = "https://github.com/sovity/ authority-portal/tree/main/authority-portal-api"
     )
 )
-public class AuthorityPortalApplication extends Application {
-}
+class AuthorityPortalApplication : Application()
