@@ -1,0 +1,67 @@
+[versions]
+java = "17"
+kotlin = "1.9.22"
+npmVersion = "8.15.0"
+
+sovity-edcCe = "7.5.0"
+
+quarkus = "3.9.2"
+quarkus-keycloakAdminClientReactive = "3.6.6"
+quarkus-jooq = "2.0.0"
+
+jakarta-servletApi = "5.0.0"
+jakarta-validation = "3.0.2"
+jakarta-wsRsApi = "3.1.0"
+jooq = "3.18.5"
+jooq-ext-postgres-json = "4.0.0"
+lombok = "1.18.32"
+postgresDbVersion = "14"
+postgresql = "42.7.2"
+swaggerCore = "2.2.15"
+testcontainers = "1.18.3"
+
+assertj = "3.23.1"
+mockito = "5.4.0"
+mockitoKotlin = "5.1.0"
+awaitility = "4.2.1"
+
+commons-lang = "3.14.0"
+
+[libraries]
+sovity-edc-wrapperCommonApi = { module = "de.sovity.edc:wrapper-common-api", version.ref = "sovity-edcCe" }
+
+quarkus-universeBom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }
+quarkus-keycloakAdminClientReactive = { module = "io.quarkus:quarkus-keycloak-admin-client-reactive", version.ref = "quarkus-keycloakAdminClientReactive" }
+quarkus-jooq = { module = "io.quarkiverse.jooq:quarkus-jooq", version.ref = "quarkus-jooq" }
+
+jakarta-servletApi = { module = "jakarta.servlet:jakarta.servlet-api", version.ref = "jakarta-servletApi" }
+jakarta-validation = { module = "jakarta.validation:jakarta.validation-api", version.ref = "jakarta-validation" }
+jakarta-wsRsApi = { module = "jakarta.ws.rs:jakarta.ws.rs-api", version.ref = "jakarta-wsRsApi" }
+jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
+jooq-ext-postgresJson = { module = "com.github.t9t.jooq:jooq-postgresql-json", version.ref = "jooq-ext-postgres-json" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+swaggerCore-annotations = { module = "io.swagger.core.v3:swagger-annotations-jakarta", version.ref = "swaggerCore" }
+swaggerCore-jaxrs2 = { module = "io.swagger.core.v3:swagger-jaxrs2-jakarta", version.ref = "swaggerCore" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+mockito-junitJupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
+mockito-subclass = { module = "org.mockito:mockito-subclass", version.ref = "mockito" }
+awaitility = { module = "org.awaitility:awaitility", version.ref = "awaitility" }
+
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang" }
+
+[bundles]
+mockito = ["mockito-core", "mockito-kotlin", "mockito-junitJupiter"]
+assertj = ["assertj-core"]
+
+[plugins]
+quarkus = { id = "io.quarkus", version.ref = "quarkus" }
+flyway = { id = "org.flywaydb.flyway", version = "9.20.1" }
+jooq = { id = "nu.studer.jooq", version = "7.1.1" }
+
+openapiYamlGen =  { id = "io.swagger.core.v3.swagger-gradle-plugin", version = "2.2.21" }
+openapiCodegen = { id = "org.openapi.generator", version = "6.6.0" }

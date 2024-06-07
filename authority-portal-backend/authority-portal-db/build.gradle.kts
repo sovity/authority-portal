@@ -1,42 +1,40 @@
 import org.flywaydb.gradle.task.FlywayCleanTask
 import org.flywaydb.gradle.task.FlywayMigrateTask
+import org.jooq.meta.jaxb.ForcedType
+import org.jooq.meta.jaxb.Nullability
 import org.testcontainers.containers.JdbcDatabaseContainer
 import org.testcontainers.containers.PostgreSQLContainer
 
 val jooqDbType = "org.jooq.meta.postgres.PostgresDatabase"
 val jdbcDriver = "org.postgresql.Driver"
-val postgresContainer = "postgres:11-alpine"
+val postgresContainer = "postgres:${libs.versions.postgresDbVersion.get()}-alpine"
 
 val migrationsDir = "src/main/resources/db/migration"
-val testDataDir = "src/main/resources/db/testdata"
 val jooqTargetPackage = "de.sovity.authorityportal.db.jooq"
 val jooqTargetSourceRoot = "build/generated/jooq"
 
 val jooqTargetDir = jooqTargetSourceRoot + "/" + jooqTargetPackage.replace(".", "/")
-val flywayMigration = configurations.create("flywayMigration")
-
-val flywayVersion: String by project
-val postgresVersion: String by project
+val flywayMigration: Configuration = configurations.create("flywayMigration")
 
 buildscript {
     dependencies {
-        classpath("org.testcontainers:postgresql:1.18.3")
+        classpath(libs.testcontainers.postgresql)
     }
 }
 
 plugins {
-    id("org.flywaydb.flyway") version "9.20.1"
-    id("nu.studer.jooq") version "7.1.1"
+    alias(libs.plugins.flyway)
+    alias(libs.plugins.jooq)
     `java-library`
     `maven-publish`
 }
 
 dependencies {
-    api("org.jooq:jooq:3.18.5")
-    api("com.github.t9t.jooq:jooq-postgresql-json:4.0.0")
+    api(libs.jooq)
+    api(libs.jooq.ext.postgresJson)
 
-    jooqGenerator("org.postgresql:postgresql:42.7.2")
-    flywayMigration("org.postgresql:postgresql:42.7.2")
+    jooqGenerator(libs.postgresql)
+    flywayMigration(libs.postgresql)
 }
 
 sourceSets {
@@ -101,7 +99,7 @@ flyway {
     // because we want to change enum values in migrations
     mixed = true
 
-    locations = arrayOf("filesystem:${migrationsDir}", "filesystem:${testDataDir}")
+    locations = arrayOf("filesystem:${migrationsDir}")
     configurations = arrayOf("flywayMigration")
 }
 
@@ -133,10 +131,25 @@ jooq {
                         name = jooqDbType
                         excludes = "(.*)flyway_schema_history(.*)"
                         inputSchema = flyway.schemas[0]
+
+                        withForcedTypes(
+                            // Force "List<String>" over "String[]" for PostgreSQL "text[]"
+                            ForcedType()
+                                .withUserType("java.util.List<String>")
+                                .withIncludeTypes("_text|_varchar")
+                                .withConverter("""org.jooq.Converter.ofNullable(
+                                    String[].class,
+                                    (Class<java.util.List<String>>) (Class) java.util.List.class,
+                                    array -> array == null ? null : java.util.Arrays.asList(array),
+                                    list -> list == null ? null : list.toArray(new String[0])
+                                  )""")
+                                .withNullability(Nullability.ALL)
+                        )
                     }
                     generate.apply {
                         isRecords = true
                         isRelations = true
+                        isJavaTimeTypes = true
                     }
                     target.apply {
                         packageName = jooqTargetPackage
@@ -169,14 +182,5 @@ tasks.withType<nu.studer.gradle.jooq.JooqGenerate> {
     }
     doLast {
         container?.stop()
-    }
-}
-
-
-publishing {
-    publications {
-        create<MavenPublication>(project.name) {
-            from(components["java"])
-        }
     }
 }

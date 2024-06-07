@@ -86,13 +86,6 @@ task<Copy>("postprocessGeneratedClient") {
 }
 sourceSets["main"].java.srcDir("${project.buildDir}/generated/sources/openapi/java/main")
 
-checkstyle {
-    // Checkstyle loathes the generated files
-    // TODO make checkstyle skip generated files only
-    this.sourceSets = emptyList()
-}
-
-
 tasks.getByName<JavaCompile>("compileJava") {
     dependsOn("postprocessGeneratedClient")
 }
@@ -102,23 +95,8 @@ tasks.withType<org.gradle.jvm.tasks.Jar> {
     dependsOn("postprocessGeneratedClient")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-    withSourcesJar()
-    withJavadocJar()
-}
-
 tasks.withType<Javadoc> {
     val fullOptions = this.options as StandardJavadocDocletOptions
     fullOptions.tags = listOf("http.response.details:a:Http Response Details")
     fullOptions.addStringOption("Xdoclint:none", "-quiet")
-}
-
-publishing {
-    publications {
-        create<MavenPublication>(project.name) {
-            from(components["java"])
-        }
-    }
 }

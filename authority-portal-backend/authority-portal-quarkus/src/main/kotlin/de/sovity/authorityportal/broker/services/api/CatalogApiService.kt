@@ -52,10 +52,8 @@ class CatalogApiService {
     @Inject
     lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
 
-    fun catalogPage(environment: String?, query: CatalogPageQuery): CatalogPageResult {
-        Objects.requireNonNull(query, "query must not be null")
-        val brokerConfig = deploymentEnvironmentService.findByIdOrThrow(environment!!).broker()
-
+    fun catalogPage(environment: String, query: CatalogPageQuery): CatalogPageResult {
+        val brokerConfig = deploymentEnvironmentService.findByIdOrThrow(environment).broker()
         val filters = catalogFilterService.getCatalogQueryFilters(query.filter)
 
         val pageQuery = paginationMetadataUtils.getPageQuery(
