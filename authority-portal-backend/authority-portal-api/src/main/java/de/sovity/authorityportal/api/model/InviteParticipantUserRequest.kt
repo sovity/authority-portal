@@ -1,33 +1,24 @@
-package de.sovity.authorityportal.api.model;
+package de.sovity.authorityportal.api.model
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "User information for creating an organization-internal invitation.")
-public class InviteParticipantUserRequest {
+class InviteParticipantUserRequest(
     @NotBlank(message = "Email address cannot be blank")
     @Schema(description = "Email address", requiredMode = Schema.RequiredMode.REQUIRED)
-    String email;
+    val email: String,
 
     @NotBlank(message = "First name cannot be blank")
     @Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String firstName;
+    val firstName: String,
 
     @NotBlank(message = "Last name cannot be blank")
     @Schema(description = "Last name", requiredMode = Schema.RequiredMode.REQUIRED)
-    String lastName;
+    val lastName: String,
 
     @NotNull(message = "Role cannot be null")
     @Schema(description = "Participant role", requiredMode = Schema.RequiredMode.REQUIRED)
-    UserRoleDto role;
-}
+    val role: UserRoleDto,
+)
