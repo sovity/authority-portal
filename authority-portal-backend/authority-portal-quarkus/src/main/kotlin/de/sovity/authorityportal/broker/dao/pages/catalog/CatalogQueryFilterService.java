@@ -18,7 +18,7 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFil
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import de.sovity.authorityportal.db.jooq.tables.Connector;
 import de.sovity.authorityportal.broker.services.api.filtering.CatalogSearchService;
-import de.sovity.authorityportal.broker.services.config.BrokerServerSettings;
+import de.sovity.authorityportal.broker.services.config.BrokerServerDataspaceSettings;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.Condition;
@@ -31,7 +31,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 public class CatalogQueryFilterService {
-    private final BrokerServerSettings brokerServerSettings;
+    private final BrokerServerDataspaceSettings brokerServerDataspaceSettings;
     private final CatalogSearchService catalogSearchService;
 
     public Condition filterDbQuery(CatalogQueryFields fields, String searchQuery, List<CatalogQueryFilter> filters) {
@@ -45,7 +45,7 @@ public class CatalogQueryFilterService {
 
     @NotNull
     private Condition onlyOnlineOrRecentlyOfflineConnectors(Connector c) {
-        var maxOfflineDuration = brokerServerSettings.getHideOfflineDataOffersAfter();
+        var maxOfflineDuration = brokerServerDataspaceSettings.getHideOfflineDataOffersAfter();
 
         Condition maxOfflineDurationNotExceeded;
         if (maxOfflineDuration == null) {

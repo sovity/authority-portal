@@ -25,10 +25,9 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryService;
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs;
 import de.sovity.authorityportal.broker.services.api.filtering.CatalogFilterService;
-import de.sovity.authorityportal.broker.services.config.BrokerServerSettings;
+import de.sovity.authorityportal.broker.services.config.BrokerServerDataspaceSettings;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 
 import java.util.List;
@@ -46,7 +45,7 @@ public class CatalogApiService {
     @Inject
     CatalogFilterService catalogFilterService;
     @Inject
-    BrokerServerSettings brokerServerSettings;
+    BrokerServerDataspaceSettings brokerServerDataspaceSettings;
     @Inject
     DSLContext dsl;
 
@@ -57,7 +56,7 @@ public class CatalogApiService {
 
         var pageQuery = paginationMetadataUtils.getPageQuery(
             query.getPageOneBased(),
-            brokerServerSettings.getCatalogPagePageSize()
+            brokerServerDataspaceSettings.getCatalogPagePageSize()
         );
 
         var availableSortings = buildAvailableSortings();
@@ -77,7 +76,7 @@ public class CatalogApiService {
 
         var paginationMetadata = paginationMetadataUtils.buildPaginationMetadata(
             query.getPageOneBased(),
-            brokerServerSettings.getCatalogPagePageSize(),
+            brokerServerDataspaceSettings.getCatalogPagePageSize(),
             catalogPageRs.getDataOffers().size(),
             catalogPageRs.getNumTotalDataOffers()
         );

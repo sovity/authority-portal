@@ -17,17 +17,8 @@ package de.sovity.authorityportal.broker.services.config;
 import lombok.Builder;
 import lombok.Value;
 
-import java.time.Duration;
-
 @Value
 @Builder
-public class BrokerServerSettings {
-    Duration hideOfflineDataOffersAfter;
-
-    int catalogPagePageSize;
-
+public class BrokerServerDataspaceSettings {
     DataSpaceConfig dataSpaceConfig;
-
-    int maxDataOffersPerConnector;
-    int maxContractOffersPerDataOffer;
 }

@@ -14,10 +14,21 @@
 package de.sovity.authorityportal.web.environment
 
 import io.smallrye.config.ConfigMapping
+import java.time.Duration
 
 @ConfigMapping(prefix = "authority-portal.deployment")
 interface DeploymentEnvironmentConfiguration {
     fun environments(): Map<String, DeploymentEnvironment>
+    fun global(): DeploymentGlobalConfig
+
+    interface DeploymentGlobalConfig {
+        fun broker(): BrokerGlobalConfig
+
+        interface BrokerGlobalConfig {
+            fun defaultDataspace(): String
+            fun knownDataSpaceConnectors(): String?
+        }
+    }
 
     interface DeploymentEnvironment {
         fun title(): String
@@ -39,6 +50,10 @@ interface DeploymentEnvironmentConfiguration {
             fun adminApiKey(): String
             fun apiKey(): String
             fun kumaName(): String
+            fun hideOfflineDataOffersAfter(): Duration
+            fun catalogPagePageSize(): Int
+            fun maxDataOffersPerConnector(): Int
+            fun maxContractOffersPerDataOffer(): Int
         }
 
         interface LoggingHouseConfig {

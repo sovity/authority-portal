@@ -14,50 +14,34 @@
 
 package de.sovity.authorityportal.broker.services.config;
 
-import de.sovity.authorityportal.broker.BrokerConfiguration;
-import de.sovity.authorityportal.broker.BrokerServerExtension;
+import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfiguration;
 import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
-import org.eclipse.edc.spi.monitor.Monitor;
-import org.eclipse.edc.spi.system.configuration.Config;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
 @ApplicationScoped
 public class BrokerServerSettingsFactory {
 
-    public BrokerServerSettings buildBrokerServerSettings() {
-        var adminApiKey = Validate.notBlank(BrokerConfiguration.ADMIN_API_KEY,
-                "Need to configure %s.".formatted(BrokerConfiguration.ADMIN_API_KEY));
-        var hideOfflineDataOffersAfter = getDuration(BrokerConfiguration.HIDE_OFFLINE_DATA_OFFERS_AFTER, null);
-        var catalogPagePageSize = BrokerConfiguration.CATALOG_PAGE_PAGE_SIZE;
-        var dataSpaceConfig = buildDataSpaceConfig();
-        var numThreads = config.getInteger(BrokerConfiguration.NUM_THREADS, 1);
-        var killOfflineConnectorsAfter = getDuration(BrokerConfiguration.KILL_OFFLINE_CONNECTORS_AFTER, Duration.ofDays(5));
-        var maxDataOffers = config.getInteger(BrokerConfiguration.MAX_DATA_OFFERS_PER_CONNECTOR, -1);
-        var maxContractOffers = config.getInteger(BrokerConfiguration.MAX_CONTRACT_OFFERS_PER_DATA_OFFER, -1);
+    @Inject
+    DeploymentEnvironmentConfiguration deploymentEnvironmentConfiguration;
 
-        return BrokerServerSettings.builder()
-                .adminApiKey(adminApiKey)
-                .hideOfflineDataOffersAfter(hideOfflineDataOffersAfter)
-                .catalogPagePageSize(catalogPagePageSize)
+    @Produces
+    @ApplicationScoped
+    public BrokerServerDataspaceSettings brokerServerDataspaceSettings() {
+        var dataSpaceConfig = buildDataSpaceConfig();
+
+        return BrokerServerDataspaceSettings.builder()
                 .dataSpaceConfig(dataSpaceConfig)
-                .numThreads(numThreads)
-                .killOfflineConnectorsAfter(killOfflineConnectorsAfter)
-                .maxDataOffersPerConnector(maxDataOffers)
-                .maxContractOffersPerDataOffer(maxContractOffers)
                 .build();
     }
 
-    private DataSpaceConfig buildDataSpaceConfig(Config config) {
-        var dataSpaceConfig = new DataSpaceConfig(getKnownDataSpaceEndpoints(config), getDefaultDataSpace(config));
+    private DataSpaceConfig buildDataSpaceConfig() {
+        var dataSpaceConfig = new DataSpaceConfig(getKnownDataSpaceEndpoints(), deploymentEnvironmentConfiguration.global().broker().defaultDataspace());
         Log.info("Default Dataspace Name: %s".formatted(dataSpaceConfig.defaultDataSpace()));
         dataSpaceConfig.dataSpaceConnectors().forEach(dataSpaceConnector -> Log.info("Using Dataspace Name %s for %s."
                 .formatted(dataSpaceConnector.dataSpaceName(), dataSpaceConnector.endpoint())));
@@ -67,9 +51,12 @@ public class BrokerServerSettingsFactory {
         return dataSpaceConfig;
     }
 
-    private List<DataSpaceConnector> getKnownDataSpaceEndpoints(Config config) {
+    private List<DataSpaceConnector> getKnownDataSpaceEndpoints() {
         // Example: "Example1=http://connector-endpoint1.org,Example2=http://connector-endpoint2.org"
-        var dataSpacesConfig = config.getString(BrokerConfiguration.KNOWN_DATASPACE_CONNECTORS, "");
+        var dataSpacesConfig = deploymentEnvironmentConfiguration.global().broker().knownDataSpaceConnectors();
+        if (dataSpacesConfig == null) {
+            return List.of();
+        }
 
         return Arrays.stream(dataSpacesConfig.split(","))
                 .map(String::trim)
@@ -82,19 +69,5 @@ public class BrokerServerSettingsFactory {
                 })
                 .filter(it -> StringUtils.isNotBlank(it.endpoint()) && StringUtils.isNotBlank(it.endpoint()))
                 .toList();
-    }
-
-    private String getDefaultDataSpace(Config config) {
-        return config.getString(BrokerConfiguration.DEFAULT_CONNECTOR_DATASPACE, "Default");
-    }
-
-    private Duration getDuration(@NonNull String configProperty, Duration defaultValue) {
-        var value = config.getString(configProperty, "");
-
-        if (StringUtils.isBlank(value)) {
-            return defaultValue;
-        }
-
-        return Duration.parse(value);
     }
 }

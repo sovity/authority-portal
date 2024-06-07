@@ -19,7 +19,7 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogPageRs;
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter;
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery;
 import de.sovity.authorityportal.db.jooq.Tables;
-import de.sovity.authorityportal.broker.services.config.BrokerServerSettings;
+import de.sovity.authorityportal.broker.services.config.BrokerServerDataspaceSettings;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 
@@ -29,7 +29,7 @@ import java.util.List;
 public class CatalogQueryService {
     private final CatalogQueryDataOfferFetcher catalogQueryDataOfferFetcher;
     private final CatalogQueryAvailableFilterFetcher catalogQueryAvailableFilterFetcher;
-    private final BrokerServerSettings brokerServerSettings;
+    private final BrokerServerDataspaceSettings brokerServerDataspaceSettings;
 
     /**
      * Query all data required for the catalog page
@@ -52,7 +52,7 @@ public class CatalogQueryService {
                 Tables.CONNECTOR,
                 Tables.DATA_OFFER,
                 Tables.DATA_OFFER_VIEW_COUNT,
-                brokerServerSettings.getDataSpaceConfig()
+                brokerServerDataspaceSettings.getDataSpaceConfig()
         );
 
         var availableFilterValues = catalogQueryAvailableFilterFetcher

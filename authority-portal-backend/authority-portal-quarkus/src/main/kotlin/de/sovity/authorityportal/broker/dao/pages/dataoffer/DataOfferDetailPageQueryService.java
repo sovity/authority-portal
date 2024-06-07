@@ -18,14 +18,14 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryContractOf
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.DataOfferDetailRs;
 import de.sovity.authorityportal.db.jooq.Tables;
-import de.sovity.authorityportal.broker.services.config.BrokerServerSettings;
+import de.sovity.authorityportal.broker.services.config.BrokerServerDataspaceSettings;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 
 @RequiredArgsConstructor
 public class DataOfferDetailPageQueryService {
     private final CatalogQueryContractOfferFetcher catalogQueryContractOfferFetcher;
-    private final BrokerServerSettings brokerServerSettings;
+    private final BrokerServerDataspaceSettings brokerServerDataspaceSettings;
 
     public DataOfferDetailRs queryDataOfferDetailsPage(DSLContext dsl, String assetId, String endpoint) {
         // We are re-using the catalog page query stuff as long as we can get away with it
@@ -33,7 +33,7 @@ public class DataOfferDetailPageQueryService {
                 Tables.CONNECTOR,
                 Tables.DATA_OFFER,
                 Tables.DATA_OFFER_VIEW_COUNT,
-                brokerServerSettings.getDataSpaceConfig()
+                brokerServerDataspaceSettings.getDataSpaceConfig()
         );
 
         var d = fields.getDataOfferTable();
