@@ -16,7 +16,6 @@ package de.sovity.authorityportal.broker.dao.pages.catalog
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
 import de.sovity.authorityportal.broker.utils.CollectionUtils2
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.jooq.Field
 import org.jooq.JSON
 import org.jooq.impl.DSL
@@ -37,7 +36,7 @@ class CatalogQueryAvailableFilterFetcher(
     fun queryAvailableFilterValues(
         environment: String,
         fields: CatalogQueryFields,
-        searchQuery: String,
+        searchQuery: String?,
         filters: List<CatalogQueryFilter>
     ): Field<JSON> {
         val resultFields: MutableList<Field<JSON>> = ArrayList()
@@ -62,12 +61,12 @@ class CatalogQueryAvailableFilterFetcher(
         val c = fields.connectorTable
         val d = fields.dataOfferTable
 
-        val value = currentFilter.valueQuery.getAttributeValueField(fields)
+        val value = currentFilter.valueQuery(fields)
 
         return DSL.select(
             DSL.coalesce(
                 DSL.arrayAggDistinct(value),
-                DSL.array<Any>().cast<Array<String>>(SQLDataType.VARCHAR.array())
+                DSL.value(arrayOf<String>()).cast<Array<String>>(SQLDataType.VARCHAR.array())
             )
         )
             .from(d)

@@ -13,9 +13,8 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog.models
 
-@JvmRecord
 data class CatalogQueryFilter(
-    @JvmField val name: String,
-    @JvmField val valueQuery: AvailableFilterValuesQuery,
-    @JvmField val queryFilterClauseOrNull: CatalogQuerySelectedFilterQuery
+    val name: String,
+    val valueQuery: AvailableFilterValuesQuery,
+    val queryFilterClauseOrNull: CatalogQuerySelectedFilterQuery?
 )

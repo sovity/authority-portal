@@ -32,6 +32,6 @@ class CatalogPageQuery(
         defaultValue = "1",
         type = "n"
     )
-    val pageOneBased: Int,
+    val pageOneBased: Int?,
 )
 

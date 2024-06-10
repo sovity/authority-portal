@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(description = "Single attribute of selected cnf filter's value")
 class CnfFilterValueAttribute(
     @Schema(description = "Attribute ID", example = "asset:prop:language", requiredMode = Schema.RequiredMode.REQUIRED)
-    id: String,
+    val id: String,
     @Schema(description = "Selected attribute values' IDs.", requiredMode = Schema.RequiredMode.REQUIRED)
-    selectedIds: List<String>,
+    val selectedIds: List<String>,
 )

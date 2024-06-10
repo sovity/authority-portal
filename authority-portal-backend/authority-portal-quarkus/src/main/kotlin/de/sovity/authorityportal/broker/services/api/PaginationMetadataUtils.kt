@@ -28,14 +28,14 @@ class PaginationMetadataUtils {
         )
     }
 
-    fun getPageQuery(pageOneBased: Int, pageSize: Int): PageQuery {
+    fun getPageQuery(pageOneBased: Int?, pageSize: Int): PageQuery {
         val pageZeroBased = getPageZeroBased(pageOneBased)
         val offset = pageZeroBased * pageSize
         return PageQuery(offset, pageSize)
     }
 
     fun buildPaginationMetadata(
-        pageOneBased: Int,
+        pageOneBased: Int?,
         pageSize: Int,
         numVisible: Int,
         numTotalResults: Int

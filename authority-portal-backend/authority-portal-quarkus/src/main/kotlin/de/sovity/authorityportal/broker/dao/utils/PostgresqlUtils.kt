@@ -31,6 +31,6 @@ object PostgresqlUtils {
      * @return condition
      */
     fun `in`(field: Field<String>, values: Collection<String>): Condition {
-        return field.eq(DSL.any(values.toTypedArray()))
+        return field.eq(DSL.any(*values.toTypedArray()))
     }
 }

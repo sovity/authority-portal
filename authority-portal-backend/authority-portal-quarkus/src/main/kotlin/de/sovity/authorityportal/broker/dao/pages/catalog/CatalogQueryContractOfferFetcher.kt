@@ -44,6 +44,6 @@ class CatalogQueryContractOfferFetcher {
             co.CREATED_AT.desc()
         )
 
-        return MultisetUtils.multiset(query, ContractOfferRs::class.java)
+        return MultisetUtils.multiset(query, ContractOfferRs::class)
     }
 }

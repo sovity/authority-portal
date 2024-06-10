@@ -20,7 +20,6 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery
 import de.sovity.authorityportal.broker.services.config.BrokerServerDataspaceSettings
 import de.sovity.authorityportal.db.jooq.Tables
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.jooq.DSLContext
 
 @ApplicationScoped
@@ -42,11 +41,11 @@ class CatalogQueryService(
      */
     fun queryCatalogPage(
         environment: String,
-        searchQuery: String,
+        searchQuery: String?,
         filters: List<CatalogQueryFilter>,
         sorting: CatalogPageSortingType,
         pageQuery: PageQuery
-    ): CatalogPageRs? {
+    ): CatalogPageRs {
         val fields = CatalogQueryFields(
             Tables.CONNECTOR,
             Tables.DATA_OFFER,
@@ -55,10 +54,10 @@ class CatalogQueryService(
         )
 
         val availableFilterValues = catalogQueryAvailableFilterFetcher
-            .queryAvailableFilterValues(environment!!, fields, searchQuery!!, filters)
+            .queryAvailableFilterValues(environment, fields, searchQuery, filters)
 
         val dataOffers = catalogQueryDataOfferFetcher.queryDataOffers(
-            environment, fields, searchQuery, filters, sorting!!, pageQuery!!
+            environment, fields, searchQuery, filters, sorting, pageQuery
         )
 
         val numTotalDataOffers =
@@ -68,6 +67,6 @@ class CatalogQueryService(
             dataOffers.`as`("dataOffers"),
             availableFilterValues.`as`("availableFilterValues"),
             numTotalDataOffers.`as`("numTotalDataOffers")
-        ).fetchOneInto(CatalogPageRs::class.java)
+        ).fetchOneInto(CatalogPageRs::class.java)!!
     }
 }

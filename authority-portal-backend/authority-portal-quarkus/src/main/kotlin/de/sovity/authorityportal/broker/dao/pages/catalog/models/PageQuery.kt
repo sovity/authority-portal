@@ -13,5 +13,4 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog.models
 
-@JvmRecord
-data class PageQuery(@JvmField val offset: Int, @JvmField val limit: Int)
+data class PageQuery(val offset: Int, val limit: Int)

@@ -15,13 +15,7 @@ package de.sovity.authorityportal.broker.dao.pages.catalog.models
 
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
 import org.jooq.Condition
-
-fun interface CatalogQuerySelectedFilterQuery {
-    /**
-     * Adds a filter to a Catalog Query.
-     *
-     * @param fields fields and tables available in the catalog query
-     * @return [Condition]
-     */
-    fun filterDataOffers(fields: CatalogQueryFields?): Condition?
-}
+/**
+ * Adds a filter to a Catalog Query.
+ */
+typealias CatalogQuerySelectedFilterQuery = (CatalogQueryFields) -> Condition

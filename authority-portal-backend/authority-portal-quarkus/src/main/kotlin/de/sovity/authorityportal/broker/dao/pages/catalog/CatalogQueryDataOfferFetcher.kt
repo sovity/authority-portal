@@ -19,7 +19,6 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEn
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery
 import de.sovity.authorityportal.broker.dao.utils.MultisetUtils
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.jooq.Field
 import org.jooq.Record
 import org.jooq.SelectOnConditionStep
@@ -45,7 +44,7 @@ class CatalogQueryDataOfferFetcher(
     fun queryDataOffers(
         environment: String,
         fields: CatalogQueryFields,
-        searchQuery: String,
+        searchQuery: String?,
         filters: List<CatalogQueryFilter>,
         sorting: CatalogPageSortingType,
         pageQuery: PageQuery
@@ -72,7 +71,7 @@ class CatalogQueryDataOfferFetcher(
             .orderBy(catalogQuerySortingService.getOrderBy(fields, sorting))
             .limit(pageQuery.offset, pageQuery.limit)
 
-        return MultisetUtils.multiset(query, DataOfferListEntryRs::class.java)
+        return MultisetUtils.multiset(query, DataOfferListEntryRs::class)
     }
 
     /**
@@ -84,10 +83,10 @@ class CatalogQueryDataOfferFetcher(
      * @return [Field] with number of data offers
      */
     fun queryNumDataOffers(
-        environment: String?,
+        environment: String,
         fields: CatalogQueryFields,
         searchQuery: String?,
-        filters: List<CatalogQueryFilter?>?
+        filters: List<CatalogQueryFilter>
     ): Field<Int> {
         val query = from(DSL.select(DSL.count()), fields)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))

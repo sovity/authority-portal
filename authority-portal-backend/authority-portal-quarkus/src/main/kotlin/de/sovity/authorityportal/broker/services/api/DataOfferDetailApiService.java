@@ -32,13 +32,13 @@ import java.util.Objects;
 
 @ApplicationScoped
 public class DataOfferDetailApiService {
-    @Inject
+    @Inject @NotNull
     DataOfferDetailPageQueryService dataOfferDetailPageQueryService;
-    @Inject
+    @Inject @NotNull
     ViewCountLogger viewCountLogger;
-    @Inject
+    @Inject @NotNull
     DataOfferMappingUtils dataOfferMappingUtils;
-    @Inject
+    @Inject @NotNull
     DSLContext dsl;
 
     public DataOfferDetailPageResult dataOfferDetailPage(String environment, DataOfferDetailPageQuery query) {

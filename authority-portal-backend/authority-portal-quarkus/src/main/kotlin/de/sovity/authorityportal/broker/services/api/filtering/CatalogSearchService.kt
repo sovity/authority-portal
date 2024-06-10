@@ -20,7 +20,7 @@ import org.jooq.Condition
 
 @ApplicationScoped
 class CatalogSearchService {
-    fun filterBySearch(fields: CatalogQueryFields, searchQuery: String): Condition {
+    fun filterBySearch(fields: CatalogQueryFields, searchQuery: String?): Condition {
         return simpleSearch(
             searchQuery, listOf(
                 fields.dataOfferTable.ASSET_ID,

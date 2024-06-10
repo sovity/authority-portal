@@ -16,13 +16,7 @@ package de.sovity.authorityportal.broker.services.api.filtering
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
 import org.jooq.Condition
 
-fun interface AttributeFilterQuery {
-    /**
-     * Filters a Catalog DB Query for a given Filter Attribute with selected values
-     *
-     * @param fields available tables and fields during the catalog query
-     * @param values values to be filtered by. Usually this should mean that only one of the values needs to be present.
-     * @return [Condition]
-     */
-    fun filterDataOffers(fields: CatalogQueryFields, values: Collection<String>): Condition
-}
+/**
+ * Filters a Catalog DB Query for a given Filter Attribute with selected values
+ */
+typealias AttributeFilterQuery = (CatalogQueryFields, Collection<String>) -> Condition

@@ -19,11 +19,9 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.tables.Connector
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.jooq.Condition
 import org.jooq.impl.DSL
 import java.time.OffsetDateTime
-import java.util.Objects
 
 @ApplicationScoped
 class CatalogQueryFilterService(
@@ -33,19 +31,17 @@ class CatalogQueryFilterService(
     fun filterDbQuery(
         environment: String,
         fields: CatalogQueryFields,
-        searchQuery: String,
+        searchQuery: String?,
         filters: List<CatalogQueryFilter>
     ): Condition {
         val conditions = ArrayList<Condition>()
+        conditions.add(visibleConnectorsOfEnvironment(environment, fields.connectorTable))
         conditions.add(catalogSearchService.filterBySearch(fields, searchQuery))
-        conditions.add(onlyOnlineOrRecentlyOfflineConnectors(environment, fields.connectorTable))
-        conditions.addAll(filters.stream().map<Any>(CatalogQueryFilter::queryFilterClauseOrNull)
-            .filter { obj: Any? -> Objects.nonNull(obj) }.map<Any> { it: Any -> it.filterDataOffers(fields) }
-            .toList())
+        conditions.addAll(filters.mapNotNull { it.queryFilterClauseOrNull }.map { it(fields) })
         return DSL.and(conditions)
     }
 
-    private fun onlyOnlineOrRecentlyOfflineConnectors(environment: String, c: Connector): Condition {
+    private fun visibleConnectorsOfEnvironment(environment: String, c: Connector): Condition {
         val maxOfflineDuration = deploymentEnvironmentService.findByIdOrThrow(environment)
             .broker()
             .hideOfflineDataOffersAfter()

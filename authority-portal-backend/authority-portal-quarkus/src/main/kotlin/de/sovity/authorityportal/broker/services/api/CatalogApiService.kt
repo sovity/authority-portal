@@ -68,12 +68,11 @@ class CatalogApiService {
 
         // execute db query
         val catalogPageRs = catalogQueryService.queryCatalogPage(
-            dsl,
-            environment,
-            query.searchQuery,
-            filters,
-            sorting,
-            pageQuery
+            environment = environment,
+            searchQuery = query.searchQuery,
+            filters = filters,
+            sorting = sorting,
+            pageQuery = pageQuery
         )
 
         val paginationMetadata = paginationMetadataUtils.buildPaginationMetadata(
