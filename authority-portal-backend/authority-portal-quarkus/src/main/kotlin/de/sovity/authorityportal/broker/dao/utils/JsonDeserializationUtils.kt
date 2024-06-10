@@ -22,7 +22,7 @@ import lombok.SneakyThrows;
 
 /**
  * Some things are easier to fetch as json into a string with JooQ.
- * In that case we need to deserialize that string  into an object of our choice afterwards.
+ * In that case we need to deserialize that string into an object of our choice afterwards.
  */
 object JsonDeserializationUtils {
     private val objectMapper: ObjectMapper = ObjectMapper()
