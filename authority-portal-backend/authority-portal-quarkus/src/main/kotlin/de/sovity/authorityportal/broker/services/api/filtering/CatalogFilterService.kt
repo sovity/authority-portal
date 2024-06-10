@@ -138,11 +138,7 @@ class CatalogFilterService(
     private fun buildAvailableFilterValues(availableFilter: AvailableFilter): List<CnfFilterItem> {
         return availableFilter.availableValues
             .sortedWith(caseInsensitiveEmptyStringLast)
-            .map { value: String? ->
-                CnfFilterItem(
-                    value!!, value
-                )
-            }
+            .map { CnfFilterItem(it, it) }
             .toList()
     }
 
@@ -169,6 +165,6 @@ class CatalogFilterService(
         }
         return cnfFilterValue.selectedAttributeValues
             .filter { it.selectedIds.isNotEmpty() }
-            .associate { Pair(it.id, it.selectedIds) }
+            .associate { it.id to it.selectedIds }
     }
 }

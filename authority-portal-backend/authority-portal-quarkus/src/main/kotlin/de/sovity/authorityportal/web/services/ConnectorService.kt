@@ -14,6 +14,7 @@
 package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.broker.dao.utils.eqAny
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
@@ -308,7 +309,7 @@ class ConnectorService {
         val c = Tables.CONNECTOR
         dsl.update(c)
             .set(c.BROKER_REGISTRATION_STATUS, status)
-            .where(c.CONNECTOR_ID.`in`(connectorIds))
+            .where(c.CONNECTOR_ID.eqAny(connectorIds))
             .execute()
     }
 

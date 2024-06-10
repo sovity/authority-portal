@@ -14,7 +14,7 @@
 package de.sovity.authorityportal.broker.services.api.filtering
 
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
-import de.sovity.authorityportal.broker.dao.utils.PostgresqlUtils
+import de.sovity.authorityportal.broker.dao.utils.eqAny
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Field
 
@@ -29,7 +29,7 @@ class CatalogFilterAttributeDefinitionService {
             name,
             label,
             fieldExtractor
-        ) { fields, values -> PostgresqlUtils.`in`(fieldExtractor(fields), values) }
+        ) { fields, values -> fieldExtractor(fields).eqAny(values) }
     }
 
     fun buildDataSpaceFilter(): CatalogFilterAttributeDefinition {
@@ -37,6 +37,6 @@ class CatalogFilterAttributeDefinitionService {
             "dataSpace",
             "Data Space",
             CatalogQueryFields::dataSpace
-        ) { fields, values -> PostgresqlUtils.`in`(fields.dataSpace, values) }
+        ) { fields, values -> fields.dataSpace.eqAny(values) }
     }
 }

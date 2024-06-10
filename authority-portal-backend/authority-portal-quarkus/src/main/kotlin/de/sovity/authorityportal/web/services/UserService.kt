@@ -13,6 +13,7 @@
 
 package de.sovity.authorityportal.web.services
 
+import de.sovity.authorityportal.broker.dao.utils.eqAny
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
@@ -125,7 +126,7 @@ class UserService {
         val u = Tables.USER
 
         dsl.deleteFrom(u)
-            .where(u.ID.`in`(userIds))
+            .where(u.ID.eqAny(userIds))
             .execute()
     }
 
@@ -153,7 +154,7 @@ class UserService {
         val u = Tables.USER
 
         return dsl.deleteFrom(u)
-            .where(u.ID.`in`(userIds))
+            .where(u.ID.eqAny(userIds))
             .execute()
     }
 
@@ -171,7 +172,7 @@ class UserService {
 
         dsl.update(u)
             .setNull(u.INVITED_BY)
-            .where(u.INVITED_BY.`in`(orgMemberIds))
+            .where(u.INVITED_BY.eqAny(orgMemberIds))
             .execute()
     }
 
@@ -180,7 +181,7 @@ class UserService {
 
         dsl.update(u)
             .setNull(u.ORGANIZATION_MDS_ID)
-            .where(u.ID.`in`(orgMemberIds))
+            .where(u.ID.eqAny(orgMemberIds))
             .execute()
     }
 

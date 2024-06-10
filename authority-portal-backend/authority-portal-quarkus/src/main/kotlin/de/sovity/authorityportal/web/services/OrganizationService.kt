@@ -15,6 +15,7 @@ package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUpdateDto
+import de.sovity.authorityportal.broker.dao.utils.eqAny
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.OrganizationLegalIdType
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
@@ -187,7 +188,7 @@ class OrganizationService {
         val o = Tables.ORGANIZATION
 
         return dsl.deleteFrom(o)
-            .where(o.MDS_ID.`in`(mdsIds))
+            .where(o.MDS_ID.eqAny(mdsIds))
             .execute()
     }
 
