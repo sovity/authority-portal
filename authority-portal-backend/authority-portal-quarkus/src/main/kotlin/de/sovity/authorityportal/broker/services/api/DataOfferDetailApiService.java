@@ -24,7 +24,6 @@ import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferR
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
 
@@ -47,7 +46,7 @@ public class DataOfferDetailApiService {
 
         var dataOffer = dataOfferDetailPageQueryService.queryDataOfferDetailsPage(dsl, query.getAssetId(), query.getConnectorEndpoint());
         var asset = dataOfferMappingUtils.buildUiAsset(
-            dataOffer.getAssetJsonLd(),
+            dataOffer.getAssetUiJson(),
             dataOffer.getConnectorEndpoint(),
             dataOffer.getConnectorParticipantId(),
             dataOffer.getOrganizationName()
@@ -89,7 +88,7 @@ public class DataOfferDetailApiService {
         newOffer.setCreatedAt(offer.getCreatedAt());
         newOffer.setUpdatedAt(offer.getUpdatedAt());
         newOffer.setContractOfferId(offer.getContractOfferId());
-        newOffer.setContractPolicy(dataOfferMappingUtils.buildUiPolicy(offer.getPolicyJson()));
+        newOffer.setContractPolicy(dataOfferMappingUtils.buildUiPolicy(offer.getPolicyUiJson()));
         return newOffer;
     }
 }

@@ -29,7 +29,6 @@ import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
-import java.util.Objects
 import java.util.stream.Stream
 
 @ApplicationScoped
@@ -127,7 +126,7 @@ class CatalogApiService {
     private fun buildCatalogContractOffer(contractOfferDbRow: ContractOfferRs): CatalogContractOffer {
         return CatalogContractOffer(
             contractOfferId = contractOfferDbRow.contractOfferId,
-            contractPolicy = dataOfferMappingUtils.buildUiPolicy(contractOfferDbRow.policyJson),
+            contractPolicy = dataOfferMappingUtils.buildUiPolicy(contractOfferDbRow.policyUiJson),
             createdAt = contractOfferDbRow.createdAt,
             updatedAt = contractOfferDbRow.updatedAt
         )

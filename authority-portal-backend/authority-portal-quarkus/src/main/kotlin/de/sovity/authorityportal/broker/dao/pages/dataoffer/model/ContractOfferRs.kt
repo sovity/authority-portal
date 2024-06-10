@@ -17,7 +17,7 @@ import java.time.OffsetDateTime
 
 data class ContractOfferRs(
     val contractOfferId: String,
-    val policyJson: String,
+    val policyUiJson: String,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime
 )
