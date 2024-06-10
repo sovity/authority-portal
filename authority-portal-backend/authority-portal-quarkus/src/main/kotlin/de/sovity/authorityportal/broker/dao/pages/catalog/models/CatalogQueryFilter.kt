@@ -11,14 +11,11 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.dao.pages.catalog.models
 
-package de.sovity.authorityportal.broker.dao.pages.catalog.models;
-
-import lombok.NonNull;
-
-public record CatalogQueryFilter(
-        @NonNull String name,
-        @NonNull AvailableFilterValuesQuery valueQuery,
-        CatalogQuerySelectedFilterQuery queryFilterClauseOrNull
-) {
-}
+@JvmRecord
+data class CatalogQueryFilter(
+    @JvmField val name: String,
+    @JvmField val valueQuery: AvailableFilterValuesQuery,
+    @JvmField val queryFilterClauseOrNull: CatalogQuerySelectedFilterQuery
+)

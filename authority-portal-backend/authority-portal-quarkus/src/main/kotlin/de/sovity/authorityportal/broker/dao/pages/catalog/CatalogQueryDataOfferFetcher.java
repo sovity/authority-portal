@@ -77,7 +77,7 @@ public class CatalogQueryDataOfferFetcher {
         var query = from(select, fields)
                 .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))
                 .orderBy(catalogQuerySortingService.getOrderBy(fields, sorting))
-                .limit(pageQuery.offset(), pageQuery.limit());
+                .limit(pageQuery.offset, pageQuery.limit);
 
         return MultisetUtils.multiset(query, DataOfferListEntryRs.class);
     }

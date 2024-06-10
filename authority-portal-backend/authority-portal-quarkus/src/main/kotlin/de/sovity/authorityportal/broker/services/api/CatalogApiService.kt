@@ -84,18 +84,18 @@ class CatalogApiService {
             catalogPageRs.numTotalDataOffers
         )
 
-        val result = CatalogPageResult()
-        result.availableSortings = availableSortings
-        result.paginationMetadata = paginationMetadata
-        result.availableFilters = catalogFilterService.buildAvailableFilters(catalogPageRs.availableFilterValues)
-        result.dataOffers = buildCatalogDataOffers(catalogPageRs.dataOffers)
-        return result
+        return CatalogPageResult(
+            availableSortings = availableSortings,
+            paginationMetadata = paginationMetadata,
+            availableFilters = catalogFilterService.buildAvailableFilters(catalogPageRs.availableFilterValues),
+            dataOffers = buildCatalogDataOffers(catalogPageRs.dataOffers)
+        )
     }
 
     private fun buildCatalogDataOffers(dataOfferRs: List<DataOfferListEntryRs>): List<CatalogDataOffer> {
-        return dataOfferRs.stream()
-            .map { dataOfferRs: DataOfferListEntryRs -> this.buildCatalogDataOffer(dataOfferRs) }
-            .toList()
+        return dataOfferRs.map {
+            buildCatalogDataOffer(it)
+        }
     }
 
     private fun buildCatalogDataOffer(dataOfferRs: DataOfferListEntryRs): CatalogDataOffer {
@@ -106,16 +106,16 @@ class CatalogApiService {
             dataOfferRs.organizationName
         )
 
-        val dataOffer = CatalogDataOffer()
-        dataOffer.assetId = dataOfferRs.assetId
-        dataOffer.createdAt = dataOfferRs.createdAt
-        dataOffer.updatedAt = dataOfferRs.updatedAt
-        dataOffer.asset = asset
-        dataOffer.contractOffers = buildCatalogContractOffers(dataOfferRs)
-        dataOffer.connectorEndpoint = dataOfferRs.connectorEndpointUrl
-        dataOffer.connectorOfflineSinceOrLastUpdatedAt = dataOfferRs.connectorOfflineSinceOrLastUpdatedAt
-        dataOffer.connectorOnlineStatus = getOnlineStatus(dataOfferRs)
-        return dataOffer
+        return CatalogDataOffer(
+            assetId = dataOfferRs.assetId,
+            createdAt = dataOfferRs.createdAt,
+            updatedAt = dataOfferRs.updatedAt,
+            asset = asset,
+            contractOffers = buildCatalogContractOffers(dataOfferRs),
+            connectorEndpoint = dataOfferRs.connectorEndpointUrl,
+            connectorOfflineSinceOrLastUpdatedAt = dataOfferRs.connectorOfflineSinceOrLastUpdatedAt,
+            connectorOnlineStatus = getOnlineStatus(dataOfferRs)
+        )
     }
 
     private fun buildCatalogContractOffers(dataOfferRs: DataOfferListEntryRs): List<CatalogContractOffer> {
@@ -125,12 +125,12 @@ class CatalogApiService {
     }
 
     private fun buildCatalogContractOffer(contractOfferDbRow: ContractOfferRs): CatalogContractOffer {
-        val contractOffer = CatalogContractOffer()
-        contractOffer.contractOfferId = contractOfferDbRow.contractOfferId
-        contractOffer.contractPolicy = dataOfferMappingUtils.buildUiPolicy(contractOfferDbRow.policyJson)
-        contractOffer.createdAt = contractOfferDbRow.createdAt
-        contractOffer.updatedAt = contractOfferDbRow.updatedAt
-        return contractOffer
+        return CatalogContractOffer(
+            contractOfferId = contractOfferDbRow.contractOfferId,
+            contractPolicy = dataOfferMappingUtils.buildUiPolicy(contractOfferDbRow.policyJson),
+            createdAt = contractOfferDbRow.createdAt,
+            updatedAt = contractOfferDbRow.updatedAt
+        )
     }
 
     private fun getOnlineStatus(dataOfferRs: DataOfferListEntryRs): ConnectorOnlineStatusDto {

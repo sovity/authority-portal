@@ -11,8 +11,7 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.dao.pages.catalog.models
 
-package de.sovity.authorityportal.broker.dao.pages.catalog.models;
-
-public record PageQuery(int offset, int limit) {
-}
+@JvmRecord
+data class PageQuery(@JvmField val offset: Int, @JvmField val limit: Int)
