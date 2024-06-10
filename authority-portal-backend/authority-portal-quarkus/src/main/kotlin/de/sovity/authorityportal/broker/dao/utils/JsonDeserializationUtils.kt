@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2023 sovity GmbH
+ *Listpyright (c) 2023 sovity GmbH
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Apache License, Version 2.0 which is available at
@@ -20,20 +20,15 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
-import java.util.List;
-
 /**
  * Some things are easier to fetch as json into a string with JooQ.
  * In that case we need to deserialize that string  into an object of our choice afterwards.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class JsonDeserializationUtils {
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final TypeReference<List<List<String>>> TYPE_STRING_LIST_2 = new TypeReference<>() {
-    };
+object JsonDeserializationUtils {
+    private val objectMapper: ObjectMapper = ObjectMapper()
+    private val TYPE_STRING_LIST_2: TypeReference<List<List<String>>> = object : TypeReference<List<List<String>>>() {}
 
-    @SneakyThrows
-    public static List<List<String>> read2dStringList(String json) {
-        return OBJECT_MAPPER.readValue(json, TYPE_STRING_LIST_2);
+    fun read2dStringList(json: String): List<List<String>> {
+        return objectMapper.readValue(json, TYPE_STRING_LIST_2)
     }
 }

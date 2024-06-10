@@ -11,23 +11,18 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.dao.utils
 
-package de.sovity.authorityportal.broker.dao.utils;
-
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.jooq.Condition;
-import org.jooq.Field;
-import org.jooq.impl.DSL;
-
-import java.util.Collection;
+import lombok.AccessLevel
+import lombok.NoArgsConstructor
+import org.jooq.Condition
+import org.jooq.Field
+import org.jooq.impl.DSL
 
 /**
  * PostgreSQL + JooQ Utils
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PostgresqlUtils {
-
+object PostgresqlUtils {
     /**
      * Replaces the IN operation with "field = ANY(...)"
      *
@@ -35,7 +30,7 @@ public class PostgresqlUtils {
      * @param values values
      * @return condition
      */
-    public static Condition in(Field<String> field, Collection<String> values) {
-        return field.eq(DSL.any(values.toArray(String[]::new)));
+    fun `in`(field: Field<String>, values: Collection<String>): Condition {
+        return field.eq(DSL.any(values.toTypedArray()))
     }
 }

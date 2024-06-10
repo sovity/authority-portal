@@ -11,22 +11,19 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.dao.utils
 
-package de.sovity.authorityportal.broker.dao.utils;
-
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-import org.jooq.Condition;
-import org.jooq.Field;
-import org.jooq.impl.DSL;
+import lombok.AccessLevel
+import lombok.NoArgsConstructor
+import org.apache.commons.lang3.StringUtils
+import org.jooq.Condition
+import org.jooq.Field
+import org.jooq.impl.DSL
 
 /**
  * Utilities for dealing with PostgreSQL Like Operation values
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LikeUtils {
-
+object LikeUtils {
     /**
      * Create LIKE condition value for "field contains word".
      *
@@ -34,12 +31,12 @@ public class LikeUtils {
      * @param lowercaseWord word
      * @return "%escapedWord%"
      */
-    public static Condition contains(Field<String> field, String lowercaseWord) {
+    fun contains(field: Field<String?>, lowercaseWord: String): Condition {
         if (StringUtils.isBlank(lowercaseWord)) {
-            return DSL.trueCondition();
+            return DSL.trueCondition()
         }
 
-        return field.likeIgnoreCase("%" + escape(lowercaseWord) + "%");
+        return field.likeIgnoreCase("%" + escape(lowercaseWord) + "%")
     }
 
 
@@ -49,9 +46,9 @@ public class LikeUtils {
      * @param string unescaped string
      * @return escaped string
      */
-    public static String escape(String string) {
+    private fun escape(string: String): String {
         return string.replace("\\", "\\\\")
-                .replace("%", "\\%")
-                .replace("_", "\\_");
+            .replace("%", "\\%")
+            .replace("_", "\\_")
     }
 }
