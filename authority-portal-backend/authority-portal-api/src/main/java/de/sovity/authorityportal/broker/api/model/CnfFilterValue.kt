@@ -11,26 +11,12 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.api.model
 
-package de.sovity.authorityportal.broker.api.model;
+import io.swagger.v3.oas.annotations.media.Schema
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.util.List;
-
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Cnf filter's selected value.")
-public class CnfFilterValue {
+class CnfFilterValue(
     @Schema(description = "Available attributes to filter by.", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<CnfFilterValueAttribute> selectedAttributeValues;
-}
-
+    val selectedAttributeValues: List<CnfFilterValueAttribute>
+)

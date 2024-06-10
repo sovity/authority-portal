@@ -11,36 +11,23 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.api.model
 
-package de.sovity.authorityportal.broker.api.model;
+import de.sovity.edc.ext.wrapper.api.common.model.UiPolicy
+import io.swagger.v3.oas.annotations.media.Schema
+import java.time.OffsetDateTime
 
-import de.sovity.edc.ext.wrapper.api.common.model.UiPolicy;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.time.OffsetDateTime;
-
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "A contract offer a data offer is available under (as required by the catalog).")
-public class CatalogContractOffer {
+class CatalogContractOffer(
     @Schema(description = "Contract Offer ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String contractOfferId;
+    val contractOfferId: String,
 
     @Schema(description = "Creation date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
-    private OffsetDateTime createdAt;
+    val createdAt: OffsetDateTime,
 
     @Schema(description = "Update date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
-    private OffsetDateTime updatedAt;
+    val updatedAt: OffsetDateTime,
 
     @Schema(description = "Contract Policy", requiredMode = Schema.RequiredMode.REQUIRED)
-    private UiPolicy contractPolicy;
-}
-
+    val contractPolicy: UiPolicy,
+)

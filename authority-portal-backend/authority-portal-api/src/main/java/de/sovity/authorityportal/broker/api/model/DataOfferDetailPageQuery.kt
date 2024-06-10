@@ -11,27 +11,15 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.api.model
 
-package de.sovity.authorityportal.broker.api.model;
+import io.swagger.v3.oas.annotations.media.Schema
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Data Offer Detail Page Query")
-public class DataOfferDetailPageQuery {
+class DataOfferDetailPageQuery(
     @Schema(description = "Connector Endpoint")
-    private String connectorEndpoint;
+    val connectorEndpoint: String,
 
     @Schema(description = "Asset ID")
-    private String assetId;
-}
-
+    val assetId: String,
+)

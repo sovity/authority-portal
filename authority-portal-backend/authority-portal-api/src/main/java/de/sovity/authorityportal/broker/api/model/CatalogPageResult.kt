@@ -11,35 +11,21 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.api.model
 
-package de.sovity.authorityportal.broker.api.model;
+import io.swagger.v3.oas.annotations.media.Schema
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.util.List;
-
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Catalog Page and visible filters")
-public class CatalogPageResult {
+class CatalogPageResult(
     @Schema(description = "Available filter options", requiredMode = Schema.RequiredMode.REQUIRED)
-    private CnfFilter availableFilters;
+    val availableFilters: CnfFilter,
 
     @Schema(description = "Available sorting options", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<CatalogPageSortingItem> availableSortings;
+    val availableSortings: List<CatalogPageSortingItem>,
 
     @Schema(description = "Pagination Metadata", requiredMode = Schema.RequiredMode.REQUIRED)
-    private PaginationMetadata paginationMetadata;
+    val paginationMetadata: PaginationMetadata,
 
     @Schema(description = "Current page of data offers", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<CatalogDataOffer> dataOffers;
-}
-
+    val dataOffers: List<CatalogDataOffer>,
+)

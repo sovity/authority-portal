@@ -11,13 +11,12 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.api.model
 
-package de.sovity.authorityportal.broker.api.model;
-
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Connector's online status")
-public enum ConnectorOnlineStatusDto {
+enum class ConnectorOnlineStatusDto {
     ONLINE,
     OFFLINE,
     DEAD

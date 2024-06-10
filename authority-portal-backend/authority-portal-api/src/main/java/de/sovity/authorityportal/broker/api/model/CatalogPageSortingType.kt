@@ -11,22 +11,14 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.api.model
 
-package de.sovity.authorityportal.broker.api.model;
+import io.swagger.v3.oas.annotations.media.Schema
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-@Getter
-@RequiredArgsConstructor
 @Schema(description = "Catalog's sorting options")
-public enum CatalogPageSortingType {
+enum class CatalogPageSortingType(val title: String) {
     VIEW_COUNT("By Popularity"),
     MOST_RECENT("Most Recent"),
     TITLE("By Title"),
-    ORIGINATOR("By Connector");
-
-    private final String title;
+    ORIGINATOR("By Connector")
 }
-
