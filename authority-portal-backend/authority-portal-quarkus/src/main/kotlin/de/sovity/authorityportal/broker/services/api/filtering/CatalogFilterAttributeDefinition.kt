@@ -11,10 +11,9 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.services.api.filtering
 
-package de.sovity.authorityportal.broker.services.api.filtering;
-
-import de.sovity.authorityportal.broker.dao.pages.catalog.models.AvailableFilterValuesQuery;
+import de.sovity.authorityportal.broker.dao.pages.catalog.models.AvailableFilterValuesQuery
 
 /**
  * Implementation of a filter attribute definition for the catalog.
@@ -24,10 +23,10 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.AvailableFilter
  * @param valueGetter   query existing values from DB
  * @param filterApplier apply a filter to a data offer query
  */
-public record CatalogFilterAttributeDefinition(
-        String name,
-        String label,
-        AvailableFilterValuesQuery valueGetter,
-        AttributeFilterQuery filterApplier
-) {
-}
+@JvmRecord
+data class CatalogFilterAttributeDefinition(
+    @JvmField val name: String,
+    @JvmField val label: String,
+    @JvmField val valueGetter: AvailableFilterValuesQuery,
+    @JvmField val filterApplier: AttributeFilterQuery
+)

@@ -11,24 +11,18 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.broker.services.api.filtering
 
-package de.sovity.authorityportal.broker.services.api.filtering;
+import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
+import org.jooq.Condition
 
-import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields;
-import org.jooq.Condition;
-
-import java.util.Collection;
-
-@FunctionalInterface
-public interface AttributeFilterQuery {
-
+fun interface AttributeFilterQuery {
     /**
      * Filters a Catalog DB Query for a given Filter Attribute with selected values
      *
      * @param fields available tables and fields during the catalog query
      * @param values values to be filtered by. Usually this should mean that only one of the values needs to be present.
-     * @return {@link Condition}
+     * @return [Condition]
      */
-    Condition filterDataOffers(CatalogQueryFields fields, Collection<String> values);
-
+    fun filterDataOffers(fields: CatalogQueryFields, values: Collection<String>): Condition
 }

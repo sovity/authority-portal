@@ -27,6 +27,7 @@ import de.sovity.authorityportal.broker.utils.CollectionUtils2;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.NotNull;
 import org.jooq.impl.DSL;
 
 import java.util.Comparator;
@@ -39,7 +40,7 @@ import static java.util.stream.Collectors.toMap;
 @ApplicationScoped
 public class CatalogFilterService {
 
-    @Inject
+    @Inject @NotNull
     CatalogFilterAttributeDefinitionService catalogFilterAttributeDefinitionService;
 
     private final Comparator<String> caseInsensitiveEmptyStringLast = (s1, s2) -> {
@@ -113,16 +114,16 @@ public class CatalogFilterService {
         var values = getCnfFilterValuesMap(cnfFilterValue);
         return getAvailableFilters().stream()
             .map(filter -> new CatalogQueryFilter(
-                filter.name(),
-                filter.valueGetter(),
-                getQueryFilter(filter, values.get(filter.name()))
+                    filter.name,
+                    filter.valueGetter,
+                getQueryFilter(filter, values.get(filter.name))
             ))
             .toList();
     }
 
     private CatalogQuerySelectedFilterQuery getQueryFilter(CatalogFilterAttributeDefinition filter, List<String> values) {
         if (CollectionUtils2.isNotEmpty(values)) {
-            return fields -> filter.filterApplier().filterDataOffers(fields, values);
+            return fields -> filter.filterApplier.filterDataOffers(fields, values);
         }
         return null;
     }
@@ -131,8 +132,8 @@ public class CatalogFilterService {
         var filterValues = JsonDeserializationUtils.read2dStringList(filterValuesJson);
         var filterAttributes = zipAvailableFilters(getAvailableFilters(), filterValues)
             .map(availableFilter -> new CnfFilterAttribute(
-                availableFilter.definition().name(),
-                availableFilter.definition().label(),
+                    availableFilter.definition().name,
+                    availableFilter.definition().label,
                 buildAvailableFilterValues(availableFilter)
             ))
             .toList();
