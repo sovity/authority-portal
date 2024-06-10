@@ -14,7 +14,6 @@
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
-import de.sovity.authorityportal.broker.utils.CollectionUtils2
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Field
 import org.jooq.JSON
@@ -39,13 +38,10 @@ class CatalogQueryAvailableFilterFetcher(
         searchQuery: String?,
         filters: List<CatalogQueryFilter>
     ): Field<JSON> {
-        val resultFields: MutableList<Field<JSON>> = ArrayList()
-        for (i in filters.indices) {
+        val resultFields = filters.mapIndexed { i, currentFilter ->
             // When querying a filter's values we apply all filters except for the current filter's values
-            val currentFilter = filters[i]
-            val otherFilters = CollectionUtils2.allElementsExceptForIndex(filters, i)
-            val resultField = queryFilterValues(environment, fields, currentFilter, searchQuery, otherFilters)
-            resultFields.add(resultField)
+            val otherFilters = filters.filterIndexed { j, _ -> i != j }
+            queryFilterValues(environment, fields, currentFilter, searchQuery, otherFilters)
         }
         return DSL.select(DSL.jsonArray(resultFields)).asField()
     }
@@ -54,7 +50,7 @@ class CatalogQueryAvailableFilterFetcher(
         environment: String,
         parentQueryFields: CatalogQueryFields,
         currentFilter: CatalogQueryFilter,
-        searchQuery: String,
+        searchQuery: String?,
         otherFilters: List<CatalogQueryFilter>
     ): Field<JSON> {
         val fields = parentQueryFields.withSuffix("filter_" + currentFilter.name)
