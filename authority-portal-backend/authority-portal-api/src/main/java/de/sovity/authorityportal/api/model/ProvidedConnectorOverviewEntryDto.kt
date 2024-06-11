@@ -7,18 +7,18 @@ import lombok.NoArgsConstructor
 
 @Schema(description = "Visible connector in connector overview page(s).")
 class ProvidedConnectorOverviewEntryDto(
-    @Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
-    @Schema(description = "Customer organization name", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Customer organization name", requiredMode = Schema.RequiredMode.REQUIRED)
     val customerOrgName: String,
-    @Schema(description = "Type", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Type", requiredMode = Schema.RequiredMode.REQUIRED)
     val type: ConnectorTypeDto,
-    @Schema(description = "Deployment Environment", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Deployment Environment", requiredMode = Schema.RequiredMode.REQUIRED)
     val environment: DeploymentEnvironmentDto,
-    @Schema(description = "Connector Name", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Connector Name", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,
-    @Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
     val status: ConnectorStatusDto,
-    @Schema(description = "Frontend link", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @field:Schema(description = "Frontend link", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val frontendUrl: String,
 )
