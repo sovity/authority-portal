@@ -43,8 +43,10 @@ class RegistrationApiServiceTest {
 
     @Inject
     lateinit var registrationApiService: RegistrationApiService
+
     @Inject
     lateinit var userService: UserService
+
     @Inject
     lateinit var organizationService: OrganizationService
 
@@ -91,7 +93,12 @@ class RegistrationApiServiceTest {
         assertThat(organization.techContactPhone).isEqualTo(TestRegistrationData.organizationTechContactPhone)
 
         // verify
-        verify(keyCloakService).createUser(eq(TestRegistrationData.userEmail), eq(TestRegistrationData.userFirstName), eq(TestRegistrationData.userLastName), eq(TestRegistrationData.testPassword))
+        verify(keyCloakService).createUser(
+            eq(TestRegistrationData.userEmail),
+            eq(TestRegistrationData.userFirstName),
+            eq(TestRegistrationData.userLastName),
+            eq(TestRegistrationData.testPassword)
+        )
         verify(keyCloakService).createOrganization(anyString())
         verify(keyCloakService).joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
         verify(keyCloakService).sendInvitationEmail(eq(userId))
@@ -103,11 +110,11 @@ class RegistrationApiServiceTest {
         // arrange
         val userId = UUID.randomUUID().toString()
         mockKeycloakInteraction(userId)
-        val registrationRequest = createTestRegistrationRequestDto().also {
-            it.organizationLegalIdType = OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO
-            it.organizationLegalIdNumber = "commerce-number"
-            it.organizationCommerceRegisterLocation = "commerce-location"
-        }
+        val registrationRequest = createTestRegistrationRequestDto(
+            organizationLegalIdTypeDto = OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO,
+            organizationLegalIdNumber = "commerce-number",
+            organizationCommerceRegisterLocation = "commerce-location",
+        )
 
         // act
         registrationApiService.registerUserAndOrganization(registrationRequest)
@@ -126,44 +133,49 @@ class RegistrationApiServiceTest {
         QuarkusMock.installMockForType(keyCloakService, KeycloakService::class.java)
 
         `when`(
-                keyCloakService.createUser(
-                    eq(TestRegistrationData.userEmail),
-                    eq(TestRegistrationData.userFirstName),
-                    eq(TestRegistrationData.userLastName),
-                    eq(TestRegistrationData.testPassword)
-                )
+            keyCloakService.createUser(
+                eq(TestRegistrationData.userEmail),
+                eq(TestRegistrationData.userFirstName),
+                eq(TestRegistrationData.userLastName),
+                eq(TestRegistrationData.testPassword)
+            )
         ).thenReturn(userId)
         doNothing().`when`(keyCloakService).createOrganization(anyString())
-        doNothing().`when`(keyCloakService).joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
+        doNothing().`when`(keyCloakService)
+            .joinOrganization(eq(userId), anyString(), eq(OrganizationRole.PARTICIPANT_ADMIN))
         doNothing().`when`(keyCloakService).sendInvitationEmail(eq(userId))
         return keyCloakService
     }
 
-    fun createTestRegistrationRequestDto(): RegistrationRequestDto {
-        return RegistrationRequestDto().apply {
-            userEmail = TestRegistrationData.userEmail
-            userPassword = TestRegistrationData.testPassword
-            userFirstName = TestRegistrationData.userFirstName
-            userLastName = TestRegistrationData.userLastName
-            userJobTitle = TestRegistrationData.userJobTitle
-            userPhone = TestRegistrationData.userPhone
-            organizationName = TestRegistrationData.organizationName
-            organizationUrl = TestRegistrationData.organizationUrl
-            organizationDescription = TestRegistrationData.organizationDescription
-            organizationBusinessUnit = TestRegistrationData.organizationBusinessUnit
-            organizationIndustry = TestRegistrationData.organizationIndustry
-            organizationAddress = TestRegistrationData.organizationAddress
-            organizationBillingAddress = TestRegistrationData.organizationBillingAddress
-            organizationLegalIdType = OrganizationLegalIdTypeDto.TAX_ID
-            organizationLegalIdNumber = TestRegistrationData.organizationTaxId
-            organizationCommerceRegisterLocation = TestRegistrationData.organizationCommerceRegisterLocation
-            organizationMainContactName = TestRegistrationData.organizationMainContactName
-            organizationMainContactEmail = TestRegistrationData.organizationMainContactEmail
-            organizationMainContactPhone = TestRegistrationData.organizationMainContactPhone
-            organizationTechContactName = TestRegistrationData.organizationTechContactName
-            organizationTechContactEmail = TestRegistrationData.organizationTechContactEmail
-            organizationTechContactPhone = TestRegistrationData.organizationTechContactPhone
-        }
+    fun createTestRegistrationRequestDto(
+        organizationLegalIdTypeDto: OrganizationLegalIdTypeDto = OrganizationLegalIdTypeDto.TAX_ID,
+        organizationLegalIdNumber: String = TestRegistrationData.organizationTaxId,
+        organizationCommerceRegisterLocation: String = TestRegistrationData.organizationCommerceRegisterLocation
+    ): RegistrationRequestDto {
+        return RegistrationRequestDto(
+            userEmail = TestRegistrationData.userEmail,
+            userPassword = TestRegistrationData.testPassword,
+            userFirstName = TestRegistrationData.userFirstName,
+            userLastName = TestRegistrationData.userLastName,
+            userJobTitle = TestRegistrationData.userJobTitle,
+            userPhone = TestRegistrationData.userPhone,
+            organizationName = TestRegistrationData.organizationName,
+            organizationUrl = TestRegistrationData.organizationUrl,
+            organizationDescription = TestRegistrationData.organizationDescription,
+            organizationBusinessUnit = TestRegistrationData.organizationBusinessUnit,
+            organizationIndustry = TestRegistrationData.organizationIndustry,
+            organizationAddress = TestRegistrationData.organizationAddress,
+            organizationBillingAddress = TestRegistrationData.organizationBillingAddress,
+            organizationLegalIdType = organizationLegalIdTypeDto,
+            organizationLegalIdNumber = organizationLegalIdNumber,
+            organizationCommerceRegisterLocation = organizationCommerceRegisterLocation,
+            organizationMainContactName = TestRegistrationData.organizationMainContactName,
+            organizationMainContactEmail = TestRegistrationData.organizationMainContactEmail,
+            organizationMainContactPhone = TestRegistrationData.organizationMainContactPhone,
+            organizationTechContactName = TestRegistrationData.organizationTechContactName,
+            organizationTechContactEmail = TestRegistrationData.organizationTechContactEmail,
+            organizationTechContactPhone = TestRegistrationData.organizationTechContactPhone,
+        )
     }
 
     object TestRegistrationData {

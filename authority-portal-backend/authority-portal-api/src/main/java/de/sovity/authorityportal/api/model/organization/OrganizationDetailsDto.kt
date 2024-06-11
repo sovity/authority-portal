@@ -33,9 +33,9 @@ class OrganizationDetailsDto(
     @Schema(description = "Member count", requiredMode = Schema.RequiredMode.REQUIRED)
     val memberCount: Int,
     @Schema(description = "Connector count", requiredMode = Schema.RequiredMode.REQUIRED)
-    val connectorCount: Int,
+    var connectorCount: Int,
     @Schema(description = "Data offer count", requiredMode = Schema.RequiredMode.REQUIRED)
-    val dataOfferCount: Int,
+    var dataOfferCount: Int,
     @Schema(description = "Member information", requiredMode = Schema.RequiredMode.REQUIRED)
     val memberList: List<MemberInfo>,
     @Schema(description = "Organization creator: User Id", requiredMode = Schema.RequiredMode.REQUIRED)

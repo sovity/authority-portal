@@ -67,7 +67,8 @@ class ComponentStatusApiService {
 
     fun getComponentsStatusForMdsId(environmentId: String, mdsId: String): ComponentStatusOverview {
         val connectorMetadata = connectorMetadataService.getConnectorInfoByEnvironment(environmentId)
-        val providedConnectorIds = connectorService.getProvidedConnectorsByMdsId(mdsId, environmentId).map { it.connectorId }
+        val providedConnectorIds =
+            connectorService.getProvidedConnectorsByMdsId(mdsId, environmentId).map { it.connectorId }
         val filteredMetadata = connectorMetadata.filter {
             dataspaceComponentIdUtils.toMdsId(it.participantId) == mdsId
                 || it.participantId in providedConnectorIds
@@ -79,23 +80,32 @@ class ComponentStatusApiService {
         return buildComponenStatusOverview(connectorStatusCount, environmentId)
     }
 
-    private fun buildComponenStatusOverview(connectorStatusCount: ConnectorStatusCount, environmentId: String): ComponentStatusOverview {
+    private fun buildComponenStatusOverview(
+        connectorStatusCount: ConnectorStatusCount,
+        environmentId: String
+    ): ComponentStatusOverview {
         val latestBrokerStatus = componentStatusService.getLatestComponentStatus(ComponentType.BROKER, environmentId)
         val latestDapsStatus = componentStatusService.getLatestComponentStatus(ComponentType.DAPS, environmentId)
-        val latestLoggingHouseStatus = componentStatusService.getLatestComponentStatus(ComponentType.LOGGING_HOUSE, environmentId)
+        val latestLoggingHouseStatus =
+            componentStatusService.getLatestComponentStatus(ComponentType.LOGGING_HOUSE, environmentId)
         val now = OffsetDateTime.now()
 
-        return ComponentStatusOverview().also {
-            it.brokerStatus = calculateUptimeStatus(latestBrokerStatus, environmentId, now)
-            it.dapsStatus = calculateUptimeStatus(latestDapsStatus, environmentId, now)
-            it.loggingHouseStatus = calculateUptimeStatus(latestLoggingHouseStatus, environmentId, now)
-            it.onlineConnectors = connectorStatusCount.online
-            it.disturbedConnectors = connectorStatusCount.disturbed
-            it.offlineConnectors = connectorStatusCount.offline
-        }
+        return ComponentStatusOverview(
+            brokerStatus = calculateUptimeStatus(latestBrokerStatus, environmentId, now),
+            dapsStatus = calculateUptimeStatus(latestDapsStatus, environmentId, now),
+            loggingHouseStatus = calculateUptimeStatus(latestLoggingHouseStatus, environmentId, now),
+            onlineConnectors = connectorStatusCount.online,
+            disturbedConnectors = connectorStatusCount.disturbed,
+            offlineConnectors = connectorStatusCount.offline
+        )
+
     }
 
-    private fun calculateUptimeStatus(latestStatus: ComponentDowntimesRecord?, environmentId: String, now: OffsetDateTime): UptimeStatusDto? {
+    private fun calculateUptimeStatus(
+        latestStatus: ComponentDowntimesRecord?,
+        environmentId: String,
+        now: OffsetDateTime
+    ): UptimeStatusDto? {
         if (latestStatus == null) {
             return null
         }
@@ -103,19 +113,25 @@ class ComponentStatusApiService {
         val upSince = Duration.between(latestStatus.timeStamp.toInstant(), now.toInstant()).abs()
         val timeSpan = Duration.ofDays(30)
 
-        return UptimeStatusDto().also {
-            it.componentStatus = latestStatus.status.toDto()
-            it.upSinceSeconds = upSince.toSeconds().takeIf { latestStatus.status == ComponentOnlineStatus.UP } ?: 0
-            it.timeSpanSeconds = timeSpan.toSeconds()
-            it.uptimePercentage = calculateUptimePercentage(latestStatus.component, timeSpan, environmentId, now)
-        }
+        return UptimeStatusDto(
+            componentStatus = latestStatus.status.toDto(),
+            upSinceSeconds = upSince.toSeconds().takeIf { latestStatus.status == ComponentOnlineStatus.UP } ?: 0,
+            timeSpanSeconds = timeSpan.toSeconds(),
+            uptimePercentage = calculateUptimePercentage(latestStatus.component, timeSpan, environmentId, now)
+        )
     }
 
-    private fun calculateUptimePercentage(component: ComponentType, timeSpan: Duration, environmentId: String, now: OffsetDateTime): Double {
+    private fun calculateUptimePercentage(
+        component: ComponentType,
+        timeSpan: Duration,
+        environmentId: String,
+        now: OffsetDateTime
+    ): Double {
         val limit = now.minus(timeSpan)
         var statusHistoryAsc = componentStatusService.getStatusHistoryAscSince(component, limit, environmentId)
         // If no status was found before the limit, the first record in the history is used as base for the calculation
-        val initialRecord = componentStatusService.getFirstRecordBefore(component, limit, environmentId) ?: statusHistoryAsc.first()
+        val initialRecord =
+            componentStatusService.getFirstRecordBefore(component, limit, environmentId) ?: statusHistoryAsc.first()
 
         // If no "UP" status was found, return 0.00
         // Also, drop all entries before first "UP" status, to avoid wrong uptime calculation
@@ -134,7 +150,10 @@ class ComponentStatusApiService {
             if (componentRecord.status == ComponentOnlineStatus.UP) {
                 tmpLastUpStatus = componentRecord
             } else {
-                totalUptimeDuration += Duration.between(tmpLastUpStatus!!.timeStamp.toInstant(), componentRecord.timeStamp.toInstant()).abs()
+                totalUptimeDuration += Duration.between(
+                    tmpLastUpStatus!!.timeStamp.toInstant(),
+                    componentRecord.timeStamp.toInstant()
+                ).abs()
             }
         }
 
@@ -150,7 +169,8 @@ class ComponentStatusApiService {
         }
 
         // Calculate uptime percentage
-        val totalDuration = Duration.between(initialRecord.timeStamp.toInstant(), now.toInstant()).coerceAtMost(timeSpan).abs()
+        val totalDuration =
+            Duration.between(initialRecord.timeStamp.toInstant(), now.toInstant()).coerceAtMost(timeSpan).abs()
         val uptimePercentage = totalUptimeDuration.toMillis().toDouble() / totalDuration.toMillis().toDouble() * 100
 
         // Round value to two decimal places
@@ -169,11 +189,16 @@ class ComponentStatusApiService {
                 && it.offlineSinceOrLastUpdatedAt != null
                 && it.offlineSinceOrLastUpdatedAt!!.isAfter(OffsetDateTime.now().minusMinutes(2))
         }
-        val offlineCount = connectorMetadata.count { it.onlineStatus == OFFLINE || it.onlineStatus == DEAD } - disturbedCount + unknownCount
+        val offlineCount =
+            connectorMetadata.count { it.onlineStatus == OFFLINE || it.onlineStatus == DEAD } - disturbedCount + unknownCount
         return ConnectorStatusCount(onlineCount, disturbedCount, offlineCount)
     }
 
-    private fun getNumberOfUnknownConnectors(connectorMetadata: List<AuthorityPortalConnectorInfo>, environmentId: String, mdsId: String? = null): Int {
+    private fun getNumberOfUnknownConnectors(
+        connectorMetadata: List<AuthorityPortalConnectorInfo>,
+        environmentId: String,
+        mdsId: String? = null
+    ): Int {
         val c = Tables.CONNECTOR
 
         val conditions = mutableListOf(

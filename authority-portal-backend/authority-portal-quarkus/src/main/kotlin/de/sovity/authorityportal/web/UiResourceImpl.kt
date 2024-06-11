@@ -62,14 +62,11 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiServi
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
-import io.quarkus.logging.Log
 import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 import jakarta.ws.rs.core.Response
-import org.jboss.logmanager.LogManager
-import java.util.logging.Level
 
 @PermitAll // auth checks will be in code in this unit
 @ApplicationScoped
@@ -160,11 +157,11 @@ class UiResourceImpl : UiResource {
 
     // Organization management (Internal)
     @Transactional
-    override fun changeParticipantRole(userId: String, roleDto: UserRoleDto): IdResponse {
+    override fun changeParticipantRole(userId: String, role: UserRoleDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresTargetNotSelf(userId)
         authUtils.requiresMemberOfSameOrganizationAs(userId)
-        return userRoleApiService.changeParticipantRole(userId, roleDto, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return userRoleApiService.changeParticipantRole(userId, role, loggedInUser.organizationMdsId!!, loggedInUser.userId)
     }
 
     @Transactional
@@ -193,14 +190,14 @@ class UiResourceImpl : UiResource {
 
     // Organization management (Authority)
     @Transactional
-    override fun changeApplicationRole(userId: String, roleDto: UserRoleDto): IdResponse {
+    override fun changeApplicationRole(userId: String, role: UserRoleDto): IdResponse {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN,
             Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresTargetNotSelf(userId)
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
             authUtils.requiresMemberOfSameOrganizationAs(userId)
         }
-        return userRoleApiService.changeApplicationRole(userId, roleDto, loggedInUser.userId, loggedInUser.roles)
+        return userRoleApiService.changeApplicationRole(userId, role, loggedInUser.userId, loggedInUser.roles)
     }
 
     @Transactional
@@ -242,7 +239,7 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun deleteUser(userId: String, successorUserId: String?): IdResponse {
+    override fun deleteUser(userId: String, successorUserId: String): IdResponse {
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
             if (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_ADMIN)) {
                 authUtils.requiresMemberOfSameOrganizationAs(userId)
@@ -419,10 +416,10 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun createCentralComponent(environmentId: String, centralComponentCreateRequest: CentralComponentCreateRequest): IdResponse {
+    override fun createCentralComponent(environmentId: String, componentRegistrationRequest: CentralComponentCreateRequest): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return centralComponentManagementApiService.registerCentralComponent(centralComponentCreateRequest, loggedInUser.userId, loggedInUser.organizationMdsId!!, environmentId)
+        return centralComponentManagementApiService.registerCentralComponent(componentRegistrationRequest, loggedInUser.userId, loggedInUser.organizationMdsId!!, environmentId)
     }
 
     @Transactional

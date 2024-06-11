@@ -29,37 +29,34 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
 @ApplicationScoped
-class OrganizationInfoApiService {
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
-
-    @Inject
-    lateinit var userDetailService: UserDetailService
-
-    @Inject
-    lateinit var userService: UserService
-
-    @Inject
-    lateinit var connectorService: ConnectorService
-
-    @Inject
-    lateinit var connectorMetadataService: ConnectorMetadataService
+class OrganizationInfoApiService(
+    val organizationService: OrganizationService,
+    val deploymentEnvironmentService: DeploymentEnvironmentService,
+    val userDetailService: UserDetailService,
+    val userService: UserService,
+    val connectorService: ConnectorService,
+    val connectorMetadataService: ConnectorMetadataService
+) {
 
     fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
         val organizations = organizationService.getOrganizations()
         val connectorCounts = connectorService.getConnectorCountsByMdsIdsForEnvironment(environmentId)
         val userCounts = userService.getUserCountsByMdsIds()
         val dtos = organizations.map {
-            buildOrganizationOverviewEntryDto(it, userCounts, connectorCounts, environmentId)
-        }.sortedWith(compareBy { it.name })
+            buildOrganizationOverviewEntryDto(
+                organization = it,
+                userCounts = userCounts,
+                connectorCounts = connectorCounts,
+                environmentId = environmentId
+            )
+        }.sortedBy { it.name }
         return OrganizationOverviewResult(dtos)
     }
 
-    fun organizationsOverviewForProvidingConnectors(providerMdsId: String, environmentId: String): OrganizationOverviewResult {
+    fun organizationsOverviewForProvidingConnectors(
+        providerMdsId: String,
+        environmentId: String
+    ): OrganizationOverviewResult {
         val organizations = organizationsOverview(environmentId).organizations
             .filter { it.mdsId != providerMdsId }
         return OrganizationOverviewResult(organizations)
@@ -72,98 +69,101 @@ class OrganizationInfoApiService {
         environmentId: String
     ): OrganizationOverviewEntryDto {
         val mdsId = organization.mdsId
-        val dto = OrganizationOverviewEntryDto()
-        dto.mdsId = mdsId
-        dto.name = organization.name
-        dto.mainContactEmail = organization.mainContactEmail
-        dto.numberOfUsers = userCounts[mdsId] ?: 0
-        dto.numberOfConnectors = connectorCounts[mdsId] ?: 0
-        dto.numberOfDataOffers = connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)
-        dto.registrationStatus = organization.registrationStatus.toDto()
-        return dto
+        return OrganizationOverviewEntryDto(
+            mdsId = mdsId,
+            name = organization.name,
+            mainContactEmail = organization.mainContactEmail,
+            numberOfUsers = userCounts[mdsId] ?: 0,
+            numberOfConnectors = connectorCounts[mdsId] ?: 0,
+            numberOfDataOffers = connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId),
+            registrationStatus = organization.registrationStatus.toDto()
+        )
     }
 
     fun getOwnOrganizationInformation(mdsId: String): OwnOrganizationDetailsDto {
         val organizationDetails = getOrganizationDetailsDto(mdsId)
-        val dto = OwnOrganizationDetailsDto()
-        dto.mdsId = organizationDetails.mdsId
-        dto.name = organizationDetails.name
-        dto.registrationStatus = organizationDetails.registrationStatus
-        dto.createdAt = organizationDetails.createdAt
-        dto.createdByUserId = organizationDetails.createdByUserId
-        dto.createdByFirstName = organizationDetails.createdByFirstName
-        dto.createdByLastName = organizationDetails.createdByLastName
+        return OwnOrganizationDetailsDto(
+            mdsId = organizationDetails.mdsId,
+            name = organizationDetails.name,
+            registrationStatus = organizationDetails.registrationStatus,
+            createdAt = organizationDetails.createdAt,
+            createdByUserId = organizationDetails.createdByUserId,
+            createdByFirstName = organizationDetails.createdByFirstName,
+            createdByLastName = organizationDetails.createdByLastName,
 
-        dto.url = organizationDetails.url
-        dto.description = organizationDetails.description
-        dto.businessUnit = organizationDetails.businessUnit
-        dto.industry = organizationDetails.industry
-        dto.mainAddress = organizationDetails.mainAddress
-        dto.billingAddress = organizationDetails.billingAddress
-        dto.legalIdType = organizationDetails.legalIdType
-        dto.legalId = organizationDetails.legalId
-        dto.commerceRegisterLocation = organizationDetails.commerceRegisterLocation
+            url = organizationDetails.url,
+            description = organizationDetails.description,
+            businessUnit = organizationDetails.businessUnit,
+            industry = organizationDetails.industry,
+            mainAddress = organizationDetails.mainAddress,
+            billingAddress = organizationDetails.billingAddress,
+            legalIdType = organizationDetails.legalIdType,
+            legalId = organizationDetails.legalId,
+            commerceRegisterLocation = organizationDetails.commerceRegisterLocation,
 
-        dto.mainContactName = organizationDetails.mainContactName
-        dto.mainContactEmail = organizationDetails.mainContactEmail
-        dto.mainContactPhone = organizationDetails.mainContactPhone
-        dto.techContactName = organizationDetails.techContactName
-        dto.techContactEmail = organizationDetails.techContactEmail
-        dto.techContactPhone = organizationDetails.techContactPhone
+            mainContactName = organizationDetails.mainContactName,
+            mainContactEmail = organizationDetails.mainContactEmail,
+            mainContactPhone = organizationDetails.mainContactPhone,
+            techContactName = organizationDetails.techContactName,
+            techContactEmail = organizationDetails.techContactEmail,
+            techContactPhone = organizationDetails.techContactPhone,
 
-        dto.memberList = organizationDetails.memberList
-        return dto
+            memberList = organizationDetails.memberList
+        )
     }
 
     fun getOrganizationInformation(mdsId: String, environmentId: String): OrganizationDetailsDto {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
-        val organizationDetailsDto = getOrganizationDetailsDto(mdsId)
-        organizationDetailsDto.memberCount = organizationDetailsDto.memberList.size
-        organizationDetailsDto.connectorCount = connectorService.getConnectorCountByMdsIdAndEnvironment(mdsId, environmentId)
-        organizationDetailsDto.dataOfferCount = connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)
-
-        return organizationDetailsDto
+        return getOrganizationDetailsDto(mdsId).also {
+            it.connectorCount = connectorService.getConnectorCountByMdsIdAndEnvironment(mdsId, environmentId)
+            it.dataOfferCount = connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)
+        }
     }
 
     private fun getOrganizationDetailsDto(mdsId: String): OrganizationDetailsDto {
         val organization = organizationService.getOrganizationOrThrow(mdsId)
         val organizationAdmin = organization.createdBy?.let { userDetailService.getUserData(it) }
+        val legalIdType = organization.legalIdType.toDto()
+        val memberList = userDetailService.getOrganizationMembers(mdsId)
 
-        val dto = OrganizationDetailsDto()
-        dto.mdsId = organization.mdsId
-        dto.name = organization.name
-        dto.registrationStatus = organization.registrationStatus.toDto()
-        dto.createdAt = organization.createdAt
-        dto.createdByUserId = organizationAdmin?.userId
-        dto.createdByFirstName = organizationAdmin?.firstName
-        dto.createdByLastName = organizationAdmin?.lastName
+        return OrganizationDetailsDto(
+            mdsId = organization.mdsId,
+            name = organization.name,
+            registrationStatus = organization.registrationStatus.toDto(),
+            createdAt = organization.createdAt,
+            createdByUserId = organizationAdmin?.userId ?: "",
+            createdByFirstName = organizationAdmin?.firstName ?: "",
+            createdByLastName = organizationAdmin?.lastName ?: "",
 
-        dto.url = organization.url
-        dto.description = organization.description
-        dto.businessUnit = organization.businessUnit
-        dto.industry = organization.industry
-        dto.mainAddress = organization.address
-        dto.billingAddress = organization.billingAddress
-        dto.legalIdType = organization.legalIdType?.toDto()
-        dto.legalId = when (dto.legalIdType) {
-            OrganizationLegalIdTypeDto.TAX_ID -> organization.taxId
-            OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO -> organization.commerceRegisterNumber
-            else -> null
-        }
-        dto.commerceRegisterLocation = when (dto.legalIdType) {
-            OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO -> organization.commerceRegisterLocation
-            else -> null
-        }
+            url = organization.url,
+            description = organization.description,
+            businessUnit = organization.businessUnit,
+            industry = organization.industry,
+            mainAddress = organization.address,
+            billingAddress = organization.billingAddress,
+            legalIdType = legalIdType,
+            legalId = when (legalIdType) {
+                OrganizationLegalIdTypeDto.TAX_ID -> organization.taxId
+                OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO -> organization.commerceRegisterNumber
+                else -> error("Cannot parse LegalIdType. Unknown Enum")
+            },
+            commerceRegisterLocation = when (legalIdType) {
+                OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO -> organization.commerceRegisterLocation
+                else -> null
+            },
 
-        dto.mainContactName = organization.mainContactName
-        dto.mainContactEmail = organization.mainContactEmail
-        dto.mainContactPhone = organization.mainContactPhone
-        dto.techContactName = organization.techContactName
-        dto.techContactEmail = organization.techContactEmail
-        dto.techContactPhone = organization.techContactPhone
+            mainContactName = organization.mainContactName,
+            mainContactEmail = organization.mainContactEmail,
+            mainContactPhone = organization.mainContactPhone,
+            techContactName = organization.techContactName,
+            techContactEmail = organization.techContactEmail,
+            techContactPhone = organization.techContactPhone,
 
-        dto.memberList = userDetailService.getOrganizationMembers(mdsId)
-        return dto
+            memberList = memberList,
+            memberCount = memberList.size,
+            connectorCount = 0,
+            dataOfferCount = 0
+        )
     }
 }

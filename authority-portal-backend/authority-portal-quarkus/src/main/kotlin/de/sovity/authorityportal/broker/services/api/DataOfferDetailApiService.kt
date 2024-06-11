@@ -23,9 +23,7 @@ import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferR
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.utils.notFound
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.jooq.DSLContext
-import java.util.Objects
 
 @ApplicationScoped
 class DataOfferDetailApiService(
@@ -36,11 +34,11 @@ class DataOfferDetailApiService(
 ) {
     fun dataOfferDetailPage(environment: String, query: DataOfferDetailPageQuery): DataOfferDetailPageResult {
         val dataOffer = dataOfferDetailPageQueryService
-            .queryDataOfferDetailsPage(query.assetId, query.connectorEndpoint)
+            .queryDataOfferDetailsPage(environment, query.assetId, query.connectorId)
             ?: notFound("Data offer not found.")
 
         val asset = dataOfferMapper.readUiAsset(dataOffer.assetUiJson)
-        viewCountLogger.increaseDataOfferViewCount(query.assetId, query.connectorEndpoint)
+        viewCountLogger.increaseDataOfferViewCount(query.assetId, query.connectorId)
 
         return DataOfferDetailPageResult(
             assetId = dataOffer.assetId,

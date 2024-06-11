@@ -69,7 +69,7 @@ class CentralComponentService {
             it.environment = environment
             it.clientId = clientId
             it.name = centralComponentCreateRequest.name.trim()
-            it.homepageUrl = centralComponentCreateRequest.homepageUrl.trim()
+            it.homepageUrl = centralComponentCreateRequest.homepageUrl?.trim()
             it.endpointUrl = centralComponentCreateRequest.endpointUrl.trim()
             it.createdBy = createdBy
             it.createdAt = OffsetDateTime.now()

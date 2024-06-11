@@ -221,7 +221,7 @@ class ConnectorManagementApiServiceTest {
         verify(brokerClient).addConnector(any())
         verify(dapsClientService).forEnvironment(eq(test))
         assertThat(response.status).isIn(CreateConnectorStatusDto.OK, CreateConnectorStatusDto.WARNING)
-        assertConnector(response.id, ConnectorType.OWN)
+        assertConnector(response.id!!, ConnectorType.OWN)
     }
 
     @Test
@@ -254,7 +254,7 @@ class ConnectorManagementApiServiceTest {
         verify(brokerClient).addConnector(any())
         verify(dapsClientService).forEnvironment(eq(test))
         assertThat(response.status).isIn(CreateConnectorStatusDto.OK, CreateConnectorStatusDto.WARNING)
-        assertConnector(response.id, ConnectorType.PROVIDED)
+        assertConnector(response.id!!, ConnectorType.PROVIDED)
     }
 
     @Test

@@ -29,28 +29,15 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
 @ApplicationScoped
-class UserDeletionApiService {
-
-    @Inject
-    lateinit var keycloakService: KeycloakService
-
-    @Inject
-    lateinit var userService: UserService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var connectorService: ConnectorService
-
-    @Inject
-    lateinit var centralComponentService: CentralComponentService
-
-    @Inject
-    lateinit var connectorManagementApiService: ConnectorManagementApiService
-
-    @Inject
-    lateinit var centralComponentManagementApiService: CentralComponentManagementApiService
+class UserDeletionApiService(
+    val keycloakService: KeycloakService,
+    val userService: UserService,
+    val organizationService: OrganizationService,
+    val connectorService: ConnectorService,
+    val centralComponentService: CentralComponentService,
+    val connectorManagementApiService: ConnectorManagementApiService,
+    val centralComponentManagementApiService: CentralComponentManagementApiService
+) {
 
     fun checkUserDeletion(userId: String): UserDeletionCheck {
         val user = userService.getUserOrThrow(userId)
@@ -58,24 +45,25 @@ class UserDeletionApiService {
         val authorityAdmins = keycloakService.getAuthorityAdmins()
         val participantAdmins = keycloakService.getParticipantAdmins(organization.mdsId)
 
-        val userDeletionCheck = UserDeletionCheck().apply {
-            this.userId = userId
-            canBeDeleted = authorityAdmins.size > 1 || authorityAdmins.first().userId != userId
-            isLastParticipantAdmin = participantAdmins.size == 1 && participantAdmins.first().userId == userId
-            isOrganizationCreator = organization.createdBy == userId
-        }
+        val userDeletionCheck = UserDeletionCheck(
+            userId = userId,
+            canBeDeleted = authorityAdmins.size > 1 || authorityAdmins.first().userId != userId,
+            isLastParticipantAdmin = participantAdmins.size == 1 && participantAdmins.first().userId == userId,
+            isOrganizationCreator = organization.createdBy == userId,
+            possibleSuccessors = mutableListOf()
+        )
 
         if (!userDeletionCheck.isLastParticipantAdmin && userDeletionCheck.isOrganizationCreator) {
             userDeletionCheck.possibleSuccessors = participantAdmins.map {
-                val successor = PossibleCreatorSuccessor()
-                successor.userId = it.userId
-                successor.firstName = it.firstName
-                successor.lastName = it.lastName
-                successor
-            }
+                PossibleCreatorSuccessor(
+                    userId = it.userId,
+                    firstName = it.firstName,
+                    lastName = it.lastName
+                )
+            }.toMutableList()
             userDeletionCheck.possibleSuccessors.removeIf { it.userId == userId }
         } else {
-            userDeletionCheck.possibleSuccessors = emptyList()
+            userDeletionCheck.possibleSuccessors = mutableListOf()
         }
 
         return userDeletionCheck

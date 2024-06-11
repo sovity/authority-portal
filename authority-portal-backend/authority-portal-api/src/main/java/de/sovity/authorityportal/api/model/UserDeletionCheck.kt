@@ -23,5 +23,5 @@ class UserDeletionCheck(
     val isOrganizationCreator: Boolean,
 
     @Schema(description = "List of possible successors (if needed)", requiredMode = Schema.RequiredMode.REQUIRED)
-    val possibleSuccessors: List<PossibleCreatorSuccessor>,
+    var possibleSuccessors: MutableList<PossibleCreatorSuccessor>,
 )

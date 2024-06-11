@@ -17,8 +17,8 @@ import de.sovity.authorityportal.broker.api.model.CatalogPageSortingType
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogPageRs
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery
-import de.sovity.authorityportal.broker.services.config.BrokerServerDataspaceSettings
 import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
 
@@ -26,7 +26,7 @@ import org.jooq.DSLContext
 class CatalogQueryService(
     val catalogQueryDataOfferFetcher: CatalogQueryDataOfferFetcher,
     val catalogQueryAvailableFilterFetcher: CatalogQueryAvailableFilterFetcher,
-    val brokerServerDataspaceSettings: BrokerServerDataspaceSettings,
+    val catalogDataspaceConfigService: CatalogDataspaceConfigService,
     val dsl: DSLContext
 ) {
     /**
@@ -50,7 +50,7 @@ class CatalogQueryService(
             Tables.CONNECTOR,
             Tables.DATA_OFFER,
             Tables.DATA_OFFER_VIEW_COUNT,
-            brokerServerDataspaceSettings.dataSpaceConfig
+            catalogDataspaceConfigService.forEnvironment(environment)
         )
 
         val availableFilterValues = catalogQueryAvailableFilterFetcher

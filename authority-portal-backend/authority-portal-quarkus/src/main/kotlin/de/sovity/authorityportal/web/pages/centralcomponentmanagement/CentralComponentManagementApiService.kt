@@ -60,15 +60,15 @@ class CentralComponentManagementApiService {
             val createdBy = userService.getUserOrThrow(centralComponent.createdBy)
             val organization = organizationService.getOrganizationOrThrow(centralComponent.mdsId)
 
-            CentralComponentDto().also {
-                it.centralComponentId = centralComponent.id
-                it.name = centralComponent.name
-                it.homepageUrl = centralComponent.homepageUrl
-                it.endpointUrl = centralComponent.endpointUrl
-                it.createdByUserFullName = createdBy.firstName + " " + createdBy.lastName
-                it.createdByOrgName = organization.name
-                it.createdByOrgMdsId = organization.mdsId
-            }
+            CentralComponentDto(
+                centralComponentId = centralComponent.id,
+                name = centralComponent.name,
+                homepageUrl = centralComponent.homepageUrl,
+                endpointUrl = centralComponent.endpointUrl,
+                createdByUserFullName = createdBy.firstName + " " + createdBy.lastName,
+                createdByOrgName = organization.name,
+                createdByOrgMdsId = organization.mdsId
+            )
         }
     }
 

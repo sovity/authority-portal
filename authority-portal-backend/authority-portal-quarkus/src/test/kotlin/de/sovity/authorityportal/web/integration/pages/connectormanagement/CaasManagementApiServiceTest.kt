@@ -85,7 +85,7 @@ class CaasManagementApiServiceTest {
         assertThat(result.id).isNotNull
         assertThat(result.status).isEqualTo(CreateConnectorStatusDto.OK)
 
-        val caas = connectorService.getCaas(result.id)
+        val caas = connectorService.getCaas(result.id!!)
         Assertions.assertThat(caas).isNotNull()
         caas!!
 

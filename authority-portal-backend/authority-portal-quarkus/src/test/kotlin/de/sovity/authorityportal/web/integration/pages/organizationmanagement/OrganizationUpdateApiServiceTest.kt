@@ -39,20 +39,20 @@ class OrganizationUpdateApiServiceTest {
     @Test
     fun testUpdateOrganizationDetails() {
         // arrange
-        val organizationDto = UpdateOrganizationDto().apply {
-            url = TestData.ORG_URL
-            businessUnit = TestData.ORG_BUSINESS_UNIT
-            address = TestData.ORG_ADDRESS
-            industry = TestData.ORG_INDUSTRY
-            description = TestData.ORG_DESCRIPTION
-            billingAddress = TestData.ORG_BILLING_ADDRESS
-            mainContactName = TestData.ORG_MAIN_CONTACT_NAME
-            mainContactEmail = TestData.ORG_MAIN_CONTACT_EMAIL
-            mainContactPhone = TestData.ORG_MAIN_CONTACT_PHONE
-            techContactName = TestData.ORG_TECH_CONTACT_NAME
-            techContactEmail = TestData.ORG_TECH_CONTACT_EMAIL
+        val organizationDto = UpdateOrganizationDto(
+            url = TestData.ORG_URL,
+            businessUnit = TestData.ORG_BUSINESS_UNIT,
+            address = TestData.ORG_ADDRESS,
+            industry = TestData.ORG_INDUSTRY,
+            description = TestData.ORG_DESCRIPTION,
+            billingAddress = TestData.ORG_BILLING_ADDRESS,
+            mainContactName = TestData.ORG_MAIN_CONTACT_NAME,
+            mainContactEmail = TestData.ORG_MAIN_CONTACT_EMAIL,
+            mainContactPhone = TestData.ORG_MAIN_CONTACT_PHONE,
+            techContactName = TestData.ORG_TECH_CONTACT_NAME,
+            techContactEmail = TestData.ORG_TECH_CONTACT_EMAIL,
             techContactPhone = TestData.ORG_TECH_CONTACT_PHONE
-        }
+        )
 
         // act
         val result = organizationUpdateApiService.updateOrganization(mdsId, organizationDto)

@@ -21,11 +21,7 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQuerySelectedFilterQuery
 import de.sovity.authorityportal.broker.dao.utils.JsonDeserializationUtils.read2dStringList
-import de.sovity.authorityportal.broker.utils.CollectionUtils2
 import jakarta.enterprise.context.ApplicationScoped
-import org.apache.commons.lang3.Validate
-import java.util.Comparator
-import java.util.stream.Stream
 
 @ApplicationScoped
 class CatalogFilterService(

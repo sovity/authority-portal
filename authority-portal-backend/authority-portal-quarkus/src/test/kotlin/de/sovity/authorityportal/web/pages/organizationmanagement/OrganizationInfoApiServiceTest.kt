@@ -14,6 +14,7 @@
 package de.sovity.authorityportal.web.pages.organizationmanagement
 
 import de.sovity.authorityportal.api.model.MemberInfo
+import de.sovity.authorityportal.db.jooq.enums.OrganizationLegalIdType
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
@@ -22,6 +23,7 @@ import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetail
 import de.sovity.authorityportal.web.services.UserDetailService
+import de.sovity.authorityportal.web.services.UserService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -32,6 +34,7 @@ import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import java.time.OffsetDateTime
 
 @ExtendWith(MockitoExtension::class)
 class OrganizationInfoApiServiceTest {
@@ -41,6 +44,9 @@ class OrganizationInfoApiServiceTest {
 
     @Mock
     lateinit var userDetailService: UserDetailService
+
+    @Mock
+    lateinit var userService: UserService
 
     @Mock
     lateinit var connectorService: ConnectorService
@@ -56,15 +62,34 @@ class OrganizationInfoApiServiceTest {
 
     private val mdsId = "testMdsId"
     private val environmentId = "testEnvironmentId"
-    private val organizationRecord: OrganizationRecord = mock(OrganizationRecord::class.java)
     private val memberInfos = listOf(mock(MemberInfo::class.java))
     private val connectorCount = 5
     private val dataOfferCount = 14
 
+    private val organizationRecord = OrganizationRecord().also {
+        it.mdsId = mdsId
+        it.name = "Organization Name"
+        it.address = "Address"
+        it.url = "https://url"
+        it.createdBy = "testCreatedBy"
+        it.registrationStatus = OrganizationRegistrationStatus.ACTIVE
+        it.createdAt = OffsetDateTime.now()
+        it.businessUnit = "businessUnit"
+        it.billingAddress = "billingAddress"
+        it.taxId = "taxId"
+        it.mainContactName = "mainContactName"
+        it.mainContactEmail = "mainContactEmail"
+        it.mainContactPhone = "mainContactPhone"
+        it.techContactName = "techContactName"
+        it.techContactEmail = "techContactEmail"
+        it.techContactPhone = "techContactPhone"
+        it.legalIdType = OrganizationLegalIdType.TAX_ID
+        it.description = "description"
+        it.industry = "industry"
+    }
+
     @BeforeEach
     fun before() {
-        `when`(organizationRecord.registrationStatus).thenReturn(OrganizationRegistrationStatus.ACTIVE)
-        `when`(organizationRecord.createdBy).thenReturn("testCreatedBy")
         `when`(organizationService.getOrganizationOrThrow(mdsId)).thenReturn(organizationRecord)
         `when`(userDetailService.getOrganizationMembers(mdsId)).thenReturn(memberInfos)
         `when`(userDetailService.getUserData(anyString())).thenReturn(mock(UserDetail::class.java))

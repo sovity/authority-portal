@@ -15,15 +15,15 @@ class CreateConnectorRequest(
 
     @NotBlank(message = "URL of the connector frontend cannot be blank")
     @Schema(description = "URL of the connector frontend", requiredMode = Schema.RequiredMode.REQUIRED)
-    val frontendUrl: String,
+    var frontendUrl: String,
 
     @NotBlank(message = "URL of the connector endpoint cannot be blank")
     @Schema(description = "URL of the connector endpoint", requiredMode = Schema.RequiredMode.REQUIRED)
-    val endpointUrl: String,
+    var endpointUrl: String,
 
     @NotBlank(message = "URL of the connector management endpoint cannot be blank")
     @Schema(description = "URL of the connector management endpoint", requiredMode = Schema.RequiredMode.REQUIRED)
-    val managementUrl: String,
+    var managementUrl: String,
 
     @NotBlank(message = "Public key of certificate cannot be blank")
     @Schema(description = "Public key of certificate", requiredMode = Schema.RequiredMode.REQUIRED)

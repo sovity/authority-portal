@@ -22,19 +22,13 @@ import de.sovity.authorityportal.web.pages.userregistration.toDto
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetailService
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 
 @ApplicationScoped
-class UserInfoApiService {
-
-    @Inject
-    lateinit var userDetailService: UserDetailService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var userRoleMapper: UserRoleMapper
+class UserInfoApiService(
+    val userDetailService: UserDetailService,
+    val organizationService: OrganizationService,
+    val userRoleMapper: UserRoleMapper
+) {
 
     fun userInfo(loggedInUser: LoggedInUser): UserInfo = when {
         loggedInUser.authenticated -> authenticatedUserInfo(loggedInUser)
@@ -46,32 +40,32 @@ class UserInfoApiService {
         val userId = loggedInUser.userId
 
         val user = userDetailService.getUserData(userId)
-        val organizationName = getOrganization(mdsId)
+        val organizationName = getOrganizationName(mdsId)
         val roles = userRoleMapper.getUserRoles(loggedInUser.roles)
 
-        return UserInfo().also {
-            it.authenticationStatus = UserAuthenticationStatusDto.AUTHENTICATED
-            it.userId = userId
-            it.firstName = user.firstName
-            it.lastName = user.lastName
-            it.roles = roles.toList()
-            it.registrationStatus = user.registrationStatus.toDto()
-            it.organizationMdsId = mdsId
-            it.organizationName = organizationName
-        }
+        return UserInfo(
+            authenticationStatus = UserAuthenticationStatusDto.AUTHENTICATED,
+            userId = userId,
+            firstName = user.firstName,
+            lastName = user.lastName,
+            roles = roles.toList(),
+            registrationStatus = user.registrationStatus.toDto(),
+            organizationMdsId = mdsId ?: "",
+            organizationName = organizationName ?: "",
+        )
     }
 
     private fun unauthenticatedUserInfo(): UserInfo {
-        return UserInfo().also {
-            it.authenticationStatus = UserAuthenticationStatusDto.UNAUTHENTICATED
-            it.userId = "unauthenticated"
-            it.firstName = "Unknown"
-            it.lastName = "User"
-            it.roles = listOf(UserRoleDto.UNAUTHENTICATED)
-            it.registrationStatus = null
-            it.organizationMdsId = "unauthenticated"
-            it.organizationName = "No Organization"
-        }
+        return UserInfo(
+            authenticationStatus = UserAuthenticationStatusDto.UNAUTHENTICATED,
+            userId = "unauthenticated",
+            firstName = "Unknown",
+            lastName = "User",
+            roles = listOf(UserRoleDto.UNAUTHENTICATED),
+            registrationStatus = null,
+            organizationMdsId = "unauthenticated",
+            organizationName = "No Organization"
+        )
     }
 
     /**
@@ -88,35 +82,33 @@ class UserInfoApiService {
         val invitingUser = user.invitedBy?.let { userDetailService.getUserData(it) }
         val roleDtos = userRoleMapper.getUserRoles(user.roles)
 
-        val dto = UserDetailDto()
-        dto.userId = user.userId
-        dto.email = user.email
-        dto.firstName = user.firstName
-        dto.lastName = user.lastName
-        dto.phone = user.phoneNumber
-        dto.position = user.position
+        return UserDetailDto(
+            userId = user.userId,
+            email = user.email,
+            firstName = user.firstName,
+            lastName = user.lastName,
+            phone = user.phoneNumber ?: "",
+            position = user.position ?: "",
 
-        dto.onboardingType = user.onboardingType.toDto()
-        dto.creationDate = user.createdAt
-        dto.registrationStatus = user.registrationStatus.toDto()
-        dto.roles = roleDtos.toList()
+            onboardingType = user.onboardingType.toDto(),
+            creationDate = user.createdAt,
+            registrationStatus = user.registrationStatus.toDto(),
+            roles = roleDtos.toList(),
 
-        dto.organizationMdsId = user.organizationMdsId
-        dto.organizationName = getOrganization(user.organizationMdsId)
+            organizationMdsId = user.organizationMdsId ?: "",
+            organizationName = getOrganizationName(user.organizationMdsId) ?: "",
 
-        dto.invitingUserId = invitingUser?.userId
-        dto.invitingUserFirstName = invitingUser?.firstName
-        dto.invitingUserLastName = invitingUser?.lastName
-
-        return dto
+            invitingUserId = invitingUser?.userId,
+            invitingUserFirstName = invitingUser?.firstName,
+            invitingUserLastName = invitingUser?.lastName
+        )
     }
 
-    private fun getOrganization(mdsId: String?): String? {
+    private fun getOrganizationName(mdsId: String?): String? {
         if (mdsId.isNullOrEmpty()) {
             return null
         }
         val organization = organizationService.getOrganizationOrThrow(mdsId)
-
         return organization.name
     }
 }
