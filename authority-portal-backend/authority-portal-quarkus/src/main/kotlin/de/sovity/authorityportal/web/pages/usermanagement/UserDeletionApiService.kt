@@ -26,7 +26,6 @@ import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 
 @ApplicationScoped
 class UserDeletionApiService(
