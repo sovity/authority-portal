@@ -13,14 +13,12 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
-import de.sovity.authorityportal.broker.services.config.DataSpaceConfig
+import de.sovity.authorityportal.broker.dao.utils.mapInline
+import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.tables.Connector
 import de.sovity.authorityportal.db.jooq.tables.DataOffer
 import de.sovity.authorityportal.db.jooq.tables.DataOfferViewCount
-import lombok.AccessLevel
-import lombok.Getter
-import lombok.experimental.FieldDefaults
 import org.jooq.Field
 import org.jooq.Table
 import org.jooq.impl.DSL
@@ -32,13 +30,11 @@ import java.time.OffsetDateTime
  *
  * Having this as a class makes access to computed fields (e.g. asset properties) easier.
  */
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class CatalogQueryFields(
     var connectorTable: Connector,
     var dataOfferTable: DataOffer,
     private var dataOfferViewCountTable: DataOfferViewCount,
-    private var dataSpaceConfig: DataSpaceConfig
+    private var dataSpaceConfigCatalog: CatalogDataspaceConfig
 ) {
     // Asset Properties from JSON to be used in sorting / filtering
     var dataSpace: Field<String>
@@ -48,25 +44,11 @@ class CatalogQueryFields(
     var offlineSinceOrLastUpdatedAt: Field<OffsetDateTime> = offlineSinceOrLastUpdatedAt(connectorTable)
 
     init {
-        dataSpace = buildDataSpaceField(connectorTable, dataSpaceConfig)
+        dataSpace = buildDataSpaceField(connectorTable, dataSpaceConfigCatalog)
     }
 
-    private fun buildDataSpaceField(connectorTable: Connector, dataSpaceConfig: DataSpaceConfig): Field<String> {
-        val endpoint = connectorTable.ENDPOINT_URL
-
-        val connectors = dataSpaceConfig.dataSpaceConnectors
-        if (connectors.isEmpty()) {
-            return DSL.`val`(dataSpaceConfig.defaultDataSpace)
-        }
-
-        val first = connectors[0]
-        var dspCase = DSL.case_(endpoint).`when`(first.endpoint, first.dataSpaceName)
-
-        for (dsp in connectors.subList(1, connectors.size)) {
-            dspCase = dspCase.`when`(dsp.endpoint, dsp.dataSpaceName)
-        }
-
-        return dspCase.else_(DSL.`val`(dataSpaceConfig.defaultDataSpace))
+    private fun buildDataSpaceField(connectorTable: Connector, dataSpaceConfigCatalog: CatalogDataspaceConfig): Field<String> {
+        return connectorTable.CONNECTOR_ID.mapInline(dataSpaceConfigCatalog.namesByConnectorId, dataSpaceConfigCatalog.defaultName)
     }
 
     fun withSuffix(additionalSuffix: String): CatalogQueryFields {
@@ -74,7 +56,7 @@ class CatalogQueryFields(
             connectorTable.`as`(withSuffix(connectorTable, additionalSuffix)),
             dataOfferTable.`as`(withSuffix(dataOfferTable, additionalSuffix)),
             dataOfferViewCountTable.`as`(withSuffix(dataOfferViewCountTable, additionalSuffix)),
-            dataSpaceConfig
+            dataSpaceConfigCatalog
         )
     }
 

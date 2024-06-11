@@ -24,3 +24,23 @@ import org.jooq.impl.DSL
  * @return condition
  */
 fun Field<String>.eqAny(values: Collection<String>): Condition = this.eq(DSL.any(*values.toTypedArray()))
+
+/**
+ *
+ */
+fun <T, R> Field<T>.mapInline(mapping: Map<T, R>, default: R): Field<R> {
+    if (mapping.isEmpty()) {
+        return DSL.`val`(default)
+    }
+
+    val entries = mapping.entries.toList()
+
+    val first = entries.first()
+    var caseExpression = DSL.case_(this).`when`(first.key, first.value)
+
+    entries.drop(1).forEach {
+        caseExpression = caseExpression.`when`(it.key, it.value)
+    }
+
+    return caseExpression.else_(DSL.`val`(default))
+}

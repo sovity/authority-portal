@@ -26,8 +26,9 @@ import org.jooq.DSLContext
 class DataOfferDetailPageQueryService(
     val catalogQueryContractOfferFetcher: CatalogQueryContractOfferFetcher,
     val brokerServerDataspaceSettings: BrokerServerDataspaceSettings,
+    val dsl: DSLContext
 ) {
-    fun queryDataOfferDetailsPage(dsl: DSLContext, assetId: String, endpoint: String): DataOfferDetailRs? {
+    fun queryDataOfferDetailsPage(assetId: String, endpoint: String): DataOfferDetailRs? {
         // We are re-using the catalog page query stuff as long as we can get away with it
         val fields = CatalogQueryFields(
             Tables.CONNECTOR,

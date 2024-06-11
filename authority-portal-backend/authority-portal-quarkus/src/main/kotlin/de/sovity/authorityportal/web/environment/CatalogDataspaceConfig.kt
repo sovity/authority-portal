@@ -11,15 +11,12 @@
  *       sovity GmbH - initial API and implementation
  *
  */
+package de.sovity.authorityportal.web.environment
 
-package de.sovity.authorityportal.broker.services.config;
-
-import jakarta.enterprise.context.ApplicationScoped;
-import lombok.Builder;
-import lombok.Value;
-
-@Value
-@Builder
-public class BrokerServerDataspaceSettings {
-    DataSpaceConfig dataSpaceConfig;
-}
+data class CatalogDataspaceConfig(
+    /**
+     * Map from ConnectorID to dataspace name
+     */
+    val namesByConnectorId: Map<String, String>,
+    val defaultName: String
+)

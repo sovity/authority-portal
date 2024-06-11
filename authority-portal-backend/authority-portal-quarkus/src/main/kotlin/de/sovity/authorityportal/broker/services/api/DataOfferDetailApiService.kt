@@ -21,6 +21,7 @@ import de.sovity.authorityportal.broker.dao.pages.dataoffer.DataOfferDetailPageQ
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.ViewCountLogger
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
+import de.sovity.authorityportal.web.utils.notFound
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
@@ -30,33 +31,29 @@ import java.util.Objects
 class DataOfferDetailApiService(
     val dataOfferDetailPageQueryService: DataOfferDetailPageQueryService,
     val viewCountLogger: ViewCountLogger,
-    val dataOfferMappingUtils: DataOfferMappingUtils,
+    val dataOfferMapper: DataOfferMapper,
     val dsl: DSLContext
 ) {
-    fun dataOfferDetailPage(environment: String?, query: DataOfferDetailPageQuery): DataOfferDetailPageResult {
-        Objects.requireNonNull(query, "query must not be null")
+    fun dataOfferDetailPage(environment: String, query: DataOfferDetailPageQuery): DataOfferDetailPageResult {
+        val dataOffer = dataOfferDetailPageQueryService
+            .queryDataOfferDetailsPage(query.assetId, query.connectorEndpoint)
+            ?: notFound("Data offer not found.")
 
-        val dataOffer =
-            dataOfferDetailPageQueryService.queryDataOfferDetailsPage(dsl, query.assetId, query.connectorEndpoint)
-        val asset = dataOfferMappingUtils.buildUiAsset(
-            dataOffer!!.assetUiJson,
-            dataOffer.connectorEndpoint,
-            dataOffer.connectorParticipantId,
-            dataOffer.organizationName
+        val asset = dataOfferMapper.readUiAsset(dataOffer.assetUiJson)
+        viewCountLogger.increaseDataOfferViewCount(query.assetId, query.connectorEndpoint)
+
+        return DataOfferDetailPageResult(
+            assetId = dataOffer.assetId,
+            connectorEndpoint = dataOffer.connectorEndpoint,
+            connectorOnlineStatus = mapConnectorOnlineStatus(dataOffer.connectorOnlineStatus),
+            connectorOfflineSinceOrLastUpdatedAt = dataOffer.connectorOfflineSinceOrLastUpdatedAt,
+            asset = asset,
+            createdAt = dataOffer.createdAt,
+            updatedAt = dataOffer.updatedAt,
+            contractOffers = buildDataOfferDetailContractOffers(dataOffer.contractOffers),
+            viewCount = dataOffer.viewCount
         )
-        viewCountLogger.increaseDataOfferViewCount(dsl, query.assetId, query.connectorEndpoint)
 
-        val result = DataOfferDetailPageResult()
-        result.setAssetId(dataOffer.assetId)
-        result.setConnectorEndpoint(dataOffer.connectorEndpoint)
-        result.setConnectorOnlineStatus(mapConnectorOnlineStatus(dataOffer.connectorOnlineStatus))
-        result.setConnectorOfflineSinceOrLastUpdatedAt(dataOffer.connectorOfflineSinceOrLastUpdatedAt)
-        result.setAsset(asset)
-        result.setCreatedAt(dataOffer.createdAt)
-        result.setUpdatedAt(dataOffer.updatedAt)
-        result.setContractOffers(buildDataOfferDetailContractOffers(dataOffer.contractOffers))
-        result.setViewCount(dataOffer.viewCount)
-        return result
     }
 
     private fun mapConnectorOnlineStatus(connectorOnlineStatus: ConnectorOnlineStatus?): ConnectorOnlineStatusDto {
@@ -72,16 +69,16 @@ class DataOfferDetailApiService(
     }
 
     private fun buildDataOfferDetailContractOffers(contractOffers: List<ContractOfferRs>): List<DataOfferDetailContractOffer> {
-        return contractOffers.stream().map { offer: ContractOfferRs -> this.buildDataOfferDetailContractOffer(offer) }
-            .toList()
+        return contractOffers.map { buildDataOfferDetailContractOffer(it) }
     }
 
     private fun buildDataOfferDetailContractOffer(offer: ContractOfferRs): DataOfferDetailContractOffer {
-        val newOffer = DataOfferDetailContractOffer()
-        newOffer.setCreatedAt(offer.createdAt)
-        newOffer.setUpdatedAt(offer.updatedAt)
-        newOffer.setContractOfferId(offer.contractOfferId)
-        newOffer.setContractPolicy(dataOfferMappingUtils.buildUiPolicy(offer.policyUiJson))
-        return newOffer
+        return DataOfferDetailContractOffer(
+            createdAt = offer.createdAt,
+            updatedAt = offer.updatedAt,
+            contractOfferId = offer.contractOfferId,
+            contractPolicy = dataOfferMapper.readUiPolicy(offer.policyUiJson)
+        )
+
     }
 }
