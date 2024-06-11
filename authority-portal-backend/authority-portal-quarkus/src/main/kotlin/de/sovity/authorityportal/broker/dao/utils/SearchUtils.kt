@@ -14,9 +14,7 @@
 package de.sovity.authorityportal.broker.dao.utils
 
 import de.sovity.authorityportal.broker.dao.utils.LikeUtils.contains
-import de.sovity.authorityportal.broker.utils.StringUtils2
-import lombok.AccessLevel
-import lombok.NoArgsConstructor
+import de.sovity.authorityportal.web.utils.lowercaseWords
 import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.impl.DSL
@@ -34,18 +32,12 @@ object SearchUtils {
      * @param searchTargets target fields
      * @return JOOQ Condition
      */
-    fun simpleSearch(searchQuery: String, searchTargets: List<Field<String?>>): Condition {
-        val words = StringUtils2.lowercaseWords(searchQuery)
-        return DSL.and(words.stream()
-            .map { word: String -> anySearchTargetContains(searchTargets, word) }
-            .toList())
+    fun simpleSearch(searchQuery: String?, searchTargets: List<Field<String?>>): Condition {
+        val words = searchQuery.lowercaseWords()
+        return DSL.and(words.map { anySearchTargetContains(searchTargets, it) })
     }
 
     private fun anySearchTargetContains(searchTargets: List<Field<String?>>, word: String): Condition {
-        return DSL.or(searchTargets.stream().map { field: Field<String?> ->
-            contains(
-                field, word
-            )
-        }.toList())
+        return DSL.or(searchTargets.map { contains(it, word) })
     }
 }

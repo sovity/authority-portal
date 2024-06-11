@@ -27,29 +27,19 @@ import de.sovity.authorityportal.broker.services.api.filtering.CatalogFilterServ
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.jooq.DSLContext
 import java.util.stream.Stream
 
 @ApplicationScoped
-class CatalogApiService {
-    @Inject
-    lateinit var paginationMetadataUtils: PaginationMetadataUtils
+class CatalogApiService(
+    val paginationMetadataUtils: PaginationMetadataUtils,
+    val catalogQueryService: CatalogQueryService,
+    val catalogFilterService: CatalogFilterService,
+    val dsl: DSLContext,
+    val deploymentEnvironmentService: DeploymentEnvironmentService,
+    val dataOfferMapper: DataOfferMapper
+) {
 
-    @Inject
-    lateinit var catalogQueryService: CatalogQueryService
-
-    @Inject
-    lateinit var dataOfferMappingUtils: DataOfferMappingUtils
-
-    @Inject
-    lateinit var catalogFilterService: CatalogFilterService
-
-    @Inject
-    lateinit var dsl: DSLContext
-
-    @Inject
-    lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
 
     fun catalogPage(environment: String, query: CatalogPageQuery): CatalogPageResult {
         val brokerConfig = deploymentEnvironmentService.findByIdOrThrow(environment).broker()
@@ -97,12 +87,7 @@ class CatalogApiService {
     }
 
     private fun buildCatalogDataOffer(dataOfferRs: DataOfferListEntryRs): CatalogDataOffer {
-        val asset = dataOfferMappingUtils.buildUiAsset(
-            dataOfferRs.assetJsonLd,
-            dataOfferRs.connectorEndpointUrl,
-            dataOfferRs.connectorParticipantId,
-            dataOfferRs.organizationName
-        )
+        val asset = dataOfferMapper.readUiAsset(dataOfferRs.assetUiJson)
 
         return CatalogDataOffer(
             assetId = dataOfferRs.assetId,
@@ -117,15 +102,13 @@ class CatalogApiService {
     }
 
     private fun buildCatalogContractOffers(dataOfferRs: DataOfferListEntryRs): List<CatalogContractOffer> {
-        return dataOfferRs.contractOffers.stream()
-            .map { contractOfferDbRow: ContractOfferRs -> this.buildCatalogContractOffer(contractOfferDbRow) }
-            .toList()
+        return dataOfferRs.contractOffers.map { buildCatalogContractOffer(it) }
     }
 
     private fun buildCatalogContractOffer(contractOfferDbRow: ContractOfferRs): CatalogContractOffer {
         return CatalogContractOffer(
             contractOfferId = contractOfferDbRow.contractOfferId,
-            contractPolicy = dataOfferMappingUtils.buildUiPolicy(contractOfferDbRow.policyUiJson),
+            contractPolicy = dataOfferMapper.readUiPolicy(contractOfferDbRow.policyUiJson),
             createdAt = contractOfferDbRow.createdAt,
             updatedAt = contractOfferDbRow.updatedAt
         )

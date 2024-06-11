@@ -19,7 +19,7 @@ import java.time.OffsetDateTime
 
 data class DataOfferListEntryRs(
     val assetId: String,
-    val assetJsonLd: String,
+    val assetUiJson: String,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime,
     val contractOffers: List<ContractOfferRs>,

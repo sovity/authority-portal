@@ -11,21 +11,19 @@
  *       sovity GmbH - initial API and implementation
  *
  */
-package de.sovity.authorityportal.broker.dao.utils
-
-import org.jooq.JSONB
+package de.sovity.authorityportal.web.utils
 
 /**
- * Utilities for dealing with [JSONB] fields.
+ * Splits a string into its words and returns them in lowercase.
+ *
+ * @return list of lowercase words
  */
-object JsonbUtils {
-    /**
-     * Returns the data of the given [JSONB] or null.
-     *
-     * @param jsonb [org.jooq.JSON]
-     * @return data or null
-     */
-    fun getDataOrNull(jsonb: JSONB): String {
-        return jsonb.data()
+fun String?.lowercaseWords(): List<String> {
+    if (this.isNullOrBlank()) {
+        return listOf()
     }
+
+    return this.split("\\s+".toRegex())
+        .map { it.trim().lowercase() }
+        .filter { it.isNotBlank() }
 }
