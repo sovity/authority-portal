@@ -18,10 +18,6 @@ subprojects {
         maven {
             name = "maven.pkg.github.com/sovity/edc-extensions"
             url = uri("https://maven.pkg.github.com/sovity/edc-extensions")
-            credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("GPR_USER")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("GPR_KEY")
-            }
         }
     }
 
