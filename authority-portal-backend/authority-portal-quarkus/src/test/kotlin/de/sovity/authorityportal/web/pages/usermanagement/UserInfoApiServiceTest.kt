@@ -16,6 +16,7 @@ package de.sovity.authorityportal.web.pages.usermanagement
 import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
 import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
+import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetail
 import de.sovity.authorityportal.web.services.UserDetailService
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -38,6 +39,9 @@ class UserInfoApiServiceTest {
 
     @Mock
     lateinit var userRoleMapper: UserRoleMapper
+
+    @Mock
+    lateinit var organizationService: OrganizationService
 
     @Test
     fun testUserDetails() {

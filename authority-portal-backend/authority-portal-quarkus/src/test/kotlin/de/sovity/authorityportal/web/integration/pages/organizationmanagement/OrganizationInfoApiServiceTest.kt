@@ -16,13 +16,17 @@ package de.sovity.authorityportal.web.integration.pages.organizationmanagement
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.api.model.organization.OrganizationLegalIdTypeDto
 import de.sovity.authorityportal.api.model.organization.OrganizationRegistrationStatusDto
+import de.sovity.authorityportal.db.jooq.enums.OrganizationLegalIdType
+import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
+import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_EMAIL
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_FIRST_NAME
 import de.sovity.authorityportal.web.integration.pages.TestData.USER_LAST_NAME
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
+import de.sovity.authorityportal.web.pages.organizationmanagement.toDb
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
@@ -38,6 +42,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.verify
+import java.time.OffsetDateTime
 import java.util.UUID
 
 
@@ -71,6 +76,28 @@ class OrganizationInfoApiServiceTest {
     private val testTechContactName = "Tech Contact"
     private val testTechContactEmail = "tech.contact@example.com"
     private val testTechPhone = "9876543210"
+
+    private val organizationRecord = OrganizationRecord().also {
+        it.mdsId = testMdsId
+        it.name = testOrganizationName
+        it.address = testMainAddress
+        it.url = testUrl
+        it.createdBy = "testCreatedBy"
+        it.registrationStatus = testRegistrationStatus.toDb()
+        it.createdAt = OffsetDateTime.now()
+        it.businessUnit = testBusinessUnit
+        it.billingAddress = testBillingAddress
+        it.taxId = testTaxId
+        it.mainContactName = testMainContactName
+        it.mainContactEmail = testMainContactEmail
+        it.mainContactPhone = testMainPhone
+        it.techContactName = testTechContactName
+        it.techContactEmail = testTechContactEmail
+        it.techContactPhone = testTechPhone
+        it.legalIdType = testLegalIdType.toDb()
+        it.description = testDescription
+        it.industry = testIndustry
+    }
 
     @Test
     @TestTransaction
