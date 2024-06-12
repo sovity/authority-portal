@@ -13,25 +13,18 @@
 
 package de.sovity.authorityportal.web.pages
 
-import de.sovity.authorityportal.api.model.UptimeStatusDto
 import de.sovity.authorityportal.api.model.ComponentStatusOverview
-import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.api.model.UptimeStatusDto
 import de.sovity.authorityportal.db.jooq.enums.ComponentOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ComponentType
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.tables.records.ComponentDowntimesRecord
 import de.sovity.authorityportal.web.services.ComponentStatusService
-import de.sovity.authorityportal.web.services.ConnectorMetadataService
 import de.sovity.authorityportal.web.services.ConnectorService
-import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
-import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus.DEAD
-import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus.OFFLINE
-import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus.ONLINE
+import de.sovity.authorityportal.web.services.connector.ConnectorStatusQuery
 import de.sovity.authorityportal.web.thirdparty.uptimekuma.model.toDto
-import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtils
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.jooq.DSLContext
-import org.jooq.impl.DSL
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.Duration
@@ -39,59 +32,37 @@ import java.time.OffsetDateTime
 import java.util.Locale
 
 @ApplicationScoped
-class ComponentStatusApiService {
-
-    @Inject
-    lateinit var connectorMetadataService: ConnectorMetadataService
-
-    @Inject
-    lateinit var componentStatusService: ComponentStatusService
-
-    @Inject
-    lateinit var connectorService: ConnectorService
-
-    @Inject
-    lateinit var dataspaceComponentIdUtils: DataspaceComponentIdUtils
-
-    @Inject
-    lateinit var dsl: DSLContext
+class ComponentStatusApiService(
+    val componentStatusService: ComponentStatusService,
+    val connectorService: ConnectorService,
+    val connectorStatusQuery: ConnectorStatusQuery,
+    val dsl: DSLContext
+) {
 
     fun getComponentsStatus(environmentId: String): ComponentStatusOverview {
-        val connectorMetadata = connectorMetadataService.getConnectorInfoByEnvironment(environmentId)
+        val connectorStatuses = connectorStatusQuery.getConnectorStatusInfoByEnvironment(environmentId)
+        val statusCount = countConnectorStatuses(environmentId, connectorStatuses)
 
-        val unknownConnectorCount = getNumberOfUnknownConnectors(connectorMetadata, environmentId)
-        val connectorStatusCount = countConnectorStatuses(connectorMetadata, unknownConnectorCount)
-
-        return buildComponenStatusOverview(connectorStatusCount, environmentId)
+        return buildComponenStatusOverview(statusCount, environmentId)
     }
 
     fun getComponentsStatusForMdsId(environmentId: String, mdsId: String): ComponentStatusOverview {
-        val connectorMetadata = connectorMetadataService.getConnectorInfoByEnvironment(environmentId)
-        val providedConnectorIds =
-            connectorService.getProvidedConnectorsByMdsId(mdsId, environmentId).map { it.connectorId }
-        val filteredMetadata = connectorMetadata.filter {
-            dataspaceComponentIdUtils.toMdsId(it.participantId) == mdsId
-                || it.participantId in providedConnectorIds
-        }
+        val connectorStatuses = connectorStatusQuery.getConnectorStatusInfoByMdsIdAndEnvironment(mdsId, environmentId)
+        val statusCount = countConnectorStatuses(environmentId, connectorStatuses)
 
-        val unknownConnectorCount = getNumberOfUnknownConnectors(filteredMetadata, environmentId, mdsId)
-        val connectorStatusCount = countConnectorStatuses(filteredMetadata, unknownConnectorCount)
-
-        return buildComponenStatusOverview(connectorStatusCount, environmentId)
+        return buildComponenStatusOverview(statusCount, environmentId)
     }
 
     private fun buildComponenStatusOverview(
         connectorStatusCount: ConnectorStatusCount,
         environmentId: String
     ): ComponentStatusOverview {
-        val latestBrokerStatus = componentStatusService.getLatestComponentStatus(ComponentType.BROKER, environmentId)
         val latestDapsStatus = componentStatusService.getLatestComponentStatus(ComponentType.DAPS, environmentId)
         val latestLoggingHouseStatus =
             componentStatusService.getLatestComponentStatus(ComponentType.LOGGING_HOUSE, environmentId)
         val now = OffsetDateTime.now()
 
         return ComponentStatusOverview(
-            brokerStatus = calculateUptimeStatus(latestBrokerStatus, environmentId, now),
             dapsStatus = calculateUptimeStatus(latestDapsStatus, environmentId, now),
             loggingHouseStatus = calculateUptimeStatus(latestLoggingHouseStatus, environmentId, now),
             onlineConnectors = connectorStatusCount.online,
@@ -180,39 +151,21 @@ class ComponentStatusApiService {
     }
 
     private fun countConnectorStatuses(
-        connectorMetadata: List<AuthorityPortalConnectorInfo>,
-        unknownCount: Int,
-    ): ConnectorStatusCount {
-        val onlineCount = connectorMetadata.count { it.onlineStatus == ONLINE }
-        val disturbedCount = connectorMetadata.count {
-            (it.onlineStatus == OFFLINE || it.onlineStatus == DEAD)
-                && it.offlineSinceOrLastUpdatedAt != null
-                && it.offlineSinceOrLastUpdatedAt!!.isAfter(OffsetDateTime.now().minusMinutes(2))
-        }
-        val offlineCount =
-            connectorMetadata.count { it.onlineStatus == OFFLINE || it.onlineStatus == DEAD } - disturbedCount + unknownCount
-        return ConnectorStatusCount(onlineCount, disturbedCount, offlineCount)
-    }
-
-    private fun getNumberOfUnknownConnectors(
-        connectorMetadata: List<AuthorityPortalConnectorInfo>,
         environmentId: String,
-        mdsId: String? = null
-    ): Int {
-        val c = Tables.CONNECTOR
+        connectorStatuses: List<ConnectorStatusQuery.ConnectorStatusInfoRs>
+    ): ConnectorStatusCount {
 
-        val conditions = mutableListOf(
-            c.ENVIRONMENT.eq(environmentId),
-            DSL.or(
-                c.ENDPOINT_URL.isNull,
-                c.ENDPOINT_URL.notIn(connectorMetadata.map { it.connectorEndpoint })
-            )
-        )
-        if (mdsId != null) {
-            conditions += DSL.or(c.MDS_ID.eq(mdsId), c.PROVIDER_MDS_ID.eq(mdsId))
+        val onlineCount = connectorStatuses.count { it.onlineStatus == ConnectorOnlineStatus.ONLINE }
+        val disturbedCount = connectorStatuses.count {
+            (it.onlineStatus == ConnectorOnlineStatus.OFFLINE || it.onlineStatus == ConnectorOnlineStatus.DEAD)
+                && it.lastSuccessfulRefreshAt != null
+                && it.lastSuccessfulRefreshAt.isAfter(OffsetDateTime.now().minusMinutes(2))
         }
+        val offlineCount = connectorStatuses.count {
+            it.onlineStatus == ConnectorOnlineStatus.OFFLINE || it.onlineStatus == ConnectorOnlineStatus.DEAD
+        } - disturbedCount
 
-        return dsl.selectCount().from(c).where(conditions).fetchSingle().value1()
+        return ConnectorStatusCount(onlineCount, disturbedCount, offlineCount)
     }
 
     data class ConnectorStatusCount(

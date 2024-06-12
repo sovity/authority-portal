@@ -28,6 +28,7 @@ dependencies {
     implementation("io.quarkus:quarkus-oidc-client-reactive-filter")
     implementation("io.quarkus:quarkus-hibernate-validator")
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
+    implementation("io.quarkus:quarkus-observability-devservices-lgtm:3.11.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.opentelemetry.instrumentation:opentelemetry-jdbc")
     implementation("org.bouncycastle:bcprov-jdk18on:1.77")

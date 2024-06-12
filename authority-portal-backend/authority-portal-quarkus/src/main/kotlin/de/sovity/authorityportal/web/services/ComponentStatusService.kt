@@ -41,7 +41,6 @@ class ComponentStatusService {
         val componentsStatusByEnvironment = uptimeKumaClient.getStatusByEnvironments()
 
         componentsStatusByEnvironment.forEach { (env, componentStatuses) ->
-            addComponentStatusIfChanged(ComponentType.BROKER, env, componentStatuses.broker?.toDb())
             addComponentStatusIfChanged(ComponentType.DAPS, env, componentStatuses.daps?.toDb())
             addComponentStatusIfChanged(ComponentType.LOGGING_HOUSE, env, componentStatuses.loggingHouse?.toDb())
         }

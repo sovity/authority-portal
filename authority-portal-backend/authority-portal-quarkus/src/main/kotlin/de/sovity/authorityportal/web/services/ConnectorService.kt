@@ -18,6 +18,7 @@ import de.sovity.authorityportal.broker.dao.utils.eqAny
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import jakarta.enterprise.context.ApplicationScoped
@@ -62,7 +63,8 @@ class ConnectorService {
         val frontendUrl: String?,
         val endpointUrl: String?,
         val managementUrl: String?,
-        val caasStatus: CaasStatus?
+        val caasStatus: CaasStatus?,
+        val onlineStatus: ConnectorOnlineStatus?
     )
 
     fun getConnectorDetailOrThrow(connectorId: String): ConnectorDetailRs {
@@ -87,7 +89,8 @@ class ConnectorService {
             c.FRONTEND_URL.`as`("frontendUrl"),
             c.ENDPOINT_URL.`as`("endpointUrl"),
             c.MANAGEMENT_URL.`as`("managementUrl"),
-            c.CAAS_STATUS.`as`("caasStatus")
+            c.CAAS_STATUS.`as`("caasStatus"),
+            c.ONLINE_STATUS.`as`("onlineStatus")
         )
             .from(c)
             .leftJoin(org).on(c.MDS_ID.eq(org.MDS_ID))
@@ -187,6 +190,32 @@ class ConnectorService {
             .where(c.ENVIRONMENT.eq(environment))
             .groupBy(c.MDS_ID)
             .fetchMap(c.MDS_ID, DSL.count())
+    }
+
+    fun getDataOfferCountsByMdsIdsForEnvironment(environmentId: String): Map<String, Int> {
+        val c = Tables.CONNECTOR
+        val d = Tables.DATA_OFFER
+
+        val count = DSL.count(d.ASSET_ID).`as`("offerCount")
+        return dsl.select(c.MDS_ID, count)
+            .from(d)
+            .innerJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
+            .where(c.ENVIRONMENT.eq(environmentId))
+            .groupBy(c.MDS_ID)
+            .fetchMap(c.MDS_ID, count)
+    }
+
+    fun getDataOfferCountsForMdsIdAndEnvironment(environmentId: String, mdsId: String): Int {
+        val c = Tables.CONNECTOR
+        val d = Tables.DATA_OFFER
+
+        return dsl.selectCount()
+            .from(c)
+            .join(d).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
+            .where(c.ENVIRONMENT.eq(environmentId))
+            .and(c.MDS_ID.eq(mdsId))
+            .fetchOne(0, Int::class.java)
+            ?: 0
     }
 
     fun createOwnConnector(

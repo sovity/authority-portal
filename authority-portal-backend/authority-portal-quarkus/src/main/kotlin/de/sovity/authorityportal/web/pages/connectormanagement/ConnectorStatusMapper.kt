@@ -15,8 +15,8 @@ package de.sovity.authorityportal.web.pages.connectormanagement
 
 import de.sovity.authorityportal.api.model.ConnectorStatusDto
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorUptimeStatus
-import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasStatusDto
 
 fun CaasStatusDto.toDb(): CaasStatus = when (this) {

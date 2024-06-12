@@ -20,13 +20,11 @@ import de.sovity.authorityportal.api.model.organization.OrganizationOverviewResu
 import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDto
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
-import de.sovity.authorityportal.web.services.ConnectorMetadataService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetailService
 import de.sovity.authorityportal.web.services.UserService
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 
 @ApplicationScoped
 class OrganizationInfoApiService(
@@ -35,19 +33,19 @@ class OrganizationInfoApiService(
     val userDetailService: UserDetailService,
     val userService: UserService,
     val connectorService: ConnectorService,
-    val connectorMetadataService: ConnectorMetadataService
 ) {
 
     fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
         val organizations = organizationService.getOrganizations()
         val connectorCounts = connectorService.getConnectorCountsByMdsIdsForEnvironment(environmentId)
+        val dataOfferCounts = connectorService.getDataOfferCountsByMdsIdsForEnvironment(environmentId)
         val userCounts = userService.getUserCountsByMdsIds()
         val dtos = organizations.map {
             buildOrganizationOverviewEntryDto(
                 organization = it,
                 userCounts = userCounts,
                 connectorCounts = connectorCounts,
-                environmentId = environmentId
+                dataOfferCounts = dataOfferCounts,
             )
         }.sortedBy { it.name }
         return OrganizationOverviewResult(dtos)
@@ -66,7 +64,7 @@ class OrganizationInfoApiService(
         organization: OrganizationRecord,
         userCounts: Map<String, Int>,
         connectorCounts: Map<String, Int>,
-        environmentId: String
+        dataOfferCounts: Map<String, Int>,
     ): OrganizationOverviewEntryDto {
         val mdsId = organization.mdsId
         return OrganizationOverviewEntryDto(
@@ -75,7 +73,7 @@ class OrganizationInfoApiService(
             mainContactEmail = organization.mainContactEmail,
             numberOfUsers = userCounts[mdsId] ?: 0,
             numberOfConnectors = connectorCounts[mdsId] ?: 0,
-            numberOfDataOffers = connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId),
+            numberOfDataOffers = dataOfferCounts[mdsId] ?: 0,
             registrationStatus = organization.registrationStatus.toDto()
         )
     }
@@ -117,7 +115,7 @@ class OrganizationInfoApiService(
 
         return getOrganizationDetailsDto(mdsId).also {
             it.connectorCount = connectorService.getConnectorCountByMdsIdAndEnvironment(mdsId, environmentId)
-            it.dataOfferCount = connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)
+            it.dataOfferCount = connectorService.getDataOfferCountsForMdsIdAndEnvironment(mdsId, environmentId)
         }
     }
 
