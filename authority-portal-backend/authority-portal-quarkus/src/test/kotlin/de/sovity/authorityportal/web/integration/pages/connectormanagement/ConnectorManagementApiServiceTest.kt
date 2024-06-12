@@ -19,11 +19,9 @@ import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateConnectorStatusDto
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
-import de.sovity.authorityportal.web.services.ConnectorMetadataService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClient
 import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
-import de.sovity.authorityportal.web.thirdparty.broker.model.AddedConnector
 import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalConnectorInfo
 import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClient
@@ -56,9 +54,6 @@ class ConnectorManagementApiServiceTest {
 
     @Inject
     lateinit var connectorService: ConnectorService
-
-    @Inject
-    lateinit var connectorMetadataService: ConnectorMetadataService
 
     private val test = "test"
     private val mdsId = "MDSL2222BB"
@@ -114,9 +109,6 @@ class ConnectorManagementApiServiceTest {
     @Test
     @TestTransaction
     fun testGetConnectorDetails() {
-        // arrange
-        connectorMetadataService.fetchConnectorMetadata()
-
         // act
         val result = connectorManagementApiService.getConnectorDetails(connectorId, mdsId, userId)
 

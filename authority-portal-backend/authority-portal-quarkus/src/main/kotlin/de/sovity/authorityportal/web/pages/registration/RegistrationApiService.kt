@@ -21,7 +21,6 @@ import de.sovity.authorityportal.web.model.CreateOrganizationData
 import de.sovity.authorityportal.web.model.CreateUserData
 import de.sovity.authorityportal.web.pages.organizationmanagement.toDb
 import de.sovity.authorityportal.web.services.FirstUserService
-import de.sovity.authorityportal.web.services.OrganizationMetadataService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
@@ -29,28 +28,15 @@ import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import de.sovity.authorityportal.web.utils.idmanagement.MdsIdUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 
 @ApplicationScoped
-class RegistrationApiService {
-
-    @Inject
-    lateinit var keycloakService: KeycloakService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var userService: UserService
-
-    @Inject
-    lateinit var organizationMetadataService: OrganizationMetadataService
-
-    @Inject
-    lateinit var mdsIdUtils: MdsIdUtils
-
-    @Inject
-    lateinit var firstUserService: FirstUserService
+class RegistrationApiService(
+    val keycloakService: KeycloakService,
+    val organizationService: OrganizationService,
+    val userService: UserService,
+    val mdsIdUtils: MdsIdUtils,
+    val firstUserService: FirstUserService
+) {
 
     fun registerUserAndOrganization(registrationRequest: RegistrationRequestDto): IdResponse {
         val mdsId = mdsIdUtils.generateMdsId()
@@ -77,7 +63,11 @@ class RegistrationApiService {
         return userId
     }
 
-    private fun createDbUserAndOrganization(userId: String, mdsId: String, registrationRequest: RegistrationRequestDto) {
+    private fun createDbUserAndOrganization(
+        userId: String,
+        mdsId: String,
+        registrationRequest: RegistrationRequestDto
+    ) {
         val user = userService.createUser(
             userId = userId,
             userData = buildUserData(registrationRequest),
@@ -91,8 +81,6 @@ class RegistrationApiService {
         )
         user.organizationMdsId = mdsId
         user.update()
-
-        organizationMetadataService.pushOrganizationMetadataToBroker()
     }
 
     private fun buildUserData(registrationRequest: RegistrationRequestDto): CreateUserData {

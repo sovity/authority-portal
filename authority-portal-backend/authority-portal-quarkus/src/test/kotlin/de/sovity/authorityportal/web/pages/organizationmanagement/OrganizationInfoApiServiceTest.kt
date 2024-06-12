@@ -18,7 +18,6 @@ import de.sovity.authorityportal.db.jooq.enums.OrganizationLegalIdType
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
-import de.sovity.authorityportal.web.services.ConnectorMetadataService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetail
@@ -53,9 +52,6 @@ class OrganizationInfoApiServiceTest {
 
     @Mock
     lateinit var organizationService: OrganizationService
-
-    @Mock
-    lateinit var connectorMetadataService: ConnectorMetadataService
 
     @Mock
     lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
@@ -100,7 +96,6 @@ class OrganizationInfoApiServiceTest {
         // arrange
         `when`(deploymentEnvironmentService.assertValidEnvId(environmentId)).then {}
         `when`(connectorService.getConnectorCountByMdsIdAndEnvironment(mdsId, environmentId)).thenReturn(connectorCount)
-        `when`(connectorMetadataService.getTotalDataOffersByMdsId(mdsId, environmentId)).thenReturn(dataOfferCount)
 
         // act
         val result = organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)
