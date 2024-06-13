@@ -24,6 +24,7 @@ import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetailService
 import de.sovity.authorityportal.web.services.UserService
+import de.sovity.authorityportal.web.services.dataoffer.DataOfferQuery
 import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
@@ -33,12 +34,13 @@ class OrganizationInfoApiService(
     val userDetailService: UserDetailService,
     val userService: UserService,
     val connectorService: ConnectorService,
+    val dataOfferQuery: DataOfferQuery
 ) {
 
     fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
         val organizations = organizationService.getOrganizations()
-        val connectorCounts = connectorService.getConnectorCountsByMdsIdsForEnvironment(environmentId)
-        val dataOfferCounts = connectorService.getDataOfferCountsByMdsIdsForEnvironment(environmentId)
+        val connectorCounts = dataOfferQuery.getConnectorCountsByMdsIdsForEnvironment(environmentId)
+        val dataOfferCounts = dataOfferQuery.getDataOfferCountsByMdsIdsForEnvironment(environmentId)
         val userCounts = userService.getUserCountsByMdsIds()
         val dtos = organizations.map {
             buildOrganizationOverviewEntryDto(
@@ -115,7 +117,7 @@ class OrganizationInfoApiService(
 
         return getOrganizationDetailsDto(mdsId).also {
             it.connectorCount = connectorService.getConnectorCountByMdsIdAndEnvironment(mdsId, environmentId)
-            it.dataOfferCount = connectorService.getDataOfferCountsForMdsIdAndEnvironment(mdsId, environmentId)
+            it.dataOfferCount = dataOfferQuery.getDataOfferCountsForMdsIdAndEnvironment(mdsId, environmentId)
         }
     }
 

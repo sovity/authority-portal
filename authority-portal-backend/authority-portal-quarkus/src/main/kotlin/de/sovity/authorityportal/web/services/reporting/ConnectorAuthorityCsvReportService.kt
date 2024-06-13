@@ -13,36 +13,28 @@
 
 package de.sovity.authorityportal.web.services.reporting
 
+import de.sovity.authorityportal.api.model.ConnectorStatusDto
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
+import de.sovity.authorityportal.web.pages.connectormanagement.toDto
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
-import de.sovity.authorityportal.web.services.reporting.utils.ConnectorCsvReportUtils
+import de.sovity.authorityportal.web.services.connector.ConnectorStatusQuery
 import de.sovity.authorityportal.web.services.reporting.utils.CsvColumn
 import de.sovity.authorityportal.web.services.reporting.utils.buildCsv
-import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import java.io.ByteArrayInputStream
 
 @ApplicationScoped
-class ConnectorAuthorityCsvReportService {
-
-    @Inject
-    lateinit var connectorService: ConnectorService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
-
-    @Inject
-    lateinit var keycloakService: KeycloakService
-
-    @Inject
-    lateinit var connectorCsvReportUtils: ConnectorCsvReportUtils
+class ConnectorAuthorityCsvReportService(
+    val connectorService: ConnectorService,
+    val organizationService: OrganizationService,
+    val deploymentEnvironmentService: DeploymentEnvironmentService,
+    val keycloakService: KeycloakService,
+    val connectorStatusQuery: ConnectorStatusQuery,
+) {
 
     data class AuthorityConnectorReportRow(
         val organizationMdsId: String,
@@ -51,7 +43,7 @@ class ConnectorAuthorityCsvReportService {
         val connectorName: String,
         val connectorType: ConnectorType,
         val environment: String,
-        val status: ConnectorOnlineStatus,
+        val status: ConnectorStatusDto,
         val frontendUrl: String?,
         val endpointUrl: String?,
         val managementUrl: String?,
@@ -83,7 +75,6 @@ class ConnectorAuthorityCsvReportService {
     private fun buildAuthorityConnectorReportRows(environmentId: String): List<AuthorityConnectorReportRow> {
         val connectors = connectorService.getConnectorsByEnvironment(environmentId)
         val organizationNames = organizationService.getAllOrganizationNames()
-        val connectorStatuses = connectorCsvReportUtils.getConnectorStatusesFromBroker(environmentId, connectors)
 
         return connectors.map {
             AuthorityConnectorReportRow(
@@ -93,7 +84,7 @@ class ConnectorAuthorityCsvReportService {
                 connectorName = it.name,
                 connectorType = it.type,
                 environment = it.environment,
-                status = connectorStatuses[it.endpointUrl] ?: ConnectorOnlineStatus.DEAD,
+                status = it.onlineStatus.toDto(),
                 frontendUrl = it.frontendUrl,
                 endpointUrl = it.endpointUrl,
                 managementUrl = it.managementUrl,

@@ -13,6 +13,7 @@
 
 package de.sovity.authorityportal.web.thirdparty.broker.model
 
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.OffsetDateTime
 
