@@ -34,7 +34,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     subtitle: 'Uptime statistics of components',
     headerActions: [],
   };
-  brokerData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
   dapsData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
   loggingHouseData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
   connectorData: Fetched<ConnectorData> = Fetched.empty();
@@ -64,7 +63,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (componentStatusOverview: Fetched<ComponentStatusOverview>) => {
-          this.brokerData = componentStatusOverview.map((x) => x.brokerStatus);
           this.dapsData = componentStatusOverview.map((x) => x.dapsStatus);
           this.loggingHouseData = componentStatusOverview.map(
             (x) => x.loggingHouseStatus,
