@@ -29,25 +29,23 @@ import jakarta.transaction.Transactional
  * Implementation of [BrokerServerResource]
  */
 @ApplicationScoped
-class BrokerServerResourceImpl : BrokerServerResource {
-
-    @Inject
-    lateinit var catalogApiService: CatalogApiService
-    @Inject
-    lateinit var dataOfferDetailApiService: DataOfferDetailApiService
-    @Inject
-    lateinit var authUtils: AuthUtils
-
+class BrokerServerResourceImpl(
+    val catalogApiService: CatalogApiService,
+    val dataOfferDetailApiService: DataOfferDetailApiService,
+    val authUtils: AuthUtils
+) : BrokerServerResource {
 
     @Transactional
     override fun catalogPage(environment: String, query: CatalogPageQuery): CatalogPageResult {
         authUtils.requiresAuthenticated()
+        authUtils.requiresMemberOfAnyOrganization()
         return catalogApiService.catalogPage(environment, query)
     }
 
     @Transactional
     override fun dataOfferDetailPage(environment: String, query: DataOfferDetailPageQuery): DataOfferDetailPageResult {
         authUtils.requiresAuthenticated()
+        authUtils.requiresMemberOfAnyOrganization()
         return dataOfferDetailApiService.dataOfferDetailPage(environment, query)
     }
 }

@@ -29,6 +29,9 @@ class CatalogDataOffer(
     )
     val connectorEndpoint: String,
 
+    @Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    val connectorId: String,
+
     @Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
     val connectorOnlineStatus: ConnectorOnlineStatusDto,
 

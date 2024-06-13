@@ -1,7 +1,5 @@
 package de.sovity.authorityportal.seeds.utils
 
-import de.sovity.authorityportal.db.jooq.Tables
-import de.sovity.authorityportal.db.jooq.enums.CaasStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded
@@ -16,7 +14,6 @@ import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import org.jooq.DSLContext
-import java.time.OffsetDateTime
 
 
 /**
@@ -25,168 +22,117 @@ import java.time.OffsetDateTime
 class ScenarioData {
 
     // lists of objects for each table to be inserted
-    val users = mutableListOf<UserRecord>()
-    val organizations = mutableListOf<OrganizationRecord>()
-    val connectors = mutableListOf<ConnectorRecord>()
-    val components = mutableListOf<ComponentRecord>()
+    private val users = mutableListOf<UserRecord>()
+    private val organizations = mutableListOf<OrganizationRecord>()
+    private val connectors = mutableListOf<ConnectorRecord>()
+    private val components = mutableListOf<ComponentRecord>()
 
     fun install(dsl: DSLContext) {
-        dsl.batchInsert(users)
-        dsl.batchInsert(organizations)
-        dsl.batchInsert(connectors)
-        dsl.batchInsert(components)
+        val userOrgMap = users.associate { it.id to it.organizationMdsId }
+        users.forEach {
+            it.organizationMdsId = null
+        }
 
-        // add organization creators to their organizations (need to do it this way because of db constraints)
-        dsl.update(Tables.USER)
-            .set(Tables.USER.ORGANIZATION_MDS_ID, Tables.ORGANIZATION.MDS_ID)
-            .from(Tables.USER
-                .innerJoin(Tables.ORGANIZATION).on(Tables.USER.ID.eq(Tables.ORGANIZATION.CREATED_BY))
-                .where(Tables.USER.ORGANIZATION_MDS_ID.isNull))
-            .execute()
+        dsl.batchInsert(users).execute()
+        dsl.batchInsert(organizations).execute()
+
+        users.forEach {
+            it.organizationMdsId = userOrgMap[it.id]
+        }
+        dsl.batchUpdate(users).execute()
+
+        dsl.batchInsert(connectors).execute()
+        dsl.batchInsert(components).execute()
     }
 
-    fun user(
-      id: Int,
-      organizationMdsId: Int?,
-      registrationStatus: UserRegistrationStatus,
-      email: String,
-      firstName: String,
-      lastName: String,
-      jobTitle: String,
-      phone: String,
-      onboardingType: UserOnboardingType,
-      invitedBy: String?
-    ) {
+    fun user(userId: Int, orgId: Int, applyer: (UserRecord) -> Unit = {}) {
         UserRecord().also {
-            it.id = dummyDevUserUuid(id)
-            it.organizationMdsId = organizationMdsId?.let { mdsId -> dummyDevMdsId(mdsId) }
-            it.registrationStatus = registrationStatus
-            it.email = email
-            it.firstName = firstName
-            it.lastName = lastName
-            it.jobTitle = jobTitle
-            it.phone = phone
-            it.onboardingType = onboardingType
-            it.invitedBy = invitedBy
-            it.createdAt = OffsetDateTime.now()
+            it.id = dummyDevUserUuid(userId)
+            it.organizationMdsId = dummyDevMdsId(orgId)
+            it.registrationStatus = UserRegistrationStatus.ACTIVE
+            it.email = "user$userId@org$orgId.null"
+            it.firstName = "Firstname"
+            it.lastName = "Lastname"
+            it.jobTitle = "Job Title"
+            it.phone = "+0 000 000 000"
+            it.onboardingType = UserOnboardingType.SELF_REGISTRATION
+            it.invitedBy = null
+            it.createdAt = dummyDate(0)
+            applyer(it)
             users.add(it)
         }
     }
 
-    fun organization(
-        mdsId: Int,
-        name: String,
-        address: String,
-        url: String,
-        createdBy: String,
-        registrationStatus: OrganizationRegistrationStatus,
-        businessUnit: String,
-        billingAddress: String,
-        taxId: String?,
-        commerceRegisterNumber: String?,
-        commerceRegisterLocation: String?,
-        mainContactName: String,
-        mainContactEmail: String,
-        mainContactPhone: String,
-        technicalContactName: String,
-        technicalContactEmail: String,
-        technicalContactPhone: String,
-        legalIdType: OrganizationLegalIdType,
-        description: String,
-        industry: String
-    ) {
+    fun organization(orgId: Int, createdByUserId: Int, applyer: (OrganizationRecord) -> Unit = {}) {
         OrganizationRecord().also {
-            it.mdsId = dummyDevMdsId(mdsId)
-            it.name = name
-            it.address = address
-            it.url = url
-            it.createdBy = createdBy
-            it.registrationStatus = registrationStatus
-            it.businessUnit = businessUnit
-            it.billingAddress = billingAddress
-            it.taxId = taxId
-            it.commerceRegisterNumber = commerceRegisterNumber
-            it.commerceRegisterLocation = commerceRegisterLocation
-            it.mainContactName = mainContactName
-            it.mainContactEmail = mainContactEmail
-            it.mainContactPhone = mainContactPhone
-            it.techContactName = technicalContactName
-            it.techContactEmail = technicalContactEmail
-            it.techContactPhone = technicalContactPhone
-            it.legalIdType = legalIdType
-            it.description = description
-            it.industry = industry
-            it.createdAt = OffsetDateTime.now()
+            it.mdsId = dummyDevMdsId(orgId)
+            it.name = "Organization $orgId"
+            it.address = "Address"
+            it.url = "https://url"
+            it.createdBy = dummyDevUserUuid(createdByUserId)
+            it.registrationStatus = OrganizationRegistrationStatus.ACTIVE
+            it.businessUnit = "BU"
+            it.billingAddress = "Billing Address"
+            it.taxId = "Tax ID"
+            it.commerceRegisterNumber = null
+            it.commerceRegisterLocation = null
+            it.mainContactName = "Main Contact Name"
+            it.mainContactEmail = "main@contact"
+            it.mainContactPhone = "+0 000 000 000"
+            it.techContactName = "Tech Contact Name"
+            it.techContactEmail = "tech@contact"
+            it.techContactPhone = "+0 000 000 000"
+            it.legalIdType = OrganizationLegalIdType.TAX_ID
+            it.description = "Description"
+            it.industry = "Industry"
+            it.createdAt = dummyDate(0)
+            applyer(it)
             organizations.add(it)
         }
     }
 
-    fun connector(
-        connectorId: String, // just the second half of the ID
-        mdsId: String,
-        providerMdsId: String,
-        type: ConnectorType,
-        environment: String,
-        clientId: String,
-        name: String,
-        location: String,
-        frontendUrl: String?,
-        createdBy: String,
-        brokerRegistrationStatus: ConnectorBrokerRegistrationStatus,
-        managementUrl: String,
-        endpointUrl: String,
-        jwksUrl: String?,
-        caasStatus: CaasStatus?,
-        lastRefreshAttempt: OffsetDateTime?,
-        lastRefreshSuccess: OffsetDateTime?,
-        onlineStatus: ConnectorOnlineStatus,
-        dataOffersExceeded: ConnectorDataOffersExceeded,
-        contractOffersExceeded: ConnectorContractOffersExceeded
-    ) {
+    fun connector(connectorId: Int, orgId: Int, createdByUserId: Int, applyer: (ConnectorRecord) -> Unit = {}) {
+        val mdsId = dummyDevMdsId(orgId)
+        val fullConnectorId = "${dummyDevMdsId(orgId)}.${dummyDevConnectorId(connectorId)}"
         ConnectorRecord().also {
-            it.connectorId = "$mdsId.$connectorId"
+            it.connectorId = fullConnectorId
             it.mdsId = mdsId
-            it.providerMdsId = providerMdsId
-            it.type = type
-            it.environment = environment
-            it.clientId = clientId
-            it.name = name
-            it.location = location
-            it.frontendUrl = frontendUrl
-            it.createdBy = createdBy
-            it.brokerRegistrationStatus = brokerRegistrationStatus
-            it.managementUrl = managementUrl
-            it.endpointUrl = endpointUrl
-            it.jwksUrl = jwksUrl
-            it.caasStatus = caasStatus
-            it.lastRefreshAttemptAt = lastRefreshAttempt
-            it.lastSuccessfulRefreshAt = lastRefreshSuccess
-            it.onlineStatus = onlineStatus
-            it.dataOffersExceeded = dataOffersExceeded
-            it.contractOffersExceeded = contractOffersExceeded
+            it.providerMdsId = mdsId
+            it.type = ConnectorType.OWN
+            it.environment = "environment"
+            it.clientId = "clientId"
+            it.name = "Connector"
+            it.location = "Location"
+            it.frontendUrl = "https://connector"
+            it.createdBy = dummyDevUserUuid(createdByUserId)
+            it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.REGISTERED
+            it.managementUrl = "https://connector/management"
+            it.endpointUrl = "https://connector/dsp"
+            it.jwksUrl = "https://jwks"
+            it.caasStatus = null
+            it.lastRefreshAttemptAt = dummyDate(0)
+            it.lastSuccessfulRefreshAt = dummyDate(0)
+            it.onlineStatus = ConnectorOnlineStatus.ONLINE
+            it.dataOffersExceeded = ConnectorDataOffersExceeded.UNKNOWN
+            it.contractOffersExceeded = ConnectorContractOffersExceeded.UNKNOWN
+            applyer(it)
             connectors.add(it)
         }
     }
 
-    fun component(
-        componentId: String, // just the second half
-        mdsId: String,
-        name: String,
-        homepageUrl: String?,
-        endpointUrl: String,
-        environment: String,
-        clientId: String,
-        createdBy: String
-    ) {
+    fun component(componentId: Int, orgId: Int, createdByUserId: Int, applyer: (ComponentRecord) -> Unit = {}) {
+        val fullComponentId = "${dummyDevMdsId(orgId)}.${dummyDevConnectorId(componentId)}"
+        val mdsId = dummyDevMdsId(orgId)
         ComponentRecord().also {
-            it.id = "$mdsId.$componentId"
+            it.id = fullComponentId
             it.mdsId = mdsId
-            it.name = name
-            it.homepageUrl = homepageUrl
-            it.endpointUrl = endpointUrl
-            it.environment = environment
-            it.clientId = clientId
-            it.createdBy = createdBy
+            it.name = "Component name"
+            it.homepageUrl = "https://component"
+            it.endpointUrl = "https://component/dsp"
+            it.environment = "environment"
+            it.clientId = "clientId"
+            it.createdBy = dummyDevUserUuid(createdByUserId)
+            applyer(it)
             components.add(it)
         }
     }

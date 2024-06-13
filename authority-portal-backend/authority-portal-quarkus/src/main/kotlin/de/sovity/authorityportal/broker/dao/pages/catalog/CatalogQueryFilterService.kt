@@ -35,6 +35,7 @@ class CatalogQueryFilterService(
         filters: List<CatalogQueryFilter>
     ): Condition {
         val conditions = ArrayList<Condition>()
+        conditions.add(fields.dataOfferTable.ENVIRONMENT.eq(environment))
         conditions.add(visibleConnectorsOfEnvironment(environment, fields.connectorTable))
         conditions.add(catalogSearchService.filterBySearch(fields, searchQuery))
         conditions.addAll(filters.mapNotNull { it.queryFilterClauseOrNull }.map { it(fields) })
@@ -45,12 +46,10 @@ class CatalogQueryFilterService(
         val maxOfflineDuration = deploymentEnvironmentService.findByIdOrThrow(environment)
             .broker()
             .hideOfflineDataOffersAfter()
-        val maxOfflineDurationNotExceeded =
-            c.LAST_SUCCESSFUL_REFRESH_AT.greaterThan(OffsetDateTime.now().minus(maxOfflineDuration))
+        val maxOfflineDurationNotExceeded = c.LAST_SUCCESSFUL_REFRESH_AT
+            .greaterThan(OffsetDateTime.now().minus(maxOfflineDuration))
+        val isOnline = c.ONLINE_STATUS.eq(ConnectorOnlineStatus.ONLINE)
 
-        return DSL.or(
-            c.ONLINE_STATUS.eq(ConnectorOnlineStatus.ONLINE),
-            maxOfflineDurationNotExceeded
-        )
+        return DSL.or(isOnline, maxOfflineDurationNotExceeded)
     }
 }

@@ -53,7 +53,11 @@ class DataOfferDetailPageQueryService(
         )
             .from(d)
             .leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
-            .where(d.ASSET_ID.eq(assetId).and(d.CONNECTOR_ID.eq(connectorId)).and(d.ENVIRONMENT.eq(environment)))
+            .where(
+                d.ASSET_ID.eq(assetId),
+                d.CONNECTOR_ID.eq(connectorId),
+                d.ENVIRONMENT.eq(environment)
+            )
             .fetchOneInto(DataOfferDetailRs::class.java)
     }
 }

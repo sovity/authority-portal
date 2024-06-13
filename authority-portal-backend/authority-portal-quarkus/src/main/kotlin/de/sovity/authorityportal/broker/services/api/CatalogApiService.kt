@@ -96,6 +96,7 @@ class CatalogApiService(
             asset = asset,
             contractOffers = buildCatalogContractOffers(dataOfferRs),
             connectorEndpoint = dataOfferRs.connectorEndpointUrl,
+            connectorId = dataOfferRs.connectorId,
             connectorOfflineSinceOrLastUpdatedAt = dataOfferRs.connectorOfflineSinceOrLastUpdatedAt,
             connectorOnlineStatus = getOnlineStatus(dataOfferRs)
         )
