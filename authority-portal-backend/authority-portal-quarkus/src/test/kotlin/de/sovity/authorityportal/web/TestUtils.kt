@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.web
 
+import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.auth.LoggedInUser
@@ -27,6 +28,16 @@ fun useDevUser(userUuidNr: Int, mdsIdNr: Int?, roles: Set<String> = setOf(Roles.
         userId = dummyDevUserUuid(userUuidNr),
         organizationMdsId = mdsIdNr?.let { dummyDevMdsId(it) },
         roles = roles
+    )
+    installMock(loggedInUser)
+}
+
+fun useUnauthenticated() {
+    val loggedInUser = LoggedInUser(
+        authenticated = false,
+        userId = "",
+        organizationMdsId = null,
+        roles = setOf(UserRoleDto.UNAUTHENTICATED.name)
     )
     installMock(loggedInUser)
 }
