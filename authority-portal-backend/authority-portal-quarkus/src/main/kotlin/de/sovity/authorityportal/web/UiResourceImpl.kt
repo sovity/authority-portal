@@ -123,10 +123,10 @@ class UiResourceImpl(
         authUtils.requiresTargetNotSelf(userId)
         authUtils.requiresMemberOfSameOrganizationAs(userId)
         return userRoleApiService.changeParticipantRole(
-            userId,
-            role,
-            loggedInUser.organizationMdsId!!,
-            loggedInUser.userId
+            userId = userId,
+            roleDto = role,
+            mdsId = loggedInUser.organizationMdsId!!,
+            adminUserId = loggedInUser.userId
         )
     }
 

@@ -45,10 +45,10 @@ class ScenarioData {
         dsl.batchInsert(components).execute()
     }
 
-    fun user(userId: Int, orgId: Int, applyer: (UserRecord) -> Unit = {}) {
+    fun user(userId: Int, orgId: Int?, applyer: (UserRecord) -> Unit = {}) {
         UserRecord().also {
             it.id = dummyDevUserUuid(userId)
-            it.organizationMdsId = dummyDevMdsId(orgId)
+            it.organizationMdsId = orgId?.let { id -> dummyDevMdsId(id) }
             it.registrationStatus = UserRegistrationStatus.ACTIVE
             it.email = "user$userId@org$orgId.null"
             it.firstName = "Firstname"

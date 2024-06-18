@@ -1,12 +1,15 @@
-package de.sovity.authorityportal.web
+package de.sovity.authorityportal.web.tests
 
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
+import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.auth.LoggedInUser
+import de.sovity.authorityportal.web.utils.TimeUtils
 import io.quarkus.test.junit.QuarkusMock
 import org.assertj.core.api.RecursiveComparisonAssert
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import java.time.OffsetDateTime
 
 inline fun <reified T : Any> installMockitoMock(): T {
@@ -40,4 +43,9 @@ fun useUnauthenticated() {
         roles = setOf(UserRoleDto.UNAUTHENTICATED.name)
     )
     installMock(loggedInUser)
+}
+
+fun useMockNow(now: OffsetDateTime) {
+    val timeUtils = installMockitoMock<TimeUtils>()
+    whenever(timeUtils.now()).thenReturn(now)
 }

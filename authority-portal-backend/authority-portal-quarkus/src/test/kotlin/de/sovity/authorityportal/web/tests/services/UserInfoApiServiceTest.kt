@@ -2,17 +2,22 @@ package de.sovity.authorityportal.web.tests.services
 
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.api.model.UserAuthenticationStatusDto
+import de.sovity.authorityportal.api.model.UserDetailDto
 import de.sovity.authorityportal.api.model.UserInfo
+import de.sovity.authorityportal.api.model.UserOnboardingTypeDto
 import de.sovity.authorityportal.api.model.UserRegistrationStatusDto
 import de.sovity.authorityportal.api.model.UserRoleDto
+import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
+import de.sovity.authorityportal.seeds.utils.dummyDate
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
+import de.sovity.authorityportal.web.tests.useDevUser
+import de.sovity.authorityportal.web.tests.useUnauthenticated
+import de.sovity.authorityportal.web.tests.withOffsetDateTimeComparator
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.useDevUser
-import de.sovity.authorityportal.web.useUnauthenticated
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
@@ -98,6 +103,64 @@ class UserInfoApiServiceTest {
         assertThat(result)
             .usingRecursiveComparison()
             .withStrictTypeChecking()
+            .isEqualTo(expected)
+    }
+
+    @Test
+    @TestTransaction
+    fun `user-details for authenticated user`() {
+        // arrange
+        useDevUser(1, 1, setOf(Roles.UserRoles.PARTICIPANT_USER))
+        whenever(keycloakService.getUserRoles(dummyDevUserUuid(0))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_ADMIN))
+        whenever(keycloakService.getUserRoles(dummyDevUserUuid(1))).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
+
+        ScenarioData().apply {
+            user(0, 1) {
+                it.firstName = "Inviting"
+                it.lastName = "User"
+            }
+            user(1, 1) {
+                it.firstName = "Max"
+                it.lastName = "Mustermann"
+                it.email = "max.mustermann@test.sovity.io"
+                it.phone = "+49 176 000000"
+                it.jobTitle = null
+                it.createdAt = dummyDate(1)
+                it.invitedBy = dummyDevUserUuid(0)
+                it.onboardingType = UserOnboardingType.INVITATION
+            }
+            organization(1, 1) {
+                it.name = "Max's Organization"
+            }
+            scenarioInstaller.install(this)
+        }
+
+        // act
+        val result = uiResource.userDetails(dummyDevUserUuid(1))
+
+        // assert
+        val expected = UserDetailDto(
+            userId = dummyDevUserUuid(1),
+            email = "max.mustermann@test.sovity.io",
+            firstName = "Max",
+            lastName = "Mustermann",
+            phone = "+49 176 000000",
+            position = "",
+            onboardingType = UserOnboardingTypeDto.INVITATION,
+            creationDate = dummyDate(1),
+            registrationStatus = UserRegistrationStatusDto.ACTIVE,
+            roles = listOf(UserRoleDto.USER),
+            organizationMdsId = dummyDevMdsId(1),
+            organizationName = "Max's Organization",
+            invitingUserId = dummyDevUserUuid(0),
+            invitingUserFirstName = "Inviting",
+            invitingUserLastName = "User"
+        )
+
+        assertThat(result)
+            .usingRecursiveComparison()
+            .withStrictTypeChecking()
+            .withOffsetDateTimeComparator()
             .isEqualTo(expected)
     }
 }
