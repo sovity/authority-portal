@@ -22,16 +22,16 @@ class CreateConnectorResponse(
 ) {
 
     companion object {
-        fun ok(connectorId: String): CreateConnectorResponse {
-            return CreateConnectorResponse(connectorId, OffsetDateTime.now(), CreateConnectorStatusDto.OK, null)
+        fun ok(connectorId: String, changedTime: OffsetDateTime): CreateConnectorResponse {
+            return CreateConnectorResponse(connectorId, changedTime, CreateConnectorStatusDto.OK, null)
         }
 
-        fun error(message: String): CreateConnectorResponse {
-            return CreateConnectorResponse(null, OffsetDateTime.now(), CreateConnectorStatusDto.ERROR, message)
+        fun error(message: String, changedTime: OffsetDateTime): CreateConnectorResponse {
+            return CreateConnectorResponse(null, changedTime, CreateConnectorStatusDto.ERROR, message)
         }
 
-        fun warning(connectorId: String, message: String): CreateConnectorResponse {
-            return CreateConnectorResponse(connectorId, OffsetDateTime.now(), CreateConnectorStatusDto.WARNING, message)
+        fun warning(connectorId: String, message: String, changedTime: OffsetDateTime): CreateConnectorResponse {
+            return CreateConnectorResponse(connectorId, changedTime, CreateConnectorStatusDto.WARNING, message)
         }
     }
 }

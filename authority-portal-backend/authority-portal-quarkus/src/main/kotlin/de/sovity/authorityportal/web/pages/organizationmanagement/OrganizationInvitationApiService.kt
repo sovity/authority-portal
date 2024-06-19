@@ -21,6 +21,7 @@ import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
+import de.sovity.authorityportal.web.utils.TimeUtils
 import de.sovity.authorityportal.web.utils.idmanagement.MdsIdUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
@@ -31,6 +32,7 @@ class OrganizationInvitationApiService(
     val organizationService: OrganizationService,
     val userService: UserService,
     val mdsIdUtils: MdsIdUtils,
+    val timeUtils: TimeUtils
 ) {
 
     fun inviteOrganization(invitationInformation: InviteOrganizationRequest, adminUserId: String): IdResponse {
@@ -41,7 +43,7 @@ class OrganizationInvitationApiService(
 
         Log.info("Invited organization and corresponding initial Participant Admin. mdsId=$mdsId, userId=$userId, adminUserId=$adminUserId.")
 
-        return IdResponse(mdsId)
+        return IdResponse(mdsId, timeUtils.now())
     }
 
     private fun createKeycloakUserAndOrganization(

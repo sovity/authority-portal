@@ -21,6 +21,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
+import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
@@ -30,13 +31,11 @@ import java.time.OffsetDateTime
 import java.util.Optional
 
 @ApplicationScoped
-class ConnectorService {
-
-    @Inject
-    lateinit var dsl: DSLContext
-
-    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid")
-    lateinit var caasLimitPerMdsId: Optional<Int>
+class ConnectorService(
+    val dsl: DSLContext,
+    val timeUtils: TimeUtils,
+    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid") val caasLimitPerMdsId: Optional<Int>
+) {
 
     fun getConnectorOrThrow(connectorId: String): ConnectorRecord {
         return getConnector(connectorId) ?: error("Connector with id $connectorId not found")
@@ -238,7 +237,7 @@ class ConnectorService {
             it.mdsId = mdsId
             it.name = name.trim()
             it.createdBy = createdBy
-            it.createdAt = OffsetDateTime.now()
+            it.createdAt = timeUtils.now()
             it.caasStatus = status
             it.environment = environmentId
             it.type = ConnectorType.CAAS
@@ -284,7 +283,7 @@ class ConnectorService {
             it.endpointUrl = connector.endpointUrl.trim()
             it.managementUrl = connector.managementUrl.trim()
             it.createdBy = createdBy
-            it.createdAt = OffsetDateTime.now()
+            it.createdAt = timeUtils.now()
             it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
 
             it.insert()

@@ -19,6 +19,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.authorityportal.web.model.CreateUserData
+import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
@@ -26,10 +27,10 @@ import org.jooq.impl.DSL
 import java.time.OffsetDateTime
 
 @ApplicationScoped
-class UserService {
-
-    @Inject
-    lateinit var dsl: DSLContext
+class UserService(
+    val dsl: DSLContext,
+    val timeUtils: TimeUtils
+) {
 
     fun getUserOrThrow(userId: String): UserRecord {
         return getUser(userId) ?: error("User with id $userId not found")
@@ -78,7 +79,7 @@ class UserService {
             it.id = userId
             it.organizationMdsId = mdsId
             it.registrationStatus = initialRegistrationStatus(onboardingType)
-            it.createdAt = OffsetDateTime.now()
+            it.createdAt = timeUtils.now()
             it.onboardingType = onboardingType
             it.invitedBy = invitedBy
 
@@ -101,7 +102,7 @@ class UserService {
             it.phone = userData.phone?.trim()
             it.organizationMdsId = mdsId
             it.registrationStatus = initialRegistrationStatus(onboardingType)
-            it.createdAt = OffsetDateTime.now()
+            it.createdAt = timeUtils.now()
             it.onboardingType = onboardingType
 
             it.insert()

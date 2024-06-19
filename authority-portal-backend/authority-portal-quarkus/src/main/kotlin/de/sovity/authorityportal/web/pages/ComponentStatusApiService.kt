@@ -23,6 +23,7 @@ import de.sovity.authorityportal.web.services.ComponentStatusService
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.connector.ConnectorStatusQuery
 import de.sovity.authorityportal.web.thirdparty.uptimekuma.model.toDto
+import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
 import java.text.DecimalFormat
@@ -36,7 +37,8 @@ class ComponentStatusApiService(
     val componentStatusService: ComponentStatusService,
     val connectorService: ConnectorService,
     val connectorStatusQuery: ConnectorStatusQuery,
-    val dsl: DSLContext
+    val dsl: DSLContext,
+    val timeUtils: TimeUtils
 ) {
 
     fun getComponentsStatus(environmentId: String): ComponentStatusOverview {
@@ -60,7 +62,7 @@ class ComponentStatusApiService(
         val latestDapsStatus = componentStatusService.getLatestComponentStatus(ComponentType.DAPS, environmentId)
         val latestLoggingHouseStatus =
             componentStatusService.getLatestComponentStatus(ComponentType.LOGGING_HOUSE, environmentId)
-        val now = OffsetDateTime.now()
+        val now = timeUtils.now()
 
         return ComponentStatusOverview(
             dapsStatus = calculateUptimeStatus(latestDapsStatus, environmentId, now),
@@ -159,7 +161,7 @@ class ComponentStatusApiService(
         val disturbedCount = connectorStatuses.count {
             (it.onlineStatus == ConnectorOnlineStatus.OFFLINE || it.onlineStatus == ConnectorOnlineStatus.DEAD)
                 && it.lastSuccessfulRefreshAt != null
-                && it.lastSuccessfulRefreshAt.isAfter(OffsetDateTime.now().minusMinutes(2))
+                && it.lastSuccessfulRefreshAt.isAfter(timeUtils.now().minusMinutes(2))
         }
         val offlineCount = connectorStatuses.count {
             it.onlineStatus == ConnectorOnlineStatus.OFFLINE || it.onlineStatus == ConnectorOnlineStatus.DEAD

@@ -25,6 +25,7 @@ import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
+import de.sovity.authorityportal.web.utils.TimeUtils
 import de.sovity.authorityportal.web.utils.idmanagement.MdsIdUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
@@ -35,7 +36,8 @@ class RegistrationApiService(
     val organizationService: OrganizationService,
     val userService: UserService,
     val mdsIdUtils: MdsIdUtils,
-    val firstUserService: FirstUserService
+    val firstUserService: FirstUserService,
+    val timeUtils: TimeUtils
 ) {
 
     fun registerUserAndOrganization(registrationRequest: RegistrationRequestDto): IdResponse {
@@ -47,7 +49,7 @@ class RegistrationApiService(
 
         Log.info("Register organization and User. mdsId=$mdsId, userId=$userId")
 
-        return IdResponse(userId)
+        return IdResponse(userId, timeUtils.now())
     }
 
     private fun createKeycloakUserAndOrganization(mdsId: String, registrationRequest: RegistrationRequestDto): String {

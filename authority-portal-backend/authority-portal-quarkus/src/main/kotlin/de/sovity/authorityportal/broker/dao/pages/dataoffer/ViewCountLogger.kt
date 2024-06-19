@@ -14,16 +14,18 @@
 package de.sovity.authorityportal.broker.dao.pages.dataoffer
 
 import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
 import java.time.OffsetDateTime
 
 @ApplicationScoped
 class ViewCountLogger(
-    val dsl: DSLContext
+    val dsl: DSLContext,
+    val timeUtils: TimeUtils
 ) {
     fun increaseDataOfferViewCount(assetId: String, endpoint: String) {
         val v = Tables.DATA_OFFER_VIEW_COUNT
-        dsl.insertInto(v, v.ASSET_ID, v.CONNECTOR_ID, v.DATE).values(assetId, endpoint, OffsetDateTime.now()).execute()
+        dsl.insertInto(v, v.ASSET_ID, v.CONNECTOR_ID, v.DATE).values(assetId, endpoint, timeUtils.now()).execute()
     }
 }

@@ -22,6 +22,7 @@ import de.sovity.authorityportal.web.services.CentralComponentService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
+import de.sovity.authorityportal.web.utils.TimeUtils
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
 import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtils
 import io.quarkus.logging.Log
@@ -29,28 +30,16 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
 @ApplicationScoped
-class CentralComponentManagementApiService {
-
-    @Inject
-    lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
-
-    @Inject
-    lateinit var centralComponentService: CentralComponentService
-
-    @Inject
-    lateinit var dataspaceComponentIdUtils: DataspaceComponentIdUtils
-
-    @Inject
-    lateinit var clientIdUtils: ClientIdUtils
-
-    @Inject
-    lateinit var dapsClientService: DapsClientService
-
-    @Inject
-    lateinit var userService: UserService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
+class CentralComponentManagementApiService(
+    val deploymentEnvironmentService: DeploymentEnvironmentService,
+    val centralComponentService: CentralComponentService,
+    val dataspaceComponentIdUtils: DataspaceComponentIdUtils,
+    val clientIdUtils: ClientIdUtils,
+    val dapsClientService: DapsClientService,
+    val userService: UserService,
+    val organizationService: OrganizationService,
+    val timeUtils: TimeUtils
+) {
 
     fun listCentralComponents(envId: String): List<CentralComponentDto> {
         deploymentEnvironmentService.assertValidEnvId(envId)
@@ -103,7 +92,7 @@ class CentralComponentManagementApiService {
         dapsClient.configureMappers(clientId, centralComponentId, centralComponentCreateRequest.certificate)
 
         Log.info("Central component registered. centralComponentId=$centralComponentId, mdsId=$mdsId, userId=$userId, clientId=$clientId.")
-        return IdResponse(centralComponentId)
+        return IdResponse(centralComponentId, timeUtils.now())
     }
 
     fun deleteCentralComponentByUser(centralComponentId: String, userId: String): IdResponse {
@@ -112,7 +101,7 @@ class CentralComponentManagementApiService {
         deleteCentralComponent(centralComponent)
         Log.info("Central component deleted. centralComponentId=$centralComponentId, mdsId=${centralComponent.mdsId}, userId=$userId, clientId=${centralComponent.clientId}.")
 
-        return IdResponse(centralComponentId)
+        return IdResponse(centralComponentId, timeUtils.now())
     }
 
     fun deleteAllOrganizationCentralComponents(mdsId: String) {

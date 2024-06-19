@@ -21,6 +21,7 @@ import de.sovity.authorityportal.web.services.reporting.ConnectorParticipantCsvR
 import de.sovity.authorityportal.web.services.reporting.DataOfferCsvReportService
 import de.sovity.authorityportal.web.services.reporting.SystemStabilityCsvReportService
 import de.sovity.authorityportal.web.services.reporting.UserCsvReportService
+import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.annotation.security.PermitAll
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
@@ -31,28 +32,16 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
 @PermitAll
-class ReportingResourceImpl : ReportingResource {
-
-    @Inject
-    lateinit var authUtils: AuthUtils
-
-    @Inject
-    lateinit var connectorAuthorityCsvReportService: ConnectorAuthorityCsvReportService
-
-    @Inject
-    lateinit var connectorParticipantCsvReportService: ConnectorParticipantCsvReportService
-
-    @Inject
-    lateinit var dataOfferCsvReportService: DataOfferCsvReportService
-
-    @Inject
-    lateinit var systemStabilityCsvReportService: SystemStabilityCsvReportService
-
-    @Inject
-    lateinit var userCsvReportService: UserCsvReportService
-
-    @Inject
-    lateinit var loggedInUser: LoggedInUser
+class ReportingResourceImpl(
+    val authUtils: AuthUtils,
+    val connectorAuthorityCsvReportService: ConnectorAuthorityCsvReportService,
+    val connectorParticipantCsvReportService: ConnectorParticipantCsvReportService,
+    val dataOfferCsvReportService: DataOfferCsvReportService,
+    val systemStabilityCsvReportService: SystemStabilityCsvReportService,
+    val userCsvReportService: UserCsvReportService,
+    val loggedInUser: LoggedInUser,
+    val timeUtils: TimeUtils
+) : ReportingResource {
 
     @Transactional
     override fun createConnectorsCsvReport(environmentId: String): Response {
@@ -109,5 +98,5 @@ class ReportingResourceImpl : ReportingResource {
             .header(CONTENT_DISPOSITION, "attachment; filename=$filename")
             .build()
 
-    private fun localDate(): String? = DateTimeFormatter.ISO_LOCAL_DATE.format(OffsetDateTime.now())
+    private fun localDate(): String? = DateTimeFormatter.ISO_LOCAL_DATE.format(timeUtils.now())
 }

@@ -18,6 +18,7 @@ import de.sovity.authorityportal.broker.services.api.filtering.CatalogSearchServ
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.tables.Connector
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
+import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Condition
 import org.jooq.impl.DSL
@@ -26,7 +27,8 @@ import java.time.OffsetDateTime
 @ApplicationScoped
 class CatalogQueryFilterService(
     val catalogSearchService: CatalogSearchService,
-    val deploymentEnvironmentService: DeploymentEnvironmentService
+    val deploymentEnvironmentService: DeploymentEnvironmentService,
+    val timeUtils: TimeUtils
 ) {
     fun filterDbQuery(
         environment: String,
@@ -47,7 +49,7 @@ class CatalogQueryFilterService(
             .broker()
             .hideOfflineDataOffersAfter()
         val maxOfflineDurationNotExceeded = c.LAST_SUCCESSFUL_REFRESH_AT
-            .greaterThan(OffsetDateTime.now().minus(maxOfflineDuration))
+            .greaterThan(timeUtils.now().minus(maxOfflineDuration))
         val isOnline = c.ONLINE_STATUS.eq(ConnectorOnlineStatus.ONLINE)
 
         return DSL.or(isOnline, maxOfflineDurationNotExceeded)

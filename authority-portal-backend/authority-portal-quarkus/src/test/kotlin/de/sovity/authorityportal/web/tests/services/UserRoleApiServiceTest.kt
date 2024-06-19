@@ -7,6 +7,7 @@ import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
+import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import jakarta.ws.rs.NotAuthorizedException
@@ -48,6 +49,7 @@ class UserRoleApiServiceTest {
     }
 
     @Test
+    @TestTransaction
     fun `changeParticipantRole fails because target is in different organization`() {
         // arrange
         useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_ADMIN))

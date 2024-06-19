@@ -16,16 +16,17 @@ package de.sovity.authorityportal.web.services
 import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.tables.records.ComponentRecord
+import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.jooq.DSLContext
 import java.time.OffsetDateTime
 
 @ApplicationScoped
-class CentralComponentService {
-
-    @Inject
-    lateinit var dsl: DSLContext
+class CentralComponentService(
+    val dsl: DSLContext,
+    val timeUtils: TimeUtils
+) {
 
     fun getCentralComponentOrThrow(centralComponentId: String): ComponentRecord {
         return getComponent(centralComponentId) ?: error("Component with id $centralComponentId not found")
@@ -72,7 +73,7 @@ class CentralComponentService {
             it.homepageUrl = centralComponentCreateRequest.homepageUrl?.trim()
             it.endpointUrl = centralComponentCreateRequest.endpointUrl.trim()
             it.createdBy = createdBy
-            it.createdAt = OffsetDateTime.now()
+            it.createdAt = timeUtils.now()
 
             it.insert()
         }

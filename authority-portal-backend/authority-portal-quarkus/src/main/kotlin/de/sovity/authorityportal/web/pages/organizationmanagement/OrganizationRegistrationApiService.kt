@@ -18,19 +18,18 @@ import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
+import de.sovity.authorityportal.web.utils.TimeUtils
 import de.sovity.authorityportal.web.utils.unauthorized
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
 @ApplicationScoped
-class OrganizationRegistrationApiService {
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var userService: UserService
+class OrganizationRegistrationApiService(
+    val organizationService: OrganizationService,
+    val userService: UserService,
+    val timeUtils: TimeUtils
+) {
 
     fun approveOrganization(mdsId: String, userId: String): IdResponse {
         requirePending(mdsId, userId)
@@ -45,7 +44,7 @@ class OrganizationRegistrationApiService {
 
         Log.info("Approved organization and user. mdsId=$mdsId, userId=$userId.")
 
-        return IdResponse(mdsId)
+        return IdResponse(mdsId, timeUtils.now())
     }
 
     fun rejectOrganization(mdsId: String, userId: String): IdResponse {
@@ -61,7 +60,7 @@ class OrganizationRegistrationApiService {
 
         Log.info("Rejected organization and user. mdsId=$mdsId, userId=$userId.")
 
-        return IdResponse(mdsId)
+        return IdResponse(mdsId, timeUtils.now())
     }
 
     private fun requirePending(mdsId: String, userId: String) {

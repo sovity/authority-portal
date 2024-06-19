@@ -26,6 +26,7 @@ import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasPortalDeploymentDto
 import de.sovity.authorityportal.web.utils.PersonNameUtils
+import de.sovity.authorityportal.web.utils.TimeUtils
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
 import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtils
 import io.quarkus.logging.Log
@@ -34,31 +35,17 @@ import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
 
 @ApplicationScoped
-class CaasManagementApiService {
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var dataspaceComponentIdUtils: DataspaceComponentIdUtils
-
-    @Inject
-    lateinit var caasClient: CaasClient
-
-    @Inject
-    lateinit var connectorService: ConnectorService
-
-    @Inject
-    lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
-
-    @Inject
-    lateinit var clientIdUtils: ClientIdUtils
-
-    @Inject
-    lateinit var userService: UserService
-
-    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid")
-    lateinit var caasLimitPerMdsId: String
+class CaasManagementApiService(
+    val organizationService: OrganizationService,
+    val dataspaceComponentIdUtils: DataspaceComponentIdUtils,
+    val caasClient: CaasClient,
+    val connectorService: ConnectorService,
+    val deploymentEnvironmentService: DeploymentEnvironmentService,
+    val clientIdUtils: ClientIdUtils,
+    val userService: UserService,
+    val timeUtils: TimeUtils,
+    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid") val caasLimitPerMdsId: String
+) {
 
     fun createCaas(
         mdsId: String,
@@ -71,12 +58,19 @@ class CaasManagementApiService {
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(mdsId)
         val clientId = clientIdUtils.generateFromConnectorId(connectorId)
 
-        val apDeploymentDto = buildAuthorityPortalDeploymentDto(curatorOrganization, caasRequest, connectorId, environmentId, clientId, curatorUser)
+        val apDeploymentDto = buildAuthorityPortalDeploymentDto(
+            curatorOrganization,
+            caasRequest,
+            connectorId,
+            environmentId,
+            clientId,
+            curatorUser
+        )
 
         val configAssertion = assertValidConfig(apDeploymentDto, mdsId, environmentId)
         if (!configAssertion.valid) {
             Log.error(configAssertion.message)
-            return CreateConnectorResponse.error(configAssertion.message)
+            return CreateConnectorResponse.error(configAssertion.message, timeUtils.now())
         }
 
         caasClient.requestCaas(apDeploymentDto)
@@ -91,7 +85,7 @@ class CaasManagementApiService {
             environmentId = environmentId
         )
 
-        return CreateConnectorResponse.ok(connectorId)
+        return CreateConnectorResponse.ok(connectorId, timeUtils.now())
     }
 
     fun getFreeCaasUsageForOrganization(mdsId: String, environmentId: String): CaasAvailabilityResponse {
@@ -101,12 +95,19 @@ class CaasManagementApiService {
         return CaasAvailabilityResponse(caasLimit, caasCount)
     }
 
-    private fun assertValidConfig(apDeploymentDto: CaasPortalDeploymentDto, mdsId: String, environmentId: String): ConfigAssertion {
+    private fun assertValidConfig(
+        apDeploymentDto: CaasPortalDeploymentDto,
+        mdsId: String,
+        environmentId: String
+    ): ConfigAssertion {
         if (!connectorService.assertCaasRegistrationLimit(mdsId, environmentId)) {
             return ConfigAssertion(false, "Connector limit reached for MDS ID: $mdsId")
         }
         if (!caasClient.validateSubdomain(apDeploymentDto.subdomain.trim())) {
-            return ConfigAssertion(false, "Subdomain ${apDeploymentDto.subdomain} is not available! Please choose a different one.")
+            return ConfigAssertion(
+                false,
+                "Subdomain ${apDeploymentDto.subdomain} is not available! Please choose a different one."
+            )
         }
         return ConfigAssertion(true, "")
     }

@@ -30,6 +30,7 @@ import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
 import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
+import de.sovity.authorityportal.web.utils.TimeUtils
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
 import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtils
 import io.quarkus.logging.Log
@@ -46,7 +47,8 @@ class ConnectorManagementApiService(
     val connectorService: ConnectorService,
     val organizationService: OrganizationService,
     val dapsClientService: DapsClientService,
-    val caasClient: CaasClient
+    val caasClient: CaasClient,
+    val timeUtils: TimeUtils
 ) {
 
     fun ownOrganizationConnectorDetails(connectorId: String, mdsId: String, userId: String): ConnectorDetailDto =
@@ -149,7 +151,7 @@ class ConnectorManagementApiService(
 
         if (!isValidUrlConfiguration(connector.frontendUrl, connector.endpointUrl, connector.managementUrl)) {
             Log.error("Connector URL is not valid. url=${connector.frontendUrl}, userId=$userId, mdsId=$mdsId.")
-            return CreateConnectorResponse.error("Connector URL is not valid.")
+            return CreateConnectorResponse.error("Connector URL is not valid.", timeUtils.now())
         }
 
         connector.frontendUrl = removeUrlTrailingSlash(connector.frontendUrl)
@@ -161,7 +163,7 @@ class ConnectorManagementApiService(
 
         if (clientIdUtils.exists(clientId)) {
             Log.error("Connector with this certificate already exists. connectorId=$connectorId, mdsId=$mdsId, userId=$userId, clientId=$clientId.")
-            return CreateConnectorResponse.error("Connector with this certificate already exists.")
+            return CreateConnectorResponse.error("Connector with this certificate already exists.", timeUtils.now())
         }
 
         connectorService.createOwnConnector(
@@ -175,7 +177,7 @@ class ConnectorManagementApiService(
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
 
         Log.info("Connector for own organization registered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
-        return CreateConnectorResponse.ok(connectorId)
+        return CreateConnectorResponse.ok(connectorId, timeUtils.now())
     }
 
     fun createProvidedConnector(
@@ -189,7 +191,7 @@ class ConnectorManagementApiService(
 
         if (!isValidUrlConfiguration(connector.frontendUrl, connector.endpointUrl, connector.managementUrl)) {
             Log.error("Connector URL is not valid. url=${connector.frontendUrl}, userId=$userId, customerMdsId=$customerMdsId.")
-            return CreateConnectorResponse.error("Connector URL is not valid.")
+            return CreateConnectorResponse.error("Connector URL is not valid.", timeUtils.now())
         }
 
         connector.frontendUrl = removeUrlTrailingSlash(connector.frontendUrl)
@@ -201,7 +203,7 @@ class ConnectorManagementApiService(
 
         if (clientIdUtils.exists(clientId)) {
             Log.error("Connector with this certificate already exists. connectorId=$connectorId, customerMdsId=$customerMdsId, userId=$userId, clientId=$clientId.")
-            return CreateConnectorResponse.error("Connector with this certificate already exists.")
+            return CreateConnectorResponse.error("Connector with this certificate already exists.", timeUtils.now())
         }
 
         connectorService.createProvidedConnector(
@@ -216,7 +218,7 @@ class ConnectorManagementApiService(
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
 
         Log.info("Connector for foreign organization registered. connectorId=$connectorId, customerMdsId=$customerMdsId, userId=$userId.")
-        return CreateConnectorResponse.ok(connectorId)
+        return CreateConnectorResponse.ok(connectorId, timeUtils.now())
     }
 
     private fun isValidUrlConfiguration(
@@ -259,7 +261,7 @@ class ConnectorManagementApiService(
         deleteConnector(connector)
         Log.info("Connector unregistered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
 
-        return IdResponse(connectorId)
+        return IdResponse(connectorId, timeUtils.now())
     }
 
     fun deleteAllOrganizationConnectors(mdsId: String) {

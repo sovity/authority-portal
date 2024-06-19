@@ -24,6 +24,7 @@ import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
+import de.sovity.authorityportal.web.utils.TimeUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 
@@ -35,7 +36,8 @@ class UserDeletionApiService(
     val connectorService: ConnectorService,
     val centralComponentService: CentralComponentService,
     val connectorManagementApiService: ConnectorManagementApiService,
-    val centralComponentManagementApiService: CentralComponentManagementApiService
+    val centralComponentManagementApiService: CentralComponentManagementApiService,
+    val timeUtils: TimeUtils
 ) {
 
     fun checkUserDeletion(userId: String): UserDeletionCheck {
@@ -83,7 +85,7 @@ class UserDeletionApiService(
             deleteUserAndHandleDependencies(userDeletionCheck, successorUserId, userId, adminUserId, organization)
         }
 
-        return IdResponse(userId)
+        return IdResponse(userId, timeUtils.now())
     }
 
     private fun deleteOrganizationAndDependencies(organizationMdsId: String, adminUserId: String) {
