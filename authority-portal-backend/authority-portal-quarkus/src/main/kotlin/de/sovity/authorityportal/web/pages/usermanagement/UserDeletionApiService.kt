@@ -51,20 +51,20 @@ class UserDeletionApiService(
             canBeDeleted = authorityAdmins.size > 1 || authorityAdmins.first().userId != userId,
             isLastParticipantAdmin = participantAdmins.size == 1 && participantAdmins.first().userId == userId,
             isOrganizationCreator = organization.createdBy == userId,
-            possibleSuccessors = mutableListOf()
+            possibleCreatorSuccessors = mutableListOf()
         )
 
         if (!userDeletionCheck.isLastParticipantAdmin && userDeletionCheck.isOrganizationCreator) {
-            userDeletionCheck.possibleSuccessors = participantAdmins.map {
+            userDeletionCheck.possibleCreatorSuccessors = participantAdmins.map {
                 PossibleCreatorSuccessor(
                     userId = it.userId,
                     firstName = it.firstName,
                     lastName = it.lastName
                 )
             }.toMutableList()
-            userDeletionCheck.possibleSuccessors.removeIf { it.userId == userId }
+            userDeletionCheck.possibleCreatorSuccessors.removeIf { it.userId == userId }
         } else {
-            userDeletionCheck.possibleSuccessors = mutableListOf()
+            userDeletionCheck.possibleCreatorSuccessors = mutableListOf()
         }
 
         return userDeletionCheck
