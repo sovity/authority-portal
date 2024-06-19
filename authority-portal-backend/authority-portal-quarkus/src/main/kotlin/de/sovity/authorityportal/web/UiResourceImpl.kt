@@ -213,7 +213,7 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun deleteUser(userId: String, successorUserId: String): IdResponse {
+    override fun deleteUser(userId: String, successorUserId: String?): IdResponse {
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
             if (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_ADMIN)) {
                 authUtils.requiresMemberOfSameOrganizationAs(userId)

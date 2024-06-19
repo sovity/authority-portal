@@ -158,10 +158,10 @@ interface UiResource {
     @Operation(description = "Delete user with respect to organizations and connectors associated with them.")
     fun deleteUser(
         @PathParam("userId")
-        userId: String,  // This parameter might be null, if no successor is needed
+        userId: String,
 
         @QueryParam("successorUserId")
-        successorUserId: String
+        successorUserId: String?
     ): IdResponse
 
     @GET

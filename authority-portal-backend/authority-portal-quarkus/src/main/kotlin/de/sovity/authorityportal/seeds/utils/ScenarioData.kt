@@ -14,6 +14,7 @@ import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import org.jooq.DSLContext
+import java.time.OffsetDateTime
 
 
 /**
@@ -99,7 +100,7 @@ class ScenarioData {
             it.mdsId = mdsId
             it.providerMdsId = mdsId
             it.type = ConnectorType.OWN
-            it.environment = "environment"
+            it.environment = "test"
             it.clientId = "clientId"
             it.name = "Connector"
             it.location = "Location"
@@ -115,6 +116,7 @@ class ScenarioData {
             it.onlineStatus = ConnectorOnlineStatus.ONLINE
             it.dataOffersExceeded = ConnectorDataOffersExceeded.UNKNOWN
             it.contractOffersExceeded = ConnectorContractOffersExceeded.UNKNOWN
+            it.createdAt = OffsetDateTime.now()
             applyer(it)
             connectors.add(it)
         }
@@ -129,9 +131,10 @@ class ScenarioData {
             it.name = "Component name"
             it.homepageUrl = "https://component"
             it.endpointUrl = "https://component/dsp"
-            it.environment = "environment"
+            it.environment = "test"
             it.clientId = "clientId"
             it.createdBy = dummyDevUserUuid(createdByUserId)
+            it.createdAt = OffsetDateTime.now()
             applyer(it)
             components.add(it)
         }
