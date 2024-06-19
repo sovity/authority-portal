@@ -16,7 +16,7 @@ package de.sovity.authorityportal.broker.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Catalog Page and visible filters")
-class CatalogPageResult(
+data class CatalogPageResult(
     @Schema(description = "Available filter options", requiredMode = Schema.RequiredMode.REQUIRED)
     val availableFilters: CnfFilter,
 

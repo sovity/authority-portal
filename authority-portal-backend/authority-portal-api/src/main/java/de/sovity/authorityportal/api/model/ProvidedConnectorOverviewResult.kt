@@ -6,7 +6,7 @@ import lombok.Data
 import lombok.NoArgsConstructor
 
 @Schema(description = "All data for connector overview page(s).")
-class ProvidedConnectorOverviewResult(
+data class ProvidedConnectorOverviewResult(
     @field:Schema(description = "Visible connectors", requiredMode = Schema.RequiredMode.REQUIRED)
     val connectors: List<ProvidedConnectorOverviewEntryDto>,
 )

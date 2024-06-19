@@ -3,7 +3,7 @@ package de.sovity.authorityportal.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Visible connector in connector overview page(s).")
-class ConnectorOverviewEntryDto(
+data class ConnectorOverviewEntryDto(
     @field:Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
     @field:Schema(description = "Host Name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

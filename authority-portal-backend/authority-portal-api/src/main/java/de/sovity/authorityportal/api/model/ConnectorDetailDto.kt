@@ -3,7 +3,7 @@ package de.sovity.authorityportal.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Detail information about a deployed connector.")
-class ConnectorDetailDto(
+data class ConnectorDetailDto(
     @field:Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val connectorId: String,
     @field:Schema(description = "Type", requiredMode = Schema.RequiredMode.REQUIRED)

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 
 @Schema(description = "Information about the user provided while onboarding.")
-class OnboardingUserUpdateDto(
+data class OnboardingUserUpdateDto(
     @field:NotBlank(message = "First name cannot be blank.")
     @field:Schema(description = "First name", requiredMode = Schema.RequiredMode.REQUIRED)
     val firstName: String,

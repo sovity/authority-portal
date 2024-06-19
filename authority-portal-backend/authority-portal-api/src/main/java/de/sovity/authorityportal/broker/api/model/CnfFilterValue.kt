@@ -16,7 +16,7 @@ package de.sovity.authorityportal.broker.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Cnf filter's selected value.")
-class CnfFilterValue(
+data class CnfFilterValue(
     @Schema(description = "Available attributes to filter by.", requiredMode = Schema.RequiredMode.REQUIRED)
     val selectedAttributeValues: List<CnfFilterValueAttribute>
 )

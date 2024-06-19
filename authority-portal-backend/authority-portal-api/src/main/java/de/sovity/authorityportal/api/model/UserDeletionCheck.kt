@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Result of the user deletion check.")
-class UserDeletionCheck(
+data class UserDeletionCheck(
     @field:Schema(description = "User's ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val userId: String,
 

@@ -3,7 +3,7 @@ package de.sovity.authorityportal.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Uptime information for a single component.")
-class UptimeStatusDto(
+data class UptimeStatusDto(
     @field:Schema(description = "Status of the component", requiredMode = Schema.RequiredMode.REQUIRED)
     val componentStatus: ComponentStatusDto,
     @field:Schema(description = "Uptime in percent", requiredMode = Schema.RequiredMode.REQUIRED)

@@ -16,7 +16,7 @@ package de.sovity.authorityportal.broker.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Filterable Catalog Page Query")
-class CatalogPageQuery(
+data class CatalogPageQuery(
     @Schema(description = "Selected filters")
     val filter: CnfFilterValue?,
 

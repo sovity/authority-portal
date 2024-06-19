@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import java.time.OffsetDateTime
 
 @Schema(description = "Organization information.")
-class OrganizationDetailsDto(
+data class OrganizationDetailsDto(
     @field:Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val mdsId: String,
     @field:Schema(description = "Legal name", requiredMode = Schema.RequiredMode.REQUIRED)

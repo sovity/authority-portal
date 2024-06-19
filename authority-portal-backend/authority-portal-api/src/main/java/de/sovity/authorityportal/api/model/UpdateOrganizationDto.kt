@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 
 @Schema(description = "Information about the Organization.")
-class UpdateOrganizationDto(
+data class UpdateOrganizationDto(
     @field:NotBlank(message = "Organization's URL of the organization website cannot be blank")
     @field:Schema(description = "Organization's URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
     val url: String,

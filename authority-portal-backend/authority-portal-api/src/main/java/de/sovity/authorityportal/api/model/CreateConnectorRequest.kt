@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 
 @Schema(description = "Connector object for connector registration.")
-class CreateConnectorRequest(
+data class CreateConnectorRequest(
     @field:NotBlank(message = "Name cannot be blank")
     @field:Schema(description = "Name", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,

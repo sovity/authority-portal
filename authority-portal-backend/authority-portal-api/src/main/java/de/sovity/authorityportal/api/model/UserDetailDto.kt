@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import java.time.OffsetDateTime
 
 @Schema(description = "Information about the user.")
-class UserDetailDto(
+data class UserDetailDto(
     @field:Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val userId: String,
 

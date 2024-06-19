@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import java.time.OffsetDateTime
 
 @Schema(description = "A contract offer a data offer is available under (as required by the catalog).")
-class CatalogContractOffer(
+data class CatalogContractOffer(
     @Schema(description = "Contract Offer ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val contractOfferId: String,
 

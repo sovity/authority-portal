@@ -6,7 +6,7 @@ import lombok.Data
 import lombok.NoArgsConstructor
 
 @Schema(description = "Visible connector in connector overview page(s).")
-class ProvidedConnectorOverviewEntryDto(
+data class ProvidedConnectorOverviewEntryDto(
     @field:Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
     @field:Schema(description = "Customer organization name", requiredMode = Schema.RequiredMode.REQUIRED)

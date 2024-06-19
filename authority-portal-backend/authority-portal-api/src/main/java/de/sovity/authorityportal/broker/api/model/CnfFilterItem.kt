@@ -16,7 +16,7 @@ package de.sovity.authorityportal.broker.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Attribute Value")
-class CnfFilterItem(
+data class CnfFilterItem(
     @Schema(
         description = "Value ID",
         example = "https://w3id.org/idsa/code/EN",

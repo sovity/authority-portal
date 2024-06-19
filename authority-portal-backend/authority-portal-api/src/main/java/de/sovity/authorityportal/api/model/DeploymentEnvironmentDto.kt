@@ -3,7 +3,7 @@ package de.sovity.authorityportal.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Connector deployment environment.")
-class DeploymentEnvironmentDto(
+data class DeploymentEnvironmentDto(
     @field:Schema(description = "Deployment environment ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val environmentId: String,
     @field:Schema(description = "Environment localized name", requiredMode = Schema.RequiredMode.REQUIRED)

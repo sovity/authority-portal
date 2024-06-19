@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
 @Schema(description = "User information for creating an organization-internal invitation.")
-class InviteParticipantUserRequest(
+data class InviteParticipantUserRequest(
     @field:NotBlank(message = "Email address cannot be blank")
     @field:Schema(description = "Email address", requiredMode = Schema.RequiredMode.REQUIRED)
     val email: String,

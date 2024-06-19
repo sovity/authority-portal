@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.media.Schema
             "Not selected attributes default to TRUE. Used here to let the backend be a SSOT for the available filter options, " +
             "e.g. Transport Mode, Data Model, etc."
 )
-class CnfFilter(
+data class CnfFilter(
     @Schema(description = "Available attributes to filter by.", requiredMode = Schema.RequiredMode.REQUIRED)
     val fields: List<CnfFilterAttribute>
 )

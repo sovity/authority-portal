@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import java.time.OffsetDateTime
 
 @Schema(description = "Data Offer Detail Page.")
-class DataOfferDetailPageResult(
+data class DataOfferDetailPageResult(
     @Schema(description = "ID of asset", requiredMode = Schema.RequiredMode.REQUIRED)
     val assetId: String,
 

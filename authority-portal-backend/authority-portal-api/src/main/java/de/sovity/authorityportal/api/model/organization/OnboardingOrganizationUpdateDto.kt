@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
 @Schema(description = "Information about the organization provided while onboarding.")
-class OnboardingOrganizationUpdateDto(
+data class OnboardingOrganizationUpdateDto(
     @field:NotBlank(message = "Name cannot be blank.")
     @field:Schema(description = "Name", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,

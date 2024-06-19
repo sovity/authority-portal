@@ -3,7 +3,7 @@ package de.sovity.authorityportal.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Status information for components and connectors.")
-class ComponentStatusOverview(
+data class ComponentStatusOverview(
     @field:Schema(description = "DAPS Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val dapsStatus: UptimeStatusDto?,
     @field:Schema(description = "Logging House Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

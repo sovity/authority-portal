@@ -16,7 +16,7 @@ package de.sovity.authorityportal.broker.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Attribute, e.g. Language")
-class CnfFilterAttribute(
+data class CnfFilterAttribute(
     @Schema(description = "Attribute ID", example = "asset:prop:language", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
     @Schema(description = "Attribute Title", example = "Language", requiredMode = Schema.RequiredMode.REQUIRED)

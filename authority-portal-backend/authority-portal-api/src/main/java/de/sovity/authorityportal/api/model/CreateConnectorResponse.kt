@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import java.time.OffsetDateTime
 
 @Schema(description = "Response DTO for connector registration")
-class CreateConnectorResponse(
+data class CreateConnectorResponse(
     @field:Schema(description = "ID of the connector", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val id: String?,
 

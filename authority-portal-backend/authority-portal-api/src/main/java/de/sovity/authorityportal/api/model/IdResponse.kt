@@ -8,7 +8,7 @@ import lombok.ToString
 import java.time.OffsetDateTime
 
 @Schema(description = "Wrapper for simple ID String responses.")
-class IdResponse(
+data class IdResponse(
     @field:Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
 

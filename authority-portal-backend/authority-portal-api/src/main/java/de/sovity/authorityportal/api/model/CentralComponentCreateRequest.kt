@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 
 @Schema(description = "Information for registering a new central dataspace component.")
-class CentralComponentCreateRequest(
+data class CentralComponentCreateRequest(
     @field:Schema(description = "Component Name", requiredMode = Schema.RequiredMode.REQUIRED)
     @field:NotBlank(message = "Name of component cannot be blank")
     val name: String,

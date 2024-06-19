@@ -3,7 +3,7 @@ package de.sovity.authorityportal.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Information of a central dataspace component.")
-class CentralComponentDto (
+data class CentralComponentDto (
     @field:Schema(description = "Central Component ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val centralComponentId: String,
 

@@ -16,7 +16,7 @@ package de.sovity.authorityportal.broker.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Pagination Metadata")
-class PaginationMetadata(
+data class PaginationMetadata(
     @Schema(
         description = "Total number of results",
         example = "368",

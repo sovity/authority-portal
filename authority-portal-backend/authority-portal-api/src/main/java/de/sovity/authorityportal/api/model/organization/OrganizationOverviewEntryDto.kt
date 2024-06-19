@@ -3,7 +3,7 @@ package de.sovity.authorityportal.api.model.organization
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Visible organization in organization overview page.")
-class OrganizationOverviewEntryDto(
+data class OrganizationOverviewEntryDto(
     @field:Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val mdsId: String,
 

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 
 @Schema(description = "Information about the user.")
-class UpdateUserDto(
+data class UpdateUserDto(
     @field:Schema(description = "User's First name", requiredMode = Schema.RequiredMode.REQUIRED)
     val firstName: String,
 

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 
 @Schema(description = "Information for inviting a new organization.")
-class InviteOrganizationRequest(
+data class InviteOrganizationRequest(
     @field:NotBlank(message = "User email cannot be blank")
     @field:Schema(description = "User: Email address", requiredMode = Schema.RequiredMode.REQUIRED)
     val userEmail: String,

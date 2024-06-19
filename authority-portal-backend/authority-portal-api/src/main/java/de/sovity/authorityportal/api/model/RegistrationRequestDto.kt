@@ -9,7 +9,7 @@ import lombok.Data
 import lombok.NoArgsConstructor
 
 @Schema(description = "Information for registering a new user and organization.")
-class RegistrationRequestDto(
+data class RegistrationRequestDto(
     @field:NotBlank(message = "User's Email cannot be blank")
     @field:Schema(description = "User's Email", requiredMode = Schema.RequiredMode.REQUIRED)
     val userEmail: String,

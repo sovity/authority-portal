@@ -3,7 +3,7 @@ package de.sovity.authorityportal.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Information about the logged in user.")
-class UserInfo(
+data class UserInfo(
     @field:Schema(
         description = "Authentication Status. Is the user logged in or not",
         requiredMode = Schema.RequiredMode.REQUIRED
