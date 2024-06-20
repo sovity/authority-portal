@@ -51,10 +51,10 @@ class UserUpdateApiService(
         user.registrationStatus = UserRegistrationStatus.ACTIVE
         user.update()
         keycloakService.updateUser(
-            userId,
-            onboardingUserUpdateDto.firstName,
-            onboardingUserUpdateDto.lastName,
-            user.email
+            userId = userId,
+            firstName = onboardingUserUpdateDto.firstName,
+            lastName = onboardingUserUpdateDto.lastName,
+            email = user.email
         )
         return IdResponse(userId, timeUtils.now())
     }
