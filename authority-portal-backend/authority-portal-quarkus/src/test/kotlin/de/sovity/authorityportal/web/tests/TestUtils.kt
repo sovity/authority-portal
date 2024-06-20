@@ -49,3 +49,9 @@ fun useMockNow(now: OffsetDateTime) {
     val timeUtils = installMockitoMock<TimeUtils>()
     whenever(timeUtils.now()).thenReturn(now)
 }
+
+inline fun <reified T> T.loadTestResource(name: String): String {
+    val fullPath = "/${T::class.simpleName}/$name"
+    return T::class.java.getResourceAsStream(fullPath)?.reader()
+        .use { it?.readText() ?: error("Can't read resource $fullPath") }
+}
