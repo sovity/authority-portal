@@ -1,4 +1,4 @@
-package de.sovity.authorityportal.web.tests.services
+package de.sovity.authorityportal.web.tests.services.organization
 
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.seeds.utils.ScenarioData

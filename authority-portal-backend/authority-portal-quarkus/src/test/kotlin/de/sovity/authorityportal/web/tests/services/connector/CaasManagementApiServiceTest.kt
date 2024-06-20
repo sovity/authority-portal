@@ -1,4 +1,4 @@
-package de.sovity.authorityportal.web.tests.services
+package de.sovity.authorityportal.web.tests.services.connector
 
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.api.model.CreateCaasRequest
@@ -16,14 +16,12 @@ import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
-import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.tests.useDevUser
 import de.sovity.authorityportal.web.tests.useMockNow
 import de.sovity.authorityportal.web.tests.withOffsetDateTimeComparator
 import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasDetails
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasPortalResponse
-import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction

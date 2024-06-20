@@ -33,7 +33,7 @@ import java.time.OffsetDateTime
 
 @QuarkusTest
 @ExtendWith(MockitoExtension::class)
-class RegistrationApiServiceTest {
+class FirstUserRegistrationTest {
 
     @Inject
     lateinit var uiResource: UiResource
@@ -74,7 +74,7 @@ class RegistrationApiServiceTest {
 
     @Test
     @TestTransaction
-    fun `register user creates a new user and organization with correct data`() {
+    fun `register user for the first time creates a user and an organization with correct data and auto-approves them`() {
         // arrange
         val now = OffsetDateTime.now()
 
@@ -86,35 +86,29 @@ class RegistrationApiServiceTest {
         doNothing().whenever(keycloakService).joinOrganization(any(), any(), any())
         whenever(keycloakService.createUser(
             eq(request.userEmail), eq(request.userFirstName), eq(request.userLastName), eq(request.userPassword)
-        )).thenReturn(dummyDevUserUuid(1))
-
-        ScenarioData().apply {
-            organization(0, 0)
-            user(0, 0) // We need a user to not be the first registering user
-            scenarioInstaller.install(this)
-        }
+        )).thenReturn(dummyDevUserUuid(0))
 
         // act
         val result = uiResource.registerUser(request)
 
         // assert
         assertThat(result).isNotNull
-        assertThat(result.id).isEqualTo(dummyDevUserUuid(1))
+        assertThat(result.id).isEqualTo(dummyDevUserUuid(0))
         assertThat(result.changedDate).isEqualTo(now)
 
         val organizations = dsl.selectFrom(Tables.ORGANIZATION).fetch()
-        assertThat(organizations).hasSize(2)
+        assertThat(organizations).hasSize(1)
 
-        val actualOrganization = organizations.find { it.mdsId != dummyDevMdsId(0) }
-        val actualUser = dsl.selectFrom(Tables.USER).where(Tables.USER.ID.eq(dummyDevUserUuid(1))).fetchOne()
+        val actualOrganization = organizations.first()
+        val actualUser = dsl.selectFrom(Tables.USER).where(Tables.USER.ID.eq(dummyDevUserUuid(0))).fetchOne()
 
         assertThat(actualOrganization).isNotNull
         assertThat(actualUser).isNotNull
 
         val expectedUser = dsl.newRecord(Tables.USER).also {
-            it.id = dummyDevUserUuid(1)
+            it.id = dummyDevUserUuid(0)
             it.organizationMdsId = actualOrganization!!.mdsId
-            it.registrationStatus = UserRegistrationStatus.PENDING
+            it.registrationStatus = UserRegistrationStatus.ACTIVE
             it.createdAt = now
             it.email = request.userEmail
             it.firstName = request.userFirstName
@@ -130,8 +124,8 @@ class RegistrationApiServiceTest {
             it.name = request.organizationName
             it.address = request.organizationAddress
             it.url = request.organizationUrl
-            it.createdBy = dummyDevUserUuid(1)
-            it.registrationStatus = OrganizationRegistrationStatus.PENDING
+            it.createdBy = dummyDevUserUuid(0)
+            it.registrationStatus = OrganizationRegistrationStatus.ACTIVE
             it.createdAt = now
             it.businessUnit = request.organizationBusinessUnit
             it.billingAddress = request.organizationBillingAddress

@@ -1,4 +1,4 @@
-package de.sovity.authorityportal.web.tests.services
+package de.sovity.authorityportal.web.tests.services.user
 
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.api.model.UserRegistrationStatusDto

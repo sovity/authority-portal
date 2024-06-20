@@ -1,22 +1,17 @@
-package de.sovity.authorityportal.web.tests.services
+package de.sovity.authorityportal.web.tests.services.organization
 
 import de.sovity.authorityportal.api.UiResource
-import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto
 import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUpdateDto
 import de.sovity.authorityportal.api.model.organization.OrganizationLegalIdTypeDto
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
-import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
-import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.pages.organizationmanagement.toDb
 import de.sovity.authorityportal.web.tests.useDevUser
 import de.sovity.authorityportal.web.tests.useMockNow
-import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
@@ -27,9 +22,6 @@ import org.jooq.DSLContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.any
-import org.mockito.kotlin.doNothing
-import org.mockito.kotlin.whenever
 import java.time.OffsetDateTime
 
 @QuarkusTest

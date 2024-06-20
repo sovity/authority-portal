@@ -1,7 +1,6 @@
-package de.sovity.authorityportal.web.tests.services
+package de.sovity.authorityportal.web.tests.services.user
 
 import de.sovity.authorityportal.api.UiResource
-import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
@@ -20,7 +19,6 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.whenever
 import java.time.OffsetDateTime
-import de.sovity.authorityportal.web.tests.withOffsetDateTimeComparator
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import io.quarkus.test.InjectMock
 import jakarta.inject.Inject
