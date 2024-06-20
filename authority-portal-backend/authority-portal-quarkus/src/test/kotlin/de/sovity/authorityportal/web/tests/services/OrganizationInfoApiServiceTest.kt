@@ -4,8 +4,12 @@ import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
+import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
+import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
+import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
@@ -13,6 +17,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 
 @QuarkusTest
 @ExtendWith(MockitoExtension::class)
@@ -23,6 +29,9 @@ class OrganizationInfoApiServiceTest {
 
     @Inject
     lateinit var scenarioInstaller: ScenarioInstaller
+
+    @InjectMock
+    lateinit var keycloakService: KeycloakService
 
     @Test
     @TestTransaction
@@ -158,5 +167,71 @@ class OrganizationInfoApiServiceTest {
         assertThat(result.organizations[2].name).isEqualTo("Organization 2")
         assertThat(result.organizations[2].numberOfConnectors).isEqualTo(0)
         assertThat(result.organizations[2].numberOfUsers).isEqualTo(2)
+    }
+
+    @Test
+    @TestTransaction
+    fun `own organization details`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_USER))
+
+        val expectedMembers = listOf(
+            KeycloakUserDto(dummyDevUserUuid(0), "Test", "User", "test@mail"),
+            KeycloakUserDto(dummyDevUserUuid(1), "Test", "User", "test2@mail")
+        )
+
+        whenever(keycloakService.getOrganizationMembers(dummyDevMdsId(0))).thenReturn(expectedMembers)
+        whenever(keycloakService.getUserRoles(any())).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
+
+        ScenarioData().apply {
+            organization(0, 0)
+            user(0, 0)
+            user(1, 0)
+
+            organization(1, 1)
+            user(2, 1)
+
+            scenarioInstaller.install(this)
+        }
+
+        // act
+        val result = uiResource.ownOrganizationDetails()
+
+        // assert
+        assertThat(result.mdsId).isEqualTo(dummyDevMdsId(0))
+        assertThat(result.name).isEqualTo("Organization 0")
+        assertThat(result.memberList).hasSize(2)
+    }
+
+    @Test
+    @TestTransaction
+    fun `organization details for authority`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.AUTHORITY_USER))
+
+        val expectedMembers = listOf(
+            KeycloakUserDto(dummyDevUserUuid(2), "Test", "User", "test2@mail")
+        )
+
+        whenever(keycloakService.getOrganizationMembers(dummyDevMdsId(1))).thenReturn(expectedMembers)
+
+        ScenarioData().apply {
+            organization(0, 0)
+            user(0, 0)
+            user(1, 0)
+
+            organization(1, 1)
+            user(2, 1)
+
+            scenarioInstaller.install(this)
+        }
+
+        // act
+        val result = uiResource.organizationDetailsForAuthority(dummyDevMdsId(1), "test")
+
+        // assert
+        assertThat(result.mdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(result.name).isEqualTo("Organization 1")
+        assertThat(result.memberList).hasSize(1)
     }
 }

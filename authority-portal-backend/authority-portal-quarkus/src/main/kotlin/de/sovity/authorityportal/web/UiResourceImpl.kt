@@ -64,7 +64,6 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
 import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 import jakarta.ws.rs.core.Response
 
@@ -296,7 +295,7 @@ class UiResourceImpl(
     override fun deleteProvidedConnector(connectorId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.deleteSelfHostedConnector(
+        return connectorManagementApiService.deleteOwnOrProvidedConnector(
             connectorId,
             loggedInUser.organizationMdsId!!,
             loggedInUser.userId
@@ -372,7 +371,7 @@ class UiResourceImpl(
     override fun deleteOwnConnector(connectorId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.deleteSelfHostedConnector(
+        return connectorManagementApiService.deleteOwnOrProvidedConnector(
             connectorId,
             loggedInUser.organizationMdsId!!,
             loggedInUser.userId

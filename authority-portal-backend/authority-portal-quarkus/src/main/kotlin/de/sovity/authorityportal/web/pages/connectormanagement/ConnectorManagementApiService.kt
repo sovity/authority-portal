@@ -246,7 +246,7 @@ class ConnectorManagementApiService(
         }
     }
 
-    fun deleteSelfHostedConnector(
+    fun deleteOwnOrProvidedConnector(
         connectorId: String,
         mdsId: String,
         userId: String
