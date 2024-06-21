@@ -94,8 +94,8 @@ class CatalogFilterService(
     fun getCatalogQueryFilters(cnfFilterValue: CnfFilterValue?): List<CatalogQueryFilter> {
         val values = getCnfFilterValuesMap(cnfFilterValue)
         return availableFilters
-            .mapNotNull { filter: CatalogFilterAttributeDefinition ->
-                val queryFilter = getQueryFilter(filter, values[filter.name]) ?: return@mapNotNull null
+            .map { filter: CatalogFilterAttributeDefinition ->
+                val queryFilter = getQueryFilter(filter, values[filter.name])
                 CatalogQueryFilter(
                     filter.name,
                     filter.valueGetter,
@@ -116,9 +116,7 @@ class CatalogFilterService(
     }
 
     fun buildAvailableFilters(filterValuesJson: String): CnfFilter {
-        val filterValues = read2dStringList(
-            filterValuesJson
-        )
+        val filterValues = read2dStringList(filterValuesJson)
         val filterAttributes = zipAvailableFilters(availableFilters, filterValues)
             .map { availableFilter: AvailableFilter ->
                 CnfFilterAttribute(

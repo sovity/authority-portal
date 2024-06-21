@@ -1,5 +1,6 @@
 package de.sovity.authorityportal.seeds.utils
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded
@@ -11,9 +12,13 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.ComponentRecord
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
+import de.sovity.authorityportal.db.jooq.tables.records.DataOfferRecord
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
+import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
+import org.flywaydb.core.internal.util.JsonUtils
 import org.jooq.DSLContext
+import org.jooq.JSONB
 import java.time.OffsetDateTime
 
 
@@ -27,6 +32,7 @@ class ScenarioData {
     private val organizations = mutableListOf<OrganizationRecord>()
     private val connectors = mutableListOf<ConnectorRecord>()
     private val components = mutableListOf<ComponentRecord>()
+    private val dataOffers = mutableListOf<DataOfferRecord>()
 
     fun install(dsl: DSLContext) {
         val userOrgMap = users.associate { it.id to it.organizationMdsId }
@@ -44,6 +50,7 @@ class ScenarioData {
 
         dsl.batchInsert(connectors).execute()
         dsl.batchInsert(components).execute()
+        dsl.batchInsert(dataOffers).execute()
     }
 
     fun user(userId: Int, orgId: Int?, applyer: (UserRecord) -> Unit = {}) {
@@ -137,6 +144,36 @@ class ScenarioData {
             it.createdAt = OffsetDateTime.now()
             applyer(it)
             components.add(it)
+        }
+    }
+
+    fun dataOffer(connectorId: Int, orgId: Int, assetId: Int, applyer: (DataOfferRecord) -> Unit = {}) {
+        val fullConnectorId = "${dummyDevMdsId(orgId)}.${dummyDevConnectorId(connectorId)}"
+        val objectMapper = ObjectMapper()
+
+        val uiAsset = UiAsset().also {
+            it.title = "Title"
+            it.description = "Description"
+        }
+
+        DataOfferRecord().also {
+            it.connectorId = fullConnectorId
+            it.assetId = dummyDevAssetId(assetId)
+            it.environment = "test"
+            it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset))
+            it.createdAt = OffsetDateTime.now()
+            it.updatedAt = OffsetDateTime.now()
+            it.assetTitle = uiAsset.title
+            it.description = uiAsset.description
+            it.curatorOrganizationName = "Curator Organization Name"
+            it.dataCategory = "Data Category"
+            it.dataSubcategory = "Data Subcategory"
+            it.transportMode = "Transport Mode"
+            it.geoReferenceMethod = "Geo Reference Method"
+            it.keywords = emptyList()
+            it.keywordsCommaJoined = ""
+            applyer(it)
+            dataOffers.add(it)
         }
     }
 }

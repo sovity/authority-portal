@@ -41,11 +41,13 @@ class DataOfferDetailPageQueryService(
 
         return dsl.select(
             d.ASSET_ID,
+            d.UI_ASSET_JSON.`as`("assetUiJson"),
             d.CREATED_AT,
             d.UPDATED_AT,
             catalogQueryContractOfferFetcher.getContractOffers(fields.dataOfferTable).`as`("contractOffers"),
             fields.offlineSinceOrLastUpdatedAt.`as`("connectorOfflineSinceOrLastUpdatedAt"),
             c.CONNECTOR_ID.`as`("connectorId"),
+            c.ENDPOINT_URL.`as`("connectorEndpoint"),
             c.ONLINE_STATUS.`as`("connectorOnlineStatus"),
             c.MDS_ID.`as`("connectorParticipantId"),
             fields.organizationName.`as`("organizationName"),

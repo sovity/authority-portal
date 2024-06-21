@@ -26,17 +26,17 @@ class CatalogFilterAttributeDefinitionService {
         label: String
     ): CatalogFilterAttributeDefinition {
         return CatalogFilterAttributeDefinition(
-            name,
-            label,
-            fieldExtractor
+            name = name,
+            label = label,
+            valueGetter = fieldExtractor
         ) { fields, values -> fieldExtractor(fields).eqAny(values) }
     }
 
     fun buildDataSpaceFilter(): CatalogFilterAttributeDefinition {
         return CatalogFilterAttributeDefinition(
-            "dataSpace",
-            "Data Space",
-            CatalogQueryFields::dataSpace
+            name = "dataSpace",
+            label = "Data Space",
+            valueGetter = CatalogQueryFields::dataSpace
         ) { fields, values -> fields.dataSpace.eqAny(values) }
     }
 }
