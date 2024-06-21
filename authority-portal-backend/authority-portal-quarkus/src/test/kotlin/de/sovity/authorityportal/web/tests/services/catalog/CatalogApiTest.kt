@@ -46,9 +46,6 @@ class CatalogApiTest {
     lateinit var brokerServerResource: BrokerServerResource
 
     @Inject
-    lateinit var dslContext: DSLContext
-
-    @Inject
     lateinit var scenarioInstaller: ScenarioInstaller
 
     @Inject
@@ -745,6 +742,96 @@ class CatalogApiTest {
                 filter = CnfFilterValue(
                     listOf(
                         CnfFilterValueAttribute("organizationName", listOf("Organization 0")),
+                    )
+                ),
+                searchQuery = null,
+                sorting = null
+            )
+        )
+
+        // assert
+        assertThat(result.dataOffers).hasSize(1)
+        assertThat(result.dataOffers.first().connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
+    }
+
+    @Test
+    @TestTransaction
+    fun `test search for org name`() {
+        // arrange
+        useDevUser(0, 0)
+
+        whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
+            CatalogDataspaceConfig(
+                namesByConnectorId = emptyMap(),
+                defaultName = "MDS"
+            )
+        )
+
+        ScenarioData().apply {
+            organization(0, 0) {
+                it.name = "Test Organization"
+            }
+            user(0, 0)
+            connector(0, 0, 0)
+            dataOffer(0, 0, 0)
+
+            organization(1, 1)
+            user(1, 1)
+            connector(1, 1, 1)
+            dataOffer(1, 1, 1)
+
+            scenarioInstaller.install(this)
+        }
+
+        // act
+        val result = brokerServerResource.catalogPage(
+            environment = "test",
+            query = CatalogPageQuery(
+                filter = null,
+                searchQuery = "tEsT",
+                sorting = null
+            )
+        )
+
+        // assert
+        assertThat(result.dataOffers).hasSize(1)
+        assertThat(result.dataOffers.first().connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
+    }
+
+    @Test
+    @TestTransaction
+    fun `test filter by mdsId`() {
+        // arrange
+        useDevUser(0, 0)
+
+        whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
+            CatalogDataspaceConfig(
+                namesByConnectorId = emptyMap(),
+                defaultName = "MDS"
+            )
+        )
+
+        ScenarioData().apply {
+            organization(0, 0)
+            user(0, 0)
+            connector(0, 0, 0)
+            dataOffer(0, 0, 0)
+
+            organization(1, 1)
+            user(1, 1)
+            connector(1, 1, 1)
+            dataOffer(1, 1, 1)
+
+            scenarioInstaller.install(this)
+        }
+
+        // act
+        val result = brokerServerResource.catalogPage(
+            environment = "test",
+            query = CatalogPageQuery(
+                filter = CnfFilterValue(
+                    listOf(
+                        CnfFilterValueAttribute("mdsId", listOf(dummyDevMdsId(0))),
                     )
                 ),
                 searchQuery = null,
