@@ -17,10 +17,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Attribute, e.g. Language")
 data class CnfFilterAttribute(
-    @Schema(description = "Attribute ID", example = "asset:prop:language", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Attribute ID", example = "asset:prop:language", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
-    @Schema(description = "Attribute Title", example = "Language", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Attribute Title", example = "Language", requiredMode = Schema.RequiredMode.REQUIRED)
     val title: String,
-    @Schema(description = "Available values.", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Available values.", requiredMode = Schema.RequiredMode.REQUIRED)
     val values: List<CnfFilterItem>,
 )

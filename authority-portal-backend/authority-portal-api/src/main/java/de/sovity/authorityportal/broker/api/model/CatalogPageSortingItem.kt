@@ -17,8 +17,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Available Catalog Page Sorting Item")
 data class CatalogPageSortingItem(
-    @Schema(description = "Sorting ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Sorting ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val sorting: CatalogPageSortingType,
-    @Schema(description = "Sorting Title", example = "By Relevance", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Sorting Title", example = "By Relevance", requiredMode = Schema.RequiredMode.REQUIRED)
     val title: String,
 )

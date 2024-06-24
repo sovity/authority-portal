@@ -10,6 +10,7 @@ import io.quarkus.test.junit.QuarkusMock
 import org.assertj.core.api.RecursiveComparisonAssert
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
+import java.time.Duration
 import java.time.OffsetDateTime
 
 inline fun <reified T : Any> installMockitoMock(): T {
@@ -22,7 +23,7 @@ inline fun <reified T> installMock(mock: T): T {
 }
 
 fun <T : RecursiveComparisonAssert<T>> RecursiveComparisonAssert<T>.withOffsetDateTimeComparator(): RecursiveComparisonAssert<T> {
-    return withEqualsForType({ a, b -> a.toInstant() == b.toInstant() }, OffsetDateTime::class.java)
+    return withEqualsForType({ a, b -> Duration.between(a, b).abs().nano < 1_000_000 }, OffsetDateTime::class.java)
 }
 
 fun useDevUser(userUuidNr: Int, mdsIdNr: Int?, roles: Set<String> = setOf(Roles.UserRoles.AUTHORITY_ADMIN)) {

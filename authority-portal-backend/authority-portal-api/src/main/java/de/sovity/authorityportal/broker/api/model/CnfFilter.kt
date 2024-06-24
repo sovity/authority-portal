@@ -21,6 +21,6 @@ import io.swagger.v3.oas.annotations.media.Schema
             "e.g. Transport Mode, Data Model, etc."
 )
 data class CnfFilter(
-    @Schema(description = "Available attributes to filter by.", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Available attributes to filter by.", requiredMode = Schema.RequiredMode.REQUIRED)
     val fields: List<CnfFilterAttribute>
 )

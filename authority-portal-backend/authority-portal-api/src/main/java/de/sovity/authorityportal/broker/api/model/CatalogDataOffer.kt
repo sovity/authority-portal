@@ -19,35 +19,35 @@ import java.time.OffsetDateTime
 
 @Schema(description = "Data Offer, meaning an offered asset.")
 data class CatalogDataOffer(
-    @Schema(description = "ID of asset", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "ID of asset", requiredMode = Schema.RequiredMode.REQUIRED)
     val assetId: String,
 
-    @Schema(
+    @field:Schema(
         description = "Connector Endpoint",
         example = "https://my-test.connector/api/dsp",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val connectorEndpoint: String,
 
-    @Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val connectorId: String,
 
-    @Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
     val connectorOnlineStatus: ConnectorOnlineStatusDto,
 
-    @Schema(description = "Date to be displayed as last update date, for online connectors it's the last refresh date, for offline connectors it's the creation date or last successful fetch.")
+    @field:Schema(description = "Date to be displayed as last update date, for online connectors it's the last refresh date, for offline connectors it's the creation date or last successful fetch.")
     val connectorOfflineSinceOrLastUpdatedAt: OffsetDateTime?,
 
-    @Schema(description = "Creation date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Creation date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
     val createdAt: OffsetDateTime,
 
-    @Schema(description = "Update date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Update date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
     val updatedAt: OffsetDateTime,
 
-    @Schema(description = "Asset properties", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Asset properties", requiredMode = Schema.RequiredMode.REQUIRED)
     val asset: UiAsset,
 
-    @Schema(description = "Available Contract Offers", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Available Contract Offers", requiredMode = Schema.RequiredMode.REQUIRED)
     val contractOffers: List<CatalogContractOffer>,
 )
 

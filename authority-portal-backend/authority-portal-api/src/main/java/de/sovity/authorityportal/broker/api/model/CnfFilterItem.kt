@@ -17,13 +17,13 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Attribute Value")
 data class CnfFilterItem(
-    @Schema(
+    @field:Schema(
         description = "Value ID",
         example = "https://w3id.org/idsa/code/EN",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val id: String,
 
-    @Schema(description = "Value Title", example = "English", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Value Title", example = "English", requiredMode = Schema.RequiredMode.REQUIRED)
     val title: String,
 )

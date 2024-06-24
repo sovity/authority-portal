@@ -19,15 +19,15 @@ import java.time.OffsetDateTime
 
 @Schema(description = "A contract offer a data offer is available under (as required by the data offer detail page).")
 data class DataOfferDetailContractOffer(
-    @Schema(description = "Contract Offer ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Contract Offer ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val contractOfferId: String,
 
-    @Schema(description = "Creation date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Creation date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
     val createdAt: OffsetDateTime,
 
-    @Schema(description = "Update date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Update date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
     val updatedAt: OffsetDateTime,
 
-    @Schema(description = "Contract Policy", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Contract Policy", requiredMode = Schema.RequiredMode.REQUIRED)
     val contractPolicy: UiPolicy,
 )

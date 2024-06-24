@@ -17,9 +17,9 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Data Offer Detail Page Query")
 data class DataOfferDetailPageQuery(
-    @Schema(description = "Connector ID")
+    @field:Schema(description = "Connector ID")
     val connectorId: String,
 
-    @Schema(description = "Asset ID")
+    @field:Schema(description = "Asset ID")
     val assetId: String,
 )

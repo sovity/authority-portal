@@ -17,15 +17,15 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Catalog Page and visible filters")
 data class CatalogPageResult(
-    @Schema(description = "Available filter options", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Available filter options", requiredMode = Schema.RequiredMode.REQUIRED)
     val availableFilters: CnfFilter,
 
-    @Schema(description = "Available sorting options", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Available sorting options", requiredMode = Schema.RequiredMode.REQUIRED)
     val availableSortings: List<CatalogPageSortingItem>,
 
-    @Schema(description = "Pagination Metadata", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Pagination Metadata", requiredMode = Schema.RequiredMode.REQUIRED)
     val paginationMetadata: PaginationMetadata,
 
-    @Schema(description = "Current page of data offers", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Current page of data offers", requiredMode = Schema.RequiredMode.REQUIRED)
     val dataOffers: List<CatalogDataOffer>,
 )

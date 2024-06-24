@@ -26,9 +26,9 @@ import jakarta.ws.rs.Produces
 import jakarta.ws.rs.QueryParam
 import jakarta.ws.rs.core.MediaType
 
-@Path("wrapper/broker")
-@Tag(name = "Broker Server", description = "Broker Server API Endpoints. Requires the Broker Server Extension")
-interface BrokerServerResource {
+@Path("/api/catalog")
+@Tag(name = "Catalog", description = "Catalog API Endpoints")
+interface CatalogResource {
     @POST
     @Path("catalog-page")
     @Consumes(MediaType.APPLICATION_JSON)

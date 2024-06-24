@@ -64,6 +64,8 @@ import {SpConnectorDetailPageModule} from './pages/sp-connector-detail-page/sp-c
 import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-connector-list-page.module';
 import {AuthorityInviteNewOrganizationModule} from './popups/authority-invite-new-organization/authority-invite-new-organization.module';
 import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-user/participant-invite-new-user.module';
+import {CatalogPageComponent} from "./pages/catalog-ui/catalog-page/catalog-page/catalog-page.component";
+import {CatalogPageModule} from "./pages/catalog-ui/catalog-page/catalog-page.module";
 
 @NgModule({
   declarations: [AppComponent],
@@ -92,9 +94,10 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     AuthorityConnectorListPageModule,
     AuthorityOrganizationDetailPageModule,
     AuthorityOrganizationListPageModule,
+    CatalogPageModule,
     CentralComponentListPageModule,
-    ChooseParticipantConnectorModule,
     ChooseParticipantCaasModule,
+    ChooseParticipantConnectorModule,
     ControlCenterOrganizationEditPageModule,
     ControlCenterOrganizationMemberDetailPageModule,
     ControlCenterOrganizationMembersPageModule,
@@ -102,12 +105,12 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     ControlCenterPageModule,
     ControlCenterUserEditPageModule,
     ControlCenterUserProfilePageModule,
-    MdsHomePageModule,
     DashboardPageModule,
     DevUtilsModule,
     ErrorElementModule,
     LoadingElementModule,
     LoadingPageModule,
+    MdsHomePageModule,
     OrganizationCreatePageModule,
     OrganizationOnboardPageModule,
     OrganizationPendingPageModule,
@@ -117,8 +120,8 @@ import {ParticipantInviteNewUserModule} from './popups/participant-invite-new-us
     ParticipantOwnConnectorListPageModule,
     PortalLayoutModule,
     ProvideConnectorPageModule,
-    RegisterConnectorPageModule,
     RegisterCentralComponentPageModule,
+    RegisterConnectorPageModule,
     RequestConnectorPageModule,
     SpConnectorDetailPageModule,
     SpConnectorListPageModule,

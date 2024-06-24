@@ -11,7 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Injectable} from '@angular/core';
-import {Observable, defer, from} from 'rxjs';
+import {Observable} from 'rxjs';
 import {
   CaasAvailabilityResponse,
   CentralComponentCreateRequest,
@@ -41,87 +41,88 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {ApiClientFactory} from './api-client-factory';
+import {toObservable} from '../utils/rxjs-utils';
 
 @Injectable()
 export class ApiService {
   constructor(private apiClientFactory: ApiClientFactory) {}
 
   userProfile(): Observable<UserInfo> {
-    return this.toObservable(() => this.api().userInfo());
+    return toObservable(() => this.api().userInfo());
   }
 
   updateUser(
     userId: string,
     updateUserDto: UpdateUserDto,
   ): Observable<IdResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().updateUser({userId, updateUserDto}),
     );
   }
 
   updateParticipantRole(userId: string, role: UserRoleDto) {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().changeParticipantRole({userId, body: role}),
     );
   }
   updateApplicationRole(userId: string, role: UserRoleDto) {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().changeApplicationRole({userId, body: role as UserRoleDto}),
     );
   }
 
   clearApplicationRole(userId: string) {
-    return this.toObservable(() => this.api().clearApplicationRole({userId}));
+    return toObservable(() => this.api().clearApplicationRole({userId}));
   }
 
   deactivateAnyUser(userId: string) {
-    return this.toObservable(() => this.api().deactivateAnyUser({userId}));
+    return toObservable(() => this.api().deactivateAnyUser({userId}));
   }
 
   deactivateUser(userId: string) {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().deactivateParticipantUser({userId}),
     );
   }
 
   checkUserDeletion(userId: string) {
-    return this.toObservable(() => this.api().checkUserDeletion({userId}));
+    return toObservable(() => this.api().checkUserDeletion({userId}));
   }
 
   deleteUser(userId: string, successorUserId?: string) {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().deleteUser({userId, successorUserId}),
     );
   }
 
   checkParticipantUserDeletion(userId: string) {
-    return this.toObservable(() => this.api().checkUserDeletion({userId}));
+    return toObservable(() => this.api().checkUserDeletion({userId}));
   }
 
   deleteParticipantUser(userId: string, successorUserId?: string) {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().deleteUser({userId, successorUserId}),
     );
   }
 
   reactivateAnyUser(userId: string) {
-    return this.toObservable(() => this.api().reactivateAnyUser({userId}));
+    return toObservable(() => this.api().reactivateAnyUser({userId}));
   }
 
   reactivateUser(userId: string) {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().reactivateParticipantUser({userId}),
     );
   }
 
   getUserDetailDto(userId: string): Observable<UserDetailDto> {
-    return this.toObservable(() => this.api().userDetails({userId}));
+    return toObservable(() => this.api().userDetails({userId}));
   }
 
   registerOrganization(
     registrationRequestDto: RegistrationRequestDto,
   ): Observable<IdResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().registerUser({registrationRequestDto}),
     );
   }
@@ -129,7 +130,7 @@ export class ApiService {
   getOrganizationsForAuthority(
     environmentId: string,
   ): Observable<OrganizationOverviewResult> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().organizationsOverviewForAuthority({environmentId}),
     );
   }
@@ -138,7 +139,7 @@ export class ApiService {
     mdsId: string,
     environmentId: string,
   ): Observable<OrganizationDetailsDto> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().organizationDetailsForAuthority({mdsId, environmentId}),
     );
   }
@@ -146,7 +147,7 @@ export class ApiService {
   getOrganizationsForProvidingConnectors(
     environmentId: string,
   ): Observable<OrganizationOverviewResult> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().organizationsOverviewForProvidingConnectors({environmentId}),
     );
   }
@@ -155,33 +156,33 @@ export class ApiService {
     mdsId: string,
     environmentId: string,
   ): Observable<OrganizationDetailsDto> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().organizationDetails({mdsId, environmentId}),
     );
   }
 
   getOwnOrganizationDetails(): Observable<OwnOrganizationDetailsDto> {
-    return this.toObservable(() => this.api().ownOrganizationDetails());
+    return toObservable(() => this.api().ownOrganizationDetails());
   }
 
   updateOwnOrganizationDetails(
     updateOrganizationDto: UpdateOrganizationDto,
   ): Observable<IdResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().updateOwnOrganizationDetails({updateOrganizationDto}),
     );
   }
 
   getOrganizationUser(userId: string): Observable<UserDetailDto> {
-    return this.toObservable(() => this.api().userDetails({userId}));
+    return toObservable(() => this.api().userDetails({userId}));
   }
 
   approveOrganization(mdsId: string): Observable<IdResponse> {
-    return this.toObservable(() => this.api().approveOrganization({mdsId}));
+    return toObservable(() => this.api().approveOrganization({mdsId}));
   }
 
   rejectOrganization(mdsId: string): Observable<IdResponse> {
-    return this.toObservable(() => this.api().rejectOrganization({mdsId}));
+    return toObservable(() => this.api().rejectOrganization({mdsId}));
   }
 
   // Connectors
@@ -189,26 +190,26 @@ export class ApiService {
   getOwnOrganizationConnectors(
     environmentId: string,
   ): Observable<ConnectorOverviewResult> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().ownOrganizationConnectors({environmentId}),
     );
   }
 
   // All Connectors
   getAllConnectors(environmentId: string): Observable<ConnectorOverviewResult> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().getAllConnectors({environmentId}),
     );
   }
 
   getConnector(connectorId: string): Observable<ConnectorDetailDto> {
-    return this.toObservable(() => this.api().getConnector({connectorId}));
+    return toObservable(() => this.api().getConnector({connectorId}));
   }
 
   getOwnOrganizationConnectorDetails(
     connectorId: string,
   ): Observable<ConnectorDetailDto> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().ownOrganizationConnectorDetails({connectorId}),
     );
   }
@@ -216,7 +217,7 @@ export class ApiService {
   inviteOrganization(
     request: InviteOrganizationRequest,
   ): Observable<IdResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().inviteOrganization({inviteOrganizationRequest: request}),
     );
   }
@@ -225,7 +226,7 @@ export class ApiService {
     createConnectorRequest: CreateConnectorRequest,
     environmentId: string,
   ): Observable<CreateConnectorResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().createOwnConnector({createConnectorRequest, environmentId}),
     );
   }
@@ -235,7 +236,7 @@ export class ApiService {
     mdsId: string,
     environmentId: string,
   ): Observable<CreateConnectorResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().createProvidedConnector({
         createConnectorRequest: connector,
         mdsId,
@@ -248,13 +249,13 @@ export class ApiService {
     createCaasRequest: CreateCaasRequest,
     environmentId: string,
   ): Observable<CreateConnectorResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().createCaas({createCaasRequest, environmentId}),
     );
   }
 
   deleteOwnConnector(connectorId: string): Observable<IdResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().deleteOwnConnector({connectorId}),
     );
   }
@@ -262,7 +263,7 @@ export class ApiService {
   getProvidedConnectors(
     environmentId: string,
   ): Observable<ProvidedConnectorOverviewResult> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().getProvidedConnectors({environmentId}),
     );
   }
@@ -270,35 +271,35 @@ export class ApiService {
   getProvidedConnectorDetails(
     connectorId: string,
   ): Observable<ConnectorDetailDto> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().getProvidedConnectorDetails({connectorId}),
     );
   }
 
   deleteProvidedConnector(connectorId: string): Observable<IdResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().deleteProvidedConnector({connectorId}),
     );
   }
 
   inviteUser(request: InviteParticipantUserRequest): Observable<IdResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().inviteUser({inviteParticipantUserRequest: request}),
     );
   }
 
   getDeploymentEnvironments(): Observable<DeploymentEnvironmentDto[]> {
-    return this.toObservable(() => this.api().deploymentEnvironmentList());
+    return toObservable(() => this.api().deploymentEnvironmentList());
   }
 
   onboardingUser(request: OnboardingUserUpdateDto) {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().updateOnboardingUser({onboardingUserUpdateDto: request}),
     );
   }
 
   onboardingOrganization(request: OnboardingOrganizationUpdateDto) {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().updateOnboardingOrganization({
         onboardingOrganizationUpdateDto: request,
       }),
@@ -308,7 +309,7 @@ export class ApiService {
   getCentralComponents(
     environmentId: string,
   ): Observable<CentralComponentDto[]> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().getCentralComponents({environmentId}),
     );
   }
@@ -317,7 +318,7 @@ export class ApiService {
     environmentId: string,
     centralComponentCreateRequest: CentralComponentCreateRequest,
   ): Observable<IdResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().createCentralComponent({
         environmentId,
         centralComponentCreateRequest,
@@ -326,7 +327,7 @@ export class ApiService {
   }
 
   deleteCentralComponent(centralComponentId: string): Observable<IdResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().deleteCentralComponent({
         centralComponentId,
       }),
@@ -336,7 +337,7 @@ export class ApiService {
   checkFreeCaasUsage(
     environmentId: string,
   ): Observable<CaasAvailabilityResponse> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().checkFreeCaasUsage({environmentId}),
     );
   }
@@ -344,13 +345,9 @@ export class ApiService {
   getComponentStatus(
     environmentId: string,
   ): Observable<ComponentStatusOverview> {
-    return this.toObservable(() =>
+    return toObservable(() =>
       this.api().getComponentsStatus({environmentId}),
     );
-  }
-
-  private toObservable<T>(fn: () => Promise<T>): Observable<T> {
-    return defer(() => from(fn()));
   }
 
   private api(): UiApi {

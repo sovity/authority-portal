@@ -1,7 +1,7 @@
 package de.sovity.authorityportal.web.tests.services.catalog
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import de.sovity.authorityportal.broker.api.BrokerServerResource
+import de.sovity.authorityportal.broker.api.CatalogResource
 import de.sovity.authorityportal.broker.api.model.CatalogPageQuery
 import de.sovity.authorityportal.broker.api.model.CatalogPageResult
 import de.sovity.authorityportal.broker.api.model.CatalogPageSortingType
@@ -28,11 +28,9 @@ import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
-import org.jooq.DSLContext
 import org.jooq.JSONB
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito.mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
@@ -43,7 +41,7 @@ import java.time.OffsetDateTime
 class CatalogApiTest {
 
     @Inject
-    lateinit var brokerServerResource: BrokerServerResource
+    lateinit var catalogResource: CatalogResource
 
     @Inject
     lateinit var scenarioInstaller: ScenarioInstaller
@@ -94,7 +92,7 @@ class CatalogApiTest {
         )
 
         // act
-        val result = brokerServerResource.catalogPage("test", query)
+        val result = catalogResource.catalogPage("test", query)
 
         // assert
         assertThat(result.dataOffers).hasSize(1)
@@ -145,7 +143,7 @@ class CatalogApiTest {
         )
 
         // act
-        val result = brokerServerResource.catalogPage("test", query)
+        val result = catalogResource.catalogPage("test", query)
 
         // assert
         assertThat(result.dataOffers).hasSize(1)
@@ -189,7 +187,7 @@ class CatalogApiTest {
         }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(null, null, null)
         )
@@ -246,7 +244,7 @@ class CatalogApiTest {
         }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(null, null, null)
         )
@@ -344,7 +342,7 @@ class CatalogApiTest {
         }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(null, null, null)
         )
@@ -460,7 +458,7 @@ class CatalogApiTest {
         }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(
                 filter = null,
@@ -527,7 +525,7 @@ class CatalogApiTest {
         }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(
                 filter = CnfFilterValue(
@@ -579,7 +577,7 @@ class CatalogApiTest {
         }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(
                 filter = null,
@@ -628,7 +626,7 @@ class CatalogApiTest {
         }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(
                 filter = null,
@@ -678,7 +676,7 @@ class CatalogApiTest {
         repeat(5) { dataOfferDetails("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}", dummyDevAssetId(1)) }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(
                 filter = null,
@@ -705,7 +703,7 @@ class CatalogApiTest {
             connectorId = connectorId,
             assetId = assetId,
         )
-        return brokerServerResource.dataOfferDetailPage("test", query)
+        return catalogResource.dataOfferDetailPage("test", query)
     }
 
     @Test
@@ -736,7 +734,7 @@ class CatalogApiTest {
         }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(
                 filter = CnfFilterValue(
@@ -784,7 +782,7 @@ class CatalogApiTest {
         }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(
                 filter = null,
@@ -826,7 +824,7 @@ class CatalogApiTest {
         }
 
         // act
-        val result = brokerServerResource.catalogPage(
+        val result = catalogResource.catalogPage(
             environment = "test",
             query = CatalogPageQuery(
                 filter = CnfFilterValue(

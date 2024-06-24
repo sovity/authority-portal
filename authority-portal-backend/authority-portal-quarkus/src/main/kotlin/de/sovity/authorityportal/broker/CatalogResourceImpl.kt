@@ -13,7 +13,7 @@
  */
 package de.sovity.authorityportal.broker
 
-import de.sovity.authorityportal.broker.api.BrokerServerResource
+import de.sovity.authorityportal.broker.api.CatalogResource
 import de.sovity.authorityportal.broker.api.model.CatalogPageQuery
 import de.sovity.authorityportal.broker.api.model.CatalogPageResult
 import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageQuery
@@ -22,18 +22,17 @@ import de.sovity.authorityportal.broker.services.api.CatalogApiService
 import de.sovity.authorityportal.broker.services.api.DataOfferDetailApiService
 import de.sovity.authorityportal.web.auth.AuthUtils
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 
 /**
- * Implementation of [BrokerServerResource]
+ * Implementation of [CatalogResource]
  */
 @ApplicationScoped
-class BrokerServerResourceImpl(
+class CatalogResourceImpl(
     val catalogApiService: CatalogApiService,
     val dataOfferDetailApiService: DataOfferDetailApiService,
     val authUtils: AuthUtils
-) : BrokerServerResource {
+) : CatalogResource {
 
     @Transactional
     override fun catalogPage(environment: String, query: CatalogPageQuery): CatalogPageResult {
