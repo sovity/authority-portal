@@ -12,10 +12,12 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.ComponentRecord
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
+import de.sovity.authorityportal.db.jooq.tables.records.ContractOfferRecord
 import de.sovity.authorityportal.db.jooq.tables.records.DataOfferRecord
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
+import de.sovity.edc.ext.wrapper.api.common.model.UiPolicy
 import org.flywaydb.core.internal.util.JsonUtils
 import org.jooq.DSLContext
 import org.jooq.JSONB
@@ -33,6 +35,7 @@ class ScenarioData {
     private val connectors = mutableListOf<ConnectorRecord>()
     private val components = mutableListOf<ComponentRecord>()
     private val dataOffers = mutableListOf<DataOfferRecord>()
+    private val contractOffers = mutableListOf<ContractOfferRecord>()
 
     fun install(dsl: DSLContext) {
         val userOrgMap = users.associate { it.id to it.organizationMdsId }
@@ -51,6 +54,7 @@ class ScenarioData {
         dsl.batchInsert(connectors).execute()
         dsl.batchInsert(components).execute()
         dsl.batchInsert(dataOffers).execute()
+        dsl.batchInsert(contractOffers).execute()
     }
 
     fun user(userId: Int, orgId: Int?, applyer: (UserRecord) -> Unit = {}) {
@@ -174,6 +178,29 @@ class ScenarioData {
             it.keywordsCommaJoined = ""
             applyer(it)
             dataOffers.add(it)
+        }
+    }
+
+    fun contractOffer(connectorId: Int, orgId: Int, assetId: Int, contractOfferId: Int, applyer: (ContractOfferRecord) -> Unit = {}) {
+        val fullConnectorId = "${dummyDevMdsId(orgId)}.${dummyDevConnectorId(connectorId)}"
+        val objectMapper = ObjectMapper()
+
+        val uiPolicy = UiPolicy().also {
+            it.constraints = emptyList()
+            it.errors = emptyList()
+            it.policyJsonLd
+        }
+
+        ContractOfferRecord().also {
+            it.connectorId = fullConnectorId
+            it.contractOfferId = dummyDevContractOfferId(contractOfferId)
+            it.assetId = dummyDevAssetId(assetId)
+            it.environment = "test"
+            it.uiPolicyJson = JSONB.valueOf(objectMapper.writeValueAsString(uiPolicy))
+            it.createdAt = OffsetDateTime.now()
+            it.updatedAt = OffsetDateTime.now()
+            applyer(it)
+            contractOffers.add(it)
         }
     }
 }

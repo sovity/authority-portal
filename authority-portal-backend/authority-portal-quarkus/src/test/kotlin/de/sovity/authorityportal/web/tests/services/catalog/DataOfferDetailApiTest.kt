@@ -8,6 +8,7 @@ import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
 import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
+import de.sovity.authorityportal.seeds.utils.dummyDevContractOfferId
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
@@ -76,23 +77,25 @@ class DataOfferDetailApiTest {
             dataOffer(0, 0, 0) {
                 it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset1))
             }
+            contractOffer(0, 0, 0, 0)
 
             connector(1, 0, 0)
             dataOffer(1, 0, 1) {
                 it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset2))
             }
+            contractOffer(1, 0, 1, 1)
 
             scenarioInstaller.install(this)
         }
 
         createDataOfferView(
             datetime = OffsetDateTime.now().minusDays(1),
-            connectorId = "${dummyDevMdsId(0)}${dummyDevConnectorId(0)}",
+            connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}",
             assetId = dummyDevAssetId(0)
         )
         createDataOfferView(
             datetime = OffsetDateTime.now().minusDays(2),
-            connectorId = "${dummyDevMdsId(0)}${dummyDevConnectorId(0)}",
+            connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}",
             assetId = dummyDevAssetId(0)
         )
 
@@ -110,7 +113,7 @@ class DataOfferDetailApiTest {
         val result = brokerServerResource.dataOfferDetailPage(
             environment = "test",
             query = DataOfferDetailPageQuery(
-                connectorId = "${dummyDevMdsId(0)}${dummyDevConnectorId(0)}",
+                connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}",
                 assetId = dummyDevAssetId(0)
             )
         )
@@ -118,27 +121,14 @@ class DataOfferDetailApiTest {
         // assert
         assertThat(result.assetId).isEqualTo(dummyDevAssetId(0))
         assertThat(result.connectorEndpoint).isEqualTo("https://connector/dsp")
-
-        /*
-        var actual = brokerServerClient().brokerServerApi().dataOfferDetailPage(new DataOfferDetailPageQuery("https://my-connector/api/dsp", "my-asset-1"));
-            assertThat(actual.getAssetId()).isEqualTo("my-asset-1");
-            assertThat(actual.getConnectorEndpoint()).isEqualTo("https://my-connector/api/dsp");
-            assertThat(actual.getConnectorOfflineSinceOrLastUpdatedAt()).isEqualTo(today);
-            assertThat(actual.getConnectorOnlineStatus()).isEqualTo(DataOfferDetailPageResult.ConnectorOnlineStatusEnum.ONLINE);
-            assertThat(actual.getCreatedAt()).isEqualTo(today.minusDays(5));
-            assertThat(actual.getAsset().getAssetId()).isEqualTo("my-asset-1");
-            assertThat(actual.getAsset().getDataCategory()).isEqualTo("my-category");
-            assertThat(actual.getAsset().getTitle()).isEqualTo("My Asset 1");
-            assertThat(actual.getUpdatedAt()).isEqualTo(today);
-            assertThat(actual.getContractOffers()).hasSize(1);
-            var contractOffer = actual.getContractOffers().get(0);
-            assertThat(contractOffer.getContractOfferId()).isEqualTo("my-contract-offer-1");
-            assertEqualUsingJson(contractOffer.getContractPolicy().getConstraints().get(0), createAfterYesterdayConstraint());
-            assertThat(contractOffer.getCreatedAt()).isEqualTo(today.minusDays(5));
-            assertThat(contractOffer.getUpdatedAt()).isEqualTo(today);
-            assertThat(actual.getViewCount()).isEqualTo(2);
-         */
-
+        assertThat(result.asset.dataCategory).isEqualTo("Data Category 0")
+        assertThat(result.asset.title).isEqualTo("Data Offer 0")
+        assertThat(result.asset.description).isEqualTo("Data Offer 0 Description")
+        assertThat(result.contractOffers).hasSize(1)
+        assertThat(result.contractOffers.first().contractOfferId).isEqualTo(dummyDevContractOfferId(0))
+        assertThat(result.contractOffers.first().contractPolicy.constraints).isEmpty()
+        assertThat(result.contractOffers.first().contractPolicy.errors).isEmpty()
+        assertThat(result.viewCount).isEqualTo(2)
     }
 
     private fun createDataOfferView(datetime: OffsetDateTime, connectorId: String, assetId: String) {

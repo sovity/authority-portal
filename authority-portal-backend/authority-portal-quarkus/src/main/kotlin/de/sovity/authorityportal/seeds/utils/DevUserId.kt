@@ -12,3 +12,4 @@ fun dummyDevMdsId(i: Int): String = "MDSL${i.toString().padStart(6, '0')}"
 fun dummyDevConnectorId(i: Int): String = "CONN${i.toString().padStart(3, '0')}"
 fun dummyDevAssetId(i: Int): String = "ASSET-${i.toString().padStart(8, '0')}"
 fun dummyDate(i: Int): OffsetDateTime = LocalDate.parse("2024-01-01").atStartOfDay().atOffset(ZoneOffset.UTC).plusDays(i.toLong())
+fun dummyDevContractOfferId(i: Int): String = "COFFER-${i.toString().padStart(8, '0')}"
