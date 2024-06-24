@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CatalogPageResult} from '@sovity.de/broker-server-client';
+import {CatalogPageResult} from '@sovity.de/authority-portal-client';
 import {AssetBuilder} from '../../../../../core/services/asset-builder';
 import {CatalogPageResultMapped} from './catalog-page-result-mapped';
 

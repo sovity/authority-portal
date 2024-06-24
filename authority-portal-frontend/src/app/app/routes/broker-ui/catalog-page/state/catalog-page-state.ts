@@ -6,8 +6,8 @@ import {
   CatalogPageQuery,
   CnfFilter,
   CnfFilterAttribute,
-} from '@sovity.de/broker-server-client';
-import {BrokerServerApiService} from '../../../../core/services/api/broker-server-api.service';
+} from '@sovity.de/authority-portal-client';
+import {CatalogApiService} from '../../../../core/services/api/catalog-api.service';
 import {Fetched} from '../../../../core/services/models/fetched';
 import {associateAsObj} from '../../../../core/utils/object-utils';
 import {BrokerCatalogMapper} from '../catalog-page/mapping/broker-catalog-mapper';
@@ -35,7 +35,7 @@ type Ctx = StateContext<CatalogPageStateModel>;
 @Injectable()
 export class CatalogPageState implements OnDestroy {
   constructor(
-    private brokerServerApiService: BrokerServerApiService,
+    private brokerServerApiService: CatalogApiService,
     private brokerCatalogMapper: BrokerCatalogMapper,
     private ngxsUtils: NgxsUtils,
   ) {
@@ -173,7 +173,7 @@ export class CatalogPageState implements OnDestroy {
       label: x,
     }));
     return {
-      id: 'curatorMdsId',
+      id: 'mdsId',
       title: 'MDS ID',
       selectedItems: items,
       availableItems: items,

@@ -1,4 +1,4 @@
-import {CnfFilterAttribute} from '@sovity.de/broker-server-client';
+import {CnfFilterAttribute} from '@sovity.de/authority-portal-client';
 import {FilterBoxItem, buildFilterBoxItems} from './filter-box-item';
 
 /**

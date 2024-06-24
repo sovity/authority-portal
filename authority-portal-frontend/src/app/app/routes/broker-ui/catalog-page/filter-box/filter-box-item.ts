@@ -1,4 +1,4 @@
-import {CnfFilterItem} from '@sovity.de/broker-server-client';
+import {CnfFilterItem} from '@sovity.de/authority-portal-client';
 
 export interface FilterBoxItem {
   type: 'ITEM' | 'NO_VALUE';

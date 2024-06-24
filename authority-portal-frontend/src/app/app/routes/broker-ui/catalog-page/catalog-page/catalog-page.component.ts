@@ -5,7 +5,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {filter, map, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
-import {CatalogPageSortingItem} from '@sovity.de/broker-server-client';
+import {CatalogPageSortingItem} from '@sovity.de/authority-portal-client';
 import {LocalStoredValue} from 'src/app/core/utils/local-stored-value';
 import {AssetDetailDialogDataService} from '../../../../component-library/catalog/asset-detail-dialog/asset-detail-dialog-data.service';
 import {AssetDetailDialogService} from '../../../../component-library/catalog/asset-detail-dialog/asset-detail-dialog.service';
@@ -13,7 +13,7 @@ import {
   ViewModeEnum,
   isViewMode,
 } from '../../../../component-library/catalog/view-selection/view-mode-enum';
-import {BrokerServerApiService} from '../../../../core/services/api/broker-server-api.service';
+import {CatalogApiService} from '../../../../core/services/api/catalog-api.service';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
 import {FilterBoxVisibleState} from '../filter-box/filter-box-visible-state';
 import {CatalogActiveFilterPill} from '../state/catalog-active-filter-pill';
@@ -49,7 +49,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   constructor(
     private assetDetailDialogDataService: AssetDetailDialogDataService,
     private assetDetailDialogService: AssetDetailDialogService,
-    private brokerServerApiService: BrokerServerApiService,
+    private catalogApiService: CatalogApiService,
     private store: Store,
     private route: ActivatedRoute,
     private router: Router,
@@ -127,10 +127,10 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       this.assetDetailDialogDataService.brokerDataOfferDetails(dataOffer);
 
     // Call the detail dialog endpoint so the view count is increased
-    this.brokerServerApiService
+    this.catalogApiService
       .dataOfferDetailPage({
         assetId: dataOffer.assetId,
-        connectorEndpoint: dataOffer.connectorEndpoint,
+        connectorId: dataOffer.connectorId,
       })
       .subscribe();
 

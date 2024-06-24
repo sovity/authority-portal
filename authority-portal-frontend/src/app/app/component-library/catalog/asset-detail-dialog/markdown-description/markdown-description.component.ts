@@ -9,9 +9,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {HtmlSanitizer} from 'src/app/core/services/html-sanitizer';
-import {MarkdownConverter} from 'src/app/core/services/markdown-converter';
 import {SimpleChangesTyped} from '../../../../core/utils/angular-utils';
+import {MarkdownConverter} from "../../../../core/services/markdown-converter";
+import {HtmlSanitizer} from "../../../../core/services/html-sanitizer";
 
 const COLLAPSED_DESCRIPTION_HEIGHT = 280;
 

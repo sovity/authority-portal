@@ -1,32 +1,28 @@
 import {Injectable} from '@angular/core';
-import {CatalogContractOffer} from '@sovity.de/broker-server-client';
-import {UiPolicy} from '@sovity.de/edc-client';
-import {ActiveFeatureSet} from '../../../core/config/active-feature-set';
+import {CatalogContractOffer} from '@sovity.de/authority-portal-client';
 import {UiAssetMapped} from '../../../core/services/models/ui-asset-mapped';
-import {ParticipantIdLocalization} from '../../../core/services/participant-id-localization';
-import {CatalogDataOfferMapped} from '../../../routes/broker-ui/catalog-page/catalog-page/mapping/catalog-page-result-mapped';
-import {ContractAgreementCardMapped} from '../../../routes/connector-ui/contract-agreement-page/contract-agreement-cards/contract-agreement-card-mapped';
 import {JsonDialogService} from '../../json-dialog/json-dialog/json-dialog.service';
 import {PropertyGridGroup} from '../../property-grid/property-grid-group/property-grid-group';
 import {PropertyGridField} from '../../property-grid/property-grid/property-grid-field';
 import {PropertyGridFieldService} from '../../property-grid/property-grid/property-grid-field.service';
 import {formatDateAgo} from '../../ui-elements/ago/formatDateAgo';
 import {UrlListDialogService} from '../../url-list-dialog/url-list-dialog/url-list-dialog.service';
+import {getOnlineStatusColor, getOnlineStatusIcon,} from '../icon-with-online-status/online-status-utils';
+import {CatalogDataOffer} from "@sovity.de/authority-portal-client";
 import {
-  getOnlineStatusColor,
-  getOnlineStatusIcon,
-} from '../icon-with-online-status/online-status-utils';
-import {PolicyPropertyFieldBuilder} from './policy-property-field-builder';
+  LanguageSelectItemService
+} from "../../../routes/connector-ui/asset-page/language-select/language-select-item.service";
+import {
+  CatalogDataOfferMapped
+} from "../../../routes/broker-ui/catalog-page/catalog-page/mapping/catalog-page-result-mapped";
 
 @Injectable()
 export class AssetPropertyGridGroupBuilder {
   constructor(
-    private participantIdLocalization: ParticipantIdLocalization,
-    private activeFeatureSet: ActiveFeatureSet,
     private propertyGridUtils: PropertyGridFieldService,
     private jsonDialogService: JsonDialogService,
     private urlListDialogService: UrlListDialogService,
-    private policyPropertyFieldBuilder: PolicyPropertyFieldBuilder,
+    private languageSelectItemService: LanguageSelectItemService
   ) {}
 
   buildAssetPropertiesGroup(
@@ -47,7 +43,7 @@ export class AssetPropertyGridGroupBuilder {
       {
         icon: 'language',
         label: 'Language',
-        ...this.propertyGridUtils.guessValue(asset.language?.label),
+        ...this.propertyGridUtils.guessValue(this.getLanguage(asset)),
       },
       {
         icon: 'apartment',
@@ -66,7 +62,7 @@ export class AssetPropertyGridGroupBuilder {
       },
       {
         icon: 'category',
-        label: this.participantIdLocalization.participantId,
+        label: "Connector ID",
         ...this.propertyGridUtils.guessValue(asset.participantId),
       },
       {
@@ -78,14 +74,19 @@ export class AssetPropertyGridGroupBuilder {
       ...this.buildHttpDatasourceFields(asset),
     ];
 
-    if (this.activeFeatureSet.hasMdsFields()) {
-      fields.push(...this.buildMdsProperties(asset));
-    }
+    fields.push(...this.buildMdsProperties(asset));
 
     return {
       groupLabel,
       properties: fields,
     };
+  }
+
+  private getLanguage(asset: UiAssetMapped): string {
+    if (!asset.language) {
+      return "";
+    }
+    return this.languageSelectItemService.findById(asset.language?.label)?.label;
   }
 
   private buildHttpDatasourceFields(asset: UiAssetMapped): PropertyGridField[] {
@@ -126,10 +127,6 @@ export class AssetPropertyGridGroupBuilder {
 
   buildAdditionalPropertiesGroups(asset: UiAssetMapped): PropertyGridGroup[] {
     const additionalProperties: PropertyGridField[] = [];
-    if (!this.activeFeatureSet.hasMdsFields()) {
-      additionalProperties.push(...this.buildMdsProperties(asset));
-    }
-
     const customProperties: PropertyGridField[] = [
       asset.customJsonProperties,
       asset.customJsonLdProperties,
@@ -309,73 +306,6 @@ export class AssetPropertyGridGroupBuilder {
     return {groupLabel, properties};
   }
 
-  buildContractAgreementGroup(contractAgreement: ContractAgreementCardMapped) {
-    const properties: PropertyGridField[] = [
-      {
-        icon: 'category',
-        label: 'Signed',
-        ...this.propertyGridUtils.guessValue(
-          this.propertyGridUtils.formatDate(
-            contractAgreement.contractSigningDate,
-          ),
-        ),
-      },
-      {
-        icon: 'policy',
-        label: 'Direction',
-        ...this.propertyGridUtils.guessValue(contractAgreement.direction),
-      },
-      {
-        icon: 'category',
-        label: 'Contract Agreement ID',
-        ...this.propertyGridUtils.guessValue(
-          contractAgreement.contractAgreementId,
-        ),
-      },
-      {
-        icon: 'link',
-        label: `Counter-Party ${this.participantIdLocalization.participantId}`,
-        ...this.propertyGridUtils.guessValue(contractAgreement.counterPartyId),
-      },
-      {
-        icon: 'link',
-        label: 'Counter-Party Connector Endpoint',
-        ...this.propertyGridUtils.guessValue(
-          contractAgreement.counterPartyAddress,
-        ),
-      },
-    ];
-
-    if (contractAgreement.isConsumingLimitsEnforced) {
-      properties.push({
-        icon: contractAgreement.canTransfer ? 'sync' : 'sync_disabled',
-        label: 'Status',
-        tooltip: contractAgreement.statusTooltipText,
-        textIconAfter: contractAgreement.statusTooltipText ? 'help' : null,
-        text: contractAgreement.statusText,
-        additionalClasses: contractAgreement.canTransfer ? '' : 'text-warn',
-      });
-    }
-
-    return {
-      groupLabel: 'Contract Agreement',
-      properties,
-    };
-  }
-
-  buildContractPolicyGroup(
-    contractPolicy: UiPolicy,
-    subtitle: string,
-  ): PropertyGridGroup {
-    return {
-      groupLabel: 'Contract Policy',
-      properties: this.policyPropertyFieldBuilder.buildPolicyPropertyFields(
-        contractPolicy,
-        'Contract Policy JSON-LD',
-        subtitle,
-      ),
-    };
-  }
 
   buildBrokerDataOfferGroup(
     dataOffer: CatalogDataOfferMapped,

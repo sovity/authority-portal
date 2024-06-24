@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {UiAsset} from '@sovity.de/edc-client';
 import {DataCategorySelectItem} from '../../routes/connector-ui/asset-page/data-category-select/data-category-select-item';
 import {DataCategorySelectItemService} from '../../routes/connector-ui/asset-page/data-category-select/data-category-select-item.service';
 import {DataSubcategorySelectItem} from '../../routes/connector-ui/asset-page/data-subcategory-select/data-subcategory-select-item';
@@ -9,6 +8,7 @@ import {LanguageSelectItemService} from '../../routes/connector-ui/asset-page/la
 import {TransportModeSelectItem} from '../../routes/connector-ui/asset-page/transport-mode-select/transport-mode-select-item';
 import {TransportModeSelectItemService} from '../../routes/connector-ui/asset-page/transport-mode-select/transport-mode-select-item.service';
 import {AdditionalAssetProperty, UiAssetMapped} from './models/ui-asset-mapped';
+import {UiAsset} from "@sovity.de/authority-portal-client";
 
 /**
  * Maps between EDC Asset and our type safe asset

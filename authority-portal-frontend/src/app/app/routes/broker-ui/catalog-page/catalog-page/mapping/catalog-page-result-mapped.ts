@@ -1,7 +1,7 @@
 import {
   CatalogDataOffer,
   CatalogPageResult,
-} from '@sovity.de/broker-server-client';
+} from '@sovity.de/authority-portal-client';
 import {UiAssetMapped} from '../../../../../core/services/models/ui-asset-mapped';
 
 /**

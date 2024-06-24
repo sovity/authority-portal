@@ -34,7 +34,9 @@
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0",
-    "ngx-json-viewer": "^3.2.1"
+    "ngx-json-viewer": "^3.2.1",
+    "isomorphic-dompurify": "^2.0.0",
+    "marked": "^11.1.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.1.4",

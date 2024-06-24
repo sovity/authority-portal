@@ -1,15 +1,11 @@
 import {
   CatalogDataOfferConnectorOnlineStatusEnum,
-  ConnectorDetailPageResultOnlineStatusEnum,
-  ConnectorListEntryOnlineStatusEnum,
   DataOfferDetailPageResultConnectorOnlineStatusEnum,
-} from '@sovity.de/broker-server-client';
+} from '@sovity.de/authority-portal-client';
 
 export type ConnectorOnlineStatus =
   | CatalogDataOfferConnectorOnlineStatusEnum
-  | ConnectorListEntryOnlineStatusEnum
   | DataOfferDetailPageResultConnectorOnlineStatusEnum
-  | ConnectorDetailPageResultOnlineStatusEnum;
 
 export function getOnlineStatusColor(status: ConnectorOnlineStatus): string {
   switch (status) {
