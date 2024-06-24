@@ -36,6 +36,7 @@ import {BrokerDataOfferList} from './broker-data-offer-list/broker-data-offer-li
 import {CatalogPageComponent} from './catalog-page/catalog-page.component';
 import {FilterBoxComponent} from './filter-box/filter-box.component';
 import {CatalogPageState} from './state/catalog-page-state';
+import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 
 @NgModule({
   imports: [
@@ -82,6 +83,7 @@ import {CatalogPageState} from './state/catalog-page-state';
     CatalogModule,
     PipesAndDirectivesModule,
     UiElementsModule,
+    MatLegacyChipsModule,
   ],
   declarations: [
     CatalogPageComponent,

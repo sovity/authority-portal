@@ -523,10 +523,10 @@ export const checkUserDeletion = (userId: string): UserDeletionCheck => {
   const isLastParticipantAdmin =
     participantAdmins.length === 1 && userId === participantAdmins[0].userId;
   const isOrganizationCreator = organization.createdByUserId === userId;
-  let possibleSuccessors: PossibleCreatorSuccessor[] = [];
+  let possibleCreatorSuccessors: PossibleCreatorSuccessor[] = [];
 
   if (!isLastParticipantAdmin && isOrganizationCreator) {
-    possibleSuccessors = participantAdmins.filter((x) => x.userId !== userId);
+    possibleCreatorSuccessors = participantAdmins.filter((x) => x.userId !== userId);
   }
 
   const authorityAdmins = Object.values(ALL_USERS).filter((u) =>
@@ -541,7 +541,7 @@ export const checkUserDeletion = (userId: string): UserDeletionCheck => {
     userId,
     isLastParticipantAdmin,
     isOrganizationCreator,
-    possibleSuccessors,
+    possibleCreatorSuccessors,
     canBeDeleted: canBeDeletedCheck,
   };
 };

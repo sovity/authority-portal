@@ -8,13 +8,10 @@ import {PropertyGridFieldService} from '../../property-grid/property-grid/proper
 import {formatDateAgo} from '../../ui-elements/ago/formatDateAgo';
 import {UrlListDialogService} from '../../url-list-dialog/url-list-dialog/url-list-dialog.service';
 import {getOnlineStatusColor, getOnlineStatusIcon,} from '../icon-with-online-status/online-status-utils';
-import {CatalogDataOffer} from "@sovity.de/authority-portal-client";
-import {
-  LanguageSelectItemService
-} from "../../../routes/connector-ui/asset-page/language-select/language-select-item.service";
 import {
   CatalogDataOfferMapped
 } from "../../../routes/broker-ui/catalog-page/catalog-page/mapping/catalog-page-result-mapped";
+import {LanguageSelectItemService} from "../../language-select/language-select-item.service";
 
 @Injectable()
 export class AssetPropertyGridGroupBuilder {
