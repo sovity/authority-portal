@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AssetDetailDialogData,} from './asset-detail-dialog-data';
+import {DataOfferDetailPageResult} from '@sovity.de/authority-portal-client';
+import {AssetDetailDialogData} from './asset-detail-dialog-data';
 import {AssetPropertyGridGroupBuilder} from './asset-property-grid-group-builder';
-import {DataOfferDetailPageResult} from "@sovity.de/authority-portal-client";
 
 @Injectable()
 export class AssetDetailDialogDataService {
@@ -9,7 +9,7 @@ export class AssetDetailDialogDataService {
     private assetPropertyGridGroupBuilder: AssetPropertyGridGroupBuilder,
   ) {}
 
-  brokerDataOfferDetails(
+  dataOfferDetailPage(
     dataOffer: DataOfferDetailPageResult,
   ): AssetDetailDialogData {
     const propertyGridGroups = [

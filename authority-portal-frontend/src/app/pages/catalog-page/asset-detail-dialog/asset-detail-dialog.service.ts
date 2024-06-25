@@ -40,10 +40,10 @@ export class AssetDetailDialogService {
       }),
       takeUntil(until$),
       map((result) =>
-        this.assetDetailDialogDataService.brokerDataOfferDetails(result),
+        this.assetDetailDialogDataService.dataOfferDetailPage(result),
       ),
       this.errorService.toastFailureRxjs('Failed to load Data Offer Details'),
-      switchMap((data) => this.openInternal(data, until$)),
+      switchMap((data) => this.openDialogWithData(data, until$)),
     );
   }
 
@@ -52,7 +52,7 @@ export class AssetDetailDialogService {
    * @param data Asset Detail Dialog data, or a stream if there's a need to refresh the data
    * @param until$ observable that controls the lifetime of the dialog
    */
-  private openInternal(
+  private openDialogWithData(
     data: AssetDetailDialogData | Observable<AssetDetailDialogData>,
     until$: Observable<any> = NEVER,
   ): Observable<undefined> {
