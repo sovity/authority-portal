@@ -1,11 +1,16 @@
 package de.sovity.authorityportal.seeds
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
+import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
+import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
+import org.jooq.JSONB
 
 @ApplicationScoped
 class DevScenario(
@@ -74,6 +79,24 @@ class DevScenario(
             organization(4, 7) {
                 it.name = "Service Partner Organization"
             }
+
+            // Catalog test data
+            val asset1 = UiAsset().also {
+                it.assetId = dummyDevAssetId(1)
+                it.connectorEndpoint = "https://test-connector/dsp"
+                it.participantId = dummyDevMdsId(1)
+                it.creatorOrganizationName = "Authority Organization"
+                it.language = "de"
+                it.description = "Long description"
+                it.descriptionShortText = "Short description"
+            }
+            val objectMapper = ObjectMapper()
+
+            connector(1, 1, 1)
+            dataOffer(1, 1, 1) {
+                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(asset1))
+            }
+            contractOffer(1, 1, 1, 1)
         }
         return scenario
     }

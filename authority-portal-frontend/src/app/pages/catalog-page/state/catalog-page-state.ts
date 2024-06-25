@@ -25,6 +25,7 @@ import {NgxsUtils} from './ngxs-utils';
 import {CatalogApiService} from "../../../core/api/catalog-api.service";
 import {Fetched} from "../../../core/utils/fetched";
 import {associateAsObj} from "../../../core/utils/object-utils";
+import {GlobalStateUtils} from "../../../core/global-state/global-state-utils";
 
 type Ctx = StateContext<CatalogPageStateModel>;
 
@@ -35,9 +36,10 @@ type Ctx = StateContext<CatalogPageStateModel>;
 @Injectable()
 export class CatalogPageState implements OnDestroy {
   constructor(
-    private brokerServerApiService: CatalogApiService,
+    private catalogApiService: CatalogApiService,
     private brokerCatalogMapper: BrokerCatalogMapper,
     private ngxsUtils: NgxsUtils,
+    private globalStateUtils: GlobalStateUtils,
   ) {
     this.ngxsUtils.sampleTime(CatalogPage.NeedFetch, CatalogPage.Fetch, 200);
   }
@@ -63,24 +65,24 @@ export class CatalogPageState implements OnDestroy {
     ctx.getState().fetchSubscription?.unsubscribe();
     const query = this.buildCatalogPageQuery(ctx.getState());
 
-    const fetchSubscription = this.brokerServerApiService
-
-      .catalogPage(query)
-      .pipe(
-        map((data) =>
-          this.brokerCatalogMapper.buildCatalogPageResultMapped(data),
-        ),
-        Fetched.wrap({failureMessage: 'Failed fetching data offers.'}),
-      )
-      .subscribe((fetchedData) => {
-        let state = {...ctx.getState(), fetchedData};
-        fetchedData.ifReady((data) => {
-          state = this._withReadyCatalogResult(state, data);
+    this.globalStateUtils.getDeploymentEnvironmentId().subscribe((deploymentEnvironmentId) => {
+      const fetchSubscription = this.catalogApiService
+        .catalogPage(deploymentEnvironmentId, query)
+        .pipe(
+          map((data) =>
+            this.brokerCatalogMapper.buildCatalogPageResultMapped(data),
+          ),
+          Fetched.wrap({failureMessage: 'Failed fetching data offers.'}),
+        )
+        .subscribe((fetchedData) => {
+          let state = {...ctx.getState(), fetchedData};
+          fetchedData.ifReady((data) => {
+            state = this._withReadyCatalogResult(state, data);
+          });
+          ctx.setState(state);
         });
-        ctx.setState(state);
-      });
-
-    ctx.patchState({fetchSubscription});
+      ctx.patchState({fetchSubscription});
+    })
   }
 
   @Action(CatalogPage.UpdatePage)

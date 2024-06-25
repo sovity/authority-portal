@@ -22,6 +22,7 @@ import {
   AssetDetailDialogService
 } from "../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog.service";
 import {CatalogApiService} from "../../../core/api/catalog-api.service";
+import {GlobalStateUtils} from "../../../core/global-state/global-state-utils";
 
 @Component({
   selector: 'catalog-page',
@@ -54,7 +55,9 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private store: Store,
     private route: ActivatedRoute,
     private router: Router,
-  ) {}
+    private globalStateUtils: GlobalStateUtils,
+  ) {
+  }
 
   ngOnInit(): void {
     this.initializePage();
@@ -128,17 +131,23 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       this.assetDetailDialogDataService.brokerDataOfferDetails(dataOffer);
 
     // Call the detail dialog endpoint so the view count is increased
-    this.catalogApiService
-      .dataOfferDetailPage({
-        assetId: dataOffer.assetId,
-        connectorId: dataOffer.connectorId,
-      })
-      .subscribe();
 
-    this.assetDetailDialogService
-      .open(data, this.ngOnDestroy$)
-      .pipe(filter((it) => !!it?.refreshList))
-      .subscribe(() => this.fetch$.next(null));
+    this.globalStateUtils.getDeploymentEnvironmentId().subscribe((deploymentEnvironmentId) => {
+      this.catalogApiService
+        .dataOfferDetailPage(
+          deploymentEnvironmentId,
+          {
+            assetId: dataOffer.assetId,
+            connectorId: dataOffer.connectorId,
+          }
+        )
+        .subscribe();
+
+      this.assetDetailDialogService
+        .open(data, this.ngOnDestroy$)
+        .pipe(filter((it) => !!it?.refreshList))
+        .subscribe(() => this.fetch$.next(null));
+    })
   }
 
   ngOnDestroy$ = new Subject();
