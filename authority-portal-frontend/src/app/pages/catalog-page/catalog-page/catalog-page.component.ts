@@ -7,8 +7,12 @@ import {filter, map, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {CatalogPageSortingItem} from '@sovity.de/authority-portal-client';
 import {LocalStoredValue} from 'src/app/core/utils/local-stored-value';
-import {AssetDetailDialogDataService} from '../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog-data.service';
-import {AssetDetailDialogService} from '../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog.service';
+import {
+  AssetDetailDialogDataService
+} from '../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog-data.service';
+import {
+  AssetDetailDialogService
+} from '../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog.service';
 import {
   ViewModeEnum,
   isViewMode,
@@ -55,7 +59,8 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private globalStateUtils: GlobalStateUtils,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initializePage();
@@ -135,7 +140,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
         switchMap((deploymentEnvironmentId) =>
           this.catalogApiService.dataOfferDetailPage(deploymentEnvironmentId, {
             assetId: dataOffer.assetId,
-            connectorId: dataOffer.connectorId,
+            connectorId: dataOffer.connectorId
           }),
         ),
       )
