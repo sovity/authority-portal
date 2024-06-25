@@ -65,10 +65,11 @@ import {SpConnectorListPageModule} from './pages/sp-connector-list-page/sp-conne
 import {ToastNotificationsModule} from './core/toast-notifications/toast-notifications.module';
 import {UnauthenticatedPageModule} from './pages/empty-pages/unauthenticated-page/unauthenticated-page.module';
 import {provideAppConfig} from './core/config/app-config-initializer';
+import {CatalogApiService} from "./core/api/catalog-api.service";
 
 @NgModule({
   declarations: [AppComponent],
-  providers: [provideAppConfig(), ApiService, ApiClientFactory],
+  providers: [provideAppConfig(), ApiService, ApiClientFactory, CatalogApiService],
   bootstrap: [AppComponent],
   imports: [
     // Angular
