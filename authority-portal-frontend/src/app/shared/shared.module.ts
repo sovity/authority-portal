@@ -10,119 +10,208 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+import {ClipboardModule} from '@angular/cdk/clipboard';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatButtonModule} from '@angular/material/button';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {RouterModule} from '@angular/router';
-import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.module';
-import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
-import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
-import {MaterialModule} from 'src/app/common/material/material.module';
-import {CertificateGenerateService} from 'src/app/shared/services/certificate-generate.service';
-import {FormElementsModule} from '../common/components/form-elements/form-elements.module';
-import {PipesAndDirectivesModule} from '../common/components/pipes-and-directives/pipes-and-directives.module';
-import {ConnectorRegisteringSuccessMessagePageComponent} from './components/business/connector-registering-success-message-page/connector-registering-success-message-page.component';
-import {ConnectorStatusLedComponent} from './components/business/connector-status-led/connector-status-led.component';
-import {DeleteConnectorModalComponent} from './components/business/delete-connector-modal/delete-connector-modal.component';
-import {FooterCopyrightComponent} from './components/business/footer-copyright/footer-copyright.component';
-import {FooterForFullPageComponent} from './components/business/footer-for-full-page/footer-for-full-page.component';
-import {FooterLinksComponent} from './components/business/footer-links/footer-links.component';
-import {OrganizationCreateFormComponent} from './components/business/organization-create-form/organization-create-form.component';
-import {OrganizationEditFormComponent} from './components/business/organization-edit-form/organization-edit-form.component';
-import {SharedConnectorDetailComponent} from './components/business/shared-connector-detail/shared-connector-detail.component';
-import {SharedOrganizationDetailComponent} from './components/business/shared-organization-detail/shared-organization-detail.component';
-import {SharedUserDetailComponent} from './components/business/shared-user-detail/shared-user-detail.component';
-import {SharedUserListComponent} from './components/business/shared-user-list/shared-user-list.component';
-import {UserCreateFormComponent} from './components/business/user-create-form/user-create-form.component';
-import {UserDeleteDialogComponent} from './components/business/user-delete-dialog/user-delete-dialog.component';
-import {UserDeleteDialogService} from './components/business/user-delete-dialog/user-delete-dialog.service';
-import {UserEditFormComponent} from './components/business/user-edit-form/user-edit-form.component';
-import {UserOnboardFormComponent} from './components/business/user-onboard-form/user-onboard-form.component';
-import {AvatarComponent} from './components/common/avatar/avatar.component';
-import {ConfirmationDialogComponent} from './components/common/confirmation-dialog/confirmation-dialog.component';
-import {FilterBarComponent} from './components/common/filter-bar/filter-bar.component';
-import {HeaderBarComponent} from './components/common/header-bar/header-bar.component';
-import {LogoutButtonComponent} from './components/common/logout-button/logout-button.component';
-import {SelectionBoxComponent} from './components/common/selection-box/selection-box.component';
-import {SlideOverComponent} from './components/common/slide-over/slide-over.component';
-import {TitleBarComponent} from './components/common/title-bar/title-bar.component';
-import {SlideOverService} from './services/slide-over.service';
-import {SvgIconServiceService} from './services/svg-icon.service.service';
+import {SvgIconServiceService} from 'src/app/core/services/svg-icon.service.service';
+import {ConnectorRegisteringSuccessMessagePageComponent} from './business/connector-registering-success-message-page/connector-registering-success-message-page.component';
+import {ConnectorStatusLedComponent} from './business/connector-status-led/connector-status-led.component';
+import {DeleteConnectorModalComponent} from './business/delete-connector-modal/delete-connector-modal.component';
+import {OrganizationCreateFormComponent} from './business/organization-create-form/organization-create-form.component';
+import {OrganizationEditFormComponent} from './business/organization-edit-form/organization-edit-form.component';
+import {SharedConnectorDetailComponent} from './business/shared-connector-detail/shared-connector-detail.component';
+import {SharedOrganizationDetailComponent} from './business/shared-organization-detail/shared-organization-detail.component';
+import {SharedUserDetailComponent} from './business/shared-user-detail/shared-user-detail.component';
+import {SharedUserListComponent} from './business/shared-user-list/shared-user-list.component';
+import {UserCreateFormComponent} from './business/user-create-form/user-create-form.component';
+import {UserDeleteDialogComponent} from './business/user-delete-dialog/user-delete-dialog.component';
+import {UserDeleteDialogService} from './business/user-delete-dialog/user-delete-dialog.service';
+import {UserEditFormComponent} from './business/user-edit-form/user-edit-form.component';
+import {UserOnboardFormComponent} from './business/user-onboard-form/user-onboard-form.component';
+import {ConfirmationDialogComponent} from './common/confirmation-dialog/confirmation-dialog.component';
+import {EmptyStateComponent} from './common/empty-state/empty-state.component';
+import {ErrorElementComponent} from './common/error-element/error-element.component';
+import {FilterBarComponent} from './common/filter-bar/filter-bar.component';
+import {HeaderBarComponent} from './common/header-bar/header-bar.component';
+import {LoadingElementComponent} from './common/loading-element/loading-element.component';
+import {LogoutButtonComponent} from './common/logout-button/logout-button.component';
+import {AvatarComponent} from './common/portal-layout/avatar/avatar.component';
+import {BreadcrumbComponent} from './common/portal-layout/breadcrumb/breadcrumb.component';
+import {ControlCenterComponent} from './common/portal-layout/control-center/control-center.component';
+import {FooterCopyrightComponent} from './common/portal-layout/footer-copyright/footer-copyright.component';
+import {FooterForFullPageComponent} from './common/portal-layout/footer-for-full-page/footer-for-full-page.component';
+import {FooterLinksComponent} from './common/portal-layout/footer-links/footer-links.component';
+import {PortalLayoutComponent} from './common/portal-layout/portal-layout/portal-layout.component';
+import {SidebarElementComponent} from './common/portal-layout/sidebar-element/sidebar-element.component';
+import {SidebarComponent} from './common/portal-layout/sidebar/sidebar.component';
+import {TitleBarComponent} from './common/portal-layout/title-bar/title-bar.component';
+import {ToolbarComponent} from './common/portal-layout/toolbar/toolbar.component';
+import {SelectionBoxComponent} from './common/selection-box/selection-box.component';
+import {SlideOverComponent} from './common/slide-over/slide-over.component';
+import {ToastNotificationsComponent} from './common/toast-notifications/toast-notifications.component';
+import {E2EDevUserSwitcherComponent} from './dev-utils/e2e-dev-user-switcher/e2e-dev-user-switcher.component';
+import {EnvBannerComponent} from './dev-utils/env-banner/env-banner.component';
+import {EnvSwitcherComponent} from './dev-utils/env-switcher/env-switcher.component';
+import {FakeBackendUserSwitcherComponent} from './dev-utils/fake-backend-user-switcher/fake-backend-user-switcher.component';
+import {ApplicationRolesTooltipComponent} from './form-elements/application-roles-tooltip/application-roles-tooltip.component';
+import {CertificateInputFormComponent} from './form-elements/certificate-input-form/certificate-input-form.component';
+import {CertificateInputComponent} from './form-elements/certificate-input/certificate-input.component';
+import {ConnectorUrlInputComponent} from './form-elements/connector-url-input/connector-url-input.component';
+import {IndustrySelectComponent} from './form-elements/industry-select/industry-select.component';
+import {OrganizationRolesTooltipComponent} from './form-elements/organization-roles-tooltip/organization-roles-tooltip.component';
+import {OrganizationSelectComponent} from './form-elements/organization-select/organization-select.component';
+import {PasswordInputComponent} from './form-elements/password-input/password-input.component';
+import {PasswordRepeatInputComponent} from './form-elements/password-repeat-input/password-repeat-input.component';
+import {ReadonlyTextInputComponent} from './form-elements/readonly-text-input/readonly-text-input.component';
+import {TextAreaComponent} from './form-elements/text-area/text-area.component';
+import {TextInputComponent} from './form-elements/text-input/text-input.component';
+import {TosCheckComponent} from './form-elements/tos-check/tos-check.component';
+import {AutofocusDirective} from './pipes-and-directives/autofocus.direcitive';
+import {CheckIfNotCurrentUserPipe} from './pipes-and-directives/check-if-not-current-user.pipe';
+import {CompareByFieldPipe} from './pipes-and-directives/compare-by-field.pipe';
+import {DisabledButtonDirective} from './pipes-and-directives/disabled-button.directive';
+import {ExternalLinkDirective} from './pipes-and-directives/external-link.directive';
+import {FilterByRegistrationStatusPipe} from './pipes-and-directives/filter-by-registration-status.pipe';
+import {FormControlErrorDirective} from './pipes-and-directives/form-control-error.directive';
+import {HasAnyRolePipe} from './pipes-and-directives/has-any-role.pipe';
+import {HasRolePipe} from './pipes-and-directives/has-role.pipe';
+import {RemoveClassDirective} from './pipes-and-directives/remove-class.directive';
+import {SentenceCasePipe} from './pipes-and-directives/sentence-case.pipe';
+import {TrackByFieldDirective} from './pipes-and-directives/track-by-field.directive';
+import {ValuesPipe} from './pipes-and-directives/values.pipe';
+
+const COMPONENTS = [
+  // ./business
+  ConnectorRegisteringSuccessMessagePageComponent,
+  ConnectorStatusLedComponent,
+  DeleteConnectorModalComponent,
+  OrganizationCreateFormComponent,
+  OrganizationEditFormComponent,
+  SharedConnectorDetailComponent,
+  SharedOrganizationDetailComponent,
+  SharedUserDetailComponent,
+  SharedUserListComponent,
+  UserCreateFormComponent,
+  UserDeleteDialogComponent,
+  UserEditFormComponent,
+  UserOnboardFormComponent,
+
+  // ./common
+  ConfirmationDialogComponent,
+  EmptyStateComponent,
+  ErrorElementComponent,
+  FilterBarComponent,
+  HeaderBarComponent,
+  LoadingElementComponent,
+  LogoutButtonComponent,
+  SelectionBoxComponent,
+  SlideOverComponent,
+  ToastNotificationsComponent,
+
+  // ./common/portal-layout
+  AvatarComponent,
+  BreadcrumbComponent,
+  ControlCenterComponent,
+  FooterCopyrightComponent,
+  FooterForFullPageComponent,
+  FooterLinksComponent,
+  PortalLayoutComponent,
+  SidebarComponent,
+  SidebarElementComponent,
+  TitleBarComponent,
+  ToolbarComponent,
+
+  // ./dev-utils
+  E2EDevUserSwitcherComponent,
+  EnvBannerComponent,
+  EnvSwitcherComponent,
+  FakeBackendUserSwitcherComponent,
+
+  // ./form-elements
+  ApplicationRolesTooltipComponent,
+  CertificateInputComponent,
+  CertificateInputFormComponent,
+  ConnectorUrlInputComponent,
+  IndustrySelectComponent,
+  OrganizationRolesTooltipComponent,
+  OrganizationSelectComponent,
+  PasswordInputComponent,
+  PasswordRepeatInputComponent,
+  ReadonlyTextInputComponent,
+  TextAreaComponent,
+  TextInputComponent,
+  TosCheckComponent,
+
+  // ./pipes-and-directives
+  AutofocusDirective,
+  CheckIfNotCurrentUserPipe,
+  CompareByFieldPipe,
+  DisabledButtonDirective,
+  ExternalLinkDirective,
+  FilterByRegistrationStatusPipe,
+  FormControlErrorDirective,
+  HasAnyRolePipe,
+  HasRolePipe,
+  RemoveClassDirective,
+  SentenceCasePipe,
+  TrackByFieldDirective,
+  ValuesPipe,
+];
+
+const MODULES = [
+  // Angular Material
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatSlideToggleModule,
+  MatStepperModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
+
+  // Angular CDK
+  ClipboardModule,
+];
 
 @NgModule({
-  declarations: [
-    AvatarComponent,
-    ConfirmationDialogComponent,
-    ConnectorRegisteringSuccessMessagePageComponent,
-    ConnectorStatusLedComponent,
-    DeleteConnectorModalComponent,
-    FilterBarComponent,
-    FooterCopyrightComponent,
-    FooterForFullPageComponent,
-    FooterLinksComponent,
-    HeaderBarComponent,
-    LogoutButtonComponent,
-    OrganizationCreateFormComponent,
-    OrganizationEditFormComponent,
-    SelectionBoxComponent,
-    SharedConnectorDetailComponent,
-    SharedOrganizationDetailComponent,
-    SharedUserDetailComponent,
-    SharedUserListComponent,
-    SlideOverComponent,
-    TitleBarComponent,
-    UserCreateFormComponent,
-    UserDeleteDialogComponent,
-    UserEditFormComponent,
-    UserOnboardFormComponent,
-  ],
+  declarations: COMPONENTS,
   imports: [
     CommonModule,
     RouterModule,
-    DevUtilsModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    LoadingElementModule,
-    ErrorElementModule,
-    PipesAndDirectivesModule,
-    FormElementsModule,
-    DevUtilsModule,
+    ...MODULES,
   ],
-  exports: [
-    AvatarComponent,
-    ConfirmationDialogComponent,
-    ConnectorRegisteringSuccessMessagePageComponent,
-    ConnectorStatusLedComponent,
-    DeleteConnectorModalComponent,
-    FilterBarComponent,
-    FooterCopyrightComponent,
-    FooterForFullPageComponent,
-    FooterLinksComponent,
-    HeaderBarComponent,
-    LogoutButtonComponent,
-    OrganizationCreateFormComponent,
-    OrganizationEditFormComponent,
-    SelectionBoxComponent,
-    SharedConnectorDetailComponent,
-    SharedOrganizationDetailComponent,
-    SharedUserDetailComponent,
-    SharedUserListComponent,
-    SlideOverComponent,
-    TitleBarComponent,
-    UserCreateFormComponent,
-    UserDeleteDialogComponent,
-    UserEditFormComponent,
-    UserOnboardFormComponent,
-    ConnectorStatusLedComponent,
-  ],
-  providers: [
-    CertificateGenerateService,
-    SvgIconServiceService,
-    SlideOverService,
-    AvatarComponent,
-    UserDeleteDialogService,
-  ],
+  exports: [...COMPONENTS, ...MODULES],
+  providers: [UserDeleteDialogService],
 })
 export class SharedModule {
   constructor(private svgIconServiceService: SvgIconServiceService) {

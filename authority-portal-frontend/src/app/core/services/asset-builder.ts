@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AdditionalAssetProperty, UiAssetMapped} from '../api/ui-asset-mapped';
-import {UiAsset} from "@sovity.de/authority-portal-client";
+import {DataOfferDetailPageResult, UiAsset} from "@sovity.de/authority-portal-client";
 import {LanguageSelectItemService} from "../../catalog-component-library/language-select/language-select-item.service";
 import {
   TransportModeSelectItemService
@@ -19,6 +18,7 @@ import {
 } from "../../catalog-component-library/data-subcategory-select/data-subcategory-select-item";
 import {DataCategorySelectItem} from "../../catalog-component-library/data-category-select/data-category-select-item";
 import {LanguageSelectItem} from "../../catalog-component-library/language-select/language-select-item";
+import {AdditionalAssetProperty} from "../api/additional-asset-property";
 
 /**
  * Maps between EDC Asset and our type safe asset
@@ -34,7 +34,7 @@ export class AssetBuilder {
     private dataSubcategorySelectItemService: DataSubcategorySelectItemService,
   ) {}
 
-  buildAsset(asset: UiAsset): UiAssetMapped {
+  buildAsset(asset: UiAsset): DataOfferDetailPageResult {
     const {
       customJsonAsString,
       customJsonLdAsString,

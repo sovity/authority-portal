@@ -11,8 +11,8 @@
  *      sovity GmbH - initial implementation
  */
 import {OwnOrganizationDetailsDto} from '@sovity.de/authority-portal-client';
-import {Fetched} from '../../../core/utils/fetched';
-import {HeaderBarConfig} from '../../../shared/components/common/header-bar/header-bar.model';
+import {Fetched} from 'src/app/core/utils/fetched';
+import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
 
 export interface ControlCenterOrganizationProfilePageState {
   organization: Fetched<OwnOrganizationDetailsDto>;

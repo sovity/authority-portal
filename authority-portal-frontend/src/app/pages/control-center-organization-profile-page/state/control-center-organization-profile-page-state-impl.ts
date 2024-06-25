@@ -19,9 +19,9 @@ import {
   OwnOrganizationDetailsDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
-import {ApiService} from '../../../core/api/api.service';
-import {Fetched} from '../../../core/utils/fetched';
-import {HeaderBarConfig} from '../../../shared/components/common/header-bar/header-bar.model';
+import {ApiService} from 'src/app/core/api/api.service';
+import {Fetched} from 'src/app/core/utils/fetched';
+import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
 import {Reset} from './control-center-organization-profile-page-action';
 import {
   ControlCenterOrganizationProfilePageState,

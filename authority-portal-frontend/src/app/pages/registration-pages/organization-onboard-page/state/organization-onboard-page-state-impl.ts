@@ -21,12 +21,12 @@ import {
   tap,
 } from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
-import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
-import {ErrorService} from 'src/app/core/error.service';
-import {ToastService} from 'src/app/core/toast-notifications/toast.service';
+import {ApiService} from 'src/app/core/api/api.service';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {ErrorService} from 'src/app/core/services/error.service';
 import {Fetched} from 'src/app/core/utils/fetched';
-import {ApiService} from '../../../../core/api/api.service';
-import {GlobalStateUtils} from '../../../../core/global-state/global-state-utils';
+import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 import {
   OnboardingProcessFormSubmit,
   Reset,

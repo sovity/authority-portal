@@ -15,9 +15,8 @@ import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
 import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
-import {ChildComponentInput} from 'src/app/shared/components/common/slide-over/slide-over.model';
-import {TitleBarConfig} from 'src/app/shared/components/common/title-bar/title-bar.model';
-import {DEFAULT_PARTICIPANT_OWN_CONNECTOR_DETAIL_PAGE_STATE} from '../../participant-own-connector-detail-page/state/participant-own-connector-detail-page-state';
+import {TitleBarConfig} from 'src/app/shared/common/portal-layout/title-bar/title-bar.model';
+import {ChildComponentInput} from 'src/app/shared/common/slide-over/slide-over.model';
 import {DeleteProvidedConnector} from '../../sp-connector-list-page/state/sp-connector-list-page-actions';
 import {
   RefreshConnector,

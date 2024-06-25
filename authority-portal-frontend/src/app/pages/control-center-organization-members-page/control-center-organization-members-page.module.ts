@@ -12,30 +12,33 @@
  */
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
-import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
-import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
-import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
-import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {ControlCenterOrganizationMembersPageComponent} from './control-center-organization-members-page/control-center-organization-members-page.component';
-import {ControlCenterOrganizationMembersPageStateImpl} from './state/control-center-organization-members-page-state-impl';
+import {ControlCenterOrganizationMembersPageStateImpl} from './control-center-organization-members-page/state/control-center-organization-members-page-state-impl';
+import {ParticipantInviteNewUserComponent} from './participant-invite-new-user/participant-invite-new-user.component';
+import {ParticipantInviteNewUserPageStateImpl} from './participant-invite-new-user/state/participant-invite-new-user-page-state-impl';
 
 @NgModule({
-  declarations: [ControlCenterOrganizationMembersPageComponent],
+  declarations: [
+    ControlCenterOrganizationMembersPageComponent,
+    ParticipantInviteNewUserComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     // NGXS
-    NgxsModule.forFeature([ControlCenterOrganizationMembersPageStateImpl]),
+    NgxsModule.forFeature([
+      ControlCenterOrganizationMembersPageStateImpl,
+      ParticipantInviteNewUserPageStateImpl,
+    ]),
 
-    MaterialModule,
     SharedModule,
-    PipesAndDirectivesModule,
-    LoadingElementModule,
-    ErrorElementModule,
   ],
 })
 export class ControlCenterOrganizationMembersPageModule {}

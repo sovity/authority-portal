@@ -13,6 +13,7 @@
 import {Injectable} from '@angular/core';
 import {Router, Routes} from '@angular/router';
 import {UserInfo} from '@sovity.de/authority-portal-client';
+import {Fetched} from 'src/app/core/utils/fetched';
 import {
   AUTHORITY_PORTAL_ROUTES,
   LOADING_ROUTES,
@@ -21,7 +22,6 @@ import {
   REJECTED_ROUTES,
   UNAUTHENTICATED_ROUTES,
 } from '../../../app-routing.module';
-import {Fetched} from '../../utils/fetched';
 import {AuthorityPortalPageSet} from './authority-portal-page-set';
 
 @Injectable({providedIn: 'root'})

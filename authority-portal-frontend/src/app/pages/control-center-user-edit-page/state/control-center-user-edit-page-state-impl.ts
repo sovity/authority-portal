@@ -16,11 +16,11 @@ import {Observable} from 'rxjs';
 import {ignoreElements, switchMap, take, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {UserDetailDto} from '@sovity.de/authority-portal-client';
-import {ApiService} from '../../../core/api/api.service';
-import {CustomRxjsOperators} from '../../../core/custom-rxjs-operators';
-import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
-import {Fetched} from '../../../core/utils/fetched';
-import {HeaderBarConfig} from '../../../shared/components/common/header-bar/header-bar.model';
+import {ApiService} from 'src/app/core/api/api.service';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {CustomRxjsOperators} from 'src/app/core/services/custom-rxjs-operators';
+import {Fetched} from 'src/app/core/utils/fetched';
+import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
 import {ControlCenterUserEditPageForm} from '../control-center-user-edit-page/control-center-user-edit-page.form';
 import {
   buildEditRequest,

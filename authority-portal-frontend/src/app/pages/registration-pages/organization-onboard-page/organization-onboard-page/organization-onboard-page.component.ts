@@ -23,12 +23,12 @@ import {
 import {
   mergeFormGroups,
   switchDisabledControls,
-} from '../../../../core/utils/form-utils';
-import {buildOrganizationCreateForm} from '../../../../shared/components/business/organization-create-form/organization-create-form-builder';
-import {organizationCreateFormEnabledCtrls} from '../../../../shared/components/business/organization-create-form/organization-create-form-enabled-ctrls';
-import {OrganizationCreateFormModel} from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
-import {buildUserOnboardForm} from '../../../../shared/components/business/user-onboard-form/user-onboard-form-builder';
-import {UserOnboardFormModel} from '../../../../shared/components/business/user-onboard-form/user-onboard-form-model';
+} from 'src/app/core/utils/form-utils';
+import {buildOrganizationCreateForm} from '../../../../shared/business/organization-create-form/organization-create-form-builder';
+import {organizationCreateFormEnabledCtrls} from '../../../../shared/business/organization-create-form/organization-create-form-enabled-ctrls';
+import {OrganizationCreateFormModel} from '../../../../shared/business/organization-create-form/organization-create-form-model';
+import {buildUserOnboardForm} from '../../../../shared/business/user-onboard-form/user-onboard-form-builder';
+import {UserOnboardFormModel} from '../../../../shared/business/user-onboard-form/user-onboard-form-model';
 import {
   OnboardingProcessFormSubmit,
   Reset,

@@ -21,21 +21,21 @@ import {
   UserInfo,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {SlideOverService} from 'src/app/core/services/slide-over.service';
 import {
   getOrganizationRegistrationStatusClasses,
   getOrganizationUserRegistrationStatusClasses,
 } from 'src/app/core/utils/ui-utils';
+import {TitleBarConfig} from 'src/app/shared/common/portal-layout/title-bar/title-bar.model';
 import {
   ChildComponentInput,
   NavigationType,
-} from 'src/app/shared/components/common/slide-over/slide-over.model';
-import {TitleBarConfig} from 'src/app/shared/components/common/title-bar/title-bar.model';
-import {SlideOverService} from 'src/app/shared/services/slide-over.service';
-import {UserDeleteDialogService} from '../../../shared/components/business/user-delete-dialog/user-delete-dialog.service';
+} from 'src/app/shared/common/slide-over/slide-over.model';
+import {UserDeleteDialogService} from '../../../shared/business/user-delete-dialog/user-delete-dialog.service';
 import {
   CloseOrganizationDetail,
   RefreshOrganizations,
-} from '../../authority-organization-list-page/state/authority-organization-list-page-actions';
+} from '../../authority-organization-list-page/authority-organization-list-page/state/authority-organization-list-page-actions';
 import {
   ApproveOrganization,
   DeactivateUser,

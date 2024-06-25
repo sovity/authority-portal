@@ -11,7 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component} from '@angular/core';
-import {SelectionBoxModel} from 'src/app/shared/components/common/selection-box/selection-box.model';
+import {SelectionBoxModel} from 'src/app/shared/common/selection-box/selection-box.model';
 
 @Component({
   selector: 'app-choose-participant-connector',

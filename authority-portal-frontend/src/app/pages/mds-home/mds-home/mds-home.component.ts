@@ -12,7 +12,7 @@
  */
 import {Component, HostBinding, Inject} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
   selector: 'app-mds-home',

@@ -24,8 +24,14 @@ data class CatalogDataOffer(
     @field:Schema(description = "Asset Title", requiredMode = Schema.RequiredMode.REQUIRED)
     val assetTitle: String,
 
-    @field:Schema(description = "Asset Description Short Text generated from description. Contains no markdown.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @field:Schema(
+        description = "Asset Description Short Text generated from description. Contains no markdown.",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED
+    )
     val descriptionShortText: String?,
+
+    @field:Schema(description = "Asset Version", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val version: String?,
 
     @field:Schema(description = "Asset Keywords", requiredMode = Schema.RequiredMode.REQUIRED)
     val keywords: List<String>,

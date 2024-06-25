@@ -5,7 +5,10 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import {CatalogDataOfferMapped} from '../catalog-page/mapping/catalog-page-result-mapped';
+import {
+  CatalogDataOffer,
+  DataOfferDetailPageResult,
+} from '@sovity.de/authority-portal-client';
 
 @Component({
   selector: 'broker-data-offer-cards',
@@ -18,8 +21,8 @@ export class BrokerDataOfferCardsComponent {
   cls = true;
 
   @Input()
-  dataOffers: CatalogDataOfferMapped[] = [];
+  dataOffers: CatalogDataOffer[] = [];
 
   @Output()
-  dataOfferClick = new EventEmitter<CatalogDataOfferMapped>();
+  dataOfferClick = new EventEmitter<DataOfferDetailPageResult>();
 }

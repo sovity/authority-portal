@@ -18,10 +18,10 @@ import {
   UptimeStatusDto,
 } from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
-import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {Fetched} from 'src/app/core/utils/fetched';
-import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
+import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
 import {ConnectorData} from '../dashboard-connector-card/dashboard-connector-card.component';
 
 @Component({

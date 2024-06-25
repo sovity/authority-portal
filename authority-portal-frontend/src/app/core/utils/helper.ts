@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {SlideOverAction} from 'src/app/shared/components/common/slide-over/slide-over.model';
+import {SlideOverAction} from 'src/app/shared/common/slide-over/slide-over.model';
 
 /**
  *  get the next or previous index of an array

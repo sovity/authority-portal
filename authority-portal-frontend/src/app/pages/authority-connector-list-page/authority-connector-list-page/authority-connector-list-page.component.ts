@@ -16,16 +16,16 @@ import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {ConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {SlideOverService} from 'src/app/core/services/slide-over.service';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
 import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
-import {FilterBarConfig} from 'src/app/shared/components/common/filter-bar/filter-bar.model';
-import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
+import {FilterBarConfig} from 'src/app/shared/common/filter-bar/filter-bar.model';
+import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
 import {
   NavigationType,
   SlideOverAction,
   SlideOverConfig,
-} from 'src/app/shared/components/common/slide-over/slide-over.model';
-import {SlideOverService} from 'src/app/shared/services/slide-over.service';
+} from 'src/app/shared/common/slide-over/slide-over.model';
 import {AuthorityConnectorDetailPageComponent} from '../../authority-connector-detail-page/authority-connector-detail-page/authority-connector-detail-page.component';
 import {
   CloseConnectorDetail,

@@ -1,22 +1,23 @@
 import {
-  CatalogContractOffer,
   CatalogDataOffer,
   CatalogPageQuery,
   CatalogPageResult,
-  DataOfferDetailContractOffer,
   DataOfferDetailPageQuery,
   DataOfferDetailPageResult,
 } from '@sovity.de/authority-portal-client';
 import {subDays, subMinutes} from 'date-fns';
-import {TestAssets} from "./data/test-assets";
-import {TestPolicies} from "./data/test-policies";
+import {TestAssets} from './data/test-assets';
+import {TestPolicies} from './data/test-policies';
 
-const myConnector: Pick<DataOfferDetailPageResult | CatalogDataOffer, 'connectorId' | 'connectorEndpoint' | 'organizationId' | 'organizationName'> = {
+const myConnector: Pick<
+  DataOfferDetailPageResult,
+  'connectorId' | 'connectorEndpoint' | 'organizationId' | 'organizationName'
+> = {
   organizationId: 'MDSL1234XX',
   organizationName: 'My Organization',
   connectorId: 'MDSL1234XX.C1234XX',
-  connectorEndpoint: 'https://my-connector.my-organization.com/api/dsp'
-}
+  connectorEndpoint: 'https://my-connector.my-organization.com/api/dsp',
+};
 
 const DATA_OFFERS: DataOfferDetailPageResult[] = [
   {
@@ -93,7 +94,10 @@ const DATA_OFFERS: DataOfferDetailPageResult[] = [
   },
 ];
 
-export const getCatalogPage = (query: CatalogPageQuery, environmentId: string): CatalogPageResult => {
+export const getCatalogPage = (
+  query: CatalogPageQuery,
+  environmentId: string,
+): CatalogPageResult => {
   const dataOffers: CatalogDataOffer[] = DATA_OFFERS.map(buildCatalogDataOffer);
 
   return {
@@ -163,15 +167,14 @@ export const getCatalogPage = (query: CatalogPageQuery, environmentId: string): 
 
 export const getDataOfferDetailPage = (
   query: DataOfferDetailPageQuery,
-  environmentId: string
+  environmentId: string,
 ): DataOfferDetailPageResult | null => {
   if (environmentId !== 'test') {
     return null;
   }
   return DATA_OFFERS.find(
     (it) =>
-      it.connectorId === query.connectorId &&
-      it.assetId === query.assetId,
+      it.connectorId === query.connectorId && it.assetId === query.assetId,
   )!;
 };
 
@@ -179,23 +182,13 @@ const buildCatalogDataOffer = (
   it: DataOfferDetailPageResult,
 ): CatalogDataOffer => ({
   assetId: it.assetId,
+  assetTitle: it.asset.title,
+  descriptionShortText: it.asset.descriptionShortText,
+  keywords: it.asset.keywords ?? [],
+  version: it.asset.version,
   connectorId: it.connectorId,
-  connectorEndpoint: it.connectorEndpoint,
   organizationId: it.organizationId,
   organizationName: it.organizationName,
-  asset: it.asset,
-  contractOffers: it.contractOffers.map(buildCatalogContractOffer),
-  updatedAt: it.updatedAt,
-  createdAt: it.createdAt,
   connectorOfflineSinceOrLastUpdatedAt: it.connectorOfflineSinceOrLastUpdatedAt,
   connectorOnlineStatus: it.connectorOnlineStatus,
-});
-
-const buildCatalogContractOffer = (
-  co: DataOfferDetailContractOffer,
-): CatalogContractOffer => ({
-  contractOfferId: co.contractOfferId,
-  contractPolicy: co.contractPolicy,
-  createdAt: co.createdAt,
-  updatedAt: co.updatedAt,
 });

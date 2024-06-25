@@ -11,7 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Injectable} from '@angular/core';
-import {ToastService} from '../toast-notifications/toast.service';
+import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 
 @Injectable({
   providedIn: 'root',

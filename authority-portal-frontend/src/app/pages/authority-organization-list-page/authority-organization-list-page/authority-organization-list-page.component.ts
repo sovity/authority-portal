@@ -20,32 +20,32 @@ import {
   OrganizationRegistrationStatusDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
+import {SlideOverService} from 'src/app/core/services/slide-over.service';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
-import {AuthorityInviteNewOrganizationComponent} from 'src/app/popups/authority-invite-new-organization/authority-invite-new-organization/authority-invite-new-organization.component';
+import {getOrganizationRegistrationStatusClasses} from 'src/app/core/utils/ui-utils';
 import {
   FilterBarConfig,
   FilterOption,
   FilterQuery,
-} from 'src/app/shared/components/common/filter-bar/filter-bar.model';
-import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
+} from 'src/app/shared/common/filter-bar/filter-bar.model';
+import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
 import {
   NavigationType,
   SlideOverAction,
   SlideOverConfig,
-} from 'src/app/shared/components/common/slide-over/slide-over.model';
-import {SlideOverService} from 'src/app/shared/services/slide-over.service';
-import {getOrganizationRegistrationStatusClasses} from '../../../core/utils/ui-utils';
+} from 'src/app/shared/common/slide-over/slide-over.model';
 import {AuthorityOrganizationDetailPageComponent} from '../../authority-organization-detail-page/authority-organization-detail-page/authority-organization-detail-page.component';
+import {AuthorityInviteNewOrganizationComponent} from '../authority-invite-new-organization/authority-invite-new-organization.component';
 import {
   CloseOrganizationDetail,
   RefreshOrganizations,
   ShowOrganizationDetail,
-} from '../state/authority-organization-list-page-actions';
+} from './state/authority-organization-list-page-actions';
 import {
   AuthorityOrganizationListPageState,
   DEFAULT_AUTHORITY_ORGANIZATION_LIST_PAGE_STATE,
-} from '../state/authority-organization-list-page-state';
-import {AuthorityOrganizationListPageStateImpl} from '../state/authority-organization-list-page-state-impl';
+} from './state/authority-organization-list-page-state';
+import {AuthorityOrganizationListPageStateImpl} from './state/authority-organization-list-page-state-impl';
 
 @Component({
   selector: 'app-authority-organization-list-page',

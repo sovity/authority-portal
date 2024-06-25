@@ -11,9 +11,9 @@
  *      sovity GmbH - initial implementation
  */
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {switchDisabledControls} from '../../../core/utils/form-utils';
-import {buildOrganizationEditForm} from '../../../shared/components/business/organization-edit-form/organization-edit-form-builder';
-import {organizationEditFormEnabledCtrls} from '../../../shared/components/business/organization-edit-form/organization-edit-form-enabled-ctrls';
+import {switchDisabledControls} from 'src/app/core/utils/form-utils';
+import {buildOrganizationEditForm} from '../../../shared/business/organization-edit-form/organization-edit-form-builder';
+import {organizationEditFormEnabledCtrls} from '../../../shared/business/organization-edit-form/organization-edit-form-enabled-ctrls';
 import {
   ControlCenterOrganizationEditPageFormModel,
   ControlCenterOrganizationEditPageFormValue,

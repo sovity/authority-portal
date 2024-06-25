@@ -25,9 +25,9 @@ import {
   CentralComponentCreateRequest,
   UserInfo,
 } from '@sovity.de/authority-portal-client';
-import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ClipboardUtils} from '../../../../core/utils/clipboard-utils';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {ClipboardUtils} from 'src/app/core/utils/clipboard-utils';
 import {Reset, Submit} from '../state/register-central-component-page-actions';
 import {
   DEFAULT_REGISTER_CENTRAL_COMPONENT_PAGE_STATE,

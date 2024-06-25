@@ -14,11 +14,11 @@ import {FormControl, FormGroup, ɵFormGroupRawValue} from '@angular/forms';
 import {
   DEFAULT_ORGANIZATION_CREATE_FORM_MODEL,
   OrganizationCreateFormModel,
-} from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
+} from '../../../../shared/business/organization-create-form/organization-create-form-model';
 import {
   DEFAULT_USER_CREATE_FORM_MODEL,
   UserCreateFormModel,
-} from '../../../../shared/components/business/user-create-form/user-create-form-model';
+} from '../../../../shared/business/user-create-form/user-create-form-model';
 
 export interface RegistrationUserTabFormModel extends UserCreateFormModel {}
 

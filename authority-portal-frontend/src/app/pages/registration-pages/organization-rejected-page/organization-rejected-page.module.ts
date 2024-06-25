@@ -16,9 +16,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
-import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.module';
-import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
-import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {OrganizationRejectedPageComponent} from './organization-rejected-page/organization-rejected-page.component';
 
@@ -33,10 +30,7 @@ import {OrganizationRejectedPageComponent} from './organization-rejected-page/or
     RouterModule,
 
     // Authority Portal
-    DevUtilsModule,
-    MaterialModule,
     SharedModule,
-    PipesAndDirectivesModule,
   ],
   declarations: [OrganizationRejectedPageComponent],
   exports: [OrganizationRejectedPageComponent],

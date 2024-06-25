@@ -2,30 +2,26 @@ import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {PageEvent} from '@angular/material/paginator';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {BehaviorSubject, Subject, switchMap} from 'rxjs';
-import {filter, map, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {map, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
-import {CatalogPageSortingItem} from '@sovity.de/authority-portal-client';
+import {
+  CatalogPageSortingItem,
+  DataOfferDetailPageResult,
+} from '@sovity.de/authority-portal-client';
+import {CatalogApiService} from 'src/app/core/api/catalog-api.service';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {LocalStoredValue} from 'src/app/core/utils/local-stored-value';
-import {
-  AssetDetailDialogDataService
-} from '../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog-data.service';
-import {
-  AssetDetailDialogService
-} from '../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog.service';
-import {
-  ViewModeEnum,
-  isViewMode,
-} from '../../../catalog-component-library/catalog/view-selection/view-mode-enum';
-import {CatalogApiService} from '../../../core/api/catalog-api.service';
-import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
+import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
+import {AssetDetailDialogDataService} from '../asset-detail-dialog/asset-detail-dialog-data.service';
+import {AssetDetailDialogService} from '../asset-detail-dialog/asset-detail-dialog.service';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
 import {FilterBoxVisibleState} from '../filter-box/filter-box-visible-state';
 import {CatalogActiveFilterPill} from '../state/catalog-active-filter-pill';
 import {CatalogPage} from '../state/catalog-page-actions';
 import {CatalogPageState} from '../state/catalog-page-state';
 import {CatalogPageStateModel} from '../state/catalog-page-state-model';
-import {CatalogDataOfferMapped} from './mapping/catalog-page-result-mapped';
+import {ViewModeEnum, isViewMode} from '../view-selection/view-mode-enum';
 
 @Component({
   selector: 'catalog-page',
@@ -37,6 +33,13 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   @HostBinding('class.p-[20px]')
   @HostBinding('class.space-x-[20px]')
   cls = true;
+
+  headerConfig: HeaderBarConfig = {
+    title: 'Catalog',
+    subtitle: 'Public Data Offers of given Environment',
+    headerActions: [],
+  };
+
   state!: CatalogPageStateModel;
   searchText = new FormControl('');
   sortBy = new FormControl<CatalogPageSortingItem | null>(null);
@@ -46,7 +49,6 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     'brokerui.viewMode',
     isViewMode,
   );
-  private fetch$ = new BehaviorSubject(null);
 
   // only tracked to prevent the component from resetting
   expandedFilterId = '';
@@ -59,8 +61,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private globalStateUtils: GlobalStateUtils,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.initializePage();
@@ -128,28 +129,10 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     return Array.isArray(mdsIds) ? [...new Set(mdsIds)] : [mdsIds];
   }
 
-  onDataOfferClick(dataOffer: CatalogDataOfferMapped) {
-    const data =
-      this.assetDetailDialogDataService.brokerDataOfferDetails(dataOffer);
-
-    // Call the detail dialog endpoint so the view count is increased
-
-    this.globalStateUtils
-      .getDeploymentEnvironmentId()
-      .pipe(
-        switchMap((deploymentEnvironmentId) =>
-          this.catalogApiService.dataOfferDetailPage(deploymentEnvironmentId, {
-            assetId: dataOffer.assetId,
-            connectorId: dataOffer.connectorId
-          }),
-        ),
-      )
-      .subscribe();
-
+  onDataOfferClick(dataOffer: DataOfferDetailPageResult) {
     this.assetDetailDialogService
-      .open(data, this.ngOnDestroy$)
-      .pipe(filter((it) => !!it?.refreshList))
-      .subscribe(() => this.fetch$.next(null));
+      .open(dataOffer.assetId, dataOffer.connectorId, this.ngOnDestroy$)
+      .subscribe();
   }
 
   ngOnDestroy$ = new Subject();

@@ -22,13 +22,13 @@ import {
 } from 'rxjs/operators';
 import {Action, Actions, Selector, State, StateContext} from '@ngxs/store';
 import {OrganizationDetailsDto} from '@sovity.de/authority-portal-client';
-import {ErrorService} from 'src/app/core/error.service';
+import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ToastService} from 'src/app/core/toast-notifications/toast.service';
-import {SlideOverService} from 'src/app/shared/services/slide-over.service';
-import {ApiService} from '../../../core/api/api.service';
-import {Fetched} from '../../../core/utils/fetched';
-import {RefreshOrganizations} from '../../authority-organization-list-page/state/authority-organization-list-page-actions';
+import {ErrorService} from 'src/app/core/services/error.service';
+import {SlideOverService} from 'src/app/core/services/slide-over.service';
+import {Fetched} from 'src/app/core/utils/fetched';
+import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
+import {RefreshOrganizations} from '../../authority-organization-list-page/authority-organization-list-page/state/authority-organization-list-page-actions';
 import {
   ApproveOrganization,
   DeactivateUser,

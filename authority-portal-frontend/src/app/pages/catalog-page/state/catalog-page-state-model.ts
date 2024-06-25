@@ -1,10 +1,10 @@
 import {Subscription} from 'rxjs';
 import {
+  CatalogPageResult,
   CatalogPageSortingItem,
   PaginationMetadata,
 } from '@sovity.de/authority-portal-client';
-import {Fetched} from '../../../core/utils/fetched';
-import {CatalogPageResultMapped} from '../catalog-page/mapping/catalog-page-result-mapped';
+import {Fetched} from 'src/app/core/utils/fetched';
 import {FilterBoxVisibleState} from '../filter-box/filter-box-visible-state';
 import {CatalogActiveFilterPill} from './catalog-active-filter-pill';
 
@@ -43,7 +43,7 @@ export interface CatalogPageStateModel {
   /**
    * Data
    */
-  fetchedData: Fetched<CatalogPageResultMapped>;
+  fetchedData: Fetched<CatalogPageResult>;
 
   /**
    * Pagination Information kept also between calls so we can render the pagination component, always.

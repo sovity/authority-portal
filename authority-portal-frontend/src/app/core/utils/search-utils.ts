@@ -1,5 +1,3 @@
-import {UiAssetMapped} from '../api/ui-asset-mapped';
-
 /**
  * Simple search that tries to find all search query words in target strings of given items
  * @param items item list
@@ -23,12 +21,4 @@ export function search<T>(
       .filter((it) => it) as string[];
     return words.every((word) => targets.some((value) => value.includes(word)));
   });
-}
-
-/**
- * Common code for searching assets
- * @param asset
- */
-export function assetSearchTargets(asset: UiAssetMapped): (string | null)[] {
-  return [asset.assetId, asset.title, ...(asset.keywords ?? [])];
 }

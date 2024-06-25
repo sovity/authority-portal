@@ -15,10 +15,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
-import {DevUtilsModule} from 'src/app/common/components/dev-utils/dev-utils.module';
-import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
-import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
-import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {ParticipantOwnConnectorDetailPageModule} from '../participant-own-connector-detail-page/participant-own-connector-detail-page.module';
 import {ParticipantOwnConnectorListPageComponent} from './participant-own-connector-list-page/participant-own-connector-list-page.component';
@@ -32,16 +28,12 @@ import {ParticipantOwnConnectorListPageStateImpl} from './state/participant-own-
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule,
-    DevUtilsModule,
-    SharedModule,
 
     // NGXS
     NgxsModule.forFeature([ParticipantOwnConnectorListPageStateImpl]),
 
     // Authority Portal
-    PipesAndDirectivesModule,
-    LoadingElementModule,
+    SharedModule,
     ParticipantOwnConnectorDetailPageModule,
   ],
 })

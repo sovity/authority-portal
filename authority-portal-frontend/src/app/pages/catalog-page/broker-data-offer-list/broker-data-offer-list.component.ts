@@ -1,5 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CatalogDataOfferMapped} from '../catalog-page/mapping/catalog-page-result-mapped';
+import {
+  CatalogDataOffer,
+  DataOfferDetailPageResult,
+} from '@sovity.de/authority-portal-client';
 
 @Component({
   selector: 'broker-data-offer-list',
@@ -8,13 +11,13 @@ import {CatalogDataOfferMapped} from '../catalog-page/mapping/catalog-page-resul
 })
 export class BrokerDataOfferList {
   @Input()
-  dataOffers: CatalogDataOfferMapped[] = [];
+  dataOffers: CatalogDataOffer[] = [];
   columnsToDisplay = ['organizationName', 'title', 'description', 'status'];
 
   @Output()
-  dataOfferClick = new EventEmitter<CatalogDataOfferMapped>();
+  dataOfferClick = new EventEmitter<DataOfferDetailPageResult>();
 
-  onRowClick(clickedOffer: CatalogDataOfferMapped) {
+  onRowClick(clickedOffer: DataOfferDetailPageResult) {
     this.dataOfferClick.emit(clickedOffer);
   }
 }

@@ -15,11 +15,11 @@ import {Observable} from 'rxjs';
 import {ignoreElements, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {CreateConnectorResponse} from '@sovity.de/authority-portal-client';
-import {ErrorService} from 'src/app/core/error.service';
+import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ToastService} from 'src/app/core/toast-notifications/toast.service';
-import {ApiService} from '../../../../core/api/api.service';
-import {buildConnectorConfig} from '../../../../core/utils/connector-config-utils';
+import {ErrorService} from 'src/app/core/services/error.service';
+import {buildConnectorConfig} from 'src/app/core/utils/connector-config-utils';
+import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 import {Reset, Submit} from './register-connector-page-actions';
 import {
   DEFAULT_REGISTER_CONNECTOR_PAGE_STATE,

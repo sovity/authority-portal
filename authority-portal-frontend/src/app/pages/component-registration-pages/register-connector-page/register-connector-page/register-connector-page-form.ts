@@ -12,11 +12,11 @@
  */
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {switchDisabledControls} from 'src/app/core/utils/form-utils';
+import {connectorUrlValidator} from 'src/app/core/utils/validators/connector-url-validator';
 import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
-import {buildCertificateInputForm} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-builder';
-import {certificateInputFormEnabledCtrls} from '../../../../common/components/form-elements/certificate-input-form/certificate-input-form-enabled-ctrls';
-import {switchDisabledControls} from '../../../../core/utils/form-utils';
-import {connectorUrlValidator} from '../../../../core/utils/validators/connector-url-validator';
+import {buildCertificateInputForm} from '../../../../shared/form-elements/certificate-input-form/certificate-input-form-builder';
+import {certificateInputFormEnabledCtrls} from '../../../../shared/form-elements/certificate-input-form/certificate-input-form-enabled-ctrls';
 import {
   CertificateTabFormModel,
   CertificateTabFormValue,

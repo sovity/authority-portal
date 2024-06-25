@@ -1,18 +1,17 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {ignoreElements, map, switchMap, tap} from 'rxjs/operators';
+import {ignoreElements, switchMap, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {
   CatalogPageQuery,
+  CatalogPageResult,
   CnfFilter,
   CnfFilterAttribute,
 } from '@sovity.de/authority-portal-client';
-import {CatalogApiService} from '../../../core/api/catalog-api.service';
-import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
-import {Fetched} from '../../../core/utils/fetched';
-import {associateAsObj} from '../../../core/utils/object-utils';
-import {BrokerCatalogMapper} from '../catalog-page/mapping/broker-catalog-mapper';
-import {CatalogPageResultMapped} from '../catalog-page/mapping/catalog-page-result-mapped';
+import {CatalogApiService} from 'src/app/core/api/catalog-api.service';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {Fetched} from 'src/app/core/utils/fetched';
+import {associateAsObj} from 'src/app/core/utils/object-utils';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
 import {
   FilterBoxModel,
@@ -37,7 +36,6 @@ type Ctx = StateContext<CatalogPageStateModel>;
 export class CatalogPageState implements OnDestroy {
   constructor(
     private catalogApiService: CatalogApiService,
-    private brokerCatalogMapper: BrokerCatalogMapper,
     private ngxsUtils: NgxsUtils,
     private globalStateUtils: GlobalStateUtils,
   ) {
@@ -64,9 +62,6 @@ export class CatalogPageState implements OnDestroy {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
         this.catalogApiService.catalogPage(deploymentEnvironmentId, query),
-      ),
-      map((data) =>
-        this.brokerCatalogMapper.buildCatalogPageResultMapped(data),
       ),
       Fetched.wrap({failureMessage: 'Failed fetching data offers.'}),
       this.ngxsUtils.takeUntil(CatalogPage.Reset),
@@ -259,7 +254,7 @@ export class CatalogPageState implements OnDestroy {
 
   private _withReadyCatalogResult(
     state: CatalogPageStateModel,
-    data: CatalogPageResultMapped,
+    data: CatalogPageResult,
   ): CatalogPageStateModel {
     const filters = this.buildFiltersWithNewData(
       data.availableFilters,
