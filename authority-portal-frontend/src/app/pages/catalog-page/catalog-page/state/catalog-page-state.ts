@@ -12,12 +12,12 @@ import {CatalogApiService} from 'src/app/core/api/catalog-api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {associateAsObj} from 'src/app/core/utils/object-utils';
-import {FilterBoxItem} from '../filter-box/filter-box-item';
+import {FilterBoxItem} from '../../filter-box/filter-box-item';
 import {
   FilterBoxModel,
   buildFilterBoxModelWithNewData,
-} from '../filter-box/filter-box-model';
-import {FilterBoxVisibleState} from '../filter-box/filter-box-visible-state';
+} from '../../filter-box/filter-box-model';
+import {FilterBoxVisibleState} from '../../filter-box/filter-box-visible-state';
 import {CatalogActiveFilterPill} from './catalog-active-filter-pill';
 import {CatalogPage} from './catalog-page-actions';
 import {

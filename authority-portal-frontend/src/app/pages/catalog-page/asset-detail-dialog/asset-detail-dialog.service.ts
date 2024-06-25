@@ -6,6 +6,8 @@ import {DataOfferDetailPageQuery} from '@sovity.de/authority-portal-client';
 import {CatalogApiService} from 'src/app/core/api/catalog-api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {showDialogUntil} from 'src/app/core/utils/mat-dialog-utils';
+import {CustomRxjsOperators} from '../../../core/services/custom-rxjs-operators';
+import {ErrorService} from '../../../core/services/error.service';
 import {AssetDetailDialogData} from './asset-detail-dialog-data';
 import {AssetDetailDialogDataService} from './asset-detail-dialog-data.service';
 import {AssetDetailDialogComponent} from './asset-detail-dialog.component';
@@ -17,6 +19,7 @@ export class AssetDetailDialogService {
     private globalStateUtils: GlobalStateUtils,
     private catalogApiService: CatalogApiService,
     private assetDetailDialogDataService: AssetDetailDialogDataService,
+    private errorService: ErrorService,
   ) {}
 
   /**
@@ -39,6 +42,7 @@ export class AssetDetailDialogService {
       map((result) =>
         this.assetDetailDialogDataService.brokerDataOfferDetails(result),
       ),
+      this.errorService.toastFailureRxjs('Failed to load Data Offer Details'),
       switchMap((data) => this.openInternal(data, until$)),
     );
   }

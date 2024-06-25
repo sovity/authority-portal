@@ -1,7 +1,7 @@
-<empty-state
+<app-empty-element
   *ngIf="!props?.length"
   class=""
-  emptyMessage="No properties."></empty-state>
+  emptyMessage="No properties."></app-empty-element>
 <div
   *ngFor="let prop of props; trackBy: trackByIndex"
   class="flex flex-row space-x-[10px] overflow-hidden"

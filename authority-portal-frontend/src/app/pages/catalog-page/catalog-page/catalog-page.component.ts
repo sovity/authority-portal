@@ -6,6 +6,7 @@ import {Subject} from 'rxjs';
 import {map, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
+  CatalogDataOffer,
   CatalogPageSortingItem,
   DataOfferDetailPageResult,
 } from '@sovity.de/authority-portal-client';
@@ -17,11 +18,11 @@ import {AssetDetailDialogDataService} from '../asset-detail-dialog/asset-detail-
 import {AssetDetailDialogService} from '../asset-detail-dialog/asset-detail-dialog.service';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
 import {FilterBoxVisibleState} from '../filter-box/filter-box-visible-state';
-import {CatalogActiveFilterPill} from '../state/catalog-active-filter-pill';
-import {CatalogPage} from '../state/catalog-page-actions';
-import {CatalogPageState} from '../state/catalog-page-state';
-import {CatalogPageStateModel} from '../state/catalog-page-state-model';
 import {ViewModeEnum, isViewMode} from '../view-selection/view-mode-enum';
+import {CatalogActiveFilterPill} from './state/catalog-active-filter-pill';
+import {CatalogPage} from './state/catalog-page-actions';
+import {CatalogPageState} from './state/catalog-page-state';
+import {CatalogPageStateModel} from './state/catalog-page-state-model';
 
 @Component({
   selector: 'catalog-page',
@@ -29,14 +30,11 @@ import {ViewModeEnum, isViewMode} from '../view-selection/view-mode-enum';
 })
 export class CatalogPageComponent implements OnInit, OnDestroy {
   @HostBinding('class.flex')
-  @HostBinding('class.flex-row')
-  @HostBinding('class.p-[20px]')
-  @HostBinding('class.space-x-[20px]')
   cls = true;
 
   headerConfig: HeaderBarConfig = {
     title: 'Catalog',
-    subtitle: 'Public Data Offers of given Environment',
+    subtitle: 'Catalog of public Data Offers of all participants',
     headerActions: [],
   };
 
@@ -54,9 +52,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   expandedFilterId = '';
 
   constructor(
-    private assetDetailDialogDataService: AssetDetailDialogDataService,
     private assetDetailDialogService: AssetDetailDialogService,
-    private catalogApiService: CatalogApiService,
     private store: Store,
     private route: ActivatedRoute,
     private router: Router,
@@ -129,7 +125,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     return Array.isArray(mdsIds) ? [...new Set(mdsIds)] : [mdsIds];
   }
 
-  onDataOfferClick(dataOffer: DataOfferDetailPageResult) {
+  onDataOfferClick(dataOffer: CatalogDataOffer) {
     this.assetDetailDialogService
       .open(dataOffer.assetId, dataOffer.connectorId, this.ngOnDestroy$)
       .subscribe();

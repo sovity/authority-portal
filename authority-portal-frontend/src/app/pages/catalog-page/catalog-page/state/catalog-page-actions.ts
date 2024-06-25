@@ -1,6 +1,5 @@
 import {CatalogPageSortingItem} from '@sovity.de/authority-portal-client';
-import {FilterBoxItem} from '../filter-box/filter-box-item';
-import {FilterBoxModel} from '../filter-box/filter-box-model';
+import {FilterBoxItem} from '../../filter-box/filter-box-item';
 import {CatalogActiveFilterPill} from './catalog-active-filter-pill';
 
 export namespace CatalogPage {

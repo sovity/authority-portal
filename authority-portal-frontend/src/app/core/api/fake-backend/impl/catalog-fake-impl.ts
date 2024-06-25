@@ -98,7 +98,10 @@ export const getCatalogPage = (
   query: CatalogPageQuery,
   environmentId: string,
 ): CatalogPageResult => {
-  const dataOffers: CatalogDataOffer[] = DATA_OFFERS.map(buildCatalogDataOffer);
+  const dataOffers: CatalogDataOffer[] =
+    environmentId === 'development'
+      ? DATA_OFFERS.map(buildCatalogDataOffer)
+      : [];
 
   return {
     dataOffers,
@@ -169,7 +172,7 @@ export const getDataOfferDetailPage = (
   query: DataOfferDetailPageQuery,
   environmentId: string,
 ): DataOfferDetailPageResult | null => {
-  if (environmentId !== 'test') {
+  if (environmentId !== 'development') {
     return null;
   }
   return DATA_OFFERS.find(

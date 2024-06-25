@@ -24,5 +24,5 @@ export class BrokerDataOfferCardsComponent {
   dataOffers: CatalogDataOffer[] = [];
 
   @Output()
-  dataOfferClick = new EventEmitter<DataOfferDetailPageResult>();
+  dataOfferClick = new EventEmitter<CatalogDataOffer>();
 }

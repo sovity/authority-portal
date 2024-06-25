@@ -1,7 +1,7 @@
-<empty-state
+<app-empty-element
   *ngIf="!propGroups?.length"
   class=""
-  emptyMessage="No properties."></empty-state>
+  emptyMessage="No properties."></app-empty-element>
 <ng-container *ngFor="let propGroup of propGroups; let first = first">
   <div
     *ngIf="propGroup.groupLabel != null"

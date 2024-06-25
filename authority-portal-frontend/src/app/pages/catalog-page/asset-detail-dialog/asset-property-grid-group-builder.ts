@@ -6,7 +6,7 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {AdditionalAssetProperty} from 'src/app/core/api/additional-asset-property';
 import {LanguageService} from 'src/app/core/services/languages/language.service';
-import {formatDateAgo} from '../ago/formatDateAgo';
+import {formatDateAgo} from '../../../shared/pipes-and-directives/ago.pipe';
 import {
   getOnlineStatusColor,
   getOnlineStatusIcon,

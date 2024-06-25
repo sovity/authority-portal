@@ -15,9 +15,9 @@ export class BrokerDataOfferList {
   columnsToDisplay = ['organizationName', 'title', 'description', 'status'];
 
   @Output()
-  dataOfferClick = new EventEmitter<DataOfferDetailPageResult>();
+  dataOfferClick = new EventEmitter<CatalogDataOffer>();
 
-  onRowClick(clickedOffer: DataOfferDetailPageResult) {
+  onRowClick(clickedOffer: CatalogDataOffer) {
     this.dataOfferClick.emit(clickedOffer);
   }
 }

@@ -15,19 +15,26 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatBadgeModule} from '@angular/material/badge';
 import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import {MatLegacyChipsModule} from '@angular/material/legacy-chips';
+import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -47,8 +54,9 @@ import {UserDeleteDialogComponent} from './business/user-delete-dialog/user-dele
 import {UserDeleteDialogService} from './business/user-delete-dialog/user-delete-dialog.service';
 import {UserEditFormComponent} from './business/user-edit-form/user-edit-form.component';
 import {UserOnboardFormComponent} from './business/user-onboard-form/user-onboard-form.component';
+import {AgoComponent} from './common/ago/ago.component';
 import {ConfirmationDialogComponent} from './common/confirmation-dialog/confirmation-dialog.component';
-import {EmptyStateComponent} from './common/empty-state/empty-state.component';
+import {EmptyElementComponent} from './common/empty-element/empty-element.component';
 import {ErrorElementComponent} from './common/error-element/error-element.component';
 import {FilterBarComponent} from './common/filter-bar/filter-bar.component';
 import {HeaderBarComponent} from './common/header-bar/header-bar.component';
@@ -85,6 +93,7 @@ import {ReadonlyTextInputComponent} from './form-elements/readonly-text-input/re
 import {TextAreaComponent} from './form-elements/text-area/text-area.component';
 import {TextInputComponent} from './form-elements/text-input/text-input.component';
 import {TosCheckComponent} from './form-elements/tos-check/tos-check.component';
+import {AgoPipe} from './pipes-and-directives/ago.pipe';
 import {AutofocusDirective} from './pipes-and-directives/autofocus.direcitive';
 import {CheckIfNotCurrentUserPipe} from './pipes-and-directives/check-if-not-current-user.pipe';
 import {CompareByFieldPipe} from './pipes-and-directives/compare-by-field.pipe';
@@ -116,8 +125,9 @@ const COMPONENTS = [
   UserOnboardFormComponent,
 
   // ./common
+  AgoComponent,
   ConfirmationDialogComponent,
-  EmptyStateComponent,
+  EmptyElementComponent,
   ErrorElementComponent,
   FilterBarComponent,
   HeaderBarComponent,
@@ -162,6 +172,7 @@ const COMPONENTS = [
   TosCheckComponent,
 
   // ./pipes-and-directives
+  AgoPipe,
   AutofocusDirective,
   CheckIfNotCurrentUserPipe,
   CompareByFieldPipe,
@@ -196,6 +207,15 @@ const MODULES = [
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
+
+  // For Catalog?
+  MatBadgeModule,
+  MatCardModule,
+  MatExpansionModule,
+  MatListModule,
+  MatPaginatorModule,
+  MatTableModule,
+  MatLegacyChipsModule,
 
   // Angular CDK
   ClipboardModule,

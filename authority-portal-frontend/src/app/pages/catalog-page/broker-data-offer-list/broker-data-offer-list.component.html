@@ -12,7 +12,7 @@
   <ng-container matColumnDef="title">
     <th *matHeaderCellDef class="title-column" mat-header-cell>Title</th>
     <td *matCellDef="let offer" class="title-column" mat-cell>
-      {{ offer.asset.title }}
+      {{ offer.assetTitle }}
     </td>
   </ng-container>
 
@@ -21,7 +21,7 @@
       Organization
     </th>
     <td *matCellDef="let offer" class="organization-column" mat-cell>
-      {{ offer.asset.creatorOrganizationName }}
+      {{ offer.organizationName }}
     </td>
   </ng-container>
 
@@ -30,7 +30,7 @@
       Description
     </th>
     <td *matCellDef="let offer" class="description-column" mat-cell>
-      {{ offer.asset.descriptionShortText }}
+      {{ offer.descriptionShortText }}
     </td>
   </ng-container>
 
