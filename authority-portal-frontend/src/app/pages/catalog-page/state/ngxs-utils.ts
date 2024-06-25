@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {sampleTime} from 'rxjs';
+import {MonoTypeOperatorFunction} from 'rxjs';
+import {sampleTime, takeUntil} from 'rxjs/operators';
 import {Actions, Store, ofActionDispatched} from '@ngxs/store';
 
 @Injectable({providedIn: 'root'})
@@ -16,5 +17,10 @@ export class NgxsUtils {
       .subscribe(() => {
         this.store.dispatch(executeActionType);
       });
+  }
+
+  takeUntil<T>(actionType: any): MonoTypeOperatorFunction<T> {
+    return (obs) =>
+      obs.pipe(takeUntil(this.actions$.pipe(ofActionDispatched(actionType))));
   }
 }

@@ -1,12 +1,16 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {Subject} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {ignoreElements, map, switchMap, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {
   CatalogPageQuery,
   CnfFilter,
   CnfFilterAttribute,
 } from '@sovity.de/authority-portal-client';
+import {CatalogApiService} from '../../../core/api/catalog-api.service';
+import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
+import {Fetched} from '../../../core/utils/fetched';
+import {associateAsObj} from '../../../core/utils/object-utils';
 import {BrokerCatalogMapper} from '../catalog-page/mapping/broker-catalog-mapper';
 import {CatalogPageResultMapped} from '../catalog-page/mapping/catalog-page-result-mapped';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
@@ -22,10 +26,6 @@ import {
   DEFAULT_CATALOG_PAGE_STATE_MODEL,
 } from './catalog-page-state-model';
 import {NgxsUtils} from './ngxs-utils';
-import {CatalogApiService} from "../../../core/api/catalog-api.service";
-import {Fetched} from "../../../core/utils/fetched";
-import {associateAsObj} from "../../../core/utils/object-utils";
-import {GlobalStateUtils} from "../../../core/global-state/global-state-utils";
 
 type Ctx = StateContext<CatalogPageStateModel>;
 
@@ -47,42 +47,38 @@ export class CatalogPageState implements OnDestroy {
   @Action(CatalogPage.Reset)
   onReset(ctx: Ctx, action: CatalogPage.Reset) {
     let state = ctx.getState();
-    state.fetchSubscription?.unsubscribe();
     state = DEFAULT_CATALOG_PAGE_STATE_MODEL;
     if (action.initialMdsIds?.length) {
       state = this._addFilterBoxes(state, [
-        this._buildMdsIdFilterBoxModel(
-          action.initialMdsIds,
-        ),
+        this._buildMdsIdFilterBoxModel(action.initialMdsIds),
       ]);
     }
     ctx.setState(state);
     ctx.dispatch(CatalogPage.NeedFetch);
   }
 
-  @Action(CatalogPage.Fetch)
-  onFetch(ctx: Ctx) {
-    ctx.getState().fetchSubscription?.unsubscribe();
+  @Action(CatalogPage.Fetch, {cancelUncompleted: true})
+  onFetch(ctx: Ctx): Observable<never> {
     const query = this.buildCatalogPageQuery(ctx.getState());
 
-    this.globalStateUtils.getDeploymentEnvironmentId().subscribe((deploymentEnvironmentId) => {
-      const fetchSubscription = this.catalogApiService
-        .catalogPage(deploymentEnvironmentId, query)
-        .pipe(
-          map((data) =>
-            this.brokerCatalogMapper.buildCatalogPageResultMapped(data),
-          ),
-          Fetched.wrap({failureMessage: 'Failed fetching data offers.'}),
-        )
-        .subscribe((fetchedData) => {
-          let state = {...ctx.getState(), fetchedData};
-          fetchedData.ifReady((data) => {
-            state = this._withReadyCatalogResult(state, data);
-          });
-          ctx.setState(state);
+    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
+      switchMap((deploymentEnvironmentId) =>
+        this.catalogApiService.catalogPage(deploymentEnvironmentId, query),
+      ),
+      map((data) =>
+        this.brokerCatalogMapper.buildCatalogPageResultMapped(data),
+      ),
+      Fetched.wrap({failureMessage: 'Failed fetching data offers.'}),
+      this.ngxsUtils.takeUntil(CatalogPage.Reset),
+      tap((fetchedData) => {
+        let state = {...ctx.getState(), fetchedData};
+        fetchedData.ifReady((data) => {
+          state = this._withReadyCatalogResult(state, data);
         });
-      ctx.patchState({fetchSubscription});
-    })
+        ctx.setState(state);
+      }),
+      ignoreElements(),
+    );
   }
 
   @Action(CatalogPage.UpdatePage)
@@ -167,9 +163,15 @@ export class CatalogPageState implements OnDestroy {
     }
   }
 
-  private _buildMdsIdFilterBoxModel(
-    endpoints: string[],
-  ): FilterBoxModel {
+  @Action(CatalogPage.EnvironmentChange)
+  onEnvironmentChange(ctx: Ctx) {
+    let state = ctx.getState();
+    state = this._resetPage(state);
+    ctx.setState(state);
+    ctx.dispatch(CatalogPage.NeedFetch);
+  }
+
+  private _buildMdsIdFilterBoxModel(endpoints: string[]): FilterBoxModel {
     const items: FilterBoxItem[] = endpoints.map((x) => ({
       type: 'ITEM',
       id: x,

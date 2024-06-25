@@ -3,10 +3,10 @@ import {
   CatalogPageSortingItem,
   PaginationMetadata,
 } from '@sovity.de/authority-portal-client';
+import {Fetched} from '../../../core/utils/fetched';
 import {CatalogPageResultMapped} from '../catalog-page/mapping/catalog-page-result-mapped';
 import {FilterBoxVisibleState} from '../filter-box/filter-box-visible-state';
 import {CatalogActiveFilterPill} from './catalog-active-filter-pill';
-import {Fetched} from "../../../core/utils/fetched";
 
 export interface CatalogPageStateModel {
   /**
@@ -39,11 +39,6 @@ export interface CatalogPageStateModel {
    * Active Filter Pills as derived from user input.
    */
   activeFilterPills: CatalogActiveFilterPill[];
-
-  /**
-   * Fetch Subscription, so we can more fine-tuned decide when to cancel it
-   */
-  fetchSubscription: Subscription | null;
 
   /**
    * Data
@@ -83,7 +78,6 @@ export const DEFAULT_CATALOG_PAGE_STATE_MODEL: CatalogPageStateModel = {
   sortings: [],
   activeSorting: null,
 
-  fetchSubscription: null,
   fetchedData: Fetched.empty(),
   paginationMetadata: EMPTY_PAGINATION_METADATA,
   paginationDisabled: true,

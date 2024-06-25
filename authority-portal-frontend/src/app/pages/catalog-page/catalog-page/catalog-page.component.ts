@@ -2,11 +2,19 @@ import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {PageEvent} from '@angular/material/paginator';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {BehaviorSubject, Subject} from 'rxjs';
+import {BehaviorSubject, Subject, switchMap} from 'rxjs';
 import {filter, map, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {CatalogPageSortingItem} from '@sovity.de/authority-portal-client';
 import {LocalStoredValue} from 'src/app/core/utils/local-stored-value';
+import {AssetDetailDialogDataService} from '../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog-data.service';
+import {AssetDetailDialogService} from '../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog.service';
+import {
+  ViewModeEnum,
+  isViewMode,
+} from '../../../catalog-component-library/catalog/view-selection/view-mode-enum';
+import {CatalogApiService} from '../../../core/api/catalog-api.service';
+import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
 import {FilterBoxVisibleState} from '../filter-box/filter-box-visible-state';
 import {CatalogActiveFilterPill} from '../state/catalog-active-filter-pill';
@@ -14,15 +22,6 @@ import {CatalogPage} from '../state/catalog-page-actions';
 import {CatalogPageState} from '../state/catalog-page-state';
 import {CatalogPageStateModel} from '../state/catalog-page-state-model';
 import {CatalogDataOfferMapped} from './mapping/catalog-page-result-mapped';
-import {isViewMode, ViewModeEnum} from "../../../catalog-component-library/catalog/view-selection/view-mode-enum";
-import {
-  AssetDetailDialogDataService
-} from "../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog-data.service";
-import {
-  AssetDetailDialogService
-} from "../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog.service";
-import {CatalogApiService} from "../../../core/api/catalog-api.service";
-import {GlobalStateUtils} from "../../../core/global-state/global-state-utils";
 
 @Component({
   selector: 'catalog-page',
@@ -56,20 +55,18 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private globalStateUtils: GlobalStateUtils,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.initializePage();
     this.startListeningToStore();
+    this.startListeningToEnvironmentChanges();
     this.startEmittingSearchText();
     this.startEmittingSortBy();
   }
 
   private initializePage() {
-    const mdsIds = this.parseMdsId(
-      this.route.snapshot.queryParams,
-    );
+    const mdsIds = this.parseMdsId(this.route.snapshot.queryParams);
     this.store.dispatch(new CatalogPage.Reset(mdsIds));
 
     if (mdsIds.length) {
@@ -132,22 +129,22 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
 
     // Call the detail dialog endpoint so the view count is increased
 
-    this.globalStateUtils.getDeploymentEnvironmentId().subscribe((deploymentEnvironmentId) => {
-      this.catalogApiService
-        .dataOfferDetailPage(
-          deploymentEnvironmentId,
-          {
+    this.globalStateUtils
+      .getDeploymentEnvironmentId()
+      .pipe(
+        switchMap((deploymentEnvironmentId) =>
+          this.catalogApiService.dataOfferDetailPage(deploymentEnvironmentId, {
             assetId: dataOffer.assetId,
             connectorId: dataOffer.connectorId,
-          }
-        )
-        .subscribe();
+          }),
+        ),
+      )
+      .subscribe();
 
-      this.assetDetailDialogService
-        .open(data, this.ngOnDestroy$)
-        .pipe(filter((it) => !!it?.refreshList))
-        .subscribe(() => this.fetch$.next(null));
-    })
+    this.assetDetailDialogService
+      .open(data, this.ngOnDestroy$)
+      .pipe(filter((it) => !!it?.refreshList))
+      .subscribe(() => this.fetch$.next(null));
   }
 
   ngOnDestroy$ = new Subject();
@@ -187,5 +184,12 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     if (expanded) {
       this.expandedFilterId = filterId;
     }
+  }
+
+  private startListeningToEnvironmentChanges() {
+    this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
+      onChanged: () => this.store.dispatch(new CatalogPage.EnvironmentChange()),
+      ngOnDestroy$: this.ngOnDestroy$,
+    });
   }
 }

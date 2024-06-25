@@ -38,12 +38,6 @@ export namespace CatalogPage {
     constructor(public sorting: CatalogPageSortingItem | null) {}
   }
 
-  export class AddFilterBox {
-    static readonly type = `[${tag}] Add Filter Box`;
-
-    constructor(public filterBox: FilterBoxModel) {}
-  }
-
   export class UpdateFilterSelectedItems {
     static readonly type = `[${tag}] Update a Filter's selected Items`;
 
@@ -63,5 +57,9 @@ export namespace CatalogPage {
     static readonly type = `[${tag}] Remove an active filter from the chips below the search bar`;
 
     constructor(public item: CatalogActiveFilterPill) {}
+  }
+
+  export class EnvironmentChange {
+    static readonly type = `[${tag}] Environment Change`;
   }
 }

@@ -60,7 +60,6 @@ export class GlobalStateUtils {
           environment !== null,
       ),
       distinctUntilKeyChanged('environmentId'),
-      shareReplay(1),
     );
 
   userRoles$: Observable<Set<UserRoleDto>> = this.store.select(
