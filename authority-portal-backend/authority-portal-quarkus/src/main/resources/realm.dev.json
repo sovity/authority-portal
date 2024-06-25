@@ -1,6 +1,6 @@
 {
   "id": "505910bc-ea1d-497e-8107-461505d89736",
-  "realm": "authority-portal",
+  "realm": "mds-portal",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,

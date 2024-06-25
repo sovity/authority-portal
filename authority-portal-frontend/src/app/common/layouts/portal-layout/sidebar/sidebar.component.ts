@@ -89,9 +89,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           {
             title: `Data Catalogue`,
             icon: 'tag',
-            rLink: `/api/organizations/my-org/redirects/broker?environmentId=${
-              env.environmentId ?? ''
-            }`,
+            rLink: '/catalog',
             isExternalLink: true,
           },
         ],
