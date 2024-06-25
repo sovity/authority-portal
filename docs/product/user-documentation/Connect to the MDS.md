@@ -73,7 +73,7 @@ Click on “Register Connector” to finalize the connector registration process
 
 ![register-connector-finish](images/connect-to-the-mds/register-connector-finish.png)
 
-On the following page you will find further instructions on how to set up your on-premise Connector and a link to the open-source repository edc-extensions providing all you need to set up your Connector.
+On the following page you will find further instructions on how to set up your on-premise Connector and a link to the open-source repository edc-ce (sovity EDC Community Edition) providing all you need to set up your Connector.
 
 Find your newly registered Connector in the "Connectors" list.
 
