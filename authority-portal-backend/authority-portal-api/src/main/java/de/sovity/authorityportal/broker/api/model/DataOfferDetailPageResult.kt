@@ -23,11 +23,32 @@ data class DataOfferDetailPageResult(
     val assetId: String,
 
     @field:Schema(
+        description = "Connector ID",
+        example = "MDSL1234XX.C1234XX",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    val connectorId: String,
+
+    @field:Schema(
         description = "Connector Endpoint",
         example = "https://my-test.connector/api/dsp",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val connectorEndpoint: String,
+
+    @field:Schema(
+        description = "Organization Name",
+        example = "sovity GmbH",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    val organizationName: String,
+
+    @field:Schema(
+        description = "Organization ID",
+        example = "MDSL1234XX",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    val organizationId: String,
 
     @field:Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
     val connectorOnlineStatus: ConnectorOnlineStatusDto,
