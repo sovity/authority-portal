@@ -13,7 +13,7 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
-import de.sovity.authorityportal.broker.api.model.CatalogPageSortingType
+import de.sovity.authorityportal.api.model.catalog.CatalogPageSortingType
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery

@@ -11,12 +11,12 @@
  *       sovity GmbH - initial API and implementation
  *
  */
-package de.sovity.authorityportal.broker.api
+package de.sovity.authorityportal.api
 
-import de.sovity.authorityportal.broker.api.model.CatalogPageQuery
-import de.sovity.authorityportal.broker.api.model.CatalogPageResult
-import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageQuery
-import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageResult
+import de.sovity.authorityportal.api.model.catalog.CatalogPageQuery
+import de.sovity.authorityportal.api.model.catalog.CatalogPageResult
+import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageQuery
+import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageResult
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.ws.rs.Consumes

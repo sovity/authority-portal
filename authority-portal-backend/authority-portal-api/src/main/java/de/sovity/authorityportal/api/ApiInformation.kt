@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Contact
 import io.swagger.v3.oas.annotations.info.Info
 import io.swagger.v3.oas.annotations.info.License
-import jakarta.ws.rs.core.Application
 
 @OpenAPIDefinition(
     info = Info(
@@ -36,4 +35,4 @@ import jakarta.ws.rs.core.Application
         url = "https://github.com/sovity/ authority-portal/tree/main/authority-portal-api"
     )
 )
-class AuthorityPortalApplication : Application()
+interface ApiInformation

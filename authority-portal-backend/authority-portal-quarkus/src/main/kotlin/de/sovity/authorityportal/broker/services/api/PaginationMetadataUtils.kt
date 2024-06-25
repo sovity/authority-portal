@@ -13,7 +13,7 @@
  */
 package de.sovity.authorityportal.broker.services.api
 
-import de.sovity.authorityportal.broker.api.model.PaginationMetadata
+import de.sovity.authorityportal.api.model.catalog.PaginationMetadata
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery
 import jakarta.enterprise.context.ApplicationScoped
 

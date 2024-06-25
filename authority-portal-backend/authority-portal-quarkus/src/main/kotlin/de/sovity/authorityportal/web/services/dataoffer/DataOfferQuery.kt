@@ -1,6 +1,6 @@
 package de.sovity.authorityportal.web.services.dataoffer
 
-import de.sovity.authorityportal.broker.api.model.ConnectorOnlineStatusDto
+import de.sovity.authorityportal.api.model.catalog.ConnectorOnlineStatusDto
 import de.sovity.authorityportal.db.jooq.Tables
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext

@@ -1,8 +1,8 @@
 package de.sovity.authorityportal.web.tests.services.catalog
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import de.sovity.authorityportal.broker.api.CatalogResource
-import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageQuery
+import de.sovity.authorityportal.api.CatalogResource
+import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageQuery
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller

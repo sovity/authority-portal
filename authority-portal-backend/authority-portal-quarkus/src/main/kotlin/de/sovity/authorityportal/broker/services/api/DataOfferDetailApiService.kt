@@ -13,10 +13,10 @@
  */
 package de.sovity.authorityportal.broker.services.api
 
-import de.sovity.authorityportal.broker.api.model.ConnectorOnlineStatusDto
-import de.sovity.authorityportal.broker.api.model.DataOfferDetailContractOffer
-import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageQuery
-import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageResult
+import de.sovity.authorityportal.api.model.catalog.ConnectorOnlineStatusDto
+import de.sovity.authorityportal.api.model.catalog.DataOfferDetailContractOffer
+import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageQuery
+import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageResult
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.DataOfferDetailPageQueryService
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.ViewCountLogger
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs

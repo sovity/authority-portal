@@ -13,10 +13,10 @@
  */
 package de.sovity.authorityportal.broker.services.api.filtering
 
-import de.sovity.authorityportal.broker.api.model.CnfFilter
-import de.sovity.authorityportal.broker.api.model.CnfFilterAttribute
-import de.sovity.authorityportal.broker.api.model.CnfFilterItem
-import de.sovity.authorityportal.broker.api.model.CnfFilterValue
+import de.sovity.authorityportal.api.model.catalog.CnfFilter
+import de.sovity.authorityportal.api.model.catalog.CnfFilterAttribute
+import de.sovity.authorityportal.api.model.catalog.CnfFilterItem
+import de.sovity.authorityportal.api.model.catalog.CnfFilterValue
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQuerySelectedFilterQuery

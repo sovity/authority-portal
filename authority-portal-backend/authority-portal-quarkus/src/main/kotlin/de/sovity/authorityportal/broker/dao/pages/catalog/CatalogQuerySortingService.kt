@@ -13,7 +13,7 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
-import de.sovity.authorityportal.broker.api.model.CatalogPageSortingType
+import de.sovity.authorityportal.api.model.catalog.CatalogPageSortingType
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.OrderField
 

@@ -11,19 +11,14 @@
  *       sovity GmbH - initial API and implementation
  *
  */
-package de.sovity.authorityportal.broker.api.model
+package de.sovity.authorityportal.api.model.catalog
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "Attribute Value")
-data class CnfFilterItem(
-    @field:Schema(
-        description = "Value ID",
-        example = "https://w3id.org/idsa/code/EN",
-        requiredMode = Schema.RequiredMode.REQUIRED
-    )
-    val id: String,
-
-    @field:Schema(description = "Value Title", example = "English", requiredMode = Schema.RequiredMode.REQUIRED)
+@Schema(description = "Available Catalog Page Sorting Item")
+data class CatalogPageSortingItem(
+    @field:Schema(description = "Sorting ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    val sorting: CatalogPageSortingType,
+    @field:Schema(description = "Sorting Title", example = "By Relevance", requiredMode = Schema.RequiredMode.REQUIRED)
     val title: String,
 )

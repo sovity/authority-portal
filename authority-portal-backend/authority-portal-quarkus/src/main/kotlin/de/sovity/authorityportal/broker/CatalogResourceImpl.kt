@@ -13,11 +13,11 @@
  */
 package de.sovity.authorityportal.broker
 
-import de.sovity.authorityportal.broker.api.CatalogResource
-import de.sovity.authorityportal.broker.api.model.CatalogPageQuery
-import de.sovity.authorityportal.broker.api.model.CatalogPageResult
-import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageQuery
-import de.sovity.authorityportal.broker.api.model.DataOfferDetailPageResult
+import de.sovity.authorityportal.api.CatalogResource
+import de.sovity.authorityportal.api.model.catalog.CatalogPageQuery
+import de.sovity.authorityportal.api.model.catalog.CatalogPageResult
+import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageQuery
+import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageResult
 import de.sovity.authorityportal.broker.services.api.CatalogApiService
 import de.sovity.authorityportal.broker.services.api.DataOfferDetailApiService
 import de.sovity.authorityportal.web.auth.AuthUtils
