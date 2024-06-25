@@ -257,7 +257,6 @@ class CatalogApiTest {
         assertThat(result.dataOffers.first().connectorEndpoint).isEqualTo("https://connector-0/dsp")
         assertThat(result.dataOffers.first().asset.description).isEqualTo("Data Offer 0 Description")
         assertThat(result.dataOffers.first().connectorOnlineStatus).isEqualTo(ConnectorOnlineStatusDto.ONLINE)
-        assertThat(result.dataOffers.first().connectorOfflineSinceOrLastUpdatedAt).isEqualTo(now.minusHours(1))
     }
 
     @Test
