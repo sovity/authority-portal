@@ -16,3 +16,7 @@ export const isEqualSets = <T>(first: Set<T>, other: Set<T>): boolean => {
     first.size == other.size && [...first].every((value) => other.has(value))
   );
 };
+
+export function difference<T>(a: Set<T>, b: Set<T>): Set<T> {
+  return new Set([...a].filter((x) => !b.has(x)));
+}

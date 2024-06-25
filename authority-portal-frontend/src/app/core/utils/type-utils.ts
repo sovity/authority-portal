@@ -14,3 +14,15 @@
 export function nonNull<T>(array: (T | null)[]): T[] {
   return array.filter((it) => it != null) as T[];
 }
+
+export type KeysOfType<O, T> = {
+  [K in keyof O]: O[K] extends T ? K : never;
+}[keyof O];
+
+export function isValueOfEnum<T>(
+  enumObj: {[key in keyof T]: T[key]},
+  value: any,
+): value is T[keyof T] {
+  return Object.values(enumObj).includes(value);
+}
+

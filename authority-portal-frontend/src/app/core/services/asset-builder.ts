@@ -7,7 +7,7 @@ import {LanguageSelectItem} from '../../routes/connector-ui/asset-page/language-
 import {LanguageSelectItemService} from '../../routes/connector-ui/asset-page/language-select/language-select-item.service';
 import {TransportModeSelectItem} from '../../routes/connector-ui/asset-page/transport-mode-select/transport-mode-select-item';
 import {TransportModeSelectItemService} from '../../routes/connector-ui/asset-page/transport-mode-select/transport-mode-select-item.service';
-import {AdditionalAssetProperty, UiAssetMapped} from './models/ui-asset-mapped';
+import {AdditionalAssetProperty, UiAssetMapped} from '../api/ui-asset-mapped';
 import {UiAsset} from "@sovity.de/authority-portal-client";
 
 /**

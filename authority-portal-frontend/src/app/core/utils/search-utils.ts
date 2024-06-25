@@ -1,4 +1,4 @@
-import {UiAssetMapped} from '../services/models/ui-asset-mapped';
+import {UiAssetMapped} from '../api/ui-asset-mapped';
 
 /**
  * Simple search that tries to find all search query words in target strings of given items
