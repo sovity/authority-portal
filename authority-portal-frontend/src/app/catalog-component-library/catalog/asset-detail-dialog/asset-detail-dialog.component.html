@@ -4,6 +4,14 @@
       mainIcon="sim_card"
       [onlineStatus]="data.dataOffer.connectorOnlineStatus">
     </icon-with-online-status>
+    <div class="mat-card-header-text">
+      <div class="mat-card-title">
+        {{ asset.title }}
+      </div>
+      <div class="mat-card-subtitle">
+        {{ asset.creatorOrganizationName }}
+      </div>
+    </div>
   </div>
 </div>
 
@@ -14,7 +22,7 @@
     [description]="asset.description"></markdown-description>
 
   <div>
-    <hr class="h-px my-5 bg-gray-200 border-0"/>
+    <hr class="h-px my-5 bg-gray-200 border-0" />
   </div>
 
   <!-- Tag List -->
