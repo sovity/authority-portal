@@ -188,7 +188,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(null, null, null)
         )
 
@@ -245,7 +245,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(null, null, null)
         )
 
@@ -343,7 +343,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(null, null, null)
         )
 
@@ -459,7 +459,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(
                 filter = null,
                 searchQuery = "Hello",
@@ -526,7 +526,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(
                 filter = CnfFilterValue(
                     listOf(
@@ -578,7 +578,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(
                 filter = null,
                 searchQuery = "my-asset",
@@ -627,7 +627,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(
                 filter = null,
                 searchQuery = "my-asset",
@@ -677,7 +677,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(
                 filter = null,
                 searchQuery = null,
@@ -735,7 +735,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(
                 filter = CnfFilterValue(
                     listOf(
@@ -783,7 +783,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(
                 filter = null,
                 searchQuery = "tEsT",
@@ -825,7 +825,7 @@ class CatalogApiTest {
 
         // act
         val result = catalogResource.catalogPage(
-            environment = "test",
+            environmentId = "test",
             query = CatalogPageQuery(
                 filter = CnfFilterValue(
                     listOf(

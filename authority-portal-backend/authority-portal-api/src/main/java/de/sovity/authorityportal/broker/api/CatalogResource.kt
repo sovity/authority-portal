@@ -34,7 +34,7 @@ interface CatalogResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Query the Broker's Catalog of Data Offers")
-    fun catalogPage(@QueryParam("environment") environment: String, query: CatalogPageQuery): CatalogPageResult
+    fun catalogPage(@QueryParam("environmentId") environmentId: String, query: CatalogPageQuery): CatalogPageResult
 
     @POST
     @Path("data-offer-detail-page")
@@ -42,7 +42,7 @@ interface CatalogResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Query a Data Offer's Detail Page")
     fun dataOfferDetailPage(
-        @QueryParam("environment") environment: String,
+        @QueryParam("environmentId") environmentId: String,
         query: DataOfferDetailPageQuery
     ): DataOfferDetailPageResult
 }

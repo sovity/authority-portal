@@ -111,7 +111,7 @@ class DataOfferDetailApiTest {
 
         // act
         val result = catalogResource.dataOfferDetailPage(
-            environment = "test",
+            environmentId = "test",
             query = DataOfferDetailPageQuery(
                 connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}",
                 assetId = dummyDevAssetId(0)

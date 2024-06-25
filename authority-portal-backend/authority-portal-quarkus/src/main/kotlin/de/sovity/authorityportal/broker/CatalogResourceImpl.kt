@@ -35,16 +35,16 @@ class CatalogResourceImpl(
 ) : CatalogResource {
 
     @Transactional
-    override fun catalogPage(environment: String, query: CatalogPageQuery): CatalogPageResult {
+    override fun catalogPage(environmentId: String, query: CatalogPageQuery): CatalogPageResult {
         authUtils.requiresAuthenticated()
         authUtils.requiresMemberOfAnyOrganization()
-        return catalogApiService.catalogPage(environment, query)
+        return catalogApiService.catalogPage(environmentId, query)
     }
 
     @Transactional
-    override fun dataOfferDetailPage(environment: String, query: DataOfferDetailPageQuery): DataOfferDetailPageResult {
+    override fun dataOfferDetailPage(environmentId: String, query: DataOfferDetailPageQuery): DataOfferDetailPageResult {
         authUtils.requiresAuthenticated()
         authUtils.requiresMemberOfAnyOrganization()
-        return dataOfferDetailApiService.dataOfferDetailPage(environment, query)
+        return dataOfferDetailApiService.dataOfferDetailPage(environmentId, query)
     }
 }

@@ -90,7 +90,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
             title: `Data Catalogue`,
             icon: 'tag',
             rLink: '/catalog',
-            isExternalLink: true,
           },
         ],
       },

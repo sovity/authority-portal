@@ -10,7 +10,7 @@ import java.util.Optional
 @ApplicationScoped
 class SeedInstaller(
     val scenarios: Instance<SeedScenario>,
-    @ConfigProperty(name = "de.sovity.authorityportal.seed.scenario") val scenarioId: Optional<String>
+    @ConfigProperty(name = "authority-portal.seed.scenario") val scenarioId: Optional<String>
 ) {
 
     @Startup
