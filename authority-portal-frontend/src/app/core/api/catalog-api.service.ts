@@ -16,18 +16,21 @@ export class CatalogApiService {
   constructor(private apiClientFactory: ApiClientFactory) {}
 
   catalogPage(
+    environmentId: string,
     catalogPageQuery: CatalogPageQuery,
   ): Observable<CatalogPageResult> {
     return toObservable( () =>
-      this.api().catalogPage({catalogPageQuery}),
+      this.api().catalogPage({environmentId, catalogPageQuery}),
     );
   }
 
   dataOfferDetailPage(
+    environmentId: string,
     dataOfferDetailPageQuery: DataOfferDetailPageQuery,
   ): Observable<DataOfferDetailPageResult> {
     return toObservable(() =>
       this.api().dataOfferDetailPage({
+        environmentId,
         dataOfferDetailPageQuery,
       }),
     );

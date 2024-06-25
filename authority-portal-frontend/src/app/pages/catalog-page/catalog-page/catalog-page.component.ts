@@ -70,7 +70,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new CatalogPage.Reset(mdsIds));
 
     if (mdsIds.length) {
-      this.expandedFilterId = 'curatorMdsId';
+      this.expandedFilterId = 'mdsId';
       // remove query params from url
       this.router.navigate([]);
     }

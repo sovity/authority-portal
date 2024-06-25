@@ -64,6 +64,7 @@ export class CatalogPageState implements OnDestroy {
     const query = this.buildCatalogPageQuery(ctx.getState());
 
     const fetchSubscription = this.brokerServerApiService
+
       .catalogPage(query)
       .pipe(
         map((data) =>
