@@ -83,6 +83,7 @@ class DevScenario(
             // Catalog test data
             val asset1 = UiAsset().also {
                 it.assetId = dummyDevAssetId(1)
+                it.title = "Asset Title"
                 it.connectorEndpoint = "https://test-connector/dsp"
                 it.participantId = dummyDevMdsId(1)
                 it.creatorOrganizationName = "Authority Organization"
@@ -95,6 +96,7 @@ class DevScenario(
             connector(1, 1, 1)
             dataOffer(1, 1, 1) {
                 it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(asset1))
+                it.assetTitle = "Asset Title"
             }
             contractOffer(1, 1, 1, 1)
         }
