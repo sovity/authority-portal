@@ -28,15 +28,17 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
-import {CatalogModule} from '../../../component-library/catalog/catalog.module';
-import {PipesAndDirectivesModule} from '../../../component-library/pipes-and-directives/pipes-and-directives.module';
-import {UiElementsModule} from '../../../component-library/ui-elements/ui-elements.module';
 import {BrokerDataOfferCardsComponent} from './broker-data-offer-cards/broker-data-offer-cards.component';
 import {BrokerDataOfferList} from './broker-data-offer-list/broker-data-offer-list.component';
 import {CatalogPageComponent} from './catalog-page/catalog-page.component';
 import {FilterBoxComponent} from './filter-box/filter-box.component';
 import {CatalogPageState} from './state/catalog-page-state';
 import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
+import {CatalogModule} from "../../catalog-component-library/catalog/catalog.module";
+import {
+  PipesAndDirectivesModule
+} from "../../catalog-component-library/pipes-and-directives/pipes-and-directives.module";
+import {UiElementsModule} from "../../catalog-component-library/ui-elements/ui-elements.module";
 
 @NgModule({
   imports: [

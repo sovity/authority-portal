@@ -1,9 +1,13 @@
 
-import {DataCategorySelectItem} from '../../../routes/connector-ui/asset-page/data-category-select/data-category-select-item';
-import {DataSubcategorySelectItem} from '../../../routes/connector-ui/asset-page/data-subcategory-select/data-subcategory-select-item';
-import {LanguageSelectItem} from '../../../routes/connector-ui/asset-page/language-select/language-select-item';
-import {TransportModeSelectItem} from '../../../routes/connector-ui/asset-page/transport-mode-select/transport-mode-select-item';
 import {UiAsset} from "@sovity.de/authority-portal-client";
+import {LanguageSelectItem} from "../../catalog-component-library/language-select/language-select-item";
+import {DataCategorySelectItem} from "../../catalog-component-library/data-category-select/data-category-select-item";
+import {
+  DataSubcategorySelectItem
+} from "../../catalog-component-library/data-subcategory-select/data-subcategory-select-item";
+import {
+  TransportModeSelectItem
+} from "../../catalog-component-library/transport-mode-select/transport-mode-select-item";
 
 /**
  * UiAsset with replaced fixed vocabulary items.

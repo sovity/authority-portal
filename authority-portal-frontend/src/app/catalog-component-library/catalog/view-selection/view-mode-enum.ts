@@ -1,4 +1,4 @@
-import {isValueOfEnum} from '../../../app/core/utils/type-utils';
+import {isValueOfEnum} from "../../../core/utils/type-utils";
 
 export enum ViewModeEnum {
   GRID = 'GRID',

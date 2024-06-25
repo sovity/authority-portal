@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
-import {
-  CatalogDataOfferMapped
-} from '../../../routes/broker-ui/catalog-page/catalog-page/mapping/catalog-page-result-mapped';
 import {AssetDetailDialogData,} from './asset-detail-dialog-data';
 import {AssetPropertyGridGroupBuilder} from './asset-property-grid-group-builder';
+import {CatalogDataOfferMapped} from "../../../pages/catalog-page/catalog-page/mapping/catalog-page-result-mapped";
 
 @Injectable()
 export class AssetDetailDialogDataService {

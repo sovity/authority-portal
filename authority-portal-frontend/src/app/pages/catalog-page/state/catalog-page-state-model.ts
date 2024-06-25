@@ -3,10 +3,10 @@ import {
   CatalogPageSortingItem,
   PaginationMetadata,
 } from '@sovity.de/authority-portal-client';
-import {Fetched} from '../../../../core/services/models/fetched';
 import {CatalogPageResultMapped} from '../catalog-page/mapping/catalog-page-result-mapped';
 import {FilterBoxVisibleState} from '../filter-box/filter-box-visible-state';
 import {CatalogActiveFilterPill} from './catalog-active-filter-pill';
+import {Fetched} from "../../../core/utils/fetched";
 
 export interface CatalogPageStateModel {
   /**

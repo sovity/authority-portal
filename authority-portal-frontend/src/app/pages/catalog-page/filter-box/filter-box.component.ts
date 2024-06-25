@@ -11,9 +11,9 @@ import {
 import {FormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {SimpleChangesTyped} from '../../../../core/utils/angular-utils';
 import {FilterBoxItem} from './filter-box-item';
 import {FilterBoxVisibleState} from './filter-box-visible-state';
+import {SimpleChangesTyped} from "../../../core/utils/angular-utils";
 
 @Component({
   selector: 'filter-box',

@@ -7,9 +7,6 @@ import {
   CnfFilter,
   CnfFilterAttribute,
 } from '@sovity.de/authority-portal-client';
-import {CatalogApiService} from '../../../../core/services/api/catalog-api.service';
-import {Fetched} from '../../../../core/services/models/fetched';
-import {associateAsObj} from '../../../../core/utils/object-utils';
 import {BrokerCatalogMapper} from '../catalog-page/mapping/broker-catalog-mapper';
 import {CatalogPageResultMapped} from '../catalog-page/mapping/catalog-page-result-mapped';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
@@ -25,6 +22,9 @@ import {
   DEFAULT_CATALOG_PAGE_STATE_MODEL,
 } from './catalog-page-state-model';
 import {NgxsUtils} from './ngxs-utils';
+import {CatalogApiService} from "../../../core/api/catalog-api.service";
+import {Fetched} from "../../../core/utils/fetched";
+import {associateAsObj} from "../../../core/utils/object-utils";
 
 type Ctx = StateContext<CatalogPageStateModel>;
 

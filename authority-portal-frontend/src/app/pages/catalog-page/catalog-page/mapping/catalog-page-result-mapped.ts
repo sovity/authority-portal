@@ -2,7 +2,7 @@ import {
   CatalogDataOffer,
   CatalogPageResult,
 } from '@sovity.de/authority-portal-client';
-import {UiAssetMapped} from '../../../../../core/services/models/ui-asset-mapped';
+import {UiAssetMapped} from "../../../../core/api/ui-asset-mapped";
 
 /**
  * Broker Catalog Page, but with UiAssets replaced by UiAssetMapped

@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {CatalogContractOffer} from '@sovity.de/authority-portal-client';
-import {UiAssetMapped} from '../../../core/services/models/ui-asset-mapped';
 import {JsonDialogService} from '../../json-dialog/json-dialog/json-dialog.service';
 import {PropertyGridGroup} from '../../property-grid/property-grid-group/property-grid-group';
 import {PropertyGridField} from '../../property-grid/property-grid/property-grid-field';
@@ -8,10 +7,9 @@ import {PropertyGridFieldService} from '../../property-grid/property-grid/proper
 import {formatDateAgo} from '../../ui-elements/ago/formatDateAgo';
 import {UrlListDialogService} from '../../url-list-dialog/url-list-dialog/url-list-dialog.service';
 import {getOnlineStatusColor, getOnlineStatusIcon,} from '../icon-with-online-status/online-status-utils';
-import {
-  CatalogDataOfferMapped
-} from "../../../routes/broker-ui/catalog-page/catalog-page/mapping/catalog-page-result-mapped";
 import {LanguageSelectItemService} from "../../language-select/language-select-item.service";
+import {UiAssetMapped} from "../../../core/api/ui-asset-mapped";
+import {CatalogDataOfferMapped} from "../../../pages/catalog-page/catalog-page/mapping/catalog-page-result-mapped";
 
 @Injectable()
 export class AssetPropertyGridGroupBuilder {

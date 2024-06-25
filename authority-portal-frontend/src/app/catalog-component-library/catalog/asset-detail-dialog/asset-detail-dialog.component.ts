@@ -4,7 +4,7 @@ import {isObservable, Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {PropertyGridGroup} from '../../property-grid/property-grid-group/property-grid-group';
 import {AssetDetailDialogData} from './asset-detail-dialog-data';
-import {UiAssetMapped} from "../../../core/services/models/ui-asset-mapped";
+import {UiAssetMapped} from "../../../core/api/ui-asset-mapped";
 
 /**
  * Asset Detail Dialog

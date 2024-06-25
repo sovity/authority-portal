@@ -19,7 +19,6 @@ import {AssetDetailDialogComponent} from './asset-detail-dialog/asset-detail-dia
 import {AssetDetailDialogService} from './asset-detail-dialog/asset-detail-dialog.service';
 import {AssetPropertyGridGroupBuilder} from './asset-detail-dialog/asset-property-grid-group-builder';
 import {MarkdownDescriptionComponent} from './asset-detail-dialog/markdown-description/markdown-description.component';
-import {ContractOfferIconComponent} from './contract-offer-icon/contract-offer-icon.component';
 import {IconWithOnlineStatusComponent} from './icon-with-online-status/icon-with-online-status.component';
 import {SmallIconWithOnlineStatusText} from './small-icon-with-online-status-text/small-icon-with-online-status-text.component';
 import {TruncatedShortDescription} from './truncated-short-description/truncated-short-description.component';
@@ -53,7 +52,6 @@ import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
   ],
   declarations: [
     AssetDetailDialogComponent,
-    ContractOfferIconComponent,
     IconWithOnlineStatusComponent,
     MarkdownDescriptionComponent,
     TruncatedShortDescription,
@@ -63,7 +61,6 @@ import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
   ],
   exports: [
     AssetDetailDialogComponent,
-    ContractOfferIconComponent,
     IconWithOnlineStatusComponent,
     TruncatedShortDescription,
     ViewSelectionComponent,

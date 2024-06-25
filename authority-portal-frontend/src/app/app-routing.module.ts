@@ -38,7 +38,7 @@ import {OrganizationOnboardPageComponent} from './pages/registration-pages/organ
 import {OrganizationPendingPageComponent} from './pages/registration-pages/organization-pending-page/organization-pending-page/organization-pending-page.component';
 import {OrganizationRejectedPageComponent} from './pages/registration-pages/organization-rejected-page/organization-rejected-page/organization-rejected-page.component';
 import {SpConnectorListPageComponent} from './pages/sp-connector-list-page/sp-connector-list-page/sp-connector-list-page.component';
-import {CatalogPageComponent} from "./pages/catalog-ui/catalog-page/catalog-page/catalog-page.component";
+import {CatalogPageComponent} from "./pages/catalog-page/catalog-page/catalog-page.component";
 
 export const UNAUTHENTICATED_ROUTES: Routes = [
   {

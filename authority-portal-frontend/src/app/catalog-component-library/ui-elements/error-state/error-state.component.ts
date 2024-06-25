@@ -1,5 +1,5 @@
 import {Component, HostBinding, Input} from '@angular/core';
-import {FetchError} from '../../../core/services/models/fetched';
+import {FetchError} from "../../../core/utils/fetched";
 
 @Component({
   selector: 'error-state',

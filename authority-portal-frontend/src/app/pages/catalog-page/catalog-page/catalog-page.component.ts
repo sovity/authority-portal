@@ -7,13 +7,6 @@ import {filter, map, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {CatalogPageSortingItem} from '@sovity.de/authority-portal-client';
 import {LocalStoredValue} from 'src/app/core/utils/local-stored-value';
-import {AssetDetailDialogDataService} from '../../../../component-library/catalog/asset-detail-dialog/asset-detail-dialog-data.service';
-import {AssetDetailDialogService} from '../../../../component-library/catalog/asset-detail-dialog/asset-detail-dialog.service';
-import {
-  ViewModeEnum,
-  isViewMode,
-} from '../../../../component-library/catalog/view-selection/view-mode-enum';
-import {CatalogApiService} from '../../../../core/services/api/catalog-api.service';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
 import {FilterBoxVisibleState} from '../filter-box/filter-box-visible-state';
 import {CatalogActiveFilterPill} from '../state/catalog-active-filter-pill';
@@ -21,6 +14,14 @@ import {CatalogPage} from '../state/catalog-page-actions';
 import {CatalogPageState} from '../state/catalog-page-state';
 import {CatalogPageStateModel} from '../state/catalog-page-state-model';
 import {CatalogDataOfferMapped} from './mapping/catalog-page-result-mapped';
+import {isViewMode, ViewModeEnum} from "../../../catalog-component-library/catalog/view-selection/view-mode-enum";
+import {
+  AssetDetailDialogDataService
+} from "../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog-data.service";
+import {
+  AssetDetailDialogService
+} from "../../../catalog-component-library/catalog/asset-detail-dialog/asset-detail-dialog.service";
+import {CatalogApiService} from "../../../core/api/catalog-api.service";
 
 @Component({
   selector: 'catalog-page',

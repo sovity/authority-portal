@@ -1,6 +1,6 @@
 import {formatDate} from '@angular/common';
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
-import {validUrlPattern} from '../../../core/validators/url-validator';
+import {validUrlPattern} from '../../../core/utils/validators/url-validator';
 import {PropertyGridField} from './property-grid-field';
 
 @Injectable({providedIn: 'root'})

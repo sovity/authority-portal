@@ -1,14 +1,24 @@
 import {Injectable} from '@angular/core';
-import {DataCategorySelectItem} from '../../routes/connector-ui/asset-page/data-category-select/data-category-select-item';
-import {DataCategorySelectItemService} from '../../routes/connector-ui/asset-page/data-category-select/data-category-select-item.service';
-import {DataSubcategorySelectItem} from '../../routes/connector-ui/asset-page/data-subcategory-select/data-subcategory-select-item';
-import {DataSubcategorySelectItemService} from '../../routes/connector-ui/asset-page/data-subcategory-select/data-subcategory-select-item.service';
-import {LanguageSelectItem} from '../../routes/connector-ui/asset-page/language-select/language-select-item';
-import {LanguageSelectItemService} from '../../routes/connector-ui/asset-page/language-select/language-select-item.service';
-import {TransportModeSelectItem} from '../../routes/connector-ui/asset-page/transport-mode-select/transport-mode-select-item';
-import {TransportModeSelectItemService} from '../../routes/connector-ui/asset-page/transport-mode-select/transport-mode-select-item.service';
 import {AdditionalAssetProperty, UiAssetMapped} from '../api/ui-asset-mapped';
 import {UiAsset} from "@sovity.de/authority-portal-client";
+import {LanguageSelectItemService} from "../../catalog-component-library/language-select/language-select-item.service";
+import {
+  TransportModeSelectItemService
+} from "../../catalog-component-library/transport-mode-select/transport-mode-select-item.service";
+import {
+  DataCategorySelectItemService
+} from "../../catalog-component-library/data-category-select/data-category-select-item.service";
+import {
+  DataSubcategorySelectItemService
+} from "../../catalog-component-library/data-subcategory-select/data-subcategory-select-item.service";
+import {
+  TransportModeSelectItem
+} from "../../catalog-component-library/transport-mode-select/transport-mode-select-item";
+import {
+  DataSubcategorySelectItem
+} from "../../catalog-component-library/data-subcategory-select/data-subcategory-select-item";
+import {DataCategorySelectItem} from "../../catalog-component-library/data-category-select/data-category-select-item";
+import {LanguageSelectItem} from "../../catalog-component-library/language-select/language-select-item";
 
 /**
  * Maps between EDC Asset and our type safe asset
