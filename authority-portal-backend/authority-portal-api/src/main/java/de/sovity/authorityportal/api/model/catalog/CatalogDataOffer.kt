@@ -13,7 +13,6 @@
  */
 package de.sovity.authorityportal.api.model.catalog
 
-import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.OffsetDateTime
 
@@ -21,6 +20,15 @@ import java.time.OffsetDateTime
 data class CatalogDataOffer(
     @field:Schema(description = "ID of asset", requiredMode = Schema.RequiredMode.REQUIRED)
     val assetId: String,
+
+    @field:Schema(description = "Asset Title", requiredMode = Schema.RequiredMode.REQUIRED)
+    val assetTitle: String,
+
+    @field:Schema(description = "Asset Description Short Text generated from description. Contains no markdown.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val descriptionShortText: String?,
+
+    @field:Schema(description = "Asset Keywords", requiredMode = Schema.RequiredMode.REQUIRED)
+    val keywords: List<String>,
 
     @field:Schema(
         description = "Connector ID",
@@ -30,11 +38,11 @@ data class CatalogDataOffer(
     val connectorId: String,
 
     @field:Schema(
-        description = "Connector Endpoint",
-        example = "https://my-test.connector/api/dsp",
+        description = "Organization ID",
+        example = "MDSL1234XX",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
-    val connectorEndpoint: String,
+    val organizationId: String,
 
     @field:Schema(
         description = "Organization Name",
@@ -43,29 +51,10 @@ data class CatalogDataOffer(
     )
     val organizationName: String,
 
-    @field:Schema(
-        description = "Organization ID",
-        example = "MDSL1234XX",
-        requiredMode = Schema.RequiredMode.REQUIRED
-    )
-    val organizationId: String,
-
     @field:Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
     val connectorOnlineStatus: ConnectorOnlineStatusDto,
 
     @field:Schema(description = "Date to be displayed as last update date, for online connectors it's the last refresh date, for offline connectors it's the creation date or last successful fetch.")
     val connectorOfflineSinceOrLastUpdatedAt: OffsetDateTime?,
-
-    @field:Schema(description = "Creation date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
-    val createdAt: OffsetDateTime,
-
-    @field:Schema(description = "Update date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
-    val updatedAt: OffsetDateTime,
-
-    @field:Schema(description = "Asset properties", requiredMode = Schema.RequiredMode.REQUIRED)
-    val asset: UiAsset,
-
-    @field:Schema(description = "Available Contract Offers", requiredMode = Schema.RequiredMode.REQUIRED)
-    val contractOffers: List<CatalogContractOffer>,
 )
 
