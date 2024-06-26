@@ -36,10 +36,6 @@ interface DeploymentEnvironmentConfiguration {
         }
 
         interface BrokerConfig {
-            fun url(): String
-            fun adminApiKey(): String
-            fun apiKey(): String
-            fun kumaName(): String
             fun hideOfflineDataOffersAfter(): Duration
             fun catalogPagePageSize(): Int
             fun dataspaceNames(): DataspaceNames

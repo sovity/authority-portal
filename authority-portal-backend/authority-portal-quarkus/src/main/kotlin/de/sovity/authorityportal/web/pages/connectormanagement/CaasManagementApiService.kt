@@ -129,7 +129,7 @@ class CaasManagementApiService(
             participantOrganizationUrl = curatorOrganization.url,
             participantOrganizationLegalName = curatorOrganization.name,
             clearingHouseUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).loggingHouse().url(),
-            brokerUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).broker().url(),
+            brokerUrl = "https://this-field-is-deprecated",
             dapsTokenUrl = buildDapsTokenUrl(environmentId),
             dapsJwksUrl = buildDapsJwksUrl(environmentId),
             securityContactFirstName = securityContactName.firstName,
