@@ -113,14 +113,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
             icon: 'connector',
             rLink: '/my-organization/connectors',
           },
-          {
-            title: 'My Data Offers',
-            icon: 'tag',
-            rLink: `/api/organizations/my-org/redirects/data-offers?environmentId=${
-              env.environmentId ?? ''
-            }`,
-            isExternalLink: true,
-          },
         ],
       },
       {
