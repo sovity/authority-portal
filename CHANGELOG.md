@@ -11,7 +11,17 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Major
 
+- The Data Catalog (formerly Broker Server) is now integrated into the Authority Portal and can be accessed via the sidebar by authenticated users. 
+  It should be noted that the Catalog can only display and save crawled data offers but cannot actually fetch the data.
+  For this functionality, an EDC Connector with the "Broker Crawler" extension is required. For more information, see the [Deployment Migration Notes](#deployment-migration-notes).
+
 #### Minor
+
+- Due to the integration of the Data Catalog into the portal, following changes have been made:
+  - Removed the link to "My data offers" from the sidebar. Due to the integration of the Data Catalog, this feature is not supported for now.
+    Users may access a view of their data offers by navigating to the Data Catalog and choosing the appropriate filter.
+  - Removed the Data Catalog online status from the dashboard
+  - Removed the Data Catalog status data from the system stability report
 
 #### Patch
 
@@ -24,12 +34,29 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Keycloak
   - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
+- Portal Backend
+  - Following environment variables have been added and **must be configured** for each environment
+    - ```yaml
+      # Time after which offline data offers are hidden from the Data Catalog
+      authority-portal.deployment.environments.{environmentId}.broker.hide-offline-data-offers-after: 15m
+      # Default page size for the Data Catalog
+      authority-portal.deployment.environments.{environmentId}.broker.catalog-page-page-size: 10
+      # Default dataspace name
+      authority-portal.deployment.environments.{environmentId}.broker.dataspace-names.default: MDS
+      ```
+  - Following environment variables have been removed and **can be removed from the configuration**
+    - ```yaml
+      authority-portal.deployment.environments.{environmentId}.broker.url
+      authority-portal.deployment.environments.{environmentId}.broker.admin-api-key
+      authority-portal.deployment.environments.{environmentId}.broker.api-key
+      authority-portal.deployment.environments.{environmentId}.broker.kuma-name
+      ```
 
 #### Compatible Versions
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Broker Server: `{{ broker version }}`
+- EDC CE: `{{ edc-ce version }}`
 
 ## [v2.3.0] - 2024-05-13
 

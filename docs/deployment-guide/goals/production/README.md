@@ -18,8 +18,8 @@ operator company.
 ### Dataspace
 
 - Each configured Dataspace Deployment Environment must have a running sovity Keycloak DAPS.
-- Each configured Dataspace Deployment Environment must have a running EDC Broker.
 - Each configured Dataspace Deployment Environment must have a running Logging House.
+- To make use of the Data Catalog, each configured Dataspace Deployment Environment must have a running EDC connector with the Broker Crawler Extension.
 
 The respective compatible versions can be found in the [CHANGELOG.md](../../../../CHANGELOG.md).
 
@@ -30,7 +30,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
   - URL of the Keycloak for authorizing at the CaaS-Portal, referred to as `[CAAS_KC_FQDN]` in this guide.
   - Credentials for the CaaS-Portal, referred to as `[CAAS_CLIENT_ID]` and `[CAAS_CLIENT_SECRET]` in this guide.
 - A running instance of Uptime Kuma is required.
-  - This should track the DAPS, Broker and Logging House status
+  - This should track the DAPS and Logging House status
   - The statuses must be available via the API (`/metrics` endpoint)
     - The output per component should look like this:
       ```
@@ -46,7 +46,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 | Deployment Unit           | Version / Details                                                                                 |
 |---------------------------|---------------------------------------------------------------------------------------------------|
 | Reverse Proxy / Ingress   | _Infrastructure dependant_                                                                        |
-| Keycloak Deployment       | Version 23.0.4 or compatible version                                                              |
+| Keycloak Deployment       | Version 24.0.4 or compatible version                                                              |
 | OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                           |
 | Caddy behind OAuth2 Proxy | caddy:2.7                                                                                         |
 | Authority Portal Backend  | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
@@ -185,10 +185,9 @@ authority-portal.kuma.api-key: [UPTIME_KUMA_API_KEY] # Uptime Kuma API key
 # Following is **one** deployment environment configuration. (See hint below)
 authority-portal.deployment.environments.test.title: Test # Env: Title of the deployment environment configuration
 authority-portal.deployment.environments.test.position: 0  # Env: Order of environments, from 0 (default) to n (least important)
-authority-portal.deployment.environments.test.broker.url: https://[BROKER_FQDN] # Env: Broker URL
-authority-portal.deployment.environments.test.broker.admin-api-key: DefaultBrokerServerAdminApiKey # Env: Broker Admin API key
-authority-portal.deployment.environments.test.broker.api-key: ApiKeyDefaultValue # Env: Broker API key
-authority-portal.deployment.environments.test.broker.kuma-name: [BROKER_KUMA_NAME] # Env: Broker Kuma name
+authority-portal.deployment.environments.test.broker.hide-offline-data-offers-after: 15m # Time after which offline data offers are hidden from the Data Catalog
+authority-portal.deployment.environments.test.broker.catalog-page-page-size: 10 # Default page size for the Data Catalog
+authority-portal.deployment.environments.test.broker.dataspace-names.default: MDS # Default dataspace name
 authority-portal.deployment.environments.test.daps.url: https://[KC_DAPS_FQDN] # Env: DAPS URL
 authority-portal.deployment.environments.test.daps.realm-name: DAPS # Env: DAPS realm name
 authority-portal.deployment.environments.test.daps.client-id: authority-portal # Env: DAPS client ID
