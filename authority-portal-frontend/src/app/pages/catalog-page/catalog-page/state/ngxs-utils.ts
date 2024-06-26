@@ -10,11 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { MonoTypeOperatorFunction } from 'rxjs';
-import { sampleTime, takeUntil } from 'rxjs/operators';
-import { Actions, Store, ofActionDispatched } from '@ngxs/store';
-
+import {Injectable} from '@angular/core';
+import {MonoTypeOperatorFunction} from 'rxjs';
+import {sampleTime, takeUntil} from 'rxjs/operators';
+import {Actions, Store, ofActionDispatched} from '@ngxs/store';
 
 @Injectable({providedIn: 'root'})
 export class NgxsUtils {

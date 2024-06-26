@@ -10,10 +10,13 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig, MatSnackBarDismiss } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
-
+import {Injectable} from '@angular/core';
+import {
+  MatSnackBar,
+  MatSnackBarConfig,
+  MatSnackBarDismiss,
+} from '@angular/material/snack-bar';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

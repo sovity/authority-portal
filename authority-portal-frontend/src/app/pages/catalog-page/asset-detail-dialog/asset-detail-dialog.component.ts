@@ -10,14 +10,16 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Component, Inject, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable, Subject, isObservable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { DataOfferDetailPageResult, UiAsset } from '@sovity.de/authority-portal-client';
-import { PropertyGridGroup } from '../property-grid-group/property-grid-group';
-import { AssetDetailDialogData } from './asset-detail-dialog-data';
-
+import {Component, Inject, OnDestroy} from '@angular/core';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {Observable, Subject, isObservable} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {
+  DataOfferDetailPageResult,
+  UiAsset,
+} from '@sovity.de/authority-portal-client';
+import {PropertyGridGroup} from '../property-grid-group/property-grid-group';
+import {AssetDetailDialogData} from './asset-detail-dialog-data';
 
 /**
  * Asset Detail Dialog

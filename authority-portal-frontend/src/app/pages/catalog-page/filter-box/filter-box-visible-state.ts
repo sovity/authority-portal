@@ -10,11 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { search } from 'src/app/core/utils/search-utils';
-import { difference } from 'src/app/core/utils/set-utils';
-import { FilterBoxItem } from './filter-box-item';
-import { FilterBoxModel } from './filter-box-model';
-
+import {search} from 'src/app/core/utils/search-utils';
+import {difference} from 'src/app/core/utils/set-utils';
+import {FilterBoxItem} from './filter-box-item';
+import {FilterBoxModel} from './filter-box-model';
 
 /**
  * Utility Class for interpreting a {@link FilterBoxModel}.

@@ -10,15 +10,14 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { UnauthenticatedPageComponent } from './unauthenticated-page/unauthenticated-page.component';
-
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RouterModule} from '@angular/router';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {UnauthenticatedPageComponent} from './unauthenticated-page/unauthenticated-page.component';
 
 @NgModule({
   imports: [

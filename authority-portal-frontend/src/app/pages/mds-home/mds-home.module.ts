@@ -10,11 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { MdsHomePageComponent } from './mds-home/mds-home.component';
-
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {MdsHomePageComponent} from './mds-home/mds-home.component';
 
 @NgModule({
   imports: [

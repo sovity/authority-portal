@@ -10,10 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ViewModeEnum } from './view-mode-enum';
-import { ViewModeItem } from './view-mode-item';
-
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ViewModeEnum} from './view-mode-enum';
+import {ViewModeItem} from './view-mode-item';
 
 @Component({
   selector: 'view-selection',

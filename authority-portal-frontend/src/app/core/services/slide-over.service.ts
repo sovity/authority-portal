@@ -10,10 +10,15 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { DEFAULT_SLIDE_OVER_STATE, NavigationType, SlideOverConfig, SlideOverState, SlideOverViews } from '../../shared/common/slide-over/slide-over.model';
-
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
+import {
+  DEFAULT_SLIDE_OVER_STATE,
+  NavigationType,
+  SlideOverConfig,
+  SlideOverState,
+  SlideOverViews,
+} from '../../shared/common/slide-over/slide-over.model';
 
 @Injectable({
   providedIn: 'root',

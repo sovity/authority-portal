@@ -17,8 +17,7 @@
  * Can be used to ensure dates are displayed identically across different timezones when stringified in JSON payloads.
  * @param date date to convert
  */
-import { format } from 'date-fns-tz';
-
+import {format} from 'date-fns-tz';
 
 export function toGmtZeroHourDate(date: Date): Date {
   return new Date(format(date, 'yyyy-MM-dd'));

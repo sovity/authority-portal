@@ -16,8 +16,8 @@ import {Observable, Subject, switchMap, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {CaasAvailabilityResponse} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
-import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {Reset, Submit} from '../state/request-connector-page-actions';
 import {
   DEFAULT_REQUEST_CONNECTOR_STATE,

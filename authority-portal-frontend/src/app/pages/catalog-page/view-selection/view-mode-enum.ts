@@ -10,8 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { isValueOfEnum } from 'src/app/core/utils/type-utils';
-
+import {isValueOfEnum} from 'src/app/core/utils/type-utils';
 
 export enum ViewModeEnum {
   GRID = 'GRID',

@@ -10,9 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable, NgZone } from '@angular/core';
-import { NgxsExecutionStrategy } from '@ngxs/store';
-
+import {Injectable, NgZone} from '@angular/core';
+import {NgxsExecutionStrategy} from '@ngxs/store';
 
 @Injectable({providedIn: 'root'})
 export class NgxsInZoneExecutionStrategy implements NgxsExecutionStrategy {

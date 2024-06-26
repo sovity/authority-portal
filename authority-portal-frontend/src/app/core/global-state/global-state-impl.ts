@@ -10,22 +10,30 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Inject, Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ignoreElements, tap } from 'rxjs/operators';
-import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
-import { DeploymentEnvironmentDto, UserInfo, UserRoleDto } from '@sovity.de/authority-portal-client';
-import { ApiService } from 'src/app/core/api/api.service';
-import { APP_CONFIG, AppConfig } from 'src/app/core/services/config/app-config';
-import { Fetched } from 'src/app/core/utils/fetched';
-import { E2E_DEV_USERS } from '../../shared/dev-utils/e2e-dev-user-switcher/e2e-dev-users';
-import { isEqualSets } from '../utils/set-utils';
-import { patchState } from '../utils/state-utils';
-import { GlobalState, INITIAL_GLOBAL_STATE_MODEL } from './global-state';
-import { RefreshDeploymentEnvironments, RefreshUserInfo, SwitchE2eDevUser, SwitchEnvironment } from './global-state-actions';
-import { AuthorityPortalPageSet } from './routes/authority-portal-page-set';
-import { RouteConfigService } from './routes/route-config-service';
-
+import {Inject, Injectable, NgZone} from '@angular/core';
+import {Observable} from 'rxjs';
+import {ignoreElements, tap} from 'rxjs/operators';
+import {Action, NgxsOnInit, Selector, State, StateContext} from '@ngxs/store';
+import {
+  DeploymentEnvironmentDto,
+  UserInfo,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
+import {ApiService} from 'src/app/core/api/api.service';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {Fetched} from 'src/app/core/utils/fetched';
+import {E2E_DEV_USERS} from '../../shared/dev-utils/e2e-dev-user-switcher/e2e-dev-users';
+import {isEqualSets} from '../utils/set-utils';
+import {patchState} from '../utils/state-utils';
+import {GlobalState, INITIAL_GLOBAL_STATE_MODEL} from './global-state';
+import {
+  RefreshDeploymentEnvironments,
+  RefreshUserInfo,
+  SwitchE2eDevUser,
+  SwitchEnvironment,
+} from './global-state-actions';
+import {AuthorityPortalPageSet} from './routes/authority-portal-page-set';
+import {RouteConfigService} from './routes/route-config-service';
 
 @State<GlobalState>({
   name: 'GlobalState',

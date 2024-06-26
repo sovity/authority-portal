@@ -10,12 +10,11 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { UserRoleDto } from '@sovity.de/authority-portal-client';
-import { GlobalStateUtils } from '../../global-state/global-state-utils';
-
+import {inject} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivateFn, Router} from '@angular/router';
+import {map} from 'rxjs/operators';
+import {UserRoleDto} from '@sovity.de/authority-portal-client';
+import {GlobalStateUtils} from '../../global-state/global-state-utils';
 
 export const requiresRole: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);

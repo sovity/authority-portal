@@ -10,10 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { CatalogPageSortingItem } from '@sovity.de/authority-portal-client';
-import { FilterBoxItem } from '../../filter-box/filter-box-item';
-import { CatalogActiveFilterPill } from './catalog-active-filter-pill';
-
+import {CatalogPageSortingItem} from '@sovity.de/authority-portal-client';
+import {FilterBoxItem} from '../../filter-box/filter-box-item';
+import {CatalogActiveFilterPill} from './catalog-active-filter-pill';
 
 export namespace CatalogPage {
   const tag = 'CatalogPage';

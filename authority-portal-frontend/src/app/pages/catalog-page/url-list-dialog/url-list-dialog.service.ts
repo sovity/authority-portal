@@ -10,13 +10,12 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { NEVER, Observable } from 'rxjs';
-import { showDialogUntil } from 'src/app/core/utils/mat-dialog-utils';
-import { UrlListDialogComponent } from './url-list-dialog.component';
-import { UrlListDialogData } from './url-list-dialog.data';
-
+import {Injectable} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {NEVER, Observable} from 'rxjs';
+import {showDialogUntil} from 'src/app/core/utils/mat-dialog-utils';
+import {UrlListDialogComponent} from './url-list-dialog.component';
+import {UrlListDialogData} from './url-list-dialog.data';
 
 @Injectable()
 export class UrlListDialogService {

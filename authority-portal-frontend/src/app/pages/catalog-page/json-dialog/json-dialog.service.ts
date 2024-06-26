@@ -10,13 +10,12 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { NEVER, Observable } from 'rxjs';
-import { showDialogUntil } from 'src/app/core/utils/mat-dialog-utils';
-import { JsonDialogComponent } from './json-dialog.component';
-import { JsonDialogData } from './json-dialog.data';
-
+import {Injectable} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {NEVER, Observable} from 'rxjs';
+import {showDialogUntil} from 'src/app/core/utils/mat-dialog-utils';
+import {JsonDialogComponent} from './json-dialog.component';
+import {JsonDialogData} from './json-dialog.data';
 
 @Injectable()
 export class JsonDialogService {

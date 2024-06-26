@@ -10,8 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Observable } from 'rxjs';
-
+import {Observable} from 'rxjs';
 
 export interface JsonDialogData {
   title: string;

@@ -10,12 +10,38 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CaasAvailabilityResponse, CentralComponentCreateRequest, CentralComponentDto, ComponentStatusOverview, ConnectorDetailDto, ConnectorOverviewResult, CreateCaasRequest, CreateConnectorRequest, CreateConnectorResponse, DeploymentEnvironmentDto, IdResponse, InviteOrganizationRequest, InviteParticipantUserRequest, OnboardingOrganizationUpdateDto, OnboardingUserUpdateDto, OrganizationDetailsDto, OrganizationOverviewResult, OwnOrganizationDetailsDto, ProvidedConnectorOverviewResult, RegistrationRequestDto, UiApi, UpdateOrganizationDto, UpdateUserDto, UserDetailDto, UserInfo, UserRoleDto } from '@sovity.de/authority-portal-client';
-import { toObservable } from '../utils/rxjs-utils';
-import { ApiClientFactory } from './api-client-factory';
-
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {
+  CaasAvailabilityResponse,
+  CentralComponentCreateRequest,
+  CentralComponentDto,
+  ComponentStatusOverview,
+  ConnectorDetailDto,
+  ConnectorOverviewResult,
+  CreateCaasRequest,
+  CreateConnectorRequest,
+  CreateConnectorResponse,
+  DeploymentEnvironmentDto,
+  IdResponse,
+  InviteOrganizationRequest,
+  InviteParticipantUserRequest,
+  OnboardingOrganizationUpdateDto,
+  OnboardingUserUpdateDto,
+  OrganizationDetailsDto,
+  OrganizationOverviewResult,
+  OwnOrganizationDetailsDto,
+  ProvidedConnectorOverviewResult,
+  RegistrationRequestDto,
+  UiApi,
+  UpdateOrganizationDto,
+  UpdateUserDto,
+  UserDetailDto,
+  UserInfo,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
+import {toObservable} from '../utils/rxjs-utils';
+import {ApiClientFactory} from './api-client-factory';
 
 @Injectable()
 export class ApiService {
@@ -29,9 +55,7 @@ export class ApiService {
     userId: string,
     updateUserDto: UpdateUserDto,
   ): Observable<IdResponse> {
-    return toObservable(() =>
-      this.api().updateUser({userId, updateUserDto}),
-    );
+    return toObservable(() => this.api().updateUser({userId, updateUserDto}));
   }
 
   updateParticipantRole(userId: string, role: UserRoleDto) {
@@ -54,9 +78,7 @@ export class ApiService {
   }
 
   deactivateUser(userId: string) {
-    return toObservable(() =>
-      this.api().deactivateParticipantUser({userId}),
-    );
+    return toObservable(() => this.api().deactivateParticipantUser({userId}));
   }
 
   checkUserDeletion(userId: string) {
@@ -64,9 +86,7 @@ export class ApiService {
   }
 
   deleteUser(userId: string, successorUserId?: string) {
-    return toObservable(() =>
-      this.api().deleteUser({userId, successorUserId}),
-    );
+    return toObservable(() => this.api().deleteUser({userId, successorUserId}));
   }
 
   checkParticipantUserDeletion(userId: string) {
@@ -74,9 +94,7 @@ export class ApiService {
   }
 
   deleteParticipantUser(userId: string, successorUserId?: string) {
-    return toObservable(() =>
-      this.api().deleteUser({userId, successorUserId}),
-    );
+    return toObservable(() => this.api().deleteUser({userId, successorUserId}));
   }
 
   reactivateAnyUser(userId: string) {
@@ -84,9 +102,7 @@ export class ApiService {
   }
 
   reactivateUser(userId: string) {
-    return toObservable(() =>
-      this.api().reactivateParticipantUser({userId}),
-    );
+    return toObservable(() => this.api().reactivateParticipantUser({userId}));
   }
 
   getUserDetailDto(userId: string): Observable<UserDetailDto> {
@@ -171,9 +187,7 @@ export class ApiService {
 
   // All Connectors
   getAllConnectors(environmentId: string): Observable<ConnectorOverviewResult> {
-    return toObservable(() =>
-      this.api().getAllConnectors({environmentId}),
-    );
+    return toObservable(() => this.api().getAllConnectors({environmentId}));
   }
 
   getConnector(connectorId: string): Observable<ConnectorDetailDto> {
@@ -229,9 +243,7 @@ export class ApiService {
   }
 
   deleteOwnConnector(connectorId: string): Observable<IdResponse> {
-    return toObservable(() =>
-      this.api().deleteOwnConnector({connectorId}),
-    );
+    return toObservable(() => this.api().deleteOwnConnector({connectorId}));
   }
 
   getProvidedConnectors(
@@ -283,9 +295,7 @@ export class ApiService {
   getCentralComponents(
     environmentId: string,
   ): Observable<CentralComponentDto[]> {
-    return toObservable(() =>
-      this.api().getCentralComponents({environmentId}),
-    );
+    return toObservable(() => this.api().getCentralComponents({environmentId}));
   }
 
   createCentralComponent(
@@ -311,17 +321,13 @@ export class ApiService {
   checkFreeCaasUsage(
     environmentId: string,
   ): Observable<CaasAvailabilityResponse> {
-    return toObservable(() =>
-      this.api().checkFreeCaasUsage({environmentId}),
-    );
+    return toObservable(() => this.api().checkFreeCaasUsage({environmentId}));
   }
 
   getComponentStatus(
     environmentId: string,
   ): Observable<ComponentStatusOverview> {
-    return toObservable(() =>
-      this.api().getComponentsStatus({environmentId}),
-    );
+    return toObservable(() => this.api().getComponentsStatus({environmentId}));
   }
 
   private api(): UiApi {

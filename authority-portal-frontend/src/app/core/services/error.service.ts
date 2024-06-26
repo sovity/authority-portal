@@ -10,11 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { EMPTY, MonoTypeOperatorFunction } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { ToastService } from 'src/app/shared/common/toast-notifications/toast.service';
-
+import {Injectable} from '@angular/core';
+import {EMPTY, MonoTypeOperatorFunction} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 
 @Injectable({providedIn: 'root'})
 export class ErrorService {

@@ -10,10 +10,19 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { IdResponse, InviteOrganizationRequest, MemberInfo, OnboardingOrganizationUpdateDto, OrganizationDetailsDto, OrganizationOverviewEntryDto, OrganizationOverviewResult, OwnOrganizationDetailsDto, UpdateOrganizationDto } from '@sovity.de/authority-portal-client';
-import { Patcher, patchObj } from 'src/app/core/utils/object-utils';
-import { getUserInfo } from './fake-users';
-
+import {
+  IdResponse,
+  InviteOrganizationRequest,
+  MemberInfo,
+  OnboardingOrganizationUpdateDto,
+  OrganizationDetailsDto,
+  OrganizationOverviewEntryDto,
+  OrganizationOverviewResult,
+  OwnOrganizationDetailsDto,
+  UpdateOrganizationDto,
+} from '@sovity.de/authority-portal-client';
+import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
+import {getUserInfo} from './fake-users';
 
 export const approveOrganization = (mdsId: string): IdResponse => {
   updateOrganization(mdsId, () => ({registrationStatus: 'ACTIVE'}));

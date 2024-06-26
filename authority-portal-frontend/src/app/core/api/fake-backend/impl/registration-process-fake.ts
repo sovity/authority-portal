@@ -10,9 +10,11 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { IdResponse, RegistrationRequestDto } from '@sovity.de/authority-portal-client';
-import { updateLoggedInUser } from './fake-users';
-
+import {
+  IdResponse,
+  RegistrationRequestDto,
+} from '@sovity.de/authority-portal-client';
+import {updateLoggedInUser} from './fake-users';
 
 export const createOrganization = (
   request: RegistrationRequestDto,

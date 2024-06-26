@@ -25,4 +25,3 @@ export function isValueOfEnum<T>(
 ): value is T[keyof T] {
   return Object.values(enumObj).includes(value);
 }
-

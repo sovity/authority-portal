@@ -10,9 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Observable, OperatorFunction, defer, from } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
+import {Observable, OperatorFunction, defer, from} from 'rxjs';
+import {filter} from 'rxjs/operators';
 
 export const toObservable = <T>(fn: () => Promise<T>): Observable<T> =>
   defer(() => from(fn()));

@@ -10,8 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { ViewModeEnum } from './view-mode-enum';
-
+import {ViewModeEnum} from './view-mode-enum';
 
 export interface ViewModeItem {
   value: ViewModeEnum;

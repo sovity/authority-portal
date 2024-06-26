@@ -12,12 +12,12 @@
  */
 import {Component, Inject} from '@angular/core';
 import {Store} from '@ngxs/store';
-import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {
   RefreshUserInfo,
   SwitchE2eDevUser,
 } from 'src/app/core/global-state/global-state-actions';
 import {RouteConfigService} from 'src/app/core/global-state/routes/route-config-service';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {E2eDevUser} from './e2e-dev-user';
 import {E2E_DEV_USERS} from './e2e-dev-users';
 

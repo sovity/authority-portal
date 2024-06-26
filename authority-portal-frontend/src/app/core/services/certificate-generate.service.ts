@@ -10,9 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as forge from 'node-forge';
-
 
 export interface CertificateAttributes {
   [key: string]: string;

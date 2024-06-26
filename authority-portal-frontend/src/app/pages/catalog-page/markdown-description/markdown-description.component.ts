@@ -10,11 +10,20 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { HtmlSanitizer } from 'src/app/core/services/html-sanitizer';
-import { MarkdownConverter } from 'src/app/core/services/markdown-converter';
-import { SimpleChangesTyped } from 'src/app/core/utils/angular-utils';
-
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {HtmlSanitizer} from 'src/app/core/services/html-sanitizer';
+import {MarkdownConverter} from 'src/app/core/services/markdown-converter';
+import {SimpleChangesTyped} from 'src/app/core/utils/angular-utils';
 
 const COLLAPSED_DESCRIPTION_HEIGHT = 280;
 

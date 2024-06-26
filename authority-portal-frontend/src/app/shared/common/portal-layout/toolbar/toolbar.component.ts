@@ -13,8 +13,8 @@
 import {Component, Inject} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {UserInfo} from '@sovity.de/authority-portal-client';
-import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {getHighestRoleString} from 'src/app/core/utils/user-role-utils';
 import {ControlCenterModel} from '../control-center/control-center.model';
 

@@ -10,8 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { CreateConnectorResponse, DeploymentEnvironmentDto } from '@sovity.de/authority-portal-client';
-
+import {
+  CreateConnectorResponse,
+  DeploymentEnvironmentDto,
+} from '@sovity.de/authority-portal-client';
 
 export function buildConnectorConfig(
   deploymentEnvironment: DeploymentEnvironmentDto,

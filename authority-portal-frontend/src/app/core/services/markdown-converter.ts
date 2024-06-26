@@ -10,9 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { marked } from 'marked';
-
+import {Injectable} from '@angular/core';
+import {marked} from 'marked';
 
 @Injectable({providedIn: 'root'})
 export class MarkdownConverter {

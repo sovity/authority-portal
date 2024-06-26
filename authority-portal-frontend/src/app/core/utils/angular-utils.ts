@@ -10,9 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Input, SimpleChanges } from '@angular/core';
-import { Subject } from 'rxjs';
-
+import {Input, SimpleChanges} from '@angular/core';
+import {Subject} from 'rxjs';
 
 /**
  * A type-safe version of {@link SimpleChanges}.

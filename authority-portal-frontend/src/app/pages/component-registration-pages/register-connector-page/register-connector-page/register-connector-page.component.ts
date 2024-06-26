@@ -22,8 +22,8 @@ import {MatStepper} from '@angular/material/stepper';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {UserInfo} from '@sovity.de/authority-portal-client';
-import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {Reset, Submit} from '../state/register-connector-page-actions';
 import {
   DEFAULT_REGISTER_CONNECTOR_PAGE_STATE,

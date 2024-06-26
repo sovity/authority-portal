@@ -10,11 +10,32 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { ChangeApplicationRoleRequest, ChangeParticipantRoleRequest, ClearApplicationRoleRequest, IdResponse, InviteParticipantUserRequest, MemberInfo, OnboardingUserUpdateDto, PossibleCreatorSuccessor, UpdateUserDto, UserDeletionCheck, UserDetailDto, UserInfo, UserRoleDto } from '@sovity.de/authority-portal-client';
-import { Patcher, patchObj } from 'src/app/core/utils/object-utils';
-import { isApplicationRole, isParticipantRole } from '../../../utils/user-role-utils';
-import { deleteOrganization, getOrganizationDetails, getParticipantAdmins, updateOrganization } from './fake-organizations';
-
+import {
+  ChangeApplicationRoleRequest,
+  ChangeParticipantRoleRequest,
+  ClearApplicationRoleRequest,
+  IdResponse,
+  InviteParticipantUserRequest,
+  MemberInfo,
+  OnboardingUserUpdateDto,
+  PossibleCreatorSuccessor,
+  UpdateUserDto,
+  UserDeletionCheck,
+  UserDetailDto,
+  UserInfo,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
+import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
+import {
+  isApplicationRole,
+  isParticipantRole,
+} from '../../../utils/user-role-utils';
+import {
+  deleteOrganization,
+  getOrganizationDetails,
+  getParticipantAdmins,
+  updateOrganization,
+} from './fake-organizations';
 
 export const ALL_USERS: Record<string, UserDetailDto> = {
   '00000000-0000-0000-0000-000000000001': {
@@ -505,7 +526,9 @@ export const checkUserDeletion = (userId: string): UserDeletionCheck => {
   let possibleCreatorSuccessors: PossibleCreatorSuccessor[] = [];
 
   if (!isLastParticipantAdmin && isOrganizationCreator) {
-    possibleCreatorSuccessors = participantAdmins.filter((x) => x.userId !== userId);
+    possibleCreatorSuccessors = participantAdmins.filter(
+      (x) => x.userId !== userId,
+    );
   }
 
   const authorityAdmins = Object.values(ALL_USERS).filter((u) =>

@@ -10,9 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { DeploymentEnvironmentDto } from '@sovity.de/authority-portal-client';
-import { fakeEnv } from './fake-environments';
-
+import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
+import {fakeEnv} from './fake-environments';
 
 /**
  * Environment tList

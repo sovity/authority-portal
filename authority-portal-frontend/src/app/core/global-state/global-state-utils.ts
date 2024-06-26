@@ -10,14 +10,25 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { Observable, distinctUntilChanged, filter, first } from 'rxjs';
-import { distinctUntilKeyChanged, map, shareReplay, skip, switchMap, take, takeUntil } from 'rxjs/operators';
-import { StateContext, Store } from '@ngxs/store';
-import { DeploymentEnvironmentDto, UserInfo, UserRoleDto } from '@sovity.de/authority-portal-client';
-import { GlobalState } from './global-state';
-import { GlobalStateImpl } from './global-state-impl';
-
+import {Injectable} from '@angular/core';
+import {Observable, distinctUntilChanged, filter, first} from 'rxjs';
+import {
+  distinctUntilKeyChanged,
+  map,
+  shareReplay,
+  skip,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs/operators';
+import {StateContext, Store} from '@ngxs/store';
+import {
+  DeploymentEnvironmentDto,
+  UserInfo,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
+import {GlobalState} from './global-state';
+import {GlobalStateImpl} from './global-state-impl';
 
 @Injectable({providedIn: 'root'})
 export class GlobalStateUtils {

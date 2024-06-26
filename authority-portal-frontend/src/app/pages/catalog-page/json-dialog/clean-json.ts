@@ -13,7 +13,6 @@
 import cleanDeep from 'clean-deep';
 import jsonStableStringify from 'json-stable-stringify';
 
-
 /**
  * Sorts keys, sorts array values, removes emtpy keys.
  *

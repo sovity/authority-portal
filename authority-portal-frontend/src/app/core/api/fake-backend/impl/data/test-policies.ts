@@ -10,8 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { UiPolicy, UiPolicyConstraint } from '@sovity.de/authority-portal-client';
-
+import {UiPolicy, UiPolicyConstraint} from '@sovity.de/authority-portal-client';
 
 export namespace TestPolicies {
   const policy = (

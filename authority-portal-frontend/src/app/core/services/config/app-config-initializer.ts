@@ -10,9 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Provider } from '@angular/core';
-import { APP_CONFIG, AppConfig, buildAppConfig } from './app-config';
-
+import {Provider} from '@angular/core';
+import {APP_CONFIG, AppConfig, buildAppConfig} from './app-config';
 
 /**
  * The config is fetched before the angular project starts.

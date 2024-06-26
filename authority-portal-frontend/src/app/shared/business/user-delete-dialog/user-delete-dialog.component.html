@@ -46,7 +46,9 @@
               placeholder="Select Successor"
               [formControl]="deleteOrganizationCreatorForm.controls.successor">
               <mat-option
-                *ngFor="let successor of modalData.data.possibleCreatorSuccessors"
+                *ngFor="
+                  let successor of modalData.data.possibleCreatorSuccessors
+                "
                 [value]="successor.userId"
                 >{{ successor.firstName }} {{ successor.lastName }}</mat-option
               >

@@ -10,10 +10,15 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { AbstractControl, FormArray, FormControl, FormControlStatus, FormGroup } from '@angular/forms';
-import { EMPTY, Observable, concat, distinctUntilChanged } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormControlStatus,
+  FormGroup,
+} from '@angular/forms';
+import {EMPTY, Observable, concat, distinctUntilChanged} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 
 /**
  * Enables/Disables form groups controls

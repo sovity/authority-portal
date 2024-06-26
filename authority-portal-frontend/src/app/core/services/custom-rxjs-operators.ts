@@ -10,14 +10,13 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { MonoTypeOperatorFunction, NEVER } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
-import { StateContext } from '@ngxs/store';
-import { ToastService } from 'src/app/shared/common/toast-notifications/toast.service';
-import { ErrorService } from './error.service';
-
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {MonoTypeOperatorFunction, NEVER} from 'rxjs';
+import {finalize, tap} from 'rxjs/operators';
+import {StateContext} from '@ngxs/store';
+import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
+import {ErrorService} from './error.service';
 
 @Injectable({providedIn: 'root'})
 export class CustomRxjsOperators {

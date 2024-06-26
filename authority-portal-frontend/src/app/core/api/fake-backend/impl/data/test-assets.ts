@@ -10,8 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { UiAsset } from '@sovity.de/authority-portal-client';
-
+import {UiAsset} from '@sovity.de/authority-portal-client';
 
 export namespace TestAssets {
   const markdownDescription = `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod

@@ -10,11 +10,15 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
-import { concat, of } from 'rxjs';
-import { filter, map, shareReplay } from 'rxjs/operators';
-
+import {Injectable} from '@angular/core';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  NavigationEnd,
+  Router,
+} from '@angular/router';
+import {concat, of} from 'rxjs';
+import {filter, map, shareReplay} from 'rxjs/operators';
 
 @Injectable()
 export class TitleUtilsService {
