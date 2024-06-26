@@ -1,29 +1,35 @@
-<mat-card *ngFor="let dataOffer of dataOffers" class="w-[300px]">
-  <mat-card-header>
-    <icon-with-online-status
-      mat-card-avatar
-      mainIcon="sim_card"
-      [onlineStatus]="dataOffer.connectorOnlineStatus">
-    </icon-with-online-status>
-    <mat-card-title>
-      <a
-        class="link"
-        href="javascript:void(0)"
-        (click)="dataOfferClick.emit(dataOffer)">
-        {{ dataOffer.assetTitle }}
-      </a>
-    </mat-card-title>
-    <mat-card-subtitle>{{ dataOffer.organizationName }}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content class="flex flex-col space-y-[16px]">
-    <!-- Description Short Text -->
-    <truncated-short-description
-      [text]="dataOffer.descriptionShortText"></truncated-short-description>
+<div class="grow asset-card-container">
+  <div
+    *ngFor="let dataOffer of dataOffers"
+    class="flex flex-col p-5 gap-4 shadow-lg rounded-lg overflow-hidden">
+    <div class="flex gap-4">
+      <icon-with-online-status
+        mainIcon="sim_card"
+        [onlineStatus]="dataOffer.connectorOnlineStatus">
+      </icon-with-online-status>
+      <div class="grow flex flex-col">
+        <a
+          class="link font-semibold text-black leading-6"
+          href="javascript:void(0)"
+          (click)="dataOfferClick.emit(dataOffer)">
+          {{ dataOffer.assetTitle }}
+        </a>
+        <span class="text-sm text-gray-500">
+          {{ dataOffer.organizationName }}
+        </span>
+      </div>
+    </div>
+    <div class="flex flex-col gap-4">
+      <!-- Description Short Text -->
+      <truncated-short-description
+        class="text-sm text-gray-500"
+        [text]="dataOffer.descriptionShortText"></truncated-short-description>
 
-    <!-- Tag List -->
-    <asset-card-tag-list
-      *ngIf="dataOffer.keywords?.length || dataOffer.version"
-      [keywords]="dataOffer.keywords"
-      [version]="dataOffer.version"></asset-card-tag-list>
-  </mat-card-content>
-</mat-card>
+      <!-- Tag List -->
+      <asset-card-tag-list
+        *ngIf="dataOffer.keywords?.length || dataOffer.version"
+        [keywords]="dataOffer.keywords"
+        [version]="dataOffer.version"></asset-card-tag-list>
+    </div>
+  </div>
+</div>

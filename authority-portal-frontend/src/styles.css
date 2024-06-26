@@ -23,6 +23,10 @@
       format('woff2');
 }
 
+.asset-card-container {
+  @apply grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4;
+}
+
 html {
   box-sizing: border-box;
   margin: 0;
@@ -114,6 +118,20 @@ textarea {
 
 .material-icons {
   font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* Set your desired size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+.material-icons-filled {
+  font-family: 'Material Icons Filled';
   font-weight: normal;
   font-style: normal;
   font-size: 24px; /* Set your desired size */

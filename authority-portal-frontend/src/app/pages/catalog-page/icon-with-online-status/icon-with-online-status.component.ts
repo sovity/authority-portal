@@ -15,11 +15,14 @@ import {
       >{{ onlineStatusIcon }}</mat-icon
     >
 
-    <mat-icon class="mat-card-avatar-icon">{{ mainIcon }}</mat-icon>
+    <mat-icon
+      style="width: 2.5rem; height: 2.5rem; font-size: 2.5rem; line-height: 2.5rem; color: black;"
+      >{{ mainIcon }}</mat-icon
+    >
   `,
 })
 export class IconWithOnlineStatusComponent {
-  @HostBinding('class.mat-card-avatar-icon')
+  @HostBinding('class.relative')
   cls = true;
 
   @Input()

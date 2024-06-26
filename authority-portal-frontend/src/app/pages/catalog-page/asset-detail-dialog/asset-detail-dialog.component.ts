@@ -2,7 +2,10 @@ import {Component, Inject, OnDestroy} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Observable, Subject, isObservable} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {UiAsset} from '@sovity.de/authority-portal-client';
+import {
+  DataOfferDetailPageResult,
+  UiAsset,
+} from '@sovity.de/authority-portal-client';
 import {PropertyGridGroup} from '../property-grid-group/property-grid-group';
 import {AssetDetailDialogData} from './asset-detail-dialog-data';
 
@@ -22,6 +25,7 @@ export class AssetDetailDialogComponent implements OnDestroy {
   data!: AssetDetailDialogData;
   asset!: UiAsset;
   propGroups!: PropertyGridGroup[];
+  dataOffer!: DataOfferDetailPageResult;
 
   loading = false;
 
@@ -41,6 +45,7 @@ export class AssetDetailDialogComponent implements OnDestroy {
   setData(data: AssetDetailDialogData) {
     this.data = data;
     this.asset = this.data.dataOffer.asset;
+    this.dataOffer = this.data.dataOffer;
     this.propGroups = this.data.propertyGridGroups;
   }
 
