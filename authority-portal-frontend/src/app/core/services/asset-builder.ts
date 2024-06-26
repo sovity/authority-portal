@@ -1,24 +1,29 @@
+/*
+ * Copyright (c) 2024 sovity GmbH
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Contributors:
+ *      sovity GmbH - initial implementation
+ */
 import {Injectable} from '@angular/core';
-import {DataOfferDetailPageResult, UiAsset} from "@sovity.de/authority-portal-client";
-import {LanguageSelectItemService} from "../../catalog-component-library/language-select/language-select-item.service";
 import {
-  TransportModeSelectItemService
-} from "../../catalog-component-library/transport-mode-select/transport-mode-select-item.service";
-import {
-  DataCategorySelectItemService
-} from "../../catalog-component-library/data-category-select/data-category-select-item.service";
-import {
-  DataSubcategorySelectItemService
-} from "../../catalog-component-library/data-subcategory-select/data-subcategory-select-item.service";
-import {
-  TransportModeSelectItem
-} from "../../catalog-component-library/transport-mode-select/transport-mode-select-item";
-import {
-  DataSubcategorySelectItem
-} from "../../catalog-component-library/data-subcategory-select/data-subcategory-select-item";
-import {DataCategorySelectItem} from "../../catalog-component-library/data-category-select/data-category-select-item";
-import {LanguageSelectItem} from "../../catalog-component-library/language-select/language-select-item";
-import {AdditionalAssetProperty} from "../api/additional-asset-property";
+  DataOfferDetailPageResult,
+  UiAsset,
+} from '@sovity.de/authority-portal-client';
+import {DataCategorySelectItem} from '../../catalog-component-library/data-category-select/data-category-select-item';
+import {DataCategorySelectItemService} from '../../catalog-component-library/data-category-select/data-category-select-item.service';
+import {DataSubcategorySelectItem} from '../../catalog-component-library/data-subcategory-select/data-subcategory-select-item';
+import {DataSubcategorySelectItemService} from '../../catalog-component-library/data-subcategory-select/data-subcategory-select-item.service';
+import {LanguageSelectItem} from '../../catalog-component-library/language-select/language-select-item';
+import {LanguageSelectItemService} from '../../catalog-component-library/language-select/language-select-item.service';
+import {TransportModeSelectItem} from '../../catalog-component-library/transport-mode-select/transport-mode-select-item';
+import {TransportModeSelectItemService} from '../../catalog-component-library/transport-mode-select/transport-mode-select-item.service';
+import {AdditionalAssetProperty} from '../api/additional-asset-property';
 
 /**
  * Maps between EDC Asset and our type safe asset
