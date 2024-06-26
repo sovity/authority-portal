@@ -54,7 +54,6 @@ import jakarta.ws.rs.PathParam
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.QueryParam
 import jakarta.ws.rs.core.MediaType
-import jakarta.ws.rs.core.Response
 
 @Path("/api/")
 @Tag(name = "Ui", description = "Authority Portal UI API Endpoints.")
@@ -290,26 +289,6 @@ interface UiResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of a user's own organization's connector.")
     fun ownOrganizationConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailDto
-
-    @GET
-    @Path("/organizations/my-org/redirects/data-offers")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Redirect to the environment specific broker, with filters for connector endpoints of the own organization preselected.")
-    fun redirectToOwnOrganizationCatalog(
-        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
-        @QueryParam("environmentId")
-        environmentId: String
-    ): Response
-
-    @GET
-    @Path("/organizations/my-org/redirects/broker")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Redirect to the specific broker catalog based on the environment.")
-    fun redirectToCatalog(
-        @QueryParam("environmentId")
-        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
-        environmentId: String
-    ): Response
 
     @POST
     @Path("/organizations/my-org/connectors/create-on-premise")

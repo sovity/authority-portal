@@ -58,12 +58,12 @@ class CaasManagementApiService(
         val clientId = clientIdUtils.generateFromConnectorId(connectorId)
 
         val apDeploymentDto = buildAuthorityPortalDeploymentDto(
-            curatorOrganization,
-            caasRequest,
-            connectorId,
-            environmentId,
-            clientId,
-            curatorUser
+            curatorOrganization = curatorOrganization,
+            caasRequest = caasRequest,
+            connectorId = connectorId,
+            environmentId = environmentId,
+            clientId = clientId,
+            curatorUser = curatorUser
         )
 
         val configAssertion = assertValidConfig(apDeploymentDto, mdsId, environmentId)

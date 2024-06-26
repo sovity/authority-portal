@@ -15,7 +15,7 @@ data class UserDeletionCheck(
         description = "Indicator for the user being the last PA in their organization",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
-    @JsonProperty("isLastParticipantAdmin")
+    @JsonProperty("isLastParticipantAdmin") // Workaround because codegen messes up boolean naming
     val isLastParticipantAdmin: Boolean,
 
     @field:Schema(
@@ -23,7 +23,7 @@ data class UserDeletionCheck(
         requiredMode = Schema.RequiredMode.REQUIRED,
         name = "isOrganizationCreator"
     )
-    @JsonProperty("isOrganizationCreator")
+    @JsonProperty("isOrganizationCreator") // Workaround because codegen messes up boolean naming
     val isOrganizationCreator: Boolean,
 
     @field:Schema(description = "List of possible successors (if needed)", requiredMode = Schema.RequiredMode.REQUIRED)

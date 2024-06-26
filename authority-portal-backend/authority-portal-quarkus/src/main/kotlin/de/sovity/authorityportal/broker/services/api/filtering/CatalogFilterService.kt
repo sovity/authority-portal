@@ -143,7 +143,7 @@ class CatalogFilterService(
         require(availableFilters.size == filterValues.size) {
             "Number of available filters and filter values must match: ${availableFilters.size} != ${filterValues.size}"
         }
-        return availableFilters.mapIndexed{ i, it ->
+        return availableFilters.mapIndexed { i, it ->
             AvailableFilter(it, filterValues[i])
         }
     }

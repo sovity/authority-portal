@@ -54,10 +54,10 @@ class RegistrationApiService(
 
     private fun createKeycloakUserAndOrganization(mdsId: String, registrationRequest: RegistrationRequestDto): String {
         val userId = keycloakService.createUser(
-            registrationRequest.userEmail,
-            registrationRequest.userFirstName,
-            registrationRequest.userLastName,
-            registrationRequest.userPassword
+            email = registrationRequest.userEmail,
+            firstName = registrationRequest.userFirstName,
+            lastName = registrationRequest.userLastName,
+            password = registrationRequest.userPassword
         )
         keycloakService.createOrganization(mdsId)
         keycloakService.joinOrganization(userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
@@ -76,10 +76,10 @@ class RegistrationApiService(
             onboardingType = UserOnboardingType.SELF_REGISTRATION
         )
         organizationService.createOrganization(
-            userId,
-            mdsId,
-            buildOrganizationData(registrationRequest),
-            OrganizationRegistrationStatus.PENDING
+            userId = userId,
+            mdsId = mdsId,
+            organizationData = buildOrganizationData(registrationRequest),
+            registrationStatus = OrganizationRegistrationStatus.PENDING
         )
         user.organizationMdsId = mdsId
         user.update()

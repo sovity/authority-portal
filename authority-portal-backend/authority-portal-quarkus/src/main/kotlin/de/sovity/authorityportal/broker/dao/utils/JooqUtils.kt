@@ -25,9 +25,6 @@ import org.jooq.impl.DSL
  */
 fun Field<String>.eqAny(values: Collection<String>): Condition = this.eq(DSL.any(*values.toTypedArray()))
 
-/**
- *
- */
 fun <T, R> Field<T>.mapInline(mapping: Map<T, R>, default: R): Field<R> {
     if (mapping.isEmpty()) {
         return DSL.`val`(default)

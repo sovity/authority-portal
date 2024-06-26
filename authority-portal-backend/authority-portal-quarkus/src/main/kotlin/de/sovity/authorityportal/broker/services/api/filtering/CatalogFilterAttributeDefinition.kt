@@ -23,10 +23,9 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.AvailableFilter
  * @param valueGetter   query existing values from DB
  * @param filterApplier apply a filter to a data offer query
  */
-@JvmRecord
 data class CatalogFilterAttributeDefinition(
-    @JvmField val name: String,
-    @JvmField val label: String,
-    @JvmField val valueGetter: AvailableFilterValuesQuery,
-    @JvmField val filterApplier: AttributeFilterQuery
+    val name: String,
+    val label: String,
+    val valueGetter: AvailableFilterValuesQuery,
+    val filterApplier: AttributeFilterQuery
 )

@@ -39,9 +39,9 @@ class UserInvitationApiService(
             keycloakService.createUser(userInformation.email, userInformation.firstName, userInformation.lastName)
         keycloakService.sendInvitationEmailWithPasswordReset(userId)
         keycloakService.joinOrganization(
-            userId,
-            mdsId,
-            userRoleMapper.toOrganizationRole(userInformation.role, userId, adminUserId)
+            userId = userId,
+            mdsId = mdsId,
+            role = userRoleMapper.toOrganizationRole(userInformation.role, userId, adminUserId)
         )
 
         userService.createUser(

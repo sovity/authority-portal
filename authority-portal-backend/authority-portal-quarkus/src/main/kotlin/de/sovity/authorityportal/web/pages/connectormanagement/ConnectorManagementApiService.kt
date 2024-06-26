@@ -22,6 +22,7 @@ import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
@@ -302,13 +303,20 @@ class ConnectorManagementApiService(
         if (connector.type == ConnectorType.CAAS) {
             connector.caasStatus!!.toDto()
         } else {
-            connector.onlineStatus!!.toDto()
+            filterDeadConnectorStatus(connector.onlineStatus!!).toDto()
         }
 
     private fun buildConnectorStatusFromConnectorRecord(it: ConnectorRecord) =
         if (it.type == ConnectorType.CAAS) {
             it.caasStatus.toDto()
         } else {
-            it.onlineStatus.toDto()
+            filterDeadConnectorStatus(it.onlineStatus).toDto()
+        }
+
+    private fun filterDeadConnectorStatus(status: ConnectorOnlineStatus) =
+        if (status == ConnectorOnlineStatus.DEAD) {
+            ConnectorOnlineStatus.OFFLINE
+        } else {
+            status
         }
 }

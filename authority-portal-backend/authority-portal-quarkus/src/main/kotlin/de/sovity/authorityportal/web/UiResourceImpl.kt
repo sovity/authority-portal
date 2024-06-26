@@ -53,7 +53,6 @@ import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationIn
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationRegistrationApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationUpdateApiService
-import de.sovity.authorityportal.web.pages.redirects.BrokerRedirectApiService
 import de.sovity.authorityportal.web.pages.registration.RegistrationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeactivationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeletionApiService
@@ -65,7 +64,6 @@ import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiS
 import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
-import jakarta.ws.rs.core.Response
 
 @PermitAll // auth checks will be in code in this unit
 @ApplicationScoped
@@ -82,7 +80,6 @@ class UiResourceImpl(
     val organizationRegistrationApiService: OrganizationRegistrationApiService,
     val organizationInvitationApiService: OrganizationInvitationApiService,
     val connectorManagementApiService: ConnectorManagementApiService,
-    val brokerRedirectApiService: BrokerRedirectApiService,
     val registrationApiService: RegistrationApiService,
     val userUpdateApiService: UserUpdateApiService,
     val organizationUpdateApiService: OrganizationUpdateApiService,
@@ -337,22 +334,6 @@ class UiResourceImpl(
             loggedInUser.organizationMdsId!!,
             loggedInUser.userId
         )
-    }
-
-    override fun redirectToOwnOrganizationCatalog(environmentId: String): Response {
-        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
-        authUtils.requiresMemberOfAnyOrganization()
-        return brokerRedirectApiService.buildCatalogRedirectWithMdsFilter(
-            loggedInUser.organizationMdsId!!,
-            environmentId
-        )
-    }
-
-    override fun redirectToCatalog(environmentId: String):
-        Response {
-        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
-        authUtils.requiresMemberOfAnyOrganization()
-        return brokerRedirectApiService.getCatalogRedirect(environmentId)
     }
 
     @Transactional

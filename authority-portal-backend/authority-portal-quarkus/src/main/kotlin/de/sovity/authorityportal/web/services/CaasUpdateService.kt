@@ -51,7 +51,7 @@ class CaasUpdateService(
                 && caasStatusResponse.status == CaasStatusDto.RUNNING
             ) {
                 registerCaasAtDaps(connector)
-                Log.info("CaaS has been registered at Broker & DAPS. connectorId=${connector.connectorId}.")
+                Log.info("CaaS has been registered at DAPS. connectorId=${connector.connectorId}.")
             }
 
             connector.caasStatus = caasStatusResponse.status.toDb()

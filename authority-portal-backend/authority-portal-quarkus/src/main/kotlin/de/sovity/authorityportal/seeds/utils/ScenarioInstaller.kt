@@ -11,5 +11,4 @@ class ScenarioInstaller(
     fun install(scenario: ScenarioData) {
         scenario.install(dsl)
     }
-
 }

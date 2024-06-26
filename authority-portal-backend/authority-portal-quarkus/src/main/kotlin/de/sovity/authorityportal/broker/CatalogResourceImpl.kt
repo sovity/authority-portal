@@ -42,7 +42,10 @@ class CatalogResourceImpl(
     }
 
     @Transactional
-    override fun dataOfferDetailPage(environmentId: String, query: DataOfferDetailPageQuery): DataOfferDetailPageResult {
+    override fun dataOfferDetailPage(
+        environmentId: String,
+        query: DataOfferDetailPageQuery
+    ): DataOfferDetailPageResult {
         authUtils.requiresAuthenticated()
         authUtils.requiresMemberOfAnyOrganization()
         return dataOfferDetailApiService.dataOfferDetailPage(environmentId, query)
