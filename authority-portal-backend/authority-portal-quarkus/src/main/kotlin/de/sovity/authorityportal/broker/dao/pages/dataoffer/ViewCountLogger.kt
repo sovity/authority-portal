@@ -17,7 +17,6 @@ import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
-import java.time.OffsetDateTime
 
 @ApplicationScoped
 class ViewCountLogger(

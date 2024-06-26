@@ -13,7 +13,6 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog.models
 
-import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import java.time.OffsetDateTime
 

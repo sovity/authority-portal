@@ -24,7 +24,6 @@ import de.sovity.authorityportal.web.model.CreateOrganizationData
 import de.sovity.authorityportal.web.pages.organizationmanagement.toDb
 import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.jooq.DSLContext
 import java.time.OffsetDateTime
 

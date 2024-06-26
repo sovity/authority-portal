@@ -22,7 +22,6 @@ import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Condition
 import org.jooq.impl.DSL
-import java.time.OffsetDateTime
 
 @ApplicationScoped
 class CatalogQueryFilterService(

@@ -23,11 +23,8 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.jooq.DSLContext
-import org.jooq.impl.DSL
-import java.time.OffsetDateTime
 import java.util.Optional
 
 @ApplicationScoped

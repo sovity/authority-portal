@@ -9,9 +9,15 @@ import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
 import de.sovity.authorityportal.web.tests.useMockNow
+import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
+import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
+import jakarta.inject.Inject
+import jakarta.ws.rs.NotAuthorizedException
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.jooq.DSLContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
@@ -19,12 +25,6 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.whenever
 import java.time.OffsetDateTime
-import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import io.quarkus.test.InjectMock
-import jakarta.inject.Inject
-import jakarta.ws.rs.NotAuthorizedException
-import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.jooq.DSLContext
 
 @QuarkusTest
 @ExtendWith(MockitoExtension::class)

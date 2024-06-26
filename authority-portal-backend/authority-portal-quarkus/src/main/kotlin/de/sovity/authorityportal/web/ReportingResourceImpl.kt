@@ -23,12 +23,10 @@ import de.sovity.authorityportal.web.services.reporting.SystemStabilityCsvReport
 import de.sovity.authorityportal.web.services.reporting.UserCsvReportService
 import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.annotation.security.PermitAll
-import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 import jakarta.ws.rs.core.HttpHeaders.CONTENT_DISPOSITION
 import jakarta.ws.rs.core.Response
 import java.io.ByteArrayInputStream
-import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
 @PermitAll

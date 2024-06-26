@@ -19,7 +19,6 @@ import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUp
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 
 @ApplicationScoped
 class OrganizationUpdateApiService(

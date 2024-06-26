@@ -1,7 +1,6 @@
 package de.sovity.authorityportal.web.auth
 
 import de.sovity.authorityportal.web.utils.unauthorized
-import io.quarkus.logging.Log
 import jakarta.ws.rs.container.ContainerRequestContext
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.jboss.resteasy.reactive.server.ServerRequestFilter

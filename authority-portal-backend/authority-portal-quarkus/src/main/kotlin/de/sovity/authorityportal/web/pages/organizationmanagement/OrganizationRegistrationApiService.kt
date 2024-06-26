@@ -22,7 +22,6 @@ import de.sovity.authorityportal.web.utils.TimeUtils
 import de.sovity.authorityportal.web.utils.unauthorized
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 
 @ApplicationScoped
 class OrganizationRegistrationApiService(

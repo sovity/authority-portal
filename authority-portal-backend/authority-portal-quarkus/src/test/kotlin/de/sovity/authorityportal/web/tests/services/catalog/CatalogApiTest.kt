@@ -13,8 +13,8 @@ import de.sovity.authorityportal.api.model.catalog.ConnectorOnlineStatusDto
 import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageQuery
 import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageResult
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
-import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.ScenarioData
+import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
 import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
@@ -27,7 +27,6 @@ import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
-import lombok.Data
 import org.assertj.core.api.Assertions.assertThat
 import org.jooq.JSONB
 import org.junit.jupiter.api.Test

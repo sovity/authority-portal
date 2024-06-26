@@ -16,7 +16,6 @@ package de.sovity.authorityportal.broker.services.api
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import lombok.SneakyThrows
 
 @ApplicationScoped

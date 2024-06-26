@@ -4,9 +4,6 @@ import de.sovity.authorityportal.api.model.organization.OrganizationLegalIdTypeD
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
-import lombok.AllArgsConstructor
-import lombok.Data
-import lombok.NoArgsConstructor
 
 @Schema(description = "Information for registering a new user and organization.")
 data class RegistrationRequestDto(

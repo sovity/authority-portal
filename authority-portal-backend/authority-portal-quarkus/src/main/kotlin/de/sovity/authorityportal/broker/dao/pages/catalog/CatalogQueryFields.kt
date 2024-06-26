@@ -14,11 +14,11 @@
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
 import de.sovity.authorityportal.broker.dao.utils.mapInline
-import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.tables.Connector
 import de.sovity.authorityportal.db.jooq.tables.DataOffer
 import de.sovity.authorityportal.db.jooq.tables.DataOfferViewCount
+import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
 import org.jooq.Field
 import org.jooq.Table
 import org.jooq.impl.DSL

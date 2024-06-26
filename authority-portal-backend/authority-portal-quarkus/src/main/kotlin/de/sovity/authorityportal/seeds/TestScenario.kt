@@ -1,11 +1,7 @@
 package de.sovity.authorityportal.seeds
 
-import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
-import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
-import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
-import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 

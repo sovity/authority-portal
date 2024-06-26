@@ -20,10 +20,8 @@ import de.sovity.authorityportal.web.utils.TimeUtils
 import io.quarkus.logging.Log
 import io.quarkus.scheduler.Scheduled
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 import org.eclipse.microprofile.config.inject.ConfigProperty
-import java.time.OffsetDateTime
 
 @ApplicationScoped
 class UnconfirmedUserDeletionService(

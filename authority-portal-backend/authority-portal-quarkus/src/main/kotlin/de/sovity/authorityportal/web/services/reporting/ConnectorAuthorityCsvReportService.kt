@@ -14,7 +14,6 @@
 package de.sovity.authorityportal.web.services.reporting
 
 import de.sovity.authorityportal.api.model.ConnectorStatusDto
-import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.pages.connectormanagement.toDto

@@ -18,7 +18,6 @@ import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import de.sovity.edc.ext.wrapper.api.common.model.UiPolicy
-import org.flywaydb.core.internal.util.JsonUtils
 import org.jooq.DSLContext
 import org.jooq.JSONB
 import java.time.OffsetDateTime
