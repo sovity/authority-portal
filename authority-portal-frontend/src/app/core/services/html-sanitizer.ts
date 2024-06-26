@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Injectable} from '@angular/core';
-import {addHook, sanitize} from 'isomorphic-dompurify';
+import { Injectable } from '@angular/core';
+import { addHook, sanitize } from 'isomorphic-dompurify';
+
 
 @Injectable({providedIn: 'root'})
 export class HtmlSanitizer {

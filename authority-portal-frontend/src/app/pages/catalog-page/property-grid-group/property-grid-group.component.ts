@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, Input} from '@angular/core';
-import {PropertyGridGroup} from './property-grid-group';
+import { Component, HostBinding, Input } from '@angular/core';
+import { PropertyGridGroup } from './property-grid-group';
+
 
 @Component({
   selector: 'property-grid-group',

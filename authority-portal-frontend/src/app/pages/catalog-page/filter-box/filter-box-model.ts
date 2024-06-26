@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {CnfFilterAttribute} from '@sovity.de/authority-portal-client';
-import {FilterBoxItem, buildFilterBoxItems} from './filter-box-item';
+import { CnfFilterAttribute } from '@sovity.de/authority-portal-client';
+import { FilterBoxItem, buildFilterBoxItems } from './filter-box-item';
+
 
 /**
  * State of a single Filter

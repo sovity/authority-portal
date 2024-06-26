@@ -10,9 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
-import {LoadingPageComponent} from './loading-page/loading-page.component';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { LoadingPageComponent } from './loading-page/loading-page.component';
+
 
 @NgModule({
   declarations: [LoadingPageComponent],

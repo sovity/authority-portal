@@ -10,11 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {
-  CentralComponentCreateRequest,
-  CentralComponentDto,
-  IdResponse,
-} from '@sovity.de/authority-portal-client';
+import { CentralComponentCreateRequest, CentralComponentDto, IdResponse } from '@sovity.de/authority-portal-client';
+
 
 let centralComponents: Record<string, CentralComponentDto[]> = {
   development: [

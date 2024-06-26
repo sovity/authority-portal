@@ -10,7 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
 
 export function notBlankValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {

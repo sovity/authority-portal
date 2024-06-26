@@ -10,14 +10,11 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {
-  DeploymentEnvironmentDto,
-  UserInfo,
-  UserRoleDto,
-} from '@sovity.de/authority-portal-client';
-import {Fetched} from 'src/app/core/utils/fetched';
-import {E2eDevUser} from '../../shared/dev-utils/e2e-dev-user-switcher/e2e-dev-user';
-import {AuthorityPortalPageSet} from './routes/authority-portal-page-set';
+import { DeploymentEnvironmentDto, UserInfo, UserRoleDto } from '@sovity.de/authority-portal-client';
+import { Fetched } from 'src/app/core/utils/fetched';
+import { E2eDevUser } from '../../shared/dev-utils/e2e-dev-user-switcher/e2e-dev-user';
+import { AuthorityPortalPageSet } from './routes/authority-portal-page-set';
+
 
 export interface GlobalState {
   pageSet: AuthorityPortalPageSet;

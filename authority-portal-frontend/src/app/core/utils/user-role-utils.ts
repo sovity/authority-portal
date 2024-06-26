@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {UserRoleDto} from '@sovity.de/authority-portal-client';
-import {nonNull} from './type-utils';
+import { UserRoleDto } from '@sovity.de/authority-portal-client';
+import { nonNull } from './type-utils';
+
 
 export function mapRolesToReadableFormat(
   role: string | UserRoleDto | null,

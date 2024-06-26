@@ -10,24 +10,11 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {
-  CaasAvailabilityResponse,
-  CheckFreeCaasUsageRequest,
-  ConnectorDetailDto,
-  ConnectorOverviewResult,
-  ConnectorTypeDto,
-  CreateCaasRequest,
-  CreateConnectorRequest,
-  CreateConnectorResponse,
-  CreateConnectorStatusDto,
-  DeleteOwnConnectorRequest,
-  IdResponse,
-  ProvidedConnectorOverviewEntryDto,
-  ProvidedConnectorOverviewResult,
-} from '@sovity.de/authority-portal-client';
-import {fakeEnv} from './fake-environments';
-import {TEST_ORGANIZATIONS} from './fake-organizations';
-import {getUserInfo} from './fake-users';
+import { CaasAvailabilityResponse, CheckFreeCaasUsageRequest, ConnectorDetailDto, ConnectorOverviewResult, ConnectorTypeDto, CreateCaasRequest, CreateConnectorRequest, CreateConnectorResponse, CreateConnectorStatusDto, DeleteOwnConnectorRequest, IdResponse, ProvidedConnectorOverviewEntryDto, ProvidedConnectorOverviewResult } from '@sovity.de/authority-portal-client';
+import { fakeEnv } from './fake-environments';
+import { TEST_ORGANIZATIONS } from './fake-organizations';
+import { getUserInfo } from './fake-users';
+
 
 export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   {

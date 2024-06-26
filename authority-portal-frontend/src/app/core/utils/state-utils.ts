@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {StateContext} from '@ngxs/store';
-import {Patcher} from './object-utils';
+import { StateContext } from '@ngxs/store';
+import { Patcher } from './object-utils';
+
 
 export function patchState<T>(ctx: StateContext<T>, patcher: Patcher<T>) {
   const state = ctx.getState();

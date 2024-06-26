@@ -10,12 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {
-  ConnectorStatusDto,
-  ConnectorTypeDto,
-  OrganizationRegistrationStatusDto,
-  UserRegistrationStatusDto,
-} from '@sovity.de/authority-portal-client';
+import { ConnectorStatusDto, ConnectorTypeDto, OrganizationRegistrationStatusDto, UserRegistrationStatusDto } from '@sovity.de/authority-portal-client';
+
 
 export const getOrganizationRegistrationStatusClasses = (
   status: OrganizationRegistrationStatusDto,

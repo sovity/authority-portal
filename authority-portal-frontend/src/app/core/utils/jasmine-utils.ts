@@ -10,7 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Provider} from '@angular/core';
+import { Provider } from '@angular/core';
+
 
 /**
  * Type for creating type-safe Jasmine Spies

@@ -10,7 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {PropertyGridField} from '../property-grid/property-grid-field';
+import { PropertyGridField } from '../property-grid/property-grid-field';
+
 
 export interface PropertyGridGroup {
   groupLabel: string | null;

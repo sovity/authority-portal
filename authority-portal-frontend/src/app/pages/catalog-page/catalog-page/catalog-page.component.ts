@@ -10,31 +10,26 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {PageEvent} from '@angular/material/paginator';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Subject} from 'rxjs';
-import {map, takeUntil} from 'rxjs/operators';
-import {Store} from '@ngxs/store';
-import {
-  CatalogDataOffer,
-  CatalogPageSortingItem,
-  DataOfferDetailPageResult,
-} from '@sovity.de/authority-portal-client';
-import {CatalogApiService} from 'src/app/core/api/catalog-api.service';
-import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {LocalStoredValue} from 'src/app/core/utils/local-stored-value';
-import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
-import {AssetDetailDialogDataService} from '../asset-detail-dialog/asset-detail-dialog-data.service';
-import {AssetDetailDialogService} from '../asset-detail-dialog/asset-detail-dialog.service';
-import {FilterBoxItem} from '../filter-box/filter-box-item';
-import {FilterBoxVisibleState} from '../filter-box/filter-box-visible-state';
-import {ViewModeEnum, isViewMode} from '../view-selection/view-mode-enum';
-import {CatalogActiveFilterPill} from './state/catalog-active-filter-pill';
-import {CatalogPage} from './state/catalog-page-actions';
-import {CatalogPageState} from './state/catalog-page-state';
-import {CatalogPageStateModel} from './state/catalog-page-state-model';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
+import { CatalogDataOffer, CatalogPageSortingItem } from '@sovity.de/authority-portal-client';
+import { GlobalStateUtils } from 'src/app/core/global-state/global-state-utils';
+import { LocalStoredValue } from 'src/app/core/utils/local-stored-value';
+import { HeaderBarConfig } from '../../../shared/common/header-bar/header-bar.model';
+import { AssetDetailDialogService } from '../asset-detail-dialog/asset-detail-dialog.service';
+import { FilterBoxItem } from '../filter-box/filter-box-item';
+import { FilterBoxVisibleState } from '../filter-box/filter-box-visible-state';
+import { ViewModeEnum, isViewMode } from '../view-selection/view-mode-enum';
+import { CatalogActiveFilterPill } from './state/catalog-active-filter-pill';
+import { CatalogPage } from './state/catalog-page-actions';
+import { CatalogPageState } from './state/catalog-page-state';
+import { CatalogPageStateModel } from './state/catalog-page-state-model';
+
 
 @Component({
   selector: 'catalog-page',

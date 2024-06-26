@@ -10,7 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {LocalStorageUtils} from './local-storage-utils';
+import { LocalStorageUtils } from './local-storage-utils';
+
 
 export class LocalStoredValue<T> {
   localStorageUtils = new LocalStorageUtils();

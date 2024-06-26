@@ -10,14 +10,11 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {
-  CatalogPageResult,
-  CatalogPageSortingItem,
-  PaginationMetadata,
-} from '@sovity.de/authority-portal-client';
-import {Fetched} from 'src/app/core/utils/fetched';
-import {FilterBoxVisibleState} from '../../filter-box/filter-box-visible-state';
-import {CatalogActiveFilterPill} from './catalog-active-filter-pill';
+import { CatalogPageResult, CatalogPageSortingItem, PaginationMetadata } from '@sovity.de/authority-portal-client';
+import { Fetched } from 'src/app/core/utils/fetched';
+import { FilterBoxVisibleState } from '../../filter-box/filter-box-visible-state';
+import { CatalogActiveFilterPill } from './catalog-active-filter-pill';
+
 
 export interface CatalogPageStateModel {
   /**

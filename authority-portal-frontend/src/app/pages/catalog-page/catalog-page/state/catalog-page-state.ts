@@ -10,33 +10,23 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Injectable, OnDestroy} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {ignoreElements, switchMap, tap} from 'rxjs/operators';
-import {Action, State, StateContext} from '@ngxs/store';
-import {
-  CatalogPageQuery,
-  CatalogPageResult,
-  CnfFilter,
-  CnfFilterAttribute,
-} from '@sovity.de/authority-portal-client';
-import {CatalogApiService} from 'src/app/core/api/catalog-api.service';
-import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {Fetched} from 'src/app/core/utils/fetched';
-import {associateAsObj} from 'src/app/core/utils/object-utils';
-import {FilterBoxItem} from '../../filter-box/filter-box-item';
-import {
-  FilterBoxModel,
-  buildFilterBoxModelWithNewData,
-} from '../../filter-box/filter-box-model';
-import {FilterBoxVisibleState} from '../../filter-box/filter-box-visible-state';
-import {CatalogActiveFilterPill} from './catalog-active-filter-pill';
-import {CatalogPage} from './catalog-page-actions';
-import {
-  CatalogPageStateModel,
-  DEFAULT_CATALOG_PAGE_STATE_MODEL,
-} from './catalog-page-state-model';
-import {NgxsUtils} from './ngxs-utils';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { ignoreElements, switchMap, tap } from 'rxjs/operators';
+import { Action, State, StateContext } from '@ngxs/store';
+import { CatalogPageQuery, CatalogPageResult, CnfFilter, CnfFilterAttribute } from '@sovity.de/authority-portal-client';
+import { CatalogApiService } from 'src/app/core/api/catalog-api.service';
+import { GlobalStateUtils } from 'src/app/core/global-state/global-state-utils';
+import { Fetched } from 'src/app/core/utils/fetched';
+import { associateAsObj } from 'src/app/core/utils/object-utils';
+import { FilterBoxItem } from '../../filter-box/filter-box-item';
+import { FilterBoxModel, buildFilterBoxModelWithNewData } from '../../filter-box/filter-box-model';
+import { FilterBoxVisibleState } from '../../filter-box/filter-box-visible-state';
+import { CatalogActiveFilterPill } from './catalog-active-filter-pill';
+import { CatalogPage } from './catalog-page-actions';
+import { CatalogPageStateModel, DEFAULT_CATALOG_PAGE_STATE_MODEL } from './catalog-page-state-model';
+import { NgxsUtils } from './ngxs-utils';
+
 
 type Ctx = StateContext<CatalogPageStateModel>;
 

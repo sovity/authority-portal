@@ -10,24 +10,18 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Injectable} from '@angular/core';
-import {
-  DataOfferDetailContractOffer,
-  DataOfferDetailPageResult,
-  UiAsset,
-} from '@sovity.de/authority-portal-client';
-import {AdditionalAssetProperty} from 'src/app/core/api/additional-asset-property';
-import {LanguageService} from 'src/app/core/services/languages/language.service';
-import {formatDateAgo} from '../../../shared/pipes-and-directives/ago.pipe';
-import {
-  getOnlineStatusColor,
-  getOnlineStatusIcon,
-} from '../icon-with-online-status/online-status-utils';
-import {JsonDialogService} from '../json-dialog/json-dialog.service';
-import {PropertyGridGroup} from '../property-grid-group/property-grid-group';
-import {PropertyGridField} from '../property-grid/property-grid-field';
-import {PropertyGridFieldService} from '../property-grid/property-grid-field.service';
-import {UrlListDialogService} from '../url-list-dialog/url-list-dialog.service';
+import { Injectable } from '@angular/core';
+import { DataOfferDetailContractOffer, DataOfferDetailPageResult, UiAsset } from '@sovity.de/authority-portal-client';
+import { AdditionalAssetProperty } from 'src/app/core/api/additional-asset-property';
+import { LanguageService } from 'src/app/core/services/languages/language.service';
+import { formatDateAgo } from '../../../shared/pipes-and-directives/ago.pipe';
+import { getOnlineStatusColor, getOnlineStatusIcon } from '../icon-with-online-status/online-status-utils';
+import { JsonDialogService } from '../json-dialog/json-dialog.service';
+import { PropertyGridGroup } from '../property-grid-group/property-grid-group';
+import { PropertyGridField } from '../property-grid/property-grid-field';
+import { PropertyGridFieldService } from '../property-grid/property-grid-field.service';
+import { UrlListDialogService } from '../url-list-dialog/url-list-dialog.service';
+
 
 @Injectable()
 export class AssetPropertyGridGroupBuilder {

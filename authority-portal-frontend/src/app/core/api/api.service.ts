@@ -10,38 +10,12 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {
-  CaasAvailabilityResponse,
-  CentralComponentCreateRequest,
-  CentralComponentDto,
-  ComponentStatusOverview,
-  ConnectorDetailDto,
-  ConnectorOverviewResult,
-  CreateCaasRequest,
-  CreateConnectorRequest,
-  CreateConnectorResponse,
-  DeploymentEnvironmentDto,
-  IdResponse,
-  InviteOrganizationRequest,
-  InviteParticipantUserRequest,
-  OnboardingOrganizationUpdateDto,
-  OnboardingUserUpdateDto,
-  OrganizationDetailsDto,
-  OrganizationOverviewResult,
-  OwnOrganizationDetailsDto,
-  ProvidedConnectorOverviewResult,
-  RegistrationRequestDto,
-  UiApi,
-  UpdateOrganizationDto,
-  UpdateUserDto,
-  UserDetailDto,
-  UserInfo,
-  UserRoleDto,
-} from '@sovity.de/authority-portal-client';
-import {ApiClientFactory} from './api-client-factory';
-import {toObservable} from '../utils/rxjs-utils';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CaasAvailabilityResponse, CentralComponentCreateRequest, CentralComponentDto, ComponentStatusOverview, ConnectorDetailDto, ConnectorOverviewResult, CreateCaasRequest, CreateConnectorRequest, CreateConnectorResponse, DeploymentEnvironmentDto, IdResponse, InviteOrganizationRequest, InviteParticipantUserRequest, OnboardingOrganizationUpdateDto, OnboardingUserUpdateDto, OrganizationDetailsDto, OrganizationOverviewResult, OwnOrganizationDetailsDto, ProvidedConnectorOverviewResult, RegistrationRequestDto, UiApi, UpdateOrganizationDto, UpdateUserDto, UserDetailDto, UserInfo, UserRoleDto } from '@sovity.de/authority-portal-client';
+import { toObservable } from '../utils/rxjs-utils';
+import { ApiClientFactory } from './api-client-factory';
+
 
 @Injectable()
 export class ApiService {

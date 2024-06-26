@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, Inject} from '@angular/core';
-import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import { Component, Inject } from '@angular/core';
+import { APP_CONFIG, AppConfig } from 'src/app/core/services/config/app-config';
+
 
 @Component({
   selector: 'app-unauthenticated-page',

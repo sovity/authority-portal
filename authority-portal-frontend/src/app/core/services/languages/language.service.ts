@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Injectable} from '@angular/core';
-import {LANGUAGE_DATA, LanguageInfo} from './language-data';
+import { Injectable } from '@angular/core';
+import { LANGUAGE_DATA, LanguageInfo } from './language-data';
+
 
 /**
  * Access list of available LanguageSelectItems

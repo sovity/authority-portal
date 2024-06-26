@@ -10,25 +10,14 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Inject,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import {Subject} from 'rxjs';
-import {finalize, takeUntil} from 'rxjs/operators';
-import {NgxJsonViewerComponent} from 'ngx-json-viewer';
-import {cleanJson} from './clean-json';
-import {DialogToolbarButton, JsonDialogData} from './json-dialog.data';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { NgxJsonViewerComponent } from 'ngx-json-viewer';
+import { cleanJson } from './clean-json';
+import { DialogToolbarButton, JsonDialogData } from './json-dialog.data';
+
 
 @Component({
   selector: 'app-json-dialog',

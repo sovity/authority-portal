@@ -10,7 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
 
 export const namedRegexValidator =
   (regex: RegExp, key: string): ValidatorFn =>

@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {ValidatorFn} from '@angular/forms';
-import {namedRegexValidator} from './named-regex-validator';
+import { ValidatorFn } from '@angular/forms';
+import { namedRegexValidator } from './named-regex-validator';
+
 
 export const validZipCodePattern =
   /^[a-zA-Z0-9][a-zA-Z0-9\- ]{3,10}[a-zA-Z0-9]$/;

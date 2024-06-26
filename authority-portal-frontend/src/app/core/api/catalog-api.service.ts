@@ -10,17 +10,12 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {
-  CatalogApi,
-  CatalogPageQuery,
-  CatalogPageResult,
-  DataOfferDetailPageQuery,
-  DataOfferDetailPageResult,
-} from '@sovity.de/authority-portal-client';
-import {toObservable} from '../utils/rxjs-utils';
-import {ApiClientFactory} from './api-client-factory';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CatalogApi, CatalogPageQuery, CatalogPageResult, DataOfferDetailPageQuery, DataOfferDetailPageResult } from '@sovity.de/authority-portal-client';
+import { toObservable } from '../utils/rxjs-utils';
+import { ApiClientFactory } from './api-client-factory';
+
 
 @Injectable()
 export class CatalogApiService {

@@ -10,16 +10,14 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Inject, Injectable} from '@angular/core';
-import {Store} from '@ngxs/store';
-import {
-  AuthorityPortalClient,
-  buildAuthorityPortalClient,
-} from '@sovity.de/authority-portal-client';
-import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
-import {GlobalState} from '../global-state/global-state';
-import {GlobalStateImpl} from '../global-state/global-state-impl';
-import {AUTHORITY_PORTAL_FAKE_BACKEND} from './fake-backend/fake-backend';
+import { Inject, Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { AuthorityPortalClient, buildAuthorityPortalClient } from '@sovity.de/authority-portal-client';
+import { APP_CONFIG, AppConfig } from 'src/app/core/services/config/app-config';
+import { GlobalState } from '../global-state/global-state';
+import { GlobalStateImpl } from '../global-state/global-state-impl';
+import { AUTHORITY_PORTAL_FAKE_BACKEND } from './fake-backend/fake-backend';
+
 
 @Injectable()
 export class ApiClientFactory {

@@ -10,9 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {UrlListDialogData} from './url-list-dialog.data';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UrlListDialogData } from './url-list-dialog.data';
+
 
 @Component({
   selector: 'app-json-dialog',

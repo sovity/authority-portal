@@ -10,11 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {
-  CatalogDataOffer,
-  DataOfferDetailPageResult,
-} from '@sovity.de/authority-portal-client';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CatalogDataOffer } from '@sovity.de/authority-portal-client';
+
 
 @Component({
   selector: 'broker-data-offer-list',

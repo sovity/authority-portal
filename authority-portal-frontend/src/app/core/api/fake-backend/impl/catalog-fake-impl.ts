@@ -10,16 +10,11 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {
-  CatalogDataOffer,
-  CatalogPageQuery,
-  CatalogPageResult,
-  DataOfferDetailPageQuery,
-  DataOfferDetailPageResult,
-} from '@sovity.de/authority-portal-client';
-import {subDays, subMinutes} from 'date-fns';
-import {TestAssets} from './data/test-assets';
-import {TestPolicies} from './data/test-policies';
+import { CatalogDataOffer, CatalogPageQuery, CatalogPageResult, DataOfferDetailPageQuery, DataOfferDetailPageResult } from '@sovity.de/authority-portal-client';
+import { subDays, subMinutes } from 'date-fns';
+import { TestAssets } from './data/test-assets';
+import { TestPolicies } from './data/test-policies';
+
 
 const myConnector: Pick<
   DataOfferDetailPageResult,

@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
-import {E2eDevUser} from '../../shared/dev-utils/e2e-dev-user-switcher/e2e-dev-user';
+import { DeploymentEnvironmentDto } from '@sovity.de/authority-portal-client';
+import { E2eDevUser } from '../../shared/dev-utils/e2e-dev-user-switcher/e2e-dev-user';
+
 
 const tag = 'GlobalState';
 

@@ -10,9 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {ComponentType} from '@angular/cdk/portal';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {Observable} from 'rxjs';
+import { ComponentType } from '@angular/cdk/portal';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+
 
 /**
  * Method for launching Angular Material Dialogs with the lifetime of the dialog being handled by a until$ observable

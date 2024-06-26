@@ -10,7 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {ValidatorFn, Validators} from '@angular/forms';
+import { ValidatorFn, Validators } from '@angular/forms';
+
 
 export const validCertificatePattern =
   /^(-----BEGIN CERTIFICATE-----)[\s\S]*?(-----END CERTIFICATE-----)\s*$/m;

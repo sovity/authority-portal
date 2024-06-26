@@ -10,22 +10,14 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {
-  Component,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Subject} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {SimpleChangesTyped} from 'src/app/core/utils/angular-utils';
-import {FilterBoxItem} from './filter-box-item';
-import {FilterBoxVisibleState} from './filter-box-visible-state';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SimpleChangesTyped } from 'src/app/core/utils/angular-utils';
+import { FilterBoxItem } from './filter-box-item';
+import { FilterBoxVisibleState } from './filter-box-visible-state';
+
 
 @Component({
   selector: 'filter-box',

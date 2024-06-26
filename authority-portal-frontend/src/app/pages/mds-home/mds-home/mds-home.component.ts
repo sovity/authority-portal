@@ -10,9 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, Inject} from '@angular/core';
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import { Component, HostBinding, Inject } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { APP_CONFIG, AppConfig } from 'src/app/core/services/config/app-config';
+
 
 @Component({
   selector: 'app-mds-home',

@@ -10,10 +10,11 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {formatDate} from '@angular/common';
-import {Inject, Injectable, LOCALE_ID} from '@angular/core';
-import {validUrlPattern} from 'src/app/core/utils/validators/url-validator';
-import {PropertyGridField} from './property-grid-field';
+import { formatDate } from '@angular/common';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
+import { validUrlPattern } from 'src/app/core/utils/validators/url-validator';
+import { PropertyGridField } from './property-grid-field';
+
 
 @Injectable({providedIn: 'root'})
 export class PropertyGridFieldService {

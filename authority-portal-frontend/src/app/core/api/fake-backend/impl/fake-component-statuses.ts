@@ -10,10 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {
-  ComponentStatusOverview,
-  UptimeStatusDto,
-} from '@sovity.de/authority-portal-client';
+import { ComponentStatusOverview, UptimeStatusDto } from '@sovity.de/authority-portal-client';
+
 
 const up = (): UptimeStatusDto => ({
   componentStatus: 'UP',

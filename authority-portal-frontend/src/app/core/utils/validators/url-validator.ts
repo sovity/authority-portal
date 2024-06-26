@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {ValidatorFn, Validators} from '@angular/forms';
-import {namedRegexValidator} from './named-regex-validator';
+import { ValidatorFn } from '@angular/forms';
+import { namedRegexValidator } from './named-regex-validator';
+
 
 export const validUrlPattern = /^(http|https):\/\/[^ "]+$/;
 

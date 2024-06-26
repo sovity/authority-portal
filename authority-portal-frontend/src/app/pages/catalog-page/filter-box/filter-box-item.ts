@@ -10,7 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {CnfFilterItem} from '@sovity.de/authority-portal-client';
+import { CnfFilterItem } from '@sovity.de/authority-portal-client';
+
 
 export interface FilterBoxItem {
   type: 'ITEM' | 'NO_VALUE';

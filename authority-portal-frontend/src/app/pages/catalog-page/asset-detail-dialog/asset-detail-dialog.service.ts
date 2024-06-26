@@ -10,19 +10,19 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Injectable} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {NEVER, Observable, takeUntil} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
-import {DataOfferDetailPageQuery} from '@sovity.de/authority-portal-client';
-import {CatalogApiService} from 'src/app/core/api/catalog-api.service';
-import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {showDialogUntil} from 'src/app/core/utils/mat-dialog-utils';
-import {CustomRxjsOperators} from '../../../core/services/custom-rxjs-operators';
-import {ErrorService} from '../../../core/services/error.service';
-import {AssetDetailDialogData} from './asset-detail-dialog-data';
-import {AssetDetailDialogDataService} from './asset-detail-dialog-data.service';
-import {AssetDetailDialogComponent} from './asset-detail-dialog.component';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NEVER, Observable, takeUntil } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { DataOfferDetailPageQuery } from '@sovity.de/authority-portal-client';
+import { CatalogApiService } from 'src/app/core/api/catalog-api.service';
+import { GlobalStateUtils } from 'src/app/core/global-state/global-state-utils';
+import { showDialogUntil } from 'src/app/core/utils/mat-dialog-utils';
+import { ErrorService } from '../../../core/services/error.service';
+import { AssetDetailDialogData } from './asset-detail-dialog-data';
+import { AssetDetailDialogDataService } from './asset-detail-dialog-data.service';
+import { AssetDetailDialogComponent } from './asset-detail-dialog.component';
+
 
 @Injectable()
 export class AssetDetailDialogService {

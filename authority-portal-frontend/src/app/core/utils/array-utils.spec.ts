@@ -10,7 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {removeOnce} from './array-utils';
+import { removeOnce } from './array-utils';
+
 
 describe('array-utils', () => {
   it('should work on empty list', () => {
