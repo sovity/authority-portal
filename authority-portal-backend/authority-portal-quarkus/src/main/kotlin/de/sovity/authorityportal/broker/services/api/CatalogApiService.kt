@@ -13,7 +13,6 @@
  */
 package de.sovity.authorityportal.broker.services.api
 
-import de.sovity.authorityportal.api.model.catalog.CatalogContractOffer
 import de.sovity.authorityportal.api.model.catalog.CatalogDataOffer
 import de.sovity.authorityportal.api.model.catalog.CatalogPageQuery
 import de.sovity.authorityportal.api.model.catalog.CatalogPageResult
@@ -22,7 +21,6 @@ import de.sovity.authorityportal.api.model.catalog.CatalogPageSortingType
 import de.sovity.authorityportal.api.model.catalog.ConnectorOnlineStatusDto
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryService
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs
-import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.ContractOfferRs
 import de.sovity.authorityportal.broker.services.api.filtering.CatalogFilterService
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
@@ -36,8 +34,7 @@ class CatalogApiService(
     val catalogQueryService: CatalogQueryService,
     val catalogFilterService: CatalogFilterService,
     val dsl: DSLContext,
-    val deploymentEnvironmentService: DeploymentEnvironmentService,
-    val dataOfferMapper: DataOfferMapper
+    val deploymentEnvironmentService: DeploymentEnvironmentService
 ) {
 
 
@@ -87,31 +84,17 @@ class CatalogApiService(
     }
 
     private fun buildCatalogDataOffer(dataOfferRs: DataOfferListEntryRs): CatalogDataOffer {
-        val asset = dataOfferMapper.readUiAsset(dataOfferRs.assetUiJson)
-
         return CatalogDataOffer(
             assetId = dataOfferRs.assetId,
-            createdAt = dataOfferRs.createdAt,
-            updatedAt = dataOfferRs.updatedAt,
-            asset = asset,
-            contractOffers = buildCatalogContractOffers(dataOfferRs),
-            connectorEndpoint = dataOfferRs.connectorEndpointUrl,
+            assetTitle = dataOfferRs.assetTitle,
+            descriptionShortText = dataOfferRs.description,
+            version = dataOfferRs.version,
+            keywords = dataOfferRs.keywords,
             connectorId = dataOfferRs.connectorId,
-            connectorOfflineSinceOrLastUpdatedAt = dataOfferRs.connectorOfflineSinceOrLastUpdatedAt,
-            connectorOnlineStatus = getOnlineStatus(dataOfferRs)
-        )
-    }
-
-    private fun buildCatalogContractOffers(dataOfferRs: DataOfferListEntryRs): List<CatalogContractOffer> {
-        return dataOfferRs.contractOffers.map { buildCatalogContractOffer(it) }
-    }
-
-    private fun buildCatalogContractOffer(contractOfferDbRow: ContractOfferRs): CatalogContractOffer {
-        return CatalogContractOffer(
-            contractOfferId = contractOfferDbRow.contractOfferId,
-            contractPolicy = dataOfferMapper.readUiPolicy(contractOfferDbRow.policyUiJson),
-            createdAt = contractOfferDbRow.createdAt,
-            updatedAt = contractOfferDbRow.updatedAt
+            organizationId = dataOfferRs.organizationId,
+            organizationName = dataOfferRs.organizationName,
+            connectorOnlineStatus = getOnlineStatus(dataOfferRs),
+            connectorOfflineSinceOrLastUpdatedAt = dataOfferRs.connectorOfflineSinceOrLastUpdatedAt
         )
     }
 

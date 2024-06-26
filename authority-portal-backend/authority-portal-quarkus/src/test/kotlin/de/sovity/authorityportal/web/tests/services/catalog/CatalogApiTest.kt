@@ -27,6 +27,7 @@ import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
+import lombok.Data
 import org.assertj.core.api.Assertions.assertThat
 import org.jooq.JSONB
 import org.junit.jupiter.api.Test
@@ -148,7 +149,6 @@ class CatalogApiTest {
         // assert
         assertThat(result.dataOffers).hasSize(1)
         assertThat(result.dataOffers.first().connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
-        assertThat(result.dataOffers.first().connectorEndpoint).isEqualTo("https://connector-0/dsp")
     }
 
     @Test
@@ -238,6 +238,7 @@ class CatalogApiTest {
             dataOffer(0, 0, 0) {
                 it.assetTitle = "Data Offer 0"
                 it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset))
+                it.description = "Data Offer Description 0"
             }
 
             scenarioInstaller.install(this)
@@ -252,10 +253,8 @@ class CatalogApiTest {
         // assert
         assertThat(result.dataOffers).hasSize(1)
         assertThat(result.dataOffers.first().assetId).isEqualTo(dummyDevAssetId(0))
-        assertThat(result.dataOffers.first().asset.assetId).isEqualTo(dummyDevAssetId(0))
-        assertThat(result.dataOffers.first().asset.title).isEqualTo("Data Offer 0")
-        assertThat(result.dataOffers.first().connectorEndpoint).isEqualTo("https://connector-0/dsp")
-        assertThat(result.dataOffers.first().asset.description).isEqualTo("Data Offer 0 Description")
+        assertThat(result.dataOffers.first().assetTitle).isEqualTo("Data Offer 0")
+        assertThat(result.dataOffers.first().descriptionShortText).isEqualTo("Data Offer Description 0")
         assertThat(result.dataOffers.first().connectorOnlineStatus).isEqualTo(ConnectorOnlineStatusDto.ONLINE)
     }
 
@@ -469,7 +468,7 @@ class CatalogApiTest {
         // assert
         assertThat(result.dataOffers).hasSize(1)
         assertThat(result.dataOffers.first().assetId).isEqualTo(dummyDevAssetId(0))
-        assertThat(result.dataOffers.first().asset.title).isEqualTo("Hello")
+        assertThat(result.dataOffers.first().assetTitle).isEqualTo("Hello")
     }
 
     @Test

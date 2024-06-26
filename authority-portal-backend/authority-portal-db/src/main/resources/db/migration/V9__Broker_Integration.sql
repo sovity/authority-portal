@@ -47,6 +47,7 @@ create table data_offer
     geo_reference_method      text                     not null default ''::text,
     keywords                  text[]                   not null default '{}'::text[],
     keywords_comma_joined     text                     not null default ''::text,
+    version                   text                     not null default ''::text,
     primary key (connector_id, asset_id),
     constraint data_offer_connector_endpoint_fkey foreign key (connector_id) references connector (connector_id)
 );

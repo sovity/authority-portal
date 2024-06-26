@@ -42,16 +42,19 @@ class DataOfferDetailApiService(
 
         return DataOfferDetailPageResult(
             assetId = dataOffer.assetId,
+            assetTitle = dataOffer.assetTitle,
+            connectorId = dataOffer.connectorId,
             connectorEndpoint = dataOffer.connectorEndpoint,
+            organizationName = dataOffer.organizationName,
+            organizationId = dataOffer.organizationId,
             connectorOnlineStatus = mapConnectorOnlineStatus(dataOffer.connectorOnlineStatus),
             connectorOfflineSinceOrLastUpdatedAt = dataOffer.connectorOfflineSinceOrLastUpdatedAt,
-            asset = asset,
             createdAt = dataOffer.createdAt,
             updatedAt = dataOffer.updatedAt,
+            asset = asset,
             contractOffers = buildDataOfferDetailContractOffers(dataOffer.contractOffers),
             viewCount = dataOffer.viewCount
         )
-
     }
 
     private fun mapConnectorOnlineStatus(connectorOnlineStatus: ConnectorOnlineStatus?): ConnectorOnlineStatusDto {

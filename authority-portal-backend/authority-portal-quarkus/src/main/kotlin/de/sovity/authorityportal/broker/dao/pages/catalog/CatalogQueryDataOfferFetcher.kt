@@ -54,16 +54,18 @@ class CatalogQueryDataOfferFetcher(
 
         val select = DSL.select(
             d.ASSET_ID.`as`("assetId"),
-            d.UI_ASSET_JSON.`as`("assetUiJson"),
-            d.CREATED_AT,
-            d.UPDATED_AT,
-            catalogQueryContractOfferFetcher.getContractOffers(d).`as`("contractOffers"),
+            d.ASSET_TITLE.`as`("assetTitle"),
+            d.DESCRIPTION.`as`("description"),
+            d.VERSION.`as`("version"),
+            d.KEYWORDS.`as`("keywords"),
             c.CONNECTOR_ID.`as`("connectorId"),
-            c.ENDPOINT_URL.`as`("connectorEndpointUrl"),
-            c.ONLINE_STATUS.`as`("connectorOnlineStatus"),
-            c.MDS_ID.`as`("connectorParticipantId"),
+            c.MDS_ID.`as`("organizationId"),
             fields.organizationName.`as`("organizationName"),
-            fields.offlineSinceOrLastUpdatedAt.`as`("connectorOfflineSinceOrLastUpdatedAt")
+            c.ONLINE_STATUS.`as`("connectorOnlineStatus"),
+            fields.offlineSinceOrLastUpdatedAt.`as`("connectorOfflineSinceOrLastUpdatedAt"),
+            c.ENDPOINT_URL.`as`("connectorEndpointUrl"),
+            d.CREATED_AT,
+            d.UPDATED_AT
         )
 
         val query = from(select, fields)

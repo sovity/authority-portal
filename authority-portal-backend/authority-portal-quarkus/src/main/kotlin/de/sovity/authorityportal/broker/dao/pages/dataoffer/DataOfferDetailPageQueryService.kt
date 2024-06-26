@@ -41,16 +41,17 @@ class DataOfferDetailPageQueryService(
 
         return dsl.select(
             d.ASSET_ID,
-            d.UI_ASSET_JSON.`as`("assetUiJson"),
-            d.CREATED_AT,
-            d.UPDATED_AT,
-            catalogQueryContractOfferFetcher.getContractOffers(fields.dataOfferTable).`as`("contractOffers"),
-            fields.offlineSinceOrLastUpdatedAt.`as`("connectorOfflineSinceOrLastUpdatedAt"),
+            d.ASSET_TITLE,
             c.CONNECTOR_ID.`as`("connectorId"),
             c.ENDPOINT_URL.`as`("connectorEndpoint"),
-            c.ONLINE_STATUS.`as`("connectorOnlineStatus"),
-            c.MDS_ID.`as`("connectorParticipantId"),
             fields.organizationName.`as`("organizationName"),
+            c.MDS_ID.`as`("organizationId"),
+            c.ONLINE_STATUS.`as`("connectorOnlineStatus"),
+            fields.offlineSinceOrLastUpdatedAt.`as`("connectorOfflineSinceOrLastUpdatedAt"),
+            d.CREATED_AT,
+            d.UPDATED_AT,
+            d.UI_ASSET_JSON.`as`("assetUiJson"),
+            catalogQueryContractOfferFetcher.getContractOffers(fields.dataOfferTable).`as`("contractOffers"),
             fields.viewCount.`as`("viewCount")
         )
             .from(d)

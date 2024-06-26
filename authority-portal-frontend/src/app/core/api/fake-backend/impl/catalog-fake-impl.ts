@@ -22,6 +22,7 @@ const myConnector: Pick<
 const DATA_OFFERS: DataOfferDetailPageResult[] = [
   {
     assetId: TestAssets.full.assetId,
+    assetTitle: TestAssets.full.title,
     asset: TestAssets.full,
     ...myConnector,
     viewCount: 103,
@@ -40,6 +41,7 @@ const DATA_OFFERS: DataOfferDetailPageResult[] = [
   },
   {
     assetId: TestAssets.withSuffix(TestAssets.boring, '2').assetId,
+    assetTitle: TestAssets.withSuffix(TestAssets.boring, '2').title,
     asset: TestAssets.withSuffix(TestAssets.boring, '2'),
     ...myConnector,
     viewCount: 103,
@@ -58,6 +60,7 @@ const DATA_OFFERS: DataOfferDetailPageResult[] = [
   },
   {
     assetId: TestAssets.boring.assetId,
+    assetTitle: TestAssets.boring.title,
     asset: TestAssets.boring,
     ...myConnector,
     viewCount: 103,
@@ -76,6 +79,7 @@ const DATA_OFFERS: DataOfferDetailPageResult[] = [
   },
   {
     assetId: TestAssets.short.assetId,
+    assetTitle: TestAssets.short.title,
     asset: TestAssets.short,
     ...myConnector,
     viewCount: 33,

@@ -22,6 +22,9 @@ data class DataOfferDetailPageResult(
     @field:Schema(description = "ID of asset", requiredMode = Schema.RequiredMode.REQUIRED)
     val assetId: String,
 
+    @field:Schema(description = "Title of asset", requiredMode = Schema.RequiredMode.REQUIRED)
+    val assetTitle: String,
+
     @field:Schema(
         description = "Connector ID",
         example = "MDSL1234XX.C1234XX",

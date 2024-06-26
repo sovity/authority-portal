@@ -19,14 +19,14 @@ import java.time.OffsetDateTime
 
 data class DataOfferListEntryRs(
     val assetId: String,
-    val assetUiJson: String,
-    val createdAt: OffsetDateTime,
-    val updatedAt: OffsetDateTime,
-    val contractOffers: List<ContractOfferRs>,
+    val assetTitle: String,
+    val description: String,
+    val version: String,
+    val keywords: List<String>,
     val connectorId: String,
-    val connectorEndpointUrl: String,
-    val connectorOnlineStatus: ConnectorOnlineStatus,
-    val connectorParticipantId: String,
+    val organizationId: String,
     val organizationName: String,
-    val connectorOfflineSinceOrLastUpdatedAt: OffsetDateTime
+    val connectorOnlineStatus: ConnectorOnlineStatus,
+    val connectorOfflineSinceOrLastUpdatedAt: OffsetDateTime,
+    val connectorEndpointUrl: String
 )
