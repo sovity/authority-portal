@@ -311,7 +311,7 @@ export class AssetPropertyGridGroupBuilder {
         text: 'Show Policy Details',
         onclick: () =>
           this.jsonDialogService.showJsonDetailDialog({
-            title: `${groupLabel} Contract Policy)`,
+            title: `${groupLabel} Contract Policy`,
             subtitle: dataOffer.asset.title,
             icon: 'policy',
             objectForJson: JSON.parse(
