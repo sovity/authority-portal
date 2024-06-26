@@ -4,8 +4,7 @@
   emptyMessage="No properties."></app-empty-element>
 <div
   *ngFor="let prop of props; trackBy: trackByIndex"
-  class="flex flex-row space-x-[10px] overflow-hidden"
-  [style.width]="'calc(100% / ' + columns + ' - ' + (columns - 1) * 10 + 'px)'">
+  class="flex flex-row gap-2 overflow-hidden">
   <!-- Property Icon -->
   <mat-icon
     style="flex-shrink: 0; margin-top: 6px"
@@ -14,10 +13,10 @@
     [ngClass]="prop.additionalIconClasses">
     {{ prop.icon }}
   </mat-icon>
-  <div class="flex flex-col">
+  <div class="flex flex-col text-sm">
     <!-- Property Label -->
     <div
-      class="uppercase text-gray-500 text-sm break-all"
+      class="text-gray-500 uppercase text-xs tracking-wider break-all"
       [matTooltip]="prop.tooltip!"
       [attr.title]="prop.labelTitle">
       {{ prop.label }}

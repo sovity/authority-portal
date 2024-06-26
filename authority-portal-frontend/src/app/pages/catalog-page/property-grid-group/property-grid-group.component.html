@@ -5,8 +5,8 @@
 <ng-container *ngFor="let propGroup of propGroups; let first = first">
   <div
     *ngIf="propGroup.groupLabel != null"
-    class="flex flex-row flex-wrap property-grid-group-title"
-    style="{{ first ? 'margin-top: 20px;' : '' }}">
+    class="flex flex-row flex-wrap text-base font-semibold text-black leading-6"
+    [class.mt-8]="!first">
     {{ propGroup.groupLabel }}
   </div>
   <property-grid

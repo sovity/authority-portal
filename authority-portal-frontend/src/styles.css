@@ -23,10 +23,6 @@
       format('woff2');
 }
 
-.asset-card-container {
-  @apply grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4;
-}
-
 html {
   box-sizing: border-box;
   margin: 0;
@@ -319,15 +315,6 @@ select:-webkit-autofill:disabled {
 
 /* =============== */
 
-html,
-body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-}
-
 .broker-online-status-online {
   @apply text-green-700;
 }
@@ -338,63 +325,6 @@ body {
 
 .broker-online-status-dead {
   @apply text-red-600;
-}
-
-.code {
-  font-family: monospace;
-  font-size: larger;
-}
-
-.text-ellipsis {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.mat-hint-text-ellipsis {
-  mat-hint {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-}
-
-.list-style-material-icons-check {
-  list-style-type: none;
-  padding-inline-start: 8px;
-
-  li {
-    margin-top: 8px;
-
-    &:before {
-      margin-right: 8px;
-      content: 'check';
-      font-family: 'Material Icons';
-    }
-  }
-}
-
-.property-grid-group-title {
-  margin: 30px 3px 15px 3px;
-  text-transform: uppercase;
-  color: #373737;
-  font-size: 14px;
-  letter-spacing: 0.05em;
-}
-
-.mat-form-field-any-size-hint .mat-form-field-subscript-wrapper {
-  position: unset !important;
-}
-
-.bg-muted {
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.mat-icon-\[80px\] {
-  font-size: 80px !important;
-  width: 80px !important;
-  height: 80px !important;
-  line-height: 80px !important;
 }
 
 .mat-icon-\[16px\] {
@@ -432,31 +362,9 @@ body {
   height: 17px !important;
 }
 
-.mat-card-header-text {
-  overflow-wrap: break-word;
-  overflow: hidden;
-}
-
 .mat-expansion-panel-flex-col .mat-expansion-panel-body {
   display: flex;
   flex-direction: column;
-}
-
-.mat-form-field-without-margin-bottom {
-  .mat-form-field-wrapper {
-    margin-bottom: 0 !important;
-    margin-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-}
-
-.max-two-lines-list-item .mat-list-text {
-  display: -webkit-box !important;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis;
-  overflow: hidden !important;
 }
 
 .mat-drawer-inner-container {
@@ -476,7 +384,6 @@ body {
   @apply prose-th:px-[13px] prose-th:py-[6px] prose-th:border prose-th:border-[--tw-prose-td-borders] prose-th:align-middle prose-th:border-solid;
   @apply prose-td:px-[13px] prose-td:py-[6px] prose-td:border prose-td:border-[--tw-prose-td-borders] prose-td:align-middle prose-td:border-solid;
 
-  font: 400 14px / 20px Open Sans;
   letter-spacing: normal;
 
   h1,

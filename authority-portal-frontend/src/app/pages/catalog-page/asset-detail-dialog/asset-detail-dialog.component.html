@@ -1,4 +1,4 @@
-<div class="flex flex-col space-y-[10px]" mat-dialog-content>
+<div class="flex flex-col gap-4" mat-dialog-content>
   <div class="flex gap-4">
     <icon-with-online-status
       mainIcon="sim_card"
@@ -28,7 +28,7 @@
     [keywords]="asset.keywords"></asset-card-tag-list>
 
   <!-- Properties -->
-  <property-grid-group class="mt-[15px]" [propGroups]="propGroups">
+  <property-grid-group class="mt-4 text-gray-800" [propGroups]="propGroups">
   </property-grid-group>
 
   <mat-dialog-actions>

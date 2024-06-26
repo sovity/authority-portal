@@ -15,5 +15,6 @@ export class PropertyGridGroupComponent {
   @HostBinding('class.flex')
   @HostBinding('class.flex-col')
   @HostBinding('class.justify-start')
+  @HostBinding('class.gap-4')
   cls = true;
 }
