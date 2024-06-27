@@ -42,8 +42,8 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   cls = true;
 
   headerConfig: HeaderBarConfig = {
-    title: 'Catalog',
-    subtitle: 'Catalog of public Data Offers of all participants',
+    title: 'Catalogue',
+    subtitle: 'Catalogue of public Data Offers of all participants',
     headerActions: [],
   };
 
