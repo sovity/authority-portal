@@ -14,7 +14,7 @@ import {ValidatorFn} from '@angular/forms';
 import {namedRegexValidator} from './named-regex-validator';
 
 export const validZipCodePattern =
-  /^[a-zA-Z0-9][a-zA-Z0-9\- ]{3,10}[a-zA-Z0-9]$/;
+  /^[a-zA-Z0-9][a-zA-Z0-9\- ]{0,10}[a-zA-Z0-9]$/;
 
 export const zipCodeValidator: ValidatorFn = namedRegexValidator(
   validZipCodePattern,

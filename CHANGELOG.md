@@ -27,6 +27,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Input fields containing only whitespaces are now properly validated and an appropriate error message is shown [#193](https://github.com/sovity/authority-portal/issues/193)
 - Component uptime now displays up to '30+ days' [#211](https://github.com/sovity/authority-portal/issues/211)
+- Relaxed zipcode validation to allow less than 5 characters [#224](https://github.com/sovity/authority-portal/issues/224)
 
 ### Known issues
 
