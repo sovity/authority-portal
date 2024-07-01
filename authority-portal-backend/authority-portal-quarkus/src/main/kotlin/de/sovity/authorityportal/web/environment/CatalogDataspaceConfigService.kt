@@ -22,8 +22,8 @@ class CatalogDataspaceConfigService(
     fun forEnvironment(envId: String): CatalogDataspaceConfig {
         val env = deploymentEnvironmentService.findByIdOrThrow(envId)
         return CatalogDataspaceConfig(
-            namesByConnectorId = env.broker().dataspaceNames().connectorIds(),
-            defaultName = env.broker().dataspaceNames().default()
+            namesByConnectorId = env.dataCatalog().dataspaceNames().connectorIds(),
+            defaultName = env.dataCatalog().dataspaceNames().default()
         )
     }
 }

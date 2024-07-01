@@ -37,9 +37,8 @@ class CatalogApiService(
     val deploymentEnvironmentService: DeploymentEnvironmentService
 ) {
 
-
     fun catalogPage(environment: String, query: CatalogPageQuery): CatalogPageResult {
-        val brokerConfig = deploymentEnvironmentService.findByIdOrThrow(environment).broker()
+        val brokerConfig = deploymentEnvironmentService.findByIdOrThrow(environment).dataCatalog()
         val filters = catalogFilterService.getCatalogQueryFilters(query.filter)
 
         val pageQuery = paginationMetadataUtils.getPageQuery(
@@ -103,7 +102,6 @@ class CatalogApiService(
             ConnectorOnlineStatus.ONLINE -> ConnectorOnlineStatusDto.ONLINE
             ConnectorOnlineStatus.OFFLINE -> ConnectorOnlineStatusDto.OFFLINE
             ConnectorOnlineStatus.DEAD -> ConnectorOnlineStatusDto.DEAD
-            else -> throw IllegalStateException("Unknown ConnectorOnlineStatus from DAO for API: " + dataOfferRs.connectorOnlineStatus)
         }
     }
 

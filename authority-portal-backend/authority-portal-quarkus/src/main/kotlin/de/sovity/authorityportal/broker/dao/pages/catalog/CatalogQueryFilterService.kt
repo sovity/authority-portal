@@ -45,7 +45,7 @@ class CatalogQueryFilterService(
 
     private fun visibleConnectorsOfEnvironment(environment: String, c: Connector): Condition {
         val maxOfflineDuration = deploymentEnvironmentService.findByIdOrThrow(environment)
-            .broker()
+            .dataCatalog()
             .hideOfflineDataOffersAfter()
         val maxOfflineDurationNotExceeded = c.LAST_SUCCESSFUL_REFRESH_AT
             .greaterThan(timeUtils.now().minus(maxOfflineDuration))

@@ -57,7 +57,7 @@ data class DataOfferDetailPageResult(
     val connectorOnlineStatus: ConnectorOnlineStatusDto,
 
     @field:Schema(description = "Date to be displayed as last update date, for online connectors it's the last refresh date, for offline connectors it's the creation date or last successful fetch.")
-    val connectorOfflineSinceOrLastUpdatedAt: OffsetDateTime?,
+    val connectorOfflineSinceOrLastUpdatedAt: OffsetDateTime,
 
     @field:Schema(description = "Creation date in Broker", requiredMode = Schema.RequiredMode.REQUIRED)
     val createdAt: OffsetDateTime,

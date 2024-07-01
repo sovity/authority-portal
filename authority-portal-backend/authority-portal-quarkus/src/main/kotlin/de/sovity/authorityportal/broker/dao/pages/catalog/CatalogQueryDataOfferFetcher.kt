@@ -18,6 +18,8 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFil
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery
 import de.sovity.authorityportal.broker.dao.utils.MultisetUtils
+import de.sovity.authorityportal.db.jooq.tables.Connector
+import de.sovity.authorityportal.db.jooq.tables.DataOffer
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Field
 import org.jooq.Record
@@ -52,7 +54,7 @@ class CatalogQueryDataOfferFetcher(
         val c = fields.connectorTable
         val d = fields.dataOfferTable
 
-        val select = DSL.select(
+        var query = DSL.select(
             d.ASSET_ID.`as`("assetId"),
             d.ASSET_TITLE.`as`("assetTitle"),
             d.DESCRIPTION.`as`("description"),
@@ -67,8 +69,7 @@ class CatalogQueryDataOfferFetcher(
             d.CREATED_AT,
             d.UPDATED_AT
         )
-
-        val query = from(select, fields)
+            .fromCatalogQueryTables(c, d)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))
             .orderBy(catalogQuerySortingService.getOrderBy(fields, sorting))
             .limit(pageQuery.offset, pageQuery.limit)
@@ -90,14 +91,16 @@ class CatalogQueryDataOfferFetcher(
         searchQuery: String?,
         filters: List<CatalogQueryFilter>
     ): Field<Int> {
-        val query = from(DSL.select(DSL.count()), fields)
+        val query = DSL.select(DSL.count())
+            .fromCatalogQueryTables(fields.connectorTable, fields.dataOfferTable)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))
         return DSL.field(query)
     }
 
-    private fun <T : Record?> from(select: SelectSelectStep<T>, fields: CatalogQueryFields): SelectOnConditionStep<T> {
-        val c = fields.connectorTable
-        val d = fields.dataOfferTable
-        return select.from(d).leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
+    private fun <T : Record?> SelectSelectStep<T>.fromCatalogQueryTables(
+        c: Connector,
+        d: DataOffer,
+    ): SelectOnConditionStep<T> {
+        return this.from(d).leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
     }
 }

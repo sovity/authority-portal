@@ -24,7 +24,7 @@ interface DeploymentEnvironmentConfiguration {
         fun title(): String
         fun position(): Int
         fun daps(): DapsConfig
-        fun broker(): BrokerConfig
+        fun dataCatalog(): DataCatalogConfig
         fun loggingHouse(): LoggingHouseConfig
 
         interface DapsConfig {
@@ -35,7 +35,7 @@ interface DeploymentEnvironmentConfiguration {
             fun kumaName(): String
         }
 
-        interface BrokerConfig {
+        interface DataCatalogConfig {
             fun hideOfflineDataOffersAfter(): Duration
             fun catalogPagePageSize(): Int
             fun dataspaceNames(): DataspaceNames

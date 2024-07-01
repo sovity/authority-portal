@@ -158,7 +158,8 @@ class UiResourceImpl(
     @Transactional
     override fun changeApplicationRole(userId: String, role: UserRoleDto): IdResponse {
         authUtils.requiresAnyRole(
-            Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN,
+            Roles.UserRoles.AUTHORITY_ADMIN,
+            Roles.UserRoles.OPERATOR_ADMIN,
             Roles.UserRoles.SERVICE_PARTNER_ADMIN
         )
         authUtils.requiresTargetNotSelf(userId)
@@ -171,7 +172,8 @@ class UiResourceImpl(
     @Transactional
     override fun clearApplicationRole(userId: String): IdResponse {
         authUtils.requiresAnyRole(
-            Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN,
+            Roles.UserRoles.AUTHORITY_ADMIN,
+            Roles.UserRoles.OPERATOR_ADMIN,
             Roles.UserRoles.SERVICE_PARTNER_ADMIN
         )
         authUtils.requiresTargetNotSelf(userId)

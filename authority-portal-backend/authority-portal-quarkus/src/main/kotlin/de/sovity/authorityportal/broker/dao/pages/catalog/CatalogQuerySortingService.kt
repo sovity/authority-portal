@@ -21,38 +21,22 @@ import org.jooq.OrderField
 class CatalogQuerySortingService {
     fun getOrderBy(fields: CatalogQueryFields, sorting: CatalogPageSortingType): List<OrderField<*>> {
         val orderBy = when (sorting) {
-            CatalogPageSortingType.TITLE -> {
-                listOf<OrderField<*>>(
-                    fields.dataOfferTable.ASSET_TITLE.asc(),
-                    fields.connectorTable.CONNECTOR_ID.asc()
-                )
-            }
-            CatalogPageSortingType.MOST_RECENT -> {
-                listOf<OrderField<*>>(
-                    fields.dataOfferTable.CREATED_AT.desc(),
-                    fields.connectorTable.CONNECTOR_ID.asc()
-                )
-            }
-            CatalogPageSortingType.ORIGINATOR -> {
-                listOf<OrderField<*>>(
-                    fields.connectorTable.CONNECTOR_ID.asc(),
-                    fields.dataOfferTable.ASSET_TITLE.asc()
-                )
-            }
-            CatalogPageSortingType.VIEW_COUNT -> {
-                listOf<OrderField<*>>(
-                    fields.viewCount.desc(),
-                    fields.connectorTable.CONNECTOR_ID.asc()
-                )
-            }
-            else -> {
-                throw IllegalArgumentException(
-                    "Unknown %s: %s".format(
-                        CatalogPageSortingType::class.java.name,
-                        sorting
-                    )
-                )
-            }
+            CatalogPageSortingType.TITLE -> listOf<OrderField<*>>(
+                fields.dataOfferTable.ASSET_TITLE.asc(),
+                fields.connectorTable.CONNECTOR_ID.asc()
+            )
+            CatalogPageSortingType.MOST_RECENT -> listOf<OrderField<*>>(
+                fields.dataOfferTable.CREATED_AT.desc(),
+                fields.connectorTable.CONNECTOR_ID.asc()
+            )
+            CatalogPageSortingType.ORIGINATOR -> listOf<OrderField<*>>(
+                fields.connectorTable.CONNECTOR_ID.asc(),
+                fields.dataOfferTable.ASSET_TITLE.asc()
+            )
+            CatalogPageSortingType.VIEW_COUNT -> listOf<OrderField<*>>(
+                fields.viewCount.desc(),
+                fields.connectorTable.CONNECTOR_ID.asc()
+            )
         }
         return orderBy
     }

@@ -11,9 +11,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Major
 
-- The Data Catalog (formerly Broker Server) is now integrated into the Authority Portal and can be accessed via the sidebar by authenticated users. 
-  It should be noted that the Catalog can only display and save crawled data offers but cannot actually fetch the data.
-  For this functionality, an EDC Connector with the "Broker Crawler" extension is required. For more information, see the [Deployment Migration Notes](#deployment-migration-notes).
+- The Data Catalog (formerly known as Broker) is now integrated into the Authority Portal and can be accessed via the sidebar.
 
 #### Minor
 
@@ -35,22 +33,32 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Keycloak
   - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
+- Data Catalog Crawlers:
+  - The Data Catalog only displays the Data Catalog as it exists in the database.
+  - Each deployment environment now requires a Data Catalog Crawler, which is an EDC Connector, which will crawl available public data offers for the given environment.
 - Portal Backend
   - Following environment variables have been added and **must be configured** for each environment
     - ```yaml
       # Time after which offline data offers are hidden from the Data Catalog
-      authority-portal.deployment.environments.{environmentId}.broker.hide-offline-data-offers-after: 15m
+      authority-portal.deployment.environments.{environmentId}.data-catalog.hide-offline-data-offers-after: 15m
+
       # Default page size for the Data Catalog
-      authority-portal.deployment.environments.{environmentId}.broker.catalog-page-page-size: 10
-      # Default dataspace name
-      authority-portal.deployment.environments.{environmentId}.broker.dataspace-names.default: MDS
+      authority-portal.deployment.environments.{environmentId}.data-catalog.catalog-page-page-size: 10
+
+      # Environment Connector-Dataspace association
+      # Allows certain connectors to be associated as partnered data spaces
+      # Required: Default Dataspace name
+      authority-portal.deployment.environments.test.data-catalog.dataspace-names.default: MDS
+      # Optional: Additional connectors to be given a dataspace name
+      authority-portal.deployment.environments.test.data-catalog.dataspace-names.connectorIds.{connectorId}: Mobilithek
       ```
   - Following environment variables have been removed and **can be removed from the configuration**
     - ```yaml
-      authority-portal.deployment.environments.{environmentId}.broker.url
-      authority-portal.deployment.environments.{environmentId}.broker.admin-api-key
-      authority-portal.deployment.environments.{environmentId}.broker.api-key
-      authority-portal.deployment.environments.{environmentId}.broker.kuma-name
+      # the broker has been removed, as the catalog is now a part of the authority portal
+      authority-portal.deployment.environments.{environmentId}.broker.url: ...
+      authority-portal.deployment.environments.{environmentId}.broker.admin-api-key: ... 
+      authority-portal.deployment.environments.{environmentId}.broker.api-key: ...
+      authority-portal.deployment.environments.{environmentId}.broker.kuma-name: ...
       ```
 
 #### Compatible Versions
