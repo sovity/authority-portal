@@ -36,9 +36,7 @@ distinction between E2E, Integration and Unit Tests is made here purely for the 
 One might argue all the these types of tests to be unit tests:
 
 - __(Backend) E2E Tests__:
-    - These tests either call the methods of a `ResourceImpl` directly or even call the APIs via REST of a running 
-      quarkus application.
-      started by `@QuarkusTest`.
+    - These tests call entire API endpoints of a running application started by `@QuarkusTest`.
     - These tests need to manually clean the database after themselves, since the transaction breaks from "making a call
       to the backend via REST", so `@TestTransaction` is unavailable.
     - You can still use Quarkus' `@InjectMock` to mock parts of the running application, e.g. a KeycloakService.

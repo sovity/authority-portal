@@ -31,11 +31,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ### Deployment Migration Notes
 
+- All brokers can be undeployed including their data bases.
+- New Data Catalog Crawlers must now be deployed for the data catalog to be filled. One for each environment.
 - Keycloak
   - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
-- Data Catalog Crawlers:
-  - The Data Catalog only displays the Data Catalog as it exists in the database.
-  - Each deployment environment now requires a Data Catalog Crawler, which is an EDC Connector, which will crawl available public data offers for the given environment.
 - Portal Backend
   - Following environment variables have been added and **must be configured** for each environment
     - ```yaml
