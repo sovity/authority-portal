@@ -17,6 +17,7 @@ import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
+import org.jooq.impl.DSL
 import java.time.OffsetDateTime
 
 @ApplicationScoped
@@ -44,9 +45,10 @@ class ConnectorStatusQuery(
 
         return dsl.select(c.CONNECTOR_ID, c.ONLINE_STATUS, c.LAST_SUCCESSFUL_REFRESH_AT)
             .from(c)
-            .where(c.ENVIRONMENT.eq(environmentId))
-            .and(c.MDS_ID.eq(mdsId))
-            .or(c.PROVIDER_MDS_ID.eq(mdsId))
+            .where(
+                c.ENVIRONMENT.eq(environmentId),
+                DSL.or(c.MDS_ID.eq(mdsId), c.PROVIDER_MDS_ID.eq(mdsId))
+            )
             .fetchInto(ConnectorStatusInfoRs::class.java)
     }
 }
