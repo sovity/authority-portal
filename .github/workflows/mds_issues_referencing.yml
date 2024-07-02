@@ -8,6 +8,24 @@ jobs:
   mds-issues-referencing:
     if: contains(github.event.issue.labels.*.name, 'kind/bug')
       && (
+        contains('AdamRaven', github.event.issue.user.login) ||
+        contains('alexanderaukam', github.event.issue.user.login) ||
+        contains('cristianivanescutsystems', github.event.issue.user.login) ||
+        contains('DanielHeiderMDS', github.event.issue.user.login) ||
+        contains('dhommen', github.event.issue.user.login) ||
+        contains('DianaMDS', github.event.issue.user.login) ||
+        contains('drmVR', github.event.issue.user.login) ||
+        contains('ip312', github.event.issue.user.login) ||
+        contains('juliusmeyer', github.event.issue.user.login) ||
+        contains('MaichiNguyenMDS', github.event.issue.user.login) ||
+        contains('maxschmidMDS', github.event.issue.user.login) ||
+        contains('MoritzStober-acatech', github.event.issue.user.login) ||
+        contains('nb-mds', github.event.issue.user.login) ||
+        contains('robinidento', github.event.issue.user.login) ||
+        contains('schemetzko', github.event.issue.user.login) ||
+        contains('schoenenberg', github.event.issue.user.login) ||
+        contains('sebplorenz', github.event.issue.user.login) ||
+        contains('StraeterRainer', github.event.issue.user.login) ||
         contains('tmberthold', github.event.issue.user.login)
       )
     runs-on: ubuntu-latest
