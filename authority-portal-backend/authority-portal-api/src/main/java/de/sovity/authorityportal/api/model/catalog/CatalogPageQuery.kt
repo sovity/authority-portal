@@ -17,20 +17,21 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Filterable Catalog Page Query")
 data class CatalogPageQuery(
-    @field:Schema(description = "Selected filters")
+    @field:Schema(description = "Selected filters", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val filter: CnfFilterValue?,
 
-    @field:Schema(description = "Search query")
+    @field:Schema(description = "Search query", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val searchQuery: String?,
 
-    @field:Schema(description = "Sorting")
+    @field:Schema(description = "Sorting", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val sorting: CatalogPageSortingType?,
 
     @field:Schema(
         description = "Page number, one based, meaning the first page is page 1.",
         example = "1",
         defaultValue = "1",
-        type = "n"
+        type = "n",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     val pageOneBased: Int = 1,
 )

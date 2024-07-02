@@ -60,7 +60,9 @@ data class CatalogDataOffer(
     @field:Schema(description = "Connector Online Status", requiredMode = Schema.RequiredMode.REQUIRED)
     val connectorOnlineStatus: ConnectorOnlineStatusDto,
 
-    @field:Schema(description = "Date to be displayed as last update date, for online connectors it's the last refresh date, for offline connectors it's the creation date or last successful fetch.")
-    val connectorOfflineSinceOrLastUpdatedAt: OffsetDateTime?,
+    @field:Schema(description = "Date to be displayed as last update date, for online connectors it's the " +
+        "last refresh date, for offline connectors it's the creation date or last successful fetch.",
+        requiredMode = Schema.RequiredMode.REQUIRED)
+    val connectorOfflineSinceOrLastUpdatedAt: OffsetDateTime,
 )
 

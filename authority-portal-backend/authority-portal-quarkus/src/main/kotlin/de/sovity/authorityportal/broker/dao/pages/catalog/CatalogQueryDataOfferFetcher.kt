@@ -54,7 +54,7 @@ class CatalogQueryDataOfferFetcher(
         val c = fields.connectorTable
         val d = fields.dataOfferTable
 
-        var query = DSL.select(
+        val query = DSL.select(
             d.ASSET_ID.`as`("assetId"),
             d.ASSET_TITLE.`as`("assetTitle"),
             d.DESCRIPTION.`as`("description"),
