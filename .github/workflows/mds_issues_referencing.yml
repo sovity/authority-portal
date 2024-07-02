@@ -25,8 +25,7 @@ jobs:
         contains('schemetzko', github.event.issue.user.login) ||
         contains('schoenenberg', github.event.issue.user.login) ||
         contains('sebplorenz', github.event.issue.user.login) ||
-        contains('StraeterRainer', github.event.issue.user.login) ||
-        contains('tmberthold', github.event.issue.user.login)
+        contains('StraeterRainer', github.event.issue.user.login)
       )
     runs-on: ubuntu-latest
 
