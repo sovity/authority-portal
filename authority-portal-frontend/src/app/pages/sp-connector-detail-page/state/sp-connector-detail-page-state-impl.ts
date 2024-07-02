@@ -15,8 +15,8 @@ import {Observable} from 'rxjs';
 import {ignoreElements, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
-import {ApiService} from '../../../core/api/api.service';
-import {Fetched} from '../../../core/utils/fetched';
+import {ApiService} from 'src/app/core/api/api.service';
+import {Fetched} from 'src/app/core/utils/fetched';
 import {
   RefreshConnector,
   SetConnectorId,

@@ -19,10 +19,10 @@ import {
   UserInfo,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
-import {E2E_DEV_USERS} from 'src/app/common/components/dev-utils/e2e-dev-user-switcher/e2e-dev-users';
-import {ApiService} from '../api/api.service';
-import {APP_CONFIG, AppConfig} from '../config/app-config';
-import {Fetched} from '../utils/fetched';
+import {ApiService} from 'src/app/core/api/api.service';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {Fetched} from 'src/app/core/utils/fetched';
+import {E2E_DEV_USERS} from '../../shared/dev-utils/e2e-dev-user-switcher/e2e-dev-users';
 import {isEqualSets} from '../utils/set-utils';
 import {patchState} from '../utils/state-utils';
 import {GlobalState, INITIAL_GLOBAL_STATE_MODEL} from './global-state';

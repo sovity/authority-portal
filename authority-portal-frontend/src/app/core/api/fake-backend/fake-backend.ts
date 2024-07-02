@@ -12,6 +12,8 @@
  */
 import {
   CaasAvailabilityResponseToJSON,
+  CatalogPageQueryFromJSON,
+  CatalogPageResultToJSON,
   CentralComponentCreateRequestFromJSON,
   CentralComponentDtoToJSON,
   ComponentStatusOverviewToJSON,
@@ -20,6 +22,8 @@ import {
   CreateCaasRequestFromJSON,
   CreateConnectorRequestFromJSON,
   CreateConnectorResponseToJSON,
+  DataOfferDetailPageQueryFromJSON,
+  DataOfferDetailPageResultToJSON,
   DeploymentEnvironmentDtoToJSON,
   FetchAPI,
   IdResponseToJSON,
@@ -38,6 +42,7 @@ import {
   UserDetailDtoToJSON,
   UserInfoToJSON,
 } from '@sovity.de/authority-portal-client';
+import {getCatalogPage, getDataOfferDetailPage} from './impl/catalog-fake-impl';
 import {
   centralComponentList,
   createCentralComponent,
@@ -416,5 +421,20 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       const result = createProvidedConnector(request, mdsId);
       return ok(CreateConnectorResponseToJSON(result));
     })
+
+    .url('catalog/catalog-page')
+    .on('POST', () => {
+      const query = CatalogPageQueryFromJSON(body);
+      const result = getCatalogPage(query, environmentId!);
+      return ok(CatalogPageResultToJSON(result));
+    })
+
+    .url('catalog/data-offer-detail-page')
+    .on('POST', () => {
+      const query = DataOfferDetailPageQueryFromJSON(body);
+      const result = getDataOfferDetailPage(query, environmentId!);
+      return result ? ok(DataOfferDetailPageResultToJSON(result)) : failed(404);
+    })
+
     .tryMatch();
 };

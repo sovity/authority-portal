@@ -13,7 +13,7 @@
 import {ValidatorFn} from '@angular/forms';
 import {namedRegexValidator} from './named-regex-validator';
 
-const validUrlPattern = /^(http|https):\/\/[^ "]+$/;
+export const validUrlPattern = /^(http|https):\/\/[^ "]+$/;
 
 export const urlValidator: ValidatorFn = namedRegexValidator(
   validUrlPattern,

@@ -1,0 +1,15 @@
+<app-empty-element
+  *ngIf="!propGroups?.length"
+  class=""
+  emptyMessage="No properties."></app-empty-element>
+<ng-container *ngFor="let propGroup of propGroups; let first = first">
+  <div
+    *ngIf="propGroup.groupLabel != null"
+    class="flex flex-row flex-wrap text-base font-semibold text-black leading-6"
+    [class.mt-8]="!first">
+    {{ propGroup.groupLabel }}
+  </div>
+  <property-grid
+    [props]="propGroup.properties"
+    [columns]="columns"></property-grid>
+</ng-container>

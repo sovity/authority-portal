@@ -16,35 +16,24 @@ package de.sovity.authorityportal.web.pages.organizationmanagement
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.InviteOrganizationRequest
 import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
-import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.web.model.CreateUserData
-import de.sovity.authorityportal.web.services.OrganizationMetadataService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
+import de.sovity.authorityportal.web.utils.TimeUtils
 import de.sovity.authorityportal.web.utils.idmanagement.MdsIdUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 
 @ApplicationScoped
-class OrganizationInvitationApiService {
-
-    @Inject
-    lateinit var keycloakService: KeycloakService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var userService: UserService
-
-    @Inject
-    lateinit var organizationMetadataService: OrganizationMetadataService
-
-    @Inject
-    lateinit var mdsIdUtils: MdsIdUtils
+class OrganizationInvitationApiService(
+    val keycloakService: KeycloakService,
+    val organizationService: OrganizationService,
+    val userService: UserService,
+    val mdsIdUtils: MdsIdUtils,
+    val timeUtils: TimeUtils
+) {
 
     fun inviteOrganization(invitationInformation: InviteOrganizationRequest, adminUserId: String): IdResponse {
         val mdsId = mdsIdUtils.generateMdsId()
@@ -54,10 +43,13 @@ class OrganizationInvitationApiService {
 
         Log.info("Invited organization and corresponding initial Participant Admin. mdsId=$mdsId, userId=$userId, adminUserId=$adminUserId.")
 
-        return IdResponse(mdsId)
+        return IdResponse(mdsId, timeUtils.now())
     }
 
-    private fun createKeycloakUserAndOrganization(mdsId: String, invitationInformation: InviteOrganizationRequest): String {
+    private fun createKeycloakUserAndOrganization(
+        mdsId: String,
+        invitationInformation: InviteOrganizationRequest
+    ): String {
         val userId = keycloakService.createUser(
             invitationInformation.userEmail,
             invitationInformation.userFirstName,
@@ -69,7 +61,11 @@ class OrganizationInvitationApiService {
         return userId
     }
 
-    private fun createDbUserAndOrganization(userId: String, mdsId: String, invitationInformation: InviteOrganizationRequest) {
+    private fun createDbUserAndOrganization(
+        userId: String,
+        mdsId: String,
+        invitationInformation: InviteOrganizationRequest
+    ) {
         val user = userService.createUser(
             userId = userId,
             userData = buildUserData(invitationInformation),
@@ -82,8 +78,6 @@ class OrganizationInvitationApiService {
         )
         user.organizationMdsId = mdsId
         user.update()
-
-        organizationMetadataService.pushOrganizationMetadataToBroker()
     }
 
     private fun buildUserData(invitation: InviteOrganizationRequest): CreateUserData {

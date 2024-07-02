@@ -17,9 +17,9 @@ import {ignoreElements, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {CreateConnectorResponse} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
-import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ToastService} from 'src/app/core/toast-notifications/toast.service';
+import {ErrorService} from 'src/app/core/services/error.service';
+import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 import {Reset, Submit} from './request-connector-page-actions';
 import {
   DEFAULT_REQUEST_CONNECTOR_STATE,

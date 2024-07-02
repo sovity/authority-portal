@@ -13,9 +13,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject, switchMap, takeUntil} from 'rxjs';
 import {CaasAvailabilityResponse} from '@sovity.de/authority-portal-client';
-import {SelectionBoxModel} from 'src/app/shared/components/common/selection-box/selection-box.model';
-import {ApiService} from '../../../core/api/api.service';
-import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
+import {ApiService} from 'src/app/core/api/api.service';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {SelectionBoxModel} from 'src/app/shared/common/selection-box/selection-box.model';
 
 @Component({
   selector: 'app-choose-participant-caas',

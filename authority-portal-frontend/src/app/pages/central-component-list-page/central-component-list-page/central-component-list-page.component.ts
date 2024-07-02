@@ -21,9 +21,9 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
-import {ConfirmationDialogComponent} from '../../../shared/components/common/confirmation-dialog/confirmation-dialog.component';
-import {ConfirmationDialog} from '../../../shared/components/common/confirmation-dialog/confirmation-dialog.model';
+import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
+import {ConfirmationDialogComponent} from '../../../shared/common/confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialog} from '../../../shared/common/confirmation-dialog/confirmation-dialog.model';
 import {
   DeleteCentralComponent,
   RefreshCentralComponents,

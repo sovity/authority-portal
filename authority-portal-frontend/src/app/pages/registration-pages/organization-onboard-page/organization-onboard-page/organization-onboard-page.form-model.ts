@@ -11,8 +11,8 @@
  *      sovity GmbH - initial implementation
  */
 import {FormControl, FormGroup, ɵFormGroupRawValue} from '@angular/forms';
-import {OrganizationCreateFormModel} from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
-import {UserOnboardFormModel} from '../../../../shared/components/business/user-onboard-form/user-onboard-form-model';
+import {OrganizationCreateFormModel} from '../../../../shared/business/organization-create-form/organization-create-form-model';
+import {UserOnboardFormModel} from '../../../../shared/business/user-onboard-form/user-onboard-form-model';
 
 export interface OnboardingUserTabFormModel extends UserOnboardFormModel {
   acceptedTos: FormControl<boolean>;

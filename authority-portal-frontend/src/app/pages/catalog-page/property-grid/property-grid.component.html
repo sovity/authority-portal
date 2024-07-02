@@ -1,0 +1,63 @@
+<app-empty-element
+  *ngIf="!props?.length"
+  class=""
+  emptyMessage="No properties."></app-empty-element>
+<div
+  *ngFor="let prop of props; trackBy: trackByIndex"
+  class="flex flex-row gap-2 overflow-hidden">
+  <!-- Property Icon -->
+  <mat-icon
+    style="flex-shrink: 0; margin-top: 6px"
+    [matTooltip]="prop.tooltip!"
+    [attr.title]="prop.labelTitle"
+    [ngClass]="prop.additionalIconClasses">
+    {{ prop.icon }}
+  </mat-icon>
+  <div class="flex flex-col text-sm">
+    <!-- Property Label -->
+    <div
+      class="text-gray-500 uppercase text-xs tracking-wider break-all"
+      [matTooltip]="prop.tooltip!"
+      [attr.title]="prop.labelTitle">
+      {{ prop.label }}
+    </div>
+
+    <!-- Property Value (URL) -->
+    <a
+      *ngIf="prop.url"
+      class="link break-all"
+      externalLink
+      [ngClass]="prop.additionalClasses"
+      [attr.href]="prop.url"
+      >{{ prop.text }}</a
+    >
+
+    <!-- Property Value (OnClick Event) -->
+    <a
+      *ngIf="!prop.url && prop.onclick"
+      class="link break-all"
+      href="javascript:void(0)"
+      [ngClass]="prop.additionalClasses"
+      (click)="prop.onclick()"
+      >{{ prop.text }}</a
+    >
+
+    <!-- Property Value (Text) with tooltip -->
+    <span
+      *ngIf="!(prop.url || prop.onclick)"
+      [matTooltip]="prop.tooltip!"
+      [ngClass]="prop.additionalClasses"
+      >{{ prop.text }}
+      <mat-icon *ngIf="prop.textIconAfter" class="mat-icon-[12px]">
+        {{ prop.textIconAfter }}
+      </mat-icon>
+    </span>
+  </div>
+  <button
+    *ngIf="prop.copyButton"
+    mat-icon-button
+    color="accent"
+    [cdkCopyToClipboard]="prop.url ?? prop.text">
+    <mat-icon>content_copy</mat-icon>
+  </button>
+</div>

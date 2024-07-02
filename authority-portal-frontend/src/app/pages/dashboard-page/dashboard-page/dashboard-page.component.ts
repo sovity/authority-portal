@@ -18,10 +18,10 @@ import {
   UptimeStatusDto,
 } from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
-import {APP_CONFIG, AppConfig} from 'src/app/core/config/app-config';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {Fetched} from 'src/app/core/utils/fetched';
-import {HeaderBarConfig} from 'src/app/shared/components/common/header-bar/header-bar.model';
+import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
 import {ConnectorData} from '../dashboard-connector-card/dashboard-connector-card.component';
 
 @Component({
@@ -34,7 +34,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     subtitle: 'Uptime statistics of components',
     headerActions: [],
   };
-  brokerData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
   dapsData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
   loggingHouseData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
   connectorData: Fetched<ConnectorData> = Fetched.empty();
@@ -64,7 +63,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (componentStatusOverview: Fetched<ComponentStatusOverview>) => {
-          this.brokerData = componentStatusOverview.map((x) => x.brokerStatus);
           this.dapsData = componentStatusOverview.map((x) => x.dapsStatus);
           this.loggingHouseData = componentStatusOverview.map(
             (x) => x.loggingHouseStatus,

@@ -16,20 +16,18 @@ package de.sovity.authorityportal.web.pages.usermanagement
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
+import de.sovity.authorityportal.web.utils.TimeUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import jakarta.ws.rs.WebApplicationException
 import jakarta.ws.rs.core.Response
 
 @ApplicationScoped
-class UserRoleApiService {
-
-    @Inject
-    lateinit var keycloakService: KeycloakService
-
-    @Inject
-    lateinit var userRoleMapper: UserRoleMapper
+class UserRoleApiService(
+    val keycloakService: KeycloakService,
+    val userRoleMapper: UserRoleMapper,
+    val timeUtils: TimeUtils
+){
 
     fun changeParticipantRole(userId: String, roleDto: UserRoleDto, mdsId: String, adminUserId: String): IdResponse {
         val role = userRoleMapper.toOrganizationRole(roleDto, userId, adminUserId)
@@ -39,7 +37,7 @@ class UserRoleApiService {
 
         Log.info("Participant role changed. role=$role, userId=$userId, adminUserId=$adminUserId.")
 
-        return IdResponse(userId)
+        return IdResponse(userId, timeUtils.now())
     }
 
     fun clearApplicationRole(userId: String, adminUserId: String): IdResponse {
@@ -48,7 +46,7 @@ class UserRoleApiService {
 
         Log.info("Application role cleared. userId=$userId, adminUserId=$adminUserId.")
 
-        return IdResponse(userId)
+        return IdResponse(userId, timeUtils.now())
     }
 
     fun changeApplicationRole(userId: String, roleDto: UserRoleDto, adminUserId: String, userRoles: Set<String>): IdResponse {
@@ -60,7 +58,7 @@ class UserRoleApiService {
 
         Log.info("Application role changed. role=$role, userId=$userId, adminUserId=$adminUserId.")
 
-        return IdResponse(userId)
+        return IdResponse(userId, timeUtils.now())
     }
 
     private fun validateUserRole(userRoles: Set<String>, roleDto: UserRoleDto, userId: String) {

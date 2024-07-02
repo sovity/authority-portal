@@ -13,7 +13,7 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, interval} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {APP_CONFIG, AppConfig} from './core/config/app-config';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {GlobalState} from './core/global-state/global-state';
 import {RefreshUserInfo} from './core/global-state/global-state-actions';
 import {GlobalStateImpl} from './core/global-state/global-state-impl';

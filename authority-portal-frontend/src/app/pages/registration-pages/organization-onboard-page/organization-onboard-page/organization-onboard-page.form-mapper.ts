@@ -14,9 +14,9 @@ import {
   OwnOrganizationDetailsDto,
   UserDetailDto,
 } from '@sovity.de/authority-portal-client';
-import {getMainAndBillingAddresses} from '../../../../core/utils/address-utils';
-import {getMainAndTechnicalContacts} from '../../../../core/utils/name-utils';
-import {DEFAULT_ORGANIZATION_CREATE_FORM_MODEL} from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
+import {getMainAndBillingAddresses} from 'src/app/core/utils/address-utils';
+import {getMainAndTechnicalContacts} from 'src/app/core/utils/name-utils';
+import {DEFAULT_ORGANIZATION_CREATE_FORM_MODEL} from '../../../../shared/business/organization-create-form/organization-create-form-model';
 import {OnboardingProcessRequest} from '../state/organization-onboard-page-action';
 import {
   OnboardingOrganizationTabFormValue,

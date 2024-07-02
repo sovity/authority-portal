@@ -11,25 +11,60 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Major
 
+- The Data Catalog (formerly known as Broker) is now integrated into the Authority Portal and can be accessed via the sidebar.
+
 #### Minor
+
+- Due to the integration of the Data Catalog into the portal, following changes have been made:
+  - Removed the link to "My data offers" from the sidebar. Due to the integration of the Data Catalog, this feature is not supported for now.
+    Users may access a view of their data offers by navigating to the Data Catalog and choosing the appropriate filter.
+  - Removed the Data Catalog online status from the dashboard
+  - Removed the Data Catalog status data from the system stability report
 
 #### Patch
 
 - Input fields containing only whitespaces are now properly validated and an appropriate error message is shown [#193](https://github.com/sovity/authority-portal/issues/193)
 - Component uptime now displays up to '30+ days' [#211](https://github.com/sovity/authority-portal/issues/211)
+- Relaxed zipcode validation to allow less than 5 characters [#224](https://github.com/sovity/authority-portal/issues/224)
 
 ### Known issues
 
 ### Deployment Migration Notes
 
+- All brokers can be undeployed including their data bases.
+- New Data Catalog Crawlers must now be deployed for the data catalog to be filled. One for each environment.
 - Keycloak
   - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
+- Portal Backend
+  - Following environment variables have been added and **must be configured** for each environment
+    - ```yaml
+      # Time after which offline data offers are hidden from the Data Catalog
+      authority-portal.deployment.environments.{environmentId}.data-catalog.hide-offline-data-offers-after: 15m
+
+      # Default page size for the Data Catalog
+      authority-portal.deployment.environments.{environmentId}.data-catalog.catalog-page-page-size: 10
+
+      # Environment Connector-Dataspace association
+      # Allows certain connectors to be associated as partnered data spaces
+      # Required: Default Dataspace name
+      authority-portal.deployment.environments.test.data-catalog.dataspace-names.default: MDS
+      # Optional: Additional connectors to be given a dataspace name
+      authority-portal.deployment.environments.test.data-catalog.dataspace-names.connectorIds.{connectorId}: Mobilithek
+      ```
+  - Following environment variables have been removed and **can be removed from the configuration**
+    - ```yaml
+      # the broker has been removed, as the catalog is now a part of the authority portal
+      authority-portal.deployment.environments.{environmentId}.broker.url: ...
+      authority-portal.deployment.environments.{environmentId}.broker.admin-api-key: ... 
+      authority-portal.deployment.environments.{environmentId}.broker.api-key: ...
+      authority-portal.deployment.environments.{environmentId}.broker.kuma-name: ...
+      ```
 
 #### Compatible Versions
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Broker Server: `{{ broker version }}`
+- EDC CE: `{{ edc-ce version }}`
 
 ## [v2.3.0] - 2024-05-13
 

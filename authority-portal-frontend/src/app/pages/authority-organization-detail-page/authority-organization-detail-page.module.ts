@@ -15,10 +15,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
-import {ErrorElementModule} from 'src/app/common/components/error-element/error-element.module';
-import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
-import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
-import {MaterialModule} from 'src/app/common/material/material.module';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AuthorityOrganizationDetailPageComponent} from './authority-organization-detail-page/authority-organization-detail-page.component';
 import {AuthorityOrganizationDetailPageStateImpl} from './state/authority-organization-detail-page-state-impl';
@@ -42,17 +38,11 @@ import {OrganizationUserListComponent} from './sub-pages/organization-user-list/
     FormsModule,
     ReactiveFormsModule,
 
-    // Angular Material
-    MaterialModule,
-
     // NGXS
     NgxsModule.forFeature([AuthorityOrganizationDetailPageStateImpl]),
 
     // Authority Portal
     SharedModule,
-    LoadingElementModule,
-    ErrorElementModule,
-    PipesAndDirectivesModule,
   ],
 })
 export class AuthorityOrganizationDetailPageModule {}

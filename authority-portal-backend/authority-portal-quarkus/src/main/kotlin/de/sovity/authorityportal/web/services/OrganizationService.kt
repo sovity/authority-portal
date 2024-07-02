@@ -15,22 +15,23 @@ package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUpdateDto
+import de.sovity.authorityportal.broker.dao.utils.eqAny
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.OrganizationLegalIdType
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.web.model.CreateOrganizationData
 import de.sovity.authorityportal.web.pages.organizationmanagement.toDb
+import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.jooq.DSLContext
 import java.time.OffsetDateTime
 
 @ApplicationScoped
-class OrganizationService {
-
-    @Inject
-    lateinit var dsl: DSLContext
+class OrganizationService(
+    val dsl: DSLContext,
+    val timeUtils: TimeUtils
+) {
 
     fun getOrganizationOrThrow(mdsId: String): OrganizationRecord {
         return getOrganization(mdsId) ?: error("Organization with id $mdsId not found")
@@ -72,7 +73,7 @@ class OrganizationService {
             it.name = orgName.trim()
             it.createdBy = userId
             it.registrationStatus = OrganizationRegistrationStatus.INVITED
-            it.createdAt = OffsetDateTime.now()
+            it.createdAt = timeUtils.now()
 
             it.insert()
         }
@@ -89,7 +90,7 @@ class OrganizationService {
             it.mdsId = mdsId
             it.name = organizationData.name?.trim()
             it.registrationStatus = registrationStatus
-            it.createdAt = OffsetDateTime.now()
+            it.createdAt = timeUtils.now()
             it.createdBy = userId
 
             it.url = organizationData.url?.trim()
@@ -133,7 +134,7 @@ class OrganizationService {
         val organization = getOrganizationOrThrow(mdsId)
         organization.name = dto.name.trim()
         organization.registrationStatus = OrganizationRegistrationStatus.ACTIVE
-        organization.createdAt = OffsetDateTime.now()
+        organization.createdAt = timeUtils.now()
 
         organization.url = dto.url.trim()
         organization.description = dto.description.trim()
@@ -187,7 +188,7 @@ class OrganizationService {
         val o = Tables.ORGANIZATION
 
         return dsl.deleteFrom(o)
-            .where(o.MDS_ID.`in`(mdsIds))
+            .where(o.MDS_ID.eqAny(mdsIds))
             .execute()
     }
 

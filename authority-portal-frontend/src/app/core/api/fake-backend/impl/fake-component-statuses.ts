@@ -41,7 +41,6 @@ export const getComponentStatus = (
 ): ComponentStatusOverview => {
   if (environmentId === 'development') {
     return {
-      brokerStatus: up(),
       dapsStatus: maintenance(),
       loggingHouseStatus: down(),
       onlineConnectors: 20,
@@ -50,7 +49,6 @@ export const getComponentStatus = (
     };
   } else if (environmentId === 'staging') {
     return {
-      brokerStatus: undefined,
       dapsStatus: undefined,
       loggingHouseStatus: undefined,
       onlineConnectors: 0,
@@ -59,7 +57,6 @@ export const getComponentStatus = (
     };
   } else {
     return {
-      brokerStatus: up(),
       dapsStatus: up(),
       loggingHouseStatus: up(),
       onlineConnectors: 1,

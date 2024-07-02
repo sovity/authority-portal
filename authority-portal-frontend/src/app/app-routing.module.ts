@@ -13,10 +13,10 @@
 import {NgModule, Type} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
-import {requiresRole} from './common/auth/requires-role-guard';
-import {PortalLayoutComponent} from './common/layouts/portal-layout/portal-layout/portal-layout.component';
+import {requiresRole} from './core/services/auth/requires-role-guard';
 import {AuthorityConnectorListPageComponent} from './pages/authority-connector-list-page/authority-connector-list-page/authority-connector-list-page.component';
 import {AuthorityOrganizationListPageComponent} from './pages/authority-organization-list-page/authority-organization-list-page/authority-organization-list-page.component';
+import {CatalogPageComponent} from './pages/catalog-page/catalog-page/catalog-page.component';
 import {CentralComponentListPageComponent} from './pages/central-component-list-page/central-component-list-page/central-component-list-page.component';
 import {ChooseParticipantCaasComponent} from './pages/choose-participant-caas/choose-participant-caas/choose-participant-caas.component';
 import {ChooseParticipantConnectorComponent} from './pages/choose-participant-connector/choose-participant-connector/choose-participant-connector.component';
@@ -38,6 +38,7 @@ import {OrganizationOnboardPageComponent} from './pages/registration-pages/organ
 import {OrganizationPendingPageComponent} from './pages/registration-pages/organization-pending-page/organization-pending-page/organization-pending-page.component';
 import {OrganizationRejectedPageComponent} from './pages/registration-pages/organization-rejected-page/organization-rejected-page/organization-rejected-page.component';
 import {SpConnectorListPageComponent} from './pages/sp-connector-list-page/sp-connector-list-page/sp-connector-list-page.component';
+import {PortalLayoutComponent} from './shared/common/portal-layout/portal-layout/portal-layout.component';
 
 export const UNAUTHENTICATED_ROUTES: Routes = [
   {
@@ -136,6 +137,14 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
       {
         path: 'dashboard',
         component: DashboardPageComponent,
+        data: {
+          requiresRole: ['USER'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
+        path: 'catalog',
+        component: CatalogPageComponent,
         data: {
           requiresRole: ['USER'] satisfies UserRoleDto[],
         },

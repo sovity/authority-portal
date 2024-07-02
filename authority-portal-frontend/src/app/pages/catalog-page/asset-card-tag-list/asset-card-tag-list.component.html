@@ -1,0 +1,15 @@
+<div class="flex flex-wrap gap-1">
+  <div *ngIf="version" class="keyword version-keyword">
+    {{ version }}
+  </div>
+  <div
+    *ngFor="let keyword of keywords | slice : 0 : numberOfKeywordsDisplayed"
+    class="keyword">
+    {{ keyword }}
+  </div>
+  <div
+    *ngIf="(keywords ?? []).length > numberOfKeywordsDisplayed"
+    class="keyword">
+    +{{ keywords!.length - numberOfKeywordsDisplayed }}
+  </div>
+</div>

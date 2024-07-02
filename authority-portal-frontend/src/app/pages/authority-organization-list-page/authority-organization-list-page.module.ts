@@ -12,27 +12,34 @@
  */
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
-import {LoadingElementModule} from 'src/app/common/components/loading-element/loading-element.module';
-import {PipesAndDirectivesModule} from 'src/app/common/components/pipes-and-directives/pipes-and-directives.module';
 import {SharedModule} from 'src/app/shared/shared.module';
+import {AuthorityInviteNewOrganizationComponent} from './authority-invite-new-organization/authority-invite-new-organization.component';
+import {AuthorityInviteNewOrganizationPageStateImpl} from './authority-invite-new-organization/state/authority-invite-new-organization-page-state-impl';
 import {AuthorityOrganizationListPageComponent} from './authority-organization-list-page/authority-organization-list-page.component';
-import {AuthorityOrganizationListPageStateImpl} from './state/authority-organization-list-page-state-impl';
+import {AuthorityOrganizationListPageStateImpl} from './authority-organization-list-page/state/authority-organization-list-page-state-impl';
 
 @NgModule({
-  declarations: [AuthorityOrganizationListPageComponent],
+  declarations: [
+    AuthorityOrganizationListPageComponent,
+    AuthorityInviteNewOrganizationComponent,
+  ],
   imports: [
     // Angular
     CommonModule,
     RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     // NGXS
-    NgxsModule.forFeature([AuthorityOrganizationListPageStateImpl]),
+    NgxsModule.forFeature([
+      AuthorityOrganizationListPageStateImpl,
+      AuthorityInviteNewOrganizationPageStateImpl,
+    ]),
 
     // Authority Portal
-    PipesAndDirectivesModule,
-    LoadingElementModule,
     SharedModule,
   ],
 })

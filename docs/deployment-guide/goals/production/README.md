@@ -18,8 +18,8 @@ operator company.
 ### Dataspace
 
 - Each configured Dataspace Deployment Environment must have a running sovity Keycloak DAPS.
-- Each configured Dataspace Deployment Environment must have a running EDC Broker.
 - Each configured Dataspace Deployment Environment must have a running Logging House.
+- To make use of the Data Catalog, each configured Dataspace Deployment Environment must have a running EDC connector with the Broker Crawler Extension.
 
 The respective compatible versions can be found in the [CHANGELOG.md](../../../../CHANGELOG.md).
 
@@ -30,7 +30,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
   - URL of the Keycloak for authorizing at the CaaS-Portal, referred to as `[CAAS_KC_FQDN]` in this guide.
   - Credentials for the CaaS-Portal, referred to as `[CAAS_CLIENT_ID]` and `[CAAS_CLIENT_SECRET]` in this guide.
 - A running instance of Uptime Kuma is required.
-  - This should track the DAPS, Broker and Logging House status
+  - This should track the DAPS and Logging House status
   - The statuses must be available via the API (`/metrics` endpoint)
     - The output per component should look like this:
       ```
@@ -46,7 +46,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 | Deployment Unit           | Version / Details                                                                                 |
 |---------------------------|---------------------------------------------------------------------------------------------------|
 | Reverse Proxy / Ingress   | _Infrastructure dependant_                                                                        |
-| Keycloak Deployment       | Version 23.0.4 or compatible version                                                              |
+| Keycloak Deployment       | Version 24.0.4 or compatible version                                                              |
 | OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                           |
 | Caddy behind OAuth2 Proxy | caddy:2.7                                                                                         |
 | Authority Portal Backend  | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
@@ -162,43 +162,100 @@ This client must have the following settings:
 - Set environment variables according to the following documentation (mandatory, except log level)
 
 ```yaml
-quarkus.datasource.jdbc.url: jdbc:postgresql://portal-db/authority_portal # Postgres URL
-quarkus.datasource.username: postgres # Postgres user
-quarkus.datasource.password: postgres # Postgres password
-quarkus.oidc.auth-server-url: https://[KC_FQDN]/realms/mds-portal # Base URL of the OIDC server (Keycloak). Must contain the '/realms/{realm}' part of the URL
-quarkus.keycloak.admin-client.server-url: https://[KC_FQDN] # Keycloak Admin Client: Server URL
-quarkus.keycloak.admin-client.realm: mds-portal # Keycloak Admin Client: Realm
-quarkus.keycloak.admin-client.client-id: authority-portal-client # Keycloak Admin Client: Client ID
-quarkus.keycloak.admin-client.client-secret: [AP_CLIENT_SECRET] # Keycloak Admin Client: Client secret
-quarkus.keycloak.admin-client.grant-type: CLIENT_CREDENTIALS # Keycloak Admin Client: Grant type
-quarkus.log.level: INFO # Log level for backend logging (ERROR, INFO, DEBUG, etc). Docs: https://quarkus.io/guides/logging
-quarkus.oidc-client.sovity.auth-server-url: https://[CAAS_KC_FQDN]/realms/[REALM] # CaaS Portal: Auth server URL
-quarkus.oidc-client.sovity.client-id: [CAAS_CLIENT_ID] # CaaS Portal: Client ID
-quarkus.oidc-client.sovity.credentials.secret: [CAAS_CLIENT_SECRET] # CaaS Portal: Client Secret
-authority-portal.base-url: https://[AP_FQDN] # Must equal the root URL/home URl from the Keycloak configuration - see above)
-authority-portal.config.api-key: [AP_CONFIG_API_KEY] # API key to protect config endpoints, like /api/config/log-level
-authority-portal.invitation.expiration: 43200 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
-authority-portal.caas.sovity.url: https://[CAAS_PORTAL_FQDN] # URL of the sovity CaaS Portal
-authority-portal.caas.sovity.limit-per-mdsid: 1 # Amount of free sovity CaaS per participant
-authority-portal.kuma.metrics-url: https://[UPTIME_KUMA_FQDN] # Uptime Kuma URL (/metrics endpoint must be available)
-authority-portal.kuma.api-key: [UPTIME_KUMA_API_KEY] # Uptime Kuma API key
-# Following is **one** deployment environment configuration. (See hint below)
-authority-portal.deployment.environments.test.title: Test # Env: Title of the deployment environment configuration
-authority-portal.deployment.environments.test.position: 0  # Env: Order of environments, from 0 (default) to n (least important)
-authority-portal.deployment.environments.test.broker.url: https://[BROKER_FQDN] # Env: Broker URL
-authority-portal.deployment.environments.test.broker.admin-api-key: DefaultBrokerServerAdminApiKey # Env: Broker Admin API key
-authority-portal.deployment.environments.test.broker.api-key: ApiKeyDefaultValue # Env: Broker API key
-authority-portal.deployment.environments.test.broker.kuma-name: [BROKER_KUMA_NAME] # Env: Broker Kuma name
-authority-portal.deployment.environments.test.daps.url: https://[KC_DAPS_FQDN] # Env: DAPS URL
-authority-portal.deployment.environments.test.daps.realm-name: DAPS # Env: DAPS realm name
-authority-portal.deployment.environments.test.daps.client-id: authority-portal # Env: DAPS client ID
-authority-portal.deployment.environments.test.daps.client-secret: [DAPS_CLIENT_SECRET] # Env: DAPS client secret
-authority-portal.deployment.environments.test.daps.kuma-name: [DAPS_KUMA_NAME] # Env: DAPS Kuma name
-authority-portal.deployment.environments.test.logging-house.url: https://[LOGGING_HOUSE_FQDN] # Env: Logging House URL
-authority-portal.deployment.environments.test.logging-house.kuma-name: [LOGGING_HOUSE_KUMA_NAME] # Env: Logging House Kuma name
+# Postgres DB Connection
+quarkus.datasource.jdbc.url: "jdbc:postgresql://portal-db/authority_portal"
+quarkus.datasource.username: "postgres"
+quarkus.datasource.password: "postgres"
+
+# Keycloak Client for User IAM
+# Base URL of the OIDC server (Keycloak). Must contain the '/realms/{realm}' part of the URL
+quarkus.oidc.auth-server-url: "https://[KC_FQDN]/realms/mds-portal"
+
+# Keycloak Admin Client
+# Keycloak Admin Client: Server URL
+quarkus.keycloak.admin-client.server-url: "https://[KC_FQDN]"
+# Keycloak Admin Client: Realm
+quarkus.keycloak.admin-client.realm: "mds-portal"
+# Keycloak Admin Client: Client ID
+quarkus.keycloak.admin-client.client-id: "authority-portal-client"
+# Keycloak Admin Client: Client secret
+quarkus.keycloak.admin-client.client-secret: "[AP_CLIENT_SECRET]"
+# Keycloak Admin Client: Grant type
+quarkus.keycloak.admin-client.grant-type: "CLIENT_CREDENTIALS"
+
+# Log level for backend logging (ERROR, INFO, DEBUG, etc). Docs: https://quarkus.io/guides/logging
+quarkus.log.level: "INFO"
+
+# CaaS Portal
+# CaaS Portal: URL
+authority-portal.caas.sovity.url: "https://[CAAS_PORTAL_FQDN]"
+# CaaS Portal: OAuth2 Auth server URL
+quarkus.oidc-client.sovity.auth-server-url: "https://[CAAS_KC_FQDN]/realms/[REALM]"
+# CaaS Portal: OAuth2 Client ID
+quarkus.oidc-client.sovity.client-id: "[CAAS_CLIENT_ID]"
+# CaaS Portal: OAuth2 Client Secret
+quarkus.oidc-client.sovity.credentials.secret: "[CAAS_CLIENT_SECRET]"
+# Amount of free sovity CaaS per participant
+authority-portal.caas.sovity.limit-per-mdsid: "1"
+
+# Must equal the root URL/home URl from the Keycloak configuration - see above)
+authority-portal.base-url: "https://[AP_FQDN]"
+
+# API key to protect config endpoints, like /api/config/log-level
+authority-portal.config.api-key: "[AP_CONFIG_API_KEY]"
+
+# Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
+authority-portal.invitation.expiration: "43200"
+
+# Uptime Kuma
+# Uptime Kuma URL (/metrics endpoint must be available)
+authority-portal.kuma.metrics-url: "https://[UPTIME_KUMA_FQDN]"
+# Uptime Kuma API key
+authority-portal.kuma.api-key: "[UPTIME_KUMA_API_KEY]"
+
+# Environment Configuration
+# - Each Authority Portal can be configured with multiple environments, e.g. test, staging, prod, etc. 
+# - Following is an example configuration of the "test" environment.
+# - Please Note, that the environment "test" is mandatory
+
+# Environment Configuration: Metadata
+# Title of the deployment environment configuration
+authority-portal.deployment.environments.test.title: "Test"
+# Order of environments, from 0 (default) to n (least important)
+authority-portal.deployment.environments.test.position: "0"
+
+# Environment Data Catalog Settings
+# Time after which offline data offers are hidden from the Data Catalog
+authority-portal.deployment.environments.test.data-catalog.hide-offline-data-offers-after: "15m"
+# Default page size for the Data Catalog
+authority-portal.deployment.environments.test.data-catalog.catalog-page-page-size: "10"
+
+# Environment Connector-Dataspace association: Allows certain connectors to be associated as partnered data spaces
+# Required: Default Dataspace name
+authority-portal.deployment.environments.test.data-catalog.dataspace-names.default: "MDS"
+# Optional: Additional connectors to be given a dataspace name
+authority-portal.deployment.environments.test.data-catalog.dataspace-names.connectorIds."MDSL1234XX.C1234XX": "Mobilithek"
+
+# Environment DAPS
+# Env: DAPS URL
+authority-portal.deployment.environments.test.daps.url: "https://[KC_DAPS_FQDN]"
+# Env: DAPS realm name
+authority-portal.deployment.environments.test.daps.realm-name: "DAPS"
+# Env: DAPS Admin Client Client ID
+authority-portal.deployment.environments.test.daps.client-id: "authority-portal"
+# Env: DAPS Admin Client Client Secret
+authority-portal.deployment.environments.test.daps.client-secret: "[DAPS_CLIENT_SECRET]"
+# Env: DAPS Kuma name
+authority-portal.deployment.environments.test.daps.kuma-name: "[DAPS_KUMA_NAME]"
+
+# Environment Logging House
+# Env: Logging House URL
+authority-portal.deployment.environments.test.logging-house.url: "https://[LOGGING_HOUSE_FQDN]"
+# Env: Logging House Kuma name
+authority-portal.deployment.environments.test.logging-house.kuma-name: "[LOGGING_HOUSE_KUMA_NAME]"
 ```
 
-Environment `test` is mandatory. Further environments can be configured.
+#### Adjusting the log level at runtime
 
 The log level can be changed during runtime via a request to the `/api/config/log-level` endpoint. 
 The API key is required for this.
@@ -225,6 +282,15 @@ AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-
 AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal # MDS Privacy Policy URL
 AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu # Support page URL
 ```
+
+### Data Catalog Crawlers
+
+- The Data Catalog only displays the Data Catalog as it exists in the database.
+- Each deployment environment requires a Data Catalog Crawler.
+  - A Data Catalog Crawler is an EDC Connector of sorts.
+  - It will connect to the Authority Portal Postgres DB and regularly update it with available public data offers it crawled.
+
+For more details on how to configure or deploy the crawler, please visit the documentation. TODO linking
 
 ## Initial Setup
 

@@ -36,8 +36,7 @@ distinction between E2E, Integration and Unit Tests is made here purely for the 
 One might argue all the these types of tests to be unit tests:
 
 - __(Backend) E2E Tests__:
-    - These tests use the [Java Client Library](./authority-portal-api-client) to call the APIs of a running backend
-      started by `@QuarkusTest`.
+    - These tests call entire API endpoints of a running application started by `@QuarkusTest`.
     - These tests need to manually clean the database after themselves, since the transaction breaks from "making a call
       to the backend via REST", so `@TestTransaction` is unavailable.
     - You can still use Quarkus' `@InjectMock` to mock parts of the running application, e.g. a KeycloakService.
@@ -77,6 +76,7 @@ To start the backend in development mode, a JDK17 and docker are required.
 #### Local E2E Development: Basic Auth
 
 To simplify local development there are dev users available, see:
+
 - [application.properties](authority-portal-quarkus/src/main/resources/application.properties)
     - Test users and roles. Requests should use Basic Auth.
 - [realm.dev.json](authority-portal-quarkus/src/main/resources/realm.dev.json)

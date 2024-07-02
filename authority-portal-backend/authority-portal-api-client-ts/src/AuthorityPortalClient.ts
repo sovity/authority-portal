@@ -10,13 +10,19 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Configuration, ConfigurationParameters, UiApi} from './generated';
+import {
+    CatalogApi,
+    Configuration,
+    ConfigurationParameters,
+    UiApi,
+} from './generated';
 
 /**
  * API Client for our sovity Authority Portal Client
  */
 export interface AuthorityPortalClient {
     uiApi: UiApi;
+    catalogApi: CatalogApi;
 }
 
 /**
@@ -34,6 +40,7 @@ export function buildAuthorityPortalClient(
 
     return {
         uiApi: new UiApi(config),
+        catalogApi: new CatalogApi(config),
     };
 }
 

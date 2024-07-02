@@ -1,25 +1,36 @@
+/*
+ * Copyright (c) 2024 sovity GmbH
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Contributors:
+ *      sovity GmbH - initial implementation
+ */
+
 plugins {
     `java-library`
-    `maven-publish`
-    id("io.swagger.core.v3.swagger-gradle-plugin") version "2.2.15" //./gradlew clean resolve
-    id("org.hidetake.swagger.generator") version "2.19.2" //./gradlew generateSwaggerUI
-    id("org.openapi.generator") version "6.6.0" //./gradlew openApiValidate && ./gradlew openApiGenerate
+    alias(libs.plugins.openapiYamlGen) // ./gradlew clean resolve
+    alias(libs.plugins.openapiCodegen) // ./gradlew openApiValidate && ./gradlew openApiGenerate
 }
 
 dependencies {
-    annotationProcessor("org.projectlombok:lombok:1.18.28")
-    compileOnly("org.projectlombok:lombok:1.18.28")
+    annotationProcessor(libs.lombok)
+    compileOnly(libs.lombok)
 
-    api("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")
-    api("jakarta.validation:jakarta.validation-api:3.0.2")
-    api("io.swagger.core.v3:swagger-annotations-jakarta:2.2.15")
+    api(libs.jakarta.wsRsApi)
+    api(libs.jakarta.validation)
+    api(libs.swaggerCore.annotations)
+    api(libs.sovity.edc.wrapperCommonApi)
 
-    implementation("io.swagger.core.v3:swagger-jaxrs2-jakarta:2.2.15")
-    implementation("jakarta.servlet:jakarta.servlet-api:5.0.0")
-    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation(libs.swaggerCore.jaxrs2)
+    implementation(libs.jakarta.servletApi)
 }
 
-val openapiFileDir = "${project.buildDir}/openapi"
+val openapiFileDir = project.layout.buildDirectory.get().asFile.toString()
 val openapiFileFilename = "authority-portal.yaml"
 val openapiFile = "$openapiFileDir/$openapiFileFilename"
 
@@ -30,22 +41,18 @@ tasks.withType<io.swagger.v3.plugins.gradle.tasks.ResolveTask> {
     outputFileName = openapiFileFilename.removeSuffix(".yaml")
     prettyPrint = true
     outputFormat = io.swagger.v3.plugins.gradle.tasks.ResolveTask.Format.YAML
-    classpath = java.sourceSets["main"].runtimeClasspath
-    buildClasspath = classpath
-    resourcePackages = setOf("")
+    classpath = sourceSets["main"].runtimeClasspath
 }
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateTypeScriptClient") {
     validateSpec.set(false)
     dependsOn("resolve")
     generatorName.set("typescript-fetch")
-    configOptions.set(
-        mutableMapOf(
-            "supportsES6" to "true",
-            "npmVersion" to "8.15.0",
-            "typescriptThreePlus" to "true",
-        )
-    )
+    configOptions.set(mutableMapOf(
+        "supportsES6" to "true",
+        "npmVersion" to libs.versions.npmVersion.get(),
+        "typescriptThreePlus" to "true",
+    ))
 
     inputSpec.set(openapiFile)
     val outputDirectory = buildFile.parentFile.resolve(typescriptClientOutput).normalize()
@@ -57,6 +64,10 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenera
 
     doLast {
         outputDirectory.resolve("src/generated").renameTo(outputDirectory)
+        project.delete(fileTree(outputDirectory).include(
+            ".openapi-generator",
+            ".openapi-generator-ignore"
+        ))
     }
 }
 
@@ -65,18 +76,5 @@ tasks.withType<org.gradle.jvm.tasks.Jar> {
     dependsOn("openApiGenerateTypeScriptClient")
     from(openapiFileDir) {
         include(openapiFileFilename)
-    }
-}
-
-val authorityPortalGroup: String by project
-val authorityPortalVersion: String by project
-group = authorityPortalGroup
-version = authorityPortalVersion
-
-publishing {
-    publications {
-        create<MavenPublication>(project.name) {
-            from(components["java"])
-        }
     }
 }

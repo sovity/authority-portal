@@ -18,12 +18,12 @@ import {
   CreateConnectorResponse,
   OrganizationOverviewEntryDto,
 } from '@sovity.de/authority-portal-client';
-import {ErrorService} from 'src/app/core/error.service';
+import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ToastService} from 'src/app/core/toast-notifications/toast.service';
+import {ErrorService} from 'src/app/core/services/error.service';
+import {buildConnectorConfig} from 'src/app/core/utils/connector-config-utils';
 import {Fetched} from 'src/app/core/utils/fetched';
-import {ApiService} from '../../../../core/api/api.service';
-import {buildConnectorConfig} from '../../../../core/utils/connector-config-utils';
+import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 import {
   GetOrganizations,
   Reset,

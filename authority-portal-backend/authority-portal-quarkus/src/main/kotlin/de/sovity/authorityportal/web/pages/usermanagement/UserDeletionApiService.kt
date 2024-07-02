@@ -24,33 +24,21 @@ import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
+import de.sovity.authorityportal.web.utils.TimeUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 
 @ApplicationScoped
-class UserDeletionApiService {
-
-    @Inject
-    lateinit var keycloakService: KeycloakService
-
-    @Inject
-    lateinit var userService: UserService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var connectorService: ConnectorService
-
-    @Inject
-    lateinit var centralComponentService: CentralComponentService
-
-    @Inject
-    lateinit var connectorManagementApiService: ConnectorManagementApiService
-
-    @Inject
-    lateinit var centralComponentManagementApiService: CentralComponentManagementApiService
+class UserDeletionApiService(
+    val keycloakService: KeycloakService,
+    val userService: UserService,
+    val organizationService: OrganizationService,
+    val connectorService: ConnectorService,
+    val centralComponentService: CentralComponentService,
+    val connectorManagementApiService: ConnectorManagementApiService,
+    val centralComponentManagementApiService: CentralComponentManagementApiService,
+    val timeUtils: TimeUtils
+) {
 
     fun checkUserDeletion(userId: String): UserDeletionCheck {
         val user = userService.getUserOrThrow(userId)
@@ -58,28 +46,34 @@ class UserDeletionApiService {
         val authorityAdmins = keycloakService.getAuthorityAdmins()
         val participantAdmins = keycloakService.getParticipantAdmins(organization.mdsId)
 
-        val userDeletionCheck = UserDeletionCheck().apply {
-            this.userId = userId
-            canBeDeleted = authorityAdmins.size > 1 || authorityAdmins.first().userId != userId
-            isLastParticipantAdmin = participantAdmins.size == 1 && participantAdmins.first().userId == userId
-            isOrganizationCreator = organization.createdBy == userId
+        val isLastAuthorityAdmin = authorityAdmins.singleOrNull()?.userId == userId
+        val isLastParticipantAdmin = participantAdmins.singleOrNull()?.userId == userId
+        val isOrganizationCreator = organization.createdBy == userId
+
+        var possibleCreatorSuccessors = listOf<PossibleCreatorSuccessor>()
+        if (!isLastParticipantAdmin && isOrganizationCreator) {
+            possibleCreatorSuccessors = participantAdmins
+                .filter { it.userId != userId }
+                .map {
+                    PossibleCreatorSuccessor(
+                        userId = it.userId,
+                        firstName = it.firstName,
+                        lastName = it.lastName
+                    )
+                }
         }
 
-        if (!userDeletionCheck.isLastParticipantAdmin && userDeletionCheck.isOrganizationCreator) {
-            userDeletionCheck.possibleSuccessors = participantAdmins.map {
-                val successor = PossibleCreatorSuccessor()
-                successor.userId = it.userId
-                successor.firstName = it.firstName
-                successor.lastName = it.lastName
-                successor
-            }
-            userDeletionCheck.possibleSuccessors.removeIf { it.userId == userId }
-        } else {
-            userDeletionCheck.possibleSuccessors = emptyList()
-        }
+        val userDeletionCheck = UserDeletionCheck(
+            userId = userId,
+            canBeDeleted = !isLastAuthorityAdmin,
+            isLastParticipantAdmin = isLastParticipantAdmin,
+            isOrganizationCreator = isOrganizationCreator,
+            possibleCreatorSuccessors = possibleCreatorSuccessors
+        )
 
         return userDeletionCheck
     }
+
     fun handleUserDeletion(userId: String, successorUserId: String?, adminUserId: String): IdResponse {
         val userDeletionCheck = checkUserDeletion(userId)
         val user = userService.getUserOrThrow(userId)
@@ -96,7 +90,7 @@ class UserDeletionApiService {
             deleteUserAndHandleDependencies(userDeletionCheck, successorUserId, userId, adminUserId, organization)
         }
 
-        return IdResponse(userId)
+        return IdResponse(userId, timeUtils.now())
     }
 
     private fun deleteOrganizationAndDependencies(organizationMdsId: String, adminUserId: String) {
@@ -113,8 +107,10 @@ class UserDeletionApiService {
         keycloakService.deleteUsers(orgMemberIds)
         userService.deleteUsers(orgMemberIds)
 
-        Log.info("Organization and related users, connectors and central components deleted. " +
-            "mdsId=${organizationMdsId}, adminUserId=$adminUserId.")
+        Log.info(
+            "Organization and related users, connectors and central components deleted. " +
+                "mdsId=${organizationMdsId}, adminUserId=$adminUserId."
+        )
     }
 
     private fun deleteUserAndHandleDependencies(
@@ -133,8 +129,10 @@ class UserDeletionApiService {
         userService.deleteInvitationReference(userId)
         userService.deleteUser(userId)
 
-        Log.info("User deleted. Ownership of connectors and central components handed over to organization creator. " +
-                "userId=$userId, organizationCreator=${organization.createdBy}, adminUserId=$adminUserId.")
+        Log.info(
+            "User deleted. Ownership of connectors and central components handed over to organization creator. " +
+                "userId=$userId, organizationCreator=${organization.createdBy}, adminUserId=$adminUserId."
+        )
     }
 
     private fun changeOrganizationCreator(

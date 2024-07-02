@@ -36,13 +36,13 @@ class DeploymentEnvironmentDtoService {
             .toList()
 
     private fun buildDto(envId: String, deploymentEnvironment: DeploymentEnvironment): DeploymentEnvironmentDto {
-        return DeploymentEnvironmentDto().also {
-            it.environmentId = envId
-            it.title = deploymentEnvironment.title()
-            it.dapsJwksUrl = buildDapsJwksUrl(deploymentEnvironment.daps())
-            it.dapsTokenUrl = buildDapsTokenUrl(deploymentEnvironment.daps())
-            it.loggingHouseUrl = deploymentEnvironment.loggingHouse().url()
-        }
+        return DeploymentEnvironmentDto(
+            environmentId = envId,
+            title = deploymentEnvironment.title(),
+            dapsJwksUrl = buildDapsJwksUrl(deploymentEnvironment.daps()),
+            dapsTokenUrl = buildDapsTokenUrl(deploymentEnvironment.daps()),
+            loggingHouseUrl = deploymentEnvironment.loggingHouse().url()
+        )
     }
 
     private fun buildDapsJwksUrl(daps: DapsConfig): String {

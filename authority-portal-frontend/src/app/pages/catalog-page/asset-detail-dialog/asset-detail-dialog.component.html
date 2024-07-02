@@ -1,0 +1,43 @@
+<div class="flex flex-col gap-4" mat-dialog-content>
+  <div class="flex gap-4">
+    <icon-with-online-status
+      mainIcon="sim_card"
+      [onlineStatus]="dataOffer.connectorOnlineStatus">
+    </icon-with-online-status>
+    <div class="grow flex flex-col">
+      <span class="link font-semibold text-black leading-6">
+        {{ dataOffer.assetTitle }}
+      </span>
+      <span class="text-sm text-gray-500">
+        {{ dataOffer.organizationName }}
+      </span>
+    </div>
+  </div>
+  <!-- Description -->
+  <markdown-description
+    class="pt-3"
+    [description]="asset.description"></markdown-description>
+
+  <div>
+    <hr class="h-px my-5 bg-gray-200 border-0" />
+  </div>
+
+  <!-- Tag List -->
+  <asset-card-tag-list
+    *ngIf="asset.keywords?.length"
+    [keywords]="asset.keywords"></asset-card-tag-list>
+
+  <!-- Properties -->
+  <property-grid-group class="mt-4 text-gray-800" [propGroups]="propGroups">
+  </property-grid-group>
+
+  <mat-dialog-actions>
+    <div class="w-full flex flex-row justify-end">
+      <div class="flex gap-1 items-center">
+        <button mat-button [mat-dialog-close]="null" [disabled]="loading">
+          Close
+        </button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</div>

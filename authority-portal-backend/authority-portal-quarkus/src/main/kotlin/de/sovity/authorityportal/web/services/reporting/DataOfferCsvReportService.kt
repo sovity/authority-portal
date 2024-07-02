@@ -15,27 +15,18 @@ package de.sovity.authorityportal.web.services.reporting
 
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
+import de.sovity.authorityportal.web.services.dataoffer.DataOfferQuery
 import de.sovity.authorityportal.web.services.reporting.utils.CsvColumn
 import de.sovity.authorityportal.web.services.reporting.utils.buildCsv
-import de.sovity.authorityportal.web.thirdparty.broker.BrokerClientService
-import de.sovity.authorityportal.web.thirdparty.broker.model.AuthorityPortalDataOfferInfo
-import de.sovity.authorityportal.web.thirdparty.broker.model.ConnectorOnlineStatus
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import java.io.ByteArrayInputStream
-import java.time.OffsetDateTime
 
 @ApplicationScoped
-class DataOfferCsvReportService {
-
-    @Inject
-    lateinit var connectorService: ConnectorService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @Inject
-    lateinit var brokerClientService: BrokerClientService
+class DataOfferCsvReportService(
+    val connectorService: ConnectorService,
+    val organizationService: OrganizationService,
+    val dataOfferQuery: DataOfferQuery
+) {
 
     data class DataOfferReportRow(
         val dataOfferId: String,
@@ -61,45 +52,16 @@ class DataOfferCsvReportService {
     private fun buildDataOfferReportRows(environmentId: String): List<DataOfferReportRow> {
         val connectorEndpoints = connectorService.getConnectorsByEnvironment(environmentId).map { it.endpointUrl }
         val organizationNames = organizationService.getAllOrganizationNames()
-        val dataOffers = flatten(brokerClientService.forEnvironment(environmentId).getDataOffersInfo(connectorEndpoints))
+        val dataOffers = dataOfferQuery.getDataOffersForConnectorIdsAndEnvironment(environmentId, connectorEndpoints)
 
         return dataOffers.map {
-            val mdsId = extractMdsIdFromConnectorId(it.participantId)
             DataOfferReportRow(
                 dataOfferId = it.dataOfferId,
                 dataOfferName = it.dataOfferName,
-                organizationMdsId = mdsId,
-                organizationName = organizationNames[mdsId] ?: "",
+                organizationMdsId = it.mdsId,
+                organizationName = organizationNames[it.mdsId] ?: "",
                 status = it.onlineStatus.toString()
             )
-        }
-    }
-
-    private fun extractMdsIdFromConnectorId(connectorId: String): String {
-        return connectorId.split(".").firstOrNull() ?: connectorId
-    }
-
-    data class FlattenedDataOfferInfo(
-        val connectorEndpoint: String,
-        val participantId: String,
-        val onlineStatus: ConnectorOnlineStatus,
-        val offlineSinceOrLastUpdatedAt: OffsetDateTime,
-        val dataOfferName: String,
-        val dataOfferId: String
-    )
-
-    private fun flatten(infos: List<AuthorityPortalDataOfferInfo>): List<FlattenedDataOfferInfo> {
-        return infos.flatMap { info ->
-            info.dataOffers.map { dataOffer ->
-                FlattenedDataOfferInfo(
-                    info.connectorEndpoint,
-                    info.participantId,
-                    info.onlineStatus,
-                    info.offlineSinceOrLastUpdatedAt,
-                    dataOffer.dataOfferName,
-                    dataOffer.dataOfferId
-                )
-            }
         }
     }
 }

@@ -15,13 +15,13 @@ import {Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {MemberInfo} from '@sovity.de/authority-portal-client';
-import {BreadcrumbService} from '../../../common/layouts/portal-layout/breadcrumb/breadcrumb.service';
-import {Reset} from '../state/control-center-organization-members-page-action';
+import {BreadcrumbService} from '../../../shared/common/portal-layout/breadcrumb/breadcrumb.service';
+import {Reset} from './state/control-center-organization-members-page-action';
 import {
   ControlCenterOrganizationMembersPageState,
   DEFAULT_CONTROL_CENTER_ORGANIZATION_MEMBERS_PAGE_STATE,
-} from '../state/control-center-organization-members-page-state';
-import {ControlCenterOrganizationMembersPageStateImpl} from '../state/control-center-organization-members-page-state-impl';
+} from './state/control-center-organization-members-page-state';
+import {ControlCenterOrganizationMembersPageStateImpl} from './state/control-center-organization-members-page-state-impl';
 
 @Component({
   selector: 'app-control-center-organization-members-page',

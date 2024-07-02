@@ -16,33 +16,26 @@ package de.sovity.authorityportal.web.pages.usermanagement
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
+import de.sovity.authorityportal.web.utils.TimeUtils
 import io.quarkus.logging.Log
 import io.quarkus.scheduler.Scheduled
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 import org.eclipse.microprofile.config.inject.ConfigProperty
-import java.time.OffsetDateTime
 
 @ApplicationScoped
-class UnconfirmedUserDeletionService {
-
-    @Inject
-    lateinit var userService: UserService
-
-    @Inject
-    lateinit var keycloakService: KeycloakService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
-
-    @ConfigProperty(name = "authority-portal.invitation.expiration")
-    lateinit var inviteExpirationTime: String
+class UnconfirmedUserDeletionService(
+    val userService: UserService,
+    val keycloakService: KeycloakService,
+    val organizationService: OrganizationService,
+    val timeUtils: TimeUtils,
+    @ConfigProperty(name = "authority-portal.invitation.expiration") val inviteExpirationTime: String
+) {
 
     @Transactional
     @Scheduled(every = "15m")
     fun deleteUnconfirmedUsersAndOrganizations() {
-        val expirationCutoffTime = OffsetDateTime.now().minusSeconds(inviteExpirationTime.toLong())
+        val expirationCutoffTime = timeUtils.now().minusSeconds(inviteExpirationTime.toLong())
 
         userService.removeMdsIdFromUnconfirmedUsers(expirationCutoffTime)
 

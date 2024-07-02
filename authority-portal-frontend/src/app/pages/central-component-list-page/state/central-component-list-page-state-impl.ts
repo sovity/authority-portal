@@ -23,10 +23,10 @@ import {
 import {Action, Actions, State, StateContext} from '@ngxs/store';
 import {CentralComponentDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
-import {ErrorService} from 'src/app/core/error.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ToastService} from 'src/app/core/toast-notifications/toast.service';
+import {ErrorService} from 'src/app/core/services/error.service';
 import {Fetched} from 'src/app/core/utils/fetched';
+import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 import {
   DeleteCentralComponent,
   RefreshCentralComponents,

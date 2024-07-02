@@ -1,0 +1,7 @@
+.keyword {
+  @apply px-2.5 py-0.5 rounded-full text-sm bg-gray-200;
+}
+
+.version-keyword {
+  @apply bg-yellow-200;
+}

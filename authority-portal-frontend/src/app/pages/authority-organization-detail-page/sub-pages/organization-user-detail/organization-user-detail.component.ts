@@ -14,8 +14,8 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {UserDetailConfig} from 'src/app/shared/components/business/shared-user-detail/shared-user-detail.model';
-import {buildUserRoleUpdateConfigFromUserInfo} from '../../../../shared/components/business/shared-user-detail/user-role-update-config';
+import {UserDetailConfig} from 'src/app/shared/business/shared-user-detail/shared-user-detail.model';
+import {buildUserRoleUpdateConfigFromUserInfo} from '../../../../shared/business/shared-user-detail/user-role-update-config';
 import {UserDetailPageConfig} from '../../authority-organization-detail-page/authority-organization-detail-page.model';
 import {
   RefreshOrganizationUser,

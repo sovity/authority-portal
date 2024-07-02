@@ -16,18 +16,18 @@ import {Observable, takeUntil} from 'rxjs';
 import {ignoreElements, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {UserDetailDto, UserRoleDto} from '@sovity.de/authority-portal-client';
+import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {BreadcrumbService} from '../../../common/layouts/portal-layout/breadcrumb/breadcrumb.service';
-import {ApiService} from '../../../core/api/api.service';
-import {CustomRxjsOperators} from '../../../core/custom-rxjs-operators';
-import {Fetched} from '../../../core/utils/fetched';
-import {UserDetailConfig} from '../../../shared/components/business/shared-user-detail/shared-user-detail.model';
-import {buildUserRoleUpdateConfigFromUserInfo} from '../../../shared/components/business/shared-user-detail/user-role-update-config';
-import {UserDeleteDialogService} from '../../../shared/components/business/user-delete-dialog/user-delete-dialog.service';
+import {CustomRxjsOperators} from 'src/app/core/services/custom-rxjs-operators';
+import {Fetched} from 'src/app/core/utils/fetched';
+import {UserDetailConfig} from '../../../shared/business/shared-user-detail/shared-user-detail.model';
+import {buildUserRoleUpdateConfigFromUserInfo} from '../../../shared/business/shared-user-detail/user-role-update-config';
+import {UserDeleteDialogService} from '../../../shared/business/user-delete-dialog/user-delete-dialog.service';
 import {
   HeaderBarAction,
   HeaderBarConfig,
-} from '../../../shared/components/common/header-bar/header-bar.model';
+} from '../../../shared/common/header-bar/header-bar.model';
+import {BreadcrumbService} from '../../../shared/common/portal-layout/breadcrumb/breadcrumb.service';
 import {Reset} from './control-center-organization-member-detail-page-action';
 import {
   ControlCenterOrganizationMemberDetailPageState,

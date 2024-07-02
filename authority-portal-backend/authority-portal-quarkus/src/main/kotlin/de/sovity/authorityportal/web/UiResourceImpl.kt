@@ -53,7 +53,6 @@ import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationIn
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationRegistrationApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationUpdateApiService
-import de.sovity.authorityportal.web.pages.redirects.BrokerRedirectApiService
 import de.sovity.authorityportal.web.pages.registration.RegistrationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeactivationApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserDeletionApiService
@@ -62,72 +61,32 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiServi
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
-import io.quarkus.logging.Log
 import jakarta.annotation.security.PermitAll
-import jakarta.inject.Inject
+import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
-import jakarta.ws.rs.core.Response
-import org.jboss.logmanager.LogManager
-import java.util.logging.Level
 
 @PermitAll // auth checks will be in code in this unit
-class UiResourceImpl : UiResource {
-    @Inject
-    lateinit var authUtils: AuthUtils
-
-    @Inject
-    lateinit var loggedInUser: LoggedInUser
-
-    @Inject
-    lateinit var userInfoApiService: UserInfoApiService
-
-    @Inject
-    lateinit var userRoleApiService: UserRoleApiService
-
-    @Inject
-    lateinit var userRegistrationApiService: UserRegistrationApiService
-
-    @Inject
-    lateinit var userInvitationApiService: UserInvitationApiService
-
-    @Inject
-    lateinit var userDeactivationApiService: UserDeactivationApiService
-
-    @Inject
-    lateinit var userDeletionApiService: UserDeletionApiService
-
-    @Inject
-    lateinit var organizationInfoApiService: OrganizationInfoApiService
-
-    @Inject
-    lateinit var organizationRegistrationApiService: OrganizationRegistrationApiService
-
-    @Inject
-    lateinit var organizationInvitationApiService: OrganizationInvitationApiService
-
-    @Inject
-    lateinit var connectorManagementApiService: ConnectorManagementApiService
-
-    @Inject
-    lateinit var brokerRedirectApiService: BrokerRedirectApiService
-
-    @Inject
-    lateinit var registrationApiService: RegistrationApiService
-
-    @Inject
-    lateinit var userUpdateApiService: UserUpdateApiService
-
-    @Inject
-    lateinit var organizationUpdateApiService: OrganizationUpdateApiService
-
-    @Inject
-    lateinit var centralComponentManagementApiService: CentralComponentManagementApiService
-
-    @Inject
-    lateinit var caasManagementApiService: CaasManagementApiService
-
-    @Inject
-    lateinit var componentStatusApiService: ComponentStatusApiService
+@ApplicationScoped
+class UiResourceImpl(
+    val authUtils: AuthUtils,
+    val loggedInUser: LoggedInUser,
+    val userInfoApiService: UserInfoApiService,
+    val userRoleApiService: UserRoleApiService,
+    val userRegistrationApiService: UserRegistrationApiService,
+    val userInvitationApiService: UserInvitationApiService,
+    val userDeactivationApiService: UserDeactivationApiService,
+    val userDeletionApiService: UserDeletionApiService,
+    val organizationInfoApiService: OrganizationInfoApiService,
+    val organizationRegistrationApiService: OrganizationRegistrationApiService,
+    val organizationInvitationApiService: OrganizationInvitationApiService,
+    val connectorManagementApiService: ConnectorManagementApiService,
+    val registrationApiService: RegistrationApiService,
+    val userUpdateApiService: UserUpdateApiService,
+    val organizationUpdateApiService: OrganizationUpdateApiService,
+    val centralComponentManagementApiService: CentralComponentManagementApiService,
+    val caasManagementApiService: CaasManagementApiService,
+    val componentStatusApiService: ComponentStatusApiService
+) : UiResource {
 
     // User info
     @Transactional
@@ -135,17 +94,14 @@ class UiResourceImpl : UiResource {
         return userInfoApiService.userInfo(loggedInUser)
     }
 
-    /**
-     * Retrieves user details for the specified user ID.
-     *
-     * @param userId The ID of the user for whom to retrieve details.
-     * @return [UserDetailDto] object containing the user's details.
-     */
     @Transactional
     override fun userDetails(userId: String): UserDetailDto {
         authUtils.requiresAuthenticated()
-        authUtils.requires(authUtils.hasRole(Roles.UserRoles.AUTHORITY_USER) ||
-            (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_USER) && authUtils.isMemberOfSameOrganizationAs(userId)), userId)
+        authUtils.requires(
+            authUtils.hasRole(Roles.UserRoles.AUTHORITY_USER) ||
+                (authUtils.hasRole(Roles.UserRoles.PARTICIPANT_USER) && authUtils.isMemberOfSameOrganizationAs(userId)),
+            userId
+        )
         return userInfoApiService.userDetails(userId)
     }
 
@@ -158,18 +114,27 @@ class UiResourceImpl : UiResource {
 
     // Organization management (Internal)
     @Transactional
-    override fun changeParticipantRole(userId: String, roleDto: UserRoleDto): IdResponse {
+    override fun changeParticipantRole(userId: String, role: UserRoleDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresTargetNotSelf(userId)
         authUtils.requiresMemberOfSameOrganizationAs(userId)
-        return userRoleApiService.changeParticipantRole(userId, roleDto, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return userRoleApiService.changeParticipantRole(
+            userId = userId,
+            roleDto = role,
+            mdsId = loggedInUser.organizationMdsId!!,
+            adminUserId = loggedInUser.userId
+        )
     }
 
     @Transactional
     override fun inviteUser(invitationInformation: InviteParticipantUserRequest): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return userInvitationApiService.inviteParticipantUser(invitationInformation, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return userInvitationApiService.inviteParticipantUser(
+            invitationInformation,
+            loggedInUser.organizationMdsId!!,
+            loggedInUser.userId
+        )
     }
 
     @Transactional
@@ -191,20 +156,26 @@ class UiResourceImpl : UiResource {
 
     // Organization management (Authority)
     @Transactional
-    override fun changeApplicationRole(userId: String, roleDto: UserRoleDto): IdResponse {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN,
-            Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+    override fun changeApplicationRole(userId: String, role: UserRoleDto): IdResponse {
+        authUtils.requiresAnyRole(
+            Roles.UserRoles.AUTHORITY_ADMIN,
+            Roles.UserRoles.OPERATOR_ADMIN,
+            Roles.UserRoles.SERVICE_PARTNER_ADMIN
+        )
         authUtils.requiresTargetNotSelf(userId)
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
             authUtils.requiresMemberOfSameOrganizationAs(userId)
         }
-        return userRoleApiService.changeApplicationRole(userId, roleDto, loggedInUser.userId, loggedInUser.roles)
+        return userRoleApiService.changeApplicationRole(userId, role, loggedInUser.userId, loggedInUser.roles)
     }
 
     @Transactional
     override fun clearApplicationRole(userId: String): IdResponse {
-        authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_ADMIN, Roles.UserRoles.OPERATOR_ADMIN,
-            Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        authUtils.requiresAnyRole(
+            Roles.UserRoles.AUTHORITY_ADMIN,
+            Roles.UserRoles.OPERATOR_ADMIN,
+            Roles.UserRoles.SERVICE_PARTNER_ADMIN
+        )
         authUtils.requiresTargetNotSelf(userId)
         if (!authUtils.hasRole(Roles.UserRoles.AUTHORITY_ADMIN)) {
             authUtils.requiresMemberOfSameOrganizationAs(userId)
@@ -261,7 +232,10 @@ class UiResourceImpl : UiResource {
     override fun organizationsOverviewForProvidingConnectors(environmentId: String): OrganizationOverviewResult {
         authUtils.requiresAnyRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return organizationInfoApiService.organizationsOverviewForProvidingConnectors(loggedInUser.organizationMdsId!!, environmentId)
+        return organizationInfoApiService.organizationsOverviewForProvidingConnectors(
+            loggedInUser.organizationMdsId!!,
+            environmentId
+        )
     }
 
     @Transactional
@@ -299,21 +273,32 @@ class UiResourceImpl : UiResource {
     override fun getProvidedConnectors(environmentId: String): ProvidedConnectorOverviewResult {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.listServiceProvidedConnectors(loggedInUser.organizationMdsId!!, environmentId)
+        return connectorManagementApiService.listServiceProvidedConnectors(
+            loggedInUser.organizationMdsId!!,
+            environmentId
+        )
     }
 
     @Transactional
     override fun getProvidedConnectorDetails(connectorId: String): ConnectorDetailDto {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.getConnectorDetails(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return connectorManagementApiService.getConnectorDetails(
+            connectorId,
+            loggedInUser.organizationMdsId!!,
+            loggedInUser.userId
+        )
     }
 
     @Transactional
     override fun deleteProvidedConnector(connectorId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.deleteSelfHostedConnector(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return connectorManagementApiService.deleteOwnOrProvidedConnector(
+            connectorId,
+            loggedInUser.organizationMdsId!!,
+            loggedInUser.userId
+        )
     }
 
     @Transactional
@@ -346,48 +331,63 @@ class UiResourceImpl : UiResource {
     override fun ownOrganizationConnectorDetails(connectorId: String): ConnectorDetailDto {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.ownOrganizationConnectorDetails(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
-    }
-
-    override fun redirectToOwnOrganizationCatalog(environmentId: String): Response {
-        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
-        authUtils.requiresMemberOfAnyOrganization()
-        return brokerRedirectApiService.buildCatalogRedirectWithMdsFilter(loggedInUser.organizationMdsId!!, environmentId)
-    }
-
-    override fun redirectToCatalog(environmentId: String):
-    Response {
-        authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
-        authUtils.requiresMemberOfAnyOrganization()
-        return brokerRedirectApiService.getCatalogRedirect(environmentId)
+        return connectorManagementApiService.ownOrganizationConnectorDetails(
+            connectorId,
+            loggedInUser.organizationMdsId!!,
+            loggedInUser.userId
+        )
     }
 
     @Transactional
     override fun createOwnConnector(environmentId: String, connector: CreateConnectorRequest): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.createOwnConnector(connector, loggedInUser.organizationMdsId!!, loggedInUser.userId, environmentId)
+        return connectorManagementApiService.createOwnConnector(
+            connector,
+            loggedInUser.organizationMdsId!!,
+            loggedInUser.userId,
+            environmentId
+        )
     }
 
     @Transactional
     override fun deleteOwnConnector(connectorId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.deleteSelfHostedConnector(connectorId, loggedInUser.organizationMdsId!!, loggedInUser.userId)
+        return connectorManagementApiService.deleteOwnOrProvidedConnector(
+            connectorId,
+            loggedInUser.organizationMdsId!!,
+            loggedInUser.userId
+        )
     }
 
     @Transactional
-    override fun createProvidedConnector(mdsId: String, environmentId: String, connector: CreateConnectorRequest): CreateConnectorResponse {
+    override fun createProvidedConnector(
+        mdsId: String,
+        environmentId: String,
+        connector: CreateConnectorRequest
+    ): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.createProvidedConnector(connector, mdsId, loggedInUser.organizationMdsId!!, loggedInUser.userId, environmentId)
+        return connectorManagementApiService.createProvidedConnector(
+            connector,
+            mdsId,
+            loggedInUser.organizationMdsId!!,
+            loggedInUser.userId,
+            environmentId
+        )
     }
 
     @Transactional
     override fun createCaas(environmentId: String, caasRequest: CreateCaasRequest): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
-        return caasManagementApiService.createCaas(loggedInUser.organizationMdsId!!, loggedInUser.userId, caasRequest, environmentId)
+        return caasManagementApiService.createCaas(
+            loggedInUser.organizationMdsId!!,
+            loggedInUser.userId,
+            caasRequest,
+            environmentId
+        )
     }
 
     @Transactional
@@ -417,17 +417,28 @@ class UiResourceImpl : UiResource {
     }
 
     @Transactional
-    override fun createCentralComponent(environmentId: String, centralComponentCreateRequest: CentralComponentCreateRequest): IdResponse {
+    override fun createCentralComponent(
+        environmentId: String,
+        componentRegistrationRequest: CentralComponentCreateRequest
+    ): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return centralComponentManagementApiService.registerCentralComponent(centralComponentCreateRequest, loggedInUser.userId, loggedInUser.organizationMdsId!!, environmentId)
+        return centralComponentManagementApiService.registerCentralComponent(
+            componentRegistrationRequest,
+            loggedInUser.userId,
+            loggedInUser.organizationMdsId!!,
+            environmentId
+        )
     }
 
     @Transactional
     override fun deleteCentralComponent(centralComponentId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.OPERATOR_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return centralComponentManagementApiService.deleteCentralComponentByUser(centralComponentId, loggedInUser.userId)
+        return centralComponentManagementApiService.deleteCentralComponentByUser(
+            centralComponentId,
+            loggedInUser.userId
+        )
     }
 
     @Transactional
@@ -440,7 +451,10 @@ class UiResourceImpl : UiResource {
     override fun updateOnboardingOrganization(onboardingOrganizationUpdateDto: OnboardingOrganizationUpdateDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresOrganizationRegistrationStatus(OrganizationRegistrationStatus.ONBOARDING)
-        return organizationUpdateApiService.onboardOrganization(loggedInUser.organizationMdsId!!, onboardingOrganizationUpdateDto)
+        return organizationUpdateApiService.onboardOrganization(
+            loggedInUser.organizationMdsId!!,
+            onboardingOrganizationUpdateDto
+        )
     }
 
     @Transactional

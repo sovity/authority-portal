@@ -11,7 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
-import {E2eDevUser} from 'src/app/common/components/dev-utils/e2e-dev-user-switcher/e2e-dev-user';
+import {E2eDevUser} from '../../shared/dev-utils/e2e-dev-user-switcher/e2e-dev-user';
 
 const tag = 'GlobalState';
 

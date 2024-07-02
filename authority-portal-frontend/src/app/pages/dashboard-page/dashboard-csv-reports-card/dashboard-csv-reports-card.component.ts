@@ -16,7 +16,7 @@ import {
   DeploymentEnvironmentDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
-import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 
 export interface ReportLink {
   title: string;

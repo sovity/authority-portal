@@ -26,11 +26,8 @@ import {
   getConnectorStatusText,
   getConnectorsTypeClasses,
 } from 'src/app/core/utils/ui-utils';
-import {ChildComponentInput} from 'src/app/shared/components/common/slide-over/slide-over.model';
-import {
-  ActionMenu,
-  TitleBarConfig,
-} from 'src/app/shared/components/common/title-bar/title-bar.model';
+import {TitleBarConfig} from 'src/app/shared/common/portal-layout/title-bar/title-bar.model';
+import {ChildComponentInput} from 'src/app/shared/common/slide-over/slide-over.model';
 import {DeleteOwnConnector} from '../../participant-own-connector-list-page/state/participant-own-connector-list-page-actions';
 import {
   RefreshConnector,

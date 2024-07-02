@@ -15,15 +15,15 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {APP_CONFIG, AppConfig} from '../../../../core/config/app-config';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {
   mergeFormGroups,
   switchDisabledControls,
-} from '../../../../core/utils/form-utils';
-import {buildOrganizationCreateForm} from '../../../../shared/components/business/organization-create-form/organization-create-form-builder';
-import {organizationCreateFormEnabledCtrls} from '../../../../shared/components/business/organization-create-form/organization-create-form-enabled-ctrls';
-import {OrganizationCreateFormModel} from '../../../../shared/components/business/organization-create-form/organization-create-form-model';
-import {buildUserCreateForm} from '../../../../shared/components/business/user-create-form/user-create-form-builder';
+} from 'src/app/core/utils/form-utils';
+import {buildOrganizationCreateForm} from '../../../../shared/business/organization-create-form/organization-create-form-builder';
+import {organizationCreateFormEnabledCtrls} from '../../../../shared/business/organization-create-form/organization-create-form-enabled-ctrls';
+import {OrganizationCreateFormModel} from '../../../../shared/business/organization-create-form/organization-create-form-model';
+import {buildUserCreateForm} from '../../../../shared/business/user-create-form/user-create-form-builder';
 import {CreateOrganization} from '../state/organization-create-page-action';
 import {
   DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,
