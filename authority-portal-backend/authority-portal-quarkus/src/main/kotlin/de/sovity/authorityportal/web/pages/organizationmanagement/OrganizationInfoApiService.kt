@@ -146,7 +146,7 @@ class OrganizationInfoApiService(
             legalId = when (legalIdType) {
                 OrganizationLegalIdTypeDto.TAX_ID -> organization.taxId
                 OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO -> organization.commerceRegisterNumber
-                else -> error("Cannot parse LegalIdType. Unknown Enum")
+                else -> null
             },
             commerceRegisterLocation = when (legalIdType) {
                 OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO -> organization.commerceRegisterLocation
