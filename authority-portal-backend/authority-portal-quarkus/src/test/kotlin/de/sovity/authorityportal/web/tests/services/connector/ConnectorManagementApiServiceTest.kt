@@ -526,7 +526,7 @@ class ConnectorManagementApiServiceTest {
             it.caasStatus = null
             it.lastRefreshAttemptAt = null
             it.lastSuccessfulRefreshAt = null
-            it.onlineStatus = ConnectorOnlineStatus.DEAD
+            it.onlineStatus = ConnectorOnlineStatus.OFFLINE
             it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
             it.contractOffersExceeded = ConnectorContractOffersExceeded.OK
         }
@@ -681,7 +681,7 @@ class ConnectorManagementApiServiceTest {
             it.caasStatus = null
             it.lastRefreshAttemptAt = null
             it.lastSuccessfulRefreshAt = null
-            it.onlineStatus = ConnectorOnlineStatus.DEAD
+            it.onlineStatus = ConnectorOnlineStatus.OFFLINE
             it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
             it.contractOffersExceeded = ConnectorContractOffersExceeded.OK
         }

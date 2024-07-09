@@ -132,7 +132,7 @@ class CaasManagementApiServiceTest {
             it.caasStatus = CaasStatus.PROVISIONING
             it.lastRefreshAttemptAt = null
             it.lastSuccessfulRefreshAt = null
-            it.onlineStatus = ConnectorOnlineStatus.DEAD
+            it.onlineStatus = ConnectorOnlineStatus.OFFLINE
             it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
             it.contractOffersExceeded = ConnectorContractOffersExceeded.OK
         }
