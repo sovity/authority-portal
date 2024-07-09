@@ -27,28 +27,30 @@ export function buildFormValue(
     organization.mainContactEmail === organization.techContactEmail;
 
   return {
-    website: organization.url,
-    businessUnit: organization.businessUnit,
-    industry: organization.industry,
-    description: organization.description,
+    website: organization.url ?? '',
+    businessUnit: organization.businessUnit ?? '',
+    industry: organization.industry ?? '',
+    description: organization.description ?? '',
 
-    mainAddress: organization.mainAddress,
+    mainAddress: organization.mainAddress ?? '',
     billingAddressSameAsMain,
-    billingAddress: billingAddressSameAsMain ? '' : organization.billingAddress,
+    billingAddress: billingAddressSameAsMain
+      ? ''
+      : organization.billingAddress ?? '',
 
-    mainContactName: organization.mainContactName,
-    mainContactPhoneNumber: organization.mainContactPhone,
-    mainContactEmail: organization.mainContactEmail,
+    mainContactName: organization.mainContactName ?? '',
+    mainContactPhoneNumber: organization.mainContactPhone ?? '',
+    mainContactEmail: organization.mainContactEmail ?? '',
     technicalContactSameAsMain,
     technicalContactName: technicalContactSameAsMain
       ? ''
-      : organization.techContactName,
+      : organization.techContactName ?? '',
     technicalContactPhoneNumber: technicalContactSameAsMain
       ? ''
-      : organization.techContactPhone,
+      : organization.techContactPhone ?? '',
     technicalContactEmail: technicalContactSameAsMain
       ? ''
-      : organization.techContactEmail,
+      : organization.techContactEmail ?? '',
   };
 }
 
