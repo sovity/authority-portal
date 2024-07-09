@@ -10,7 +10,14 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+  TrackByFunction,
+} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {PageEvent} from '@angular/material/paginator';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -40,6 +47,8 @@ import {CatalogPageStateModel} from './state/catalog-page-state-model';
 export class CatalogPageComponent implements OnInit, OnDestroy {
   @HostBinding('class.flex')
   cls = true;
+
+  trackFilterBy: TrackByFunction<FilterBoxVisibleState> = (_, item) => item.id;
 
   headerConfig: HeaderBarConfig = {
     title: 'Catalogue',
@@ -92,6 +101,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       .select<CatalogPageStateModel>(CatalogPageState)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
+        console.log('STATE', state);
         this.state = state;
         if (this.searchText.value != state.searchText) {
           this.searchText.setValue(state.searchText);
