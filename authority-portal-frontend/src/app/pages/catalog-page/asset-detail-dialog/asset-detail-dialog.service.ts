@@ -75,7 +75,6 @@ export class AssetDetailDialogService {
         maxWidth: '1000px',
         maxHeight: '90vh',
         autoFocus: false,
-        enterAnimationDuration: 0,
       },
       until$,
     );
