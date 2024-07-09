@@ -29,7 +29,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
-import de.sovity.authorityportal.seeds.utils.dummyDevConnectorIdComponent
+import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
@@ -87,8 +87,8 @@ class CatalogApiTest {
         whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
             CatalogDataspaceConfig(
                 namesByConnectorId = mapOf(
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(1)}" to "Dataspace 1",
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(2)}" to "Dataspace 2"
+                    dummyDevConnectorId(0, 1) to "Dataspace 1",
+                    dummyDevConnectorId(0, 2) to "Dataspace 2"
                 ),
                 defaultName = "MDS"
             )
@@ -109,7 +109,7 @@ class CatalogApiTest {
 
         // assert
         assertThat(result.dataOffers).hasSize(1)
-        assertThat(result.dataOffers.first().connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(1)}")
+        assertThat(result.dataOffers.first().connectorId).isEqualTo(dummyDevConnectorId(0, 1))
     }
 
     @Test
@@ -138,8 +138,8 @@ class CatalogApiTest {
         whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
             CatalogDataspaceConfig(
                 namesByConnectorId = mapOf(
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(1)}" to "Dataspace 1",
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(2)}" to "Dataspace 2"
+                    dummyDevConnectorId(0, 1) to "Dataspace 1",
+                    dummyDevConnectorId(0, 2) to "Dataspace 2"
                 ),
                 defaultName = "MDS"
             )
@@ -160,7 +160,7 @@ class CatalogApiTest {
 
         // assert
         assertThat(result.dataOffers).hasSize(1)
-        assertThat(result.dataOffers.first().connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
+        assertThat(result.dataOffers.first().connectorId).isEqualTo(dummyDevConnectorId(0, 0))
     }
 
     @Test
@@ -175,8 +175,8 @@ class CatalogApiTest {
         whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
             CatalogDataspaceConfig(
                 namesByConnectorId = mapOf(
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(1)}" to "Dataspace 1",
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(2)}" to "Dataspace 2"
+                    dummyDevConnectorId(0, 1) to "Dataspace 1",
+                    dummyDevConnectorId(0, 2) to "Dataspace 2"
                 ),
                 defaultName = "MDS"
             )
@@ -225,8 +225,8 @@ class CatalogApiTest {
         whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
             CatalogDataspaceConfig(
                 namesByConnectorId = mapOf(
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(1)}" to "Dataspace 1",
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(2)}" to "Dataspace 2"
+                    dummyDevConnectorId(0, 1) to "Dataspace 1",
+                    dummyDevConnectorId(0, 2) to "Dataspace 2"
                 ),
                 defaultName = "MDS"
             )
@@ -413,7 +413,7 @@ class CatalogApiTest {
         assertThat(curatorMdsId.values).allSatisfy { it.id in setOf(dummyDevMdsId(0)) }
 
         val connectorId = getAvailableFilter(result, "connectorId")
-        assertThat(connectorId.values).allSatisfy { it.id in setOf("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}") }
+        assertThat(connectorId.values).allSatisfy { it.id in setOf(dummyDevConnectorId(0, 0)) }
 
         val connectorEndpoint = getAvailableFilter(result, "connectorEndpoint")
         assertThat(connectorEndpoint.values).allSatisfy { it.id in setOf("https://connector-0/dsp") }
@@ -437,8 +437,8 @@ class CatalogApiTest {
         whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
             CatalogDataspaceConfig(
                 namesByConnectorId = mapOf(
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(1)}" to "Dataspace 1",
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(2)}" to "Dataspace 2"
+                    dummyDevConnectorId(0, 1) to "Dataspace 1",
+                    dummyDevConnectorId(0, 2) to "Dataspace 2"
                 ),
                 defaultName = "MDS"
             )
@@ -682,8 +682,8 @@ class CatalogApiTest {
             scenarioInstaller.install(this)
         }
 
-        repeat(3) { dataOfferDetails("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}", dummyDevAssetId(0)) }
-        repeat(5) { dataOfferDetails("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}", dummyDevAssetId(1)) }
+        repeat(3) { dataOfferDetails(dummyDevConnectorId(0, 0), dummyDevAssetId(0)) }
+        repeat(5) { dataOfferDetails(dummyDevConnectorId(0, 0), dummyDevAssetId(1)) }
 
         // act
         val result = catalogResource.catalogPage(
@@ -759,7 +759,7 @@ class CatalogApiTest {
 
         // assert
         assertThat(result.dataOffers).hasSize(1)
-        assertThat(result.dataOffers.first().connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
+        assertThat(result.dataOffers.first().connectorId).isEqualTo(dummyDevConnectorId(0, 0))
     }
 
     @Test
@@ -803,7 +803,7 @@ class CatalogApiTest {
 
         // assert
         assertThat(result.dataOffers).hasSize(1)
-        assertThat(result.dataOffers.first().connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
+        assertThat(result.dataOffers.first().connectorId).isEqualTo(dummyDevConnectorId(0, 0))
     }
 
     @Test
@@ -849,6 +849,6 @@ class CatalogApiTest {
 
         // assert
         assertThat(result.dataOffers).hasSize(1)
-        assertThat(result.dataOffers.first().connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
+        assertThat(result.dataOffers.first().connectorId).isEqualTo(dummyDevConnectorId(0, 0))
     }
 }

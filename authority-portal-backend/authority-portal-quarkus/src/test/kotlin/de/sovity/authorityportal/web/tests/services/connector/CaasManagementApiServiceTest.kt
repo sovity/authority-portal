@@ -25,7 +25,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
-import de.sovity.authorityportal.seeds.utils.dummyDevConnectorIdComponent
+import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
@@ -88,7 +88,7 @@ class CaasManagementApiServiceTest {
         whenever(caasClient.validateSubdomain(eq("test-caas-1"))).thenReturn(true)
         whenever(caasClient.requestCaas(any())).thenReturn(
             CaasPortalResponse().apply {
-                value = CaasDetails(connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
+                value = CaasDetails(connectorId = dummyDevConnectorId(0, 0))
             }
         )
 

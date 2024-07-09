@@ -126,9 +126,9 @@ class ScenarioData {
 
     fun connector(connectorId: Int, orgId: Int, createdByUserId: Int, applyer: (ConnectorRecord) -> Unit = {}) {
         val mdsId = dummyDevMdsId(orgId)
-        val connectorId = dummyDevConnectorId(orgId, connectorId)
+        val fullConnectorId = dummyDevConnectorId(orgId, connectorId)
         ConnectorRecord().also {
-            it.connectorId = connectorId
+            it.connectorId = fullConnectorId
             it.mdsId = mdsId
             it.providerMdsId = mdsId
             it.type = ConnectorType.OWN
@@ -155,10 +155,10 @@ class ScenarioData {
     }
 
     fun component(componentId: Int, orgId: Int, createdByUserId: Int, applyer: (ComponentRecord) -> Unit = {}) {
-        val componentId = dummyDevConnectorId(orgId, componentId)
+        val fullComponentId = dummyDevConnectorId(orgId, componentId)
         val mdsId = dummyDevMdsId(orgId)
         ComponentRecord().also {
-            it.id = componentId
+            it.id = fullComponentId
             it.mdsId = mdsId
             it.name = "Component name"
             it.homepageUrl = "https://component"
@@ -179,7 +179,7 @@ class ScenarioData {
         viewCount: Int = 0,
         applyer: (DataOfferRecord) -> Unit = {}
     ) {
-        val connectorId = dummyDevConnectorId(orgId, connectorId)
+        val fullConnectorId = dummyDevConnectorId(orgId, connectorId)
         val objectMapper = ObjectMapper()
 
         val uiAsset = UiAsset().also {
@@ -188,7 +188,7 @@ class ScenarioData {
         }
 
         DataOfferRecord().also {
-            it.connectorId = connectorId
+            it.connectorId = fullConnectorId
             it.assetId = dummyDevAssetId(assetId)
             it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset))
             it.createdAt = OffsetDateTime.now()
@@ -208,7 +208,7 @@ class ScenarioData {
 
         repeat(viewCount) {
             DataOfferViewCountRecord().also {
-                it.connectorId = connectorId
+                it.connectorId = fullConnectorId
                 it.assetId = dummyDevAssetId(assetId)
                 it.date = OffsetDateTime.now()
                 dataOfferViews.add(it)
