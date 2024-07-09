@@ -36,7 +36,7 @@ class CatalogQueryFilterService(
         filters: List<CatalogQueryFilter>
     ): Condition {
         val conditions = ArrayList<Condition>()
-        conditions.add(fields.dataOfferTable.ENVIRONMENT.eq(environment))
+        conditions.add(fields.connectorTable.ENVIRONMENT.eq(environment))
         conditions.add(visibleConnectorsOfEnvironment(environment, fields.connectorTable))
         conditions.add(catalogSearchService.filterBySearch(fields, searchQuery))
         conditions.addAll(filters.mapNotNull { it.queryFilterClauseOrNull }.map { it(fields) })

@@ -20,7 +20,7 @@ import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
-import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
+import de.sovity.authorityportal.seeds.utils.dummyDevConnectorIdComponent
 import de.sovity.authorityportal.seeds.utils.dummyDevContractOfferId
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
@@ -103,20 +103,20 @@ class DataOfferDetailApiTest {
 
         createDataOfferView(
             datetime = OffsetDateTime.now().minusDays(1),
-            connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}",
+            connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}",
             assetId = dummyDevAssetId(0)
         )
         createDataOfferView(
             datetime = OffsetDateTime.now().minusDays(2),
-            connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}",
+            connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}",
             assetId = dummyDevAssetId(0)
         )
 
         whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
             CatalogDataspaceConfig(
                 namesByConnectorId = mapOf(
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorId(1)}" to "Dataspace 1",
-                    "${dummyDevMdsId(0)}.${dummyDevConnectorId(2)}" to "Dataspace 2"
+                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(1)}" to "Dataspace 1",
+                    "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(2)}" to "Dataspace 2"
                 ),
                 defaultName = "MDS"
             )
@@ -126,7 +126,7 @@ class DataOfferDetailApiTest {
         val result = catalogResource.dataOfferDetailPage(
             environmentId = "test",
             query = DataOfferDetailPageQuery(
-                connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}",
+                connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}",
                 assetId = dummyDevAssetId(0)
             )
         )

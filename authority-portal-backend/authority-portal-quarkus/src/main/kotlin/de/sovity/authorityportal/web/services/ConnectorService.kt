@@ -287,7 +287,22 @@ class ConnectorService(
         }
     }
 
-    fun deleteConnector(connectorId: String) {
+    fun deleteConnectorFromDb(connectorId: String) {
+        val dv = Tables.DATA_OFFER_VIEW_COUNT
+        dsl.delete(dv)
+            .where(dv.CONNECTOR_ID.eq(connectorId))
+            .execute()
+
+        val co = Tables.CONTRACT_OFFER
+        dsl.deleteFrom(co)
+            .where(co.CONNECTOR_ID.eq(connectorId))
+            .execute()
+
+        val d = Tables.DATA_OFFER
+        dsl.deleteFrom(d)
+            .where(d.CONNECTOR_ID.eq(connectorId))
+            .execute()
+
         val c = Tables.CONNECTOR
         dsl.deleteFrom(c)
             .where(c.CONNECTOR_ID.eq(connectorId))

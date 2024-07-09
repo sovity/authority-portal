@@ -24,7 +24,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
-import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
+import de.sovity.authorityportal.seeds.utils.dummyDevConnectorIdComponent
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
@@ -42,7 +42,9 @@ import jakarta.inject.Inject
 import jakarta.ws.rs.NotAuthorizedException
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.jooq.Condition
 import org.jooq.DSLContext
+import org.jooq.TableLike
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
@@ -91,10 +93,10 @@ class ConnectorManagementApiServiceTest {
         }
 
         // act
-        val result = uiResource.getConnector("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
+        val result = uiResource.getConnector("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
 
         // assert
-        assertThat(result.connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
+        assertThat(result.connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
         assertThat(result.connectorName).isEqualTo("Connector 0")
         assertThat(result.orgMdsId).isEqualTo(dummyDevMdsId(0))
     }
@@ -119,10 +121,10 @@ class ConnectorManagementApiServiceTest {
         }
 
         // act
-        val result = uiResource.getConnector("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
+        val result = uiResource.getConnector("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
 
         // assert
-        assertThat(result.connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
+        assertThat(result.connectorId).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
         assertThat(result.connectorName).isEqualTo("Connector 0")
         assertThat(result.orgMdsId).isEqualTo(dummyDevMdsId(0))
     }
@@ -153,10 +155,10 @@ class ConnectorManagementApiServiceTest {
         // assert
         assertThat(result.connectors).hasSize(2)
         assertThat(result.connectors).noneMatch { it.environment.environmentId != "test" }
-        assertThat(result.connectors).noneMatch { it.id == "${dummyDevMdsId(0)}.${dummyDevConnectorId(2)}" }
+        assertThat(result.connectors).noneMatch { it.id == "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(2)}" }
 
-        assertThat(result.connectors[0].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
-        assertThat(result.connectors[1].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(1)}")
+        assertThat(result.connectors[0].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
+        assertThat(result.connectors[1].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(1)}")
     }
 
     @Test
@@ -185,10 +187,10 @@ class ConnectorManagementApiServiceTest {
         // assert
         assertThat(result.connectors).hasSize(1)
         assertThat(result.connectors).noneMatch { it.environment.environmentId != "other-environment" }
-        assertThat(result.connectors).noneMatch { it.id == "${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}" }
-        assertThat(result.connectors).noneMatch { it.id == "${dummyDevMdsId(0)}.${dummyDevConnectorId(1)}" }
+        assertThat(result.connectors).noneMatch { it.id == "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}" }
+        assertThat(result.connectors).noneMatch { it.id == "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(1)}" }
 
-        assertThat(result.connectors[0].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(2)}")
+        assertThat(result.connectors[0].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(2)}")
         assertThat(result.connectors[0].environment.environmentId).isEqualTo("other-environment")
     }
 
@@ -222,10 +224,10 @@ class ConnectorManagementApiServiceTest {
         // assert
         assertThat(result.connectors).hasSize(2)
         assertThat(result.connectors).noneMatch { it.environment.environmentId != "test" }
-        assertThat(result.connectors).noneMatch { it.id == "${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}" }
+        assertThat(result.connectors).noneMatch { it.id == "${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}" }
 
-        assertThat(result.connectors[0].id).isEqualTo("${dummyDevMdsId(1)}.${dummyDevConnectorId(1)}")
-        assertThat(result.connectors[1].id).isEqualTo("${dummyDevMdsId(1)}.${dummyDevConnectorId(2)}")
+        assertThat(result.connectors[0].id).isEqualTo("${dummyDevMdsId(1)}.${dummyDevConnectorIdComponent(1)}")
+        assertThat(result.connectors[1].id).isEqualTo("${dummyDevMdsId(1)}.${dummyDevConnectorIdComponent(2)}")
     }
 
     @Test
@@ -255,10 +257,10 @@ class ConnectorManagementApiServiceTest {
         }
 
         // act
-        val result = uiResource.getProvidedConnectorDetails("${dummyDevMdsId(1)}.${dummyDevConnectorId(1)}")
+        val result = uiResource.getProvidedConnectorDetails("${dummyDevMdsId(1)}.${dummyDevConnectorIdComponent(1)}")
 
         // assert
-        assertThat(result.connectorId).isEqualTo("${dummyDevMdsId(1)}.${dummyDevConnectorId(1)}")
+        assertThat(result.connectorId).isEqualTo("${dummyDevMdsId(1)}.${dummyDevConnectorIdComponent(1)}")
         assertThat(result.connectorName).isEqualTo("Connector 1")
         assertThat(result.orgMdsId).isEqualTo(dummyDevMdsId(1))
         assertThat(result.hostMdsId).isEqualTo(dummyDevMdsId(0))
@@ -293,7 +295,7 @@ class ConnectorManagementApiServiceTest {
 
         // act & assert
         assertThatThrownBy {
-            uiResource.getProvidedConnectorDetails("${dummyDevMdsId(1)}.${dummyDevConnectorId(1)}")
+            uiResource.getProvidedConnectorDetails("${dummyDevMdsId(1)}.${dummyDevConnectorIdComponent(1)}")
         }.isInstanceOf(IllegalStateException::class.java)
             .hasMessageContaining("Connector ID does not match with organization or host organization")
     }
@@ -317,22 +319,22 @@ class ConnectorManagementApiServiceTest {
         }
 
         // act
-        val result = uiResource.deleteOwnConnector("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
+        val result = uiResource.deleteOwnConnector("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
 
         // assert
         val connectorCountQuery = dsl.selectCount()
             .from(Tables.CONNECTOR)
-            .where(Tables.CONNECTOR.CONNECTOR_ID.eq("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}"))
+            .where(Tables.CONNECTOR.CONNECTOR_ID.eq("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}"))
             .fetchOne(0, Int::class.java)
 
         assertThat(result).isNotNull
-        assertThat(result.id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
+        assertThat(result.id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
         assertThat(connectorCountQuery).isEqualTo(0)
     }
 
     @Test
     @TestTransaction
-    fun `delete provided connector`() {
+    fun `delete provided connector also tests delete with constraint release`() {
         // arrange
         useDevUser(0, 0, setOf(Roles.UserRoles.SERVICE_PARTNER_ADMIN))
 
@@ -350,21 +352,53 @@ class ConnectorManagementApiServiceTest {
                 it.providerMdsId = dummyDevMdsId(0)
             }
 
+            dataOffer(0, 1, 0, viewCount = 2)
+            contractOffer(0, 1, 0, 0)
+            crawlerLogEntry(0, 1)
+
             scenarioInstaller.install(this)
         }
+        val connectorId = "${dummyDevMdsId(1)}.${dummyDevConnectorIdComponent(0)}"
 
         // act
-        val result = uiResource.deleteProvidedConnector("${dummyDevMdsId(1)}.${dummyDevConnectorId(0)}")
+        val result = uiResource.deleteProvidedConnector(connectorId)
 
         // assert
-        val connectorCountQuery = dsl.selectCount()
-            .from(Tables.CONNECTOR)
-            .where(Tables.CONNECTOR.CONNECTOR_ID.eq("${dummyDevMdsId(1)}.${dummyDevConnectorId(0)}"))
-            .fetchOne(0, Int::class.java)
-
         assertThat(result).isNotNull
-        assertThat(result.id).isEqualTo("${dummyDevMdsId(1)}.${dummyDevConnectorId(0)}")
-        assertThat(connectorCountQuery).isEqualTo(0)
+        assertThat(result.id).isEqualTo(connectorId)
+
+        fun count(table: TableLike<*>, condition: Condition): Int {
+            return dsl.selectCount()
+                .from(table)
+                .where(condition)
+                .fetchOne(0, Int::class.java) ?: 0
+        }
+
+        assertThat(count(
+            Tables.CONNECTOR,
+            Tables.CONNECTOR.CONNECTOR_ID.eq(connectorId)
+        )).isEqualTo(0)
+
+        assertThat(count(
+            Tables.DATA_OFFER,
+            Tables.DATA_OFFER.CONNECTOR_ID.eq(connectorId)
+        )).isEqualTo(0)
+
+        assertThat(count(
+            Tables.CONTRACT_OFFER,
+            Tables.CONTRACT_OFFER.CONNECTOR_ID.eq(connectorId)
+        )).isEqualTo(0)
+
+        assertThat(count(
+            Tables.DATA_OFFER_VIEW_COUNT,
+            Tables.DATA_OFFER_VIEW_COUNT.CONNECTOR_ID.eq(connectorId)
+        )).isEqualTo(0)
+
+        // Ensure Crawler Event Log is untouched
+        assertThat(count(
+            Tables.CRAWLER_EVENT_LOG,
+            Tables.CRAWLER_EVENT_LOG.CONNECTOR_ID.eq(connectorId)
+        )).isEqualTo(1)
     }
 
     @Test
@@ -392,11 +426,11 @@ class ConnectorManagementApiServiceTest {
 
         // assert
         assertThat(result.connectors).hasSize(3)
-        assertThat(result.connectors).noneMatch { it.id == "${dummyDevMdsId(1)}.${dummyDevConnectorId(3)}" }
+        assertThat(result.connectors).noneMatch { it.id == "${dummyDevMdsId(1)}.${dummyDevConnectorIdComponent(3)}" }
         assertThat(result.connectors).noneMatch { it.environment.environmentId != "test" }
-        assertThat(result.connectors[0].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
-        assertThat(result.connectors[1].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(1)}")
-        assertThat(result.connectors[2].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorId(2)}")
+        assertThat(result.connectors[0].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(0)}")
+        assertThat(result.connectors[1].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(1)}")
+        assertThat(result.connectors[2].id).isEqualTo("${dummyDevMdsId(0)}.${dummyDevConnectorIdComponent(2)}")
     }
 
     @Test
@@ -421,7 +455,7 @@ class ConnectorManagementApiServiceTest {
 
         // act & assert
         assertThatThrownBy {
-            uiResource.ownOrganizationConnectorDetails("${dummyDevMdsId(1)}.${dummyDevConnectorId(3)}")
+            uiResource.ownOrganizationConnectorDetails("${dummyDevMdsId(1)}.${dummyDevConnectorIdComponent(3)}")
         }
             .isInstanceOf(IllegalStateException::class.java)
             .hasMessage("Connector ID does not match with organization or host organization")
@@ -493,8 +527,8 @@ class ConnectorManagementApiServiceTest {
             it.lastRefreshAttemptAt = null
             it.lastSuccessfulRefreshAt = null
             it.onlineStatus = ConnectorOnlineStatus.DEAD
-            it.dataOffersExceeded = ConnectorDataOffersExceeded.UNKNOWN
-            it.contractOffersExceeded = ConnectorContractOffersExceeded.UNKNOWN
+            it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
+            it.contractOffersExceeded = ConnectorContractOffersExceeded.OK
         }
 
         assertThat(actual!!.copy())
@@ -648,8 +682,8 @@ class ConnectorManagementApiServiceTest {
             it.lastRefreshAttemptAt = null
             it.lastSuccessfulRefreshAt = null
             it.onlineStatus = ConnectorOnlineStatus.DEAD
-            it.dataOffersExceeded = ConnectorDataOffersExceeded.UNKNOWN
-            it.contractOffersExceeded = ConnectorContractOffersExceeded.UNKNOWN
+            it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
+            it.contractOffersExceeded = ConnectorContractOffersExceeded.OK
         }
 
         assertThat(actual!!.copy())
