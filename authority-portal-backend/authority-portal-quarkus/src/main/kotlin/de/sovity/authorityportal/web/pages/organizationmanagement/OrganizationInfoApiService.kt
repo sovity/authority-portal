@@ -124,7 +124,7 @@ class OrganizationInfoApiService(
     private fun getOrganizationDetailsDto(mdsId: String): OrganizationDetailsDto {
         val organization = organizationService.getOrganizationOrThrow(mdsId)
         val organizationAdmin = organization.createdBy?.let { userDetailService.getUserData(it) }
-        val legalIdType = organization.legalIdType.toDto()
+        val legalIdType = organization.legalIdType?.toDto()
         val memberList = userDetailService.getOrganizationMembers(mdsId)
 
         return OrganizationDetailsDto(
