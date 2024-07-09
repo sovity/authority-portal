@@ -107,13 +107,13 @@ export const getConnectorStatusOuterRingClasses = (
     case ConnectorStatusDto.Init:
     case ConnectorStatusDto.Provisioning:
     case ConnectorStatusDto.AwaitingRunning:
+    case ConnectorStatusDto.Offline:
     case ConnectorStatusDto.Deprovisioning:
     case ConnectorStatusDto.AwaitingStopped:
       return 'bg-amber-500/20';
     case ConnectorStatusDto.Stopped:
     case ConnectorStatusDto.Error:
     case ConnectorStatusDto.NotFound:
-    case ConnectorStatusDto.Offline:
     case ConnectorStatusDto.Dead:
     case ConnectorStatusDto.Unknown:
       return 'bg-red-500/20';
@@ -132,12 +132,11 @@ export const getConnectorStatusInnerCircleClasses = (
     case ConnectorStatusDto.AwaitingRunning:
     case ConnectorStatusDto.Deprovisioning:
     case ConnectorStatusDto.AwaitingStopped:
+    case ConnectorStatusDto.Offline:
       return 'bg-amber-500';
     case ConnectorStatusDto.Stopped:
     case ConnectorStatusDto.Error:
     case ConnectorStatusDto.NotFound:
-    case ConnectorStatusDto.Online:
-    case ConnectorStatusDto.Offline:
     case ConnectorStatusDto.Dead:
     case ConnectorStatusDto.Unknown:
       return 'bg-red-500';

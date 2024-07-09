@@ -70,7 +70,13 @@ export class AssetDetailDialogService {
     return showDialogUntil(
       this.dialog,
       AssetDetailDialogComponent,
-      {data, maxWidth: '1000px', maxHeight: '90vh', autoFocus: false},
+      {
+        data,
+        maxWidth: '1000px',
+        maxHeight: '90vh',
+        autoFocus: false,
+        enterAnimationDuration: 0,
+      },
       until$,
     );
   }
