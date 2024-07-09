@@ -23,8 +23,8 @@ data class OrganizationOverviewEntryDto(
     @field:Schema(description = "Legal Name", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,
 
-    @field:Schema(description = "Main Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    val mainContactEmail: String,
+    @field:Schema(description = "Main Contact Email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val mainContactEmail: String?,
 
     @field:Schema(description = "Number of Users", requiredMode = Schema.RequiredMode.REQUIRED)
     val numberOfUsers: Int,
