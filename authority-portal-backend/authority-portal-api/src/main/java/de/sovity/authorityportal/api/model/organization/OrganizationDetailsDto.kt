@@ -31,8 +31,8 @@ data class OrganizationDetailsDto(
     val mainAddress: String?,
     @field:Schema(description = "Billing Address", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val billingAddress: String?,
-    @field:Schema(description = "Legal ID type", requiredMode = Schema.RequiredMode.REQUIRED)
-    val legalIdType: OrganizationLegalIdTypeDto,
+    @field:Schema(description = "Legal ID type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val legalIdType: OrganizationLegalIdTypeDto?,
     @field:Schema(description = "Legal ID number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val legalId: String?,
     @field:Schema(description = "Commerce register location (if applicable)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
