@@ -27,13 +27,11 @@ import {BrokerDataOfferList} from './broker-data-offer-list/broker-data-offer-li
 import {CatalogPageComponent} from './catalog-page/catalog-page.component';
 import {CatalogPageState} from './catalog-page/state/catalog-page-state';
 import {FilterBoxComponent} from './filter-box/filter-box.component';
-import {IconWithOnlineStatusComponent} from './icon-with-online-status/icon-with-online-status.component';
 import {JsonDialogComponent} from './json-dialog/json-dialog.component';
 import {JsonDialogService} from './json-dialog/json-dialog.service';
 import {MarkdownDescriptionComponent} from './markdown-description/markdown-description.component';
 import {PropertyGridGroupComponent} from './property-grid-group/property-grid-group.component';
 import {PropertyGridComponent} from './property-grid/property-grid.component';
-import {SmallIconWithOnlineStatusText} from './small-icon-with-online-status-text/small-icon-with-online-status-text.component';
 import {TruncatedShortDescription} from './truncated-short-description/truncated-short-description.component';
 import {UrlListDialogComponent} from './url-list-dialog/url-list-dialog.component';
 import {UrlListDialogService} from './url-list-dialog/url-list-dialog.service';
@@ -63,12 +61,10 @@ import {ViewSelectionComponent} from './view-selection/view-selection.component'
     BrokerDataOfferList,
     CatalogPageComponent,
     FilterBoxComponent,
-    IconWithOnlineStatusComponent,
     JsonDialogComponent,
     MarkdownDescriptionComponent,
     PropertyGridComponent,
     PropertyGridGroupComponent,
-    SmallIconWithOnlineStatusText,
     TruncatedShortDescription,
     UrlListDialogComponent,
     ViewSelectionComponent,

@@ -12,21 +12,17 @@
  */
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CatalogDataOffer} from '@sovity.de/authority-portal-client';
+import {getOrganizationRegistrationStatusClasses} from '../../../core/utils/ui-utils';
+import {DEFAULT_AUTHORITY_ORGANIZATION_LIST_PAGE_STATE} from '../../authority-organization-list-page/authority-organization-list-page/state/authority-organization-list-page-state';
 
 @Component({
   selector: 'broker-data-offer-list',
   templateUrl: './broker-data-offer-list.component.html',
-  styleUrls: ['./broker-data-offer-list.component.scss'],
 })
 export class BrokerDataOfferList {
   @Input()
   dataOffers: CatalogDataOffer[] = [];
-  columnsToDisplay = ['organizationName', 'title', 'description', 'status'];
 
   @Output()
   dataOfferClick = new EventEmitter<CatalogDataOffer>();
-
-  onRowClick(clickedOffer: CatalogDataOffer) {
-    this.dataOfferClick.emit(clickedOffer);
-  }
 }

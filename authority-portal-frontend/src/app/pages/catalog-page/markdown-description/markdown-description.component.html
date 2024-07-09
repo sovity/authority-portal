@@ -8,7 +8,7 @@
       htmlSanitizer.sanitize(markdownConverter.toHtml(description ?? ''))
     "></div>
 
-  <i *ngIf="!description">No description.</i>
+  <i *ngIf="!description" class="my-[1.25rem]">No description.</i>
 
   <div
     *ngIf="isCollapsed"

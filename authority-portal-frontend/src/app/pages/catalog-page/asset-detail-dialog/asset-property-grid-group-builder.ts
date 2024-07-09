@@ -18,11 +18,8 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {AdditionalAssetProperty} from 'src/app/core/api/additional-asset-property';
 import {LanguageService} from 'src/app/core/services/languages/language.service';
+import {getConnectorStatusInnerCircleClasses} from '../../../core/utils/ui-utils';
 import {formatDateAgo} from '../../../shared/pipes-and-directives/ago.pipe';
-import {
-  getOnlineStatusColor,
-  getOnlineStatusIcon,
-} from '../icon-with-online-status/online-status-utils';
 import {JsonDialogService} from '../json-dialog/json-dialog.service';
 import {PropertyGridGroup} from '../property-grid-group/property-grid-group';
 import {PropertyGridField} from '../property-grid/property-grid-field';
@@ -43,14 +40,12 @@ export class AssetPropertyGridGroupBuilder {
       dataOffer.connectorOfflineSinceOrLastUpdatedAt,
     );
     return {
-      groupLabel: null,
+      groupLabel: 'Data Offer',
       properties: [
         {
-          icon: 'today',
-          label: 'Updated At',
-          ...this.propertyGridFieldService.guessValue(
-            this.propertyGridFieldService.formatDate(dataOffer.updatedAt),
-          ),
+          icon: 'category',
+          label: 'Connector ID',
+          ...this.propertyGridFieldService.guessValue(dataOffer.connectorId),
         },
         {
           ...{
@@ -63,24 +58,13 @@ export class AssetPropertyGridGroupBuilder {
           copyButton: true,
         },
         {
-          icon: getOnlineStatusIcon(dataOffer.connectorOnlineStatus),
+          icon: 'cloud',
           label: 'Status',
           labelTitle: `Last updated ${lastUpdate}`,
           text:
             dataOffer.connectorOnlineStatus == 'ONLINE'
               ? `Online`
               : `Offline since ${lastUpdate}`,
-          additionalClasses: getOnlineStatusColor(
-            dataOffer.connectorOnlineStatus,
-          ),
-          additionalIconClasses: getOnlineStatusColor(
-            dataOffer.connectorOnlineStatus,
-          ),
-        },
-        {
-          icon: 'category',
-          label: 'Connector ID',
-          ...this.propertyGridFieldService.guessValue(dataOffer.connectorId),
         },
         {
           icon: 'account_circle',
@@ -92,6 +76,13 @@ export class AssetPropertyGridGroupBuilder {
           label: 'Organization Name',
           ...this.propertyGridFieldService.guessValue(
             dataOffer.organizationName,
+          ),
+        },
+        {
+          icon: 'today',
+          label: 'Updated At',
+          ...this.propertyGridFieldService.guessValue(
+            this.propertyGridFieldService.formatDate(dataOffer.updatedAt),
           ),
         },
       ],
