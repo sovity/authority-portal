@@ -40,14 +40,13 @@ build
 **/.env
 !.env
 <<<<<<< HEAD
-<<<<<<< HEAD
 !launchers/.env
 =======
 !connector/.env
 >>>>>>> refs/rewritten/Merge-unrelated-tree-from-broker-into-edc-extensions
 =======
 !launchers/.env.connector
-!launchers/.env.broker
+!launchers/.env.catalog-crawler
 >>>>>>> f6fe5d0e (Integrate the broker's extensions (#921))
 
 # Log files
