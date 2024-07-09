@@ -59,7 +59,7 @@ class DataOfferDetailPageQueryService(
             .where(
                 d.ASSET_ID.eq(assetId),
                 d.CONNECTOR_ID.eq(connectorId),
-                d.ENVIRONMENT.eq(environment)
+                c.ENVIRONMENT.eq(environment)
             )
             .fetchOneInto(DataOfferDetailRs::class.java)
     }

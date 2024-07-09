@@ -43,14 +43,14 @@ class ComponentStatusApiService(
 
     fun getComponentsStatus(environmentId: String): ComponentStatusOverview {
         val connectorStatuses = connectorStatusQuery.getConnectorStatusInfoByEnvironment(environmentId)
-        val statusCount = countConnectorStatuses(environmentId, connectorStatuses)
+        val statusCount = countConnectorStatuses(connectorStatuses)
 
         return buildComponenStatusOverview(statusCount, environmentId)
     }
 
     fun getComponentsStatusForMdsId(environmentId: String, mdsId: String): ComponentStatusOverview {
         val connectorStatuses = connectorStatusQuery.getConnectorStatusInfoByMdsIdAndEnvironment(mdsId, environmentId)
-        val statusCount = countConnectorStatuses(environmentId, connectorStatuses)
+        val statusCount = countConnectorStatuses(connectorStatuses)
 
         return buildComponenStatusOverview(statusCount, environmentId)
     }
@@ -153,7 +153,6 @@ class ComponentStatusApiService(
     }
 
     private fun countConnectorStatuses(
-        environmentId: String,
         connectorStatuses: List<ConnectorStatusQuery.ConnectorStatusInfoRs>
     ): ConnectorStatusCount {
 

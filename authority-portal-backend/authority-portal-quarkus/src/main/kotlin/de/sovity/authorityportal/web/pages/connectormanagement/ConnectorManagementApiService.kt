@@ -280,7 +280,7 @@ class ConnectorManagementApiService(
         }
 
         dapsClientService.forEnvironment(deploymentEnvId).deleteClient(connector.clientId)
-        connectorService.deleteConnector(connector.connectorId)
+        connectorService.deleteConnectorFromDb(connector.connectorId)
     }
 
     fun getAllDeploymentEnvironment(): List<DeploymentEnvironmentDto> {
