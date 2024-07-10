@@ -62,16 +62,17 @@ class ComponentStatusApiService(
         val latestDapsStatus = componentStatusService.getLatestComponentStatus(ComponentType.DAPS, environmentId)
         val latestLoggingHouseStatus =
             componentStatusService.getLatestComponentStatus(ComponentType.LOGGING_HOUSE, environmentId)
+        val latestBrokerCrawlerStatus = componentStatusService.getLatestComponentStatus(ComponentType.BROKER, environmentId)
         val now = timeUtils.now()
 
         return ComponentStatusOverview(
             dapsStatus = calculateUptimeStatus(latestDapsStatus, environmentId, now),
             loggingHouseStatus = calculateUptimeStatus(latestLoggingHouseStatus, environmentId, now),
+            brokerStatus = calculateUptimeStatus(latestBrokerCrawlerStatus, environmentId, now),
             onlineConnectors = connectorStatusCount.online,
             disturbedConnectors = connectorStatusCount.disturbed,
             offlineConnectors = connectorStatusCount.offline
         )
-
     }
 
     private fun calculateUptimeStatus(

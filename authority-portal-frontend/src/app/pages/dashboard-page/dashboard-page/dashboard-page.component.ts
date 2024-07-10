@@ -37,6 +37,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   dapsData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
   loggingHouseData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
   connectorData: Fetched<ConnectorData> = Fetched.empty();
+  crawlerData: Fetched<UptimeStatusDto | undefined> = Fetched.empty();
 
   constructor(
     @Inject(APP_CONFIG) public appConfig: AppConfig,
@@ -67,6 +68,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
           this.loggingHouseData = componentStatusOverview.map(
             (x) => x.loggingHouseStatus,
           );
+          this.crawlerData = componentStatusOverview.map((x) => x.brokerStatus);
           this.connectorData = componentStatusOverview.map((x) => ({
             numOnline: x.onlineConnectors,
             numDisturbed: x.disturbedConnectors,
