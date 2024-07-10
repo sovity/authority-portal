@@ -86,7 +86,7 @@ class CatalogApiService(
         return CatalogDataOffer(
             assetId = dataOfferRs.assetId,
             assetTitle = dataOfferRs.assetTitle,
-            descriptionShortText = dataOfferRs.shortDescriptionMoMarkdown,
+            descriptionShortText = dataOfferRs.shortDescriptionNoMarkdown,
             version = dataOfferRs.version,
             keywords = dataOfferRs.keywords,
             connectorId = dataOfferRs.connectorId,
