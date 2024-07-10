@@ -65,7 +65,7 @@ class CatalogQueryDataOfferFetcher(
             d.CREATED_AT,
             d.UPDATED_AT
         )
-            .fromCatalogDataOffers(fields)
+            .fromCatalogQueryTables(fields)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))
             .orderBy(catalogQuerySortingService.getOrderBy(fields, sorting))
             .limit(pageQuery.offset, pageQuery.limit)
@@ -88,7 +88,7 @@ class CatalogQueryDataOfferFetcher(
         filters: List<CatalogQueryFilter>
     ): Field<Int> {
         val query = DSL.select(DSL.count())
-            .fromCatalogDataOffers(fields)
+            .fromCatalogQueryTables(fields)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))
         return DSL.field(query)
     }

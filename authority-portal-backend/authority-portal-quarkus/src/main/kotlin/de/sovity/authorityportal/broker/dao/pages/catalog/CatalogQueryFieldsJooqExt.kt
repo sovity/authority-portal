@@ -18,7 +18,7 @@ import org.jooq.SelectOnConditionStep
 import org.jooq.SelectSelectStep
 
 
-fun <R :  Record> SelectSelectStep<R>.fromCatalogDataOffers(fields: CatalogQueryFields): SelectOnConditionStep<R> {
+fun <R :  Record> SelectSelectStep<R>.fromCatalogQueryTables(fields: CatalogQueryFields): SelectOnConditionStep<R> {
     val c = fields.connectorTable
     val d = fields.dataOfferTable
     val org = fields.organizationTable

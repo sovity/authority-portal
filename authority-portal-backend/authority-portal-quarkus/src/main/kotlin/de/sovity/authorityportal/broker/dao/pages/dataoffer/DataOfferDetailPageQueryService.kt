@@ -15,7 +15,7 @@ package de.sovity.authorityportal.broker.dao.pages.dataoffer
 
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryContractOfferFetcher
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
-import de.sovity.authorityportal.broker.dao.pages.catalog.fromCatalogDataOffers
+import de.sovity.authorityportal.broker.dao.pages.catalog.fromCatalogQueryTables
 import de.sovity.authorityportal.broker.dao.pages.dataoffer.model.DataOfferDetailRs
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
@@ -57,7 +57,7 @@ class DataOfferDetailPageQueryService(
             catalogQueryContractOfferFetcher.getContractOffers(fields.dataOfferTable).`as`("contractOffers"),
             fields.viewCount.`as`("viewCount")
         )
-            .fromCatalogDataOffers(fields)
+            .fromCatalogQueryTables(fields)
             .where(
                 d.ASSET_ID.eq(assetId),
                 d.CONNECTOR_ID.eq(connectorId),

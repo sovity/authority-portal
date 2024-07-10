@@ -63,7 +63,7 @@ class CatalogQueryAvailableFilterFetcher(
                 DSL.value(arrayOf<String>()).cast<Array<String>>(SQLDataType.VARCHAR.array())
             )
         )
-            .fromCatalogDataOffers(fields)
+            .fromCatalogQueryTables(fields)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, otherFilters))
             .asField()
     }
