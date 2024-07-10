@@ -23,24 +23,24 @@ data class OwnOrganizationDetailsDto(
     val mdsId: String,
     @field:Schema(description = "Legal name", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,
-    @field:Schema(description = "Business unit", requiredMode = Schema.RequiredMode.REQUIRED)
-    val businessUnit: String,
-    @field:Schema(description = "Industry", requiredMode = Schema.RequiredMode.REQUIRED)
-    val industry: String,
-    @field:Schema(description = "Main Address", requiredMode = Schema.RequiredMode.REQUIRED)
-    val mainAddress: String,
-    @field:Schema(description = "Billing Address", requiredMode = Schema.RequiredMode.REQUIRED)
-    val billingAddress: String,
-    @field:Schema(description = "Legal ID type", requiredMode = Schema.RequiredMode.REQUIRED)
-    val legalIdType: OrganizationLegalIdTypeDto,
-    @field:Schema(description = "Legal ID number", requiredMode = Schema.RequiredMode.REQUIRED)
-    val legalId: String,
+    @field:Schema(description = "Business unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val businessUnit: String?,
+    @field:Schema(description = "Industry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val industry: String?,
+    @field:Schema(description = "Main Address", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val mainAddress: String?,
+    @field:Schema(description = "Billing Address", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val billingAddress: String?,
+    @field:Schema(description = "Legal ID type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val legalIdType: OrganizationLegalIdTypeDto?,
+    @field:Schema(description = "Legal ID number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val legalId: String?,
     @field:Schema(description = "Commerce register location (if applicable)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val commerceRegisterLocation: String?,
-    @field:Schema(description = "URL of the organization website", requiredMode = Schema.RequiredMode.REQUIRED)
-    val url: String,
-    @field:Schema(description = "Description of what the company does/is", requiredMode = Schema.RequiredMode.REQUIRED)
-    val description: String,
+    @field:Schema(description = "URL of the organization website", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val url: String?,
+    @field:Schema(description = "Description of what the company does/is", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val description: String?,
     @field:Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
     val registrationStatus: OrganizationRegistrationStatusDto,
     @field:Schema(description = "Member information", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -51,18 +51,18 @@ data class OwnOrganizationDetailsDto(
     val createdByFirstName: String,
     @field:Schema(description = "Organization creator: Last Name", requiredMode = Schema.RequiredMode.REQUIRED)
     val createdByLastName: String,
-    @field:Schema(description = "Main Contact Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    val mainContactName: String,
-    @field:Schema(description = "Main Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    val mainContactEmail: String,
-    @field:Schema(description = "Main Contact Phone", requiredMode = Schema.RequiredMode.REQUIRED)
-    val mainContactPhone: String,
-    @field:Schema(description = "Tech Contact Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    val techContactName: String,
-    @field:Schema(description = "Tech Contact Email", requiredMode = Schema.RequiredMode.REQUIRED)
-    val techContactEmail: String,
-    @field:Schema(description = "Tech Contact Phone", requiredMode = Schema.RequiredMode.REQUIRED)
-    val techContactPhone: String,
+    @field:Schema(description = "Main Contact Name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val mainContactName: String?,
+    @field:Schema(description = "Main Contact Email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val mainContactEmail: String?,
+    @field:Schema(description = "Main Contact Phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val mainContactPhone: String?,
+    @field:Schema(description = "Tech Contact Name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val techContactName: String?,
+    @field:Schema(description = "Tech Contact Email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val techContactEmail: String?,
+    @field:Schema(description = "Tech Contact Phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val techContactPhone: String?,
     @field:Schema(
         description = "Creation date of organization or organization invite",
         requiredMode = Schema.RequiredMode.REQUIRED

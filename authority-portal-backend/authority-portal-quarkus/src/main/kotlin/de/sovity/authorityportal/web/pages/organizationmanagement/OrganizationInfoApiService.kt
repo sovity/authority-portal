@@ -124,7 +124,7 @@ class OrganizationInfoApiService(
     private fun getOrganizationDetailsDto(mdsId: String): OrganizationDetailsDto {
         val organization = organizationService.getOrganizationOrThrow(mdsId)
         val organizationAdmin = organization.createdBy?.let { userDetailService.getUserData(it) }
-        val legalIdType = organization.legalIdType.toDto()
+        val legalIdType = organization.legalIdType?.toDto()
         val memberList = userDetailService.getOrganizationMembers(mdsId)
 
         return OrganizationDetailsDto(
@@ -146,7 +146,7 @@ class OrganizationInfoApiService(
             legalId = when (legalIdType) {
                 OrganizationLegalIdTypeDto.TAX_ID -> organization.taxId
                 OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO -> organization.commerceRegisterNumber
-                else -> error("Cannot parse LegalIdType. Unknown Enum")
+                else -> null
             },
             commerceRegisterLocation = when (legalIdType) {
                 OrganizationLegalIdTypeDto.COMMERCE_REGISTER_INFO -> organization.commerceRegisterLocation
