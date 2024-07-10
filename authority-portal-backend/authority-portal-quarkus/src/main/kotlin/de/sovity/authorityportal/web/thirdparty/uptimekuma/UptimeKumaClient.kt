@@ -48,7 +48,7 @@ class UptimeKumaClient {
         ComponentStatusOverview().also {
             it.daps = getComponentStatus(envConfig.daps().kumaName(), response)
             it.loggingHouse = getComponentStatus(envConfig.loggingHouse().kumaName(), response)
-            it.broker = getComponentStatus(envConfig.dataCatalog().kumaName(), response)
+            it.catalogCrawler = getComponentStatus(envConfig.dataCatalog().kumaName(), response)
         }
 
     private fun getComponentStatus(componentName: String, response: String): ComponentStatus {

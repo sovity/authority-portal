@@ -22,5 +22,5 @@ class ComponentStatusOverview {
     @Schema(description = "Logging House status", requiredMode = Schema.RequiredMode.REQUIRED)
     var loggingHouse: ComponentStatus? = null
     @Schema(description = "Catalog crawler (Broker) status", requiredMode = Schema.RequiredMode.REQUIRED)
-    var broker: ComponentStatus? = null
+    var catalogCrawler: ComponentStatus? = null
 }

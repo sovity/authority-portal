@@ -68,7 +68,9 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
           this.loggingHouseData = componentStatusOverview.map(
             (x) => x.loggingHouseStatus,
           );
-          this.crawlerData = componentStatusOverview.map((x) => x.brokerStatus);
+          this.crawlerData = componentStatusOverview.map(
+            (x) => x.crawlerStatus,
+          );
           this.connectorData = componentStatusOverview.map((x) => ({
             numOnline: x.onlineConnectors,
             numDisturbed: x.disturbedConnectors,

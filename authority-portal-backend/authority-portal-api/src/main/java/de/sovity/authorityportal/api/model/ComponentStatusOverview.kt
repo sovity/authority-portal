@@ -22,7 +22,7 @@ data class ComponentStatusOverview(
     @field:Schema(description = "Logging House Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val loggingHouseStatus: UptimeStatusDto?,
     @field:Schema(description = "Catalog crawler (Broker) Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    val brokerStatus: UptimeStatusDto?,
+    val crawlerStatus: UptimeStatusDto?,
     @field:Schema(description = "Number of online connectors", requiredMode = Schema.RequiredMode.REQUIRED)
     val onlineConnectors: Int,
     @field:Schema(description = "Number of disturbed connectors", requiredMode = Schema.RequiredMode.REQUIRED)
