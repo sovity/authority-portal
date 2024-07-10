@@ -49,6 +49,7 @@ class CatalogQueryService(
         val fields = CatalogQueryFields(
             Tables.CONNECTOR,
             Tables.DATA_OFFER,
+            Tables.ORGANIZATION,
             Tables.DATA_OFFER_VIEW_COUNT,
             catalogDataspaceConfigService.forEnvironment(environment)
         )

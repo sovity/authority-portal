@@ -32,19 +32,21 @@ class DataOfferDetailPageQueryService(
         val fields = CatalogQueryFields(
             Tables.CONNECTOR,
             Tables.DATA_OFFER,
+            Tables.ORGANIZATION,
             Tables.DATA_OFFER_VIEW_COUNT,
             catalogDataspaceConfigService.forEnvironment(environment)
         )
 
         val d = fields.dataOfferTable
         val c = fields.connectorTable
+        val org = fields.organizationTable
 
         return dsl.select(
             d.ASSET_ID,
             d.ASSET_TITLE,
             c.CONNECTOR_ID.`as`("connectorId"),
             c.ENDPOINT_URL.`as`("connectorEndpoint"),
-            fields.organizationName.`as`("organizationName"),
+            org.NAME.`as`("organizationName"),
             c.MDS_ID.`as`("organizationId"),
             c.ONLINE_STATUS.`as`("connectorOnlineStatus"),
             fields.offlineSinceOrLastUpdatedAt.`as`("connectorOfflineSinceOrLastUpdatedAt"),
@@ -56,6 +58,7 @@ class DataOfferDetailPageQueryService(
         )
             .from(d)
             .leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
+            .leftJoin(org).on(org.MDS_ID.eq(c.MDS_ID))
             .where(
                 d.ASSET_ID.eq(assetId),
                 d.CONNECTOR_ID.eq(connectorId),

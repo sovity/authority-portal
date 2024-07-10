@@ -20,6 +20,7 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery
 import de.sovity.authorityportal.broker.dao.utils.MultisetUtils
 import de.sovity.authorityportal.db.jooq.tables.Connector
 import de.sovity.authorityportal.db.jooq.tables.DataOffer
+import de.sovity.authorityportal.db.jooq.tables.Organization
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Field
 import org.jooq.Record
@@ -53,23 +54,24 @@ class CatalogQueryDataOfferFetcher(
     ): Field<List<DataOfferListEntryRs>> {
         val c = fields.connectorTable
         val d = fields.dataOfferTable
+        val org = fields.organizationTable
 
         val query = DSL.select(
             d.ASSET_ID.`as`("assetId"),
             d.ASSET_TITLE.`as`("assetTitle"),
-            d.DESCRIPTION.`as`("description"),
+            d.SHORT_DESCRIPTION_NO_MARKDOWN.`as`("shortDescriptionMoMarkdown"),
             d.VERSION.`as`("version"),
             d.KEYWORDS.`as`("keywords"),
             c.CONNECTOR_ID.`as`("connectorId"),
             c.MDS_ID.`as`("organizationId"),
-            fields.organizationName.`as`("organizationName"),
+            org.NAME.`as`("organizationName"),
             c.ONLINE_STATUS.`as`("connectorOnlineStatus"),
             fields.offlineSinceOrLastUpdatedAt.`as`("connectorOfflineSinceOrLastUpdatedAt"),
             c.ENDPOINT_URL.`as`("connectorEndpointUrl"),
             d.CREATED_AT,
             d.UPDATED_AT
         )
-            .fromCatalogQueryTables(c, d)
+            .fromCatalogQueryTables(c, d, org)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))
             .orderBy(catalogQuerySortingService.getOrderBy(fields, sorting))
             .limit(pageQuery.offset, pageQuery.limit)
@@ -92,7 +94,7 @@ class CatalogQueryDataOfferFetcher(
         filters: List<CatalogQueryFilter>
     ): Field<Int> {
         val query = DSL.select(DSL.count())
-            .fromCatalogQueryTables(fields.connectorTable, fields.dataOfferTable)
+            .fromCatalogQueryTables(fields.connectorTable, fields.dataOfferTable, fields.organizationTable)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))
         return DSL.field(query)
     }
@@ -100,7 +102,10 @@ class CatalogQueryDataOfferFetcher(
     private fun <T : Record?> SelectSelectStep<T>.fromCatalogQueryTables(
         c: Connector,
         d: DataOffer,
+        org: Organization
     ): SelectOnConditionStep<T> {
-        return this.from(d).leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
+        return this.from(d)
+            .leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
+            .leftJoin(org).on(org.MDS_ID.eq(c.MDS_ID))
     }
 }

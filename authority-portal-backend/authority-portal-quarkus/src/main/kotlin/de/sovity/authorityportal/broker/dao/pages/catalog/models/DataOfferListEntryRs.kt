@@ -19,7 +19,7 @@ import java.time.OffsetDateTime
 data class DataOfferListEntryRs(
     val assetId: String,
     val assetTitle: String,
-    val description: String,
+    val shortDescriptionMoMarkdown: String,
     val version: String,
     val keywords: List<String>,
     val connectorId: String,
