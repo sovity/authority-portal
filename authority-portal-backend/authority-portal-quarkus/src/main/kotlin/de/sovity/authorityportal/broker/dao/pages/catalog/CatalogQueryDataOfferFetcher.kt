@@ -18,14 +18,8 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFil
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery
 import de.sovity.authorityportal.broker.dao.utils.MultisetUtils
-import de.sovity.authorityportal.db.jooq.tables.Connector
-import de.sovity.authorityportal.db.jooq.tables.DataOffer
-import de.sovity.authorityportal.db.jooq.tables.Organization
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Field
-import org.jooq.Record
-import org.jooq.SelectOnConditionStep
-import org.jooq.SelectSelectStep
 import org.jooq.impl.DSL
 
 @ApplicationScoped
@@ -71,7 +65,7 @@ class CatalogQueryDataOfferFetcher(
             d.CREATED_AT,
             d.UPDATED_AT
         )
-            .fromCatalogQueryTables(c, d, org)
+            .fromCatalogDataOffers(fields)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))
             .orderBy(catalogQuerySortingService.getOrderBy(fields, sorting))
             .limit(pageQuery.offset, pageQuery.limit)
@@ -94,18 +88,9 @@ class CatalogQueryDataOfferFetcher(
         filters: List<CatalogQueryFilter>
     ): Field<Int> {
         val query = DSL.select(DSL.count())
-            .fromCatalogQueryTables(fields.connectorTable, fields.dataOfferTable, fields.organizationTable)
+            .fromCatalogDataOffers(fields)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, filters))
         return DSL.field(query)
     }
 
-    private fun <T : Record?> SelectSelectStep<T>.fromCatalogQueryTables(
-        c: Connector,
-        d: DataOffer,
-        org: Organization
-    ): SelectOnConditionStep<T> {
-        return this.from(d)
-            .leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
-            .leftJoin(org).on(org.MDS_ID.eq(c.MDS_ID))
-    }
 }

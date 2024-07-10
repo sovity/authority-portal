@@ -250,7 +250,7 @@ class CatalogApiTest {
             dataOffer(0, 0, 0) {
                 it.assetTitle = "Data Offer 0"
                 it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset))
-                it.description = "Data Offer Description 0"
+                it.descriptionNoMarkdown = "Data Offer Description 0"
             }
 
             scenarioInstaller.install(this)
@@ -266,7 +266,7 @@ class CatalogApiTest {
         assertThat(result.dataOffers).hasSize(1)
         assertThat(result.dataOffers.first().assetId).isEqualTo(dummyDevAssetId(0))
         assertThat(result.dataOffers.first().assetTitle).isEqualTo("Data Offer 0")
-        assertThat(result.dataOffers.first().descriptionShortText).isEqualTo("Data Offer Description 0")
+        assertThat(result.dataOffers.first().descriptionShortText).isEqualTo("shortDescription")
         assertThat(result.dataOffers.first().connectorOnlineStatus).isEqualTo(ConnectorOnlineStatusDto.ONLINE)
     }
 
