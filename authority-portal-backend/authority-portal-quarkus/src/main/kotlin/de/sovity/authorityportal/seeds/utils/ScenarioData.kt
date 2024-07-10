@@ -184,7 +184,8 @@ class ScenarioData {
 
         val uiAsset = UiAsset().also {
             it.title = "Title"
-            it.description = "Description"
+            it.description = "# Long Description"
+            it.descriptionShortText = "shortDescription"
         }
 
         DataOfferRecord().also {
@@ -194,8 +195,8 @@ class ScenarioData {
             it.createdAt = OffsetDateTime.now()
             it.updatedAt = OffsetDateTime.now()
             it.assetTitle = uiAsset.title
-            it.description = uiAsset.description
-            it.curatorOrganizationName = "Curator Organization Name"
+            it.descriptionNoMarkdown = "Long Description"
+            it.shortDescriptionNoMarkdown = "shortDescription"
             it.dataCategory = "Data Category"
             it.dataSubcategory = "Data Subcategory"
             it.transportMode = "Transport Mode"

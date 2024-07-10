@@ -18,6 +18,7 @@ import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.tables.Connector
 import de.sovity.authorityportal.db.jooq.tables.DataOffer
 import de.sovity.authorityportal.db.jooq.tables.DataOfferViewCount
+import de.sovity.authorityportal.db.jooq.tables.Organization
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
 import org.jooq.Field
 import org.jooq.Table
@@ -33,6 +34,7 @@ import java.time.OffsetDateTime
 class CatalogQueryFields(
     var connectorTable: Connector,
     var dataOfferTable: DataOffer,
+    var organizationTable: Organization,
     private var dataOfferViewCountTable: DataOfferViewCount,
     private var dataSpaceConfigCatalog: CatalogDataspaceConfig
 ) {
@@ -55,6 +57,7 @@ class CatalogQueryFields(
         return CatalogQueryFields(
             connectorTable.`as`(withSuffix(connectorTable, additionalSuffix)),
             dataOfferTable.`as`(withSuffix(dataOfferTable, additionalSuffix)),
+            organizationTable.`as`(withSuffix(organizationTable, additionalSuffix)),
             dataOfferViewCountTable.`as`(withSuffix(dataOfferViewCountTable, additionalSuffix)),
             dataSpaceConfigCatalog
         )
@@ -76,24 +79,12 @@ class CatalogQueryFields(
             return subquery.asField()
         }
 
-    val organizationName: Field<String>
-        get() = organizationName(connectorTable.MDS_ID)
-
     companion object {
         fun offlineSinceOrLastUpdatedAt(connectorTable: Connector): Field<OffsetDateTime> {
             return DSL.coalesce(
                 connectorTable.LAST_SUCCESSFUL_REFRESH_AT,
                 connectorTable.CREATED_AT
             )
-        }
-
-        fun organizationName(mdsId: Field<String?>?): Field<String> {
-            val o = Tables.ORGANIZATION
-            return DSL.select(o.NAME)
-                .from(o)
-                .where(o.MDS_ID.eq(mdsId))
-                .asField<Any>()
-                .cast(String::class.java)
         }
     }
 }

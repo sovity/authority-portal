@@ -54,8 +54,6 @@ class CatalogQueryAvailableFilterFetcher(
         otherFilters: List<CatalogQueryFilter>
     ): Field<JSON> {
         val fields = parentQueryFields.withSuffix("filter_" + currentFilter.name)
-        val c = fields.connectorTable
-        val d = fields.dataOfferTable
 
         val value = currentFilter.valueQuery(fields)
 
@@ -65,8 +63,7 @@ class CatalogQueryAvailableFilterFetcher(
                 DSL.value(arrayOf<String>()).cast<Array<String>>(SQLDataType.VARCHAR.array())
             )
         )
-            .from(d)
-            .leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
+            .fromCatalogQueryTables(fields)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, otherFilters))
             .asField()
     }
