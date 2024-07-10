@@ -19,7 +19,7 @@ operator company.
 
 - Each configured Dataspace Deployment Environment must have a running sovity Keycloak DAPS.
 - Each configured Dataspace Deployment Environment must have a running Logging House.
-- To make use of the Data Catalog, each configured Dataspace Deployment Environment must have a running EDC connector with the Broker Crawler Extension.
+- To make use of the Data Catalog, each configured Dataspace Deployment Environment must have configured a running Catalog Crawler (based on the sovity EDC Connector).
 
 The respective compatible versions can be found in the [CHANGELOG.md](../../../../CHANGELOG.md).
 
@@ -30,7 +30,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
   - URL of the Keycloak for authorizing at the CaaS-Portal, referred to as `[CAAS_KC_FQDN]` in this guide.
   - Credentials for the CaaS-Portal, referred to as `[CAAS_CLIENT_ID]` and `[CAAS_CLIENT_SECRET]` in this guide.
 - A running instance of Uptime Kuma is required.
-  - This should track the DAPS and Logging House status
+  - This should track the DAPS, Logging House and Catalog Crawler status
   - The statuses must be available via the API (`/metrics` endpoint)
     - The output per component should look like this:
       ```
@@ -229,6 +229,8 @@ authority-portal.deployment.environments.test.position: "0"
 authority-portal.deployment.environments.test.data-catalog.hide-offline-data-offers-after: "15m"
 # Default page size for the Data Catalog
 authority-portal.deployment.environments.test.data-catalog.catalog-page-page-size: "10"
+# Kuma name for the catalog crawler
+authority-portal.deployment.environments.test.data-catalog.kuma-name: broker
 
 # Environment Connector-Dataspace association: Allows certain connectors to be associated as partnered data spaces
 # Required: Default Dataspace name
@@ -287,10 +289,8 @@ AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu # S
 
 - The Data Catalog only displays the Data Catalog as it exists in the database.
 - Each deployment environment requires a Data Catalog Crawler.
-  - A Data Catalog Crawler is an EDC Connector of sorts.
-  - It will connect to the Authority Portal Postgres DB and regularly update it with available public data offers it crawled.
-
-For more details on how to configure or deploy the crawler, please visit the documentation. TODO linking
+  - A Data Catalog Crawler is based on the EDC Connector and crawls the catalogs of all connectors in the dataspace.
+  - For help with the deployment and configuration of a crawler, see its [productive deployment guide](https://github.com/sovity/edc-ce/blob/main/docs/deployment-guide/goals/catalog-crawler-production/README.md)
 
 ## Initial Setup
 

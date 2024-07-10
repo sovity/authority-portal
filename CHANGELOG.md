@@ -18,8 +18,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Due to the integration of the Data Catalog into the portal, following changes have been made:
   - Removed the link to "My data offers" from the sidebar. Due to the integration of the Data Catalog, this feature is not supported for now.
     Users may access a view of their data offers by navigating to the Data Catalog and choosing the appropriate filter.
-  - Removed the Data Catalog online status from the dashboard
-  - Removed the Data Catalog status data from the system stability report
+  - Changed Broker to Catalog crawler on the dashboard and in the system stability report
 
 #### Patch
 
@@ -31,8 +30,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ### Deployment Migration Notes
 
-- All brokers can be undeployed including their data bases.
-- New Data Catalog Crawlers must now be deployed for the data catalog to be filled. One for each environment.
+- All brokers can be undeployed including their databases.
 - Keycloak
   - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
 - Portal Backend
@@ -43,6 +41,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
       # Default page size for the Data Catalog
       authority-portal.deployment.environments.{environmentId}.data-catalog.catalog-page-page-size: 10
+      
+      # Kuma name for the catalog crawler
+      authority-portal.deployment.environments.{environmentId}.data-catalog.kuma-name: broker  
 
       # Environment Connector-Dataspace association
       # Allows certain connectors to be associated as partnered data spaces
@@ -59,12 +60,15 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
       authority-portal.deployment.environments.{environmentId}.broker.api-key: ...
       authority-portal.deployment.environments.{environmentId}.broker.kuma-name: ...
       ```
+- A Catalog crawler must be deployed for each environment to fill the catalog with live data.
+  - For help with the deployment, please refer to the crawler's [productive deployment guide](https://github.com/sovity/edc-ce/blob/main/docs/deployment-guide/goals/catalog-crawler-production/README.md).
+  - Running Uptime Kuma instances must be reconfigured to track the status of the catalog crawler instead of the Broker.
 
 #### Compatible Versions
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- EDC CE: `{{ edc-ce version }}`
+- Catalog Crawler: `{{ catalog-crawler-ce version }}`
 
 ## [v2.3.0] - 2024-05-13
 
