@@ -105,9 +105,12 @@
       <!-- Filters Accordeon -->
       <mat-accordion>
         <mat-expansion-panel
-          *ngFor="let filter of state?.filters!! | values; let first = first"
+          *ngFor="
+            let filter of state?.filters | values;
+            trackBy: trackFilterBy;
+            let first = first
+          "
           class="w-[300px] mat-expansion-panel-flex-col"
-          trackByField="id"
           [expanded]="filter.id === expandedFilterId"
           (expandedChange)="onExpandedFilterChange(filter.id, $event)">
           <mat-expansion-panel-header>
