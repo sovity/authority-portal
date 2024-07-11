@@ -20,7 +20,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
     Users may access a view of their data offers by navigating to the Data Catalog and choosing the appropriate filter.
   - Removed the Data Catalog online status from the dashboard
   - Removed the Data Catalog status data from the system stability report
-- The organization overview page as well as the detail page now differentiate between available and on-request data offers
+- The organization overview page as well as the detail page now differentiate between available and on request data offers
 
 #### Patch
 
