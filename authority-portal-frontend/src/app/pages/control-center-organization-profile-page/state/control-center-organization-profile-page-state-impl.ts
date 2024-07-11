@@ -13,7 +13,7 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {ignoreElements, tap} from 'rxjs/operators';
+import {ignoreElements, switchMap, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {
   OwnOrganizationDetailsDto,
@@ -21,6 +21,7 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {Fetched} from 'src/app/core/utils/fetched';
+import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
 import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
 import {Reset} from './control-center-organization-profile-page-action';
 import {
@@ -36,21 +37,29 @@ type Ctx = StateContext<ControlCenterOrganizationProfilePageState>;
 })
 @Injectable()
 export class ControlCenterOrganizationProfilePageStateImpl {
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private globalStateUtils: GlobalStateUtils,
+  ) {}
 
   @Action(Reset)
   onReset(ctx: Ctx): Observable<never> {
-    return this.apiService.getOwnOrganizationDetails().pipe(
-      Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
-      tap((organization) => {
-        ctx.patchState({
-          organization,
-          headerBarConfig: organization
-            .map((data) => this.buildHeaderBarConfig(data))
-            .orElse(null),
-        });
-      }),
-      ignoreElements(),
+    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
+      switchMap((environmentId) =>
+        this.apiService.getOwnOrganizationDetails(environmentId).pipe(
+          Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
+          tap((organization) => {
+            ctx.patchState({
+              organization,
+              headerBarConfig: organization
+                .map((data) => this.buildHeaderBarConfig(data))
+                .orElse(null),
+            });
+          }),
+          ignoreElements(),
+        ),
+      ),
     );
   }
 

@@ -13,7 +13,7 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
-import {filter, ignoreElements, tap} from 'rxjs/operators';
+import {filter, ignoreElements, switchMap, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {
   OwnOrganizationDetailsDto,
@@ -21,6 +21,7 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {Fetched} from 'src/app/core/utils/fetched';
+import {GlobalStateUtils} from '../../../../core/global-state/global-state-utils';
 import {HeaderBarConfig} from '../../../../shared/common/header-bar/header-bar.model';
 import {ParticipantInviteNewUserComponent} from '../../participant-invite-new-user/participant-invite-new-user.component';
 import {Reset} from './control-center-organization-members-page-action';
@@ -37,21 +38,29 @@ type Ctx = StateContext<ControlCenterOrganizationMembersPageState>;
 })
 @Injectable()
 export class ControlCenterOrganizationMembersPageStateImpl {
-  constructor(private apiService: ApiService, private dialog: MatDialog) {}
+  constructor(
+    private apiService: ApiService,
+    private dialog: MatDialog,
+    private globalStateUtils: GlobalStateUtils,
+  ) {}
 
   @Action(Reset)
   onReset(ctx: Ctx): Observable<never> {
-    return this.apiService.getOwnOrganizationDetails().pipe(
-      Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
-      tap((organization) => {
-        ctx.patchState({
-          organization,
-          headerBarConfig: organization
-            .map((data) => this.buildHeaderBarConfig(ctx, data))
-            .orElse(null),
-        });
-      }),
-      ignoreElements(),
+    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
+      switchMap((environmentId) =>
+        this.apiService.getOwnOrganizationDetails(environmentId).pipe(
+          Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
+          tap((organization) => {
+            ctx.patchState({
+              organization,
+              headerBarConfig: organization
+                .map((data) => this.buildHeaderBarConfig(ctx, data))
+                .orElse(null),
+            });
+          }),
+          ignoreElements(),
+        ),
+      ),
     );
   }
 
