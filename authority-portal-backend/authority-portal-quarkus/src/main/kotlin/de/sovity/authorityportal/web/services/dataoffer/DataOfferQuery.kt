@@ -13,10 +13,14 @@
 
 package de.sovity.authorityportal.web.services.dataoffer
 
+import com.github.t9t.jooq.json.JsonDSL
+import com.github.t9t.jooq.json.JsonbDSL
 import de.sovity.authorityportal.api.model.catalog.ConnectorOnlineStatusDto
 import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
+import org.jooq.JSONB
 import org.jooq.impl.DSL
 import java.time.OffsetDateTime
 
@@ -67,14 +71,17 @@ class DataOfferQuery(
         val onlineStatus: ConnectorOnlineStatusDto,
         val offlineSinceOrLastUpdatedAt: OffsetDateTime,
         val dataOfferName: String,
-        val dataOfferId: String
+        val dataOfferId: String,
+        val dataSourceAvailability: String
     )
 
     fun getDataOffersForConnectorIdsAndEnvironment(environmentId: String, connectorIds: List<String>): List<DataOfferInfoRs> {
         val c = Tables.CONNECTOR
         val d = Tables.DATA_OFFER
 
-        return dsl.select(c.CONNECTOR_ID, c.MDS_ID, c.ONLINE_STATUS, c.LAST_SUCCESSFUL_REFRESH_AT, d.ASSET_TITLE, d.ASSET_ID)
+        val dataSourceAvailabilityField = JsonbDSL.fieldByKeyText(d.UI_ASSET_JSON, "dataSourceAvailability")
+
+        return dsl.select(c.CONNECTOR_ID, c.MDS_ID, c.ONLINE_STATUS, c.LAST_SUCCESSFUL_REFRESH_AT, d.ASSET_TITLE, d.ASSET_ID, dataSourceAvailabilityField)
             .from(d)
             .join(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
             .where(c.ENVIRONMENT.eq(environmentId))
