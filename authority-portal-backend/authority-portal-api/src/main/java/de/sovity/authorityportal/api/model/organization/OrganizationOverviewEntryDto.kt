@@ -35,6 +35,12 @@ data class OrganizationOverviewEntryDto(
     @field:Schema(description = "Number of Data Offers", requiredMode = Schema.RequiredMode.REQUIRED)
     val numberOfDataOffers: Int,
 
+    @field:Schema(description = "Number of Data Offers with a data source", requiredMode = Schema.RequiredMode.REQUIRED)
+    val numberOfLiveDataOffers: Int,
+
+    @field:Schema(description = "Number of on-request Data Offers", requiredMode = Schema.RequiredMode.REQUIRED)
+    val numberOfOnRequestDataOffers: Int,
+
     @field:Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
     val registrationStatus: OrganizationRegistrationStatusDto,
 )

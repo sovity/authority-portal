@@ -203,7 +203,11 @@ interface UiResource {
     @Path("/organizations/my-org")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of own organization.")
-    fun ownOrganizationDetails(): OwnOrganizationDetailsDto
+    fun ownOrganizationDetails(
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        @QueryParam("environmentId")
+        environmentId: String
+    ): OwnOrganizationDetailsDto
 
     @GET
     @Path("/authority/organizations/{mdsId}")
