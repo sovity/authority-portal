@@ -35,6 +35,7 @@ import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import de.sovity.authorityportal.web.tests.useDevUser
 import de.sovity.authorityportal.web.tests.useMockNow
+import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
@@ -236,6 +237,7 @@ class CatalogApiTest {
             it.assetId = dummyDevAssetId(0)
             it.title = "Data Offer 0"
             it.description = "Data Offer 0 Description"
+            it.dataSourceAvailability = DataSourceAvailability.LIVE
         }
 
         ScenarioData().apply {
@@ -294,6 +296,7 @@ class CatalogApiTest {
             it.dataSubcategory = "Data Subcategory 1"
             it.dataModel = "Data Model 1"
             it.geoReferenceMethod = "Geo Reference Method 1"
+            it.dataSourceAvailability = DataSourceAvailability.LIVE
         }
         val uiAsset2 = UiAsset().also {
             it.assetId = dummyDevAssetId(1)
@@ -302,6 +305,7 @@ class CatalogApiTest {
             it.dataCategory = "Data Category 1"
             it.transportMode = "Transport Mode 1"
             it.dataSubcategory = "Data Subcategory 1"
+            it.dataSourceAvailability = DataSourceAvailability.LIVE
         }
         val uiAsset3 = UiAsset().also {
             it.assetId = dummyDevAssetId(2)
@@ -310,6 +314,7 @@ class CatalogApiTest {
             it.dataCategory = "Data Category 1"
             it.transportMode = "Transport Mode 2"
             it.dataSubcategory = "Data Subcategory 2"
+            it.dataSourceAvailability = DataSourceAvailability.LIVE
         }
         val uiAsset4 = UiAsset().also {
             it.assetId = dummyDevAssetId(3)
@@ -317,6 +322,7 @@ class CatalogApiTest {
             it.description = "Data Offer 3 Description"
             it.dataCategory = "Data Category 1"
             it.transportMode = ""
+            it.dataSourceAvailability = DataSourceAvailability.LIVE
         }
 
         ScenarioData().apply {
@@ -448,6 +454,7 @@ class CatalogApiTest {
             it.assetId = dummyDevAssetId(0)
             it.title = "Hello"
             it.description = "Data Offer 0 Description"
+            it.dataSourceAvailability = DataSourceAvailability.LIVE
         }
 
         ScenarioData().apply {
