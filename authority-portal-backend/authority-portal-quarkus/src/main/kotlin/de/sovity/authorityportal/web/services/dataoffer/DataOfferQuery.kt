@@ -114,10 +114,10 @@ class DataOfferQuery(
             c.CONNECTOR_ID,
             c.MDS_ID,
             c.ONLINE_STATUS,
-            c.LAST_SUCCESSFUL_REFRESH_AT,
-            d.ASSET_TITLE,
-            d.ASSET_ID,
-            dataSourceAvailabilityField
+            c.LAST_SUCCESSFUL_REFRESH_AT.`as`("offlineSinceOrLastUpdatedAt"),
+            d.ASSET_TITLE.`as`("dataOfferName"),
+            d.ASSET_ID.`as`("dataOfferId"),
+            dataSourceAvailabilityField.`as`("dataSourceAvailability")
         )
             .from(d)
             .join(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
