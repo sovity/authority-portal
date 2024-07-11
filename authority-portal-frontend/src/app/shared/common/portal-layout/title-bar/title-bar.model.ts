@@ -25,6 +25,7 @@ export interface SlideOverTab {
   view: any;
   isDisabled: boolean;
   value?: number;
+  tooltip?: string;
 }
 
 export interface ActionMenu {

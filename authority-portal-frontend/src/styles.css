@@ -362,6 +362,10 @@ select:-webkit-autofill:disabled {
   height: 17px !important;
 }
 
+.multiline-mattooltip {
+  white-space: pre-line;
+}
+
 .mat-expansion-panel-flex-col .mat-expansion-panel-body {
   display: flex;
   flex-direction: column;

@@ -192,6 +192,7 @@ export class AuthorityOrganizationDetailPageComponent
           icon: 'article',
           isDisabled: true, // no page associated yet
           value: organization.dataOfferCount,
+          tooltip: `Available: ${organization.liveDataOfferCount}\nOn Request: ${organization.onRequestDataOfferCount}`,
         },
       ],
       actionMenu: {
