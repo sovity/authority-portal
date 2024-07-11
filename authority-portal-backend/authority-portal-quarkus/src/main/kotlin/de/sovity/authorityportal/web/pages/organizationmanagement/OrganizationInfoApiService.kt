@@ -25,6 +25,7 @@ import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.UserDetailService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.services.dataoffer.DataOfferQuery
+import de.sovity.authorityportal.web.services.dataoffer.DataOfferQuery.DataOfferCountRs
 import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import jakarta.enterprise.context.ApplicationScoped
 
@@ -41,7 +42,7 @@ class OrganizationInfoApiService(
     fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
         val organizations = organizationService.getOrganizations()
         val connectorCounts = dataOfferQuery.getConnectorCountsByMdsIdsForEnvironment(environmentId)
-        val dataOfferCounts = dataOfferQuery.getDataOfferCountsByMdsIdsForEnvironment(environmentId)
+        val dataOfferCounts = dataOfferQuery.countAllOrganizationDataOffers(environmentId)
         val userCounts = userService.getUserCountsByMdsIds()
         val dtos = organizations.map {
             buildOrganizationOverviewEntryDto(
@@ -67,11 +68,12 @@ class OrganizationInfoApiService(
         organization: OrganizationRecord,
         userCounts: Map<String, Int>,
         connectorCounts: Map<String, Int>,
-        dataOfferCounts: Map<String, Map<DataSourceAvailability, Int>>,
+        dataOfferCounts: List<DataOfferCountRs>,
     ): OrganizationOverviewEntryDto {
+        val dataOfferCountsByMdsId = dataOfferCounts.associateBy { it.mdsId }
         val mdsId = organization.mdsId
-        val liveDataOfferCount = dataOfferCounts[mdsId]?.get(DataSourceAvailability.LIVE) ?: 0
-        val onRequestDataOfferCount = dataOfferCounts[mdsId]?.get(DataSourceAvailability.ON_REQUEST) ?: 0
+        val liveDataOfferCount = dataOfferCountsByMdsId[mdsId]?.liveOffers ?: 0
+        val onRequestDataOfferCount = dataOfferCountsByMdsId[mdsId]?.onRequestOffers ?: 0
         return OrganizationOverviewEntryDto(
             mdsId = mdsId,
             name = organization.name,
@@ -121,11 +123,11 @@ class OrganizationInfoApiService(
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
         return getOrganizationDetailsDto(mdsId).also {
-            val dataOffers = dataOfferQuery.getDataOfferCountsForMdsIdAndEnvironment(mdsId, environmentId)
+            val dataOffers = dataOfferQuery.countOrganizationDataOffers(environmentId, mdsId)
 
             it.connectorCount = connectorService.getConnectorCountByMdsIdAndEnvironment(mdsId, environmentId)
-            it.liveDataOfferCount = dataOffers[DataSourceAvailability.LIVE.toString()] ?: 0
-            it.onRequestDataOfferCount = dataOffers[DataSourceAvailability.ON_REQUEST.toString()] ?: 0
+            it.liveDataOfferCount = dataOffers.liveOffers
+            it.onRequestDataOfferCount = dataOffers.onRequestOffers
             it.dataOfferCount = it.liveDataOfferCount + it.onRequestDataOfferCount
         }
     }

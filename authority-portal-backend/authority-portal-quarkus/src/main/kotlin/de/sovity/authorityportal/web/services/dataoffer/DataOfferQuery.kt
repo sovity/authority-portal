@@ -13,15 +13,15 @@
 
 package de.sovity.authorityportal.web.services.dataoffer
 
-import com.github.t9t.jooq.json.JsonDSL
 import com.github.t9t.jooq.json.JsonbDSL
 import de.sovity.authorityportal.api.model.catalog.ConnectorOnlineStatusDto
 import de.sovity.authorityportal.db.jooq.Tables
+import de.sovity.authorityportal.db.jooq.tables.Connector
 import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import jakarta.enterprise.context.ApplicationScoped
+import org.jooq.Condition
 import org.jooq.DSLContext
-import org.jooq.JSONB
-import org.jooq.Record2
+import org.jooq.Field
 import org.jooq.impl.DSL
 import java.time.OffsetDateTime
 
@@ -40,24 +40,56 @@ class DataOfferQuery(
             .fetchMap(c.MDS_ID, DSL.count())
     }
 
-    fun getDataOfferCountsByMdsIdsForEnvironment(environmentId: String): Map<String, Map<DataSourceAvailability, Int>> {
+    data class DataOfferCountRs(
+        val mdsId: String,
+        val liveOffers: Int,
+        val onRequestOffers: Int
+    )
+
+    fun countAllOrganizationDataOffers(
+        environmentId: String,
+        conditionFn: (Connector) -> Condition = { DSL.trueCondition() }
+    ): List<DataOfferCountRs> {
         val c = Tables.CONNECTOR
-        val d = Tables.DATA_OFFER
 
-        val dataSourceAvailabilityField = JsonbDSL.fieldByKeyText(d.UI_ASSET_JSON, "dataSourceAvailability")
-
-        val dataOffers = dsl.select(c.MDS_ID,  dataSourceAvailabilityField)
-            .from(d)
-            .innerJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
-            .where(c.ENVIRONMENT.eq(environmentId))
-            .fetch()
-
-        return dataOffers
-            .groupingBy { it.value1() }
-            .fold(mutableListOf<DataSourceAvailability>()) { acc, e -> acc.also { it.add(toDataSourceAvailability(e)) } }
-            .mapValues { it.value.groupingBy{ e -> e }.eachCount() }
-
+        return dsl.select(
+            c.MDS_ID.`as`("mdsId"),
+            getDataOfferCount(c.MDS_ID, environmentId, DataSourceAvailability.LIVE).`as`("liveOffers"),
+            getDataOfferCount(c.MDS_ID, environmentId, DataSourceAvailability.ON_REQUEST).`as`("onRequestOffers")
+        )
+            .from(c)
+            .where(conditionFn(c))
+            .fetchInto(DataOfferCountRs::class.java)
     }
+
+    private fun getDataOfferCount(
+        mdsId: Field<String>,
+        environmentId: String,
+        dataSourceAvailability: DataSourceAvailability
+    ): Field<Int> {
+        val availability = JsonbDSL.fieldByKeyText(Tables.DATA_OFFER.UI_ASSET_JSON, "dataSourceAvailability")
+        val isSameAvailability = when (dataSourceAvailability) {
+            DataSourceAvailability.ON_REQUEST -> availability.eq("ON_REQUEST")
+            DataSourceAvailability.LIVE -> availability.ne("ON_REQUEST").or(availability.isNull())
+        }
+
+        return DSL.select(DSL.coalesce(DSL.count(), DSL.`val`(0)))
+            .from(Tables.DATA_OFFER)
+            .join(Tables.CONNECTOR).on(Tables.CONNECTOR.CONNECTOR_ID.eq(Tables.DATA_OFFER.CONNECTOR_ID))
+            .where(
+                Tables.CONNECTOR.MDS_ID.eq(mdsId),
+                Tables.CONNECTOR.ENVIRONMENT.eq(environmentId),
+                isSameAvailability
+            )
+            .asField()
+    }
+
+    fun countOrganizationDataOffers(
+        environmentId: String,
+        mdsId: String
+    ): DataOfferCountRs =
+        countAllOrganizationDataOffers(environmentId) { Tables.CONNECTOR.MDS_ID.eq(mdsId) }
+            .single()
 
     fun getDataOfferCountsForMdsIdAndEnvironment(environmentId: String, mdsId: String): Map<String, Int> {
         val c = Tables.CONNECTOR
@@ -71,16 +103,9 @@ class DataOfferQuery(
             .join(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
             .where(c.ENVIRONMENT.eq(environmentId))
             .and(c.MDS_ID.eq(mdsId))
-            .groupBy(dataSourceAvailabilityField)
+            .groupBy(d.UI_ASSET_JSON)
             .fetchMap(dataSourceAvailabilityField, count)
     }
-
-    private fun toDataSourceAvailability(e: Record2<String, String>) =
-        when(val v = e.value2()) {
-            "LIVE" -> DataSourceAvailability.LIVE
-            "ON_REQUEST" -> DataSourceAvailability.ON_REQUEST
-            else -> throw IllegalStateException("Don't know how to convert $v to " + DataSourceAvailability::class.java.canonicalName)
-        }
 
     data class DataOfferInfoRs(
         val connectorId: String,
@@ -92,13 +117,24 @@ class DataOfferQuery(
         val dataSourceAvailability: String
     )
 
-    fun getDataOffersForConnectorIdsAndEnvironment(environmentId: String, connectorIds: List<String>): List<DataOfferInfoRs> {
+    fun getDataOffersForConnectorIdsAndEnvironment(
+        environmentId: String,
+        connectorIds: List<String>
+    ): List<DataOfferInfoRs> {
         val c = Tables.CONNECTOR
         val d = Tables.DATA_OFFER
 
         val dataSourceAvailabilityField = JsonbDSL.fieldByKeyText(d.UI_ASSET_JSON, "dataSourceAvailability")
 
-        return dsl.select(c.CONNECTOR_ID, c.MDS_ID, c.ONLINE_STATUS, c.LAST_SUCCESSFUL_REFRESH_AT, d.ASSET_TITLE, d.ASSET_ID, dataSourceAvailabilityField)
+        return dsl.select(
+            c.CONNECTOR_ID,
+            c.MDS_ID,
+            c.ONLINE_STATUS,
+            c.LAST_SUCCESSFUL_REFRESH_AT,
+            d.ASSET_TITLE,
+            d.ASSET_ID,
+            dataSourceAvailabilityField
+        )
             .from(d)
             .join(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
             .where(c.ENVIRONMENT.eq(environmentId))

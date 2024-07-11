@@ -44,7 +44,7 @@ class CatalogFilterService(
          */
         get() = listOf(
             catalogFilterAttributeDefinitionService.forField(
-                { fields: CatalogQueryFields -> fields.getAssetStringProperty("dataSourceAvailability") },
+                { fields: CatalogQueryFields -> fields.dataSourceAvailability },
                 "dataSourceAvailability",
                 "Data Source Availability"
             ),

@@ -208,7 +208,7 @@ class OrganizationInfoApiServiceTest {
         }
 
         // act
-        val result = uiResource.ownOrganizationDetails()
+        val result = uiResource.ownOrganizationDetails("test")
 
         // assert
         assertThat(result.mdsId).isEqualTo(dummyDevMdsId(0))

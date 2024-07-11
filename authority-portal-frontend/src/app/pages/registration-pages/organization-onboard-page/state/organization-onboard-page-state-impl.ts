@@ -58,7 +58,13 @@ export class OrganizationOnboardPageStateImpl {
       switchMap((userInfo) =>
         combineLatest([
           this.apiService.getOrganizationUser(userInfo.userId),
-          this.apiService.getOwnOrganizationDetails(),
+          this.globalStateUtils
+            .getDeploymentEnvironmentId()
+            .pipe(
+              switchMap((environmentId) =>
+                this.apiService.getOwnOrganizationDetails(environmentId),
+              ),
+            ),
         ]),
       ),
       map(([user, organization]) => ({user, organization})),
