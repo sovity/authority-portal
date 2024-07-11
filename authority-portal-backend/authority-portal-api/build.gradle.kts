@@ -24,7 +24,7 @@ dependencies {
     api(libs.jakarta.wsRsApi)
     api(libs.jakarta.validation)
     api(libs.swaggerCore.annotations)
-    api(libs.sovity.edc.wrapperCommonApi)
+    api(libs.sovity.edc.wrapperCommonApi) { isChanging = libs.sovity.edc.wrapperCommonApi.get().version?.endsWith("SNAPSHOT") ?: false }
 
     implementation(libs.swaggerCore.jaxrs2)
     implementation(libs.jakarta.servletApi)
