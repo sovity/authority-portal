@@ -87,9 +87,9 @@ class DataOfferQuery(
     fun countOrganizationDataOffers(
         environmentId: String,
         mdsId: String
-    ): DataOfferCountRs =
+    ): DataOfferCountRs? =
         countAllOrganizationDataOffers(environmentId) { Tables.CONNECTOR.MDS_ID.eq(mdsId) }
-            .single()
+            .singleOrNull()
 
     fun getDataOfferCountsForMdsIdAndEnvironment(environmentId: String, mdsId: String): Map<String, Int> {
         val c = Tables.CONNECTOR

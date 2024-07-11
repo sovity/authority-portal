@@ -18,7 +18,7 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {AdditionalAssetProperty} from 'src/app/core/api/additional-asset-property';
 import {LanguageService} from 'src/app/core/services/languages/language.service';
-import {getConnectorStatusInnerCircleClasses} from '../../../core/utils/ui-utils';
+import {getPrettyDataOfferType} from '../../../core/utils/data-offer-utils';
 import {formatDateAgo} from '../../../shared/pipes-and-directives/ago.pipe';
 import {JsonDialogService} from '../json-dialog/json-dialog.service';
 import {PropertyGridGroup} from '../property-grid-group/property-grid-group';
@@ -42,6 +42,13 @@ export class AssetPropertyGridGroupBuilder {
     return {
       groupLabel: 'Data Offer',
       properties: [
+        {
+          icon: 'dataset',
+          label: 'Offer Type',
+          ...this.propertyGridFieldService.guessValue(
+            getPrettyDataOfferType(dataOffer.asset.dataSourceAvailability),
+          ),
+        },
         {
           icon: 'category',
           label: 'Connector ID',

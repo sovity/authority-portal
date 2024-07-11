@@ -84,7 +84,7 @@ class CatalogQueryFields(
     val dataSourceAvailability: Field<String> =
         DSL.case_(getAssetStringProperty("dataSourceAvailability"))
             .`when`("ON_REQUEST", "On Request")
-            .else_("Live")
+            .else_("Available")
 
     fun getAssetStringProperty(name: String): Field<String> {
         return JsonbDSL.fieldByKeyText(dataOfferTable.UI_ASSET_JSON, name)

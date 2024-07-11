@@ -126,8 +126,8 @@ class OrganizationInfoApiService(
             val dataOffers = dataOfferQuery.countOrganizationDataOffers(environmentId, mdsId)
 
             it.connectorCount = connectorService.getConnectorCountByMdsIdAndEnvironment(mdsId, environmentId)
-            it.liveDataOfferCount = dataOffers.liveOffers
-            it.onRequestDataOfferCount = dataOffers.onRequestOffers
+            it.liveDataOfferCount = dataOffers?.liveOffers ?: 0
+            it.onRequestDataOfferCount = dataOffers?.onRequestOffers ?: 0
             it.dataOfferCount = it.liveDataOfferCount + it.onRequestDataOfferCount
         }
     }

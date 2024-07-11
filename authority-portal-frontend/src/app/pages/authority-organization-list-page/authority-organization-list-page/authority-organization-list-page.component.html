@@ -33,19 +33,25 @@
                 <th
                   class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
                   scope="col">
-                  No. of Users
+                  Users
                 </th>
 
                 <th
                   class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
                   scope="col">
-                  No. of Connectors
+                  Connectors
                 </th>
 
                 <th
                   class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
                   scope="col">
-                  No. of Data Offers
+                  Avail. Data Offers
+                </th>
+
+                <th
+                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+                  scope="col">
+                  On-request Data Offers
                 </th>
 
                 <th
@@ -99,7 +105,12 @@
 
                     <td
                       class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap text-gray-700">
-                      {{ organization.numberOfDataOffers }}
+                      {{ organization.numberOfLiveDataOffers }}
+                    </td>
+
+                    <td
+                      class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap text-gray-700">
+                      {{ organization.numberOfOnRequestDataOffers }}
                     </td>
 
                     <td
