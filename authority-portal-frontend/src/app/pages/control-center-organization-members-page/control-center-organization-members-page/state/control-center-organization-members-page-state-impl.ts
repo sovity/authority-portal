@@ -48,19 +48,18 @@ export class ControlCenterOrganizationMembersPageStateImpl {
   onReset(ctx: Ctx): Observable<never> {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((environmentId) =>
-        this.apiService.getOwnOrganizationDetails(environmentId).pipe(
-          Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
-          tap((organization) => {
-            ctx.patchState({
-              organization,
-              headerBarConfig: organization
-                .map((data) => this.buildHeaderBarConfig(ctx, data))
-                .orElse(null),
-            });
-          }),
-          ignoreElements(),
-        ),
+        this.apiService.getOwnOrganizationDetails(environmentId),
       ),
+      Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
+      tap((organization) => {
+        ctx.patchState({
+          organization,
+          headerBarConfig: organization
+            .map((data) => this.buildHeaderBarConfig(ctx, data))
+            .orElse(null),
+        });
+      }),
+      ignoreElements(),
     );
   }
 

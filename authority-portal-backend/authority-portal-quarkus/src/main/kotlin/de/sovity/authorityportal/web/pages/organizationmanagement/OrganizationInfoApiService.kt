@@ -77,11 +77,11 @@ class OrganizationInfoApiService(
             mdsId = mdsId,
             name = organization.name,
             mainContactEmail = organization.mainContactEmail,
-            numberOfUsers = userCounts[mdsId] ?: 0,
-            numberOfConnectors = connectorCounts[mdsId] ?: 0,
-            numberOfDataOffers = liveDataOfferCount + onRequestDataOfferCount,
-            numberOfLiveDataOffers = liveDataOfferCount,
-            numberOfOnRequestDataOffers = onRequestDataOfferCount,
+            userCount = userCounts[mdsId] ?: 0,
+            connectorCount = connectorCounts[mdsId] ?: 0,
+            dataOfferCount = liveDataOfferCount + onRequestDataOfferCount,
+            liveDataOfferCount = liveDataOfferCount,
+            onRequestDataOfferCount = onRequestDataOfferCount,
             registrationStatus = organization.registrationStatus.toDto()
         )
     }

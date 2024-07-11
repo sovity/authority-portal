@@ -20,7 +20,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
     Users may access a view of their data offers by navigating to the Data Catalog and choosing the appropriate filter.
   - Removed the Data Catalog online status from the dashboard
   - Removed the Data Catalog status data from the system stability report
-- The organization overview page as well as the detail page now differentiate between available and on request data offers
+- Data offer amounts now differentiate "On Request" Data Offers
 
 #### Patch
 
@@ -32,7 +32,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ### Deployment Migration Notes
 
-- All brokers can be undeployed including their data bases.
+- All brokers can be undeployed including their databases.
 - New Data Catalog Crawlers must now be deployed for the data catalog to be filled. One for each environment.
 - Keycloak
   - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.

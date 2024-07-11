@@ -27,19 +27,19 @@ data class OrganizationOverviewEntryDto(
     val mainContactEmail: String?,
 
     @field:Schema(description = "Number of Users", requiredMode = Schema.RequiredMode.REQUIRED)
-    val numberOfUsers: Int,
+    val userCount: Int,
 
     @field:Schema(description = "Number of Connectors", requiredMode = Schema.RequiredMode.REQUIRED)
-    val numberOfConnectors: Int,
+    val connectorCount: Int,
 
     @field:Schema(description = "Number of Data Offers", requiredMode = Schema.RequiredMode.REQUIRED)
-    val numberOfDataOffers: Int,
+    val dataOfferCount: Int,
 
     @field:Schema(description = "Number of Data Offers with a data source", requiredMode = Schema.RequiredMode.REQUIRED)
-    val numberOfLiveDataOffers: Int,
+    val liveDataOfferCount: Int,
 
     @field:Schema(description = "Number of on-request Data Offers", requiredMode = Schema.RequiredMode.REQUIRED)
-    val numberOfOnRequestDataOffers: Int,
+    val onRequestDataOfferCount: Int,
 
     @field:Schema(description = "Registration status", requiredMode = Schema.RequiredMode.REQUIRED)
     val registrationStatus: OrganizationRegistrationStatusDto,

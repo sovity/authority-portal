@@ -21,7 +21,7 @@
     <button
       *ngFor="let tab of titleBarConfig.tabs"
       class="w-16 button flex items-center justify-center gap-2 bg-black text-white rounded-full px-2 py-1 text-sm hover:bg-brand-golden"
-      matTooltipClass="multiline-mattooltip"
+      matTooltipClass="whitespace-pre-line"
       [ngClass]="{
         'bg-brand-golden': selectedTab === tab.view && !tab.isDisabled,
         'disabled:bg-gray-700': tab.isDisabled,

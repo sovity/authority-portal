@@ -51,22 +51,21 @@ export class ControlCenterOrganizationEditPageStateImpl {
   onReset(ctx: Ctx, action: Reset): Observable<never> {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((environmentId) =>
-        this.apiService.getOwnOrganizationDetails(environmentId).pipe(
-          Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
-          tap((organization) => {
-            ctx.patchState({
-              organization,
-              headerBarConfig: organization
-                .map((data) => this.buildHeaderBarConfig(data))
-                .orElse(null),
-            });
-            action.setFormInComponent(
-              organization.map((data) => this.rebuildForm(data)).orElse(null),
-            );
-          }),
-          ignoreElements(),
-        ),
+        this.apiService.getOwnOrganizationDetails(environmentId),
       ),
+      Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
+      tap((organization) => {
+        ctx.patchState({
+          organization,
+          headerBarConfig: organization
+            .map((data) => this.buildHeaderBarConfig(data))
+            .orElse(null),
+        });
+        action.setFormInComponent(
+          organization.map((data) => this.rebuildForm(data)).orElse(null),
+        );
+      }),
+      ignoreElements(),
     );
   }
 

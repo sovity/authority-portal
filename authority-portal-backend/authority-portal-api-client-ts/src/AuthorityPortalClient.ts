@@ -10,8 +10,12 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { CatalogApi, Configuration, ConfigurationParameters, UiApi } from './generated';
-
+import {
+    CatalogApi,
+    Configuration,
+    ConfigurationParameters,
+    UiApi,
+} from './generated';
 
 /**
  * API Client for our sovity Authority Portal Client

@@ -86,18 +86,18 @@ class OrganizationInfoApiServiceTest {
 
         assertThat(result.organizations[0].mdsId).isEqualTo(dummyDevMdsId(0))
         assertThat(result.organizations[0].name).isEqualTo("Organization 0")
-        assertThat(result.organizations[0].numberOfConnectors).isEqualTo(3)
-        assertThat(result.organizations[0].numberOfUsers).isEqualTo(1)
+        assertThat(result.organizations[0].connectorCount).isEqualTo(3)
+        assertThat(result.organizations[0].userCount).isEqualTo(1)
 
         assertThat(result.organizations[1].mdsId).isEqualTo(dummyDevMdsId(1))
         assertThat(result.organizations[1].name).isEqualTo("Organization 1")
-        assertThat(result.organizations[1].numberOfConnectors).isEqualTo(1)
-        assertThat(result.organizations[1].numberOfUsers).isEqualTo(1)
+        assertThat(result.organizations[1].connectorCount).isEqualTo(1)
+        assertThat(result.organizations[1].userCount).isEqualTo(1)
 
         assertThat(result.organizations[2].mdsId).isEqualTo(dummyDevMdsId(2))
         assertThat(result.organizations[2].name).isEqualTo("Organization 2")
-        assertThat(result.organizations[2].numberOfConnectors).isEqualTo(0)
-        assertThat(result.organizations[2].numberOfUsers).isEqualTo(2)
+        assertThat(result.organizations[2].connectorCount).isEqualTo(0)
+        assertThat(result.organizations[2].userCount).isEqualTo(2)
     }
 
     @Test
@@ -135,13 +135,13 @@ class OrganizationInfoApiServiceTest {
 
         assertThat(result.organizations[0].mdsId).isEqualTo(dummyDevMdsId(1))
         assertThat(result.organizations[0].name).isEqualTo("Organization 1")
-        assertThat(result.organizations[0].numberOfConnectors).isEqualTo(1)
-        assertThat(result.organizations[0].numberOfUsers).isEqualTo(1)
+        assertThat(result.organizations[0].connectorCount).isEqualTo(1)
+        assertThat(result.organizations[0].userCount).isEqualTo(1)
 
         assertThat(result.organizations[1].mdsId).isEqualTo(dummyDevMdsId(2))
         assertThat(result.organizations[1].name).isEqualTo("Organization 2")
-        assertThat(result.organizations[1].numberOfConnectors).isEqualTo(0)
-        assertThat(result.organizations[1].numberOfUsers).isEqualTo(2)
+        assertThat(result.organizations[1].connectorCount).isEqualTo(0)
+        assertThat(result.organizations[1].userCount).isEqualTo(2)
     }
 
     @Test
@@ -176,18 +176,18 @@ class OrganizationInfoApiServiceTest {
 
         assertThat(result.organizations[0].mdsId).isEqualTo(dummyDevMdsId(0))
         assertThat(result.organizations[0].name).isEqualTo("Organization 0")
-        assertThat(result.organizations[0].numberOfConnectors).isEqualTo(0)
-        assertThat(result.organizations[0].numberOfUsers).isEqualTo(1)
+        assertThat(result.organizations[0].connectorCount).isEqualTo(0)
+        assertThat(result.organizations[0].userCount).isEqualTo(1)
 
         assertThat(result.organizations[1].mdsId).isEqualTo(dummyDevMdsId(1))
         assertThat(result.organizations[1].name).isEqualTo("Organization 1")
-        assertThat(result.organizations[1].numberOfConnectors).isEqualTo(0)
-        assertThat(result.organizations[1].numberOfUsers).isEqualTo(1)
+        assertThat(result.organizations[1].connectorCount).isEqualTo(0)
+        assertThat(result.organizations[1].userCount).isEqualTo(1)
 
         assertThat(result.organizations[2].mdsId).isEqualTo(dummyDevMdsId(2))
         assertThat(result.organizations[2].name).isEqualTo("Organization 2")
-        assertThat(result.organizations[2].numberOfConnectors).isEqualTo(0)
-        assertThat(result.organizations[2].numberOfUsers).isEqualTo(2)
+        assertThat(result.organizations[2].connectorCount).isEqualTo(0)
+        assertThat(result.organizations[2].userCount).isEqualTo(2)
     }
 
     @Test
@@ -333,11 +333,11 @@ class OrganizationInfoApiServiceTest {
 
         // assert
         assertThat(result.organizations.size).isEqualTo(2)
-        assertThat(result.organizations[0].numberOfDataOffers).isEqualTo(2)
-        assertThat(result.organizations[0].numberOfLiveDataOffers).isEqualTo(1)
-        assertThat(result.organizations[0].numberOfOnRequestDataOffers).isEqualTo(1)
-        assertThat(result.organizations[1].numberOfDataOffers).isEqualTo(0)
-        assertThat(result.organizations[1].numberOfLiveDataOffers).isEqualTo(0)
-        assertThat(result.organizations[1].numberOfOnRequestDataOffers).isEqualTo(0)
+        assertThat(result.organizations[0].dataOfferCount).isEqualTo(2)
+        assertThat(result.organizations[0].liveDataOfferCount).isEqualTo(1)
+        assertThat(result.organizations[0].onRequestDataOfferCount).isEqualTo(1)
+        assertThat(result.organizations[1].dataOfferCount).isEqualTo(0)
+        assertThat(result.organizations[1].liveDataOfferCount).isEqualTo(0)
+        assertThat(result.organizations[1].onRequestDataOfferCount).isEqualTo(0)
     }
 }
