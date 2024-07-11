@@ -13,13 +13,11 @@
 
 package de.sovity.authorityportal.web.services.reporting
 
-import com.github.t9t.jooq.json.JsonbDSL
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.services.dataoffer.DataOfferQuery
 import de.sovity.authorityportal.web.services.reporting.utils.CsvColumn
 import de.sovity.authorityportal.web.services.reporting.utils.buildCsv
-import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import jakarta.enterprise.context.ApplicationScoped
 import java.io.ByteArrayInputStream
 

@@ -91,22 +91,6 @@ class DataOfferQuery(
         countAllOrganizationDataOffers(environmentId) { Tables.CONNECTOR.MDS_ID.eq(mdsId) }
             .singleOrNull()
 
-    fun getDataOfferCountsForMdsIdAndEnvironment(environmentId: String, mdsId: String): Map<String, Int> {
-        val c = Tables.CONNECTOR
-        val d = Tables.DATA_OFFER
-
-        val dataSourceAvailabilityField = JsonbDSL.fieldByKeyText(d.UI_ASSET_JSON, "dataSourceAvailability")
-        val count = DSL.count(d.ASSET_ID).`as`("offerCount")
-
-        return dsl.select(dataSourceAvailabilityField, count)
-            .from(d)
-            .join(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
-            .where(c.ENVIRONMENT.eq(environmentId))
-            .and(c.MDS_ID.eq(mdsId))
-            .groupBy(d.UI_ASSET_JSON)
-            .fetchMap(dataSourceAvailabilityField, count)
-    }
-
     data class DataOfferInfoRs(
         val connectorId: String,
         val mdsId: String,

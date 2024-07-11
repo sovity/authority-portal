@@ -20,7 +20,6 @@ import de.sovity.authorityportal.db.jooq.tables.DataOffer
 import de.sovity.authorityportal.db.jooq.tables.DataOfferViewCount
 import de.sovity.authorityportal.db.jooq.tables.Organization
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
-import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import org.jooq.Field
 import org.jooq.Table
 import org.jooq.impl.DSL

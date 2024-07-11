@@ -26,7 +26,6 @@ import de.sovity.authorityportal.web.services.UserDetailService
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.services.dataoffer.DataOfferQuery
 import de.sovity.authorityportal.web.services.dataoffer.DataOfferQuery.DataOfferCountRs
-import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
