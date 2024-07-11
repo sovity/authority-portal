@@ -17,7 +17,7 @@ import {Pipe, PipeTransform} from '@angular/core';
  */
 @Pipe({name: 'values'})
 export class ValuesPipe implements PipeTransform {
-  transform<T>(obj: T): T[keyof T][] {
+  transform<T>(obj: T | undefined): T[keyof T][] {
     return Object.values(obj || {});
   }
 }

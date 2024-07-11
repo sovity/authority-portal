@@ -1,43 +1,74 @@
-<table mat-table [dataSource]="dataOffers">
-  <ng-container matColumnDef="status">
-    <th *matHeaderCellDef class="status-column" mat-header-cell>Status</th>
-    <td *matCellDef="let offer" class="status-column" mat-cell>
-      <small-icon-with-online-status-text
-        [onlineStatus]="
-          offer.connectorOnlineStatus
-        "></small-icon-with-online-status-text>
-    </td>
-  </ng-container>
+<div class="overflow-hidden border border-gray-200 md:rounded-lg w-full">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-200 border-l-4 border-gray-200">
+      <tr>
+        <th
+          class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+          scope="col">
+          Organization
+        </th>
+        <th
+          class="py-3.5 pl-3 text-sm font-normal text-gray-700 text-left"
+          scope="col">
+          Title
+        </th>
 
-  <ng-container matColumnDef="title">
-    <th *matHeaderCellDef class="title-column" mat-header-cell>Title</th>
-    <td *matCellDef="let offer" class="title-column" mat-cell>
-      {{ offer.assetTitle }}
-    </td>
-  </ng-container>
+        <th
+          class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+          scope="col">
+          Description
+        </th>
 
-  <ng-container matColumnDef="organizationName">
-    <th *matHeaderCellDef class="organization-column" mat-header-cell>
-      Organization
-    </th>
-    <td *matCellDef="let offer" class="organization-column" mat-cell>
-      {{ offer.organizationName }}
-    </td>
-  </ng-container>
+        <th
+          class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+          scope="col">
+          Status
+        </th>
+      </tr>
+    </thead>
+    <ng-container *ngIf="dataOffers.length > 0; else noRows">
+      <tbody
+        *ngFor="let dataOffer of dataOffers"
+        class="bg-white divide-y divide-gray-200"
+        (click)="dataOfferClick.emit(dataOffer)">
+        <tr
+          class="border-l-4 border-transparent hover:bg-slate-50 hover:border-l-4 hover:border-yellow-600/70 cursor-pointer -ml-1">
+          <td
+            class="px-4 py-4 text-sm font-medium whitespace-nowrap text-gray-700"
+            [matTooltip]="dataOffer.connectorId">
+            {{ dataOffer.organizationName }}
+          </td>
 
-  <ng-container matColumnDef="description">
-    <th *matHeaderCellDef class="description-column" mat-header-cell>
-      Description
-    </th>
-    <td *matCellDef="let offer" class="description-column" mat-cell>
-      {{ offer.descriptionShortText }}
-    </td>
-  </ng-container>
+          <td
+            class="px-4 py-4 text-sm font-medium whitespace-nowrap text-gray-700"
+            [matTooltip]="dataOffer.assetId">
+            {{ dataOffer.assetTitle }}
+          </td>
 
-  <tr *matHeaderRowDef="columnsToDisplay" mat-header-row></tr>
-  <tr
-    *matRowDef="let rowData; columns: columnsToDisplay"
-    class="cursor-pointer hover:bg-gray-50"
-    mat-row
-    (click)="onRowClick(rowData)"></tr>
-</table>
+          <td class="px-4 py-4 font-medium text-xs text-gray-700">
+            <div class="overflow-hidden text-ellipsis line-clamp-3">
+              {{ dataOffer.descriptionShortText }}
+            </div>
+          </td>
+
+          <td
+            class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap text-gray-700">
+            <app-connector-status-led
+              [status]="
+                dataOffer.connectorOnlineStatus
+              "></app-connector-status-led>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+    <ng-template #noRows>
+      <tr>
+        <td
+          class="py-5 px-6 text-sm font-normal text-center text-gray-700"
+          colspan="100%">
+          No organizations to show.
+        </td>
+      </tr>
+    </ng-template>
+  </table>
+</div>

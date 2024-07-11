@@ -19,6 +19,8 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
+import de.sovity.authorityportal.db.jooq.enums.CrawlerEventStatus
+import de.sovity.authorityportal.db.jooq.enums.CrawlerEventType
 import de.sovity.authorityportal.db.jooq.enums.OrganizationLegalIdType
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
@@ -26,7 +28,9 @@ import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.ComponentRecord
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import de.sovity.authorityportal.db.jooq.tables.records.ContractOfferRecord
+import de.sovity.authorityportal.db.jooq.tables.records.CrawlerEventLogRecord
 import de.sovity.authorityportal.db.jooq.tables.records.DataOfferRecord
+import de.sovity.authorityportal.db.jooq.tables.records.DataOfferViewCountRecord
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
@@ -34,6 +38,7 @@ import de.sovity.edc.ext.wrapper.api.common.model.UiPolicy
 import org.jooq.DSLContext
 import org.jooq.JSONB
 import java.time.OffsetDateTime
+import java.util.UUID
 
 
 /**
@@ -47,7 +52,9 @@ class ScenarioData {
     private val connectors = mutableListOf<ConnectorRecord>()
     private val components = mutableListOf<ComponentRecord>()
     private val dataOffers = mutableListOf<DataOfferRecord>()
+    private val dataOfferViews = mutableListOf<DataOfferViewCountRecord>()
     private val contractOffers = mutableListOf<ContractOfferRecord>()
+    private val crawlerEventLogEntries = mutableListOf<CrawlerEventLogRecord>()
 
     fun install(dsl: DSLContext) {
         val userOrgMap = users.associate { it.id to it.organizationMdsId }
@@ -66,7 +73,9 @@ class ScenarioData {
         dsl.batchInsert(connectors).execute()
         dsl.batchInsert(components).execute()
         dsl.batchInsert(dataOffers).execute()
+        dsl.batchInsert(dataOfferViews).execute()
         dsl.batchInsert(contractOffers).execute()
+        dsl.batchInsert(crawlerEventLogEntries).execute()
     }
 
     fun user(userId: Int, orgId: Int?, applyer: (UserRecord) -> Unit = {}) {
@@ -117,7 +126,7 @@ class ScenarioData {
 
     fun connector(connectorId: Int, orgId: Int, createdByUserId: Int, applyer: (ConnectorRecord) -> Unit = {}) {
         val mdsId = dummyDevMdsId(orgId)
-        val fullConnectorId = "${dummyDevMdsId(orgId)}.${dummyDevConnectorId(connectorId)}"
+        val fullConnectorId = dummyDevConnectorId(orgId, connectorId)
         ConnectorRecord().also {
             it.connectorId = fullConnectorId
             it.mdsId = mdsId
@@ -137,8 +146,8 @@ class ScenarioData {
             it.lastRefreshAttemptAt = dummyDate(0)
             it.lastSuccessfulRefreshAt = dummyDate(0)
             it.onlineStatus = ConnectorOnlineStatus.ONLINE
-            it.dataOffersExceeded = ConnectorDataOffersExceeded.UNKNOWN
-            it.contractOffersExceeded = ConnectorContractOffersExceeded.UNKNOWN
+            it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
+            it.contractOffersExceeded = ConnectorContractOffersExceeded.OK
             it.createdAt = OffsetDateTime.now()
             applyer(it)
             connectors.add(it)
@@ -146,7 +155,7 @@ class ScenarioData {
     }
 
     fun component(componentId: Int, orgId: Int, createdByUserId: Int, applyer: (ComponentRecord) -> Unit = {}) {
-        val fullComponentId = "${dummyDevMdsId(orgId)}.${dummyDevConnectorId(componentId)}"
+        val fullComponentId = dummyDevConnectorId(orgId, componentId)
         val mdsId = dummyDevMdsId(orgId)
         ComponentRecord().also {
             it.id = fullComponentId
@@ -163,25 +172,31 @@ class ScenarioData {
         }
     }
 
-    fun dataOffer(connectorId: Int, orgId: Int, assetId: Int, applyer: (DataOfferRecord) -> Unit = {}) {
-        val fullConnectorId = "${dummyDevMdsId(orgId)}.${dummyDevConnectorId(connectorId)}"
+    fun dataOffer(
+        connectorId: Int,
+        orgId: Int,
+        assetId: Int,
+        viewCount: Int = 0,
+        applyer: (DataOfferRecord) -> Unit = {}
+    ) {
+        val fullConnectorId = dummyDevConnectorId(orgId, connectorId)
         val objectMapper = ObjectMapper()
 
         val uiAsset = UiAsset().also {
             it.title = "Title"
-            it.description = "Description"
+            it.description = "# Long Description"
+            it.descriptionShortText = "shortDescription"
         }
 
         DataOfferRecord().also {
             it.connectorId = fullConnectorId
             it.assetId = dummyDevAssetId(assetId)
-            it.environment = "test"
             it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset))
             it.createdAt = OffsetDateTime.now()
             it.updatedAt = OffsetDateTime.now()
             it.assetTitle = uiAsset.title
-            it.description = uiAsset.description
-            it.curatorOrganizationName = "Curator Organization Name"
+            it.descriptionNoMarkdown = "Long Description"
+            it.shortDescriptionNoMarkdown = "shortDescription"
             it.dataCategory = "Data Category"
             it.dataSubcategory = "Data Subcategory"
             it.transportMode = "Transport Mode"
@@ -191,10 +206,19 @@ class ScenarioData {
             applyer(it)
             dataOffers.add(it)
         }
+
+        repeat(viewCount) {
+            DataOfferViewCountRecord().also {
+                it.connectorId = fullConnectorId
+                it.assetId = dummyDevAssetId(assetId)
+                it.date = OffsetDateTime.now()
+                dataOfferViews.add(it)
+            }
+        }
     }
 
     fun contractOffer(connectorId: Int, orgId: Int, assetId: Int, contractOfferId: Int, applyer: (ContractOfferRecord) -> Unit = {}) {
-        val fullConnectorId = "${dummyDevMdsId(orgId)}.${dummyDevConnectorId(connectorId)}"
+        val fullConnectorId = dummyDevConnectorId(orgId, connectorId)
         val objectMapper = ObjectMapper()
 
         val uiPolicy = UiPolicy().also {
@@ -207,12 +231,29 @@ class ScenarioData {
             it.connectorId = fullConnectorId
             it.contractOfferId = dummyDevContractOfferId(contractOfferId)
             it.assetId = dummyDevAssetId(assetId)
-            it.environment = "test"
             it.uiPolicyJson = JSONB.valueOf(objectMapper.writeValueAsString(uiPolicy))
             it.createdAt = OffsetDateTime.now()
             it.updatedAt = OffsetDateTime.now()
             applyer(it)
             contractOffers.add(it)
+        }
+    }
+
+    fun crawlerLogEntry(connectorId: Int, orgId: Int, applyer: (CrawlerEventLogRecord) -> Unit = {}) {
+        val fullConnectorId = dummyDevConnectorId(orgId, connectorId)
+
+        CrawlerEventLogRecord().also {
+            it.id = UUID.randomUUID()
+            it.connectorId = fullConnectorId
+            it.environment = "test"
+            it.createdAt = OffsetDateTime.now()
+            it.userMessage = ""
+            it.event = CrawlerEventType.CONNECTOR_UPDATED
+            it.eventStatus = CrawlerEventStatus.OK
+            it.errorStack = null
+            it.assetId = null
+            applyer(it)
+            crawlerEventLogEntries.add(it)
         }
     }
 }

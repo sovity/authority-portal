@@ -88,7 +88,7 @@ class CaasManagementApiServiceTest {
         whenever(caasClient.validateSubdomain(eq("test-caas-1"))).thenReturn(true)
         whenever(caasClient.requestCaas(any())).thenReturn(
             CaasPortalResponse().apply {
-                value = CaasDetails(connectorId = "${dummyDevMdsId(0)}.${dummyDevConnectorId(0)}")
+                value = CaasDetails(connectorId = dummyDevConnectorId(0, 0))
             }
         )
 
@@ -132,9 +132,9 @@ class CaasManagementApiServiceTest {
             it.caasStatus = CaasStatus.PROVISIONING
             it.lastRefreshAttemptAt = null
             it.lastSuccessfulRefreshAt = null
-            it.onlineStatus = ConnectorOnlineStatus.DEAD
-            it.dataOffersExceeded = ConnectorDataOffersExceeded.UNKNOWN
-            it.contractOffersExceeded = ConnectorContractOffersExceeded.UNKNOWN
+            it.onlineStatus = ConnectorOnlineStatus.OFFLINE
+            it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
+            it.contractOffersExceeded = ConnectorContractOffersExceeded.OK
         }
 
         assertThat(actual!!.copy())

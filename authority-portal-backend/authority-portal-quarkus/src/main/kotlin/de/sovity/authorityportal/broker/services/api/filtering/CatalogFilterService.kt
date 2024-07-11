@@ -70,7 +70,7 @@ class CatalogFilterService(
                 "Geo Reference Method"
             ),
             catalogFilterAttributeDefinitionService.forField(
-                CatalogQueryFields::organizationName,
+                { fields: CatalogQueryFields -> fields.organizationTable.NAME },
                 "organizationName",
                 "Organization Name"
             ),

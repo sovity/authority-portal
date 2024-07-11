@@ -27,12 +27,11 @@ class CatalogSearchService {
                 fields.dataOfferTable.ASSET_TITLE,
                 fields.dataOfferTable.DATA_CATEGORY,
                 fields.dataOfferTable.DATA_SUBCATEGORY,
-                fields.dataOfferTable.DESCRIPTION,
-                fields.dataOfferTable.CURATOR_ORGANIZATION_NAME,
+                fields.dataOfferTable.DESCRIPTION_NO_MARKDOWN,
                 fields.dataOfferTable.KEYWORDS_COMMA_JOINED,
                 fields.connectorTable.ENDPOINT_URL,
                 fields.connectorTable.MDS_ID,
-                fields.organizationName
+                fields.organizationTable.NAME
             )
         )
     }

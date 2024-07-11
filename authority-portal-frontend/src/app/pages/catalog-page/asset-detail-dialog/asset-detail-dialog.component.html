@@ -1,43 +1,53 @@
-<div class="flex flex-col gap-4" mat-dialog-content>
-  <div class="flex gap-4">
-    <icon-with-online-status
-      mainIcon="sim_card"
-      [onlineStatus]="dataOffer.connectorOnlineStatus">
-    </icon-with-online-status>
-    <div class="grow flex flex-col">
-      <span class="link font-semibold text-black leading-6">
-        {{ dataOffer.assetTitle }}
-      </span>
-      <span class="text-sm text-gray-500">
-        {{ dataOffer.organizationName }}
-      </span>
-    </div>
+<div class="p-2">
+  <!-- close button -->
+  <div class="flex w-full justify-end">
+    <button class="!fixed" mat-icon-button mat-dialog-close aria-label="close">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
-  <!-- Description -->
-  <markdown-description
-    class="pt-3"
-    [description]="asset.description"></markdown-description>
+  <!-- close button -->
 
-  <div>
-    <hr class="h-px my-5 bg-gray-200 border-0" />
+  <!-- Title Section -->
+  <div class="flex flex-col justify-start mt-4 mx-4 lg:mx-8 lg:mt-[3rem]">
+    <h3 class="form-dialog-title">
+      {{ dataOffer.assetTitle }}
+
+      <app-connector-status-led
+        class="inline-flex"
+        [status]="dataOffer.connectorOnlineStatus">
+      </app-connector-status-led>
+    </h3>
+    <p class="form-dialog-prose">{{ dataOffer.organizationName }}</p>
   </div>
+  <!-- Title Section -->
 
-  <!-- Tag List -->
-  <asset-card-tag-list
-    *ngIf="asset.keywords?.length"
-    [keywords]="asset.keywords"></asset-card-tag-list>
+  <!-- Content Section -->
+  <div class="mx-4 lg:mx-8">
+    <!-- Description -->
+    <markdown-description
+      *ngIf="asset.description"
+      class="pt-3"
+      [description]="asset.description"></markdown-description>
 
-  <!-- Properties -->
-  <property-grid-group class="mt-4 text-gray-800" [propGroups]="propGroups">
-  </property-grid-group>
+    <!-- Tag List -->
+    <asset-card-tag-list
+      *ngIf="asset.keywords?.length"
+      class="mt-[1.25rem]"
+      [keywords]="asset.keywords"></asset-card-tag-list>
 
-  <mat-dialog-actions>
-    <div class="w-full flex flex-row justify-end">
-      <div class="flex gap-1 items-center">
-        <button mat-button [mat-dialog-close]="null" [disabled]="loading">
-          Close
-        </button>
-      </div>
+    <!-- Properties -->
+    <property-grid-group class="mt-4 text-gray-800" [propGroups]="propGroups">
+    </property-grid-group>
+  </div>
+  <!-- Content Section -->
+
+  <!-- Action Section -->
+  <mat-dialog-actions align="end">
+    <div class="flex gap-4">
+      <button class="btn-accent-outline" type="button" mat-dialog-close>
+        Close
+      </button>
     </div>
   </mat-dialog-actions>
+  <!-- Action Section -->
 </div>
