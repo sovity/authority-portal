@@ -64,7 +64,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - A Catalog crawler must be deployed for each environment to fill the catalog with live data.
   - The crawler is a modified EDC connector. As such, it can only fetch the catalogs from connectors registered in the same DAPS environment.
     - You will need an SKI/AKI client ID to register the crawler. Please refer to the [EDC documentation](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq) on how to generate one.
-    - Pre-configured configuration values for the crawler can be found in the [edc-extensions/launcher/.env.catalog-crawler](launcher/.env.catalog-crawler).
+    - Pre-configured configuration values for the crawler can be found in the [edc-extensions/launcher/.env.catalog-crawler](https://github.com/sovity/edc-ce/blob/main/launchers/.env.catalog-crawler) for the appropriate version.
     - As specified in the crawler's deployment guide, following environment variables must be configured manually:
     - ```yaml
       # Required: Fully Qualified Domain Name
