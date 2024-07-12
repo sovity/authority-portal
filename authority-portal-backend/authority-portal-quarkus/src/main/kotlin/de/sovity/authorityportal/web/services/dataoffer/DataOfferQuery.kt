@@ -88,7 +88,7 @@ class DataOfferQuery(
         environmentId: String,
         mdsId: String
     ): DataOfferCountRs? =
-        countAllOrganizationDataOffers(environmentId) { Tables.CONNECTOR.MDS_ID.eq(mdsId) }
+        countAllOrganizationDataOffers(environmentId) { c -> c.MDS_ID.eq(mdsId) }
             .singleOrNull()
 
     data class DataOfferInfoRs(
