@@ -14,50 +14,70 @@
             <thead class="bg-gray-200 border-l-4 border-gray-200">
               <tr>
                 <th
-                  class="py-3.5 pl-3 text-sm font-normal text-gray-700 text-left"
+                  class="py-3.5 pl-4 text-sm font-normal text-gray-700 text-left"
+                  rowspan="2"
                   scope="col">
                   MDS ID
                 </th>
                 <th
                   class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+                  rowspan="2"
                   scope="col">
                   Organization Name
                 </th>
 
                 <th
                   class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+                  rowspan="2"
                   scope="col">
                   Admin Email
                 </th>
 
                 <th
-                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+                  class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
+                  rowspan="2"
                   scope="col">
                   Users
                 </th>
 
                 <th
-                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+                  class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
+                  rowspan="2"
                   scope="col">
                   Connectors
                 </th>
 
                 <th
-                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+                  class="pt-3.5 px-4 text-sm font-normal text-center text-gray-700"
+                  colspan="3"
                   scope="col">
-                  Data Offers (Available)
-                </th>
-
-                <th
-                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
-                  scope="col">
-                  Data Offers (On Request)
+                  Data Offers
                 </th>
 
                 <th
                   class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
+                  rowspan="2"
                   scope="col">
                   Status
+                </th>
+              </tr>
+              <tr>
+                <th
+                  class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
+                  scope="col">
+                  On Request
+                </th>
+
+                <th
+                  class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
+                  scope="col">
+                  Available
+                </th>
+
+                <th
+                  class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
+                  scope="col">
+                  Total
                 </th>
               </tr>
             </thead>
@@ -105,16 +125,21 @@
 
                     <td
                       class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap text-gray-700">
+                      {{ organization.onRequestDataOfferCount | formatInteger }}
+                    </td>
+
+                    <td
+                      class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap text-gray-700">
                       {{ organization.liveDataOfferCount | formatInteger }}
                     </td>
 
                     <td
                       class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap text-gray-700">
-                      {{ organization.onRequestDataOfferCount | formatInteger }}
+                      {{ organization.dataOfferCount | formatInteger }}
                     </td>
 
                     <td
-                      class="px-12 py-4 text-sm font-medium whitespace-nowrap">
+                      class="px-12 py-4 text-sm font-medium whitespace-nowrap text-left">
                       <div
                         class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2"
                         [ngClass]="
