@@ -20,7 +20,7 @@ import {
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {PageEvent} from '@angular/material/paginator';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {map, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
@@ -83,6 +83,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     this.startListeningToEnvironmentChanges();
     this.startEmittingSearchText();
     this.startEmittingSortBy();
+    this.startListeningToUrlChange();
   }
 
   private initializePage() {
@@ -94,6 +95,20 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       // remove query params from url
       this.router.navigate([]);
     }
+  }
+
+  private startListeningToUrlChange() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const mdsIds = this.parseMdsId(this.route.snapshot.queryParams);
+        if (mdsIds.length) {
+          this.store.dispatch(new CatalogPage.Reset(mdsIds));
+          this.expandedFilterId = 'mdsId';
+          // remove query params from url
+          this.router.navigate([]);
+        }
+      }
+    });
   }
 
   private startListeningToStore() {
