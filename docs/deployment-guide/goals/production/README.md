@@ -292,7 +292,7 @@ AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu # S
 - Each deployment environment requires a Data Catalog Crawler.
   - A Data Catalog Crawler is based on the EDC Connector and crawls the catalogs of all connectors in the dataspace.
   - You will need an SKI/AKI client ID to register the crawler. Please refer to the [EDC documentation](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq) on how to generate one.
-  - Pre-configured configuration values for the crawler can be found in the [edc-extensions/launcher/.env.catalog-crawler](launcher/.env.catalog-crawler).
+  - Pre-configured configuration values for the crawler can be found in the [edc-extensions/launcher/.env.catalog-crawler](https://github.com/sovity/edc-ce/blob/main/launchers/.env.catalog-crawler) for the appropriate version.
   - As specified in the crawler's deployment guide, following environment variables must be configured manually:
   - ```yaml
       # Required: Fully Qualified Domain Name
