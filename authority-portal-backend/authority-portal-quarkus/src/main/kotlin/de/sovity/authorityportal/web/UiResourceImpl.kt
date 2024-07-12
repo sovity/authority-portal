@@ -251,10 +251,10 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun ownOrganizationDetails(): OwnOrganizationDetailsDto {
+    override fun ownOrganizationDetails(environmentId: String): OwnOrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
-        return organizationInfoApiService.getOwnOrganizationInformation(loggedInUser.organizationMdsId!!)
+        return organizationInfoApiService.getOwnOrganizationInformation(loggedInUser.organizationMdsId!!, environmentId)
     }
 
     @Transactional

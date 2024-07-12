@@ -151,8 +151,12 @@ export class ApiService {
     );
   }
 
-  getOwnOrganizationDetails(): Observable<OwnOrganizationDetailsDto> {
-    return toObservable(() => this.api().ownOrganizationDetails());
+  getOwnOrganizationDetails(
+    environmentId: string,
+  ): Observable<OwnOrganizationDetailsDto> {
+    return toObservable(() =>
+      this.api().ownOrganizationDetails({environmentId}),
+    );
   }
 
   updateOwnOrganizationDetails(

@@ -101,6 +101,7 @@ import {DisabledButtonDirective} from './pipes-and-directives/disabled-button.di
 import {ExternalLinkDirective} from './pipes-and-directives/external-link.directive';
 import {FilterByRegistrationStatusPipe} from './pipes-and-directives/filter-by-registration-status.pipe';
 import {FormControlErrorDirective} from './pipes-and-directives/form-control-error.directive';
+import {FormatIntegerPipe} from './pipes-and-directives/format-integer.pipe';
 import {HasAnyRolePipe} from './pipes-and-directives/has-any-role.pipe';
 import {HasRolePipe} from './pipes-and-directives/has-role.pipe';
 import {RemoveClassDirective} from './pipes-and-directives/remove-class.directive';
@@ -179,6 +180,7 @@ const COMPONENTS = [
   DisabledButtonDirective,
   ExternalLinkDirective,
   FilterByRegistrationStatusPipe,
+  FormatIntegerPipe,
   FormControlErrorDirective,
   HasAnyRolePipe,
   HasRolePipe,

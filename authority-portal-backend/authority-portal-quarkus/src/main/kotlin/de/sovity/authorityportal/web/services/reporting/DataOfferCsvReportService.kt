@@ -33,7 +33,8 @@ class DataOfferCsvReportService(
         val dataOfferName: String,
         val organizationMdsId: String,
         val organizationName: String,
-        val status: String
+        val status: String,
+        val dataSourceAvailability: String
     )
 
     val columns = listOf<CsvColumn<DataOfferReportRow>>(
@@ -41,7 +42,8 @@ class DataOfferCsvReportService(
         CsvColumn("Data Offer Name") { it.dataOfferName },
         CsvColumn("Organization MDS ID") { it.organizationMdsId },
         CsvColumn("Organization Name") { it.organizationName },
-        CsvColumn("Status") { it.status }
+        CsvColumn("Status") { it.status },
+        CsvColumn("Data Source Type") { it.dataSourceAvailability }
     )
 
     fun generateDataOffersCsvReport(environmentId: String): ByteArrayInputStream {
@@ -60,7 +62,8 @@ class DataOfferCsvReportService(
                 dataOfferName = it.dataOfferName,
                 organizationMdsId = it.mdsId,
                 organizationName = organizationNames[it.mdsId] ?: "",
-                status = it.onlineStatus.toString()
+                status = it.onlineStatus.toString(),
+                dataSourceAvailability = it.dataSourceAvailability
             )
         }
     }

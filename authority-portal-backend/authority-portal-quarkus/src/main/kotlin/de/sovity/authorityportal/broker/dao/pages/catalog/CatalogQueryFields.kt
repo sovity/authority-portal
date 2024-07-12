@@ -13,8 +13,8 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
+import com.github.t9t.jooq.json.JsonbDSL
 import de.sovity.authorityportal.broker.dao.utils.mapInline
-import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.tables.Connector
 import de.sovity.authorityportal.db.jooq.tables.DataOffer
 import de.sovity.authorityportal.db.jooq.tables.DataOfferViewCount
@@ -24,6 +24,7 @@ import org.jooq.Field
 import org.jooq.Table
 import org.jooq.impl.DSL
 import java.time.OffsetDateTime
+
 
 /**
  * Tables and fields used in the catalog page query.
@@ -78,6 +79,15 @@ class CatalogQueryFields(
 
             return subquery.asField()
         }
+
+    val dataSourceAvailability: Field<String> =
+        DSL.case_(getAssetStringProperty("dataSourceAvailability"))
+            .`when`("ON_REQUEST", "On Request")
+            .else_("Available")
+
+    fun getAssetStringProperty(name: String): Field<String> {
+        return JsonbDSL.fieldByKeyText(dataOfferTable.UI_ASSET_JSON, name)
+    }
 
     companion object {
         fun offlineSinceOrLastUpdatedAt(connectorTable: Connector): Field<OffsetDateTime> {

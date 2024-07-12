@@ -33,6 +33,7 @@ import de.sovity.authorityportal.db.jooq.tables.records.DataOfferRecord
 import de.sovity.authorityportal.db.jooq.tables.records.DataOfferViewCountRecord
 import de.sovity.authorityportal.db.jooq.tables.records.OrganizationRecord
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
+import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import de.sovity.edc.ext.wrapper.api.common.model.UiPolicy
 import org.jooq.DSLContext
@@ -186,6 +187,7 @@ class ScenarioData {
             it.title = "Title"
             it.description = "# Long Description"
             it.descriptionShortText = "shortDescription"
+            it.dataSourceAvailability = DataSourceAvailability.LIVE
         }
 
         DataOfferRecord().also {

@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+import {formatNumber} from '@angular/common';
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Subject, distinctUntilChanged, map, takeUntil, tap} from 'rxjs';
@@ -31,6 +32,7 @@ import {
   ChildComponentInput,
   NavigationType,
 } from 'src/app/shared/common/slide-over/slide-over.model';
+import {FormatService} from '../../../core/services/format.service';
 import {UserDeleteDialogService} from '../../../shared/business/user-delete-dialog/user-delete-dialog.service';
 import {
   CloseOrganizationDetail,
@@ -67,9 +69,6 @@ export class AuthorityOrganizationDetailPageComponent
   titleBarConfig!: TitleBarConfig;
   slideOverContent!: AuthorityOrganizationDetailTab;
   userDetailPageConfig!: UserDetailPageConfig;
-  deleteOrganizationCreatorForm = this.formBuilder.nonNullable.group({
-    successor: ['', Validators.required],
-  });
   currentUserId: string = '';
 
   constructor(
@@ -77,8 +76,8 @@ export class AuthorityOrganizationDetailPageComponent
     @Inject('childComponentInput') childComponentInput: ChildComponentInput,
     private globalStateUtils: GlobalStateUtils,
     private slideOverService: SlideOverService,
-    private formBuilder: FormBuilder,
     private userDeleteDialogService: UserDeleteDialogService,
+    private formatService: FormatService,
   ) {
     this.organizationId = childComponentInput.id;
   }
@@ -179,19 +178,27 @@ export class AuthorityOrganizationDetailPageComponent
           view: AuthorityOrganizationDetailTab.MEMBERS,
           icon: 'group',
           isDisabled: organization.memberCount === 0,
-          value: organization.memberCount,
+          value: this.formatService.formatInteger(organization.memberCount),
         },
         {
           view: AuthorityOrganizationDetailTab.CONNECTORS,
           icon: 'power',
           isDisabled: true, // no page associated yet
-          value: organization.connectorCount,
+          value: this.formatService.formatInteger(organization.connectorCount),
         },
         {
           view: AuthorityOrganizationDetailTab.DATA_OFFERS,
           icon: 'article',
           isDisabled: true, // no page associated yet
-          value: organization.dataOfferCount,
+          value: this.formatService.formatInteger(organization.dataOfferCount),
+          tooltip: [
+            `Available: ${this.formatService.formatInteger(
+              organization.liveDataOfferCount,
+            )}`,
+            `On Request: ${this.formatService.formatInteger(
+              organization.onRequestDataOfferCount,
+            )}`,
+          ].join('\n'),
         },
       ],
       actionMenu: {

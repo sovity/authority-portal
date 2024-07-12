@@ -13,20 +13,25 @@
 
 package de.sovity.authorityportal.web.tests.services.organization
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
+import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
+import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
+import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
+import org.jooq.JSONB
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
@@ -42,6 +47,9 @@ class OrganizationInfoApiServiceTest {
 
     @Inject
     lateinit var scenarioInstaller: ScenarioInstaller
+
+    @Inject
+    lateinit var objectMapper: ObjectMapper
 
     @InjectMock
     lateinit var keycloakService: KeycloakService
@@ -78,18 +86,18 @@ class OrganizationInfoApiServiceTest {
 
         assertThat(result.organizations[0].mdsId).isEqualTo(dummyDevMdsId(0))
         assertThat(result.organizations[0].name).isEqualTo("Organization 0")
-        assertThat(result.organizations[0].numberOfConnectors).isEqualTo(3)
-        assertThat(result.organizations[0].numberOfUsers).isEqualTo(1)
+        assertThat(result.organizations[0].connectorCount).isEqualTo(3)
+        assertThat(result.organizations[0].userCount).isEqualTo(1)
 
         assertThat(result.organizations[1].mdsId).isEqualTo(dummyDevMdsId(1))
         assertThat(result.organizations[1].name).isEqualTo("Organization 1")
-        assertThat(result.organizations[1].numberOfConnectors).isEqualTo(1)
-        assertThat(result.organizations[1].numberOfUsers).isEqualTo(1)
+        assertThat(result.organizations[1].connectorCount).isEqualTo(1)
+        assertThat(result.organizations[1].userCount).isEqualTo(1)
 
         assertThat(result.organizations[2].mdsId).isEqualTo(dummyDevMdsId(2))
         assertThat(result.organizations[2].name).isEqualTo("Organization 2")
-        assertThat(result.organizations[2].numberOfConnectors).isEqualTo(0)
-        assertThat(result.organizations[2].numberOfUsers).isEqualTo(2)
+        assertThat(result.organizations[2].connectorCount).isEqualTo(0)
+        assertThat(result.organizations[2].userCount).isEqualTo(2)
     }
 
     @Test
@@ -127,13 +135,13 @@ class OrganizationInfoApiServiceTest {
 
         assertThat(result.organizations[0].mdsId).isEqualTo(dummyDevMdsId(1))
         assertThat(result.organizations[0].name).isEqualTo("Organization 1")
-        assertThat(result.organizations[0].numberOfConnectors).isEqualTo(1)
-        assertThat(result.organizations[0].numberOfUsers).isEqualTo(1)
+        assertThat(result.organizations[0].connectorCount).isEqualTo(1)
+        assertThat(result.organizations[0].userCount).isEqualTo(1)
 
         assertThat(result.organizations[1].mdsId).isEqualTo(dummyDevMdsId(2))
         assertThat(result.organizations[1].name).isEqualTo("Organization 2")
-        assertThat(result.organizations[1].numberOfConnectors).isEqualTo(0)
-        assertThat(result.organizations[1].numberOfUsers).isEqualTo(2)
+        assertThat(result.organizations[1].connectorCount).isEqualTo(0)
+        assertThat(result.organizations[1].userCount).isEqualTo(2)
     }
 
     @Test
@@ -168,18 +176,18 @@ class OrganizationInfoApiServiceTest {
 
         assertThat(result.organizations[0].mdsId).isEqualTo(dummyDevMdsId(0))
         assertThat(result.organizations[0].name).isEqualTo("Organization 0")
-        assertThat(result.organizations[0].numberOfConnectors).isEqualTo(0)
-        assertThat(result.organizations[0].numberOfUsers).isEqualTo(1)
+        assertThat(result.organizations[0].connectorCount).isEqualTo(0)
+        assertThat(result.organizations[0].userCount).isEqualTo(1)
 
         assertThat(result.organizations[1].mdsId).isEqualTo(dummyDevMdsId(1))
         assertThat(result.organizations[1].name).isEqualTo("Organization 1")
-        assertThat(result.organizations[1].numberOfConnectors).isEqualTo(0)
-        assertThat(result.organizations[1].numberOfUsers).isEqualTo(1)
+        assertThat(result.organizations[1].connectorCount).isEqualTo(0)
+        assertThat(result.organizations[1].userCount).isEqualTo(1)
 
         assertThat(result.organizations[2].mdsId).isEqualTo(dummyDevMdsId(2))
         assertThat(result.organizations[2].name).isEqualTo("Organization 2")
-        assertThat(result.organizations[2].numberOfConnectors).isEqualTo(0)
-        assertThat(result.organizations[2].numberOfUsers).isEqualTo(2)
+        assertThat(result.organizations[2].connectorCount).isEqualTo(0)
+        assertThat(result.organizations[2].userCount).isEqualTo(2)
     }
 
     @Test
@@ -208,7 +216,7 @@ class OrganizationInfoApiServiceTest {
         }
 
         // act
-        val result = uiResource.ownOrganizationDetails()
+        val result = uiResource.ownOrganizationDetails("test")
 
         // assert
         assertThat(result.mdsId).isEqualTo(dummyDevMdsId(0))
@@ -246,5 +254,90 @@ class OrganizationInfoApiServiceTest {
         assertThat(result.mdsId).isEqualTo(dummyDevMdsId(1))
         assertThat(result.name).isEqualTo("Organization 1")
         assertThat(result.memberList).hasSize(1)
+    }
+
+    @Test
+    @TestTransaction
+    fun `organization details for authority show correct number of data offers`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.AUTHORITY_USER))
+
+        ScenarioData().apply {
+            organization(0, 0)
+            user(0, 0)
+            connector(0, 0, 0)
+
+            val uiAsset1 = UiAsset().also {
+                it.assetId = dummyDevAssetId(0)
+                it.title = "Data Offer 0"
+                it.dataCategory = "Data Category 0"
+                it.description = "Data Offer 0 Description"
+                it.dataSourceAvailability = DataSourceAvailability.ON_REQUEST
+            }
+
+            // On request
+            dataOffer(0, 0, 0, 0) {
+                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset1))
+            }
+            // Live offer
+            dataOffer(0, 0, 1, 0)
+
+            scenarioInstaller.install(this)
+        }
+
+        // act
+        val result = uiResource.organizationDetailsForAuthority(dummyDevMdsId(0), "test")
+
+        // assert
+        assertThat(result.mdsId).isEqualTo(dummyDevMdsId(0))
+        assertThat(result.name).isEqualTo("Organization 0")
+        assertThat(result.dataOfferCount).isEqualTo(2)
+        assertThat(result.liveDataOfferCount).isEqualTo(1)
+        assertThat(result.onRequestDataOfferCount).isEqualTo(1)
+    }
+
+    @Test
+    @TestTransaction
+    fun `organization overview shows correct numbers of data offers`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.AUTHORITY_USER))
+
+        ScenarioData().apply {
+            organization(0, 0)
+            user(0, 0)
+            connector(0, 0, 0)
+
+            organization(1, 1)
+            user(1, 1)
+
+            val uiAsset1 = UiAsset().also {
+                it.assetId = dummyDevAssetId(0)
+                it.title = "Data Offer 0"
+                it.dataCategory = "Data Category 0"
+                it.description = "Data Offer 0 Description"
+                it.dataSourceAvailability = DataSourceAvailability.ON_REQUEST
+            }
+
+            // On request
+            dataOffer(0, 0, 0, 0) {
+                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset1))
+            }
+            // Live offer
+            dataOffer(0, 0, 1, 0)
+
+            scenarioInstaller.install(this)
+        }
+
+        // act
+        val result = uiResource.organizationsOverviewForAuthority("test")
+
+        // assert
+        assertThat(result.organizations.size).isEqualTo(2)
+        assertThat(result.organizations[0].dataOfferCount).isEqualTo(2)
+        assertThat(result.organizations[0].liveDataOfferCount).isEqualTo(1)
+        assertThat(result.organizations[0].onRequestDataOfferCount).isEqualTo(1)
+        assertThat(result.organizations[1].dataOfferCount).isEqualTo(0)
+        assertThat(result.organizations[1].liveDataOfferCount).isEqualTo(0)
+        assertThat(result.organizations[1].onRequestDataOfferCount).isEqualTo(0)
     }
 }
