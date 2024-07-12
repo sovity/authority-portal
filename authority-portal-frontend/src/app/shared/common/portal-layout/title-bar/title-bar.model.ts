@@ -24,7 +24,7 @@ export interface SlideOverTab {
   icon: string;
   view: any;
   isDisabled: boolean;
-  value?: number;
+  value?: string | number;
   tooltip?: string;
 }
 
