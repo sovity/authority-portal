@@ -51,7 +51,9 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     registrationStatus: 'ONBOARDING',
     memberCount: 2,
     connectorCount: 1,
-    dataOfferCount: 0,
+    dataOfferCount: 5,
+    liveDataOfferCount: 2,
+    onRequestDataOfferCount: 3,
     memberList: [
       {
         userId: '00000000-0000-0000-0000-000000000001',
@@ -95,7 +97,9 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     registrationStatus: 'ACTIVE',
     memberCount: 2,
     connectorCount: 3,
-    dataOfferCount: 0,
+    dataOfferCount: 5,
+    liveDataOfferCount: 2,
+    onRequestDataOfferCount: 3,
     memberList: [
       {
         userId: '00000000-0000-0000-0000-000000000003',
@@ -138,7 +142,9 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     registrationStatus: 'PENDING',
     memberCount: 2,
     connectorCount: 1,
-    dataOfferCount: 0,
+    dataOfferCount: 5,
+    liveDataOfferCount: 2,
+    onRequestDataOfferCount: 3,
     memberList: [
       {
         userId: '00000000-0000-0000-0000-00000012',
@@ -181,7 +187,9 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     registrationStatus: 'PENDING',
     memberCount: 2,
     connectorCount: 1,
-    dataOfferCount: 0,
+    dataOfferCount: 5,
+    liveDataOfferCount: 2,
+    onRequestDataOfferCount: 3,
     memberList: [
       {
         userId: '00000000-0000-0000-0000-00000022',
@@ -224,7 +232,9 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     registrationStatus: 'ACTIVE',
     memberCount: 2,
     connectorCount: 1,
-    dataOfferCount: 0,
+    dataOfferCount: 5,
+    liveDataOfferCount: 2,
+    onRequestDataOfferCount: 3,
     memberList: [
       {
         userId: '00000000-0000-0000-0000-00000032',
@@ -267,7 +277,9 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     registrationStatus: 'ACTIVE',
     memberCount: 2,
     connectorCount: 1,
-    dataOfferCount: 0,
+    dataOfferCount: 5,
+    liveDataOfferCount: 2,
+    onRequestDataOfferCount: 3,
     memberList: [
       {
         userId: '00000000-0000-0000-0000-00000042',
@@ -310,7 +322,9 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     registrationStatus: 'PENDING',
     memberCount: 2,
     connectorCount: 1,
-    dataOfferCount: 0,
+    dataOfferCount: 5,
+    liveDataOfferCount: 2,
+    onRequestDataOfferCount: 3,
     memberList: [
       {
         userId: '00000000-0000-0000-0000-00000052',
@@ -370,7 +384,9 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     ],
     memberCount: 2,
     connectorCount: 1,
-    dataOfferCount: 0,
+    dataOfferCount: 5,
+    liveDataOfferCount: 2,
+    onRequestDataOfferCount: 3,
     createdByUserId: '00000000-0000-0000-0000-00000052',
     createdByFirstName: 'John',
     createdByLastName: 'Doe',
@@ -413,7 +429,9 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     ],
     memberCount: 2,
     connectorCount: 1,
-    dataOfferCount: 0,
+    dataOfferCount: 5,
+    liveDataOfferCount: 2,
+    onRequestDataOfferCount: 3,
     createdByUserId: '00000000-0000-0000-0000-00000053',
     createdByFirstName: 'John',
     createdByLastName: 'Doe',
@@ -448,7 +466,9 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     ],
     memberCount: 1,
     connectorCount: 1,
-    dataOfferCount: 0,
+    dataOfferCount: 5,
+    liveDataOfferCount: 2,
+    onRequestDataOfferCount: 3,
     createdByUserId: '00000000-0000-0000-0000-00000011',
     createdByFirstName: 'Rejected',
     createdByLastName: 'User',
@@ -472,8 +492,10 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     description: 'Description 1',
     registrationStatus: 'ACTIVE',
     memberCount: 3,
-    connectorCount: 0,
-    dataOfferCount: 0,
+    connectorCount: 1,
+    dataOfferCount: 1250,
+    liveDataOfferCount: 50,
+    onRequestDataOfferCount: 1200,
     memberList: [
       {
         userId: '00000000-0000-0000-0000-100000000001',
@@ -550,9 +572,11 @@ export const getListOfOrganizationsForTable =
             mdsId: organization.mdsId,
             name: organization.name,
             mainContactEmail: organization.mainContactEmail,
-            numberOfUsers: organization.memberCount,
-            numberOfConnectors: organization.connectorCount,
-            numberOfDataOffers: organization.dataOfferCount,
+            userCount: organization.memberCount,
+            connectorCount: organization.connectorCount,
+            dataOfferCount: organization.dataOfferCount,
+            liveDataOfferCount: organization.liveDataOfferCount,
+            onRequestDataOfferCount: organization.onRequestDataOfferCount,
             registrationStatus: organization.registrationStatus,
           } satisfies OrganizationOverviewEntryDto;
         },

@@ -20,6 +20,7 @@ import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
 import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
@@ -103,6 +104,18 @@ class DevScenario(
                 it.language = "de"
                 it.description = "Long description"
                 it.descriptionShortText = "Short description"
+                it.dataSourceAvailability = DataSourceAvailability.LIVE
+            }
+            val asset2 = UiAsset().also {
+                it.assetId = dummyDevAssetId(2)
+                it.title = "OnDemand Asset"
+                it.connectorEndpoint = null
+                it.participantId = dummyDevMdsId(1)
+                it.creatorOrganizationName = "Authority Organization"
+                it.language = "de"
+                it.description = "Long description"
+                it.descriptionShortText = "Short description"
+                it.dataSourceAvailability = DataSourceAvailability.ON_REQUEST
             }
             val objectMapper = ObjectMapper()
 
@@ -111,7 +124,12 @@ class DevScenario(
                 it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(asset1))
                 it.assetTitle = "Asset Title"
             }
+            dataOffer(1, 1, 2) {
+                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(asset2))
+                it.assetTitle = "OnDemand Asset"
+            }
             contractOffer(1, 1, 1, 1)
+            contractOffer(1, 1, 2, 2)
         }
         return scenario
     }

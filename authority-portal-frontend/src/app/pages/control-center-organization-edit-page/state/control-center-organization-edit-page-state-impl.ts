@@ -13,12 +13,13 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {ignoreElements, tap} from 'rxjs/operators';
+import {ignoreElements, switchMap, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {OwnOrganizationDetailsDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {CustomRxjsOperators} from 'src/app/core/services/custom-rxjs-operators';
 import {Fetched} from 'src/app/core/utils/fetched';
+import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
 import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
 import {ControlCenterOrganizationEditPageForm} from '../control-center-organization-edit-page/control-center-organization-edit-page.form';
 import {
@@ -43,11 +44,15 @@ export class ControlCenterOrganizationEditPageStateImpl {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private customRxjsOperators: CustomRxjsOperators,
+    private globalStateUtils: GlobalStateUtils,
   ) {}
 
   @Action(Reset, {cancelUncompleted: true})
   onReset(ctx: Ctx, action: Reset): Observable<never> {
-    return this.apiService.getOwnOrganizationDetails().pipe(
+    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
+      switchMap((environmentId) =>
+        this.apiService.getOwnOrganizationDetails(environmentId),
+      ),
       Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
       tap((organization) => {
         ctx.patchState({

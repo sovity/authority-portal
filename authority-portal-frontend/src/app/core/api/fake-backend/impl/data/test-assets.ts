@@ -10,7 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {UiAsset} from '@sovity.de/authority-portal-client';
+import {
+  DataSourceAvailability,
+  UiAsset,
+} from '@sovity.de/authority-portal-client';
 
 export namespace TestAssets {
   const markdownDescription = `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
@@ -95,6 +98,7 @@ This is a short description text that should be fully rendered without being **c
     creatorOrganizationName: 'my-other-connector',
     temporalCoverageFrom: new Date('2024-01-01'),
     isOwnConnector: true,
+    dataSourceAvailability: DataSourceAvailability.Live,
   };
 
   export const short: UiAsset = {
@@ -107,6 +111,7 @@ This is a short description text that should be fully rendered without being **c
     descriptionShortText:
       'Short Description This is a short description text that should be fully rendered without being collapsed. No show more button should be visible.',
     isOwnConnector: false,
+    dataSourceAvailability: DataSourceAvailability.Live,
   };
 
   export const full: UiAsset = {
@@ -178,6 +183,7 @@ This is a short description text that should be fully rendered without being **c
     customJsonAsString: '{"http://unknown/usecase": "my-use-case"}',
     privateCustomJsonAsString:
       '{ "http://unknown/internal-id": "my-internal-id-123"}',
+    dataSourceAvailability: DataSourceAvailability.Live,
   };
 
   export function toDummyAsset(entry: UiAsset): UiAsset {
@@ -188,6 +194,7 @@ This is a short description text that should be fully rendered without being **c
       connectorEndpoint: entry.connectorEndpoint,
       creatorOrganizationName: entry.participantId,
       isOwnConnector: entry.isOwnConnector,
+      dataSourceAvailability: DataSourceAvailability.OnRequest,
     };
   }
 

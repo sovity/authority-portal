@@ -25,6 +25,10 @@ subprojects {
         }
     }
 
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor(0, TimeUnit.SECONDS)
+    }
+
     tasks.withType<JavaCompile> {
         sourceCompatibility = libs.versions.java.get()
         targetCompatibility = libs.versions.java.get()

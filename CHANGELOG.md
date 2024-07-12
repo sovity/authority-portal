@@ -19,6 +19,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Removed the link to "My data offers" from the sidebar. Due to the integration of the Data Catalog, this feature is not supported for now.
     Users may access a view of their data offers by navigating to the Data Catalog and choosing the appropriate filter.
   - Changed Broker to Catalog crawler on the dashboard and in the system stability report
+- Data offer amounts now differentiate "On Request" Data Offers
 
 #### Patch
 
@@ -31,6 +32,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Deployment Migration Notes
 
 - All brokers can be undeployed including their databases.
+- New Data Catalog Crawlers must now be deployed for the data catalog to be filled. One for each environment.
 - Keycloak
   - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
 - Portal Backend

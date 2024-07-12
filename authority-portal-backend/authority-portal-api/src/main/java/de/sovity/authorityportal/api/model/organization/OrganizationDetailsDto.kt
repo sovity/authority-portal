@@ -47,8 +47,12 @@ data class OrganizationDetailsDto(
     val memberCount: Int,
     @field:Schema(description = "Connector count", requiredMode = Schema.RequiredMode.REQUIRED)
     var connectorCount: Int,
-    @field:Schema(description = "Data offer count", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Data offer count (sum)", requiredMode = Schema.RequiredMode.REQUIRED)
     var dataOfferCount: Int,
+    @field:Schema(description = "Data offer count (with data source)", requiredMode = Schema.RequiredMode.REQUIRED)
+    var liveDataOfferCount: Int,
+    @field:Schema(description = "Data offer count (on request)", requiredMode = Schema.RequiredMode.REQUIRED)
+    var onRequestDataOfferCount: Int,
     @field:Schema(description = "Member information", requiredMode = Schema.RequiredMode.REQUIRED)
     val memberList: List<MemberInfo>,
     @field:Schema(description = "Organization creator: User Id", requiredMode = Schema.RequiredMode.REQUIRED)
