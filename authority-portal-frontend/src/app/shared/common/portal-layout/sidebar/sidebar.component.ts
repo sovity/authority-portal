@@ -47,13 +47,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
     combineLatest([
       this.globalStateUtils.getDeploymentEnvironment(),
       this.globalStateUtils.userInfo$.pipe(
-        map((it) => it.organizationName),
+        map((it) => ({
+          organizationName: it.organizationName,
+          organizationMdsId: it.organizationMdsId,
+        })),
         distinctUntilChanged(),
       ),
     ])
       .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe(([env, organizationName]) => {
-        this.setSideBarSections(env, organizationName);
+      .subscribe(([env, organizationMetadata]) => {
+        this.setSideBarSections(env, organizationMetadata);
       });
   }
 
@@ -76,7 +79,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isExpandedMenu = !this.isExpandedMenu;
   }
 
-  setSideBarSections(env: DeploymentEnvironmentDto, orgName: string | null) {
+  setSideBarSections(
+    env: DeploymentEnvironmentDto,
+    orgMetadata: {organizationName: string; organizationMdsId: string} | null,
+  ): void {
     this.sidebarSections = [
       {
         title: 'MDS',
@@ -100,13 +106,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
         ],
       },
       {
-        title: orgName ?? 'My Organization',
+        title: orgMetadata?.organizationName ?? 'My Organization',
         userRoles: ['USER'],
         menus: [
           {
             title: 'My Organization',
             icon: 'home',
             rLink: '/control-center/my-organization',
+          },
+          {
+            title: 'My Data Offers',
+            icon: 'tag',
+            rLink: `/catalog`,
+            queryParams: {mdsId: orgMetadata?.organizationMdsId},
           },
           {
             title: 'My Connectors',
