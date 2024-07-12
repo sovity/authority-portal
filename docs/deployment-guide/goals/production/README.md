@@ -43,15 +43,16 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 ### Deployment Units
 
-| Deployment Unit           | Version / Details                                                                                 |
-|---------------------------|---------------------------------------------------------------------------------------------------|
-| Reverse Proxy / Ingress   | _Infrastructure dependant_                                                                        |
-| Keycloak Deployment       | Version 24.0.4 or compatible version                                                              |
-| OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                           |
-| Caddy behind OAuth2 Proxy | caddy:2.7                                                                                         |
-| Authority Portal Backend  | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
-| Authority Portal Frontend | authority-portal-frontend, see  [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions. |
-| Postgresql                | Version 16 or compatible version                                                                  |
+| Deployment Unit           | Version / Details                                                                                        |
+|---------------------------|----------------------------------------------------------------------------------------------------------|
+| Reverse Proxy / Ingress   | _Infrastructure dependant_                                                                               |
+| Keycloak Deployment       | Version 24.0.4 or compatible version                                                                     |
+| OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                                  |
+| Caddy behind OAuth2 Proxy | caddy:2.7                                                                                                |
+| Authority Portal Backend  | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.          |
+| Authority Portal Frontend | authority-portal-frontend, see  [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.        |
+| Catalog Crawler           | ghcr.io/sovity/catalog-crawler-ce, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions. |
+| Postgresql                | Version 16 or compatible version                                                                         |
 
 ### Configuration
 
@@ -290,6 +291,31 @@ AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu # S
 - The Data Catalog only displays the Data Catalog as it exists in the database.
 - Each deployment environment requires a Data Catalog Crawler.
   - A Data Catalog Crawler is based on the EDC Connector and crawls the catalogs of all connectors in the dataspace.
+  - You will need an SKI/AKI client ID to register the crawler. Please refer to the [EDC documentation](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq) on how to generate one.
+  - Pre-configured configuration values for the crawler can be found in the [edc-extensions/launcher/.env.catalog-crawler](launcher/.env.catalog-crawler).
+  - As specified in the crawler's deployment guide, following environment variables must be configured manually:
+  - ```yaml
+      # Required: Fully Qualified Domain Name
+      MY_EDC_FQDN: "crawler.test.example.com"
+  
+      # Required: Authority Portal Environment ID
+      CRAWLER_ENVIRONMENT_ID: test
+  
+      # Required: Authority Portal Postgresql DB Access
+      CRAWLER_DB_JDBC_URL: jdbc:postgresql://authority-portal:5432/portal
+      CRAWLER_DB_JDBC_USER: portal
+      CRAWLER_DB_JDBC_PASSWORD: portal
+  
+      # Required: DAPS credentials
+      EDC_OAUTH_TOKEN_URL: 'https://daps.test.mobility-dataspace.eu/token'
+      EDC_OAUTH_PROVIDER_JWKS_URL: 'https://daps.test.mobility-dataspace.eu/jwks.json'
+      EDC_OAUTH_CLIENT_ID: '_your SKI/AKI_'
+      EDC_KEYSTORE: '_your keystore file_' # Needs to be available as file in the running container
+      EDC_KEYSTORE_PASSWORD: '_your keystore password_'
+      EDC_OAUTH_CERTIFICATE_ALIAS: 1
+      EDC_OAUTH_PRIVATE_KEY_ALIAS: 1
+      ```
+  - The DAPS needs to contain the claim `referringConnector=MY_EDC_PARTICIPANT_ID` where `MY_EDC_PARTICIPANT_ID` is the value of same named configuration variable (default: 'broker').
   - For help with the deployment and configuration of a crawler, see its [productive deployment guide](https://github.com/sovity/edc-ce/blob/main/docs/deployment-guide/goals/catalog-crawler-production/README.md)
 
 ## Initial Setup

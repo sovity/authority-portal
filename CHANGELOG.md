@@ -32,7 +32,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Deployment Migration Notes
 
 - All brokers can be undeployed including their databases.
-- New Data Catalog Crawlers must now be deployed for the data catalog to be filled. One for each environment.
 - Keycloak
   - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
 - Portal Backend
@@ -63,6 +62,32 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
       authority-portal.deployment.environments.{environmentId}.broker.kuma-name: ...
       ```
 - A Catalog crawler must be deployed for each environment to fill the catalog with live data.
+  - The crawler is a modified EDC connector. As such, it can only fetch the catalogs from connectors registered in the same DAPS environment.
+    - You will need an SKI/AKI client ID to register the crawler. Please refer to the [EDC documentation](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq) on how to generate one.
+    - Pre-configured configuration values for the crawler can be found in the [edc-extensions/launcher/.env.catalog-crawler](launcher/.env.catalog-crawler).
+    - As specified in the crawler's deployment guide, following environment variables must be configured manually:
+    - ```yaml
+      # Required: Fully Qualified Domain Name
+      MY_EDC_FQDN: "crawler.test.example.com"
+  
+      # Required: Authority Portal Environment ID
+      CRAWLER_ENVIRONMENT_ID: test
+  
+      # Required: Authority Portal Postgresql DB Access
+      CRAWLER_DB_JDBC_URL: jdbc:postgresql://authority-portal:5432/portal
+      CRAWLER_DB_JDBC_USER: portal
+      CRAWLER_DB_JDBC_PASSWORD: portal
+  
+      # Required: DAPS credentials
+      EDC_OAUTH_TOKEN_URL: 'https://daps.test.mobility-dataspace.eu/token'
+      EDC_OAUTH_PROVIDER_JWKS_URL: 'https://daps.test.mobility-dataspace.eu/jwks.json'
+      EDC_OAUTH_CLIENT_ID: '_your SKI/AKI_'
+      EDC_KEYSTORE: '_your keystore file_' # Needs to be available as file in the running container
+      EDC_KEYSTORE_PASSWORD: '_your keystore password_'
+      EDC_OAUTH_CERTIFICATE_ALIAS: 1
+      EDC_OAUTH_PRIVATE_KEY_ALIAS: 1
+      ```
+    - The DAPS needs to contain the claim `referringConnector=MY_EDC_PARTICIPANT_ID` where `MY_EDC_PARTICIPANT_ID` is the value of same named configuration variable (default: 'broker').
   - For help with the deployment, please refer to the crawler's [productive deployment guide](https://github.com/sovity/edc-ce/blob/main/docs/deployment-guide/goals/catalog-crawler-production/README.md).
   - Running Uptime Kuma instances must be reconfigured to track the status of the catalog crawler instead of the Broker.
 
