@@ -151,6 +151,15 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
       {
+        path: 'my-organization/data-offers',
+        component: CatalogPageComponent,
+        data: {
+          requiresRole: ['USER'] satisfies UserRoleDto[],
+          catalogType: 'my-data-offers',
+        },
+        canActivate: [requiresRole],
+      },
+      {
         path: 'control-center',
         component: ControlCenterPageComponent,
         data: {

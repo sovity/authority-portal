@@ -18,9 +18,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {Subject, distinctUntilChanged, takeUntil} from 'rxjs';
-import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {SidebarSection} from './sidebar.model';
@@ -44,19 +42,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   startListeningToEnvironmentChanges(): void {
-    combineLatest([
-      this.globalStateUtils.getDeploymentEnvironment(),
-      this.globalStateUtils.userInfo$.pipe(
-        map((it) => ({
-          organizationName: it.organizationName,
-          organizationMdsId: it.organizationMdsId,
-        })),
+    this.globalStateUtils.userInfo$
+      .pipe(
+        map((it) => it.organizationName),
         distinctUntilChanged(),
-      ),
-    ])
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe(([env, organizationMetadata]) => {
-        this.setSideBarSections(env, organizationMetadata);
+        takeUntil(this.ngOnDestroy$),
+      )
+      .subscribe((organizationName) => {
+        this.setSideBarSections(organizationName);
       });
   }
 
@@ -75,14 +68,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     window.open('/mds-home', '_self');
   }
 
-  toggleMenuSize() {
-    this.isExpandedMenu = !this.isExpandedMenu;
-  }
-
-  setSideBarSections(
-    env: DeploymentEnvironmentDto,
-    orgMetadata: {organizationName: string; organizationMdsId: string} | null,
-  ): void {
+  setSideBarSections(organizationName: string): void {
     this.sidebarSections = [
       {
         title: 'MDS',
@@ -106,7 +92,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         ],
       },
       {
-        title: orgMetadata?.organizationName ?? 'My Organization',
+        title: organizationName ?? 'My Organization',
         userRoles: ['USER'],
         menus: [
           {
@@ -117,8 +103,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           {
             title: 'My Data Offers',
             icon: 'tag',
-            rLink: `/catalog`,
-            queryParams: {mdsId: orgMetadata?.organizationMdsId},
+            rLink: `/my-organization/data-offers`,
           },
           {
             title: 'My Connectors',
