@@ -21,8 +21,8 @@ Feel free to edit this release checklist in-progress depending on what tasks nee
         - [ ] Add a clean `Unreleased` version.
         - [ ] Add the version to the old section.
         - [ ] Add the current date to the old version.
-        - [ ] Bump the EDC CE Version
-            - [ ] Bump the EDC CE Version in the `gradle.libs.toml`
+        - [ ] Bump the EDC CE Version to a released version in the `gradle.libs.toml`.
+        - [ ] Bump the links to the Catalog Crawler initial deployment guide to the fixed EDC CE Version
         - [ ] Add all Catalog Crawler or Catalog relevant changelog entries from the newer EDC CE release(s), merge and
           reword them.
         - [ ] Add all Catalog Crawler or Catalog deployment migration notes from the newer EDC CE release(s), merge and
