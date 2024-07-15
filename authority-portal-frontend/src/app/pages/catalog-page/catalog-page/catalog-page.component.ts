@@ -110,7 +110,6 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       .select<CatalogPageStateModel>(CatalogPageState)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
-        console.log('STATE', state);
         this.state = state;
         if (this.searchText.value != state.searchText) {
           this.searchText.setValue(state.searchText);
