@@ -208,7 +208,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
 
     return {
       title: 'Catalogue',
-      subtitle: 'Catalogue of public Data Offers of all participants',
+      subtitle: 'Catalogue of all public Data Offers',
       headerActions: [],
     };
   }
