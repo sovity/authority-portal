@@ -3,7 +3,7 @@
 For documentation on how to update this changelog,
 please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
-## Unreleased - xx-xx-xx
+## Unreleased - YYYY-MM-DD
 
 ### Overview
 
