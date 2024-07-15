@@ -11,6 +11,31 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Major
 
+#### Minor
+
+#### Patch
+
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
+- Sovity EDC CE: {{ CE Release Link }}
+
+## [v3.0.0] - 2024-07-15
+
+### Overview
+
+MDS 2.2 intermediate release
+
+### Detailed Changes
+
+#### Major
+
 - The Data Catalog (formerly known as Broker) is now integrated into the Authority Portal and can be accessed via the sidebar.
 
 #### Minor
@@ -23,10 +48,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Input fields containing only whitespaces are now properly validated and an appropriate error message is shown [#193](https://github.com/sovity/authority-portal/issues/193)
 - Component uptime now displays up to '30+ days' [#211](https://github.com/sovity/authority-portal/issues/211)
 - Relaxed zipcode validation to allow less than 5 characters [#224](https://github.com/sovity/authority-portal/issues/224)
-
-### Known issues
-
-_No known issues so far_
 
 ### Deployment Migration Notes
 
@@ -70,10 +91,10 @@ _No known issues so far_
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
-- Sovity EDC CE: {{ CE Release Link }}
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:3.0.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:3.0.0`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:9.0.0`
+- Sovity EDC CE: [`9.0.0`](https://github.com/sovity/edc-ce/releases/tag/v9.0.0)
 
 ## [v2.3.0] - 2024-05-13
 
