@@ -19,7 +19,7 @@ operator company.
 
 - Each configured Dataspace Deployment Environment must have a running sovity Keycloak DAPS.
 - Each configured Dataspace Deployment Environment must have a running Logging House.
-- To make use of the Data Catalog, each configured Dataspace Deployment Environment must have a running EDC connector with the Broker Crawler Extension.
+- To make use of the Data Catalog, each configured Dataspace Deployment Environment must have configured a running Catalog Crawler (based on the sovity EDC Connector).
 
 The respective compatible versions can be found in the [CHANGELOG.md](../../../../CHANGELOG.md).
 
@@ -30,7 +30,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
   - URL of the Keycloak for authorizing at the CaaS-Portal, referred to as `[CAAS_KC_FQDN]` in this guide.
   - Credentials for the CaaS-Portal, referred to as `[CAAS_CLIENT_ID]` and `[CAAS_CLIENT_SECRET]` in this guide.
 - A running instance of Uptime Kuma is required.
-  - This should track the DAPS and Logging House status
+  - This should track the DAPS, Logging House and Catalog Crawler status
   - The statuses must be available via the API (`/metrics` endpoint)
     - The output per component should look like this:
       ```
@@ -43,15 +43,16 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 ### Deployment Units
 
-| Deployment Unit           | Version / Details                                                                                 |
-|---------------------------|---------------------------------------------------------------------------------------------------|
-| Reverse Proxy / Ingress   | _Infrastructure dependant_                                                                        |
-| Keycloak Deployment       | Version 24.0.4 or compatible version                                                              |
-| OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                           |
-| Caddy behind OAuth2 Proxy | caddy:2.7                                                                                         |
-| Authority Portal Backend  | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
-| Authority Portal Frontend | authority-portal-frontend, see  [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions. |
-| Postgresql                | Version 16 or compatible version                                                                  |
+| Deployment Unit           | Version / Details                                                                                        |
+|---------------------------|----------------------------------------------------------------------------------------------------------|
+| Reverse Proxy / Ingress   | _Infrastructure dependant_                                                                               |
+| Keycloak Deployment       | Version 24.0.4 or compatible version                                                                     |
+| OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                                  |
+| Caddy behind OAuth2 Proxy | caddy:2.7                                                                                                |
+| Authority Portal Backend  | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.          |
+| Authority Portal Frontend | authority-portal-frontend, see  [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.        |
+| Catalog Crawler           | ghcr.io/sovity/catalog-crawler-ce, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions. |
+| Postgresql                | Version 16 or compatible version                                                                         |
 
 ### Configuration
 
@@ -229,6 +230,8 @@ authority-portal.deployment.environments.test.position: "0"
 authority-portal.deployment.environments.test.data-catalog.hide-offline-data-offers-after: "15m"
 # Default page size for the Data Catalog
 authority-portal.deployment.environments.test.data-catalog.catalog-page-page-size: "10"
+# Kuma name for the catalog crawler
+authority-portal.deployment.environments.test.data-catalog.kuma-name: broker
 
 # Environment Connector-Dataspace association: Allows certain connectors to be associated as partnered data spaces
 # Required: Default Dataspace name
@@ -287,10 +290,33 @@ AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu # S
 
 - The Data Catalog only displays the Data Catalog as it exists in the database.
 - Each deployment environment requires a Data Catalog Crawler.
-  - A Data Catalog Crawler is an EDC Connector of sorts.
-  - It will connect to the Authority Portal Postgres DB and regularly update it with available public data offers it crawled.
-
-For more details on how to configure or deploy the crawler, please visit the documentation. TODO linking
+  - A Data Catalog Crawler is based on the EDC Connector and crawls the catalogs of all connectors in the dataspace.
+  - You will need an SKI/AKI client ID to register the crawler. Please refer to the [EDC documentation](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq) on how to generate one.
+  - Pre-configured configuration values for the crawler can be found in the [edc-extensions/launcher/.env.catalog-crawler](https://github.com/sovity/edc-ce/blob/main/launchers/.env.catalog-crawler) for the appropriate version.
+  - As specified in the crawler's deployment guide, following environment variables must be configured manually:
+  - ```yaml
+      # Required: Fully Qualified Domain Name
+      MY_EDC_FQDN: "crawler.test.example.com"
+  
+      # Required: Authority Portal Environment ID
+      CRAWLER_ENVIRONMENT_ID: test
+  
+      # Required: Authority Portal Postgresql DB Access
+      CRAWLER_DB_JDBC_URL: jdbc:postgresql://authority-portal:5432/portal
+      CRAWLER_DB_JDBC_USER: portal
+      CRAWLER_DB_JDBC_PASSWORD: portal
+  
+      # Required: DAPS credentials
+      EDC_OAUTH_TOKEN_URL: 'https://daps.test.mobility-dataspace.eu/token'
+      EDC_OAUTH_PROVIDER_JWKS_URL: 'https://daps.test.mobility-dataspace.eu/jwks.json'
+      EDC_OAUTH_CLIENT_ID: '_your SKI/AKI_'
+      EDC_KEYSTORE: '_your keystore file_' # Needs to be available as file in the running container
+      EDC_KEYSTORE_PASSWORD: '_your keystore password_'
+      EDC_OAUTH_CERTIFICATE_ALIAS: 1
+      EDC_OAUTH_PRIVATE_KEY_ALIAS: 1
+      ```
+  - The DAPS needs to contain the claim `referringConnector=MY_EDC_PARTICIPANT_ID` where `MY_EDC_PARTICIPANT_ID` is the value of same named configuration variable (default: 'broker').
+  - For help with the deployment and configuration of a crawler, see its [productive deployment guide](https://github.com/sovity/edc-ce/blob/main/docs/deployment-guide/goals/catalog-crawler-production/README.md)
 
 ## Initial Setup
 

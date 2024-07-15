@@ -41,6 +41,7 @@ class ComponentStatusService(
         componentsStatusByEnvironment.forEach { (env, componentStatuses) ->
             addComponentStatusIfChanged(ComponentType.DAPS, env, componentStatuses.daps?.toDb())
             addComponentStatusIfChanged(ComponentType.LOGGING_HOUSE, env, componentStatuses.loggingHouse?.toDb())
+            addComponentStatusIfChanged(ComponentType.CATALOG_CRAWLER, env, componentStatuses.catalogCrawler?.toDb())
         }
     }
 

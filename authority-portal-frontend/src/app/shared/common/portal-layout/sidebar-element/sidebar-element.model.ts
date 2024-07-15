@@ -10,10 +10,12 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+import {Params} from '@angular/router';
 
 export interface SidebarMenu {
   title: string;
   rLink: string;
   isExternalLink?: boolean;
   icon: string;
+  queryParams?: Params;
 }

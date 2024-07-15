@@ -142,21 +142,7 @@ export const getCatalogPage = (
           ],
         },
         {
-          id: 'connectorEndpoint',
-          title: 'Connector',
-          values: [
-            {
-              id: 'https://example-connector/api/dsp',
-              title: 'https://example-connector/api/dsp',
-            },
-            {
-              id: 'https://example-connector2/api/dsp',
-              title: 'https://example-connector2/api/dsp',
-            },
-          ],
-        },
-        {
-          id: 'curatorMdsId',
+          id: 'mdsId',
           title: 'MDS ID',
           values: [
             {

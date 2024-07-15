@@ -15,11 +15,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
-- Due to the integration of the Data Catalog into the portal, following changes have been made:
-  - Removed the link to "My data offers" from the sidebar. Due to the integration of the Data Catalog, this feature is not supported for now.
-    Users may access a view of their data offers by navigating to the Data Catalog and choosing the appropriate filter.
-  - Removed the Data Catalog online status from the dashboard
-  - Removed the Data Catalog status data from the system stability report
+- Changed Broker to Catalog crawler on the dashboard and in the system stability report
 - Data offer amounts now differentiate "On Request" Data Offers
 
 #### Patch
@@ -30,10 +26,11 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ### Known issues
 
+_No known issues so far_
+
 ### Deployment Migration Notes
 
 - All brokers can be undeployed including their databases.
-- New Data Catalog Crawlers must now be deployed for the data catalog to be filled. One for each environment.
 - Keycloak
   - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
 - Portal Backend
@@ -44,13 +41,16 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
       # Default page size for the Data Catalog
       authority-portal.deployment.environments.{environmentId}.data-catalog.catalog-page-page-size: 10
+      
+      # Kuma name for the catalog crawler
+      authority-portal.deployment.environments.{environmentId}.data-catalog.kuma-name: broker  
 
       # Environment Connector-Dataspace association
       # Allows certain connectors to be associated as partnered data spaces
       # Required: Default Dataspace name
       authority-portal.deployment.environments.test.data-catalog.dataspace-names.default: MDS
       # Optional: Additional connectors to be given a dataspace name
-      authority-portal.deployment.environments.test.data-catalog.dataspace-names.connectorIds.{connectorId}: Mobilithek
+      authority-portal.deployment.environments.test.data-catalog.dataspace-names.connectorIds."MDSL1234XX.C1234XX": Mobilithek
       ```
   - Following environment variables have been removed and **can be removed from the configuration**
     - ```yaml
@@ -60,12 +60,20 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
       authority-portal.deployment.environments.{environmentId}.broker.api-key: ...
       authority-portal.deployment.environments.{environmentId}.broker.kuma-name: ...
       ```
+- The Broker as a stand-alone deployment unit has been removed in favor of the Catalog Crawler.
+  - Any broker's database is not required anymore and can be undeployed.
+  - A Catalog Crawler must be deployed for each environment to fill the catalog with live data.
+  - Just like the broker, the Catalog Crawler is a modified EDC connector. As such, it can only fetch the catalogs from connectors registered in the same DAPS environment.
+  - There is a dedicated [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v9.0.0/docs/deployment-guide/goals/catalog-crawler-production/README.md)
+  - Running Uptime Kuma instances must be reconfigured to track the status of the catalog crawler instead of the Broker.
+  - While the Catalog Crawler is similar to the broker, please note, that many environment variables have been renamed or removed. It is recommended to do a fresh deployment using the deployment guide.
 
 #### Compatible Versions
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- EDC CE: `{{ edc-ce version }}`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
+- Sovity EDC CE: {{ CE Release Link }}
 
 ## [v2.3.0] - 2024-05-13
 

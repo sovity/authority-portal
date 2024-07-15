@@ -11,7 +11,6 @@
  *      sovity GmbH - initial implementation
  */
 import {
-  ChangeDetectionStrategy,
   Component,
   HostBinding,
   OnDestroy,
@@ -20,9 +19,9 @@ import {
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {PageEvent} from '@angular/material/paginator';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Subject} from 'rxjs';
-import {map, takeUntil} from 'rxjs/operators';
+import {ActivatedRoute, Params} from '@angular/router';
+import {Subject, distinctUntilChanged, of, switchMap, tap} from 'rxjs';
+import {map, take, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
   CatalogDataOffer,
@@ -50,11 +49,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
 
   trackFilterBy: TrackByFunction<FilterBoxVisibleState> = (_, item) => item.id;
 
-  headerConfig: HeaderBarConfig = {
-    title: 'Catalogue',
-    subtitle: 'Catalogue of public Data Offers of all participants',
-    headerActions: [],
-  };
+  headerConfig: HeaderBarConfig = this.buildHeaderConfig(false);
 
   state!: CatalogPageStateModel;
   searchText = new FormControl('');
@@ -73,7 +68,6 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private assetDetailDialogService: AssetDetailDialogService,
     private store: Store,
     private route: ActivatedRoute,
-    private router: Router,
     private globalStateUtils: GlobalStateUtils,
   ) {}
 
@@ -86,14 +80,29 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   }
 
   private initializePage() {
-    const mdsIds = this.parseMdsId(this.route.snapshot.queryParams);
-    this.store.dispatch(new CatalogPage.Reset(mdsIds));
+    this.route.data
+      .pipe(
+        takeUntil(this.ngOnDestroy$),
+        map((data) => data.catalogType === 'my-data-offers'),
+        distinctUntilChanged(),
+        tap((isMyDataOffers) => {
+          this.headerConfig = this.buildHeaderConfig(isMyDataOffers);
+        }),
+        switchMap((isMyDataOffers) => {
+          if (isMyDataOffers) {
+            return this.globalStateUtils.userInfo$.pipe(
+              take(1),
+              map((it) => it.organizationMdsId),
+            );
+          }
 
-    if (mdsIds.length) {
-      this.expandedFilterId = 'mdsId';
-      // remove query params from url
-      this.router.navigate([]);
-    }
+          return of(null);
+        }),
+      )
+      .subscribe((mdsId) => {
+        const initialMdsIds = mdsId ? [mdsId] : undefined;
+        this.store.dispatch(new CatalogPage.Reset(initialMdsIds));
+      });
   }
 
   private startListeningToStore() {
@@ -134,14 +143,6 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
           this.store.dispatch(new CatalogPage.UpdateSorting(value));
         }
       });
-  }
-
-  private parseMdsId(params: Params): string[] {
-    if (!('mdsId' in params)) {
-      return [];
-    }
-    const mdsIds = params.mdsId;
-    return Array.isArray(mdsIds) ? [...new Set(mdsIds)] : [mdsIds];
   }
 
   onDataOfferClick(dataOffer: CatalogDataOffer) {
@@ -194,5 +195,21 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       onChanged: () => this.store.dispatch(new CatalogPage.EnvironmentChange()),
       ngOnDestroy$: this.ngOnDestroy$,
     });
+  }
+
+  private buildHeaderConfig(isMyDataOffers: boolean): HeaderBarConfig {
+    if (isMyDataOffers) {
+      return {
+        title: 'My Data Offers',
+        subtitle: 'Catalogue of your public Data Offers',
+        headerActions: [],
+      };
+    }
+
+    return {
+      title: 'Catalogue',
+      subtitle: 'Catalogue of all public Data Offers',
+      headerActions: [],
+    };
   }
 }

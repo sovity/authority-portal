@@ -54,8 +54,8 @@ class DataOfferQuery(
 
         return dsl.select(
             c.MDS_ID.`as`("mdsId"),
-            getDataOfferCount(c.MDS_ID, environmentId, DataSourceAvailability.LIVE).`as`("liveOffers"),
-            getDataOfferCount(c.MDS_ID, environmentId, DataSourceAvailability.ON_REQUEST).`as`("onRequestOffers")
+            getDataOfferCount(c.MDS_ID, environmentId, DataSourceAvailability.LIVE, "live").`as`("liveOffers"),
+            getDataOfferCount(c.MDS_ID, environmentId, DataSourceAvailability.ON_REQUEST, "on_request").`as`("onRequestOffers")
         )
             .from(c)
             .where(conditionFn(c))
@@ -65,20 +65,24 @@ class DataOfferQuery(
     private fun getDataOfferCount(
         mdsId: Field<String>,
         environmentId: String,
-        dataSourceAvailability: DataSourceAvailability
+        dataSourceAvailability: DataSourceAvailability,
+        suffix: String
     ): Field<Int> {
-        val availability = JsonbDSL.fieldByKeyText(Tables.DATA_OFFER.UI_ASSET_JSON, "dataSourceAvailability")
+        val c = Tables.CONNECTOR.`as`("c_$suffix")
+        val d = Tables.DATA_OFFER.`as`("d_$suffix")
+
+        val availability = JsonbDSL.fieldByKeyText(d.UI_ASSET_JSON, "dataSourceAvailability")
         val isSameAvailability = when (dataSourceAvailability) {
             DataSourceAvailability.ON_REQUEST -> availability.eq("ON_REQUEST")
             DataSourceAvailability.LIVE -> availability.ne("ON_REQUEST").or(availability.isNull())
         }
 
         return DSL.select(DSL.coalesce(DSL.count(), DSL.`val`(0)))
-            .from(Tables.DATA_OFFER)
-            .join(Tables.CONNECTOR).on(Tables.CONNECTOR.CONNECTOR_ID.eq(Tables.DATA_OFFER.CONNECTOR_ID))
+            .from(d)
+            .join(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
             .where(
-                Tables.CONNECTOR.MDS_ID.eq(mdsId),
-                Tables.CONNECTOR.ENVIRONMENT.eq(environmentId),
+                c.MDS_ID.eq(mdsId),
+                c.ENVIRONMENT.eq(environmentId),
                 isSameAvailability
             )
             .asField()

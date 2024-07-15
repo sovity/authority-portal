@@ -18,9 +18,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {Subject, distinctUntilChanged, takeUntil} from 'rxjs';
-import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {SidebarSection} from './sidebar.model';
@@ -44,16 +42,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   startListeningToEnvironmentChanges(): void {
-    combineLatest([
-      this.globalStateUtils.getDeploymentEnvironment(),
-      this.globalStateUtils.userInfo$.pipe(
+    this.globalStateUtils.userInfo$
+      .pipe(
         map((it) => it.organizationName),
         distinctUntilChanged(),
-      ),
-    ])
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe(([env, organizationName]) => {
-        this.setSideBarSections(env, organizationName);
+        takeUntil(this.ngOnDestroy$),
+      )
+      .subscribe((organizationName) => {
+        this.setSideBarSections(organizationName);
       });
   }
 
@@ -72,11 +68,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     window.open('/mds-home', '_self');
   }
 
-  toggleMenuSize() {
-    this.isExpandedMenu = !this.isExpandedMenu;
-  }
-
-  setSideBarSections(env: DeploymentEnvironmentDto, orgName: string | null) {
+  setSideBarSections(organizationName: string): void {
     this.sidebarSections = [
       {
         title: 'MDS',
@@ -100,13 +92,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
         ],
       },
       {
-        title: orgName ?? 'My Organization',
+        title: organizationName ?? 'My Organization',
         userRoles: ['USER'],
         menus: [
           {
             title: 'My Organization',
             icon: 'home',
             rLink: '/control-center/my-organization',
+          },
+          {
+            title: 'My Data Offers',
+            icon: 'tag',
+            rLink: `/my-organization/data-offers`,
           },
           {
             title: 'My Connectors',

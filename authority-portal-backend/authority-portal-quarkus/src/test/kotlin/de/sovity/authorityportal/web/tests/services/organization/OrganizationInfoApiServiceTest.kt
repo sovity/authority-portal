@@ -309,6 +309,7 @@ class OrganizationInfoApiServiceTest {
 
             organization(1, 1)
             user(1, 1)
+            connector(1, 1, 1)
 
             val uiAsset1 = UiAsset().also {
                 it.assetId = dummyDevAssetId(0)
@@ -324,6 +325,8 @@ class OrganizationInfoApiServiceTest {
             }
             // Live offer
             dataOffer(0, 0, 1, 0)
+            dataOffer(1, 1, 2, 0)
+            dataOffer(1, 1, 3, 0)
 
             scenarioInstaller.install(this)
         }
@@ -336,8 +339,8 @@ class OrganizationInfoApiServiceTest {
         assertThat(result.organizations[0].dataOfferCount).isEqualTo(2)
         assertThat(result.organizations[0].liveDataOfferCount).isEqualTo(1)
         assertThat(result.organizations[0].onRequestDataOfferCount).isEqualTo(1)
-        assertThat(result.organizations[1].dataOfferCount).isEqualTo(0)
-        assertThat(result.organizations[1].liveDataOfferCount).isEqualTo(0)
+        assertThat(result.organizations[1].dataOfferCount).isEqualTo(2)
+        assertThat(result.organizations[1].liveDataOfferCount).isEqualTo(2)
         assertThat(result.organizations[1].onRequestDataOfferCount).isEqualTo(0)
     }
 }

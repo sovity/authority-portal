@@ -35,7 +35,6 @@ import java.util.Locale
 @ApplicationScoped
 class ComponentStatusApiService(
     val componentStatusService: ComponentStatusService,
-    val connectorService: ConnectorService,
     val connectorStatusQuery: ConnectorStatusQuery,
     val dsl: DSLContext,
     val timeUtils: TimeUtils
@@ -62,16 +61,17 @@ class ComponentStatusApiService(
         val latestDapsStatus = componentStatusService.getLatestComponentStatus(ComponentType.DAPS, environmentId)
         val latestLoggingHouseStatus =
             componentStatusService.getLatestComponentStatus(ComponentType.LOGGING_HOUSE, environmentId)
+        val latestBrokerCrawlerStatus = componentStatusService.getLatestComponentStatus(ComponentType.CATALOG_CRAWLER, environmentId)
         val now = timeUtils.now()
 
         return ComponentStatusOverview(
             dapsStatus = calculateUptimeStatus(latestDapsStatus, environmentId, now),
             loggingHouseStatus = calculateUptimeStatus(latestLoggingHouseStatus, environmentId, now),
+            crawlerStatus = calculateUptimeStatus(latestBrokerCrawlerStatus, environmentId, now),
             onlineConnectors = connectorStatusCount.online,
             disturbedConnectors = connectorStatusCount.disturbed,
             offlineConnectors = connectorStatusCount.offline
         )
-
     }
 
     private fun calculateUptimeStatus(

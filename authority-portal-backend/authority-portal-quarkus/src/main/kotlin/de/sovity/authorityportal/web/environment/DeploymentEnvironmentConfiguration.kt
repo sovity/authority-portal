@@ -39,6 +39,7 @@ interface DeploymentEnvironmentConfiguration {
             fun hideOfflineDataOffersAfter(): Duration
             fun catalogPagePageSize(): Int
             fun dataspaceNames(): DataspaceNames
+            fun kumaName(): String
 
             interface DataspaceNames {
                 fun connectorIds(): Map<String, String>
