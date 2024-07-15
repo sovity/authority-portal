@@ -15,10 +15,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
-- Due to the integration of the Data Catalog into the portal, following changes have been made:
-  - Removed the link to "My data offers" from the sidebar. Due to the integration of the Data Catalog, this feature is not supported for now.
-    Users may access a view of their data offers by navigating to the Data Catalog and choosing the appropriate filter.
-  - Changed Broker to Catalog crawler on the dashboard and in the system stability report
+- Changed Broker to Catalog crawler on the dashboard and in the system stability report
 - Data offer amounts now differentiate "On Request" Data Offers
 
 #### Patch
@@ -28,6 +25,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Relaxed zipcode validation to allow less than 5 characters [#224](https://github.com/sovity/authority-portal/issues/224)
 
 ### Known issues
+
+_No known issues so far_
 
 ### Deployment Migration Notes
 
@@ -51,7 +50,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
       # Required: Default Dataspace name
       authority-portal.deployment.environments.test.data-catalog.dataspace-names.default: MDS
       # Optional: Additional connectors to be given a dataspace name
-      authority-portal.deployment.environments.test.data-catalog.dataspace-names.connectorIds.{connectorId}: Mobilithek
+      authority-portal.deployment.environments.test.data-catalog.dataspace-names.connectorIds."MDSL1234XX.C1234XX": Mobilithek
       ```
   - Following environment variables have been removed and **can be removed from the configuration**
     - ```yaml
@@ -95,7 +94,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Catalog Crawler: `{{ catalog-crawler-ce version }}`
+- Catalog Crawler: `ghcr.io/sovity/catalog-crawler-ce:{{ catalog-crawler-ce version }}`
 
 ## [v2.3.0] - 2024-05-13
 
