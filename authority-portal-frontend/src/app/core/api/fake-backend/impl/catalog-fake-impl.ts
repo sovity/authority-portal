@@ -71,6 +71,25 @@ const DATA_OFFERS: DataOfferDetailPageResult[] = [
     ],
   },
   {
+    assetId: TestAssets.onRequestAsset.assetId,
+    assetTitle: TestAssets.onRequestAsset.title,
+    asset: TestAssets.onRequestAsset,
+    ...myConnector,
+    viewCount: 55,
+    connectorOfflineSinceOrLastUpdatedAt: subMinutes(new Date(), 30),
+    updatedAt: subMinutes(new Date(), 5),
+    createdAt: subDays(new Date(), 30),
+    connectorOnlineStatus: 'ONLINE',
+    contractOffers: [
+      {
+        contractOfferId: 'on-request-contract-offer-1',
+        updatedAt: subMinutes(new Date(), 20),
+        createdAt: subDays(new Date(), 20),
+        contractPolicy: TestPolicies.failedMapping,
+      },
+    ],
+  },
+  {
     assetId: TestAssets.boring.assetId,
     assetTitle: TestAssets.boring.title,
     asset: TestAssets.boring,
