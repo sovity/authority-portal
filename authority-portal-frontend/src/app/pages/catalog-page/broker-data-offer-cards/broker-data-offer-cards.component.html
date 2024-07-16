@@ -4,14 +4,12 @@
     class="flex flex-col p-5 gap-4 border border-gray-100 shadow rounded overflow-hidden">
     <div class="flex gap-1 items-start">
       <div class="grow flex flex-col gap-1">
-        <div class="flex gap-1 items-center">
-          <a
-            class="link font-semibold text-sm overflow-hidden block line-clamp-2 text-ellipsis"
-            href="javascript:void(0)"
-            (click)="dataOfferClick.emit(dataOffer)">
-            {{ dataOffer.assetTitle }}
-          </a>
-        </div>
+        <a
+          class="link font-semibold text-sm overflow-hidden block line-clamp-2 text-ellipsis"
+          href="javascript:void(0)"
+          (click)="dataOfferClick.emit(dataOffer)">
+          {{ dataOffer.assetTitle }}
+        </a>
         <span class="text-xs text-gray-500">
           {{ dataOffer.organizationName }}
         </span>

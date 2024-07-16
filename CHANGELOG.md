@@ -42,6 +42,7 @@ MDS 2.2 intermediate release
 
 - Changed Broker to Catalog crawler on the dashboard and in the system stability report
 - Data offer amounts now differentiate "On Request" Data Offers
+- Differentiate live and on request data offers in card and detail dialog UI
 
 #### Patch
 
