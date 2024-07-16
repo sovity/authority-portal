@@ -63,7 +63,12 @@
       <button class="btn-accent-outline" type="button" mat-dialog-close>
         Close
       </button>
-      <a class="btn-accent" [href]="this.onRequestContactLink">Contact</a>
+      <a
+        *ngIf="isOnRequestDataOffer"
+        class="btn-accent"
+        [href]="this.onRequestContactLink"
+        >Contact</a
+      >
     </div>
   </mat-dialog-actions>
   <!-- Action Section -->

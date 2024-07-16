@@ -14,11 +14,13 @@
 package de.sovity.authorityportal.broker.dao.pages.catalog.models
 
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
+import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import java.time.OffsetDateTime
 
 data class DataOfferListEntryRs(
     val assetId: String,
     val assetTitle: String,
+    val assetUiJson: String,
     val shortDescriptionNoMarkdown: String,
     val version: String,
     val keywords: List<String>,

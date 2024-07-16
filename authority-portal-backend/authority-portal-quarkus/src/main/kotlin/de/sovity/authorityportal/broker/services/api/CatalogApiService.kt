@@ -34,7 +34,8 @@ class CatalogApiService(
     val catalogQueryService: CatalogQueryService,
     val catalogFilterService: CatalogFilterService,
     val dsl: DSLContext,
-    val deploymentEnvironmentService: DeploymentEnvironmentService
+    val deploymentEnvironmentService: DeploymentEnvironmentService,
+    val dataOfferMapper: DataOfferMapper
 ) {
 
     fun catalogPage(environment: String, query: CatalogPageQuery): CatalogPageResult {
@@ -83,9 +84,12 @@ class CatalogApiService(
     }
 
     private fun buildCatalogDataOffer(dataOfferRs: DataOfferListEntryRs): CatalogDataOffer {
+        val asset = dataOfferMapper.readUiAsset(dataOfferRs.assetUiJson)
+
         return CatalogDataOffer(
             assetId = dataOfferRs.assetId,
             assetTitle = dataOfferRs.assetTitle,
+            assetDataSourceAvailability = asset.dataSourceAvailability,
             descriptionShortText = dataOfferRs.shortDescriptionNoMarkdown,
             version = dataOfferRs.version,
             keywords = dataOfferRs.keywords,

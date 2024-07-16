@@ -207,6 +207,7 @@ const buildCatalogDataOffer = (
 ): CatalogDataOffer => ({
   assetId: it.assetId,
   assetTitle: it.asset.title,
+  assetDataSourceAvailability: it.asset.dataSourceAvailability,
   descriptionShortText: it.asset.descriptionShortText,
   keywords: it.asset.keywords ?? [],
   version: it.asset.version,
