@@ -1,4 +1,4 @@
-<div class="p-2">
+<div class="p-2 min-w-[990px] min-h-[600px]">
   <!-- close button -->
   <div class="flex w-full justify-end">
     <button class="!fixed" mat-icon-button mat-dialog-close aria-label="close">
@@ -38,15 +38,32 @@
     <!-- Properties -->
     <property-grid-group class="mt-4 text-gray-800" [propGroups]="propGroups">
     </property-grid-group>
+
+    <!-- On Request Asset Text -->
+    <div *ngIf="isOnRequestDataOffer" class="mt-10">
+      <div
+        class="flex flex-row flex-wrap text-base font-semibold text-black leading-6">
+        On Request Data Offer
+      </div>
+      <div class="text-sm mt-2">
+        This data offer is not available for immediate consumption. However, the
+        creator left an email address to contact him if interested.
+      </div>
+      <div class="text-sm">
+        Click <span class="!font-semibold">Contact</span> to email the data
+        offer provider.
+      </div>
+    </div>
   </div>
   <!-- Content Section -->
 
   <!-- Action Section -->
   <mat-dialog-actions align="end">
-    <div class="flex gap-4">
+    <div class="flex gap-4 mt-4">
       <button class="btn-accent-outline" type="button" mat-dialog-close>
         Close
       </button>
+      <a class="btn-accent" [href]="this.onRequestContactLink">Contact</a>
     </div>
   </mat-dialog-actions>
   <!-- Action Section -->
