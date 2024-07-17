@@ -78,11 +78,6 @@ export class GlobalStateUtils {
       map((environment) => environment.environmentId),
     );
   }
-
-  getDeploymentEnvironment(): Observable<DeploymentEnvironmentDto> {
-    return this.deploymentEnvironment$.pipe(map((environment) => environment));
-  }
-
   getDeploymentEnvironments(): Observable<DeploymentEnvironmentDto[]> {
     return this.store.select<GlobalState>(GlobalStateImpl).pipe(
       map((state) => state.deploymentEnvironments),
