@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Fix deployment environment not syncing in URLs for the catalog
+
 ### Known issues
 
 ### Deployment Migration Notes
