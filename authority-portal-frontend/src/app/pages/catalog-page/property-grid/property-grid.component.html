@@ -7,7 +7,6 @@
   class="flex flex-row gap-2 overflow-hidden">
   <!-- Property Icon -->
   <mat-icon
-    class="text-gray-500"
     style="flex-shrink: 0; margin-top: 6px"
     [matTooltip]="prop.tooltip!"
     [attr.title]="prop.labelTitle"
@@ -26,7 +25,7 @@
     <!-- Property Value (URL) -->
     <a
       *ngIf="prop.url"
-      class="link break-all text-gray-700"
+      class="link break-all"
       externalLink
       [ngClass]="prop.additionalClasses"
       [attr.href]="prop.url"
