@@ -171,25 +171,30 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       .open(assetId, connectorId, this.ngOnDestroy$)
       .subscribe(
         () => {
-          this.navigateToCatalogRoot();
+          this.changeUrlToCatalogRoot();
         },
         () => {
-          this.navigateToCatalogRoot();
+          this.changeUrlToCatalogRoot();
         },
       );
-    this.router.navigate(['catalog', connectorId, assetId], {
+    this.router.navigate([connectorId, assetId], {
+      relativeTo: this.route,
       queryParams: {
         environmentId: this.route.snapshot.queryParams.environmentId,
       },
     });
   }
 
-  private navigateToCatalogRoot() {
-    this.router.navigate(['catalog'], {
-      queryParams: {
-        environmentId: this.route.snapshot.queryParams.environmentId,
+  private changeUrlToCatalogRoot() {
+    const currentRoute = this.route.snapshot;
+    this.router.navigate(
+      [currentRoute.url.map((segment) => segment.path).join('/')],
+      {
+        queryParams: {
+          environmentId: currentRoute.queryParams.environmentId,
+        },
       },
-    });
+    );
   }
 
   ngOnDestroy$ = new Subject();

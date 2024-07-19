@@ -168,6 +168,16 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
           catalogType: 'my-data-offers',
         },
         canActivate: [requiresRole],
+        children: [
+          {
+            path: ':connectorId/:assetId',
+            component: CatalogPageComponent,
+            data: {
+              requiresRole: ['USER'] satisfies UserRoleDto[],
+            },
+            canActivate: [requiresRole],
+          },
+        ],
       },
       {
         path: 'control-center',
