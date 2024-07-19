@@ -1,24 +1,32 @@
 <div class="p-2">
   <!-- close button -->
-  <div class="flex w-full justify-end">
-    <button class="!fixed" mat-icon-button mat-dialog-close aria-label="close">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
+  <div class="flex w-full justify-end"></div>
   <!-- close button -->
 
   <!-- Title Section -->
-  <div class="flex flex-col justify-start mt-4 mx-4 lg:mx-8 lg:mt-[3rem]">
-    <h3 class="form-dialog-title">
-      {{ dataOffer.assetTitle }}
+  <div class="flex flex-row justify-between">
+    <div class="flex flex-col justify-start mt-4 mx-4 lg:mx-8 lg:mt-[3rem]">
+      <h3 class="form-dialog-title">
+        {{ dataOffer.assetTitle }}
 
-      <app-connector-status-led
-        class="inline-flex"
-        [status]="dataOffer.connectorOnlineStatus">
-      </app-connector-status-led>
-    </h3>
-    <p class="form-dialog-prose">{{ dataOffer.organizationName }}</p>
+        <app-connector-status-led
+          class="inline-flex"
+          [status]="dataOffer.connectorOnlineStatus">
+        </app-connector-status-led>
+      </h3>
+      <p class="form-dialog-prose">{{ dataOffer.organizationName }}</p>
+    </div>
+    <div
+      class="flex flex-row justify-start items-start mt-4 mx-4 lg:mx-8 lg:mt-[3rem]">
+      <button mat-icon-button (click)="copyUrl()">
+        <mat-icon>share</mat-icon>
+      </button>
+      <button mat-icon-button mat-dialog-close aria-label="close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
+
   <!-- Title Section -->
 
   <!-- Content Section -->

@@ -183,6 +183,8 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
         environmentId: this.route.snapshot.queryParams.environmentId,
       },
     });
+    // BreadcrumbService builds the name from the URL which is nonsensical in casse of asset IDs
+    document.title = 'MDS Catalogue - Data Offer';
   }
 
   private changeUrlToCatalogRoot() {
