@@ -29,6 +29,7 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {LocalStoredValue} from 'src/app/core/utils/local-stored-value';
+import {DeploymentEnvironmentUrlSyncService} from '../../../core/global-state/deployment-environment-url-sync.service';
 import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
 import {AssetDetailDialogService} from '../asset-detail-dialog/asset-detail-dialog.service';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
@@ -69,9 +70,18 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private store: Store,
     private route: ActivatedRoute,
     private globalStateUtils: GlobalStateUtils,
+    private deploymentEnvironmentUrlSyncService: DeploymentEnvironmentUrlSyncService,
   ) {}
 
   ngOnInit(): void {
+    this.deploymentEnvironmentUrlSyncService.updateFromUrlOnce(
+      this.route,
+      this.ngOnDestroy$,
+    );
+    this.deploymentEnvironmentUrlSyncService.syncToUrl(
+      this.route,
+      this.ngOnDestroy$,
+    );
     this.initializePage();
     this.startListeningToStore();
     this.startListeningToEnvironmentChanges();

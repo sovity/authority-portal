@@ -14,8 +14,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Minor
 
 #### Patch
-
 - Fix Catalog UI after Broker intergration [#238](https://github.com/sovity/authority-portal/issues/238)
+- Fix deployment environment not syncing in URLs for the catalog
 
 ### Known issues
 

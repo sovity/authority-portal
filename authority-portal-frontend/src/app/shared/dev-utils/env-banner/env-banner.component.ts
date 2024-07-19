@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, OnChanges} from '@angular/core';
+import {Component} from '@angular/core';
 import {Observable} from 'rxjs';
 import {DeploymentEnvironmentDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
@@ -19,13 +19,10 @@ import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
   selector: 'app-env-banner',
   templateUrl: './env-banner.component.html',
 })
-export class EnvBannerComponent implements OnChanges {
+export class EnvBannerComponent {
   selectedEnvironment$!: Observable<DeploymentEnvironmentDto>;
 
   constructor(private globalStateUtils: GlobalStateUtils) {
-    this.selectedEnvironment$ =
-      this.globalStateUtils.getDeploymentEnvironment();
+    this.selectedEnvironment$ = this.globalStateUtils.deploymentEnvironment$;
   }
-
-  ngOnChanges() {}
 }
