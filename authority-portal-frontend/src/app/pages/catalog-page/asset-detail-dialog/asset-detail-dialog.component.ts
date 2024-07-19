@@ -10,7 +10,13 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, Inject, OnDestroy} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Observable, Subject, isObservable} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -38,6 +44,8 @@ export class AssetDetailDialogComponent implements OnDestroy {
   asset!: UiAsset;
   propGroups!: PropertyGridGroup[];
   dataOffer!: DataOfferDetailPageResult;
+
+  @Output() notifyClosing: EventEmitter<string> = new EventEmitter<string>();
 
   loading = false;
 
