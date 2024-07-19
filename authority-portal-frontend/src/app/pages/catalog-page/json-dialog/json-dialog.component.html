@@ -15,7 +15,7 @@
     </button>
   </div>
 
-  <div mat-dialog-content>
+  <div mat-dialog-content cdkFocusRegionstart>
     <ngx-json-viewer
       class="grow shrink-0"
       style="
@@ -24,6 +24,7 @@
         min-height: 60vh;
         max-width: 40rem;
         max-height: 60vh;
+        letter-spacing: -0.02em;
       "
       [json]="visibleJson"
       [expanded]="true"
@@ -33,6 +34,7 @@
   <div class="w-full flex flex-row justify-between" mat-dialog-actions>
     <mat-checkbox
       class="example-margin text-sm ml-2"
+      cdkFocusRegionstart
       [(ngModel)]="removeNulls"
       (ngModelChange)="updateVisibleJson()"
       >Cleaned JSON
