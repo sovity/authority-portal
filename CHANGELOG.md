@@ -13,6 +13,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Added unique URLs to data offers that enable direct navigation
+- Added a button in the data offer detail view to copy the data offer URL
+
 #### Patch
 
 - Fix deployment environment not syncing in URLs for the catalog
