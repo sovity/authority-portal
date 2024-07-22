@@ -19,9 +19,9 @@ import {
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {PageEvent} from '@angular/material/paginator';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subject, distinctUntilChanged, of, switchMap, tap} from 'rxjs';
-import {map, take, takeUntil} from 'rxjs/operators';
+import {finalize, map, take, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
   CatalogDataOffer,
@@ -69,6 +69,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private assetDetailDialogService: AssetDetailDialogService,
     private store: Store,
     private route: ActivatedRoute,
+    private router: Router,
     private globalStateUtils: GlobalStateUtils,
     private deploymentEnvironmentUrlSyncService: DeploymentEnvironmentUrlSyncService,
   ) {}
@@ -87,6 +88,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     this.startListeningToEnvironmentChanges();
     this.startEmittingSearchText();
     this.startEmittingSortBy();
+    this.openDataOfferDetailDialogOnceFromUrl();
   }
 
   private initializePage() {
@@ -115,12 +117,19 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       });
   }
 
+  private openDataOfferDetailDialogOnceFromUrl() {
+    const params = this.route.firstChild?.snapshot.params;
+    if (params) {
+      console.log('PARAMS ' + params['connectorId'] + ' ' + params['assetId']);
+      this.openDataOfferDialog(params['assetId'], params['connectorId']);
+    }
+  }
+
   private startListeningToStore() {
     this.store
       .select<CatalogPageStateModel>(CatalogPageState)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
-        console.log('STATE', state);
         this.state = state;
         if (this.searchText.value != state.searchText) {
           this.searchText.setValue(state.searchText);
@@ -156,9 +165,39 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   }
 
   onDataOfferClick(dataOffer: CatalogDataOffer) {
+    this.openDataOfferDialog(dataOffer.assetId, dataOffer.connectorId);
+  }
+
+  private openDataOfferDialog(assetId: string, connectorId: string) {
     this.assetDetailDialogService
-      .open(dataOffer.assetId, dataOffer.connectorId, this.ngOnDestroy$)
+      .open(assetId, connectorId, this.ngOnDestroy$)
+      .pipe(
+        finalize(() => {
+          this.changeUrlToCatalogRoot();
+        }),
+      )
       .subscribe();
+
+    this.router.navigate([connectorId, assetId], {
+      relativeTo: this.route,
+      queryParams: {
+        environmentId: this.route.snapshot.queryParams.environmentId,
+      },
+    });
+    // BreadcrumbService builds the name from the URL which is nonsensical in casse of asset IDs
+    document.title = 'MDS Catalog - Data Offer';
+  }
+
+  private changeUrlToCatalogRoot() {
+    const currentRoute = this.route.snapshot;
+    this.router.navigate(
+      [currentRoute.url.map((segment) => segment.path).join('/')],
+      {
+        queryParams: {
+          environmentId: currentRoute.queryParams.environmentId,
+        },
+      },
+    );
   }
 
   ngOnDestroy$ = new Subject();

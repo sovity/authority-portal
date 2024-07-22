@@ -18,6 +18,7 @@ import {
   DataOfferDetailPageResult,
   UiAsset,
 } from '@sovity.de/authority-portal-client';
+import {ToastService} from '../../../shared/common/toast-notifications/toast.service';
 import {PropertyGridGroup} from '../property-grid-group/property-grid-group';
 import {AssetDetailDialogData} from './asset-detail-dialog-data';
 
@@ -44,6 +45,7 @@ export class AssetDetailDialogComponent implements OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     private _data: AssetDetailDialogData | Observable<AssetDetailDialogData>,
+    private toastService: ToastService,
   ) {
     if (isObservable(this._data)) {
       this._data
@@ -59,6 +61,19 @@ export class AssetDetailDialogComponent implements OnDestroy {
     this.asset = this.data.dataOffer.asset;
     this.dataOffer = this.data.dataOffer;
     this.propGroups = this.data.propertyGridGroups;
+  }
+
+  copyUrl() {
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(() => {
+        this.toastService.showSuccess('Data Offer URL copied to clipboard');
+      })
+      .catch(() => {
+        this.toastService.showSuccess(
+          'Failed to copy Data Offer URL to clipboard. Check if your browser permissions allow this action.',
+        );
+      });
   }
 
   ngOnDestroy$ = new Subject();
