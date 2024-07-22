@@ -23,7 +23,6 @@ export class UrlBeforeLoginService {
         first(),
       )
       .subscribe((event) => {
-        console.log('UrlBeforeLoginService: Original URL:', event.url);
         this.originalUrl = event.urlAfterRedirects || event.url;
         localStorage.setItem('originalUrl', this.originalUrl);
       });

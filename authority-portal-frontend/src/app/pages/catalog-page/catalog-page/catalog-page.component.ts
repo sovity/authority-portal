@@ -120,7 +120,6 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   private openDataOfferDetailDialogOnceFromUrl() {
     const params = this.route.firstChild?.snapshot.params;
     if (params) {
-      console.log('PARAMS ' + params['connectorId'] + ' ' + params['assetId']);
       this.openDataOfferDialog(params['assetId'], params['connectorId']);
     }
   }
