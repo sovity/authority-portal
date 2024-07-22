@@ -82,7 +82,12 @@ const REDIRECT_TO_HOME: string[] = [
 
 const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   path,
-  redirectTo: 'mds-home',
+  redirectTo: (() => {
+    const url = localStorage.getItem('originalUrl') || 'mds-home';
+    console.log('Redirecting to:', url);
+    localStorage.removeItem('originalUrl');
+    return url;
+  })(),
   pathMatch: 'full',
 }));
 
