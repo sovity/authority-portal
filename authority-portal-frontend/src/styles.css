@@ -393,6 +393,19 @@ select:-webkit-autofill:disabled {
   margin-right: 0.5rem !important;
 }
 
+.mat-mdc-form-field .centered-input {
+  padding-top: 3px;
+  line-height: normal;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.mat-form-field .centered-input::placeholder {
+  line-height: normal;
+  font-size: 16px;
+}
+
 .markdown-description {
   @apply !text-sm;
   @apply prose whitespace-normal max-w-none;
