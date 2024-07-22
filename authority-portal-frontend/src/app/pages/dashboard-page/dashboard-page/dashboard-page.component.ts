@@ -11,7 +11,6 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {map, switchMap, takeUntil} from 'rxjs/operators';
 import {
@@ -20,7 +19,6 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {UrlBeforeLoginService} from 'src/app/core/global-state/routes/url-before-login.service';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
@@ -45,16 +43,10 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private globalStateUtils: GlobalStateUtils,
     private apiService: ApiService,
-    private urlBeforeLoginService: UrlBeforeLoginService,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.fetchDashboardPageData();
-    if (this.urlBeforeLoginService.originalUrl != '') {
-      console.log('Dashboard::Redirecting to original URL');
-      this.urlBeforeLoginService.goToOriginalUrl();
-    }
   }
 
   fetchDashboardPageData() {

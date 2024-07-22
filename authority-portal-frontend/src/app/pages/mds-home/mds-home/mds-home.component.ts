@@ -12,7 +12,6 @@
  */
 import {Component, HostBinding, Inject} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {UrlBeforeLoginService} from 'src/app/core/global-state/routes/url-before-login.service';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
@@ -32,12 +31,7 @@ export class MdsHomePageComponent {
   constructor(
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private sanitizer: DomSanitizer,
-    private urlBeforeLoginService: UrlBeforeLoginService,
   ) {
-    if (this.urlBeforeLoginService.originalUrl != '') {
-      console.log('MDS Home::Redirecting to original URL');
-      this.urlBeforeLoginService.goToOriginalUrl();
-    }
     if (this.appConfig.iframeUrl) {
       this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
         this.appConfig.iframeUrl,
