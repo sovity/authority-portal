@@ -208,7 +208,9 @@ const buildCatalogDataOffer = (
 ): CatalogDataOffer => ({
   assetId: it.assetId,
   assetTitle: it.asset.title,
-  assetDataSourceAvailability: mapDataSourceAvailability(it.asset.dataSourceAvailability),
+  assetDataSourceAvailability: mapDataSourceAvailability(
+    it.asset.dataSourceAvailability,
+  ),
   descriptionShortText: it.asset.descriptionShortText,
   keywords: it.asset.keywords ?? [],
   version: it.asset.version,
@@ -219,11 +221,13 @@ const buildCatalogDataOffer = (
   connectorOnlineStatus: it.connectorOnlineStatus,
 });
 
-const mapDataSourceAvailability = (dataSourceAvailability: DataSourceAvailability): string => {
+const mapDataSourceAvailability = (
+  dataSourceAvailability: DataSourceAvailability,
+): string => {
   switch (dataSourceAvailability) {
     case DataSourceAvailability.Live:
-      return "Available"
+      return 'Available';
     case DataSourceAvailability.OnRequest:
-      return "On Request"
+      return 'On Request';
   }
-}
+};
