@@ -92,6 +92,6 @@ export class RouteConfigService {
       .navigateByUrl('/random-redirect-for-force-refresh', {
         skipLocationChange: true,
       })
-      .then(() => this.router.navigate([currentUrl]));
+      .then(() => this.router.navigateByUrl(currentUrl));
   }
 }
