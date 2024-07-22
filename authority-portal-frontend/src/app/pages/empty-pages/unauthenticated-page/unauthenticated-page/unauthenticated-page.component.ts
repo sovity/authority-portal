@@ -19,10 +19,5 @@ import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
   templateUrl: './unauthenticated-page.component.html',
 })
 export class UnauthenticatedPageComponent {
-  constructor(
-    @Inject(APP_CONFIG) public appConfig: AppConfig,
-    private urlBeforeLoginService: UrlBeforeLoginService,
-  ) {
-    console.log('originalUrl', urlBeforeLoginService.originalUrl);
-  }
+  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
 }

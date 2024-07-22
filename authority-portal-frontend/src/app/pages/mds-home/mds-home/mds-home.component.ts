@@ -35,6 +35,7 @@ export class MdsHomePageComponent {
     private urlBeforeLoginService: UrlBeforeLoginService,
   ) {
     if (this.urlBeforeLoginService.originalUrl != '') {
+      console.log('MDS Home::Redirecting to original URL');
       this.urlBeforeLoginService.goToOriginalUrl();
     }
     if (this.appConfig.iframeUrl) {

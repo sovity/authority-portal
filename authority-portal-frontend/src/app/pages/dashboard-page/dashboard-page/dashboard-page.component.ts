@@ -52,6 +52,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.fetchDashboardPageData();
     if (this.urlBeforeLoginService.originalUrl != '') {
+      console.log('Dashboard::Redirecting to original URL');
       this.urlBeforeLoginService.goToOriginalUrl();
     }
   }
