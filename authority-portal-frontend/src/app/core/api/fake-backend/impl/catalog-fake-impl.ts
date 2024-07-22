@@ -16,6 +16,7 @@ import {
   CatalogPageResult,
   DataOfferDetailPageQuery,
   DataOfferDetailPageResult,
+  DataSourceAvailability,
 } from '@sovity.de/authority-portal-client';
 import {subDays, subMinutes} from 'date-fns';
 import {TestAssets} from './data/test-assets';
@@ -67,6 +68,25 @@ const DATA_OFFERS: DataOfferDetailPageResult[] = [
         updatedAt: subMinutes(new Date(), 5),
         createdAt: subDays(new Date(), 7),
         contractPolicy: TestPolicies.warnings,
+      },
+    ],
+  },
+  {
+    assetId: TestAssets.onRequestAsset.assetId,
+    assetTitle: TestAssets.onRequestAsset.title,
+    asset: TestAssets.onRequestAsset,
+    ...myConnector,
+    viewCount: 55,
+    connectorOfflineSinceOrLastUpdatedAt: subMinutes(new Date(), 30),
+    updatedAt: subMinutes(new Date(), 5),
+    createdAt: subDays(new Date(), 30),
+    connectorOnlineStatus: 'ONLINE',
+    contractOffers: [
+      {
+        contractOfferId: 'on-request-contract-offer-1',
+        updatedAt: subMinutes(new Date(), 20),
+        createdAt: subDays(new Date(), 20),
+        contractPolicy: TestPolicies.failedMapping,
       },
     ],
   },
@@ -188,6 +208,7 @@ const buildCatalogDataOffer = (
 ): CatalogDataOffer => ({
   assetId: it.assetId,
   assetTitle: it.asset.title,
+  assetDataSourceAvailability: it.asset.dataSourceAvailability,
   descriptionShortText: it.asset.descriptionShortText,
   keywords: it.asset.keywords ?? [],
   version: it.asset.version,

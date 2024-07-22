@@ -53,6 +53,7 @@ class CatalogQueryDataOfferFetcher(
         val query = DSL.select(
             d.ASSET_ID.`as`("assetId"),
             d.ASSET_TITLE.`as`("assetTitle"),
+            fields.dataSourceAvailability.`as`("dataSourceAvailability"),
             d.SHORT_DESCRIPTION_NO_MARKDOWN.`as`("shortDescriptionNoMarkdown"),
             d.VERSION.`as`("version"),
             d.KEYWORDS.`as`("keywords"),

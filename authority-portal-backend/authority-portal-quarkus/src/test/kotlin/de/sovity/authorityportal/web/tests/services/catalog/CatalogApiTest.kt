@@ -237,7 +237,7 @@ class CatalogApiTest {
             it.assetId = dummyDevAssetId(0)
             it.title = "Data Offer 0"
             it.description = "Data Offer 0 Description"
-            it.dataSourceAvailability = DataSourceAvailability.LIVE
+            it.dataSourceAvailability = DataSourceAvailability.ON_REQUEST
         }
 
         ScenarioData().apply {
@@ -265,11 +265,12 @@ class CatalogApiTest {
         )
 
         // assert
-        assertThat(result.dataOffers).hasSize(1)
-        assertThat(result.dataOffers.first().assetId).isEqualTo(dummyDevAssetId(0))
-        assertThat(result.dataOffers.first().assetTitle).isEqualTo("Data Offer 0")
-        assertThat(result.dataOffers.first().descriptionShortText).isEqualTo("shortDescription")
-        assertThat(result.dataOffers.first().connectorOnlineStatus).isEqualTo(ConnectorOnlineStatusDto.ONLINE)
+        val dataOffer = result.dataOffers.single()
+        assertThat(dataOffer.assetId).isEqualTo(dummyDevAssetId(0))
+        assertThat(dataOffer.assetTitle).isEqualTo("Data Offer 0")
+        assertThat(dataOffer.descriptionShortText).isEqualTo("shortDescription")
+        assertThat(dataOffer.connectorOnlineStatus).isEqualTo(ConnectorOnlineStatusDto.ONLINE)
+        assertThat(dataOffer.assetDataSourceAvailability).isEqualTo(DataSourceAvailability.ON_REQUEST)
     }
 
     @Test
@@ -485,9 +486,10 @@ class CatalogApiTest {
         )
 
         // assert
-        assertThat(result.dataOffers).hasSize(1)
-        assertThat(result.dataOffers.first().assetId).isEqualTo(dummyDevAssetId(0))
-        assertThat(result.dataOffers.first().assetTitle).isEqualTo("Hello")
+        val dataOffer = result.dataOffers.single()
+        assertThat(dataOffer.assetId).isEqualTo(dummyDevAssetId(0))
+        assertThat(dataOffer.assetTitle).isEqualTo("Hello")
+        assertThat(dataOffer.assetDataSourceAvailability).isEqualTo(DataSourceAvailability.LIVE)
     }
 
     @Test

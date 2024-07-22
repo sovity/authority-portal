@@ -13,12 +13,7 @@
  */
 package de.sovity.authorityportal.broker.services.api
 
-import de.sovity.authorityportal.api.model.catalog.CatalogDataOffer
-import de.sovity.authorityportal.api.model.catalog.CatalogPageQuery
-import de.sovity.authorityportal.api.model.catalog.CatalogPageResult
-import de.sovity.authorityportal.api.model.catalog.CatalogPageSortingItem
-import de.sovity.authorityportal.api.model.catalog.CatalogPageSortingType
-import de.sovity.authorityportal.api.model.catalog.ConnectorOnlineStatusDto
+import de.sovity.authorityportal.api.model.catalog.*
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryService
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs
 import de.sovity.authorityportal.broker.services.api.filtering.CatalogFilterService
@@ -34,7 +29,7 @@ class CatalogApiService(
     val catalogQueryService: CatalogQueryService,
     val catalogFilterService: CatalogFilterService,
     val dsl: DSLContext,
-    val deploymentEnvironmentService: DeploymentEnvironmentService
+    val deploymentEnvironmentService: DeploymentEnvironmentService,
 ) {
 
     fun catalogPage(environment: String, query: CatalogPageQuery): CatalogPageResult {
@@ -82,20 +77,19 @@ class CatalogApiService(
         }
     }
 
-    private fun buildCatalogDataOffer(dataOfferRs: DataOfferListEntryRs): CatalogDataOffer {
-        return CatalogDataOffer(
-            assetId = dataOfferRs.assetId,
-            assetTitle = dataOfferRs.assetTitle,
-            descriptionShortText = dataOfferRs.shortDescriptionNoMarkdown,
-            version = dataOfferRs.version,
-            keywords = dataOfferRs.keywords,
-            connectorId = dataOfferRs.connectorId,
-            organizationId = dataOfferRs.organizationId,
-            organizationName = dataOfferRs.organizationName,
-            connectorOnlineStatus = getOnlineStatus(dataOfferRs),
-            connectorOfflineSinceOrLastUpdatedAt = dataOfferRs.connectorOfflineSinceOrLastUpdatedAt
-        )
-    }
+    private fun buildCatalogDataOffer(dataOfferRs: DataOfferListEntryRs): CatalogDataOffer = CatalogDataOffer(
+        assetId = dataOfferRs.assetId,
+        assetTitle = dataOfferRs.assetTitle,
+        assetDataSourceAvailability = dataOfferRs.dataSourceAvailability,
+        descriptionShortText = dataOfferRs.shortDescriptionNoMarkdown,
+        version = dataOfferRs.version,
+        keywords = dataOfferRs.keywords,
+        connectorId = dataOfferRs.connectorId,
+        organizationId = dataOfferRs.organizationId,
+        organizationName = dataOfferRs.organizationName,
+        connectorOnlineStatus = getOnlineStatus(dataOfferRs),
+        connectorOfflineSinceOrLastUpdatedAt = dataOfferRs.connectorOfflineSinceOrLastUpdatedAt
+    )
 
     private fun getOnlineStatus(dataOfferRs: DataOfferListEntryRs): ConnectorOnlineStatusDto {
         return when (dataOfferRs.connectorOnlineStatus) {

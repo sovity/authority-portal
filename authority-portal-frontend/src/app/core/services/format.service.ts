@@ -10,19 +10,17 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { formatNumber } from '@angular/common';
-import { Inject, Injectable, LOCALE_ID } from '@angular/core';
-
+import {formatNumber} from '@angular/common';
+import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormatService {
-
   constructor(@Inject(LOCALE_ID) private locale: string) {}
 
   formatNumber(value: number | null | undefined, digitsInfo?: string): string {
-    return value == null ? "" : formatNumber(value, this.locale, digitsInfo);
+    return value == null ? '' : formatNumber(value, this.locale, digitsInfo);
   }
 
   formatInteger(value: number | null | undefined): string {

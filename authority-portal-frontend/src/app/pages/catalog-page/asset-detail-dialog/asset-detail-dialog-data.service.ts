@@ -33,19 +33,25 @@ export class AssetDetailDialogDataService {
       ...this.assetPropertyGridGroupBuilder.buildAdditionalPropertiesGroups(
         dataOffer,
       ),
-      ...dataOffer.contractOffers.map((contractOffer, i) =>
-        this.assetPropertyGridGroupBuilder.buildContractOfferGroup(
-          dataOffer,
-          contractOffer,
-          i,
-          dataOffer.contractOffers.length,
-        ),
-      ),
+      ...(this.isOnRequestAsset(dataOffer)
+        ? []
+        : dataOffer.contractOffers.map((contractOffer, i) =>
+            this.assetPropertyGridGroupBuilder.buildContractOfferGroup(
+              dataOffer,
+              contractOffer,
+              i,
+              dataOffer.contractOffers.length,
+            ),
+          )),
     ].filter((it) => it.properties.length);
 
     return {
       dataOffer,
       propertyGridGroups,
     };
+  }
+
+  private isOnRequestAsset(dataOffer: DataOfferDetailPageResult): boolean {
+    return dataOffer.asset.dataSourceAvailability === 'ON_REQUEST';
   }
 }
