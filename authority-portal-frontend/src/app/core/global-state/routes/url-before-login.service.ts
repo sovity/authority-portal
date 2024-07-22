@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {filter, first} from 'rxjs';
+import {filter, first, tap} from 'rxjs';
 
 @Injectable({
   providedIn: 'root', // Ensure the service is provided in the root injector
@@ -14,17 +14,28 @@ export class UrlBeforeLoginService {
         filter(
           (event): event is NavigationEnd =>
             event instanceof NavigationEnd &&
-            event.url !== '/random-redirect-for-force-refresh',
+            event.url != null &&
+            event.url != undefined &&
+            event.url != '' &&
+            event.url != '/' &&
+            event.url != '/random-redirect-for-force-refresh',
         ),
-        // first(),
+        first(),
       )
       .subscribe((event) => {
+        console.log('UrlBeforeLoginService: Original URL:', event.url);
         this.originalUrl = event.urlAfterRedirects || event.url;
-        console.log('Original URL:', this.originalUrl);
       });
   }
 
   public reset(): void {
     this.originalUrl = '';
+  }
+
+  public goToOriginalUrl(): void {
+    if (this.originalUrl) {
+      this.router.navigateByUrl(this.originalUrl);
+      this.reset();
+    }
   }
 }

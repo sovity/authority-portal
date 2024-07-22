@@ -85,9 +85,7 @@ export class RouteConfigService {
         })
         .then(() => {
           if (this.urlBeforeLoginService.originalUrl != '') {
-            let originalUrl = this.urlBeforeLoginService.originalUrl;
-            this.urlBeforeLoginService.reset();
-            this.router.navigateByUrl(this.urlBeforeLoginService.originalUrl);
+            this.urlBeforeLoginService.goToOriginalUrl();
           } else {
             this.router.navigate(['/mds-home']);
           }
