@@ -18,6 +18,7 @@ import {
   DataOfferDetailPageResult,
   UiAsset,
 } from '@sovity.de/authority-portal-client';
+import {MailtoLinkBuilder} from 'src/app/core/services/mailto-link-builder';
 import {ToastService} from '../../../shared/common/toast-notifications/toast.service';
 import {PropertyGridGroup} from '../property-grid-group/property-grid-group';
 import {AssetDetailDialogData} from './asset-detail-dialog-data';
@@ -42,9 +43,25 @@ export class AssetDetailDialogComponent implements OnDestroy {
 
   loading = false;
 
+  get isOnRequestDataOffer(): boolean {
+    return this.data.dataOffer.asset.dataSourceAvailability === 'ON_REQUEST';
+  }
+
+  get onRequestContactLink(): string {
+    if (!this.asset.onRequestContactEmail) {
+      throw new Error('On request asset must have contact email');
+    }
+    return this.mailtoLinkBuilder.buildMailtoUrl(
+      this.asset.onRequestContactEmail,
+      this.asset.onRequestContactEmailSubject ??
+        "I'm interested in your data offer",
+    );
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     private _data: AssetDetailDialogData | Observable<AssetDetailDialogData>,
+    private mailtoLinkBuilder: MailtoLinkBuilder,
     private toastService: ToastService,
   ) {
     if (isObservable(this._data)) {
