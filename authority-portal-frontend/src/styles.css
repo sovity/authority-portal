@@ -406,6 +406,10 @@ select:-webkit-autofill:disabled {
   font-size: 16px;
 }
 
+.mat-form-field-without-margin-bottom {
+  margin-bottom: -1.25rem !important;
+}
+
 .markdown-description {
   @apply !text-sm;
   @apply prose whitespace-normal max-w-none;
