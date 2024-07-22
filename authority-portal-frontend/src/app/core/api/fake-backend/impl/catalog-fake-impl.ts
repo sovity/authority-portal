@@ -16,6 +16,7 @@ import {
   CatalogPageResult,
   DataOfferDetailPageQuery,
   DataOfferDetailPageResult,
+  DataSourceAvailability,
 } from '@sovity.de/authority-portal-client';
 import {subDays, subMinutes} from 'date-fns';
 import {TestAssets} from './data/test-assets';
@@ -207,7 +208,7 @@ const buildCatalogDataOffer = (
 ): CatalogDataOffer => ({
   assetId: it.assetId,
   assetTitle: it.asset.title,
-  assetDataSourceAvailability: it.asset.dataSourceAvailability,
+  assetDataSourceAvailability: mapDataSourceAvailability(it.asset.dataSourceAvailability),
   descriptionShortText: it.asset.descriptionShortText,
   keywords: it.asset.keywords ?? [],
   version: it.asset.version,
@@ -217,3 +218,12 @@ const buildCatalogDataOffer = (
   connectorOfflineSinceOrLastUpdatedAt: it.connectorOfflineSinceOrLastUpdatedAt,
   connectorOnlineStatus: it.connectorOnlineStatus,
 });
+
+const mapDataSourceAvailability = (dataSourceAvailability: DataSourceAvailability): string => {
+  switch (dataSourceAvailability) {
+    case DataSourceAvailability.Live:
+      return "Available"
+    case DataSourceAvailability.OnRequest:
+      return "On Request"
+  }
+}
