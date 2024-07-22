@@ -14,7 +14,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Minor
 
 #### Patch
-
+- Fix Catalog UI after Broker intergration [#238](https://github.com/sovity/authority-portal/issues/238)
 - Fix deployment environment not syncing in URLs for the catalog
 
 ### Known issues
@@ -58,16 +58,18 @@ MDS 2.2 intermediate release
 - Keycloak
   - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
 - Portal Backend
+
   - Following environment variables have been added and **must be configured** for each environment
+
     - ```yaml
       # Time after which offline data offers are hidden from the Data Catalog
       authority-portal.deployment.environments.{environmentId}.data-catalog.hide-offline-data-offers-after: 15m
 
       # Default page size for the Data Catalog
       authority-portal.deployment.environments.{environmentId}.data-catalog.catalog-page-page-size: 10
-      
+
       # Kuma name for the catalog crawler
-      authority-portal.deployment.environments.{environmentId}.data-catalog.kuma-name: broker  
+      authority-portal.deployment.environments.{environmentId}.data-catalog.kuma-name: broker
 
       # Environment Connector-Dataspace association
       # Allows certain connectors to be associated as partnered data spaces
@@ -76,14 +78,16 @@ MDS 2.2 intermediate release
       # Optional: Additional connectors to be given a dataspace name
       authority-portal.deployment.environments.test.data-catalog.dataspace-names.connectorIds."MDSL1234XX.C1234XX": Mobilithek
       ```
+
   - Following environment variables have been removed and **can be removed from the configuration**
     - ```yaml
       # the broker has been removed, as the catalog is now a part of the authority portal
       authority-portal.deployment.environments.{environmentId}.broker.url: ...
-      authority-portal.deployment.environments.{environmentId}.broker.admin-api-key: ... 
+      authority-portal.deployment.environments.{environmentId}.broker.admin-api-key: ...
       authority-portal.deployment.environments.{environmentId}.broker.api-key: ...
       authority-portal.deployment.environments.{environmentId}.broker.kuma-name: ...
       ```
+
 - The Broker as a stand-alone deployment unit has been removed in favor of the Catalog Crawler.
   - Any broker's database is not required anymore and can be undeployed.
   - A Catalog Crawler must be deployed for each environment to fill the catalog with live data.

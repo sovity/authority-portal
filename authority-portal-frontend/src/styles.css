@@ -382,7 +382,36 @@ select:-webkit-autofill:disabled {
   @apply text-gray-500 text-xs;
 }
 
+.mat-mdc-standard-chip {
+  padding: 0.25rem 0.5rem;
+  background-color: #fcfcfc !important;
+  border: 1px solid #71717171 !important;
+  @apply text-sm font-medium;
+}
+
+.mdc-list-item--with-leading-checkbox .mdc-list-item__start {
+  margin-right: 0.5rem !important;
+}
+
+.mat-mdc-form-field .centered-input {
+  padding-top: 3px;
+  line-height: normal;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.mat-form-field .centered-input::placeholder {
+  line-height: normal;
+  font-size: 16px;
+}
+
+.mat-form-field-without-margin-bottom {
+  margin-bottom: -1.25rem !important;
+}
+
 .markdown-description {
+  @apply !text-sm;
   @apply prose whitespace-normal max-w-none;
   @apply prose-img:rounded-lg prose-img:my-3 prose-img:object-contain prose-img:max-w-full prose-img:max-h-[250px];
   @apply prose-a:text-[--link-color];
