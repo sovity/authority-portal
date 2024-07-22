@@ -1,15 +1,7 @@
 <div class="p-2 min-w-[990px] min-h-[600px]">
-  <!-- close button -->
-  <div class="flex w-full justify-end">
-    <button class="!fixed" mat-icon-button mat-dialog-close aria-label="close">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-  <!-- close button -->
-
   <!-- Title Section -->
   <div class="flex flex-row justify-between">
-    <div class="flex flex-col justify-start mt-4 mx-4 lg:mx-8 lg:mt-[3rem]">
+    <div class="flex flex-col justify-start mt-4 lg:mt-[2rem] mx-4 lg:mx-8">
       <h3 class="form-dialog-title">
         {{ dataOffer.assetTitle }}
 
@@ -29,8 +21,6 @@
       </button>
     </div>
   </div>
-
-  <!-- Title Section -->
 
   <!-- Content Section -->
   <div class="mx-4 lg:mx-8">
@@ -70,7 +60,7 @@
 
   <!-- Action Section -->
   <mat-dialog-actions align="end">
-    <div class="flex gap-4 mt-4">
+    <div class="flex gap-4">
       <button class="btn-accent-outline" type="button" mat-dialog-close>
         Close
       </button>
