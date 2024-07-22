@@ -1,77 +1,79 @@
 <div class="overflow-hidden border border-gray-200 md:rounded-lg w-full">
   <table class="min-w-full divide-y divide-gray-200">
     <thead class="bg-gray-200 border-l-4 border-gray-200">
-    <tr>
-      <th
-        class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
-        scope="col">
-        Organization
-      </th>
-      <th
-        class="py-3.5 pl-3 text-sm font-normal text-gray-700 text-left"
-        scope="col">
-        Title
-      </th>
+      <tr>
+        <th
+          class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+          scope="col">
+          Organization
+        </th>
+        <th
+          class="py-3.5 pl-3 text-sm font-normal text-gray-700 text-left"
+          scope="col">
+          Title
+        </th>
 
-      <th
-        class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
-        scope="col">
-        Description
-      </th>
+        <th
+          class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+          scope="col">
+          Description
+        </th>
 
-      <th
-        class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
-        scope="col">
-        Status
-      </th>
-    </tr>
+        <th
+          class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
+          scope="col">
+          Status
+        </th>
+      </tr>
     </thead>
     <ng-container *ngIf="dataOffers.length > 0; else noRows">
       <tbody
         *ngFor="let dataOffer of dataOffers"
         class="bg-white divide-y divide-gray-200"
         (click)="dataOfferClick.emit(dataOffer)">
-      <tr
-        class="border-l-4 border-transparent hover:bg-slate-50 hover:border-l-4 hover:border-yellow-600/70 cursor-pointer -ml-1">
-        <td
-          class="px-4 py-4 text-sm font-medium whitespace-nowrap text-gray-700"
-          [matTooltip]="dataOffer.connectorId">
-          {{ dataOffer.organizationName }}
-        </td>
+        <tr
+          class="border-l-4 border-transparent hover:bg-slate-50 hover:border-l-4 hover:border-yellow-600/70 cursor-pointer -ml-1">
+          <td
+            class="px-4 py-4 text-sm font-medium whitespace-nowrap text-gray-700"
+            [matTooltip]="dataOffer.connectorId">
+            {{ dataOffer.organizationName }}
+          </td>
 
-        <td
-          class="px-4 py-4 text-sm font-medium whitespace-nowrap text-gray-700"
-          [matTooltip]="dataOffer.assetId">
-          {{ dataOffer.assetTitle }}
-        </td>
+          <td
+            class="px-4 py-4 text-sm font-medium whitespace-nowrap text-gray-700"
+            [matTooltip]="dataOffer.assetId">
+            {{ dataOffer.assetTitle }}
+          </td>
 
-        <td class="px-4 py-4 font-medium text-xs text-gray-700">
-          <div class="overflow-hidden text-ellipsis line-clamp-3">
-            {{ dataOffer.descriptionShortText }}
-          </div>
-        </td>
+          <td class="px-4 py-4 font-medium text-xs text-gray-700">
+            <div class="overflow-hidden text-ellipsis line-clamp-3">
+              {{ dataOffer.descriptionShortText }}
+            </div>
+          </td>
 
-        <td
-          class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap text-gray-700">
-          <app-connector-status-led
-            *ngIf="dataOffer.assetDataSourceAvailability === 'Available'"
-            [status]="dataOffer.connectorOnlineStatus"></app-connector-status-led>
-          <svg
-            *ngIf="dataOffer.assetDataSourceAvailability === 'On Request'"
-            class="size-5 cursor-pointer -ml-[0.175rem]"
-            matTooltip="On Request Data Offer"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>
-          </svg>
-        </td>
-      </tr>
+          <td
+            class="px-4 py-4 text-sm text-center font-medium whitespace-nowrap text-gray-700">
+            <app-connector-status-led
+              *ngIf="dataOffer.assetDataSourceAvailability === 'Available'"
+              [status]="
+                dataOffer.connectorOnlineStatus
+              "></app-connector-status-led>
+            <svg
+              *ngIf="dataOffer.assetDataSourceAvailability === 'On Request'"
+              class="size-5 cursor-pointer -ml-[0.175rem]"
+              matTooltip="On Request Data Offer"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+            </svg>
+          </td>
+        </tr>
       </tbody>
     </ng-container>
     <ng-template #noRows>
