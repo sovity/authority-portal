@@ -50,8 +50,14 @@ class CatalogQueryFields(
         dataSpace = buildDataSpaceField(connectorTable, dataSpaceConfigCatalog)
     }
 
-    private fun buildDataSpaceField(connectorTable: Connector, dataSpaceConfigCatalog: CatalogDataspaceConfig): Field<String> {
-        return connectorTable.CONNECTOR_ID.mapInline(dataSpaceConfigCatalog.namesByConnectorId, dataSpaceConfigCatalog.defaultName)
+    private fun buildDataSpaceField(
+        connectorTable: Connector,
+        dataSpaceConfigCatalog: CatalogDataspaceConfig
+    ): Field<String> {
+        return connectorTable.CONNECTOR_ID.mapInline(
+            dataSpaceConfigCatalog.namesByConnectorId,
+            dataSpaceConfigCatalog.defaultName
+        )
     }
 
     fun withSuffix(additionalSuffix: String): CatalogQueryFields {
@@ -80,10 +86,12 @@ class CatalogQueryFields(
             return subquery.asField()
         }
 
-    val dataSourceAvailability: Field<String> =
+    val dataSourceAvailabilityLabel: Field<String> =
         DSL.case_(getAssetStringProperty("dataSourceAvailability"))
             .`when`("ON_REQUEST", "On Request")
             .else_("Available")
+
+    val dataSourceAvailability: Field<String> = getAssetStringProperty("dataSourceAvailability")
 
     fun getAssetStringProperty(name: String): Field<String> {
         return JsonbDSL.fieldByKeyText(dataOfferTable.UI_ASSET_JSON, name)

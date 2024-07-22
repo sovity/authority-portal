@@ -13,6 +13,7 @@
  */
 package de.sovity.authorityportal.api.model.catalog
 
+import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.OffsetDateTime
 
@@ -25,10 +26,10 @@ data class CatalogDataOffer(
     val assetTitle: String,
 
     @field:Schema(
-        description = "Asset Datasource Availability (there are 'Available' and 'On Request' Assets)",
+        description = "Asset Datasource Availability (there are 'LIVE' and 'ON_REQUEST' Assets)",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
-    val assetDataSourceAvailability: String,
+    val assetDataSourceAvailability: DataSourceAvailability,
 
     @field:Schema(
         description = "Asset Description Short Text generated from description. Contains no markdown.",

@@ -44,7 +44,7 @@ class CatalogFilterService(
          */
         get() = listOf(
             catalogFilterAttributeDefinitionService.forField(
-                { fields: CatalogQueryFields -> fields.dataSourceAvailability },
+                { fields: CatalogQueryFields -> fields.dataSourceAvailabilityLabel },
                 "dataSourceAvailability",
                 "Data Offer Type"
             ),

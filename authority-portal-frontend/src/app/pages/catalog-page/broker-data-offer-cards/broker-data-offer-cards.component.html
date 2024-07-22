@@ -15,10 +15,10 @@
         </span>
       </div>
       <app-connector-status-led
-        *ngIf="dataOffer.assetDataSourceAvailability === 'Available'"
+        *ngIf="dataOffer.assetDataSourceAvailability === 'LIVE'"
         [status]="dataOffer.connectorOnlineStatus"></app-connector-status-led>
       <svg
-        *ngIf="dataOffer.assetDataSourceAvailability === 'On Request'"
+        *ngIf="dataOffer.assetDataSourceAvailability === 'ON_REQUEST'"
         class="size-5 cursor-pointer"
         matTooltip="On Request Data Offer"
         xmlns="http://www.w3.org/2000/svg"
