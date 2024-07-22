@@ -306,9 +306,11 @@ export const TEST_USERS: UserInfo[] = [
 /**
  * Currently "logged-in user" for local dev UI
  */
-let currentlyLoggedInUser: UserInfo = buildUserInfo(
-  ALL_USERS['00000000-0000-0000-0000-000000000001'],
-);
+// let currentlyLoggedInUser: UserInfo = buildUserInfo(
+//   ALL_USERS['00000000-0000-0000-0000-000000000001'],
+// );
+
+let currentlyLoggedInUser: UserInfo = TEST_USERS[TEST_USERS.length - 1];
 
 /**
  * Update currently logged-in User for local dev UI

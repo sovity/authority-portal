@@ -23,6 +23,7 @@ import {
   UNAUTHENTICATED_ROUTES,
 } from '../../../app-routing.module';
 import {AuthorityPortalPageSet} from './authority-portal-page-set';
+import {UrlBeforeLoginService} from './url-before-login.service';
 
 @Injectable({providedIn: 'root'})
 export class RouteConfigService {
@@ -35,7 +36,10 @@ export class RouteConfigService {
     AUTHORITY_PORTAL: AUTHORITY_PORTAL_ROUTES,
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private urlBeforeLoginService: UrlBeforeLoginService,
+  ) {}
 
   decidePageSet(userInfoFetched: Fetched<UserInfo>): AuthorityPortalPageSet {
     if (!userInfoFetched.isReady) {
@@ -79,7 +83,15 @@ export class RouteConfigService {
         .navigateByUrl('/random-redirect-for-force-refresh', {
           skipLocationChange: true,
         })
-        .then(() => this.router.navigate(['/mds-home']));
+        .then(() => {
+          if (this.urlBeforeLoginService.originalUrl != '') {
+            let originalUrl = this.urlBeforeLoginService.originalUrl;
+            this.urlBeforeLoginService.reset();
+            this.router.navigateByUrl(this.urlBeforeLoginService.originalUrl);
+          } else {
+            this.router.navigate(['/mds-home']);
+          }
+        });
     } else {
       // Force refresh
       this.forceRefreshCurrentRoute();

@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, Inject} from '@angular/core';
+import {UrlBeforeLoginService} from 'src/app/core/global-state/routes/url-before-login.service';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
@@ -18,5 +19,10 @@ import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
   templateUrl: './unauthenticated-page.component.html',
 })
 export class UnauthenticatedPageComponent {
-  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
+  constructor(
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
+    private urlBeforeLoginService: UrlBeforeLoginService,
+  ) {
+    console.log('originalUrl', urlBeforeLoginService.originalUrl);
+  }
 }
