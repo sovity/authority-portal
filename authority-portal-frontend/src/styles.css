@@ -383,10 +383,14 @@ select:-webkit-autofill:disabled {
 }
 
 .mat-mdc-standard-chip {
-  padding: 0.25rem 0.25rem;
-  background-color: #fafafa !important;
-  border: 1px solid #717171 !important;
+  padding: 0.25rem 0.5rem;
+  background-color: #fcfcfc !important;
+  border: 1px solid #71717171 !important;
   @apply text-sm font-medium;
+}
+
+.mdc-list-item--with-leading-checkbox .mdc-list-item__start {
+  margin-right: 0.5rem !important;
 }
 
 .markdown-description {

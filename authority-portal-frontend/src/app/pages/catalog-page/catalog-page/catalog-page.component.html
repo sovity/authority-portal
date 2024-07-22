@@ -6,7 +6,7 @@
       <!-- Search Bar -->
       <mat-form-field
         *ngIf="state.isPageReady"
-        class="w-full min-h-min text-s mat-form-field-without-margin-bottom"
+        class="w-full min-h-min !text-sm mat-form-field-without-margin-bottom"
         appearance="outline"
         color="accent">
         <mat-icon matPrefix>search</mat-icon>
@@ -29,8 +29,10 @@
         *ngIf="state.isPageReady && state.activeFilterPills.length">
         <mat-chip
           *ngFor="let item of state.activeFilterPills"
+          class="!font-bold"
           (removed)="onRemoveActiveFilterItem(item)">
           {{ item.label }}:&nbsp;<span
+            class="!font-normal"
             [class.italic]="item.selectedFilterItem?.type === 'NO_VALUE'"
             >{{ item.value }}</span
           >
@@ -91,13 +93,17 @@
       <!-- Sorting Select-->
       <mat-form-field
         *ngIf="state.sortings.length"
-        class="mat-form-field-without-margin-bottom"
+        class="!text-sm"
         appearance="outline"
         color="accent">
         <mat-select
+          class=""
           [compareWith]="'sorting' | compareByField"
           [formControl]="sortBy">
-          <mat-option *ngFor="let item of state.sortings" [value]="item">
+          <mat-option
+            *ngFor="let item of state.sortings"
+            class="!text-sm"
+            [value]="item">
             {{ item.title }}
           </mat-option>
         </mat-select>
@@ -110,7 +116,7 @@
             trackBy: trackFilterBy;
             let first = first
           "
-          class="w-[300px] mat-expansion-panel-flex-col"
+          class="w-[300px] mat-expansion-panel-flex-col text-sm"
           [expanded]="filter.id === expandedFilterId"
           (expandedChange)="onExpandedFilterChange(filter.id, $event)">
           <mat-expansion-panel-header>
@@ -125,7 +131,7 @@
           </mat-expansion-panel-header>
 
           <mat-form-field
-            class="w-full min-h-min text-s mat-form-field-without-margin-bottom"
+            class="w-full min-h-min mat-form-field-without-margin-bottom"
             appearance="outline"
             color="accent">
             <mat-icon matPrefix>search</mat-icon>

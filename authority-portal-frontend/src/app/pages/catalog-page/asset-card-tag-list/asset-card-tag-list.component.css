@@ -1,7 +1,11 @@
 .keyword {
-  @apply px-2.5 py-0.5 rounded-full text-xs bg-gray-200;
+  @apply px-2.5 py-0.5 rounded-full text-xs;
+  background-color: #fcfcfc;
+  border: 1px solid #71717171;
 }
 
 .version-keyword {
-  @apply bg-yellow-200;
+  background-color: #b57d00;
+  color: white;
+  border: none;
 }
