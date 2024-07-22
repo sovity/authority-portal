@@ -21,7 +21,7 @@ import {FormControl} from '@angular/forms';
 import {PageEvent} from '@angular/material/paginator';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject, distinctUntilChanged, of, switchMap, tap} from 'rxjs';
-import {map, take, takeUntil} from 'rxjs/operators';
+import {finalize, map, take, takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
   CatalogDataOffer,
@@ -88,6 +88,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     this.startListeningToEnvironmentChanges();
     this.startEmittingSearchText();
     this.startEmittingSortBy();
+    this.openDataOfferDetailDialogOnceFromUrl();
   }
 
   private initializePage() {
@@ -114,7 +115,9 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
         const initialMdsIds = mdsId ? [mdsId] : undefined;
         this.store.dispatch(new CatalogPage.Reset(initialMdsIds));
       });
+  }
 
+  private openDataOfferDetailDialogOnceFromUrl() {
     const params = this.route.firstChild?.snapshot.params;
     if (params) {
       console.log('PARAMS ' + params['connectorId'] + ' ' + params['assetId']);
@@ -169,14 +172,13 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   private openDataOfferDialog(assetId: string, connectorId: string) {
     this.assetDetailDialogService
       .open(assetId, connectorId, this.ngOnDestroy$)
-      .subscribe(
-        () => {
+      .pipe(
+        finalize(() => {
           this.changeUrlToCatalogRoot();
-        },
-        () => {
-          this.changeUrlToCatalogRoot();
-        },
-      );
+        }),
+      )
+      .subscribe();
+
     this.router.navigate([connectorId, assetId], {
       relativeTo: this.route,
       queryParams: {
@@ -184,7 +186,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       },
     });
     // BreadcrumbService builds the name from the URL which is nonsensical in casse of asset IDs
-    document.title = 'MDS Catalogue - Data Offer';
+    document.title = 'MDS Catalog - Data Offer';
   }
 
   private changeUrlToCatalogRoot() {
