@@ -84,7 +84,6 @@ const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   path,
   redirectTo: (() => {
     const url = localStorage.getItem('originalUrl') || 'mds-home';
-    console.log('Redirecting to:', url);
     localStorage.removeItem('originalUrl');
     return url;
   })(),

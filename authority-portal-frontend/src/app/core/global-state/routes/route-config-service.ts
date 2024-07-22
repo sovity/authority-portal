@@ -84,10 +84,6 @@ export class RouteConfigService {
           skipLocationChange: true,
         })
         .then(() => {
-          console.log(
-            'RouteConfigService: Redirecting to MDS Home or',
-            this.urlBeforeLoginService.originalUrl,
-          );
           if (this.urlBeforeLoginService.originalUrl != '') {
             this.urlBeforeLoginService.goToOriginalUrl();
           } else {
