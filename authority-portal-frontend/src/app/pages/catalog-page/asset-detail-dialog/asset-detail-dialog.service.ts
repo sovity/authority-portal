@@ -13,7 +13,7 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {NEVER, Observable, takeUntil} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {DataOfferDetailPageQuery} from '@sovity.de/authority-portal-client';
 import {CatalogApiService} from 'src/app/core/api/catalog-api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
@@ -22,6 +22,7 @@ import {ErrorService} from '../../../core/services/error.service';
 import {AssetDetailDialogData} from './asset-detail-dialog-data';
 import {AssetDetailDialogDataService} from './asset-detail-dialog-data.service';
 import {AssetDetailDialogComponent} from './asset-detail-dialog.component';
+import {AssetNotAvailableDialogComponent} from './asset-not-available-dialog/asset-not-available-dialog.component';
 
 @Injectable()
 export class AssetDetailDialogService {
@@ -53,8 +54,10 @@ export class AssetDetailDialogService {
       map((result) =>
         this.assetDetailDialogDataService.dataOfferDetailPage(result),
       ),
-      this.errorService.toastFailureRxjs('Failed to load Data Offer Details'),
       switchMap((data) => this.openDialogWithData(data, until$)),
+      catchError(() => {
+        return this.openErrorDialog(until$);
+      }),
     );
   }
 
@@ -76,6 +79,17 @@ export class AssetDetailDialogService {
         maxHeight: '90vh',
         autoFocus: false,
       },
+      until$,
+    );
+  }
+
+  private openErrorDialog(
+    until$: Observable<any> = NEVER,
+  ): Observable<undefined> {
+    return showDialogUntil(
+      this.dialog,
+      AssetNotAvailableDialogComponent,
+      {maxWidth: '600px'},
       until$,
     );
   }
