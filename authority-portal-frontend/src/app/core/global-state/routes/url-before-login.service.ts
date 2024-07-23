@@ -3,7 +3,7 @@ import {NavigationEnd, Router} from '@angular/router';
 import {filter, first, tap} from 'rxjs';
 
 @Injectable({
-  providedIn: 'root', // Ensure the service is provided in the root injector
+  providedIn: 'root',
 })
 export class UrlBeforeLoginService {
   public originalUrl: string = '';
