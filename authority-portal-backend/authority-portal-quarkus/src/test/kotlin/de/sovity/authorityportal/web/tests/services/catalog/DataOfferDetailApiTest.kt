@@ -26,6 +26,7 @@ import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import de.sovity.authorityportal.web.tests.useDevUser
 import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
+import de.sovity.edc.ext.wrapper.api.common.model.UiPolicyExpression
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
@@ -138,7 +139,9 @@ class DataOfferDetailApiTest {
         assertThat(result.asset.description).isEqualTo("Data Offer 0 Description")
         assertThat(result.contractOffers).hasSize(1)
         assertThat(result.contractOffers.first().contractOfferId).isEqualTo(dummyDevContractOfferId(0))
-        assertThat(result.contractOffers.first().contractPolicy.constraints).isEmpty()
+        assertThat(result.contractOffers.first().contractPolicy.expression)
+            .usingRecursiveComparison()
+            .isEqualTo(UiPolicyExpression.empty())
         assertThat(result.contractOffers.first().contractPolicy.errors).isEmpty()
         assertThat(result.viewCount).isEqualTo(2)
     }
