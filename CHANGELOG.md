@@ -13,15 +13,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
-- Added unique URLs to data offers that enable direct navigation
-- Added a button in the data offer detail view to copy the data offer URL
-- Now showing complex policies in the catalog browser
-
 #### Patch
-
-- Fix Catalog UI after Broker intergration [#238](https://github.com/sovity/authority-portal/issues/238)
-- Fix deployment environment not syncing in URLs for the catalog
-- Fix keycloak not redirecting to the correct page after login.
 
 ### Known issues
 
@@ -33,6 +25,36 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
 - Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
 - Sovity EDC CE: {{ CE Release Link }}
+
+## [v3.1.0] - 2024-07-24
+
+### Overview
+
+MDS 2.2 release
+
+### Detailed Changes
+
+#### Minor
+
+- Data offers now have their own URLs and are sharable
+- Complex policy support for the catalog browser
+
+#### Patch
+
+- Fixed some styling issues in the Data Catalog [#238](https://github.com/sovity/authority-portal/issues/238)
+- Fixed deployment environment not syncing in URLs for the catalog
+- Fixed keycloak not redirecting to the correct page after login.
+
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:3.1.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:3.1.0`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.0.0`
+- Sovity EDC CE: [`10.0.0`](https://github.com/sovity/edc-ce/releases/tag/v10.0.0)
 
 ## [v3.0.0] - 2024-07-15
 
@@ -98,7 +120,7 @@ MDS 2.2 intermediate release
   - Any broker's database is not required anymore and can be undeployed.
   - A Catalog Crawler must be deployed for each environment to fill the catalog with live data.
   - Just like the broker, the Catalog Crawler is a modified EDC connector. As such, it can only fetch the catalogs from connectors registered in the same DAPS environment.
-  - There is a dedicated [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v9.0.0/docs/deployment-guide/goals/catalog-crawler-production/README.md)
+  - There is a dedicated [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v10.0.0/docs/deployment-guide/goals/catalog-crawler-production/README.md)
   - Running Uptime Kuma instances must be reconfigured to track the status of the catalog crawler instead of the Broker.
   - While the Catalog Crawler is similar to the broker, please note, that many environment variables have been renamed or removed. It is recommended to do a fresh deployment using the deployment guide.
 
