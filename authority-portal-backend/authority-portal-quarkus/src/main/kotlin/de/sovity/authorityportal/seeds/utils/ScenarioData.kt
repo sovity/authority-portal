@@ -36,6 +36,7 @@ import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import de.sovity.edc.ext.wrapper.api.common.model.UiPolicy
+import de.sovity.edc.ext.wrapper.api.common.model.UiPolicyExpression
 import org.jooq.DSLContext
 import org.jooq.JSONB
 import java.time.OffsetDateTime
@@ -224,7 +225,7 @@ class ScenarioData {
         val objectMapper = ObjectMapper()
 
         val uiPolicy = UiPolicy().also {
-            it.constraints = emptyList()
+            it.expression = UiPolicyExpression.empty()
             it.errors = emptyList()
             it.policyJsonLd
         }

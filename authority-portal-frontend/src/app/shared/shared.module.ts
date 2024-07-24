@@ -108,6 +108,8 @@ import {RemoveClassDirective} from './pipes-and-directives/remove-class.directiv
 import {SentenceCasePipe} from './pipes-and-directives/sentence-case.pipe';
 import {TrackByFieldDirective} from './pipes-and-directives/track-by-field.directive';
 import {ValuesPipe} from './pipes-and-directives/values.pipe';
+import {MatDividerModule} from "@angular/material/divider";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 const COMPONENTS = [
   // ./business
@@ -208,6 +210,8 @@ const MODULES = [
   MatStepperModule,
   MatTabsModule,
   MatToolbarModule,
+  MatDividerModule,
+  MatDatepickerModule,
   MatTooltipModule,
 
   // For Catalog?

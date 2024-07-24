@@ -15,10 +15,13 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Added unique URLs to data offers that enable direct navigation
 - Added a button in the data offer detail view to copy the data offer URL
+- Now showing complex policies in the catalog browser
 
 #### Patch
+
 - Fix Catalog UI after Broker intergration [#238](https://github.com/sovity/authority-portal/issues/238)
 - Fix deployment environment not syncing in URLs for the catalog
+- Fix keycloak not redirecting to the correct page after login.
 
 ### Known issues
 

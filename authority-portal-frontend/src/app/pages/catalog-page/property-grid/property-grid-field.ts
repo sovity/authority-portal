@@ -11,6 +11,8 @@
  *      sovity GmbH - initial implementation
  */
 
+import {PolicyExpressionMapped} from "../policy-editor/model/policy-expression-mapped";
+
 export interface PropertyGridField {
   icon: string;
 
@@ -27,7 +29,7 @@ export interface PropertyGridField {
   /**
    * Property Value
    */
-  text: string;
+  text?: string;
 
   url?: string;
   onclick?: () => void;
@@ -38,6 +40,11 @@ export interface PropertyGridField {
   additionalClasses?: string;
 
   /**
+   * Additional classes for the container
+   */
+  additionalContainerClasses?: string;
+
+  /**
    * Additional classes for the icon.
    */
   additionalIconClasses?: string;
@@ -45,4 +52,7 @@ export interface PropertyGridField {
   copyButton?: boolean;
   tooltip?: string | null;
   textIconAfter?: string | null;
+
+  policy?: PolicyExpressionMapped;
+  policyErrors?: string[];
 }

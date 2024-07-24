@@ -25,6 +25,7 @@ import {PropertyGridGroup} from '../property-grid-group/property-grid-group';
 import {PropertyGridField} from '../property-grid/property-grid-field';
 import {PropertyGridFieldService} from '../property-grid/property-grid-field.service';
 import {UrlListDialogService} from '../url-list-dialog/url-list-dialog.service';
+import {PolicyMapper} from "../policy-editor/model/policy-mapper";
 
 @Injectable()
 export class AssetPropertyGridGroupBuilder {
@@ -33,6 +34,7 @@ export class AssetPropertyGridGroupBuilder {
     private jsonDialogService: JsonDialogService,
     private urlListDialogService: UrlListDialogService,
     private languageService: LanguageService,
+    private policyMapper: PolicyMapper
   ) {}
 
   buildDataOfferGroup(dataOffer: DataOfferDetailPageResult): PropertyGridGroup {
@@ -301,11 +303,19 @@ export class AssetPropertyGridGroupBuilder {
     i: number,
     total: number,
   ) {
+    const policy = contractOffer.contractPolicy;
     const groupLabel = `Contract Offer ${total > 1 ? i + 1 : ''}`;
     const properties: PropertyGridField[] = [
       {
         icon: 'policy',
         label: 'Contract Policy',
+        policy: this.policyMapper.buildPolicy(policy.expression!),
+        policyErrors: policy.errors || [],
+        additionalContainerClasses: 'col-span-2',
+      },
+      {
+        icon: 'policy',
+        label: 'Contract Policy JSON-LD',
         text: 'Show Policy Details',
         onclick: () =>
           this.jsonDialogService.showJsonDetailDialog({
