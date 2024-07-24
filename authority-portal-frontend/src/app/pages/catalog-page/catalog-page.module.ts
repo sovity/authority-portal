@@ -36,6 +36,8 @@ import {TruncatedShortDescription} from './truncated-short-description/truncated
 import {UrlListDialogComponent} from './url-list-dialog/url-list-dialog.component';
 import {UrlListDialogService} from './url-list-dialog/url-list-dialog.service';
 import {ViewSelectionComponent} from './view-selection/view-selection.component';
+import {PolicyRendererComponent} from "./policy-editor/renderer/policy-renderer/policy-renderer.component";
+import {PolicyExpressionComponent} from "./policy-editor/renderer/policy-expression/policy-expression.component";
 
 @NgModule({
   imports: [
@@ -68,6 +70,8 @@ import {ViewSelectionComponent} from './view-selection/view-selection.component'
     TruncatedShortDescription,
     UrlListDialogComponent,
     ViewSelectionComponent,
+    PolicyRendererComponent,
+    PolicyExpressionComponent,
   ],
   providers: [
     AssetDetailDialogDataService,

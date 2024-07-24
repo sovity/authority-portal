@@ -4,7 +4,8 @@
   emptyMessage="No properties."></app-empty-element>
 <div
   *ngFor="let prop of props; trackBy: trackByIndex"
-  class="flex flex-row gap-2 overflow-hidden">
+  class="flex flex-row gap-2 overflow-hidden"
+  [ngClass]="prop.additionalContainerClasses">
   <!-- Property Icon -->
   <mat-icon
     style="flex-shrink: 0; margin-top: 6px"
@@ -16,38 +17,44 @@
   <div class="flex flex-col text-sm">
     <!-- Property Label -->
     <div
-      class="text-gray-500 uppercase text-xs tracking-wider break-all"
+      class="uppercase text-slate text-sm break-all"
       [matTooltip]="prop.tooltip!"
       [attr.title]="prop.labelTitle">
       {{ prop.label }}
     </div>
 
+    <app-policy-renderer
+      *ngIf="prop.policy"
+      [expression]="prop.policy"
+      [errors]="prop.policyErrors">
+    </app-policy-renderer>
+
     <!-- Property Value (URL) -->
     <a
-      *ngIf="prop.url"
+      *ngIf="!prop.policy && prop.url"
       class="link break-all"
       externalLink
       [ngClass]="prop.additionalClasses"
       [attr.href]="prop.url"
-      >{{ prop.text }}</a
+    >{{ prop.text }}</a
     >
 
     <!-- Property Value (OnClick Event) -->
     <a
-      *ngIf="!prop.url && prop.onclick"
+      *ngIf="!prop.policy && !prop.url && prop.onclick"
       class="link break-all"
       href="javascript:void(0)"
       [ngClass]="prop.additionalClasses"
       (click)="prop.onclick()"
-      >{{ prop.text }}</a
+    >{{ prop.text }}</a
     >
 
     <!-- Property Value (Text) with tooltip -->
     <span
-      *ngIf="!(prop.url || prop.onclick)"
+      *ngIf="!(prop.policy || prop.url || prop.onclick)"
       [matTooltip]="prop.tooltip!"
       [ngClass]="prop.additionalClasses"
-      >{{ prop.text }}
+    >{{ prop.text }}
       <mat-icon *ngIf="prop.textIconAfter" class="mat-icon-[12px]">
         {{ prop.textIconAfter }}
       </mat-icon>

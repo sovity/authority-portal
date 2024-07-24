@@ -10,39 +10,56 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {UiPolicy, UiPolicyConstraint} from '@sovity.de/authority-portal-client';
+import {UiPolicy, UiPolicyExpression} from '@sovity.de/authority-portal-client';
+import {
+  constraint,
+  constraintList,
+  multi
+} from "../../../../../pages/catalog-page/policy-editor/model/ui-policy-expression-utils";
+import {policyLeftExpressions} from "../../../../../pages/catalog-page/policy-editor/model/policy-left-expressions";
 
 export namespace TestPolicies {
   const policy = (
-    constraints: UiPolicyConstraint[],
+    expression: UiPolicyExpression,
     errors: string[] = [],
-  ) => ({
+  ): UiPolicy => ({
     policyJsonLd: JSON.stringify({
       _description:
         'The actual JSON-LD will look different. This is just data from the fake backend.',
-      constraints,
+      expression,
     }),
-    constraints,
+    expression,
     errors,
   });
 
-  export const connectorRestricted: UiPolicy = policy([
-    {
-      left: 'REFERRING_CONNECTOR',
-      operator: 'EQ',
-      right: {type: 'STRING', value: 'MDSL1234XX.C1234XX'},
-    },
-  ]);
+  export const connectorRestricted: UiPolicy = policy(
+    multi(
+      'AND',
+      constraint(
+        policyLeftExpressions.policyEvaluationTime,
+        'GEQ',
+        '2021-01-01',
+      ),
+      constraint(
+        policyLeftExpressions.policyEvaluationTime,
+        'LT',
+        '2025-01-01',
+      ),
+      multi(
+        'OR',
+        constraint('REFERRING_CONNECTOR', 'EQ', 'MDSL1234XX.C1234XX'),
+        constraint('REFERRING_CONNECTOR', 'EQ', 'MDSL1234XX.C1235YY'),
+      ),
+      constraint('ALWAYS_TRUE', 'EQ', 'true'),
+    ),
+  );
 
   export const warnings: UiPolicy = policy(
-    [
-      {
-        left: 'SOME_UNKNOWN_PROP',
-        operator: 'HAS_PART',
-        right: {type: 'STRING_LIST', valueList: ['A', 'B', 'C']},
-      },
-    ],
+    constraintList('SOME_UNKNOWN_PROP', 'HAS_PART', ['A', 'B', 'C']),
     ['$.duties: Duties are currently unsupported.'],
   );
-  export const failedMapping: UiPolicy = policy([], ['No constraints found!']);
+
+  export const unrestricted: UiPolicy = policy({
+    type: 'EMPTY',
+  });
 }
