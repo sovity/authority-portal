@@ -20,7 +20,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
@@ -66,18 +66,18 @@ class OrganizationRegistrationApiServiceTest {
         }
 
         // act
-        val result = uiResource.approveOrganization(dummyDevMdsId(1))
+        val result = uiResource.approveOrganization(dummyDevOrganizationId(1))
 
         // assert
         assertThat(result).isNotNull
-        assertThat(result.id).isEqualTo(dummyDevMdsId(1))
+        assertThat(result.id).isEqualTo(dummyDevOrganizationId(1))
 
         val organizationRecord = dsl.selectFrom(Tables.ORGANIZATION)
-            .where(Tables.ORGANIZATION.MDS_ID.eq(dummyDevMdsId(1)))
+            .where(Tables.ORGANIZATION.ID.eq(dummyDevOrganizationId(1)))
             .fetchOne()
 
         assertThat(organizationRecord).isNotNull
-        assertThat(organizationRecord!!.mdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(organizationRecord!!.id).isEqualTo(dummyDevOrganizationId(1))
         assertThat(organizationRecord.registrationStatus).isEqualTo(OrganizationRegistrationStatus.ACTIVE)
         assertThat(organizationRecord.createdBy).isEqualTo(dummyDevUserUuid(1))
 
@@ -87,7 +87,7 @@ class OrganizationRegistrationApiServiceTest {
 
         assertThat(userRecord).isNotNull
         assertThat(userRecord!!.id).isEqualTo(dummyDevUserUuid(1))
-        assertThat(userRecord.organizationMdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(userRecord.organizationId).isEqualTo(dummyDevOrganizationId(1))
         assertThat(userRecord.registrationStatus).isEqualTo(UserRegistrationStatus.ACTIVE)
         assertThat(userRecord.onboardingType).isEqualTo(UserOnboardingType.SELF_REGISTRATION)
     }
@@ -110,18 +110,18 @@ class OrganizationRegistrationApiServiceTest {
         }
 
         // act
-        val result = uiResource.rejectOrganization(dummyDevMdsId(1))
+        val result = uiResource.rejectOrganization(dummyDevOrganizationId(1))
 
         // assert
         assertThat(result).isNotNull
-        assertThat(result.id).isEqualTo(dummyDevMdsId(1))
+        assertThat(result.id).isEqualTo(dummyDevOrganizationId(1))
 
         val organizationRecord = dsl.selectFrom(Tables.ORGANIZATION)
-            .where(Tables.ORGANIZATION.MDS_ID.eq(dummyDevMdsId(1)))
+            .where(Tables.ORGANIZATION.ID.eq(dummyDevOrganizationId(1)))
             .fetchOne()
 
         assertThat(organizationRecord).isNotNull
-        assertThat(organizationRecord!!.mdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(organizationRecord!!.id).isEqualTo(dummyDevOrganizationId(1))
         assertThat(organizationRecord.registrationStatus).isEqualTo(OrganizationRegistrationStatus.REJECTED)
         assertThat(organizationRecord.createdBy).isEqualTo(dummyDevUserUuid(1))
 
@@ -131,7 +131,7 @@ class OrganizationRegistrationApiServiceTest {
 
         assertThat(userRecord).isNotNull
         assertThat(userRecord!!.id).isEqualTo(dummyDevUserUuid(1))
-        assertThat(userRecord.organizationMdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(userRecord.organizationId).isEqualTo(dummyDevOrganizationId(1))
         assertThat(userRecord.registrationStatus).isEqualTo(UserRegistrationStatus.REJECTED)
         assertThat(userRecord.onboardingType).isEqualTo(UserOnboardingType.SELF_REGISTRATION)
     }
@@ -154,21 +154,21 @@ class OrganizationRegistrationApiServiceTest {
         }
 
         // act & assert exceptions
-        assertThatThrownBy { uiResource.approveOrganization(dummyDevMdsId(1)) }
+        assertThatThrownBy { uiResource.approveOrganization(dummyDevOrganizationId(1)) }
             .isInstanceOf(NotAuthorizedException::class.java)
-            .hasMessage("Access denied. Organization ${dummyDevMdsId(1)} is not in status PENDING")
+            .hasMessage("Access denied. Organization ${dummyDevOrganizationId(1)} is not in status PENDING")
 
-        assertThatThrownBy { uiResource.rejectOrganization(dummyDevMdsId(1)) }
+        assertThatThrownBy { uiResource.rejectOrganization(dummyDevOrganizationId(1)) }
             .isInstanceOf(NotAuthorizedException::class.java)
-            .hasMessage("Access denied. Organization ${dummyDevMdsId(1)} is not in status PENDING")
+            .hasMessage("Access denied. Organization ${dummyDevOrganizationId(1)} is not in status PENDING")
 
         // assert database untouched
         val organizationRecord = dsl.selectFrom(Tables.ORGANIZATION)
-            .where(Tables.ORGANIZATION.MDS_ID.eq(dummyDevMdsId(1)))
+            .where(Tables.ORGANIZATION.ID.eq(dummyDevOrganizationId(1)))
             .fetchOne()
 
         assertThat(organizationRecord).isNotNull
-        assertThat(organizationRecord!!.mdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(organizationRecord!!.id).isEqualTo(dummyDevOrganizationId(1))
         assertThat(organizationRecord.registrationStatus).isEqualTo(OrganizationRegistrationStatus.ACTIVE)
         assertThat(organizationRecord.createdBy).isEqualTo(dummyDevUserUuid(1))
 
@@ -178,7 +178,7 @@ class OrganizationRegistrationApiServiceTest {
 
         assertThat(userRecord).isNotNull
         assertThat(userRecord!!.id).isEqualTo(dummyDevUserUuid(1))
-        assertThat(userRecord.organizationMdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(userRecord.organizationId).isEqualTo(dummyDevOrganizationId(1))
         assertThat(userRecord.registrationStatus).isEqualTo(UserRegistrationStatus.ACTIVE)
         assertThat(userRecord.onboardingType).isEqualTo(UserOnboardingType.SELF_REGISTRATION)
     }

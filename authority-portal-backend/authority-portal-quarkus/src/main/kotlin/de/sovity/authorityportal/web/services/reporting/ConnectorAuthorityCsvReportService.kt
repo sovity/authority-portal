@@ -19,7 +19,6 @@ import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.pages.connectormanagement.toDto
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
-import de.sovity.authorityportal.web.services.connector.ConnectorStatusQuery
 import de.sovity.authorityportal.web.services.reporting.utils.CsvColumn
 import de.sovity.authorityportal.web.services.reporting.utils.buildCsv
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
@@ -32,11 +31,10 @@ class ConnectorAuthorityCsvReportService(
     val organizationService: OrganizationService,
     val deploymentEnvironmentService: DeploymentEnvironmentService,
     val keycloakService: KeycloakService,
-    val connectorStatusQuery: ConnectorStatusQuery,
 ) {
 
     data class AuthorityConnectorReportRow(
-        val organizationMdsId: String,
+        val organizationId: String,
         val organizationName: String,
         val connectorId: String,
         val connectorName: String,
@@ -46,12 +44,12 @@ class ConnectorAuthorityCsvReportService(
         val frontendUrl: String?,
         val endpointUrl: String?,
         val managementUrl: String?,
-        val hostedByMdsId: String?,
+        val hostedByOrganizationId: String?,
         val hostedByName: String?,
     )
 
     val columns = listOf<CsvColumn<AuthorityConnectorReportRow>>(
-        CsvColumn("Organization MDS ID") { it.organizationMdsId },
+        CsvColumn("Organization ID") { it.organizationId },
         CsvColumn("Organization Name") { it.organizationName },
         CsvColumn("Connector ID") { it.connectorId },
         CsvColumn("Name") { it.connectorName },
@@ -61,7 +59,7 @@ class ConnectorAuthorityCsvReportService(
         CsvColumn("Frontend URL") { it.frontendUrl ?: "" },
         CsvColumn("Endpoint URL") { it.endpointUrl ?: "" },
         CsvColumn("Management API URL") { it.managementUrl ?: "" },
-        CsvColumn("Hosted By MDS ID") { it.hostedByMdsId ?: "" },
+        CsvColumn("Hosted By Organization ID") { it.hostedByOrganizationId ?: "" },
         CsvColumn("Hosted By Name") { it.hostedByName ?: "" },
     )
 
@@ -77,8 +75,8 @@ class ConnectorAuthorityCsvReportService(
 
         return connectors.map {
             AuthorityConnectorReportRow(
-                organizationMdsId = it.mdsId,
-                organizationName = organizationNames[it.mdsId] ?: "",
+                organizationId = it.organizationId,
+                organizationName = organizationNames[it.organizationId] ?: "",
                 connectorId = it.connectorId,
                 connectorName = it.name,
                 connectorType = it.type,
@@ -87,8 +85,8 @@ class ConnectorAuthorityCsvReportService(
                 frontendUrl = it.frontendUrl,
                 endpointUrl = it.endpointUrl,
                 managementUrl = it.managementUrl,
-                hostedByMdsId = it.providerMdsId,
-                hostedByName = organizationNames[it.providerMdsId]
+                hostedByOrganizationId = it.providerOrganizationId,
+                hostedByName = organizationNames[it.providerOrganizationId]
             )
         }
     }

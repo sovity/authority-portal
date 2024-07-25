@@ -40,9 +40,9 @@ class OrganizationInfoApiService(
 
     fun organizationsOverview(environmentId: String): OrganizationOverviewResult {
         val organizations = organizationService.getOrganizations()
-        val connectorCounts = dataOfferQuery.getConnectorCountsByMdsIdsForEnvironment(environmentId)
+        val connectorCounts = dataOfferQuery.getConnectorCountsByOrganizationIdsForEnvironment(environmentId)
         val dataOfferCounts = dataOfferQuery.countAllOrganizationDataOffers(environmentId)
-        val userCounts = userService.getUserCountsByMdsIds()
+        val userCounts = userService.getUserCountsByOrganizationIds()
         val dtos = organizations.map {
             buildOrganizationOverviewEntryDto(
                 organization = it,
@@ -55,11 +55,11 @@ class OrganizationInfoApiService(
     }
 
     fun organizationsOverviewForProvidingConnectors(
-        providerMdsId: String,
+        providerOrganizationId: String,
         environmentId: String
     ): OrganizationOverviewResult {
         val organizations = organizationsOverview(environmentId).organizations
-            .filter { it.mdsId != providerMdsId }
+            .filter { it.id != providerOrganizationId }
         return OrganizationOverviewResult(organizations)
     }
 
@@ -69,16 +69,16 @@ class OrganizationInfoApiService(
         connectorCounts: Map<String, Int>,
         dataOfferCounts: List<DataOfferCountRs>,
     ): OrganizationOverviewEntryDto {
-        val dataOfferCountsByMdsId = dataOfferCounts.associateBy { it.mdsId }
-        val mdsId = organization.mdsId
-        val liveDataOfferCount = dataOfferCountsByMdsId[mdsId]?.liveOffers ?: 0
-        val onRequestDataOfferCount = dataOfferCountsByMdsId[mdsId]?.onRequestOffers ?: 0
+        val dataOfferCountsByOrganizationId = dataOfferCounts.associateBy { it.organizationId }
+        val organizationId = organization.id
+        val liveDataOfferCount = dataOfferCountsByOrganizationId[organizationId]?.liveOffers ?: 0
+        val onRequestDataOfferCount = dataOfferCountsByOrganizationId[organizationId]?.onRequestOffers ?: 0
         return OrganizationOverviewEntryDto(
-            mdsId = mdsId,
+            id = organizationId,
             name = organization.name,
             mainContactEmail = organization.mainContactEmail,
-            userCount = userCounts[mdsId] ?: 0,
-            connectorCount = connectorCounts[mdsId] ?: 0,
+            userCount = userCounts[organizationId] ?: 0,
+            connectorCount = connectorCounts[organizationId] ?: 0,
             dataOfferCount = liveDataOfferCount + onRequestDataOfferCount,
             liveDataOfferCount = liveDataOfferCount,
             onRequestDataOfferCount = onRequestDataOfferCount,
@@ -86,10 +86,10 @@ class OrganizationInfoApiService(
         )
     }
 
-    fun getOwnOrganizationInformation(mdsId: String, environmentId: String): OwnOrganizationDetailsDto {
-        val organizationDetails = getOrganizationInformation(mdsId, environmentId)
+    fun getOwnOrganizationInformation(organizationId: String, environmentId: String): OwnOrganizationDetailsDto {
+        val organizationDetails = getOrganizationInformation(organizationId, environmentId)
         return OwnOrganizationDetailsDto(
-            mdsId = organizationDetails.mdsId,
+            organizationId = organizationDetails.id,
             name = organizationDetails.name,
             registrationStatus = organizationDetails.registrationStatus,
             createdAt = organizationDetails.createdAt,
@@ -118,27 +118,27 @@ class OrganizationInfoApiService(
         )
     }
 
-    fun getOrganizationInformation(mdsId: String, environmentId: String): OrganizationDetailsDto {
+    fun getOrganizationInformation(organizationId: String, environmentId: String): OrganizationDetailsDto {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
-        return getOrganizationDetailsDto(mdsId).also {
-            val dataOffers = dataOfferQuery.countOrganizationDataOffers(environmentId, mdsId)
+        return getOrganizationDetailsDto(organizationId).also {
+            val dataOffers = dataOfferQuery.countOrganizationDataOffers(environmentId, organizationId)
 
-            it.connectorCount = connectorService.getConnectorCountByMdsIdAndEnvironment(mdsId, environmentId)
+            it.connectorCount = connectorService.getConnectorCountByOrganizationIdAndEnvironment(organizationId, environmentId)
             it.liveDataOfferCount = dataOffers?.liveOffers ?: 0
             it.onRequestDataOfferCount = dataOffers?.onRequestOffers ?: 0
             it.dataOfferCount = it.liveDataOfferCount + it.onRequestDataOfferCount
         }
     }
 
-    private fun getOrganizationDetailsDto(mdsId: String): OrganizationDetailsDto {
-        val organization = organizationService.getOrganizationOrThrow(mdsId)
+    private fun getOrganizationDetailsDto(organizationId: String): OrganizationDetailsDto {
+        val organization = organizationService.getOrganizationOrThrow(organizationId)
         val organizationAdmin = organization.createdBy?.let { userDetailService.getUserData(it) }
         val legalIdType = organization.legalIdType?.toDto()
-        val memberList = userDetailService.getOrganizationMembers(mdsId)
+        val memberList = userDetailService.getOrganizationMembers(organizationId)
 
         return OrganizationDetailsDto(
-            mdsId = organization.mdsId,
+            id = organization.id,
             name = organization.name,
             registrationStatus = organization.registrationStatus.toDto(),
             createdAt = organization.createdAt,

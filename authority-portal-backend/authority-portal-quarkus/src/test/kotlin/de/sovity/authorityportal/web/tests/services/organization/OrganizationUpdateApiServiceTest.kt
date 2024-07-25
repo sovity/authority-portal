@@ -20,7 +20,7 @@ import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.OrganizationRegistrationStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.pages.organizationmanagement.toDb
 import de.sovity.authorityportal.web.tests.useDevUser
@@ -131,9 +131,9 @@ class OrganizationUpdateApiServiceTest {
 
         // assert
         assertThat(result).isNotNull
-        assertThat(result.id).isEqualTo(dummyDevMdsId(0))
+        assertThat(result.id).isEqualTo(dummyDevOrganizationId(0))
 
-        val actual = dsl.selectFrom(Tables.ORGANIZATION).where(Tables.ORGANIZATION.MDS_ID.eq(dummyDevMdsId(0))).fetchOne()
+        val actual = dsl.selectFrom(Tables.ORGANIZATION).where(Tables.ORGANIZATION.ID.eq(dummyDevOrganizationId(0))).fetchOne()
         assertThat(actual).isNotNull
         assertThat(actual!!.registrationStatus).isEqualTo(OrganizationRegistrationStatus.ACTIVE)
         assertThat(actual.name).isEqualTo("Max's Organization")

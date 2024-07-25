@@ -31,7 +31,7 @@ class FirstLoginService {
             user.update()
 
             // Check if user is Participant Admin of an invited organization
-            val organization = organizationService.getOrganizationOrThrow(user.organizationMdsId)
+            val organization = organizationService.getOrganizationOrThrow(user.organizationId)
             if (organization.registrationStatus == OrganizationRegistrationStatus.INVITED && organization.createdBy == user.id) {
                 organization.registrationStatus = OrganizationRegistrationStatus.ONBOARDING
                 organization.update()

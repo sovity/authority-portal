@@ -52,14 +52,14 @@ class ConnectorManagementApiService(
     val timeUtils: TimeUtils
 ) {
 
-    fun ownOrganizationConnectorDetails(connectorId: String, mdsId: String, userId: String): ConnectorDetailDto =
-        getConnectorDetails(connectorId, mdsId, userId)
+    fun ownOrganizationConnectorDetails(connectorId: String, organizationId: String, userId: String): ConnectorDetailDto =
+        getConnectorDetails(connectorId, organizationId, userId)
 
-    fun getConnectorDetails(connectorId: String, mdsId: String, userId: String): ConnectorDetailDto {
+    fun getConnectorDetails(connectorId: String, organizationId: String, userId: String): ConnectorDetailDto {
         val connector = connectorService.getConnectorDetailOrThrow(connectorId)
 
-        if (!connectorId.contains(mdsId) && connector.hostMdsId != mdsId) {
-            Log.error("Requested connector does not belong to the organization and is not hosted by it. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
+        if (!connectorId.contains(organizationId) && connector.hostOrganizationId != organizationId) {
+            Log.error("Requested connector does not belong to the organization and is not hosted by it. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
             error("Connector ID does not match with organization or host organization")
         }
 
@@ -75,10 +75,10 @@ class ConnectorManagementApiService(
         return ConnectorDetailDto(
             connectorId = connector.connectorId,
             type = connector.type.toDto(),
-            orgName = connector.orgName,
-            orgMdsId = connector.orgMdsId,
-            hostName = if (connector.type == ConnectorType.CAAS) "sovity GmbH" else connector.hostName,
-            hostMdsId = connector.hostMdsId,
+            organizationName = connector.orgName,
+            organizationId = connector.organizationId,
+            hostOrganizationName = if (connector.type == ConnectorType.CAAS) "sovity GmbH" else connector.hostName,
+            hostOrganizationId = connector.hostOrganizationId,
             environment = deploymentEnvironmentDtoService.findByIdOrThrow(connector.environment),
             connectorName = connector.connectorName,
             location = connector.location,
@@ -89,10 +89,10 @@ class ConnectorManagementApiService(
         )
     }
 
-    fun listOrganizationConnectors(mdsId: String, environmentId: String): ConnectorOverviewResult {
+    fun listOrganizationConnectors(organizationId: String, environmentId: String): ConnectorOverviewResult {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
-        val connectors = connectorService.getConnectorsByMdsIdAndEnvironment(mdsId, environmentId)
+        val connectors = connectorService.getConnectorsByOrganizationIdAndEnvironment(organizationId, environmentId)
         return buildConnectorOverview(connectors)
     }
 
@@ -109,7 +109,7 @@ class ConnectorManagementApiService(
         val connectorDtos = connectors.map {
             ConnectorOverviewEntryDto(
                 id = it.connectorId,
-                hostName = if (it.type == ConnectorType.CAAS) "sovity GmbH" else orgNames[it.providerMdsId] ?: "",
+                hostName = if (it.type == ConnectorType.CAAS) "sovity GmbH" else orgNames[it.providerOrganizationId] ?: "",
                 type = it.type.toDto(),
                 environment = deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
                 name = it.name,
@@ -120,17 +120,17 @@ class ConnectorManagementApiService(
         return ConnectorOverviewResult(connectorDtos)
     }
 
-    fun listServiceProvidedConnectors(mdsId: String, environmentId: String): ProvidedConnectorOverviewResult {
+    fun listServiceProvidedConnectors(organizationId: String, environmentId: String): ProvidedConnectorOverviewResult {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
-        val connectors = connectorService.getConnectorsByHostMdsId(mdsId, environmentId)
-            .filter { it.mdsId != it.providerMdsId }
+        val connectors = connectorService.getConnectorsByHostOrganizationId(organizationId, environmentId)
+            .filter { it.organizationId != it.providerOrganizationId }
         val orgNames = organizationService.getAllOrganizationNames()
 
         val connectorDtos = connectors.map {
             ProvidedConnectorOverviewEntryDto(
                 id = it.connectorId,
-                customerOrgName = orgNames[it.mdsId] ?: "",
+                customerOrgName = orgNames[it.organizationId] ?: "",
                 type = it.type.toDto(),
                 environment = deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
                 name = it.name,
@@ -144,14 +144,14 @@ class ConnectorManagementApiService(
 
     fun createOwnConnector(
         connector: CreateConnectorRequest,
-        mdsId: String,
+        organizationId: String,
         userId: String,
         deploymentEnvId: String = "test"
     ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
         if (!isValidUrlConfiguration(connector.frontendUrl, connector.endpointUrl, connector.managementUrl)) {
-            Log.error("Connector URL is not valid. url=${connector.frontendUrl}, userId=$userId, mdsId=$mdsId.")
+            Log.error("Connector URL is not valid. url=${connector.frontendUrl}, userId=$userId, organizationId=$organizationId.")
             return CreateConnectorResponse.error("Connector URL is not valid.", timeUtils.now())
         }
 
@@ -159,17 +159,17 @@ class ConnectorManagementApiService(
         connector.endpointUrl = removeUrlTrailingSlash(connector.endpointUrl)
         connector.managementUrl = removeUrlTrailingSlash(connector.managementUrl)
 
-        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(mdsId)
+        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(organizationId)
         val clientId = clientIdUtils.generateFromCertificate(connector.certificate)
 
         if (clientIdUtils.exists(clientId)) {
-            Log.error("Connector with this certificate already exists. connectorId=$connectorId, mdsId=$mdsId, userId=$userId, clientId=$clientId.")
+            Log.error("Connector with this certificate already exists. connectorId=$connectorId, organizationId=$organizationId, userId=$userId, clientId=$clientId.")
             return CreateConnectorResponse.error("Connector with this certificate already exists.", timeUtils.now())
         }
 
         connectorService.createOwnConnector(
             connectorId = connectorId,
-            mdsId = mdsId,
+            organizationId = organizationId,
             environment = deploymentEnvId,
             clientId = clientId,
             connector = connector,
@@ -177,21 +177,21 @@ class ConnectorManagementApiService(
         )
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
 
-        Log.info("Connector for own organization registered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
+        Log.info("Connector for own organization registered. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
         return CreateConnectorResponse.ok(connectorId, timeUtils.now())
     }
 
     fun createProvidedConnector(
         connector: CreateConnectorRequest,
-        customerMdsId: String,
-        providerMdsId: String,
+        customerOrganizationId: String,
+        providerOrganizationId: String,
         userId: String,
         deploymentEnvId: String = "test"
     ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
         if (!isValidUrlConfiguration(connector.frontendUrl, connector.endpointUrl, connector.managementUrl)) {
-            Log.error("Connector URL is not valid. url=${connector.frontendUrl}, userId=$userId, customerMdsId=$customerMdsId.")
+            Log.error("Connector URL is not valid. url=${connector.frontendUrl}, userId=$userId, customerOrganizationId=$customerOrganizationId.")
             return CreateConnectorResponse.error("Connector URL is not valid.", timeUtils.now())
         }
 
@@ -199,18 +199,18 @@ class ConnectorManagementApiService(
         connector.endpointUrl = removeUrlTrailingSlash(connector.endpointUrl)
         connector.managementUrl = removeUrlTrailingSlash(connector.managementUrl)
 
-        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(customerMdsId)
+        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(customerOrganizationId)
         val clientId = clientIdUtils.generateFromCertificate(connector.certificate)
 
         if (clientIdUtils.exists(clientId)) {
-            Log.error("Connector with this certificate already exists. connectorId=$connectorId, customerMdsId=$customerMdsId, userId=$userId, clientId=$clientId.")
+            Log.error("Connector with this certificate already exists. connectorId=$connectorId, customerOrganizationId=$customerOrganizationId, userId=$userId, clientId=$clientId.")
             return CreateConnectorResponse.error("Connector with this certificate already exists.", timeUtils.now())
         }
 
         connectorService.createProvidedConnector(
             connectorId = connectorId,
-            mdsId = customerMdsId,
-            providerMdsId = providerMdsId,
+            organizationId = customerOrganizationId,
+            providerOrganizationId = providerOrganizationId,
             environment = deploymentEnvId,
             clientId = clientId,
             connector = connector,
@@ -218,7 +218,7 @@ class ConnectorManagementApiService(
         )
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
 
-        Log.info("Connector for foreign organization registered. connectorId=$connectorId, customerMdsId=$customerMdsId, userId=$userId.")
+        Log.info("Connector for foreign organization registered. connectorId=$connectorId, customerOrganizationId=$customerOrganizationId, userId=$userId.")
         return CreateConnectorResponse.ok(connectorId, timeUtils.now())
     }
 
@@ -249,24 +249,24 @@ class ConnectorManagementApiService(
 
     fun deleteOwnOrProvidedConnector(
         connectorId: String,
-        mdsId: String,
+        organizationId: String,
         userId: String
     ): IdResponse {
         val connector = connectorService.getConnectorOrThrow(connectorId)
 
-        if (!connectorId.startsWith(mdsId) && connector.providerMdsId != mdsId) {
-            Log.error("To be deleted connector does not belong to user's organization and is not hosted by it. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
-            error("Connector ID does not match MDS-ID of the user's organization or host organization")
+        if (!connectorId.startsWith(organizationId) && connector.providerOrganizationId != organizationId) {
+            Log.error("To be deleted connector does not belong to user's organization and is not hosted by it. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
+            error("Connector ID does not match the ID of the user's organization or host organization")
         }
 
         deleteConnector(connector)
-        Log.info("Connector unregistered. connectorId=$connectorId, mdsId=$mdsId, userId=$userId.")
+        Log.info("Connector unregistered. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
 
         return IdResponse(connectorId, timeUtils.now())
     }
 
-    fun deleteAllOrganizationConnectors(mdsId: String) {
-        val connectors = connectorService.getConnectorsByMdsId(mdsId)
+    fun deleteAllOrganizationConnectors(organizationid: String) {
+        val connectors = connectorService.getConnectorsByOrganizationId(organizationid)
         connectors.forEach { deleteConnector(it) }
     }
 

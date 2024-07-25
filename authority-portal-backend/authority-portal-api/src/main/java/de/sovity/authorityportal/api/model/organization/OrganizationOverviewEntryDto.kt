@@ -17,8 +17,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "Visible organization in organization overview page.")
 data class OrganizationOverviewEntryDto(
-    @field:Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    val mdsId: String,
+    @field:Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    val id: String,
 
     @field:Schema(description = "Legal Name", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,

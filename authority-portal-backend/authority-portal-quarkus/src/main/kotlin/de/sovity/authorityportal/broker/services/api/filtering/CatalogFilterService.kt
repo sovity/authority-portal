@@ -80,9 +80,9 @@ class CatalogFilterService(
                 "Organization Name"
             ),
             catalogFilterAttributeDefinitionService.forField(
-                { fields: CatalogQueryFields -> fields.connectorTable.MDS_ID },
-                "mdsId",
-                "MDS ID"
+                { fields: CatalogQueryFields -> fields.connectorTable.ORGANIZATION_ID },
+                "organizationId",
+                "Organization ID"
             ),
             catalogFilterAttributeDefinitionService.forField(
                 { fields: CatalogQueryFields -> fields.connectorTable.CONNECTOR_ID },

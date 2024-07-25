@@ -121,7 +121,7 @@ class UiResourceImpl(
         return userRoleApiService.changeParticipantRole(
             userId = userId,
             roleDto = role,
-            mdsId = loggedInUser.organizationMdsId!!,
+            organizationId = loggedInUser.organizationId!!,
             adminUserId = loggedInUser.userId
         )
     }
@@ -132,7 +132,7 @@ class UiResourceImpl(
         authUtils.requiresMemberOfAnyOrganization()
         return userInvitationApiService.inviteParticipantUser(
             invitationInformation,
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             loggedInUser.userId
         )
     }
@@ -233,7 +233,7 @@ class UiResourceImpl(
         authUtils.requiresAnyRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
         return organizationInfoApiService.organizationsOverviewForProvidingConnectors(
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             environmentId
         )
     }
@@ -254,19 +254,19 @@ class UiResourceImpl(
     override fun ownOrganizationDetails(environmentId: String): OwnOrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
-        return organizationInfoApiService.getOwnOrganizationInformation(loggedInUser.organizationMdsId!!, environmentId)
+        return organizationInfoApiService.getOwnOrganizationInformation(loggedInUser.organizationId!!, environmentId)
     }
 
     @Transactional
-    override fun organizationDetailsForAuthority(mdsId: String, environmentId: String): OrganizationDetailsDto {
+    override fun organizationDetailsForAuthority(organizationId: String, environmentId: String): OrganizationDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)
+        return organizationInfoApiService.getOrganizationInformation(organizationId, environmentId)
     }
 
     @Transactional
-    override fun organizationDetails(mdsId: String, environmentId: String): OrganizationDetailsDto {
+    override fun organizationDetails(organizationId: String, environmentId: String): OrganizationDetailsDto {
         authUtils.requiresAnyRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
-        return organizationInfoApiService.getOrganizationInformation(mdsId, environmentId)
+        return organizationInfoApiService.getOrganizationInformation(organizationId, environmentId)
     }
 
     @Transactional
@@ -274,7 +274,7 @@ class UiResourceImpl(
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.listServiceProvidedConnectors(
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             environmentId
         )
     }
@@ -285,7 +285,7 @@ class UiResourceImpl(
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.getConnectorDetails(
             connectorId,
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             loggedInUser.userId
         )
     }
@@ -296,7 +296,7 @@ class UiResourceImpl(
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.deleteOwnOrProvidedConnector(
             connectorId,
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             loggedInUser.userId
         )
     }
@@ -308,15 +308,15 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun approveOrganization(mdsId: String): IdResponse {
+    override fun approveOrganization(organizationId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationRegistrationApiService.approveOrganization(mdsId, loggedInUser.userId)
+        return organizationRegistrationApiService.approveOrganization(organizationId, loggedInUser.userId)
     }
 
     @Transactional
-    override fun rejectOrganization(mdsId: String): IdResponse {
+    override fun rejectOrganization(organizationId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
-        return organizationRegistrationApiService.rejectOrganization(mdsId, loggedInUser.userId)
+        return organizationRegistrationApiService.rejectOrganization(organizationId, loggedInUser.userId)
     }
 
     // Connector management
@@ -324,7 +324,7 @@ class UiResourceImpl(
     override fun ownOrganizationConnectors(environmentId: String): ConnectorOverviewResult {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.listOrganizationConnectors(loggedInUser.organizationMdsId!!, environmentId)
+        return connectorManagementApiService.listOrganizationConnectors(loggedInUser.organizationId!!, environmentId)
     }
 
     @Transactional
@@ -333,7 +333,7 @@ class UiResourceImpl(
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.ownOrganizationConnectorDetails(
             connectorId,
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             loggedInUser.userId
         )
     }
@@ -344,7 +344,7 @@ class UiResourceImpl(
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.createOwnConnector(
             connector,
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             loggedInUser.userId,
             environmentId
         )
@@ -356,14 +356,14 @@ class UiResourceImpl(
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.deleteOwnOrProvidedConnector(
             connectorId,
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             loggedInUser.userId
         )
     }
 
     @Transactional
     override fun createProvidedConnector(
-        mdsId: String,
+        organizationId: String,
         environmentId: String,
         connector: CreateConnectorRequest
     ): CreateConnectorResponse {
@@ -371,8 +371,8 @@ class UiResourceImpl(
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.createProvidedConnector(
             connector,
-            mdsId,
-            loggedInUser.organizationMdsId!!,
+            organizationId,
+            loggedInUser.organizationId!!,
             loggedInUser.userId,
             environmentId
         )
@@ -383,7 +383,7 @@ class UiResourceImpl(
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
         return caasManagementApiService.createCaas(
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             loggedInUser.userId,
             caasRequest,
             environmentId
@@ -394,7 +394,7 @@ class UiResourceImpl(
     override fun checkFreeCaasUsage(environmentId: String): CaasAvailabilityResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
-        return caasManagementApiService.getFreeCaasUsageForOrganization(loggedInUser.organizationMdsId!!, environmentId)
+        return caasManagementApiService.getFreeCaasUsageForOrganization(loggedInUser.organizationId!!, environmentId)
     }
 
     @Transactional
@@ -426,7 +426,7 @@ class UiResourceImpl(
         return centralComponentManagementApiService.registerCentralComponent(
             componentRegistrationRequest,
             loggedInUser.userId,
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             environmentId
         )
     }
@@ -452,7 +452,7 @@ class UiResourceImpl(
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresOrganizationRegistrationStatus(OrganizationRegistrationStatus.ONBOARDING)
         return organizationUpdateApiService.onboardOrganization(
-            loggedInUser.organizationMdsId!!,
+            loggedInUser.organizationId!!,
             onboardingOrganizationUpdateDto
         )
     }
@@ -467,13 +467,13 @@ class UiResourceImpl(
     override fun updateOwnOrganizationDetails(organizationDto: UpdateOrganizationDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return organizationUpdateApiService.updateOrganization(loggedInUser.organizationMdsId!!, organizationDto)
+        return organizationUpdateApiService.updateOrganization(loggedInUser.organizationId!!, organizationDto)
     }
 
     @Transactional
-    override fun updateOrganizationDetails(mdsId: String, organizationDto: UpdateOrganizationDto): IdResponse {
+    override fun updateOrganizationDetails(organizationId: String, organizationDto: UpdateOrganizationDto): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
-        return organizationUpdateApiService.updateOrganization(mdsId, organizationDto)
+        return organizationUpdateApiService.updateOrganization(organizationId, organizationDto)
     }
 
     @Transactional
@@ -483,6 +483,6 @@ class UiResourceImpl(
         if (authUtils.hasRole(Roles.UserRoles.AUTHORITY_USER)) {
             return componentStatusApiService.getComponentsStatus(environmentId);
         }
-        return componentStatusApiService.getComponentsStatusForMdsId(environmentId, loggedInUser.organizationMdsId!!)
+        return componentStatusApiService.getComponentsStatusForOrganizationId(environmentId, loggedInUser.organizationId!!)
     }
 }

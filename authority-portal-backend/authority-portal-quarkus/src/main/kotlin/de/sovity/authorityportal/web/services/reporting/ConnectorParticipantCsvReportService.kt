@@ -40,8 +40,8 @@ class ConnectorParticipantCsvReportService(
         val frontendUrl: String,
         val endpointUrl: String,
         val managementUrl: String,
-        val hostedByMdsId: String?,
-        val hostedByName: String?,
+        val hostedByOrganizationId: String?,
+        val hostedByOrganizationName: String?,
     )
 
     val columns = listOf<CsvColumn<ParticipantConnectorReportRow>>(
@@ -53,21 +53,21 @@ class ConnectorParticipantCsvReportService(
         CsvColumn("Frontend URL") { it.frontendUrl },
         CsvColumn("Endpoint URL") { it.endpointUrl },
         CsvColumn("Management API URL") { it.managementUrl },
-        CsvColumn("Hosted By MDS ID") { it.hostedByMdsId ?: "" },
-        CsvColumn("Hosted By Name") { it.hostedByMdsId ?: "" }
+        CsvColumn("Hosted By Organization ID") { it.hostedByOrganizationId ?: "" },
+        CsvColumn("Hosted By Name") { it.hostedByOrganizationId ?: "" }
     )
 
-    fun generateParticipantConnectorCsvReport(mdsId: String, environmentId: String): ByteArrayInputStream {
+    fun generateParticipantConnectorCsvReport(organizationId: String, environmentId: String): ByteArrayInputStream {
         deploymentEnvironmentService.assertValidEnvId(environmentId)
-        val rows = buildParticipantConnectorReportRows(mdsId, environmentId)
+        val rows = buildParticipantConnectorReportRows(organizationId, environmentId)
         return buildCsv(columns, rows)
     }
 
     private fun buildParticipantConnectorReportRows(
-        mdsId: String,
+        organizationId: String,
         environmentId: String
     ): List<ParticipantConnectorReportRow> {
-        val connectors = connectorService.getConnectorsByMdsIdAndEnvironment(mdsId, environmentId)
+        val connectors = connectorService.getConnectorsByOrganizationIdAndEnvironment(organizationId, environmentId)
         val organizationNames = organizationService.getAllOrganizationNames()
 
         return connectors.map {
@@ -80,8 +80,8 @@ class ConnectorParticipantCsvReportService(
                 frontendUrl = it.frontendUrl,
                 endpointUrl = it.endpointUrl,
                 managementUrl = it.managementUrl,
-                hostedByMdsId = it.providerMdsId,
-                hostedByName = organizationNames[it.providerMdsId]
+                hostedByOrganizationId = it.providerOrganizationId,
+                hostedByOrganizationName = organizationNames[it.providerOrganizationId]
             )
         }
     }

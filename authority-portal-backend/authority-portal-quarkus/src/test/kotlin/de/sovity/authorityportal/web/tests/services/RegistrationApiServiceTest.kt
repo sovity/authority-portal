@@ -22,7 +22,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.pages.organizationmanagement.toDb
 import de.sovity.authorityportal.web.tests.useMockNow
@@ -118,7 +118,7 @@ class RegistrationApiServiceTest {
         val organizations = dsl.selectFrom(Tables.ORGANIZATION).fetch()
         assertThat(organizations).hasSize(2)
 
-        val actualOrganization = organizations.find { it.mdsId != dummyDevMdsId(0) }
+        val actualOrganization = organizations.find { it.id != dummyDevOrganizationId(0) }
         val actualUser = dsl.selectFrom(Tables.USER).where(Tables.USER.ID.eq(dummyDevUserUuid(1))).fetchOne()
 
         assertThat(actualOrganization).isNotNull
@@ -126,7 +126,7 @@ class RegistrationApiServiceTest {
 
         val expectedUser = dsl.newRecord(Tables.USER).also {
             it.id = dummyDevUserUuid(1)
-            it.organizationMdsId = actualOrganization!!.mdsId
+            it.organizationId = actualOrganization!!.id
             it.registrationStatus = UserRegistrationStatus.PENDING
             it.createdAt = now
             it.email = request.userEmail
@@ -139,7 +139,7 @@ class RegistrationApiServiceTest {
         }
 
         val expectedOrganization = dsl.newRecord(Tables.ORGANIZATION).also {
-            it.mdsId = actualOrganization!!.mdsId
+            it.id = actualOrganization!!.id
             it.name = request.organizationName
             it.address = request.organizationAddress
             it.url = request.organizationUrl

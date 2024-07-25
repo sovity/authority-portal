@@ -14,7 +14,7 @@
 package de.sovity.authorityportal.web.tests
 
 import de.sovity.authorityportal.api.model.UserRoleDto
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.auth.LoggedInUser
@@ -39,11 +39,11 @@ fun <T : RecursiveComparisonAssert<T>> RecursiveComparisonAssert<T>.withOffsetDa
     return withEqualsForType({ a, b -> Duration.between(a, b).abs().nano < 1_000_000 }, OffsetDateTime::class.java)
 }
 
-fun useDevUser(userUuidNr: Int, mdsIdNr: Int?, roles: Set<String> = setOf(Roles.UserRoles.AUTHORITY_ADMIN)) {
+fun useDevUser(userUuidNr: Int, orgIdNr: Int?, roles: Set<String> = setOf(Roles.UserRoles.AUTHORITY_ADMIN)) {
     val loggedInUser = LoggedInUser(
         authenticated = true,
         userId = dummyDevUserUuid(userUuidNr),
-        organizationMdsId = mdsIdNr?.let { dummyDevMdsId(it) },
+        organizationId = orgIdNr?.let { dummyDevOrganizationId(it) },
         roles = roles
     )
     installMock(loggedInUser)
@@ -53,7 +53,7 @@ fun useUnauthenticated() {
     val loggedInUser = LoggedInUser(
         authenticated = false,
         userId = "",
-        organizationMdsId = null,
+        organizationId = null,
         roles = setOf(UserRoleDto.UNAUTHENTICATED.name)
     )
     installMock(loggedInUser)

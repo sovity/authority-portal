@@ -25,7 +25,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.loadTestResource
@@ -98,7 +98,7 @@ class ConnectorManagementApiServiceTest {
         // assert
         assertThat(result.connectorId).isEqualTo(dummyDevConnectorId(0, 0))
         assertThat(result.connectorName).isEqualTo("Connector 0")
-        assertThat(result.orgMdsId).isEqualTo(dummyDevMdsId(0))
+        assertThat(result.organizationId).isEqualTo(dummyDevOrganizationId(0))
     }
 
     @Test
@@ -126,7 +126,7 @@ class ConnectorManagementApiServiceTest {
         // assert
         assertThat(result.connectorId).isEqualTo(dummyDevConnectorId(0, 0))
         assertThat(result.connectorName).isEqualTo("Connector 0")
-        assertThat(result.orgMdsId).isEqualTo(dummyDevMdsId(0))
+        assertThat(result.organizationId).isEqualTo(dummyDevOrganizationId(0))
     }
 
     @Test
@@ -196,7 +196,7 @@ class ConnectorManagementApiServiceTest {
 
     @Test
     @TestTransaction
-    fun `get provided connectors returns all connectors where user mdsId is host but not owner`() {
+    fun `get provided connectors returns all connectors where user organizationId is host but not owner`() {
         // arrange
         useDevUser(0, 0, setOf(Roles.UserRoles.SERVICE_PARTNER_ADMIN))
 
@@ -209,10 +209,10 @@ class ConnectorManagementApiServiceTest {
             user(1, 1)
 
             connector(1, 1, 0) {
-                it.providerMdsId = dummyDevMdsId(0)
+                it.providerOrganizationId = dummyDevOrganizationId(0)
             }
             connector(2, 1, 0) {
-                it.providerMdsId = dummyDevMdsId(0)
+                it.providerOrganizationId = dummyDevOrganizationId(0)
             }
 
             scenarioInstaller.install(this)
@@ -245,11 +245,11 @@ class ConnectorManagementApiServiceTest {
             user(1, 1)
 
             connector(1, 1, 0) {
-                it.providerMdsId = dummyDevMdsId(0)
+                it.providerOrganizationId = dummyDevOrganizationId(0)
                 it.name = "Connector 1"
             }
             connector(2, 1, 0) {
-                it.providerMdsId = dummyDevMdsId(0)
+                it.providerOrganizationId = dummyDevOrganizationId(0)
                 it.name = "Connector 2"
             }
 
@@ -262,9 +262,9 @@ class ConnectorManagementApiServiceTest {
         // assert
         assertThat(result.connectorId).isEqualTo(dummyDevConnectorId(1, 1))
         assertThat(result.connectorName).isEqualTo("Connector 1")
-        assertThat(result.orgMdsId).isEqualTo(dummyDevMdsId(1))
-        assertThat(result.hostMdsId).isEqualTo(dummyDevMdsId(0))
-        assertThat(result.hostName).isEqualTo("Organization 0")
+        assertThat(result.organizationId).isEqualTo(dummyDevOrganizationId(1))
+        assertThat(result.hostOrganizationId).isEqualTo(dummyDevOrganizationId(0))
+        assertThat(result.hostOrganizationName).isEqualTo("Organization 0")
     }
 
     @Test
@@ -282,11 +282,11 @@ class ConnectorManagementApiServiceTest {
             user(1, 1)
 
             connector(1, 1, 0) {
-                it.providerMdsId = dummyDevMdsId(1)
+                it.providerOrganizationId = dummyDevOrganizationId(1)
                 it.name = "Connector 1"
             }
             connector(2, 1, 0) {
-                it.providerMdsId = dummyDevMdsId(1)
+                it.providerOrganizationId = dummyDevOrganizationId(1)
                 it.name = "Connector 2"
             }
 
@@ -349,7 +349,7 @@ class ConnectorManagementApiServiceTest {
             organization(1, 1)
             user(1, 1)
             connector(0, 1, 0) {
-                it.providerMdsId = dummyDevMdsId(0)
+                it.providerOrganizationId = dummyDevOrganizationId(0)
             }
 
             dataOffer(0, 1, 0, viewCount = 2)
@@ -497,7 +497,7 @@ class ConnectorManagementApiServiceTest {
 
         // assert
         assertThat(result).isNotNull
-        assertThat(result.id).contains(dummyDevMdsId(0))
+        assertThat(result.id).contains(dummyDevOrganizationId(0))
         assertThat(result.changedDate).isEqualTo(now)
         assertThat(result.status).isEqualTo(CreateConnectorStatusDto.OK)
 
@@ -509,8 +509,8 @@ class ConnectorManagementApiServiceTest {
 
         val expected = dsl.newRecord(Tables.CONNECTOR).also {
             it.connectorId = actual!!.connectorId // id is generated, so we can only predict the first part of it
-            it.mdsId = dummyDevMdsId(0)
-            it.providerMdsId = it.mdsId
+            it.organizationId = dummyDevOrganizationId(0)
+            it.providerOrganizationId = it.organizationId
             it.type = ConnectorType.OWN
             it.environment = "test"
             it.clientId = clientIdUtils.generateFromCertificate(request.certificate)
@@ -648,11 +648,11 @@ class ConnectorManagementApiServiceTest {
         )
 
         // act
-        val result = uiResource.createProvidedConnector(dummyDevMdsId(1),"test", request)
+        val result = uiResource.createProvidedConnector(dummyDevOrganizationId(1),"test", request)
 
         // assert
         assertThat(result).isNotNull
-        assertThat(result.id).contains(dummyDevMdsId(1))
+        assertThat(result.id).contains(dummyDevOrganizationId(1))
         assertThat(result.changedDate).isEqualTo(now)
         assertThat(result.status).isEqualTo(CreateConnectorStatusDto.OK)
 
@@ -664,8 +664,8 @@ class ConnectorManagementApiServiceTest {
 
         val expected = dsl.newRecord(Tables.CONNECTOR).also {
             it.connectorId = actual!!.connectorId // id is generated, so we can only predict the first part of it
-            it.mdsId = dummyDevMdsId(1)
-            it.providerMdsId = dummyDevMdsId(0)
+            it.organizationId = dummyDevOrganizationId(1)
+            it.providerOrganizationId = dummyDevOrganizationId(0)
             it.type = ConnectorType.PROVIDED
             it.environment = "test"
             it.clientId = clientIdUtils.generateFromCertificate(request.certificate)
@@ -722,7 +722,7 @@ class ConnectorManagementApiServiceTest {
         )
 
         // act
-        val result = uiResource.createProvidedConnector(dummyDevMdsId(1), "test", request)
+        val result = uiResource.createProvidedConnector(dummyDevOrganizationId(1), "test", request)
 
         // assert
         assertThat(result).isNotNull
@@ -765,7 +765,7 @@ class ConnectorManagementApiServiceTest {
         )
 
         // act
-        val result = uiResource.createProvidedConnector(dummyDevMdsId(1), "test", request)
+        val result = uiResource.createProvidedConnector(dummyDevOrganizationId(1), "test", request)
 
         // assert
         assertThat(result).isNotNull
@@ -791,7 +791,7 @@ class ConnectorManagementApiServiceTest {
         )
 
         // act & assert
-        assertThatThrownBy { uiResource.createProvidedConnector(dummyDevMdsId(1), "test", request) }
+        assertThatThrownBy { uiResource.createProvidedConnector(dummyDevOrganizationId(1), "test", request) }
             .isInstanceOf(NotAuthorizedException::class.java)
     }
 }

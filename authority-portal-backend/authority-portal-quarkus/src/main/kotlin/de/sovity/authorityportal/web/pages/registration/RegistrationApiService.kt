@@ -26,7 +26,7 @@ import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import de.sovity.authorityportal.web.utils.TimeUtils
-import de.sovity.authorityportal.web.utils.idmanagement.MdsIdUtils
+import de.sovity.authorityportal.web.utils.idmanagement.OrganizationIdUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 
@@ -35,39 +35,39 @@ class RegistrationApiService(
     val keycloakService: KeycloakService,
     val organizationService: OrganizationService,
     val userService: UserService,
-    val mdsIdUtils: MdsIdUtils,
+    val organizationIdUtils: OrganizationIdUtils,
     val firstUserService: FirstUserService,
     val timeUtils: TimeUtils
 ) {
 
     fun registerUserAndOrganization(registrationRequest: RegistrationRequestDto): IdResponse {
-        val mdsId = mdsIdUtils.generateMdsId()
-        val userId = createKeycloakUserAndOrganization(mdsId, registrationRequest)
-        createDbUserAndOrganization(userId, mdsId, registrationRequest)
+        val organizationId = organizationIdUtils.generateOrganizationId()
+        val userId = createKeycloakUserAndOrganization(organizationId, registrationRequest)
+        createDbUserAndOrganization(userId, organizationId, registrationRequest)
         keycloakService.sendInvitationEmail(userId)
-        firstUserService.setupFirstUserIfRequired(userId, mdsId)
+        firstUserService.setupFirstUserIfRequired(userId, organizationId)
 
-        Log.info("Register organization and User. mdsId=$mdsId, userId=$userId")
+        Log.info("Register organization and User. organizationId=$organizationId, userId=$userId")
 
         return IdResponse(userId, timeUtils.now())
     }
 
-    private fun createKeycloakUserAndOrganization(mdsId: String, registrationRequest: RegistrationRequestDto): String {
+    private fun createKeycloakUserAndOrganization(organizationId: String, registrationRequest: RegistrationRequestDto): String {
         val userId = keycloakService.createUser(
             email = registrationRequest.userEmail,
             firstName = registrationRequest.userFirstName,
             lastName = registrationRequest.userLastName,
             password = registrationRequest.userPassword
         )
-        keycloakService.createOrganization(mdsId)
-        keycloakService.joinOrganization(userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
+        keycloakService.createOrganization(organizationId)
+        keycloakService.joinOrganization(userId, organizationId, OrganizationRole.PARTICIPANT_ADMIN)
 
         return userId
     }
 
     private fun createDbUserAndOrganization(
         userId: String,
-        mdsId: String,
+        organizationId: String,
         registrationRequest: RegistrationRequestDto
     ) {
         val user = userService.createUser(
@@ -77,11 +77,11 @@ class RegistrationApiService(
         )
         organizationService.createOrganization(
             userId = userId,
-            mdsId = mdsId,
+            organizationId = organizationId,
             organizationData = buildOrganizationData(registrationRequest),
             registrationStatus = OrganizationRegistrationStatus.PENDING
         )
-        user.organizationMdsId = mdsId
+        user.organizationId = organizationId
         user.update()
     }
 

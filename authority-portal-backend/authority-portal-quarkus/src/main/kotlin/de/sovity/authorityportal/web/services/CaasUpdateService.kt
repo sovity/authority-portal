@@ -86,10 +86,10 @@ class CaasUpdateService(
             dapsClient.configureMappers(connector.clientId, connector.connectorId)
         } catch (e: Exception) {
             Log.error(
-                "Error registering CaaS at DAPS. connectorId=${connector.connectorId}, mdsId=${connector.mdsId}.",
+                "Error registering CaaS at DAPS. connectorId=${connector.connectorId}, organizationId=${connector.organizationId}.",
                 e
             )
-            error("Error registering CaaS at DAPS. connectorId=${connector.connectorId}, mdsId=${connector.mdsId}.")
+            error("Error registering CaaS at DAPS. connectorId=${connector.connectorId}, organizationId=${connector.organizationId}.")
         }
 
     }

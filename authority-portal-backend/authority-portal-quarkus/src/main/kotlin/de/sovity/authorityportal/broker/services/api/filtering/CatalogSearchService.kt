@@ -30,7 +30,7 @@ class CatalogSearchService {
                 fields.dataOfferTable.DESCRIPTION_NO_MARKDOWN,
                 fields.dataOfferTable.KEYWORDS_COMMA_JOINED,
                 fields.connectorTable.ENDPOINT_URL,
-                fields.connectorTable.MDS_ID,
+                fields.connectorTable.ORGANIZATION_ID,
                 fields.organizationTable.NAME
             )
         )
