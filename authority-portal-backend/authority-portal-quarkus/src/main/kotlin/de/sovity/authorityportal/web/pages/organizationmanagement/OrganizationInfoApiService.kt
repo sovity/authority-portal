@@ -89,7 +89,7 @@ class OrganizationInfoApiService(
     fun getOwnOrganizationInformation(organizationId: String, environmentId: String): OwnOrganizationDetailsDto {
         val organizationDetails = getOrganizationInformation(organizationId, environmentId)
         return OwnOrganizationDetailsDto(
-            organizationId = organizationDetails.id,
+            id = organizationDetails.id,
             name = organizationDetails.name,
             registrationStatus = organizationDetails.registrationStatus,
             createdAt = organizationDetails.createdAt,

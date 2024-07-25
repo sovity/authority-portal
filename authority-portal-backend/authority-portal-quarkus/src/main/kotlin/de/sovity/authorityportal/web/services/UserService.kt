@@ -51,7 +51,7 @@ class UserService(
         val u = Tables.USER
 
         return dsl.selectFrom(u)
-            .where(u.ORGANIZATION_MDS_ID.eq(organizationId))
+            .where(u.ORGANIZATION_ID.eq(organizationId))
             .fetch()
             .toList()
     }
@@ -59,10 +59,10 @@ class UserService(
     fun getUserCountsByOrganizationIds(): Map<String, Int> {
         val u = Tables.USER
 
-        return dsl.select(u.ORGANIZATION_MDS_ID, DSL.count())
+        return dsl.select(u.ORGANIZATION_ID, DSL.count())
             .from(u)
-            .groupBy(u.ORGANIZATION_MDS_ID)
-            .fetchMap(u.ORGANIZATION_MDS_ID, DSL.count())
+            .groupBy(u.ORGANIZATION_ID)
+            .fetchMap(u.ORGANIZATION_ID, DSL.count())
     }
 
     private fun getUser(userId: String): UserRecord? {
@@ -144,7 +144,7 @@ class UserService(
         val u = Tables.USER
 
         dsl.update(u)
-            .setNull(u.ORGANIZATION_MDS_ID)
+            .setNull(u.ORGANIZATION_ID)
             .where(u.REGISTRATION_STATUS.eq(UserRegistrationStatus.INVITED))
             .and(u.CREATED_AT.lt(expirationCutoffTime))
             .execute()
@@ -180,7 +180,7 @@ class UserService(
         val u = Tables.USER
 
         dsl.update(u)
-            .setNull(u.ORGANIZATION_MDS_ID)
+            .setNull(u.ORGANIZATION_ID)
             .where(u.ID.eqAny(orgMemberIds))
             .execute()
     }

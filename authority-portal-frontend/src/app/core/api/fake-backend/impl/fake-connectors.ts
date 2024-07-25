@@ -33,10 +33,10 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   {
     connectorId: 'MDSL1111AA.AP12I3U',
     type: ConnectorTypeDto.Own,
-    orgName: 'Example Organization',
-    orgMdsId: 'MDSL1111AA',
-    hostName: 'Example Host',
-    hostMdsId: 'MDSL1111AA',
+    organizationName: 'Example Organization',
+    organizationId: 'MDSL1111AA',
+    hostOrganizationName: 'Example Host',
+    hostOrganizationId: 'MDSL1111AA',
     environment: fakeEnv('test'),
     connectorName: 'Example Connector 1',
     location: 'Germany, EU',
@@ -48,10 +48,10 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   {
     connectorId: 'MDSL1111AA.AP23H5W',
     type: ConnectorTypeDto.Own,
-    orgName: 'Example Organization',
-    orgMdsId: 'MDSL1111AA',
-    hostName: 'Example Host',
-    hostMdsId: 'MDSL1111AA',
+    organizationName: 'Example Organization',
+    organizationId: 'MDSL1111AA',
+    hostOrganizationName: 'Example Host',
+    hostOrganizationId: 'MDSL1111AA',
     environment: fakeEnv('test'),
     connectorName: 'Example Connector 2',
     location: 'Germany, EU',
@@ -63,10 +63,10 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   {
     connectorId: 'MDSL1111AA.AP42I3L',
     type: ConnectorTypeDto.Caas,
-    orgName: 'Example Organization',
-    orgMdsId: 'MDSL1111AA',
-    hostName: 'Example Host',
-    hostMdsId: 'MDSL1111AA',
+    organizationName: 'Example Organization',
+    organizationId: 'MDSL1111AA',
+    hostOrganizationName: 'Example Host',
+    hostOrganizationId: 'MDSL1111AA',
     environment: fakeEnv('test'),
     connectorName: 'Example Connector 3',
     location: 'Germany, EU',
@@ -78,10 +78,10 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   {
     connectorId: 'MDSL1111AA.AP35I6Y',
     type: ConnectorTypeDto.Provided,
-    orgName: 'Example Organization',
-    orgMdsId: 'MDSL1111AA',
-    hostName: 'Service Partner Organization',
-    hostMdsId: 'MDSL7777AA',
+    organizationName: 'Example Organization',
+    organizationId: 'MDSL1111AA',
+    hostOrganizationName: 'Service Partner Organization',
+    hostOrganizationId: 'MDSL7777AA',
     environment: fakeEnv('test'),
     connectorName: 'Provided Connector 1',
     location: 'Germany, EU',
@@ -93,10 +93,10 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   {
     connectorId: 'MDSL2222BB.CP59I8U',
     type: ConnectorTypeDto.Own,
-    orgName: 'Example Organization',
-    orgMdsId: 'MDSL2222BB',
-    hostName: 'Example Host',
-    hostMdsId: 'MDSL2222BB',
+    organizationName: 'Example Organization',
+    organizationId: 'MDSL2222BB',
+    hostOrganizationName: 'Example Host',
+    hostOrganizationId: 'MDSL2222BB',
     environment: fakeEnv('test'),
     connectorName: 'Example Connector 1',
     location: 'Germany, EU',
@@ -108,10 +108,10 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   {
     connectorId: 'MDSL2222BB.CFIWWBD',
     type: ConnectorTypeDto.Own,
-    orgMdsId: 'MDSL2222BB',
-    orgName: 'Example Organization',
-    hostMdsId: 'MDSL2222BB',
-    hostName: 'Example Organization',
+    organizationId: 'MDSL2222BB',
+    organizationName: 'Example Organization',
+    hostOrganizationId: 'MDSL2222BB',
+    hostOrganizationName: 'Example Organization',
     environment: fakeEnv('test'),
     connectorName: 'Example Connector 2',
     location: 'Germany, EU',
@@ -122,10 +122,10 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   },
   {
     connectorId: 'MDSL2222BB.CWAQ71U',
-    orgMdsId: 'MDSL2222BB',
-    orgName: 'Example Organization',
-    hostMdsId: 'MDSL2222BB',
-    hostName: 'Example Organization',
+    organizationId: 'MDSL2222BB',
+    organizationName: 'Example Organization',
+    hostOrganizationId: 'MDSL2222BB',
+    hostOrganizationName: 'Example Organization',
     type: ConnectorTypeDto.Own,
     environment: fakeEnv('test'),
     connectorName: 'Example Connector',
@@ -141,17 +141,19 @@ export const getListOfConnectorsForTable = (
   mdsId: string,
 ): ConnectorOverviewResult => {
   return {
-    connectors: TEST_CONNECTORS.filter((c) => c.orgMdsId === mdsId).map((c) => {
-      return {
-        id: c.connectorId,
-        hostName: c.hostName,
-        type: c.type,
-        environment: c.environment,
-        name: c.connectorName,
-        status: c.status,
-        frontendUrl: c.frontendUrl,
-      };
-    }),
+    connectors: TEST_CONNECTORS.filter((c) => c.organizationId === mdsId).map(
+      (c) => {
+        return {
+          id: c.connectorId,
+          hostOrganizationName: c.hostOrganizationName,
+          type: c.type,
+          environment: c.environment,
+          name: c.connectorName,
+          status: c.status,
+          frontendUrl: c.frontendUrl,
+        };
+      },
+    ),
   };
 };
 
@@ -161,7 +163,7 @@ export const listSpConnectors = (): ProvidedConnectorOverviewResult => {
       (c): ProvidedConnectorOverviewEntryDto => {
         return {
           id: c.connectorId,
-          customerOrgName: c.orgName,
+          customerOrgName: c.organizationName,
           frontendUrl: c.frontendUrl,
           type: c.type,
           environment: c.environment,
@@ -174,28 +176,30 @@ export const listSpConnectors = (): ProvidedConnectorOverviewResult => {
 };
 
 export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
-  const mdsId = getUserInfo().organizationMdsId;
+  const mdsId = getUserInfo().organizationId;
   return {
-    connectors: TEST_CONNECTORS.filter((c) => c.orgMdsId === mdsId).map((c) => {
-      return {
-        id: c.connectorId,
-        hostName: c.hostName,
-        type: c.type,
-        environment: c.environment,
-        name: c.connectorName,
-        status: c.status,
-        frontendUrl: c.frontendUrl,
-      };
-    }),
+    connectors: TEST_CONNECTORS.filter((c) => c.organizationId === mdsId).map(
+      (c) => {
+        return {
+          id: c.connectorId,
+          hostOrganizationName: c.hostOrganizationName,
+          type: c.type,
+          environment: c.environment,
+          name: c.connectorName,
+          status: c.status,
+          frontendUrl: c.frontendUrl,
+        };
+      },
+    ),
   };
 };
 
 export const getOwnConnectorDetail = (
   connectorId: string,
 ): ConnectorDetailDto => {
-  const mdsId = getUserInfo().organizationMdsId;
+  const mdsId = getUserInfo().organizationId;
   return TEST_CONNECTORS.filter(
-    (c) => c.orgMdsId === mdsId && c.connectorId === connectorId,
+    (c) => c.organizationId === mdsId && c.connectorId === connectorId,
   )[0];
 };
 
@@ -204,7 +208,7 @@ export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {
     connectors: TEST_CONNECTORS.map((c) => {
       return {
         id: c.connectorId,
-        hostName: c.hostName,
+        hostOrganizationName: c.hostOrganizationName,
         type: c.type,
         environment: c.environment,
         name: c.connectorName,
@@ -241,17 +245,17 @@ export const deleteProvidedConnector = (
 export const createOwnConnector = (
   request: CreateConnectorRequest,
 ): CreateConnectorResponse => {
-  const mdsId = getUserInfo().organizationMdsId;
-  const orgName = getUserInfo().organizationName;
+  const mdsId = getUserInfo().organizationId;
+  const organizationName = getUserInfo().organizationName;
   const randomId = generateRandomId(mdsId);
   const status = 'OFFLINE';
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
-    orgMdsId: mdsId,
-    orgName: orgName,
-    hostMdsId: mdsId,
-    hostName: orgName,
+    organizationId: mdsId,
+    organizationName: organizationName,
+    hostOrganizationId: mdsId,
+    hostOrganizationName: organizationName,
     type: ConnectorTypeDto.Own,
     environment: fakeEnv('test'),
     connectorName: request.name,
@@ -272,17 +276,17 @@ export const createCaas = (
   request: CreateCaasRequest,
   environmentId: string,
 ): CreateConnectorResponse => {
-  const mdsId = getUserInfo().organizationMdsId;
-  const orgName = getUserInfo().organizationName;
+  const mdsId = getUserInfo().organizationId;
+  const organizationName = getUserInfo().organizationName;
   const randomId = generateRandomId(mdsId);
   const status = 'INIT';
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
-    orgMdsId: mdsId,
-    orgName: orgName,
-    hostMdsId: mdsId,
-    hostName: orgName,
+    organizationId: mdsId,
+    organizationName: organizationName,
+    hostOrganizationId: mdsId,
+    hostOrganizationName: organizationName,
     type: ConnectorTypeDto.Caas,
     environment: fakeEnv(environmentId),
     connectorName: request.connectorTitle,
@@ -318,21 +322,21 @@ export const createProvidedConnector = (
   request: CreateConnectorRequest,
   clientMdsId: string,
 ): CreateConnectorResponse => {
-  const hostMdsId = getUserInfo().organizationMdsId;
+  const hostOrganizationId = getUserInfo().organizationId;
   const hostOrgName = getUserInfo().organizationName;
   const status = 'OFFLINE';
 
   const clientOrgName = TEST_ORGANIZATIONS.filter(
-    (it) => it.mdsId === clientMdsId,
+    (it) => it.id === clientMdsId,
   )[0].name;
 
   const randomId = generateRandomId(clientMdsId);
   TEST_CONNECTORS.push({
     connectorId: randomId,
-    orgMdsId: clientMdsId,
-    orgName: clientOrgName,
-    hostMdsId: hostMdsId,
-    hostName: hostOrgName,
+    organizationId: clientMdsId,
+    organizationName: clientOrgName,
+    hostOrganizationId: hostOrganizationId,
+    hostOrganizationName: hostOrgName,
     type: ConnectorTypeDto.Provided,
     environment: fakeEnv('test'),
     connectorName: request.name,
@@ -360,8 +364,9 @@ export const deleteOwnConnector = (
 };
 
 export const getNumberOfOrganizationConnectors = (mdsId: string): number => {
-  return TEST_CONNECTORS.filter((connector) => connector.orgMdsId === mdsId)
-    .length;
+  return TEST_CONNECTORS.filter(
+    (connector) => connector.organizationId === mdsId,
+  ).length;
 };
 
 const generateRandomId = (mdsId: string): string => {

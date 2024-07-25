@@ -38,7 +38,7 @@ export const rejectOrganization = (mdsId: string): IdResponse => {
 
 export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
   {
-    mdsId: 'MDSL1111AA',
+    id: 'MDSL1111AA',
     name: 'Dev Organization 1',
     businessUnit: 'Business Unit 1',
     industry: 'Information and communication technology',
@@ -83,7 +83,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
   },
 
   {
-    mdsId: 'MDSL2222BB',
+    id: 'MDSL2222BB',
     name: 'Dev Organization 2',
     businessUnit: 'Business Unit 2',
     industry: 'Software development',
@@ -129,7 +129,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
   },
 
   {
-    mdsId: 'MDSL3333CC',
+    id: 'MDSL3333CC',
     name: 'Test Orga',
     businessUnit: 'Business Unit 1',
     industry: 'Software development',
@@ -174,7 +174,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
   },
 
   {
-    mdsId: 'MDSL3331C1',
+    id: 'MDSL3331C1',
     name: 'Dev Organization 3.1',
     businessUnit: 'Business Unit 1',
     industry: 'Software development',
@@ -219,7 +219,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
   },
 
   {
-    mdsId: 'MDSL3332C2',
+    id: 'MDSL3332C2',
     name: 'Dev Organization 3.2',
     businessUnit: 'Business Unit 1',
     industry: 'Software development',
@@ -264,7 +264,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
   },
 
   {
-    mdsId: 'MDSL3333C3',
+    id: 'MDSL3333C3',
     name: 'Dev Organization 3.3',
     businessUnit: 'Business Unit 1',
     industry: 'Software development',
@@ -309,7 +309,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
   },
 
   {
-    mdsId: 'MDSL3334C4',
+    id: 'MDSL3334C4',
     name: 'Dev Organization 3.4',
     businessUnit: 'Business Unit 1',
     industry: 'Software development',
@@ -354,7 +354,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
   },
 
   {
-    mdsId: 'MDSL7777AA',
+    id: 'MDSL7777AA',
     name: 'Service Partner Organization',
     businessUnit: 'Business Unit 7',
     industry: 'Software development',
@@ -399,7 +399,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
   },
 
   {
-    mdsId: 'MDSL8888EE',
+    id: 'MDSL8888EE',
     name: 'Operator Organization',
     businessUnit: 'Business Unit 8',
     industry: 'Software development',
@@ -443,7 +443,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     techContactPhone: '+49 9876 543210',
   },
   {
-    mdsId: 'MDSL6666EE',
+    id: 'MDSL6666EE',
     name: 'Rejected Organization',
     businessUnit: 'Business Unit 6',
     industry: 'Software development',
@@ -480,7 +480,7 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
     techContactPhone: '+49 9876 543210',
   },
   {
-    mdsId: 'MDSL9111ZZ',
+    id: 'MDSL9111ZZ',
     name: 'Three Users',
     businessUnit: 'Business Unit 1',
     industry: 'Software development',
@@ -533,21 +533,21 @@ export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
 ];
 
 export const updateOrganization = (
-  mdsId: string,
+  organizationId: string,
   patcher: Patcher<OrganizationDetailsDto>,
 ) => {
   TEST_ORGANIZATIONS = TEST_ORGANIZATIONS.map((organization) => {
-    return organization.mdsId === mdsId
+    return organization.id === organizationId
       ? patchObj(organization, patcher)
       : organization;
   });
 };
 
 export const getOrganizationDetails = (
-  mdsId: string,
+  organizationId: string,
 ): OrganizationDetailsDto => {
   return TEST_ORGANIZATIONS.find(
-    (organization) => organization.mdsId === mdsId,
+    (organization) => organization.id === organizationId,
   ) as OrganizationDetailsDto;
 };
 
@@ -569,7 +569,7 @@ export const getListOfOrganizationsForTable =
       organizations: TEST_ORGANIZATIONS.map(
         (organization: OrganizationDetailsDto) => {
           return {
-            mdsId: organization.mdsId,
+            id: organization.id,
             name: organization.name,
             mainContactEmail: organization.mainContactEmail,
             userCount: organization.memberCount,
@@ -585,9 +585,9 @@ export const getListOfOrganizationsForTable =
   };
 
 export const getOwnOrganizationDetails = (): OwnOrganizationDetailsDto => {
-  const details = getOrganizationDetails(getUserInfo().organizationMdsId);
+  const details = getOrganizationDetails(getUserInfo().organizationId);
   return {
-    mdsId: details.mdsId,
+    id: details.id,
     name: details.name,
     businessUnit: details.businessUnit,
     industry: details.industry,
@@ -616,7 +616,7 @@ export const getOwnOrganizationDetails = (): OwnOrganizationDetailsDto => {
 export const updateOwnOrganization = (
   request: UpdateOrganizationDto,
 ): IdResponse => {
-  const mdsId = getUserInfo().organizationMdsId;
+  const mdsId = getUserInfo().organizationId;
   updateOrganization(mdsId, () => ({
     url: request.url,
     description: request.description,
@@ -645,6 +645,8 @@ export const onboardOrganization = (
   return {id: 'MDSL8888EE', changedDate: new Date()};
 };
 
-export const deleteOrganization = (mdsId: string) => {
-  TEST_ORGANIZATIONS = TEST_ORGANIZATIONS.filter((x) => x.mdsId !== mdsId);
+export const deleteOrganization = (organizationId: string) => {
+  TEST_ORGANIZATIONS = TEST_ORGANIZATIONS.filter(
+    (x) => x.id !== organizationId,
+  );
 };

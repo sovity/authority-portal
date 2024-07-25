@@ -104,7 +104,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
           if (isMyDataOffers) {
             return this.globalStateUtils.userInfo$.pipe(
               take(1),
-              map((it) => it.organizationMdsId),
+              map((it) => it.organizationId),
             );
           }
 

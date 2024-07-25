@@ -219,7 +219,7 @@ class OrganizationInfoApiServiceTest {
         val result = uiResource.ownOrganizationDetails("test")
 
         // assert
-        assertThat(result.organizationId).isEqualTo(dummyDevOrganizationId(0))
+        assertThat(result.id).isEqualTo(dummyDevOrganizationId(0))
         assertThat(result.name).isEqualTo("Organization 0")
         assertThat(result.memberList).hasSize(2)
     }

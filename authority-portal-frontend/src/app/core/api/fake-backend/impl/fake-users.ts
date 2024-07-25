@@ -45,7 +45,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['AUTHORITY_ADMIN', 'AUTHORITY_USER', 'ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',
-    organizationMdsId: 'MDSL1111AA',
+    organizationId: 'MDSL1111AA',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -62,7 +62,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['AUTHORITY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Authority Organization',
-    organizationMdsId: 'MDSL1111AA',
+    organizationId: 'MDSL1111AA',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -79,7 +79,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Participant Organization',
-    organizationMdsId: 'MDSL2222BB',
+    organizationId: 'MDSL2222BB',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -97,7 +97,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Participant Organization',
-    organizationMdsId: 'MDSL2222BB',
+    organizationId: 'MDSL2222BB',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -114,7 +114,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Participant Organization',
-    organizationMdsId: 'MDSL2222BB',
+    organizationId: 'MDSL2222BB',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -131,7 +131,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['OPERATOR_ADMIN', 'ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Operator Organization',
-    organizationMdsId: 'MDSL8888EE',
+    organizationId: 'MDSL8888EE',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -148,7 +148,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['SERVICE_PARTNER_ADMIN', 'ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Operator Organization',
-    organizationMdsId: 'MDSL7777AA',
+    organizationId: 'MDSL7777AA',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -165,7 +165,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['ADMIN'],
     registrationStatus: 'ONBOARDING',
     organizationName: 'Dev Organization 1',
-    organizationMdsId: 'MDSL1111AA',
+    organizationId: 'MDSL1111AA',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -182,7 +182,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['USER'],
     registrationStatus: 'ONBOARDING',
     organizationName: 'Dev Organization 2',
-    organizationMdsId: 'MDSL2222BB',
+    organizationId: 'MDSL2222BB',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -199,7 +199,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: [],
     registrationStatus: 'PENDING',
     organizationName: '',
-    organizationMdsId: 'MDSL5555EE',
+    organizationId: 'MDSL5555EE',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -216,7 +216,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'REJECTED',
     organizationName: 'Rejected Organization',
-    organizationMdsId: 'MDSL6666EE',
+    organizationId: 'MDSL6666EE',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -233,7 +233,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Three Users',
-    organizationMdsId: 'MDSL9111ZZ',
+    organizationId: 'MDSL9111ZZ',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -250,7 +250,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['ADMIN', 'KEY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Three Users',
-    organizationMdsId: 'MDSL9111ZZ',
+    organizationId: 'MDSL9111ZZ',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -267,7 +267,7 @@ export const ALL_USERS: Record<string, UserDetailDto> = {
     roles: ['AUTHORITY_USER', 'USER'],
     registrationStatus: 'ACTIVE',
     organizationName: 'Three Users',
-    organizationMdsId: 'MDSL9111ZZ',
+    organizationId: 'MDSL9111ZZ',
     email: 'email@example.com',
     phone: '+49 231 1234567',
     position: 'Employee',
@@ -299,7 +299,7 @@ export const TEST_USERS: UserInfo[] = [
     firstName: 'Unauthenticated',
     lastName: 'User',
     organizationName: 'No Organization',
-    organizationMdsId: 'unauthenticated',
+    organizationId: 'unauthenticated',
   },
 ];
 
@@ -354,7 +354,7 @@ export const inviteUser = (
     lastName: request.lastName,
     roles: generateRoles(request.role),
     registrationStatus: 'INVITED',
-    organizationMdsId: getUserInfo().organizationMdsId,
+    organizationId: getUserInfo().organizationId,
     organizationName: getUserInfo().organizationName,
     invitingUserId: currentlyLoggedInUser.userId,
     invitingUserFirstName: currentlyLoggedInUser.firstName,
@@ -366,7 +366,7 @@ export const inviteUser = (
     onboardingType: 'INVITATION',
   };
 
-  updateOrganization(getUserInfo().organizationMdsId, (organization) => {
+  updateOrganization(getUserInfo().organizationId, (organization) => {
     return {
       ...organization,
       memberList: [...organization.memberList, newUser as MemberInfo],
@@ -467,23 +467,23 @@ export const cascadeDeleteUser = (
 ): IdResponse => {
   const userDeletionCheck = checkUserDeletion(userId);
   const user = getUserOrThrow(userId);
-  const organization = getOrganizationDetails(user.organizationMdsId);
+  const organization = getOrganizationDetails(user.organizationId);
 
   if (userDeletionCheck.isLastParticipantAdmin) {
-    deleteOrganization(organization.mdsId);
+    deleteOrganization(organization.id);
   } else {
     if (userDeletionCheck.isOrganizationCreator) {
       if (!successorUserId) {
         throw new Error("Can't delete organization creator without successor");
       }
       const successorUser = getUserOrThrow(successorUserId);
-      updateOrganization(organization.mdsId, () => ({
+      updateOrganization(organization.id, () => ({
         createdByUserId: successorUser.userId,
         createdByFirstName: successorUser.firstName,
         createdByLastName: successorUser.lastName,
       }));
     }
-    updateOrganization(organization.mdsId, (o) => ({
+    updateOrganization(organization.id, (o) => ({
       memberList: o.memberList.filter((x) => x.userId !== userId),
       memberCount: o.memberCount - 1,
     }));
@@ -506,7 +506,7 @@ function buildUserInfo(user: UserDetailDto): UserInfo {
     firstName: user.firstName,
     lastName: user.lastName,
     organizationName: user.organizationName,
-    organizationMdsId: user.organizationMdsId,
+    organizationId: user.organizationId,
   };
 }
 
@@ -517,7 +517,7 @@ const deleteUser = (userId: string): IdResponse => {
 
 export const checkUserDeletion = (userId: string): UserDeletionCheck => {
   const user = getUserOrThrow(userId);
-  const organization = getOrganizationDetails(user.organizationMdsId);
+  const organization = getOrganizationDetails(user.organizationId);
   const participantAdmins = getParticipantAdmins(organization);
 
   const isLastParticipantAdmin =

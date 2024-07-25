@@ -20,7 +20,7 @@ import java.time.OffsetDateTime
 @Schema(description = "Own organization information.")
 data class OwnOrganizationDetailsDto(
     @field:Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    val organizationId: String,
+    val id: String,
     @field:Schema(description = "Legal name", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,
     @field:Schema(description = "Business unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

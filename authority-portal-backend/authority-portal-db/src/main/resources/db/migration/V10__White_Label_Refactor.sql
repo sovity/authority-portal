@@ -2,7 +2,7 @@ alter table organization
     rename column mds_id to id;
 
 alter table "user"
-    rename column organization_mds_id to id;
+    rename column organization_mds_id to organization_id;
 
 alter table connector
     rename column mds_id to organization_id;

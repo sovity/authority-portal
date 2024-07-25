@@ -45,7 +45,7 @@ export class OrganizationUserDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setOrganizationUserId(
-      this.userDetailPageConfig.mdsId,
+      this.userDetailPageConfig.organizationId,
       this.userDetailPageConfig.userId,
     );
     this.refresh();

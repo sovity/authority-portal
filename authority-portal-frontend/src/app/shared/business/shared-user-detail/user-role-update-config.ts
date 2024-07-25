@@ -117,10 +117,10 @@ export function buildUserRoleUpdateConfigFromUserInfo(options: {
   return buildUserRoleUpdateConfig({
     ownRoles: currentUser.roles,
     ownUserId: currentUser.userId,
-    ownUserMdsId: currentUser.organizationMdsId,
+    ownUserMdsId: currentUser.organizationId,
     targetRoles: target.roles,
     targetUserId: target.userId,
-    targetUserMdsId: target.organizationMdsId,
+    targetUserMdsId: target.organizationId,
     onRoleUpdateSuccessful,
   });
 }

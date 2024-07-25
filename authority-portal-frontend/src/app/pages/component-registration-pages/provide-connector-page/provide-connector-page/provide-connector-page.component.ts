@@ -87,7 +87,7 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
 
   registerConnector(): void {
     const formValue = this.form.value;
-    const mdsId = formValue.connectorTab.organization!.mdsId;
+    const mdsId = formValue.connectorTab.organization!.id;
     this.store.dispatch(
       new Submit(
         {

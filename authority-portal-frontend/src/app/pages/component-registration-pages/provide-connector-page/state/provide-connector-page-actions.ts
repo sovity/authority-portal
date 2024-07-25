@@ -22,7 +22,7 @@ export class Submit {
   static readonly type = `[${tag}] Provide Connector`;
   constructor(
     public request: CreateConnectorRequest,
-    public mdsId: string,
+    public organizationId: string,
     public enableForm: () => void,
     public disableForm: () => void,
     public success: () => void,

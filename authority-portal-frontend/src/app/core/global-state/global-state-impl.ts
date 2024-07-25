@@ -75,7 +75,7 @@ export class GlobalStateImpl implements NgxsOnInit {
         firstName: 'Authentication',
         lastName: 'Failure',
         registrationStatus: undefined,
-        organizationMdsId: 'error',
+        organizationId: 'error',
         organizationName: 'Authentication Failure',
       }),
       tap((userInfo) => this.onUserInfoRefreshed(ctx, userInfo)),

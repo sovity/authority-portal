@@ -331,7 +331,7 @@ export class AuthorityOrganizationDetailPageComponent
     this.slideOverService.setSlideOverNavigationType(NavigationType.GO_BACK);
     this.userDetailPageConfig = {
       userId: user.userId,
-      mdsId: this.organizationId,
+      organizationId: this.organizationId,
     };
     this.setupUserTitleBar(user);
   }
