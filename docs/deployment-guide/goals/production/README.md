@@ -258,6 +258,14 @@ authority-portal.deployment.environments.test.logging-house.url: "https://[LOGGI
 authority-portal.deployment.environments.test.logging-house.kuma-name: "[LOGGING_HOUSE_KUMA_NAME]"
 ```
 
+Optional configuration variables
+```yaml
+# Organization ID configuration (example: prefix: BPN & length: 10 would generate Ids in the format BPNL000000000011)
+# The 'L' stands for 'Legal' and is added automatically after the prefix - the last 2 characters are the checksum
+authority-portal.organization.id.prefix: "BPN"
+authority-portal.organization.id.length: "10"
+```
+
 #### Adjusting the log level at runtime
 
 The log level can be changed during runtime via a request to the `/api/config/log-level` endpoint. 
