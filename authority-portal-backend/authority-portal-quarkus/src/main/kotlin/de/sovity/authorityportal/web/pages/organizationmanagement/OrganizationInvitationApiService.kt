@@ -22,7 +22,7 @@ import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import de.sovity.authorityportal.web.utils.TimeUtils
-import de.sovity.authorityportal.web.utils.idmanagement.MdsIdUtils
+import de.sovity.authorityportal.web.utils.idmanagement.OrganizationIdUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 
@@ -31,23 +31,23 @@ class OrganizationInvitationApiService(
     val keycloakService: KeycloakService,
     val organizationService: OrganizationService,
     val userService: UserService,
-    val mdsIdUtils: MdsIdUtils,
+    val organizationIdUtils: OrganizationIdUtils,
     val timeUtils: TimeUtils
 ) {
 
     fun inviteOrganization(invitationInformation: InviteOrganizationRequest, adminUserId: String): IdResponse {
-        val mdsId = mdsIdUtils.generateMdsId()
-        val userId = createKeycloakUserAndOrganization(mdsId, invitationInformation)
-        createDbUserAndOrganization(userId, mdsId, invitationInformation)
+        val organizationId = organizationIdUtils.generateOrganizationId()
+        val userId = createKeycloakUserAndOrganization(organizationId, invitationInformation)
+        createDbUserAndOrganization(userId, organizationId, invitationInformation)
         keycloakService.sendInvitationEmailWithPasswordReset(userId)
 
-        Log.info("Invited organization and corresponding initial Participant Admin. mdsId=$mdsId, userId=$userId, adminUserId=$adminUserId.")
+        Log.info("Invited organization and corresponding initial Participant Admin. organizationId=$organizationId, userId=$userId, adminUserId=$adminUserId.")
 
-        return IdResponse(mdsId, timeUtils.now())
+        return IdResponse(organizationId, timeUtils.now())
     }
 
     private fun createKeycloakUserAndOrganization(
-        mdsId: String,
+        organizationId: String,
         invitationInformation: InviteOrganizationRequest
     ): String {
         val userId = keycloakService.createUser(
@@ -55,15 +55,15 @@ class OrganizationInvitationApiService(
             invitationInformation.userFirstName,
             invitationInformation.userLastName
         )
-        keycloakService.createOrganization(mdsId)
-        keycloakService.joinOrganization(userId, mdsId, OrganizationRole.PARTICIPANT_ADMIN)
+        keycloakService.createOrganization(organizationId)
+        keycloakService.joinOrganization(userId, organizationId, OrganizationRole.PARTICIPANT_ADMIN)
 
         return userId
     }
 
     private fun createDbUserAndOrganization(
         userId: String,
-        mdsId: String,
+        organizationId: String,
         invitationInformation: InviteOrganizationRequest
     ) {
         val user = userService.createUser(
@@ -73,10 +73,10 @@ class OrganizationInvitationApiService(
         )
         organizationService.createInvitedOrganization(
             userId,
-            mdsId,
+            organizationId,
             invitationInformation.orgName
         )
-        user.organizationMdsId = mdsId
+        user.organizationId = organizationId
         user.update()
     }
 

@@ -24,7 +24,7 @@ data class UserDetail(
     val email: String,
     val position: String?,
     val phoneNumber: String?,
-    val organizationMdsId: String?,
+    val organizationId: String?,
     val registrationStatus: UserRegistrationStatus,
     val createdAt: OffsetDateTime,
     val roles: Set<String>,

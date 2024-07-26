@@ -19,8 +19,8 @@ import java.time.OffsetDateTime
 
 @Schema(description = "Own organization information.")
 data class OwnOrganizationDetailsDto(
-    @field:Schema(description = "MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    val mdsId: String,
+    @field:Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    val id: String,
     @field:Schema(description = "Legal name", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,
     @field:Schema(description = "Business unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

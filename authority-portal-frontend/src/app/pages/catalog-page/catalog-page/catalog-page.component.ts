@@ -104,16 +104,18 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
           if (isMyDataOffers) {
             return this.globalStateUtils.userInfo$.pipe(
               take(1),
-              map((it) => it.organizationMdsId),
+              map((it) => it.organizationId),
             );
           }
 
           return of(null);
         }),
       )
-      .subscribe((mdsId) => {
-        const initialMdsIds = mdsId ? [mdsId] : undefined;
-        this.store.dispatch(new CatalogPage.Reset(initialMdsIds));
+      .subscribe((organizationId) => {
+        const initialOrganizationIds = organizationId
+          ? [organizationId]
+          : undefined;
+        this.store.dispatch(new CatalogPage.Reset(initialOrganizationIds));
       });
   }
 

@@ -11,7 +11,7 @@
 
   <app-shared-user-list
     *ngIf="state.organization.isReady"
-    [organizationId]="state.organization.data.mdsId"
+    [organizationId]="state.organization.data.id"
     [members]="state.organization.data.memberList"
     (selectUserEvent)="onSelectUser($event)"></app-shared-user-list>
 </section>

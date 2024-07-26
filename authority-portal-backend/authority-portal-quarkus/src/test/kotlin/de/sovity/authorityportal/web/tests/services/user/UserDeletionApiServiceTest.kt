@@ -18,7 +18,7 @@ import de.sovity.authorityportal.api.model.PossibleCreatorSuccessor
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
@@ -105,7 +105,7 @@ class UserDeletionApiServiceTest {
         useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_ADMIN))
 
         whenever(keycloakService.getAuthorityAdmins()).thenReturn(listOf(lastAuthorityUser))
-        whenever(keycloakService.getParticipantAdmins(eq(dummyDevMdsId(0)))).thenReturn(listOf(lastParticipantAdmin))
+        whenever(keycloakService.getParticipantAdmins(eq(dummyDevOrganizationId(0)))).thenReturn(listOf(lastParticipantAdmin))
 
         ScenarioData().apply {
             organization(0, 0)
@@ -137,7 +137,7 @@ class UserDeletionApiServiceTest {
         useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_ADMIN))
 
         whenever(keycloakService.getAuthorityAdmins()).thenReturn(listOf(lastAuthorityUser))
-        whenever(keycloakService.getParticipantAdmins(eq(dummyDevMdsId(0)))).thenReturn(listOf(keycloakUser, possibleSuccessor))
+        whenever(keycloakService.getParticipantAdmins(eq(dummyDevOrganizationId(0)))).thenReturn(listOf(keycloakUser, possibleSuccessor))
 
         ScenarioData().apply {
             organization(0, 0)
@@ -184,7 +184,7 @@ class UserDeletionApiServiceTest {
         useMockNow(now)
 
         whenever(keycloakService.getAuthorityAdmins()).thenReturn(listOf(lastAuthorityUser))
-        whenever(keycloakService.getParticipantAdmins(eq(dummyDevMdsId(0)))).thenReturn(listOf(keycloakUser, possibleSuccessor))
+        whenever(keycloakService.getParticipantAdmins(eq(dummyDevOrganizationId(0)))).thenReturn(listOf(keycloakUser, possibleSuccessor))
         doNothing().whenever(keycloakService).deleteUser(eq(dummyDevUserUuid(0)))
 
         ScenarioData().apply {
@@ -228,10 +228,10 @@ class UserDeletionApiServiceTest {
         useMockNow(now)
 
         whenever(keycloakService.getAuthorityAdmins()).thenReturn(listOf(lastAuthorityUser))
-        whenever(keycloakService.getParticipantAdmins(eq(dummyDevMdsId(0)))).thenReturn(listOf(keycloakUser))
+        whenever(keycloakService.getParticipantAdmins(eq(dummyDevOrganizationId(0)))).thenReturn(listOf(keycloakUser))
         whenever(dapsClientService.forEnvironment(any())).thenReturn(dapsClient)
         doNothing().whenever(keycloakService).deleteUser(eq(dummyDevUserUuid(0)))
-        doNothing().whenever(keycloakService).deleteOrganization(eq(dummyDevMdsId(0)))
+        doNothing().whenever(keycloakService).deleteOrganization(eq(dummyDevOrganizationId(0)))
         doNothing().whenever(dapsClient).deleteClient(any())
 
         ScenarioData().apply {
@@ -260,14 +260,14 @@ class UserDeletionApiServiceTest {
 
         val connectorDbQueryResult = dsl.selectCount()
             .from(Tables.CONNECTOR)
-            .where(Tables.CONNECTOR.MDS_ID.eq(dummyDevMdsId(0)))
+            .where(Tables.CONNECTOR.ORGANIZATION_ID.eq(dummyDevOrganizationId(0)))
             .fetchOne(0, Int::class.java)
 
         assertThat(connectorDbQueryResult).isEqualTo(0)
 
         val componentDbQueryResult = dsl.selectCount()
             .from(Tables.COMPONENT)
-            .where(Tables.COMPONENT.MDS_ID.eq(dummyDevMdsId(0)))
+            .where(Tables.COMPONENT.ORGANIZATION_ID.eq(dummyDevOrganizationId(0)))
             .fetchOne(0, Int::class.java)
 
         assertThat(componentDbQueryResult).isEqualTo(0)

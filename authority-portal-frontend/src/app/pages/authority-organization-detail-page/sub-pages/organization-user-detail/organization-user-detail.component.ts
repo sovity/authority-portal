@@ -45,7 +45,7 @@ export class OrganizationUserDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setOrganizationUserId(
-      this.userDetailPageConfig.mdsId,
+      this.userDetailPageConfig.organizationId,
       this.userDetailPageConfig.userId,
     );
     this.refresh();
@@ -77,8 +77,8 @@ export class OrganizationUserDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  setOrganizationUserId(mdsId: string, userId: string) {
-    this.store.dispatch(new SetOrganizationUserId(mdsId, userId));
+  setOrganizationUserId(organizationId: string, userId: string) {
+    this.store.dispatch(new SetOrganizationUserId(organizationId, userId));
   }
 
   refresh() {

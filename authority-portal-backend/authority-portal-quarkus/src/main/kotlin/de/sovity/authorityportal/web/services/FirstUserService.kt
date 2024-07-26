@@ -25,34 +25,27 @@ import org.jooq.DSLContext
 import java.util.concurrent.atomic.AtomicBoolean
 
 @ApplicationScoped
-class FirstUserService {
-
-    @Inject
-    lateinit var dsl: DSLContext
-
-    @Inject
-    lateinit var keycloakService: KeycloakService
-
-    @Inject
-    lateinit var userService: UserService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
+class FirstUserService(
+    val dsl: DSLContext,
+    val keycloakService: KeycloakService,
+    val userService: UserService,
+    val organizationService: OrganizationService,
+) {
 
     val isFirstUserHandled = AtomicBoolean(false)
 
-    fun setupFirstUserIfRequired(userId: String, mdsId: String) {
+    fun setupFirstUserIfRequired(userId: String, organizationId: String) {
         if (isFirstUserHandled.compareAndSet(false, true) && isFirstUser(userId)) {
-            setupFirstUser(userId, mdsId)
+            setupFirstUser(userId, organizationId)
         }
     }
 
-    private fun setupFirstUser(userId: String, mdsId: String) {
+    private fun setupFirstUser(userId: String, organizationId: String) {
         keycloakService.joinApplicationRole(userId, ApplicationRole.AUTHORITY_ADMIN)
         userService.updateStatus(userId, UserRegistrationStatus.ACTIVE)
-        organizationService.updateStatus(mdsId, OrganizationRegistrationStatus.ACTIVE)
+        organizationService.updateStatus(organizationId, OrganizationRegistrationStatus.ACTIVE)
 
-        Log.info("First user was made ${ApplicationRole.AUTHORITY_ADMIN}. mdsId=$mdsId, userId=$userId")
+        Log.info("First user was made ${ApplicationRole.AUTHORITY_ADMIN}. organizationId=$organizationId, userId=$userId")
     }
 
     private fun isFirstUser(userId: String): Boolean {

@@ -41,5 +41,5 @@ export class OrganizationSelectComponent {
   compareWith = (
     o1: OrganizationOverviewEntryDto | null,
     o2: OrganizationOverviewEntryDto | null,
-  ) => o1?.mdsId === o2?.mdsId;
+  ) => o1?.id === o2?.id;
 }

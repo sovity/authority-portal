@@ -36,11 +36,11 @@ class UserInfoApiService(
     }
 
     private fun authenticatedUserInfo(loggedInUser: LoggedInUser): UserInfo {
-        val mdsId = loggedInUser.organizationMdsId
+        val organizationId = loggedInUser.organizationId
         val userId = loggedInUser.userId
 
         val user = userDetailService.getUserData(userId)
-        val organizationName = getOrganizationName(mdsId)
+        val organizationName = getOrganizationName(organizationId)
         val roles = userRoleMapper.getUserRoles(loggedInUser.roles)
 
         return UserInfo(
@@ -50,7 +50,7 @@ class UserInfoApiService(
             lastName = user.lastName,
             roles = roles.toList(),
             registrationStatus = user.registrationStatus.toDto(),
-            organizationMdsId = mdsId ?: "",
+            organizationId = organizationId ?: "",
             organizationName = organizationName ?: "",
         )
     }
@@ -63,7 +63,7 @@ class UserInfoApiService(
             lastName = "User",
             roles = listOf(UserRoleDto.UNAUTHENTICATED),
             registrationStatus = null,
-            organizationMdsId = "unauthenticated",
+            organizationId = "unauthenticated",
             organizationName = "No Organization"
         )
     }
@@ -95,8 +95,8 @@ class UserInfoApiService(
             registrationStatus = user.registrationStatus.toDto(),
             roles = roleDtos.toList(),
 
-            organizationMdsId = user.organizationMdsId ?: "",
-            organizationName = getOrganizationName(user.organizationMdsId) ?: "",
+            organizationId = user.organizationId ?: "",
+            organizationName = getOrganizationName(user.organizationId) ?: "",
 
             invitingUserId = invitingUser?.userId,
             invitingUserFirstName = invitingUser?.firstName,
@@ -104,11 +104,11 @@ class UserInfoApiService(
         )
     }
 
-    private fun getOrganizationName(mdsId: String?): String? {
-        if (mdsId.isNullOrEmpty()) {
+    private fun getOrganizationName(organizationId: String?): String? {
+        if (organizationId.isNullOrEmpty()) {
             return null
         }
-        val organization = organizationService.getOrganizationOrThrow(mdsId)
+        val organization = organizationService.getOrganizationOrThrow(organizationId)
         return organization.name
     }
 }

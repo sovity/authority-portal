@@ -15,57 +15,41 @@ package de.sovity.authorityportal.web.utils.idmanagement
 
 import de.sovity.authorityportal.db.jooq.Tables
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.jooq.DSLContext
 
 @ApplicationScoped
-class MdsIdUtils {
+class OrganizationIdUtils(
+    val dsl: DSLContext,
+    val idUtils: IdUtils,
+) {
 
     companion object {
         const val MDS_ID_LENGTH = 4
     }
 
-    @Inject
-    lateinit var dsl: DSLContext
 
-    @Inject
-    lateinit var idUtils: IdUtils
-
-    fun generateMdsId(): String {
-        val usedMdsIds = getUsedMdsIds()
-        var mdsId: String
+    fun generateOrganizationId(): String {
+        val usedOrganizationIds = getUsedOrganizationIds()
+        var organizationId: String
 
         do {
-            mdsId = getMdsIdCandidate()
-        } while (usedMdsIds.contains(mdsId))
+            organizationId = getOrganizationIdCandidate()
+        } while (usedOrganizationIds.contains(organizationId))
 
-        return mdsId
+        return organizationId
     }
 
-    fun assertValidMdsId(mdsId: String) {
-        if (!validateMdsId(mdsId)) {
-            error("Invalid MDS-ID: $mdsId")
-        }
-    }
-
-    private fun validateMdsId(mdsId: String): Boolean {
-        val checksum = mdsId.takeLast(2)
-        val id = mdsId.drop(4).dropLast(2)
-
-        return idUtils.calculateVerificationDigits(id) == checksum
-    }
-
-    private fun getMdsIdCandidate(): String {
+    private fun getOrganizationIdCandidate(): String {
         val prefix = "MDSL"
         val identifier = idUtils.randomIdentifier(MDS_ID_LENGTH)
         val checksum = idUtils.calculateVerificationDigits(identifier)
         return "$prefix$identifier$checksum"
     }
 
-    private fun getUsedMdsIds(): Set<String> {
+    private fun getUsedOrganizationIds(): Set<String> {
         val o = Tables.ORGANIZATION
-        return dsl.select(o.MDS_ID)
+        return dsl.select(o.ID)
             .from(o)
-            .fetchSet(o.MDS_ID)
+            .fetchSet(o.ID)
     }
 }

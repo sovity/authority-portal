@@ -61,7 +61,7 @@ class LoggedInUserFactory {
     private fun authenticatedLoggedInUser(userAndRoles: UserAndRoles) = LoggedInUser(
         true,
         userAndRoles.user.id,
-        userAndRoles.user.organizationMdsId,
+        userAndRoles.user.organizationId,
         userAndRoles.roles
     )
 

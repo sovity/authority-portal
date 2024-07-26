@@ -30,10 +30,10 @@ class OrganizationRegistrationApiService(
     val timeUtils: TimeUtils
 ) {
 
-    fun approveOrganization(mdsId: String, userId: String): IdResponse {
-        requirePending(mdsId, userId)
+    fun approveOrganization(organizationId: String, userId: String): IdResponse {
+        requirePending(organizationId, userId)
 
-        val org = organizationService.getOrganizationOrThrow(mdsId)
+        val org = organizationService.getOrganizationOrThrow(organizationId)
         org.registrationStatus = OrganizationRegistrationStatus.ACTIVE
         org.update()
 
@@ -41,15 +41,15 @@ class OrganizationRegistrationApiService(
         user.registrationStatus = UserRegistrationStatus.ACTIVE
         user.update()
 
-        Log.info("Approved organization and user. mdsId=$mdsId, userId=$userId.")
+        Log.info("Approved organization and user. organizationId=$organizationId, userId=$userId.")
 
-        return IdResponse(mdsId, timeUtils.now())
+        return IdResponse(organizationId, timeUtils.now())
     }
 
-    fun rejectOrganization(mdsId: String, userId: String): IdResponse {
-        requirePending(mdsId, userId)
+    fun rejectOrganization(organizationId: String, userId: String): IdResponse {
+        requirePending(organizationId, userId)
 
-        val org = organizationService.getOrganizationOrThrow(mdsId)
+        val org = organizationService.getOrganizationOrThrow(organizationId)
         org.registrationStatus = OrganizationRegistrationStatus.REJECTED
         org.update()
 
@@ -57,19 +57,19 @@ class OrganizationRegistrationApiService(
         user.registrationStatus = UserRegistrationStatus.REJECTED
         user.update()
 
-        Log.info("Rejected organization and user. mdsId=$mdsId, userId=$userId.")
+        Log.info("Rejected organization and user. organizationId=$organizationId, userId=$userId.")
 
-        return IdResponse(mdsId, timeUtils.now())
+        return IdResponse(organizationId, timeUtils.now())
     }
 
-    private fun requirePending(mdsId: String, userId: String) {
-        val org = organizationService.getOrganizationOrThrow(mdsId)
+    private fun requirePending(organizationId: String, userId: String) {
+        val org = organizationService.getOrganizationOrThrow(organizationId)
         val orgRegistrationStatus = org.registrationStatus
         val expectedRegistrationStatus = OrganizationRegistrationStatus.PENDING
 
         if (orgRegistrationStatus != expectedRegistrationStatus) {
-            Log.error("Organization can not be approved/rejected. mdsId=$mdsId, orgRegistrationStatus=$orgRegistrationStatus, expectedRegistrationStatus=$expectedRegistrationStatus, userId=$userId.")
-            unauthorized("Organization $mdsId is not in status PENDING")
+            Log.error("Organization can not be approved/rejected. organizationId=$organizationId, orgRegistrationStatus=$orgRegistrationStatus, expectedRegistrationStatus=$expectedRegistrationStatus, userId=$userId.")
+            unauthorized("Organization $organizationId is not in status PENDING")
         }
     }
 }

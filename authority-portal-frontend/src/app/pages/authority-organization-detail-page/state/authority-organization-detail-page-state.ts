@@ -18,13 +18,13 @@ import {Fetched} from 'src/app/core/utils/fetched';
 
 export interface AuthorityOrganizationUserDetailState {
   userId: string;
-  organizationMdsId: string;
+  organizationId: string;
   user: Fetched<UserDetailDto>;
   busy: boolean;
 }
 
 export interface AuthorityOrganizationDetailState {
-  organizationMdsId: string;
+  organizationId: string;
   organization: Fetched<OrganizationDetailsDto>;
   busy: boolean;
 }
@@ -37,14 +37,14 @@ export interface AuthorityOrganizationDetailPageState {
 export const DEFAULT_AUTHORITY_ORGANIZATION_USER_DETAIL_STATE: AuthorityOrganizationUserDetailState =
   {
     userId: '',
-    organizationMdsId: '',
+    organizationId: '',
     user: Fetched.empty(),
     busy: false,
   };
 
 export const DEFAULT_AUTHORITY_ORGANIZATION_DETAIL_STATE: AuthorityOrganizationDetailState =
   {
-    organizationMdsId: '',
+    organizationId: '',
     organization: Fetched.empty(),
     busy: false,
   };

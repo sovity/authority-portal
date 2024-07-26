@@ -29,10 +29,10 @@ class UserRoleApiService(
     val timeUtils: TimeUtils
 ){
 
-    fun changeParticipantRole(userId: String, roleDto: UserRoleDto, mdsId: String, adminUserId: String): IdResponse {
+    fun changeParticipantRole(userId: String, roleDto: UserRoleDto, organizationId: String, adminUserId: String): IdResponse {
         val role = userRoleMapper.toOrganizationRole(roleDto, userId, adminUserId)
 
-        keycloakService.joinOrganization(userId, mdsId, role)
+        keycloakService.joinOrganization(userId, organizationId, role)
         keycloakService.forceLogout(userId)
 
         Log.info("Participant role changed. role=$role, userId=$userId, adminUserId=$adminUserId.")

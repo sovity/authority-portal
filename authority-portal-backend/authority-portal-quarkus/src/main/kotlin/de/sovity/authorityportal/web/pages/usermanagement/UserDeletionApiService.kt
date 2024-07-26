@@ -42,9 +42,9 @@ class UserDeletionApiService(
 
     fun checkUserDeletion(userId: String): UserDeletionCheck {
         val user = userService.getUserOrThrow(userId)
-        val organization = organizationService.getOrganizationOrThrow(user.organizationMdsId)
+        val organization = organizationService.getOrganizationOrThrow(user.organizationId)
         val authorityAdmins = keycloakService.getAuthorityAdmins()
-        val participantAdmins = keycloakService.getParticipantAdmins(organization.mdsId)
+        val participantAdmins = keycloakService.getParticipantAdmins(organization.id)
 
         val isLastAuthorityAdmin = authorityAdmins.singleOrNull()?.userId == userId
         val isLastParticipantAdmin = participantAdmins.singleOrNull()?.userId == userId
@@ -77,7 +77,7 @@ class UserDeletionApiService(
     fun handleUserDeletion(userId: String, successorUserId: String?, adminUserId: String): IdResponse {
         val userDeletionCheck = checkUserDeletion(userId)
         val user = userService.getUserOrThrow(userId)
-        val organization = organizationService.getOrganizationOrThrow(user.organizationMdsId)
+        val organization = organizationService.getOrganizationOrThrow(user.organizationId)
 
         if (!userDeletionCheck.canBeDeleted) {
             Log.error("User can not be deleted. The reason could be, that they are the last Authority Admin. userId=$userId, adminUserId=$adminUserId.")
@@ -85,7 +85,7 @@ class UserDeletionApiService(
         }
 
         if (userDeletionCheck.isLastParticipantAdmin) {
-            deleteOrganizationAndDependencies(organization.mdsId, adminUserId)
+            deleteOrganizationAndDependencies(organization.id, adminUserId)
         } else {
             deleteUserAndHandleDependencies(userDeletionCheck, successorUserId, userId, adminUserId, organization)
         }
@@ -93,23 +93,23 @@ class UserDeletionApiService(
         return IdResponse(userId, timeUtils.now())
     }
 
-    private fun deleteOrganizationAndDependencies(organizationMdsId: String, adminUserId: String) {
-        connectorManagementApiService.deleteAllOrganizationConnectors(organizationMdsId)
-        connectorService.deleteProviderReferences(organizationMdsId)
-        centralComponentManagementApiService.deleteAllOrganizationCentralComponents(organizationMdsId)
+    private fun deleteOrganizationAndDependencies(organizationId: String, adminUserId: String) {
+        connectorManagementApiService.deleteAllOrganizationConnectors(organizationId)
+        connectorService.deleteProviderReferences(organizationId)
+        centralComponentManagementApiService.deleteAllOrganizationCentralComponents(organizationId)
 
-        val orgMemberIds = userService.getUsersByMdsId(organizationMdsId).map { it.id }
+        val orgMemberIds = userService.getUsersByOrganizationId(organizationId).map { it.id }
         userService.deleteInvitationReferencesToOrgMembers(orgMemberIds)
-        userService.deleteMdsIds(orgMemberIds)
+        userService.deleteOrganizationIds(orgMemberIds)
 
-        keycloakService.deleteOrganization(organizationMdsId)
-        organizationService.deleteOrganization(organizationMdsId)
+        keycloakService.deleteOrganization(organizationId)
+        organizationService.deleteOrganization(organizationId)
         keycloakService.deleteUsers(orgMemberIds)
         userService.deleteUsers(orgMemberIds)
 
         Log.info(
             "Organization and related users, connectors and central components deleted. " +
-                "mdsId=${organizationMdsId}, adminUserId=$adminUserId."
+                "organization=${organizationId}, adminUserId=$adminUserId."
         )
     }
 
@@ -148,6 +148,6 @@ class UserDeletionApiService(
         organization.createdBy = successorUserId
         organization.update()
 
-        Log.info("Organization creator changed. mdsId=${organization.mdsId}, successorUserId=$successorUserId, adminUserId=$adminUserId.")
+        Log.info("Organization creator changed. organizationId=${organization.id}, successorUserId=$successorUserId, adminUserId=$adminUserId.")
     }
 }

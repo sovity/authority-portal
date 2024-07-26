@@ -59,16 +59,16 @@ class ScenarioData {
     private val crawlerEventLogEntries = mutableListOf<CrawlerEventLogRecord>()
 
     fun install(dsl: DSLContext) {
-        val userOrgMap = users.associate { it.id to it.organizationMdsId }
+        val userOrgMap = users.associate { it.id to it.organizationId }
         users.forEach {
-            it.organizationMdsId = null
+            it.organizationId = null
         }
 
         dsl.batchInsert(users).execute()
         dsl.batchInsert(organizations).execute()
 
         users.forEach {
-            it.organizationMdsId = userOrgMap[it.id]
+            it.organizationId = userOrgMap[it.id]
         }
         dsl.batchUpdate(users).execute()
 
@@ -83,7 +83,7 @@ class ScenarioData {
     fun user(userId: Int, orgId: Int?, applyer: (UserRecord) -> Unit = {}) {
         UserRecord().also {
             it.id = dummyDevUserUuid(userId)
-            it.organizationMdsId = orgId?.let { id -> dummyDevMdsId(id) }
+            it.organizationId = orgId?.let { id -> dummyDevOrganizationId(id) }
             it.registrationStatus = UserRegistrationStatus.ACTIVE
             it.email = "user$userId@org$orgId.null"
             it.firstName = "Firstname"
@@ -100,7 +100,7 @@ class ScenarioData {
 
     fun organization(orgId: Int, createdByUserId: Int, applyer: (OrganizationRecord) -> Unit = {}) {
         OrganizationRecord().also {
-            it.mdsId = dummyDevMdsId(orgId)
+            it.id = dummyDevOrganizationId(orgId)
             it.name = "Organization $orgId"
             it.address = "Address"
             it.url = "https://url"
@@ -127,12 +127,12 @@ class ScenarioData {
     }
 
     fun connector(connectorId: Int, orgId: Int, createdByUserId: Int, applyer: (ConnectorRecord) -> Unit = {}) {
-        val mdsId = dummyDevMdsId(orgId)
+        val organizationId = dummyDevOrganizationId(orgId)
         val fullConnectorId = dummyDevConnectorId(orgId, connectorId)
         ConnectorRecord().also {
             it.connectorId = fullConnectorId
-            it.mdsId = mdsId
-            it.providerMdsId = mdsId
+            it.organizationId = organizationId
+            it.providerOrganizationId = organizationId
             it.type = ConnectorType.OWN
             it.environment = "test"
             it.clientId = "clientId"
@@ -158,10 +158,10 @@ class ScenarioData {
 
     fun component(componentId: Int, orgId: Int, createdByUserId: Int, applyer: (ComponentRecord) -> Unit = {}) {
         val fullComponentId = dummyDevConnectorId(orgId, componentId)
-        val mdsId = dummyDevMdsId(orgId)
+        val organizationId = dummyDevOrganizationId(orgId)
         ComponentRecord().also {
             it.id = fullComponentId
-            it.mdsId = mdsId
+            it.organizationId = organizationId
             it.name = "Component name"
             it.homepageUrl = "https://component"
             it.endpointUrl = "https://component/dsp"

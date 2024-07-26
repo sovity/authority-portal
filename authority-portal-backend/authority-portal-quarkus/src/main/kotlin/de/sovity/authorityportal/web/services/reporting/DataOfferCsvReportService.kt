@@ -31,7 +31,7 @@ class DataOfferCsvReportService(
     data class DataOfferReportRow(
         val dataOfferId: String,
         val dataOfferName: String,
-        val organizationMdsId: String,
+        val organizationId: String,
         val organizationName: String,
         val status: String,
         val dataSourceAvailability: String
@@ -40,7 +40,7 @@ class DataOfferCsvReportService(
     val columns = listOf<CsvColumn<DataOfferReportRow>>(
         CsvColumn("Data Offer ID") { it.dataOfferId },
         CsvColumn("Data Offer Name") { it.dataOfferName },
-        CsvColumn("Organization MDS ID") { it.organizationMdsId },
+        CsvColumn("Organization ID") { it.organizationId },
         CsvColumn("Organization Name") { it.organizationName },
         CsvColumn("Status") { it.status },
         CsvColumn("Data Source Type") { it.dataSourceAvailability }
@@ -60,8 +60,8 @@ class DataOfferCsvReportService(
             DataOfferReportRow(
                 dataOfferId = it.dataOfferId,
                 dataOfferName = it.dataOfferName,
-                organizationMdsId = it.mdsId,
-                organizationName = organizationNames[it.mdsId] ?: "",
+                organizationId = it.organizationId,
+                organizationName = organizationNames[it.organizationId] ?: "",
                 status = it.onlineStatus.toString(),
                 dataSourceAvailability = it.dataSourceAvailability
             )

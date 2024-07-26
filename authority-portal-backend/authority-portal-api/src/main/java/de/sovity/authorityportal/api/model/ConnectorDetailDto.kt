@@ -22,13 +22,13 @@ data class ConnectorDetailDto(
     @field:Schema(description = "Type", requiredMode = Schema.RequiredMode.REQUIRED)
     val type: ConnectorTypeDto,
     @field:Schema(description = "Owning organization (name)", requiredMode = Schema.RequiredMode.REQUIRED)
-    val orgName: String,
-    @field:Schema(description = "Owning organization (MDS-ID)", requiredMode = Schema.RequiredMode.REQUIRED)
-    val orgMdsId: String,
+    val organizationName: String,
+    @field:Schema(description = "Owning organization (ID)", requiredMode = Schema.RequiredMode.REQUIRED)
+    val organizationId: String,
     @field:Schema(description = "Hosting organization (name)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    val hostName: String?,
-    @field:Schema(description = "Hosting organization (MDS-ID)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    val hostMdsId: String?,
+    val hostOrganizationName: String?,
+    @field:Schema(description = "Hosting organization (ID)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val hostOrganizationId: String?,
     @field:Schema(description = "Deployment Environment", requiredMode = Schema.RequiredMode.REQUIRED)
     val environment: DeploymentEnvironmentDto,
     @field:Schema(description = "Connector Name", requiredMode = Schema.RequiredMode.REQUIRED)

@@ -58,7 +58,7 @@ class CatalogQueryDataOfferFetcher(
             d.VERSION.`as`("version"),
             d.KEYWORDS.`as`("keywords"),
             c.CONNECTOR_ID.`as`("connectorId"),
-            c.MDS_ID.`as`("organizationId"),
+            c.ORGANIZATION_ID.`as`("organizationId"),
             org.NAME.`as`("organizationName"),
             c.ONLINE_STATUS.`as`("connectorOnlineStatus"),
             fields.offlineSinceOrLastUpdatedAt.`as`("connectorOfflineSinceOrLastUpdatedAt"),

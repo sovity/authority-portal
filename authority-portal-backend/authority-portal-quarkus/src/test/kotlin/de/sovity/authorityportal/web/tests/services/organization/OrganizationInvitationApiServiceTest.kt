@@ -21,14 +21,14 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
 import de.sovity.authorityportal.web.tests.useMockNow
 import de.sovity.authorityportal.web.tests.withOffsetDateTimeComparator
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
-import de.sovity.authorityportal.web.utils.idmanagement.MdsIdUtils
+import de.sovity.authorityportal.web.utils.idmanagement.OrganizationIdUtils
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
@@ -64,7 +64,7 @@ class OrganizationInvitationApiServiceTest {
     lateinit var keycloakService: KeycloakService
 
     @InjectMock
-    lateinit var mdsIdUtils: MdsIdUtils
+    lateinit var organizationIdUtils: OrganizationIdUtils
 
     @Test
     @TestTransaction
@@ -96,14 +96,14 @@ class OrganizationInvitationApiServiceTest {
         useDevUser(0,0, setOf(Roles.UserRoles.AUTHORITY_USER))
         useMockNow(now)
 
-        whenever(mdsIdUtils.generateMdsId()).thenReturn(dummyDevMdsId(1))
+        whenever(organizationIdUtils.generateOrganizationId()).thenReturn(dummyDevOrganizationId(1))
         whenever(keycloakService.createUser(
             eq("new.user@test.sovity.io"),
             eq("New"),
             eq("User"),
             isNull())).thenReturn(dummyDevUserUuid(1))
-        doNothing().whenever(keycloakService).createOrganization(eq(dummyDevMdsId(1)))
-        doNothing().whenever(keycloakService).joinOrganization(eq(dummyDevUserUuid(1)), eq(dummyDevMdsId(1)), any())
+        doNothing().whenever(keycloakService).createOrganization(eq(dummyDevOrganizationId(1)))
+        doNothing().whenever(keycloakService).joinOrganization(eq(dummyDevUserUuid(1)), eq(dummyDevOrganizationId(1)), any())
 
         ScenarioData().apply {
             user(0, 0)
@@ -128,7 +128,7 @@ class OrganizationInvitationApiServiceTest {
         assertThat(result).isNotNull
 
         val expectedOrganization = dsl.newRecord(Tables.ORGANIZATION).also {
-            it.mdsId = dummyDevMdsId(1)
+            it.id = dummyDevOrganizationId(1)
             it.name = "New Organization"
             it.address = null
             it.url = null
@@ -151,11 +151,11 @@ class OrganizationInvitationApiServiceTest {
             it.createdAt = now
         }
 
-        val actualOrganization = dsl.selectFrom(Tables.ORGANIZATION).where(Tables.ORGANIZATION.MDS_ID.eq(dummyDevMdsId(1))).fetchOne()
+        val actualOrganization = dsl.selectFrom(Tables.ORGANIZATION).where(Tables.ORGANIZATION.ID.eq(dummyDevOrganizationId(1))).fetchOne()
 
         val expectedUser = dsl.newRecord(Tables.USER).also {
             it.id = dummyDevUserUuid(1)
-            it.organizationMdsId = dummyDevMdsId(1)
+            it.organizationId = dummyDevOrganizationId(1)
             it.registrationStatus = UserRegistrationStatus.INVITED
             it.email = "new.user@test.sovity.io"
             it.firstName = "New"

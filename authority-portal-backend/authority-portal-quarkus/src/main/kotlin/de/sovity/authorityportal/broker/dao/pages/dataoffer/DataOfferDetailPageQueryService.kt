@@ -48,7 +48,7 @@ class DataOfferDetailPageQueryService(
             c.CONNECTOR_ID.`as`("connectorId"),
             c.ENDPOINT_URL.`as`("connectorEndpoint"),
             org.NAME.`as`("organizationName"),
-            c.MDS_ID.`as`("organizationId"),
+            c.ORGANIZATION_ID.`as`("organizationId"),
             c.ONLINE_STATUS.`as`("connectorOnlineStatus"),
             fields.offlineSinceOrLastUpdatedAt.`as`("connectorOfflineSinceOrLastUpdatedAt"),
             d.CREATED_AT,

@@ -26,7 +26,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
@@ -103,7 +103,7 @@ class CaasManagementApiServiceTest {
 
         // assert
         assertThat(result).isNotNull
-        assertThat(result.id).contains(dummyDevMdsId(0))
+        assertThat(result.id).contains(dummyDevOrganizationId(0))
         assertThat(result.changedDate).isEqualTo(now)
         assertThat(result.status).isEqualTo(CreateConnectorStatusDto.OK)
 
@@ -115,8 +115,8 @@ class CaasManagementApiServiceTest {
 
         val expected = dsl.newRecord(Tables.CONNECTOR).also {
             it.connectorId = actual!!.connectorId
-            it.mdsId = dummyDevMdsId(0)
-            it.providerMdsId = null
+            it.organizationId = dummyDevOrganizationId(0)
+            it.providerOrganizationId = null
             it.type = ConnectorType.CAAS
             it.environment = "test"
             it.clientId = clientIdUtils.generateFromConnectorId(it.connectorId)

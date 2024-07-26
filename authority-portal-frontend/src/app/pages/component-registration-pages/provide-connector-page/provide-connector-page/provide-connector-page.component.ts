@@ -87,7 +87,7 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
 
   registerConnector(): void {
     const formValue = this.form.value;
-    const mdsId = formValue.connectorTab.organization!.mdsId;
+    const organizationId = formValue.connectorTab.organization!.id;
     this.store.dispatch(
       new Submit(
         {
@@ -100,7 +100,7 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
             ? formValue.certificateTab.ownCertificate
             : formValue.certificateTab.generatedCertificate,
         },
-        mdsId,
+        organizationId,
         () => this.form.group.enable(),
         () => this.form.group.disable(),
         () => {

@@ -20,7 +20,6 @@ import de.sovity.authorityportal.db.jooq.enums.ComponentType
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.tables.records.ComponentDowntimesRecord
 import de.sovity.authorityportal.web.services.ComponentStatusService
-import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.connector.ConnectorStatusQuery
 import de.sovity.authorityportal.web.thirdparty.uptimekuma.model.toDto
 import de.sovity.authorityportal.web.utils.TimeUtils
@@ -47,8 +46,8 @@ class ComponentStatusApiService(
         return buildComponenStatusOverview(statusCount, environmentId)
     }
 
-    fun getComponentsStatusForMdsId(environmentId: String, mdsId: String): ComponentStatusOverview {
-        val connectorStatuses = connectorStatusQuery.getConnectorStatusInfoByMdsIdAndEnvironment(mdsId, environmentId)
+    fun getComponentsStatusForOrganizationId(environmentId: String, organizationId: String): ComponentStatusOverview {
+        val connectorStatuses = connectorStatusQuery.getConnectorStatusInfoByOrganizationIdAndEnvironment(organizationId, environmentId)
         val statusCount = countConnectorStatuses(connectorStatuses)
 
         return buildComponenStatusOverview(statusCount, environmentId)

@@ -31,7 +31,7 @@ import java.util.Optional
 class ConnectorService(
     val dsl: DSLContext,
     val timeUtils: TimeUtils,
-    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid") val caasLimitPerMdsId: Optional<Int>
+    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid") val caasLimitPerOrganizationId: Optional<Int>
 ) {
 
     fun getConnectorOrThrow(connectorId: String): ConnectorRecord {
@@ -50,9 +50,9 @@ class ConnectorService(
         val connectorId: String,
         val type: ConnectorType,
         val orgName: String,
-        val orgMdsId: String,
+        val organizationId: String,
         val hostName: String?,
-        val hostMdsId: String?,
+        val hostOrganizationId: String?,
         val environment: String,
         val connectorName: String,
         val location: String,
@@ -76,9 +76,9 @@ class ConnectorService(
             c.CONNECTOR_ID.`as`("connectorId"),
             c.TYPE.`as`("type"),
             org.NAME.`as`("orgName"),
-            org.MDS_ID.`as`("orgMdsId"),
+            org.ID.`as`("organizationId"),
             host.NAME.`as`("hostName"),
-            host.MDS_ID.`as`("hostMdsId"),
+            host.ID.`as`("hostOrganizationId"),
             c.ENVIRONMENT.`as`("environment"),
             c.NAME.`as`("connectorName"),
             c.LOCATION.`as`("location"),
@@ -89,22 +89,10 @@ class ConnectorService(
             c.ONLINE_STATUS.`as`("onlineStatus")
         )
             .from(c)
-            .leftJoin(org).on(c.MDS_ID.eq(org.MDS_ID))
-            .leftJoin(host).on(c.PROVIDER_MDS_ID.eq(host.MDS_ID))
+            .leftJoin(org).on(c.ORGANIZATION_ID.eq(org.ID))
+            .leftJoin(host).on(c.PROVIDER_ORGANIZATION_ID.eq(host.ID))
             .where(c.CONNECTOR_ID.eq(connectorId))
             .fetchOneInto(ConnectorDetailRs::class.java)
-    }
-
-    fun getProvidedConnectorsByMdsId(mdsId: String, environment: String): List<ConnectorRecord> {
-        val c = Tables.CONNECTOR
-
-        return dsl.selectFrom(c)
-            .where(
-                c.TYPE.eq(ConnectorType.PROVIDED),
-                c.PROVIDER_MDS_ID.eq(mdsId),
-                c.ENVIRONMENT.eq(environment)
-            )
-            .fetch()
     }
 
     fun updateConnectorsCreator(newCreatedBy: String, oldCreatedBy: String) {
@@ -115,35 +103,35 @@ class ConnectorService(
             .execute()
     }
 
-    fun deleteProviderReferences(mdsId: String) {
+    fun deleteProviderReferences(organizationId: String) {
         val c = Tables.CONNECTOR
         dsl.update(c)
-            .setNull(c.PROVIDER_MDS_ID)
-            .where(c.PROVIDER_MDS_ID.eq(mdsId))
+            .setNull(c.PROVIDER_ORGANIZATION_ID)
+            .where(c.PROVIDER_ORGANIZATION_ID.eq(organizationId))
             .execute()
     }
 
-    fun getConnectorsByMdsIdAndEnvironment(mdsId: String, environmentId: String): List<ConnectorRecord> {
+    fun getConnectorsByOrganizationIdAndEnvironment(organizationId: String, environmentId: String): List<ConnectorRecord> {
         val c = Tables.CONNECTOR
 
         return dsl.selectFrom(c)
-            .where(c.MDS_ID.eq(mdsId).and(c.ENVIRONMENT.eq(environmentId)))
+            .where(c.ORGANIZATION_ID.eq(organizationId).and(c.ENVIRONMENT.eq(environmentId)))
             .fetch()
     }
 
-    fun getConnectorsByMdsId(mdsId: String): List<ConnectorRecord> {
+    fun getConnectorsByOrganizationId(organizationId: String): List<ConnectorRecord> {
         val c = Tables.CONNECTOR
 
         return dsl.selectFrom(c)
-            .where(c.MDS_ID.eq(mdsId))
+            .where(c.ORGANIZATION_ID.eq(organizationId))
             .fetch()
     }
 
-    fun getConnectorsByHostMdsId(mdsId: String, environmentId: String): List<ConnectorRecord> {
+    fun getConnectorsByHostOrganizationId(organizationId: String, environmentId: String): List<ConnectorRecord> {
         val c = Tables.CONNECTOR
 
         return dsl.selectFrom(c)
-            .where(c.PROVIDER_MDS_ID.eq(mdsId).and(c.ENVIRONMENT.eq(environmentId)))
+            .where(c.PROVIDER_ORGANIZATION_ID.eq(organizationId).and(c.ENVIRONMENT.eq(environmentId)))
             .fetch()
     }
 
@@ -155,32 +143,32 @@ class ConnectorService(
             .fetch()
     }
 
-    fun getConnectorCountByMdsIdAndEnvironment(mdsId: String, environmentId: String): Int {
+    fun getConnectorCountByOrganizationIdAndEnvironment(organizationId: String, environmentId: String): Int {
         val c = Tables.CONNECTOR
         return dsl.fetchCount(
-            dsl.selectFrom(c).where(c.MDS_ID.eq(mdsId), c.ENVIRONMENT.eq(environmentId))
+            dsl.selectFrom(c).where(c.ORGANIZATION_ID.eq(organizationId), c.ENVIRONMENT.eq(environmentId))
         )
     }
 
-    fun getCaasCountByMdsIdAndEnvironment(mdsId: String, environmentId: String): Int {
+    fun getCaasCountByOrganizationIdAndEnvironment(organizationId: String, environmentId: String): Int {
         val c = Tables.CONNECTOR
         return dsl.fetchCount(
             dsl.selectFrom(c)
-                .where(c.MDS_ID.eq(mdsId).and(c.ENVIRONMENT.eq(environmentId)))
+                .where(c.ORGANIZATION_ID.eq(organizationId).and(c.ENVIRONMENT.eq(environmentId)))
                 .and(c.TYPE.eq(ConnectorType.CAAS))
         )
     }
 
-    fun assertCaasRegistrationLimit(mdsId: String, environmentId: String): Boolean {
-        val limit = caasLimitPerMdsId.orElseThrow {
+    fun assertCaasRegistrationLimit(organizationId: String, environmentId: String): Boolean {
+        val limit = caasLimitPerOrganizationId.orElseThrow {
             error("No limit configured for CaaS registration")
         }
-        return getCaasCountByMdsIdAndEnvironment(mdsId, environmentId) < limit
+        return getCaasCountByOrganizationIdAndEnvironment(organizationId, environmentId) < limit
     }
 
     fun createOwnConnector(
         connectorId: String,
-        mdsId: String,
+        organizationId: String,
         environment: String,
         clientId: String,
         connector: CreateConnectorRequest,
@@ -188,8 +176,8 @@ class ConnectorService(
     ) {
         createConnector(
             connectorId = connectorId,
-            mdsId = mdsId,
-            providerMdsId = mdsId,
+            organizationId = organizationId,
+            providerOrganizationId = organizationId,
             type = ConnectorType.OWN,
             environment = environment,
             clientId = clientId,
@@ -200,8 +188,8 @@ class ConnectorService(
 
     fun createProvidedConnector(
         connectorId: String,
-        mdsId: String,
-        providerMdsId: String,
+        organizationId: String,
+        providerOrganizationId: String,
         environment: String,
         clientId: String,
         connector: CreateConnectorRequest,
@@ -209,8 +197,8 @@ class ConnectorService(
     ) {
         createConnector(
             connectorId = connectorId,
-            mdsId = mdsId,
-            providerMdsId = providerMdsId,
+            organizationId = organizationId,
+            providerOrganizationId = providerOrganizationId,
             type = ConnectorType.PROVIDED,
             environment = environment,
             clientId = clientId,
@@ -222,7 +210,7 @@ class ConnectorService(
     fun createCaas(
         connectorId: String,
         clientId: String,
-        mdsId: String,
+        organizationId: String,
         name: String,
         createdBy: String,
         status: CaasStatus,
@@ -231,7 +219,7 @@ class ConnectorService(
         dsl.newRecord(Tables.CONNECTOR).also {
             it.connectorId = connectorId
             it.clientId = clientId
-            it.mdsId = mdsId
+            it.organizationId = organizationId
             it.name = name.trim()
             it.createdBy = createdBy
             it.createdAt = timeUtils.now()
@@ -243,13 +231,6 @@ class ConnectorService(
         }
     }
 
-    fun getCaas(connectorId: String): ConnectorRecord? {
-        val c = Tables.CONNECTOR
-        return dsl.selectFrom(c)
-            .where(c.CONNECTOR_ID.eq(connectorId).and(c.TYPE.eq(ConnectorType.CAAS)))
-            .fetchOne()
-    }
-
     fun getAllCaas(): List<ConnectorRecord> {
         val c = Tables.CONNECTOR
         return dsl.selectFrom(c)
@@ -259,8 +240,8 @@ class ConnectorService(
 
     private fun createConnector(
         connectorId: String,
-        mdsId: String,
-        providerMdsId: String,
+        organizationId: String,
+        providerOrganizationId: String,
         type: ConnectorType,
         environment: String,
         clientId: String,
@@ -269,8 +250,8 @@ class ConnectorService(
     ) {
         dsl.newRecord(Tables.CONNECTOR).also {
             it.connectorId = connectorId
-            it.mdsId = mdsId
-            it.providerMdsId = providerMdsId
+            it.organizationId = organizationId
+            it.providerOrganizationId = providerOrganizationId
             it.type = type
             it.environment = environment
             it.clientId = clientId
@@ -308,37 +289,4 @@ class ConnectorService(
             .where(c.CONNECTOR_ID.eq(connectorId))
             .execute()
     }
-
-    fun setConnectorBrokerRegistrationStatus(connectorIds: List<String>, status: ConnectorBrokerRegistrationStatus) {
-        val c = Tables.CONNECTOR
-        dsl.update(c)
-            .set(c.BROKER_REGISTRATION_STATUS, status)
-            .where(c.CONNECTOR_ID.eqAny(connectorIds))
-            .execute()
-    }
-
-    fun setConnectorBrokerRegistrationStatus(connectorId: String, status: ConnectorBrokerRegistrationStatus) {
-        setConnectorBrokerRegistrationStatus(listOf(connectorId), status)
-    }
-
-    fun getUnregisteredBrokerConnectors(): List<UnregisteredBrokerConnector> {
-        val c = Tables.CONNECTOR
-        return dsl.select(
-            c.CONNECTOR_ID.`as`("connectorId"),
-            c.MDS_ID.`as`("mdsId"),
-            c.ENDPOINT_URL.`as`("connectorEndpointUrl"),
-            c.ENVIRONMENT.`as`("environmentId")
-        )
-            .from(c)
-            .where(c.BROKER_REGISTRATION_STATUS.eq(ConnectorBrokerRegistrationStatus.UNREGISTERED))
-            .and(c.CAAS_STATUS.notEqual(CaasStatus.PROVISIONING).or(c.CAAS_STATUS.isNull))
-            .fetchInto(UnregisteredBrokerConnector::class.java)
-    }
-
-    data class UnregisteredBrokerConnector(
-        val connectorId: String,
-        val mdsId: String,
-        val connectorEndpointUrl: String,
-        val environmentId: String
-    )
 }

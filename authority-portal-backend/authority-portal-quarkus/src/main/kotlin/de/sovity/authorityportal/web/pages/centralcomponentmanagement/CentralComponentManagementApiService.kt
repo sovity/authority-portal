@@ -46,7 +46,7 @@ class CentralComponentManagementApiService(
 
         return centralComponents.map { centralComponent ->
             val createdBy = userService.getUserOrThrow(centralComponent.createdBy)
-            val organization = organizationService.getOrganizationOrThrow(centralComponent.mdsId)
+            val organization = organizationService.getOrganizationOrThrow(centralComponent.organizationId)
 
             CentralComponentDto(
                 centralComponentId = centralComponent.id,
@@ -55,7 +55,7 @@ class CentralComponentManagementApiService(
                 endpointUrl = centralComponent.endpointUrl,
                 createdByUserFullName = createdBy.firstName + " " + createdBy.lastName,
                 createdByOrgName = organization.name,
-                createdByOrgMdsId = organization.mdsId
+                createdByOrganizationId = organization.id
             )
         }
     }
@@ -63,22 +63,22 @@ class CentralComponentManagementApiService(
     fun registerCentralComponent(
         centralComponentCreateRequest: CentralComponentCreateRequest,
         userId: String,
-        mdsId: String,
+        organizationId: String,
         envId: String
     ): IdResponse {
         deploymentEnvironmentService.assertValidEnvId(envId)
 
-        val centralComponentId = dataspaceComponentIdUtils.generateDataspaceComponentId(mdsId)
+        val centralComponentId = dataspaceComponentIdUtils.generateDataspaceComponentId(organizationId)
         val clientId = clientIdUtils.generateFromCertificate(centralComponentCreateRequest.certificate)
 
         if (clientIdUtils.exists(clientId)) {
-            Log.error("Component with this certificate already exists. connectorId=$centralComponentId, mdsId=$mdsId, userId=$userId, clientId=$clientId.")
+            Log.error("Component with this certificate already exists. connectorId=$centralComponentId, organizationId=$organizationId, userId=$userId, clientId=$clientId.")
             error("Component with this certificate already exists")
         }
 
         centralComponentService.createCentralComponent(
             centralComponentId = centralComponentId,
-            mdsId = mdsId,
+            organizationId = organizationId,
             environment = envId,
             clientId = clientId,
             centralComponentCreateRequest = centralComponentCreateRequest,
@@ -90,7 +90,7 @@ class CentralComponentManagementApiService(
         dapsClient.addCertificate(clientId, centralComponentCreateRequest.certificate)
         dapsClient.configureMappers(clientId, centralComponentId, centralComponentCreateRequest.certificate)
 
-        Log.info("Central component registered. centralComponentId=$centralComponentId, mdsId=$mdsId, userId=$userId, clientId=$clientId.")
+        Log.info("Central component registered. centralComponentId=$centralComponentId, organizationId=$organizationId, userId=$userId, clientId=$clientId.")
         return IdResponse(centralComponentId, timeUtils.now())
     }
 
@@ -98,13 +98,13 @@ class CentralComponentManagementApiService(
         val centralComponent = centralComponentService.getCentralComponentOrThrow(centralComponentId)
 
         deleteCentralComponent(centralComponent)
-        Log.info("Central component deleted. centralComponentId=$centralComponentId, mdsId=${centralComponent.mdsId}, userId=$userId, clientId=${centralComponent.clientId}.")
+        Log.info("Central component deleted. centralComponentId=$centralComponentId, organizationId=${centralComponent.organizationId}, userId=$userId, clientId=${centralComponent.clientId}.")
 
         return IdResponse(centralComponentId, timeUtils.now())
     }
 
-    fun deleteAllOrganizationCentralComponents(mdsId: String) {
-        val components = centralComponentService.getCentralComponentsByMdsId(mdsId)
+    fun deleteAllOrganizationCentralComponents(organizationId: String) {
+        val components = centralComponentService.getCentralComponentsByOrganizationId(organizationId)
         components.forEach { deleteCentralComponent(it) }
     }
 

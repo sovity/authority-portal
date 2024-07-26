@@ -131,7 +131,7 @@ export class AuthorityOrganizationListPageComponent
   openDetailPage(organization: OrganizationOverviewEntryDto) {
     this.slideOverConfig = {
       childComponentInput: {
-        id: organization.mdsId,
+        id: organization.id,
       },
       label: organization.name,
       icon: 'organization',
@@ -149,7 +149,7 @@ export class AuthorityOrganizationListPageComponent
   handleNavigation(direction: SlideOverAction, currentConnectorId: string) {
     let totalOrganizations = this.state.organizations.data.length;
     let currentIndex = this.state.organizations.data.findIndex(
-      (organization) => organization.mdsId === currentConnectorId,
+      (organization) => organization.id === currentConnectorId,
     );
     let nextIndex = sliderOverNavigation(
       direction,
@@ -159,7 +159,7 @@ export class AuthorityOrganizationListPageComponent
     this.slideOverConfig = {
       ...this.slideOverConfig,
       childComponentInput: {
-        id: this.state.organizations.data[nextIndex].mdsId,
+        id: this.state.organizations.data[nextIndex].id,
       },
       label: this.state.organizations.data[nextIndex].name,
     };

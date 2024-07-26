@@ -43,18 +43,18 @@ class CaasManagementApiService(
     val clientIdUtils: ClientIdUtils,
     val userService: UserService,
     val timeUtils: TimeUtils,
-    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid") val caasLimitPerMdsId: String
+    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid") val caasLimitPerOrganizationId: String
 ) {
 
     fun createCaas(
-        mdsId: String,
+        organizationId: String,
         userId: String,
         caasRequest: CreateCaasRequest,
         environmentId: String
     ): CreateConnectorResponse {
-        val curatorOrganization = organizationService.getOrganizationOrThrow(mdsId)
+        val curatorOrganization = organizationService.getOrganizationOrThrow(organizationId)
         val curatorUser = userService.getUserOrThrow(userId)
-        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(mdsId)
+        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(organizationId)
         val clientId = clientIdUtils.generateFromConnectorId(connectorId)
 
         val apDeploymentDto = buildAuthorityPortalDeploymentDto(
@@ -66,7 +66,7 @@ class CaasManagementApiService(
             curatorUser = curatorUser
         )
 
-        val configAssertion = assertValidConfig(apDeploymentDto, mdsId, environmentId)
+        val configAssertion = assertValidConfig(apDeploymentDto, organizationId, environmentId)
         if (!configAssertion.valid) {
             Log.error(configAssertion.message)
             return CreateConnectorResponse.error(configAssertion.message, timeUtils.now())
@@ -77,7 +77,7 @@ class CaasManagementApiService(
         connectorService.createCaas(
             connectorId = connectorId,
             clientId = clientId,
-            mdsId = mdsId,
+            organizationId = organizationId,
             name = caasRequest.connectorTitle,
             createdBy = userId,
             status = CaasStatus.PROVISIONING,
@@ -87,20 +87,20 @@ class CaasManagementApiService(
         return CreateConnectorResponse.ok(connectorId, timeUtils.now())
     }
 
-    fun getFreeCaasUsageForOrganization(mdsId: String, environmentId: String): CaasAvailabilityResponse {
-        val caasLimit = caasLimitPerMdsId.toInt()
-        val caasCount = connectorService.getCaasCountByMdsIdAndEnvironment(mdsId, environmentId)
+    fun getFreeCaasUsageForOrganization(organizationId: String, environmentId: String): CaasAvailabilityResponse {
+        val caasLimit = caasLimitPerOrganizationId.toInt()
+        val caasCount = connectorService.getCaasCountByOrganizationIdAndEnvironment(organizationId, environmentId)
 
         return CaasAvailabilityResponse(caasLimit, caasCount)
     }
 
     private fun assertValidConfig(
         apDeploymentDto: CaasPortalDeploymentDto,
-        mdsId: String,
+        organizationId: String,
         environmentId: String
     ): ConfigAssertion {
-        if (!connectorService.assertCaasRegistrationLimit(mdsId, environmentId)) {
-            return ConfigAssertion(false, "Connector limit reached for MDS ID: $mdsId")
+        if (!connectorService.assertCaasRegistrationLimit(organizationId, environmentId)) {
+            return ConfigAssertion(false, "Connector limit reached for Organization ID: $organizationId")
         }
         if (!caasClient.validateSubdomain(apDeploymentDto.subdomain.trim())) {
             return ConfigAssertion(

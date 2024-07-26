@@ -25,5 +25,5 @@ fun <R :  Record> SelectSelectStep<R>.fromCatalogQueryTables(fields: CatalogQuer
 
     return this.from(d)
         .leftJoin(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
-        .leftJoin(org).on(org.MDS_ID.eq(c.MDS_ID))
+        .leftJoin(org).on(org.ID.eq(c.ORGANIZATION_ID))
 }

@@ -52,7 +52,7 @@ class UserDetailService {
         email = dbUser.email ?: "",
         position = dbUser.jobTitle ?: "",
         phoneNumber = dbUser.phone ?: "",
-        organizationMdsId = dbUser.organizationMdsId,
+        organizationId = dbUser.organizationId,
         registrationStatus = dbUser.registrationStatus,
         createdAt = dbUser.createdAt,
         roles = keycloakService.getUserRoles(dbUser.id),
@@ -60,8 +60,8 @@ class UserDetailService {
         invitedBy = dbUser.invitedBy
     )
 
-    fun getOrganizationMembers(mdsId: String): List<MemberInfo> {
-        val members = keycloakService.getOrganizationMembers(mdsId)
+    fun getOrganizationMembers(organizationId: String): List<MemberInfo> {
+        val members = keycloakService.getOrganizationMembers(organizationId)
         return members.map {
             val dbUser = userService.getUserOrThrow(it.userId)
             MemberInfo(

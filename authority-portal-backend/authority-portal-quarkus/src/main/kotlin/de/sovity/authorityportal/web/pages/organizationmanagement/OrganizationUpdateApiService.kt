@@ -26,14 +26,14 @@ class OrganizationUpdateApiService(
     val timeUtils: TimeUtils
 ) {
 
-    fun updateOrganization(mdsId: String, dto: UpdateOrganizationDto): IdResponse {
-        organizationService.updateOrganization(mdsId, dto)
-        return IdResponse(mdsId, timeUtils.now())
+    fun updateOrganization(organizationId: String, dto: UpdateOrganizationDto): IdResponse {
+        organizationService.updateOrganization(organizationId, dto)
+        return IdResponse(organizationId, timeUtils.now())
     }
 
-    fun onboardOrganization(mdsId: String, dto: OnboardingOrganizationUpdateDto): IdResponse {
-        organizationService.onboardOrganization(mdsId, dto)
-        return IdResponse(mdsId, timeUtils.now())
+    fun onboardOrganization(organizationId: String, dto: OnboardingOrganizationUpdateDto): IdResponse {
+        organizationService.onboardOrganization(organizationId, dto)
+        return IdResponse(organizationId, timeUtils.now())
     }
 
 
