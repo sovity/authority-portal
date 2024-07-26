@@ -28,7 +28,7 @@ class OrganizationIdUtils(
     ) val organizationIdPrefix: String,
     @ConfigProperty(
         name = "authority-portal.organization.id.length",
-        defaultValue = "10"
+        defaultValue = "4"
     ) val organizationIdLength: Int
 ) {
 
