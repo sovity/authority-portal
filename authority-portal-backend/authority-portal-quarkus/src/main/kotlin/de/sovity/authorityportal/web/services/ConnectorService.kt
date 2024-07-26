@@ -31,7 +31,7 @@ import java.util.Optional
 class ConnectorService(
     val dsl: DSLContext,
     val timeUtils: TimeUtils,
-    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid") val caasLimitPerOrganizationId: Optional<Int>
+    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-organization") val caasLimitPerOrganizationId: Optional<Int>
 ) {
 
     fun getConnectorOrThrow(connectorId: String): ConnectorRecord {
