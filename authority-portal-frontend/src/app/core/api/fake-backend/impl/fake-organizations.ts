@@ -24,16 +24,16 @@ import {
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {getUserInfo} from './fake-users';
 
-export const approveOrganization = (mdsId: string): IdResponse => {
-  updateOrganization(mdsId, () => ({registrationStatus: 'ACTIVE'}));
+export const approveOrganization = (organizationId: string): IdResponse => {
+  updateOrganization(organizationId, () => ({registrationStatus: 'ACTIVE'}));
 
-  return {id: mdsId, changedDate: new Date()};
+  return {id: organizationId, changedDate: new Date()};
 };
 
-export const rejectOrganization = (mdsId: string): IdResponse => {
-  updateOrganization(mdsId, () => ({registrationStatus: 'REJECTED'}));
+export const rejectOrganization = (organizationId: string): IdResponse => {
+  updateOrganization(organizationId, () => ({registrationStatus: 'REJECTED'}));
 
-  return {id: mdsId, changedDate: new Date()};
+  return {id: organizationId, changedDate: new Date()};
 };
 
 export let TEST_ORGANIZATIONS: OrganizationDetailsDto[] = [
@@ -616,8 +616,8 @@ export const getOwnOrganizationDetails = (): OwnOrganizationDetailsDto => {
 export const updateOwnOrganization = (
   request: UpdateOrganizationDto,
 ): IdResponse => {
-  const mdsId = getUserInfo().organizationId;
-  updateOrganization(mdsId, () => ({
+  const organizationId = getUserInfo().organizationId;
+  updateOrganization(organizationId, () => ({
     url: request.url,
     description: request.description,
     businessUnit: request.businessUnit,
@@ -630,7 +630,7 @@ export const updateOwnOrganization = (
     techContactName: request.techContactName,
     techContactEmail: request.techContactEmail,
   }));
-  return {id: mdsId, changedDate: new Date()};
+  return {id: organizationId, changedDate: new Date()};
 };
 
 export const inviteOrganization = (

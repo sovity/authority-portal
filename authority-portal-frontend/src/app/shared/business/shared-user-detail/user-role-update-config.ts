@@ -42,19 +42,19 @@ export interface UserRoleUpdateConfig {
 
 export function buildUserRoleUpdateConfig(options: {
   ownUserId: string;
-  ownUserMdsId: string;
+  ownUserOrganizationId: string;
   ownRoles: UserRoleDto[];
   targetUserId: string;
-  targetUserMdsId: string;
+  targetUserOrganizationId: string;
   targetRoles: UserRoleDto[];
   onRoleUpdateSuccessful: () => void;
 }): UserRoleUpdateConfig {
   const {
     ownUserId,
-    ownUserMdsId,
+    ownUserOrganizationId,
     ownRoles,
     targetUserId,
-    targetUserMdsId,
+    targetUserOrganizationId,
     targetRoles,
     onRoleUpdateSuccessful,
   } = options;
@@ -64,7 +64,7 @@ export function buildUserRoleUpdateConfig(options: {
 
   const availableRoles = getAvailableRoles(
     ownRoles,
-    ownUserMdsId === targetUserMdsId,
+    ownUserOrganizationId === targetUserOrganizationId,
   );
   const canChangeApplicationRole = availableRoles.some(isApplicationRole);
   const canChangeParticipantRole = availableRoles.some(isParticipantRole);
@@ -117,10 +117,10 @@ export function buildUserRoleUpdateConfigFromUserInfo(options: {
   return buildUserRoleUpdateConfig({
     ownRoles: currentUser.roles,
     ownUserId: currentUser.userId,
-    ownUserMdsId: currentUser.organizationId,
+    ownUserOrganizationId: currentUser.organizationId,
     targetRoles: target.roles,
     targetUserId: target.userId,
-    targetUserMdsId: target.organizationId,
+    targetUserOrganizationId: target.organizationId,
     onRoleUpdateSuccessful,
   });
 }
@@ -131,10 +131,10 @@ export function buildUserRoleUpdateConfigUneditable(
   return buildUserRoleUpdateConfig({
     ownRoles: [],
     ownUserId: '',
-    ownUserMdsId: '',
+    ownUserOrganizationId: '',
     targetRoles: roles,
     targetUserId: '',
-    targetUserMdsId: '',
+    targetUserOrganizationId: '',
     onRoleUpdateSuccessful: () => {},
   });
 }

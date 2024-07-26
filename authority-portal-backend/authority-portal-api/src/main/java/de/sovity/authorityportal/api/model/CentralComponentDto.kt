@@ -35,6 +35,6 @@ data class CentralComponentDto (
     @field:Schema(description = "Created By Organization Name", requiredMode = Schema.RequiredMode.REQUIRED)
     val createdByOrgName: String,
 
-    @field:Schema(description = "Created By Organization MDS-ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Created By Organization ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val createdByOrganizationId: String,
 )

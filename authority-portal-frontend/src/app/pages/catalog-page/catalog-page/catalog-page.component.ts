@@ -111,9 +111,11 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
           return of(null);
         }),
       )
-      .subscribe((mdsId) => {
-        const initialMdsIds = mdsId ? [mdsId] : undefined;
-        this.store.dispatch(new CatalogPage.Reset(initialMdsIds));
+      .subscribe((organizationId) => {
+        const initialOrganizationIds = organizationId
+          ? [organizationId]
+          : undefined;
+        this.store.dispatch(new CatalogPage.Reset(initialOrganizationIds));
       });
   }
 

@@ -20,7 +20,7 @@ export namespace CatalogPage {
   export class Reset {
     static readonly type = `[${tag}] Reset`;
 
-    constructor(public initialMdsIds?: string[]) {}
+    constructor(public initialOrganizationIds?: string[]) {}
   }
 
   export class NeedFetch {

@@ -36,7 +36,7 @@ import {
   RefreshOrganization,
   RefreshOrganizationUser,
   RejectOrganization,
-  SetOrganizationMdsId,
+  SetOrganizationId,
   SetOrganizationUserId,
 } from './authority-organization-detail-page-actions';
 import {
@@ -64,10 +64,10 @@ export class AuthorityOrganizationDetailPageStateImpl {
 
   // Organization  State Implementation
 
-  @Action(SetOrganizationMdsId)
-  onSetOrganizationMdsId(
+  @Action(SetOrganizationId)
+  onSetOrganizationId(
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    action: SetOrganizationMdsId,
+    action: SetOrganizationId,
   ): Observable<never> {
     ctx.patchState({
       organizationDetail: {

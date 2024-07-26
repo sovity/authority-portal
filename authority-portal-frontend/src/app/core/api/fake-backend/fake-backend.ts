@@ -136,26 +136,26 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     })
 
     .url('authority/organizations/*/connectors')
-    .on('GET', (mdsId: string) => {
-      const result = getListOfConnectorsForTable(mdsId);
+    .on('GET', (organizationId: string) => {
+      const result = getListOfConnectorsForTable(organizationId);
       return ok(ConnectorOverviewResultToJSON(result));
     })
 
     .url('authority/organizations/*/approve')
-    .on('PUT', (mdsId) => {
-      const result = approveOrganization(mdsId);
+    .on('PUT', (organizationId) => {
+      const result = approveOrganization(organizationId);
       return ok(IdResponseToJSON(result));
     })
 
     .url('authority/organizations/*/reject')
-    .on('PUT', (mdsId) => {
-      const result = rejectOrganization(mdsId);
+    .on('PUT', (organizationId) => {
+      const result = rejectOrganization(organizationId);
       return ok(IdResponseToJSON(result));
     })
 
     .url('authority/organizations/*')
-    .on('GET', (mdsId) => {
-      const result = getOrganizationDetails(mdsId);
+    .on('GET', (organizationId) => {
+      const result = getOrganizationDetails(organizationId);
       return ok(OrganizationDetailsDtoToJSON(result));
     })
 
@@ -314,11 +314,11 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     })
 
     .url('organizations/*/connectors/*')
-    .on('GET', (mdsId: string, connectorId: string) => {
-      const result = getFullConnectorDetails(mdsId, connectorId);
+    .on('GET', (organizationId: string, connectorId: string) => {
+      const result = getFullConnectorDetails(organizationId, connectorId);
       return ok(ConnectorDetailDtoToJSON(result));
     })
-    .on('DELETE', (mdsId, connectorId) => {
+    .on('DELETE', (organizationId, connectorId) => {
       throw new Error('TODO');
     })
 
@@ -416,9 +416,9 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     })
 
     .url('organizations/*/connectors/create-service-provided')
-    .on('POST', (mdsId) => {
+    .on('POST', (organizationId) => {
       const request = CreateConnectorRequestFromJSON(body);
-      const result = createProvidedConnector(request, mdsId);
+      const result = createProvidedConnector(request, organizationId);
       return ok(CreateConnectorResponseToJSON(result));
     })
 

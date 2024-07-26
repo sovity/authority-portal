@@ -138,22 +138,22 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
 ];
 
 export const getListOfConnectorsForTable = (
-  mdsId: string,
+  organizationId: string,
 ): ConnectorOverviewResult => {
   return {
-    connectors: TEST_CONNECTORS.filter((c) => c.organizationId === mdsId).map(
-      (c) => {
-        return {
-          id: c.connectorId,
-          hostOrganizationName: c.hostOrganizationName,
-          type: c.type,
-          environment: c.environment,
-          name: c.connectorName,
-          status: c.status,
-          frontendUrl: c.frontendUrl,
-        };
-      },
-    ),
+    connectors: TEST_CONNECTORS.filter(
+      (c) => c.organizationId === organizationId,
+    ).map((c) => {
+      return {
+        id: c.connectorId,
+        hostOrganizationName: c.hostOrganizationName,
+        type: c.type,
+        environment: c.environment,
+        name: c.connectorName,
+        status: c.status,
+        frontendUrl: c.frontendUrl,
+      };
+    }),
   };
 };
 
@@ -176,30 +176,30 @@ export const listSpConnectors = (): ProvidedConnectorOverviewResult => {
 };
 
 export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
-  const mdsId = getUserInfo().organizationId;
+  const organizationId = getUserInfo().organizationId;
   return {
-    connectors: TEST_CONNECTORS.filter((c) => c.organizationId === mdsId).map(
-      (c) => {
-        return {
-          id: c.connectorId,
-          hostOrganizationName: c.hostOrganizationName,
-          type: c.type,
-          environment: c.environment,
-          name: c.connectorName,
-          status: c.status,
-          frontendUrl: c.frontendUrl,
-        };
-      },
-    ),
+    connectors: TEST_CONNECTORS.filter(
+      (c) => c.organizationId === organizationId,
+    ).map((c) => {
+      return {
+        id: c.connectorId,
+        hostOrganizationName: c.hostOrganizationName,
+        type: c.type,
+        environment: c.environment,
+        name: c.connectorName,
+        status: c.status,
+        frontendUrl: c.frontendUrl,
+      };
+    }),
   };
 };
 
 export const getOwnConnectorDetail = (
   connectorId: string,
 ): ConnectorDetailDto => {
-  const mdsId = getUserInfo().organizationId;
+  const organizationId = getUserInfo().organizationId;
   return TEST_CONNECTORS.filter(
-    (c) => c.organizationId === mdsId && c.connectorId === connectorId,
+    (c) => c.organizationId === organizationId && c.connectorId === connectorId,
   )[0];
 };
 
@@ -220,7 +220,7 @@ export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {
 };
 
 export const getFullConnectorDetails = (
-  mdsId: string | null,
+  organizationId: string | null,
   connectorId: string,
 ): ConnectorDetailDto => {
   return TEST_CONNECTORS.filter((c) => c.connectorId === connectorId)[0];
@@ -245,16 +245,16 @@ export const deleteProvidedConnector = (
 export const createOwnConnector = (
   request: CreateConnectorRequest,
 ): CreateConnectorResponse => {
-  const mdsId = getUserInfo().organizationId;
+  const organizationId = getUserInfo().organizationId;
   const organizationName = getUserInfo().organizationName;
-  const randomId = generateRandomId(mdsId);
+  const randomId = generateRandomId(organizationId);
   const status = 'OFFLINE';
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
-    organizationId: mdsId,
+    organizationId: organizationId,
     organizationName: organizationName,
-    hostOrganizationId: mdsId,
+    hostOrganizationId: organizationId,
     hostOrganizationName: organizationName,
     type: ConnectorTypeDto.Own,
     environment: fakeEnv('test'),
@@ -276,16 +276,16 @@ export const createCaas = (
   request: CreateCaasRequest,
   environmentId: string,
 ): CreateConnectorResponse => {
-  const mdsId = getUserInfo().organizationId;
+  const organizationId = getUserInfo().organizationId;
   const organizationName = getUserInfo().organizationName;
-  const randomId = generateRandomId(mdsId);
+  const randomId = generateRandomId(organizationId);
   const status = 'INIT';
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
-    organizationId: mdsId,
+    organizationId: organizationId,
     organizationName: organizationName,
-    hostOrganizationId: mdsId,
+    hostOrganizationId: organizationId,
     hostOrganizationName: organizationName,
     type: ConnectorTypeDto.Caas,
     environment: fakeEnv(environmentId),
@@ -320,20 +320,20 @@ export const checkFreeCaasUsage = (
 
 export const createProvidedConnector = (
   request: CreateConnectorRequest,
-  clientMdsId: string,
+  clientOrganizationId: string,
 ): CreateConnectorResponse => {
   const hostOrganizationId = getUserInfo().organizationId;
   const hostOrgName = getUserInfo().organizationName;
   const status = 'OFFLINE';
 
   const clientOrgName = TEST_ORGANIZATIONS.filter(
-    (it) => it.id === clientMdsId,
+    (it) => it.id === clientOrganizationId,
   )[0].name;
 
-  const randomId = generateRandomId(clientMdsId);
+  const randomId = generateRandomId(clientOrganizationId);
   TEST_CONNECTORS.push({
     connectorId: randomId,
-    organizationId: clientMdsId,
+    organizationId: clientOrganizationId,
     organizationName: clientOrgName,
     hostOrganizationId: hostOrganizationId,
     hostOrganizationName: hostOrgName,
@@ -363,23 +363,25 @@ export const deleteOwnConnector = (
   return {id: request.connectorId, changedDate: new Date()};
 };
 
-export const getNumberOfOrganizationConnectors = (mdsId: string): number => {
+export const getNumberOfOrganizationConnectors = (
+  organizationId: string,
+): number => {
   return TEST_CONNECTORS.filter(
-    (connector) => connector.organizationId === mdsId,
+    (connector) => connector.organizationId === organizationId,
   ).length;
 };
 
-const generateRandomId = (mdsId: string): string => {
+const generateRandomId = (organizationId: string): string => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';
   for (let i = 0; i < 7; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
-  result = mdsId + '.' + result;
+  result = organizationId + '.' + result;
 
   // if such id exists, generate another one
   if (TEST_CONNECTORS.filter((c) => c.connectorId === result).length > 0) {
-    return generateRandomId(mdsId);
+    return generateRandomId(organizationId);
   } else {
     return result;
   }

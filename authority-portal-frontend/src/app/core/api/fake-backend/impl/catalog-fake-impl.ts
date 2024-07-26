@@ -162,8 +162,8 @@ export const getCatalogPage = (
           ],
         },
         {
-          id: 'mdsId',
-          title: 'MDS ID',
+          id: 'organizationId',
+          title: 'Organization ID',
           values: [
             {
               id: 'MDSL1111AA',

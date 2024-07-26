@@ -44,7 +44,7 @@ import {
   ReactivateUser,
   RefreshOrganization,
   RejectOrganization,
-  SetOrganizationMdsId,
+  SetOrganizationId,
 } from '../state/authority-organization-detail-page-actions';
 import {
   AuthorityOrganizationDetailPageState,
@@ -87,7 +87,7 @@ export class AuthorityOrganizationDetailPageComponent
     getOrganizationRegistrationStatusClasses;
 
   ngOnInit() {
-    this.setOrganizationMdsId(this.organizationId);
+    this.setOrganizationOrganizationId(this.organizationId);
     this.refresh();
     this.startListeningToState();
     this.startListeningToSlideOverState();
@@ -152,8 +152,8 @@ export class AuthorityOrganizationDetailPageComponent
     });
   }
 
-  setOrganizationMdsId(mdsId: string) {
-    this.store.dispatch(new SetOrganizationMdsId(mdsId));
+  setOrganizationOrganizationId(organizationId: string) {
+    this.store.dispatch(new SetOrganizationId(organizationId));
   }
 
   /**

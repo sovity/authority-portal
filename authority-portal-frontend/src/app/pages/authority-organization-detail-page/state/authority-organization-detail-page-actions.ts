@@ -13,8 +13,8 @@
 
 const tag = 'AuthorityOrganizationDetailPage';
 
-export class SetOrganizationMdsId {
-  static readonly type = `[${tag}] Set Organization Mds Id`;
+export class SetOrganizationId {
+  static readonly type = `[${tag}] Set Organization Id`;
   constructor(public organizationId: string) {}
 }
 
