@@ -416,6 +416,9 @@ class CatalogApiTest {
         val curatorOrganizationName = getAvailableFilter(result, "organizationName")
         assertThat(curatorOrganizationName.values).allSatisfy { it.id in setOf("Organization 0") }
 
+        val curatorOrganizationId = getAvailableFilter(result, "organizationId")
+        assertThat(curatorOrganizationId.values).allSatisfy { it.id in setOf(dummyDevOrganizationId(0)) }
+
         val connectorId = getAvailableFilter(result, "connectorId")
         assertThat(connectorId.values).allSatisfy { it.id in setOf(dummyDevConnectorId(0, 0)) }
 
@@ -803,6 +806,52 @@ class CatalogApiTest {
             query = CatalogPageQuery(
                 filter = null,
                 searchQuery = "tEsT",
+                sorting = null
+            )
+        )
+
+        // assert
+        assertThat(result.dataOffers).hasSize(1)
+        assertThat(result.dataOffers.first().connectorId).isEqualTo(dummyDevConnectorId(0, 0))
+    }
+
+    @Test
+    @TestTransaction
+    fun `test filter by organizationId`() {
+        // arrange
+        useDevUser(0, 0)
+
+        whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
+            CatalogDataspaceConfig(
+                namesByConnectorId = emptyMap(),
+                defaultName = "MDS"
+            )
+        )
+
+        ScenarioData().apply {
+            organization(0, 0)
+            user(0, 0)
+            connector(0, 0, 0)
+            dataOffer(0, 0, 0)
+
+            organization(1, 1)
+            user(1, 1)
+            connector(1, 1, 1)
+            dataOffer(1, 1, 1)
+
+            scenarioInstaller.install(this)
+        }
+
+        // act
+        val result = catalogResource.catalogPage(
+            environmentId = "test",
+            query = CatalogPageQuery(
+                filter = CnfFilterValue(
+                    listOf(
+                        CnfFilterValueAttribute("organizationId", listOf(dummyDevOrganizationId(0))),
+                    )
+                ),
+                searchQuery = null,
                 sorting = null
             )
         )
