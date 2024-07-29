@@ -10,8 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-
-import {PolicyExpressionMapped} from "../policy-editor/model/policy-expression-mapped";
+import {PolicyExpressionMapped} from '../policy-editor/model/policy-expression-mapped';
 
 export interface PropertyGridField {
   icon: string;
@@ -55,4 +54,9 @@ export interface PropertyGridField {
 
   policy?: PolicyExpressionMapped;
   policyErrors?: string[];
+
+  /**
+   * Hide text
+   */
+  hideFieldValue?: boolean;
 }

@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+import {DOCUMENT} from '@angular/common';
 import {Component, Inject, OnDestroy} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Observable, Subject, isObservable} from 'rxjs';
@@ -47,22 +48,12 @@ export class AssetDetailDialogComponent implements OnDestroy {
     return this.data.dataOffer.asset.dataSourceAvailability === 'ON_REQUEST';
   }
 
-  get onRequestContactLink(): string {
-    if (!this.asset.onRequestContactEmail) {
-      throw new Error('On request asset must have contact email');
-    }
-    return this.mailtoLinkBuilder.buildMailtoUrl(
-      this.asset.onRequestContactEmail,
-      this.asset.onRequestContactEmailSubject ??
-        "I'm interested in your data offer",
-    );
-  }
-
   constructor(
     @Inject(MAT_DIALOG_DATA)
     private _data: AssetDetailDialogData | Observable<AssetDetailDialogData>,
     private mailtoLinkBuilder: MailtoLinkBuilder,
     private toastService: ToastService,
+    @Inject(DOCUMENT) private document: Document,
   ) {
     if (isObservable(this._data)) {
       this._data
@@ -91,6 +82,19 @@ export class AssetDetailDialogComponent implements OnDestroy {
           'Failed to copy Data Offer URL to clipboard. Check if your browser permissions allow this action.',
         );
       });
+  }
+
+  onContactClick() {
+    if (!this.asset.onRequestContactEmail) {
+      throw new Error('On request asset must have contact email');
+    }
+
+    const url = this.mailtoLinkBuilder.buildMailtoUrl(
+      this.asset.onRequestContactEmail,
+      this.asset.onRequestContactEmailSubject ??
+        "I'm interested in your data offer",
+    );
+    this.document.location.href = url;
   }
 
   ngOnDestroy$ = new Subject();

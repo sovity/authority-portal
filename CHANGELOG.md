@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Copyable contact email and subject fields on data offer detail dialogs
+
 ### Known issues
 
 ### Deployment Migration Notes
