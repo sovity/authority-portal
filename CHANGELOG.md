@@ -20,7 +20,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Deployment Migration Notes
 
 Read the deployment migration notes carefully if you want to retain the portal's current behavior.
-If you configure the optional variables incorrectly, you might end up with an incosistent configuration.
+If you configure the optional variables incorrectly, you might end up with an inconsistent configuration.
 
 Environment variable changes:
 - Renamed variables:
