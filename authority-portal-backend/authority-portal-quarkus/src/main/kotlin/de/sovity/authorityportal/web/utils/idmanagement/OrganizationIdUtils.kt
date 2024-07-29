@@ -15,35 +15,38 @@ package de.sovity.authorityportal.web.utils.idmanagement
 
 import de.sovity.authorityportal.db.jooq.Tables
 import jakarta.enterprise.context.ApplicationScoped
+import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.jooq.DSLContext
 
 @ApplicationScoped
 class OrganizationIdUtils(
     val dsl: DSLContext,
     val idUtils: IdUtils,
+    @ConfigProperty(
+        name = "authority-portal.organization.id.prefix",
+        defaultValue = "BPN"
+    ) val organizationIdPrefix: String,
+    @ConfigProperty(
+        name = "authority-portal.organization.id.length",
+        defaultValue = "4"
+    ) val organizationIdLength: Int
 ) {
-
-    companion object {
-        const val MDS_ID_LENGTH = 4
-    }
-
 
     fun generateOrganizationId(): String {
         val usedOrganizationIds = getUsedOrganizationIds()
         var organizationId: String
 
         do {
-            organizationId = getOrganizationIdCandidate()
+            organizationId = getOrganizationIdCandidate(organizationIdPrefix, organizationIdLength)
         } while (usedOrganizationIds.contains(organizationId))
 
         return organizationId
     }
 
-    private fun getOrganizationIdCandidate(): String {
-        val prefix = "MDSL"
-        val identifier = idUtils.randomIdentifier(MDS_ID_LENGTH)
+    private fun getOrganizationIdCandidate(prefix: String, identifierLength: Int): String {
+        val identifier = idUtils.randomIdentifier(identifierLength)
         val checksum = idUtils.calculateVerificationDigits(identifier)
-        return "$prefix$identifier$checksum"
+        return "${prefix}L$identifier$checksum"
     }
 
     private fun getUsedOrganizationIds(): Set<String> {
