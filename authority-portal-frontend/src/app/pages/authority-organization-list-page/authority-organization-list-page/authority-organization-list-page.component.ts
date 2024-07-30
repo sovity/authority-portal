@@ -34,6 +34,7 @@ import {
   SlideOverAction,
   SlideOverConfig,
 } from 'src/app/shared/common/slide-over/slide-over.model';
+import {ActiveFeatureSet} from '../../../core/services/config/active-feature-set';
 import {AuthorityOrganizationDetailPageComponent} from '../../authority-organization-detail-page/authority-organization-detail-page/authority-organization-detail-page.component';
 import {AuthorityInviteNewOrganizationComponent} from '../authority-invite-new-organization/authority-invite-new-organization.component';
 import {
@@ -71,6 +72,7 @@ export class AuthorityOrganizationListPageComponent
     private store: Store,
     public dialog: MatDialog,
     private slideOverService: SlideOverService,
+    public activeFeatureSet: ActiveFeatureSet,
   ) {}
 
   ngOnInit() {

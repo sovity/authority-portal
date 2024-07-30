@@ -21,6 +21,7 @@ import {Subject, distinctUntilChanged, takeUntil} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {ActiveFeatureSet} from '../../../../core/services/config/active-feature-set';
 import {SidebarSection} from './sidebar.model';
 
 @Component({
@@ -32,9 +33,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
   sidebarSections: SidebarSection[] = [];
   private ngOnDestroy$ = new Subject();
 
+  private homeUrl = this.activeFeatureSet.usesMdsId() ? '/mds-home' : '/home';
+
   constructor(
     @Inject(APP_CONFIG) public config: AppConfig,
     private globalStateUtils: GlobalStateUtils,
+    private activeFeatureSet: ActiveFeatureSet,
   ) {}
 
   ngOnInit() {
@@ -65,19 +69,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   openNewTab() {
-    window.open('/mds-home', '_self');
+    window.open('mds-home', '_self');
   }
 
   setSideBarSections(organizationName: string): void {
     this.sidebarSections = [
       {
-        title: 'MDS',
+        title: this.activeFeatureSet.usesMdsId() ? 'MDS' : 'Home',
         userRoles: ['USER'],
         menus: [
           {
             title: 'Home',
             icon: 'home',
-            rLink: '/mds-home',
+            rLink: 'mds-home',
           },
           {
             title: 'Dashboard',
@@ -85,7 +89,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
             rLink: '/dashboard',
           },
           {
-            title: `Data Catalogue`,
+            title: this.activeFeatureSet.usesBritishCatalogue()
+              ? 'Data Catalogue'
+              : 'Data Catalog',
             icon: 'tag',
             rLink: '/catalog',
           },
@@ -160,7 +166,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
         userRoles: ['USER'],
         menus: [
           {
-            title: 'MDS Support',
+            title: this.activeFeatureSet.usesMdsId()
+              ? 'MDS Support'
+              : 'Support',
             icon: 'question-mark-circle',
             rLink: this.config.supportUrl,
             isExternalLink: true,

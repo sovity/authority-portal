@@ -17,7 +17,9 @@
                   class="py-3.5 pl-4 text-sm font-normal text-gray-700 text-left"
                   rowspan="2"
                   scope="col">
-                  MDS ID
+                  {{
+                    activeFeatureSet.usesMdsId() ? 'MDS ID' : 'Organization ID'
+                  }}
                 </th>
                 <th
                   class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
