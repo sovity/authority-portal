@@ -33,7 +33,11 @@ export interface AppConfig {
   theme: UiColorTheme;
   brandFaviconSrc: string;
   brandLogoSrc: string;
+  brandLogoSmallSrc: string;
   brandLogoStyle: string;
+  brandLogoSmallStyle: string;
+  copyrightCompanyName: string;
+
   privacyPolicyUrl: string;
   legalNoticeUrl: string;
   supportUrl: string;

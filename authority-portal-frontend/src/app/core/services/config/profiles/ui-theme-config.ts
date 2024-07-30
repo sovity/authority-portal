@@ -17,5 +17,11 @@ import {AppConfig} from '../app-config';
  */
 export type UiThemeConfig = Pick<
   AppConfig,
-  'theme' | 'brandLogoStyle' | 'brandLogoSrc' | 'brandFaviconSrc'
+  | 'theme'
+  | 'brandLogoStyle'
+  | 'brandLogoSmallStyle'
+  | 'brandLogoSrc'
+  | 'brandLogoSmallSrc'
+  | 'brandFaviconSrc'
+  | 'copyrightCompanyName'
 >;

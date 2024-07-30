@@ -14,14 +14,20 @@ import {UiThemeConfig} from './ui-theme-config';
 
 export const SOVITY_THEME: UiThemeConfig = {
   theme: 'theme-sovity',
-  brandFaviconSrc: 'logo_light.svg',
-  brandLogoSrc: 'assets/images/mds_logo_yellow.svg',
-  brandLogoStyle: '',
+  brandFaviconSrc: 'assets/images/sovity_logo_light_no_text.svg',
+  brandLogoSrc: 'assets/images/sovity_logo_light.svg',
+  brandLogoSmallSrc: '/assets/images/sovity_logo_light_no_text.svg',
+  brandLogoStyle: 'scale-125',
+  brandLogoSmallStyle: 'scale-[0.7]',
+  copyrightCompanyName: 'sovity GmbH',
 };
 
 export const MDS_THEME: UiThemeConfig = {
   theme: 'theme-mds',
   brandFaviconSrc: 'assets/images/logo_light.svg',
   brandLogoSrc: 'assets/images/mds_logo_yellow.svg',
-  brandLogoStyle: '',
+  brandLogoSmallSrc: '/assets/images/mds_logo_no_text.svg',
+  brandLogoStyle: 'scale-100',
+  brandLogoSmallStyle: 'scale-[0.7]',
+  copyrightCompanyName: 'DRM Datenraum Mobilität GmbH',
 };

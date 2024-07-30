@@ -24,6 +24,7 @@ import {GlobalStateImpl} from './core/global-state/global-state-impl';
 })
 export class AppComponent implements OnInit, OnDestroy {
   state!: GlobalState;
+  favicon: HTMLLinkElement | null = document.querySelector("link[rel*='icon']");
 
   private ngOnDestroy$ = new Subject();
 
@@ -35,6 +36,16 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.startListeningToGlobalState();
     this.startPollingUserInfo();
+    this.setFavicon();
+  }
+
+  private setFavicon() {
+    if (!this.favicon) {
+      this.favicon = document.createElement('link');
+      this.favicon.rel = 'icon';
+      document.head.appendChild(this.favicon);
+    }
+    this.favicon.href = this.config.brandFaviconSrc;
   }
 
   private startListeningToGlobalState() {
