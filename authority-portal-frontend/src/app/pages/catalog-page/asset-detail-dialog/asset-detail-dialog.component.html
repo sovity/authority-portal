@@ -52,7 +52,8 @@
       </div>
       <div class="text-sm">
         Click <span class="!font-medium">Contact</span> to email the data offer
-        provider.
+        provider. Alternatively, you can also copy the contact email address
+        from the Contact Information<br />section above.
       </div>
     </div>
   </div>
@@ -64,12 +65,12 @@
       <button class="btn-accent-outline" type="button" mat-dialog-close>
         Close
       </button>
-      <a
+      <button
         *ngIf="isOnRequestDataOffer"
         class="btn-accent"
-        [href]="this.onRequestContactLink"
-        >Contact</a
-      >
+        (click)="onContactClick()">
+        Contact
+      </button>
     </div>
   </mat-dialog-actions>
   <!-- Action Section -->

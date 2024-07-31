@@ -196,7 +196,7 @@ quarkus.oidc-client.sovity.client-id: "[CAAS_CLIENT_ID]"
 # CaaS Portal: OAuth2 Client Secret
 quarkus.oidc-client.sovity.credentials.secret: "[CAAS_CLIENT_SECRET]"
 # Amount of free sovity CaaS per participant
-authority-portal.caas.sovity.limit-per-mdsid: "1"
+authority-portal.caas.sovity.limit-per-organization: "1"
 
 # Must equal the root URL/home URl from the Keycloak configuration - see above)
 authority-portal.base-url: "https://[AP_FQDN]"
@@ -255,6 +255,14 @@ authority-portal.deployment.environments.test.daps.kuma-name: "[DAPS_KUMA_NAME]"
 authority-portal.deployment.environments.test.logging-house.url: "https://[LOGGING_HOUSE_FQDN]"
 # Env: Logging House Kuma name
 authority-portal.deployment.environments.test.logging-house.kuma-name: "[LOGGING_HOUSE_KUMA_NAME]"
+```
+
+Optional configuration variables
+```yaml
+# Organization ID configuration (example: prefix: BPN & length: 10 would generate Ids in the format BPNL000000000011)
+# The 'L' stands for 'Legal' and is added automatically after the prefix - the last 2 characters are the checksum
+authority-portal.organization.id.prefix: "BPN"
+authority-portal.organization.id.length: "10"
 ```
 
 #### Adjusting the log level at runtime

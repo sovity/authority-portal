@@ -43,6 +43,9 @@ export class AssetDetailDialogDataService {
               dataOffer.contractOffers.length,
             ),
           )),
+      ...this.assetPropertyGridGroupBuilder.buildOnRequestContactInformation(
+        dataOffer,
+      ),
     ].filter((it) => it.properties.length);
 
     return {

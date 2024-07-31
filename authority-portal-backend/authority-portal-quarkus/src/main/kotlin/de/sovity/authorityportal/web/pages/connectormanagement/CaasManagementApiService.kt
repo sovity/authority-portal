@@ -43,7 +43,7 @@ class CaasManagementApiService(
     val clientIdUtils: ClientIdUtils,
     val userService: UserService,
     val timeUtils: TimeUtils,
-    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid") val caasLimitPerOrganizationId: String
+    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-organization") val caasLimitPerOrganizationId: String
 ) {
 
     fun createCaas(
