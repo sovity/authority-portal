@@ -16,4 +16,5 @@ export const MDS_FEATURES: UiFeature[] = [
   'mds-id',
   'catalogue',
   'iframe-in-home',
+  'enable-home',
 ];

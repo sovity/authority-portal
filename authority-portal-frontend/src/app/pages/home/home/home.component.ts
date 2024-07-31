@@ -16,9 +16,9 @@ import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
   selector: 'app-mds-home',
-  templateUrl: './mds-home.component.html',
+  templateUrl: './home.component.html',
 })
-export class MdsHomePageComponent {
+export class HomePageComponent {
   @HostBinding('class.flex-1')
   @HostBinding('class.flex')
   @HostBinding('class.items-stretch')

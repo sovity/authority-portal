@@ -68,8 +68,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isExpandedMenu = window.innerWidth > 768; // Set the breakpoint as per your design
   }
 
-  openNewTab() {
-    window.open('home', '_self');
+  navigateHome() {
+    const defaultRoute = this.activeFeatureSet.isHomePageEnabled()
+      ? 'home'
+      : 'catalog';
+    window.open(defaultRoute, '_self');
   }
 
   setSideBarSections(organizationName: string): void {
@@ -82,11 +85,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             title: 'Home',
             icon: 'home',
             rLink: '/home',
-          },
-          {
-            title: 'Dashboard',
-            icon: 'dashboard',
-            rLink: '/dashboard',
+            isDisabled: !this.activeFeatureSet.isHomePageEnabled(),
           },
           {
             title: this.activeFeatureSet.usesBritishCatalogue()
@@ -94,6 +93,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
               : 'Data Catalog',
             icon: 'tag',
             rLink: '/catalog',
+          },
+          {
+            title: 'Dashboard',
+            icon: 'dashboard',
+            rLink: '/dashboard',
           },
         ],
       },

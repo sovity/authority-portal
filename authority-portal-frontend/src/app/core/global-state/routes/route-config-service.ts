@@ -16,12 +16,16 @@ import {UserInfo} from '@sovity.de/authority-portal-client';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {
   AUTHORITY_PORTAL_ROUTES,
+  CATALOG_REDIRECTS,
+  FEATURE_HOME_ROUTE,
+  HOME_REDIRECTS,
   LOADING_ROUTES,
   ONBOARDING_ROUTES,
   PENDING_ROUTES,
   REJECTED_ROUTES,
   UNAUTHENTICATED_ROUTES,
 } from '../../../app-routing.module';
+import {ActiveFeatureSet} from '../../services/config/active-feature-set';
 import {AuthorityPortalPageSet} from './authority-portal-page-set';
 
 @Injectable({providedIn: 'root'})
@@ -35,7 +39,14 @@ export class RouteConfigService {
     AUTHORITY_PORTAL: AUTHORITY_PORTAL_ROUTES,
   };
 
-  constructor(private router: Router) {}
+  defaultRoute = this.activeFeatureSet.isHomePageEnabled()
+    ? '/home'
+    : '/catalog';
+
+  constructor(
+    private router: Router,
+    private activeFeatureSet: ActiveFeatureSet,
+  ) {}
 
   decidePageSet(userInfoFetched: Fetched<UserInfo>): AuthorityPortalPageSet {
     if (!userInfoFetched.isReady) {
@@ -69,7 +80,18 @@ export class RouteConfigService {
     }
 
     // Change routes
-    this.router.resetConfig(this.mapping[nextPageSet]);
+    const routes = this.mapping[nextPageSet];
+
+    if (nextPageSet === 'AUTHORITY_PORTAL') {
+      const apRouteChildren = routes.find((r) => r.path === '')?.children;
+      if (this.activeFeatureSet.isHomePageEnabled()) {
+        apRouteChildren?.push(...HOME_REDIRECTS, ...FEATURE_HOME_ROUTE);
+      } else {
+        apRouteChildren?.push(...CATALOG_REDIRECTS);
+      }
+    }
+
+    this.router.resetConfig(routes);
 
     if (
       previousPageSet === 'ONBOARDING_PROCESS' &&
@@ -79,7 +101,7 @@ export class RouteConfigService {
         .navigateByUrl('/random-redirect-for-force-refresh', {
           skipLocationChange: true,
         })
-        .then(() => this.router.navigate(['/mds-home']));
+        .then(() => this.router.navigate([this.defaultRoute]));
     } else {
       // Force refresh
       this.forceRefreshCurrentRoute();

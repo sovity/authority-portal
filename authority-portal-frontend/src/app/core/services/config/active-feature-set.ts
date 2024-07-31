@@ -26,6 +26,10 @@ export class ActiveFeatureSet {
     return this.has('catalogue');
   }
 
+  isHomePageEnabled(): boolean {
+    return this.has('enable-home');
+  }
+
   has(feature: UiFeature): boolean {
     return this.config.features.has(feature);
   }

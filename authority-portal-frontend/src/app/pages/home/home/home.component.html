@@ -1,0 +1,18 @@
+<ng-container *ngIf="appConfig.features.has('iframe-in-home')">
+  <app-loading-element
+    *ngIf="!loaded"
+    class="w-screen h-screen absolute top-0 left-0"></app-loading-element>
+
+  <iframe
+    *ngIf="iframeUrl"
+    class="flex-1"
+    title=""
+    allowfullscreen
+    [src]="iframeUrl"
+    (load)="loaded = true"></iframe>
+</ng-container>
+
+<!-- Here we can design a default home-page if we're not using the iFrame Feature -->
+<div *ngIf="!this.appConfig.features.has('iframe-in-home')">
+  <h1>Placeholder</h1>
+</div>
