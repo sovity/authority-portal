@@ -73,6 +73,8 @@ export const LOADING_ROUTES: Routes = [
   },
 ];
 
+export const MDS_ROUTES: Routes = [];
+
 const REDIRECT_TO_HOME: string[] = [
   '',
   'registration/pending',
@@ -82,7 +84,7 @@ const REDIRECT_TO_HOME: string[] = [
 
 const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   path,
-  redirectTo: 'mds-home',
+  redirectTo: 'home',
   pathMatch: 'full',
 }));
 
@@ -127,7 +129,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     children: [
       ...HOME_REDIRECTS,
       {
-        path: 'mds-home',
+        path: 'home',
         component: MdsHomePageComponent,
         data: {
           requiresRole: ['USER'] satisfies UserRoleDto[],

@@ -69,7 +69,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   openNewTab() {
-    window.open('mds-home', '_self');
+    window.open('home', '_self');
   }
 
   setSideBarSections(organizationName: string): void {
@@ -81,7 +81,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           {
             title: 'Home',
             icon: 'home',
-            rLink: 'mds-home',
+            rLink: '/home',
           },
           {
             title: 'Dashboard',
