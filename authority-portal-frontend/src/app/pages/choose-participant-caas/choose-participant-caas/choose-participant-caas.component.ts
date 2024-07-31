@@ -10,25 +10,28 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject, switchMap, takeUntil} from 'rxjs';
 import {CaasAvailabilityResponse} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SelectionBoxModel} from 'src/app/shared/common/selection-box/selection-box.model';
+import {APP_CONFIG, AppConfig} from '../../../core/services/config/app-config';
 
 @Component({
   selector: 'app-choose-participant-caas',
   templateUrl: './choose-participant-caas.component.html',
 })
 export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
+  sponsoredCaasAmount: number = 1;
+
   selectionBox: SelectionBoxModel = {
     title: 'Start Sponsored CaaS',
     subTitle: 'Managed EDC Connector to begin your journey in Data Spaces',
-    icon: 'caas_logo.svg',
+    icon: this.config.caasResellerBrandLogoSrc,
     bulletPoints: [
-      '1st CaaS free for MDS participants',
-      'Easiest access to Mobility Data Space',
+      `CaaS sponsored by ${this.config.brandShortName} for their participants`,
+      'Easiest access to our dataspace',
       'Easiest access via web browser',
       'Hosted & maintained solution',
       '2 actively consumed data contracts included',
@@ -44,6 +47,7 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
   private ngOnDestroy$ = new Subject();
 
   constructor(
+    @Inject(APP_CONFIG) public config: AppConfig,
     private apiService: ApiService,
     private globalStateUtils: GlobalStateUtils,
   ) {}
@@ -77,6 +81,7 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
           return;
         }
 
+        this.sponsoredCaasAmount = x.limit;
         const isLimitReached = x.current >= x.limit;
 
         this.selectionBox.action = {

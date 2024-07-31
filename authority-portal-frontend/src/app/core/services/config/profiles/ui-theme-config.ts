@@ -23,5 +23,11 @@ export type UiThemeConfig = Pick<
   | 'brandLogoSrc'
   | 'brandLogoSmallSrc'
   | 'brandFaviconSrc'
+  | 'connectorSelfOwnedIconSrc'
+  | 'connectorSelfOwnedIconStyle'
+  | 'connectorCaasIconSrc'
+  | 'connectorCaasIconStyle'
+  | 'caasResellerBrandLogoSrc'
+  | 'caasResellerBrandLogoStyle'
   | 'copyrightCompanyName'
 >;

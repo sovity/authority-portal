@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Fixed the close button on the self-hosted/CaaS connector choice page
+
 ### Known issues
 
 ### Deployment Migration Notes

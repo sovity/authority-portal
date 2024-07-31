@@ -38,6 +38,14 @@ export interface AppConfig {
   brandLogoSmallStyle: string;
   copyrightCompanyName: string;
 
+  // connector registration icons
+  connectorSelfOwnedIconSrc: string;
+  connectorSelfOwnedIconStyle: string;
+  connectorCaasIconSrc: string;
+  connectorCaasIconStyle: string;
+  caasResellerBrandLogoSrc: string;
+  caasResellerBrandLogoStyle: string;
+
   privacyPolicyUrl: string;
   legalNoticeUrl: string;
   supportUrl: string;
@@ -49,6 +57,7 @@ export interface AppConfig {
   invalidateSessionCookiesUrl: string;
   useFakeBackend: boolean;
   useLocalBackend: boolean;
+  brandShortName: string;
 }
 
 /**
@@ -68,6 +77,7 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: string;
   AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: string;
   AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: string;
+  AUTHORITY_PORTAL_FRONTEND_BRAND_SHORT_NAME: string;
 }
 
 /**
@@ -97,5 +107,6 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
     privacyPolicyUrl: envVars.AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL,
     legalNoticeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL,
     supportUrl: envVars.AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL,
+    brandShortName: envVars.AUTHORITY_PORTAL_FRONTEND_BRAND_SHORT_NAME,
   };
 }

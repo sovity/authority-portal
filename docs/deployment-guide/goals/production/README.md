@@ -3,8 +3,7 @@ Deploying the Authority Portal in Production
 
 ## About this Guide
 
-This is a productive deployment guide for deploying the Authority Portal from scratch as either the MDS integrator or
-operator company.
+This is a productive deployment guide for deploying the Authority Portal from scratch.
 
 ## Prerequisites
 
