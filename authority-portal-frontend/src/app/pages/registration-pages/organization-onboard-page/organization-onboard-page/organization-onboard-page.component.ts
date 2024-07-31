@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
 import {Subject, take, takeUntil} from 'rxjs';
@@ -24,6 +24,10 @@ import {
   mergeFormGroups,
   switchDisabledControls,
 } from 'src/app/core/utils/form-utils';
+import {
+  APP_CONFIG,
+  AppConfig,
+} from '../../../../core/services/config/app-config';
 import {buildOrganizationCreateForm} from '../../../../shared/business/organization-create-form/organization-create-form-builder';
 import {organizationCreateFormEnabledCtrls} from '../../../../shared/business/organization-create-form/organization-create-form-enabled-ctrls';
 import {OrganizationCreateFormModel} from '../../../../shared/business/organization-create-form/organization-create-form-model';
@@ -79,7 +83,11 @@ export class OrganizationOnboardPageComponent implements OnInit {
     return this.orgForm as unknown as FormGroup<OrganizationCreateFormModel>;
   }
 
-  constructor(private store: Store, private formBuilder: FormBuilder) {}
+  constructor(
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
+    private store: Store,
+    private formBuilder: FormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(Reset);

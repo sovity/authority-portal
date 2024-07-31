@@ -14,6 +14,7 @@ import {InjectionToken} from '@angular/core';
 import {getProfileOrFallback} from './profiles/get-profile-or-fallback';
 import {UiColorTheme} from './profiles/ui-color-theme';
 import {UiFeature} from './profiles/ui-feature';
+import {UiLogo} from './profiles/ui-logo';
 import {UiProfile} from './profiles/ui-profile';
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
@@ -32,19 +33,16 @@ export interface AppConfig {
   // theme by profile
   theme: UiColorTheme;
   brandFaviconSrc: string;
-  brandLogoSrc: string;
-  brandLogoSmallSrc: string;
-  brandLogoStyle: string;
-  brandLogoSmallStyle: string;
+  brandLogo: UiLogo;
+  brandLogoSmall: UiLogo;
+  brandLogoUnauthenticatedPage: UiLogo;
+  brandLogoOnboardingPage: UiLogo;
   copyrightCompanyName: string;
 
   // connector registration icons
   connectorSelfOwnedIconSrc: string;
-  connectorSelfOwnedIconStyle: string;
   connectorCaasIconSrc: string;
-  connectorCaasIconStyle: string;
   caasResellerBrandLogoSrc: string;
-  caasResellerBrandLogoStyle: string;
 
   privacyPolicyUrl: string;
   legalNoticeUrl: string;
@@ -57,7 +55,7 @@ export interface AppConfig {
   invalidateSessionCookiesUrl: string;
   useFakeBackend: boolean;
   useLocalBackend: boolean;
-  brandShortName: string;
+  brandDataspaceName: string;
 }
 
 /**
@@ -77,7 +75,7 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: string;
   AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: string;
   AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: string;
-  AUTHORITY_PORTAL_FRONTEND_BRAND_SHORT_NAME: string;
+  AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: string;
 }
 
 /**
@@ -107,6 +105,6 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
     privacyPolicyUrl: envVars.AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL,
     legalNoticeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL,
     supportUrl: envVars.AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL,
-    brandShortName: envVars.AUTHORITY_PORTAL_FRONTEND_BRAND_SHORT_NAME,
+    brandDataspaceName: envVars.AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME,
   };
 }

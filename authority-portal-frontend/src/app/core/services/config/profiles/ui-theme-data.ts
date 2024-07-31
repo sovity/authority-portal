@@ -15,32 +15,44 @@ import {UiThemeConfig} from './ui-theme-config';
 export const SOVITY_THEME: UiThemeConfig = {
   theme: 'theme-sovity',
   brandFaviconSrc: 'assets/images/sovity_logo_light_no_text.svg',
-  brandLogoSrc: 'assets/images/sovity_logo_light.svg',
-  brandLogoSmallSrc: '/assets/images/sovity_logo_light_no_text.svg',
-  brandLogoStyle: 'scale-125',
-  brandLogoSmallStyle: 'scale-[0.7]',
+  brandLogo: {src: 'assets/images/sovity_logo_light.svg', style: 'scale-125'},
+  brandLogoSmall: {
+    src: '/assets/images/sovity_logo_light_no_text.svg',
+    style: 'scale-[0.7]',
+  },
+  brandLogoUnauthenticatedPage: {
+    src: 'assets/images/sovity_logo.svg',
+    style: 'w-1/5 h-1/5',
+  },
+  brandLogoOnboardingPage: {
+    src: 'assets/images/sovity_logo.svg',
+    style: 'w-[10%] h-[10%]',
+  },
   connectorSelfOwnedIconSrc:
     'assets/images/sovity_self-hosted-connector_logo.svg',
-  connectorSelfOwnedIconStyle: '',
   connectorCaasIconSrc: 'assets/images/sovity_request-caas_logo.svg',
-  connectorCaasIconStyle: '',
   caasResellerBrandLogoSrc: 'assets/images/sovity_caas_logo.svg',
-  caasResellerBrandLogoStyle: '',
   copyrightCompanyName: 'sovity GmbH',
 };
 
 export const MDS_THEME: UiThemeConfig = {
   theme: 'theme-mds',
   brandFaviconSrc: 'assets/images/logo_light.svg',
-  brandLogoSrc: 'assets/images/mds_logo_yellow.svg',
-  brandLogoSmallSrc: '/assets/images/mds_logo_no_text.svg',
-  brandLogoStyle: 'scale-100',
-  brandLogoSmallStyle: 'scale-[0.7]',
+  brandLogo: {src: 'assets/images/mds_logo_yellow.svg', style: 'scale-100'},
+  brandLogoSmall: {
+    src: '/assets/images/mds_logo_no_text.svg',
+    style: 'scale-[0.7]',
+  },
+  brandLogoUnauthenticatedPage: {
+    src: 'assets/images/mds_logo_black.svg',
+    style: 'scale-150 mb-14',
+  },
+  brandLogoOnboardingPage: {
+    src: '/assets/images/mds_logo_black.svg',
+    style: '',
+  },
   connectorSelfOwnedIconSrc: 'assets/images/mds_self-hosted-connector_logo.svg',
-  connectorSelfOwnedIconStyle: '',
   connectorCaasIconSrc: 'assets/images/mds_request-caas_logo.svg',
-  connectorCaasIconStyle: '',
   caasResellerBrandLogoSrc: 'assets/images/mds_caas_logo.svg',
-  caasResellerBrandLogoStyle: '',
   copyrightCompanyName: 'DRM Datenraum Mobilität GmbH',
 };

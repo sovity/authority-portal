@@ -18,16 +18,13 @@ import {AppConfig} from '../app-config';
 export type UiThemeConfig = Pick<
   AppConfig,
   | 'theme'
-  | 'brandLogoStyle'
-  | 'brandLogoSmallStyle'
-  | 'brandLogoSrc'
-  | 'brandLogoSmallSrc'
+  | 'brandLogo'
+  | 'brandLogoSmall'
   | 'brandFaviconSrc'
   | 'connectorSelfOwnedIconSrc'
-  | 'connectorSelfOwnedIconStyle'
   | 'connectorCaasIconSrc'
-  | 'connectorCaasIconStyle'
   | 'caasResellerBrandLogoSrc'
-  | 'caasResellerBrandLogoStyle'
   | 'copyrightCompanyName'
+  | 'brandLogoUnauthenticatedPage'
+  | 'brandLogoOnboardingPage'
 >;

@@ -30,7 +30,7 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
     subTitle: 'Managed EDC Connector to begin your journey in Data Spaces',
     icon: this.config.caasResellerBrandLogoSrc,
     bulletPoints: [
-      `CaaS sponsored by ${this.config.brandShortName} for their participants`,
+      `CaaS sponsored by ${this.config.brandDataspaceName} for their participants`,
       'Easiest access to our dataspace',
       'Easiest access via web browser',
       'Hosted & maintained solution',
@@ -59,6 +59,11 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
+  }
+
+  inferArticle(dataspaceName: string) {
+    const first = dataspaceName.charAt(0);
+    return ['a', 'e', 'i', 'o', 'u'].includes(first) ? 'an' : 'a';
   }
 
   fetchCaasLimits() {
