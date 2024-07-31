@@ -17,6 +17,7 @@ import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SelectionBoxModel} from 'src/app/shared/common/selection-box/selection-box.model';
 import {APP_CONFIG, AppConfig} from '../../../core/services/config/app-config';
+import {inferArticle} from '../../../core/utils/string-utils';
 
 @Component({
   selector: 'app-choose-participant-caas',
@@ -61,11 +62,6 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
     this.ngOnDestroy$.complete();
   }
 
-  inferArticle(dataspaceName: string) {
-    const first = dataspaceName.charAt(0);
-    return ['a', 'e', 'i', 'o', 'u'].includes(first) ? 'an' : 'a';
-  }
-
   fetchCaasLimits() {
     this.globalStateUtils
       .getDeploymentEnvironmentId()
@@ -99,4 +95,6 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
         };
       });
   }
+
+  protected readonly inferArticle = inferArticle;
 }

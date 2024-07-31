@@ -18,6 +18,7 @@ import {CaasAvailabilityResponse} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {inferArticle} from '../../../../core/utils/string-utils';
 import {Reset, Submit} from '../state/request-connector-page-actions';
 import {
   DEFAULT_REQUEST_CONNECTOR_STATE,
@@ -102,4 +103,6 @@ export class RequestConnectorPageComponent implements OnInit {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }
+
+  protected readonly inferArticle = inferArticle;
 }
