@@ -25,6 +25,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 Read the deployment migration notes carefully if you want to retain the portal's current behavior.
 If you configure the optional variables incorrectly, you might end up with an inconsistent configuration.
 
+#### Backend
 Environment variable changes:
 - Renamed variables:
   - `authority-portal.caas.sovity.limit-per-mdsid` to `authority-portal.caas.sovity.limit-per-organization`
@@ -34,6 +35,16 @@ Environment variable changes:
     # The 'L' stands for 'Legal' and is added automatically after the prefix - the last 2 characters are the checksum
     authority-portal.organization.id.prefix: "MDS"
     authority-portal.organization.id.length: "4"
+    ```
+    
+#### Frontend
+Environment variable changes:
+- New optional configuration variables - the values assigned here are the ones you should use to retain the current behavior:
+  - ```yaml
+    # UI Branding profile
+    AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: mds-open-source
+    # Short Dataspace name, used in some explanatory texts
+    AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS
     ```
 
 #### Compatible Versions
