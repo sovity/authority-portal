@@ -4,10 +4,12 @@
     <logout-button></logout-button>
   </div>
   <img
-    class="scale-150 mb-14"
-    src="/assets/images/mds_logo_black.svg"
-    alt="logo" />
-  <div class="max-w-2xl mx-auto text-center">
+    alt="logo"
+    [attr.src]="config.brandLogoUnauthenticatedPage.src"
+    [class]="config.brandLogoUnauthenticatedPage.style" />
+  <div
+    *ngIf="activeFeatureSet.usesMdsId()"
+    class="max-w-2xl mx-auto text-center">
     <h1 class="full-screen-end-title">
       Thank you for signing up to be a part of the Mobility Data Space Portal!
     </h1>
@@ -29,6 +31,18 @@
         >MDS Main Page</a
       >
     </div>
+  </div>
+  <div
+    *ngIf="!activeFeatureSet.usesMdsId()"
+    class="max-w-2xl mx-auto text-center">
+    <h1 class="full-screen-end-title">Thank you for signing up!</h1>
+    <p class="full-screen-end-prose">
+      Our team has thoroughly reviewed your profile, but
+      <b>unfortunately, we are currently unable to grant you access</b> to the
+      Portal. Please note that access to the Portal is exclusive to
+      {{ config.brandDataspaceName }}
+      members.
+    </p>
   </div>
 </div>
 <!-- footer -->
