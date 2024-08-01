@@ -14,15 +14,15 @@ import {UiThemeConfig} from './ui-theme-config';
 
 export const SOVITY_THEME: UiThemeConfig = {
   theme: 'theme-sovity',
-  brandFaviconSrc: 'assets/images/sovity_logo_light_no_text.svg',
-  brandLogo: {src: 'assets/images/sovity_logo_light.svg', style: 'scale-125'},
+  brandFaviconSrc: 'assets/images/sovity_caas_logo.svg',
+  brandLogo: {src: 'assets/images/sovity_logo_light.svg', style: 'scale-[1.1]'},
   brandLogoSmall: {
     src: '/assets/images/sovity_logo_light_no_text.svg',
-    style: 'scale-[0.7]',
+    style: 'scale-[0.6]',
   },
   brandLogoUnauthenticatedPage: {
     src: 'assets/images/sovity_logo.svg',
-    style: 'w-1/5 h-1/5',
+    style: 'w-[15%] h-[15%]',
   },
   brandLogoOnboardingPage: {
     src: 'assets/images/sovity_logo.svg',
