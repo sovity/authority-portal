@@ -56,6 +56,7 @@ class CaasManagementApiService(
         val curatorUser = userService.getUserOrThrow(userId)
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(organizationId)
         val clientId = clientIdUtils.generateFromConnectorId(connectorId)
+        val providerOrgId = organizationService.getOrganizationIdByName("sovity GmbH")
 
         val apDeploymentDto = buildAuthorityPortalDeploymentDto(
             curatorOrganization = curatorOrganization,
@@ -81,7 +82,8 @@ class CaasManagementApiService(
             name = caasRequest.connectorTitle,
             createdBy = userId,
             status = CaasStatus.PROVISIONING,
-            environmentId = environmentId
+            environmentId = environmentId,
+            providerOrganizationId = providerOrgId
         )
 
         return CreateConnectorResponse.ok(connectorId, timeUtils.now())

@@ -214,12 +214,14 @@ class ConnectorService(
         name: String,
         createdBy: String,
         status: CaasStatus,
-        environmentId: String
+        environmentId: String,
+        providerOrganizationId: String? = null
     ) {
         dsl.newRecord(Tables.CONNECTOR).also {
             it.connectorId = connectorId
             it.clientId = clientId
             it.organizationId = organizationId
+            it.providerOrganizationId = providerOrganizationId
             it.name = name.trim()
             it.createdBy = createdBy
             it.createdAt = timeUtils.now()
