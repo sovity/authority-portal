@@ -14,6 +14,7 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
 import {distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {kebabCaseToSentenceCase} from 'src/app/core/utils/string-utils';
 import {BreadcrumbItem} from './breadcrumb.model';
 
@@ -33,11 +34,23 @@ export class BreadcrumbService {
 
   breadcrumb$ = new BehaviorSubject<BreadcrumbItem[]>([]);
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private activeFeatureSet: ActiveFeatureSet,
+  ) {
     combineLatest([this.url$(), this.replacementsChange$]).subscribe(
       ([url, _]) => {
         const breadcrumb = this.buildBreadcrumb(url);
-        document.title = breadcrumb[breadcrumb.length - 1].label || 'Portal';
+        console.log(
+          'this.activeFeatureSet.usesMdsId()',
+          this.activeFeatureSet.usesMdsId(),
+        );
+        // document.title = breadcrumb[breadcrumb.length - 1].label || 'Portal';
+        document.title = `${
+          this.activeFeatureSet.usesMdsId()
+            ? 'MDS '
+            : breadcrumb[breadcrumb.length - 1].label || 'Portal'
+        }`;
         this.breadcrumb$.next(breadcrumb);
       },
     );
