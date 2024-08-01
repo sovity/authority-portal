@@ -41,11 +41,6 @@ export class BreadcrumbService {
     combineLatest([this.url$(), this.replacementsChange$]).subscribe(
       ([url, _]) => {
         const breadcrumb = this.buildBreadcrumb(url);
-        console.log(
-          'this.activeFeatureSet.usesMdsId()',
-          this.activeFeatureSet.usesMdsId(),
-        );
-        // document.title = breadcrumb[breadcrumb.length - 1].label || 'Portal';
         document.title = `${
           this.activeFeatureSet.usesMdsId()
             ? 'MDS '
