@@ -33,13 +33,15 @@ class CaasProviderIdUpdateService(
             .fetch()
             .toSet()
 
-        if (connectors.isNotEmpty()) {
-            val orgId = organizationService.getOrganizationIdByName("sovity GmbH")
-
-            connectors.forEach {
-                it.providerOrganizationId = orgId
-            }
-            dsl.batchUpdate(connectors).execute()
+        if (connectors.isEmpty()) {
+            return
         }
+
+        val orgId = organizationService.getOrganizationIdByName("sovity GmbH")
+
+        connectors.forEach {
+            it.providerOrganizationId = orgId
+        }
+        dsl.batchUpdate(connectors).execute()
     }
 }
