@@ -30,5 +30,5 @@ data class ProvidedConnectorOverviewEntryDto(
     @field:Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
     val status: ConnectorStatusDto,
     @field:Schema(description = "Frontend link", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    val frontendUrl: String,
+    val frontendUrl: String?,
 )
