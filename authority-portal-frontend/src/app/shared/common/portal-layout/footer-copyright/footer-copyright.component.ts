@@ -10,7 +10,11 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding} from '@angular/core';
+import {Component, HostBinding, Inject} from '@angular/core';
+import {
+  APP_CONFIG,
+  AppConfig,
+} from '../../../../core/services/config/app-config';
 
 @Component({
   selector: 'app-footer-copyright',
@@ -20,6 +24,7 @@ export class FooterCopyrightComponent {
   @HostBinding('class.flex')
   @HostBinding('class.items-center')
   cls = true;
-
   thisYear: number = new Date().getFullYear();
+
+  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
 }

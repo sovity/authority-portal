@@ -18,6 +18,7 @@ import {CaasAvailabilityResponse} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {inferArticle} from '../../../../core/utils/string-utils';
 import {Reset, Submit} from '../state/request-connector-page-actions';
 import {
   DEFAULT_REQUEST_CONNECTOR_STATE,
@@ -38,10 +39,12 @@ export class RequestConnectorPageComponent implements OnInit {
   createActionName = 'Request CaaS';
   backLink = '/my-organization/connectors/new/choose-provider';
 
+  sponsoredCaasAmount = 1;
+
   private ngOnDestroy$ = new Subject();
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     public form: RequestConnectorPageForm,
     private store: Store,
     private apiService: ApiService,
@@ -79,6 +82,7 @@ export class RequestConnectorPageComponent implements OnInit {
         takeUntil(this.ngOnDestroy$),
       )
       .subscribe((x) => {
+        this.sponsoredCaasAmount = x.limit ?? 1;
         if ((x.current ?? 0) >= (x.limit ?? -1)) {
           this.router.navigate([
             '/my-organization',
@@ -102,4 +106,6 @@ export class RequestConnectorPageComponent implements OnInit {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }
+
+  protected readonly inferArticle = inferArticle;
 }

@@ -55,7 +55,7 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   private ngOnDestroy$ = new Subject();
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private store: Store,
     public form: ProvideConnectorPageForm,
     private globalStateUtils: GlobalStateUtils,

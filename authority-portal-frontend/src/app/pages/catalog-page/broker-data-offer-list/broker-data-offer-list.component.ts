@@ -12,8 +12,6 @@
  */
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CatalogDataOffer} from '@sovity.de/authority-portal-client';
-import {getOrganizationRegistrationStatusClasses} from '../../../core/utils/ui-utils';
-import {DEFAULT_AUTHORITY_ORGANIZATION_LIST_PAGE_STATE} from '../../authority-organization-list-page/authority-organization-list-page/state/authority-organization-list-page-state';
 
 @Component({
   selector: 'broker-data-offer-list',

@@ -43,7 +43,7 @@ import {
 @Injectable()
 export class OrganizationOnboardPageStateImpl {
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private apiService: ApiService,
     private errorService: ErrorService,
     private actions$: Actions,

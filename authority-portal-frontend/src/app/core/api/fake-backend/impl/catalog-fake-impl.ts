@@ -16,7 +16,6 @@ import {
   CatalogPageResult,
   DataOfferDetailPageQuery,
   DataOfferDetailPageResult,
-  DataSourceAvailability,
 } from '@sovity.de/authority-portal-client';
 import {subDays, subMinutes} from 'date-fns';
 import {TestAssets} from './data/test-assets';

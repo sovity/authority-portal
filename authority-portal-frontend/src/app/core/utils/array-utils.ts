@@ -32,4 +32,3 @@ export function removeOnce<T>(list: T[], item: T): T[] {
 export function filterNonNull<T>(array: (T | null | undefined)[]): T[] {
   return array.filter((it) => it != null) as T[];
 }
-

@@ -12,15 +12,17 @@
   </div>
   <div
     class="flex flex-col justify-center items-center flex-auto w-full text-center px-4 lg:px-0">
-    <h2 class="selection-page-title mb-2 max-w-xl mx-auto">
+    <h2 class="selection-page-title max-w-xl mx-auto">
       Request a Connector-as-a-Service
     </h2>
     <p class="selection-page-prose">
-      As an MDS member, you have the option to request 1 free CaaS per
-      environment.
+      As {{ inferArticle(this.appConfig.brandDataspaceName) }}
+      {{ this.appConfig.brandDataspaceName }} member, you have the option to
+      request {{ this.sponsoredCaasAmount }} free CaaS per environment.
     </p>
     <div class="flex gap-4 flex-row mt-8 justify-evenly w-full">
-      <app-selection-box [config]="selectionBox"></app-selection-box>
+      <app-selection-box
+        [selectionBoxConfig]="selectionBox"></app-selection-box>
     </div>
   </div>
   <!-- footer -->

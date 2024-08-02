@@ -15,8 +15,10 @@ import {Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {UserInfo} from '@sovity.de/authority-portal-client';
-import {TEST_USERS} from 'src/app/core/api/fake-backend/impl/fake-users';
-import {updateLoggedInUser} from 'src/app/core/api/fake-backend/impl/fake-users';
+import {
+  TEST_USERS,
+  updateLoggedInUser,
+} from 'src/app/core/api/fake-backend/impl/fake-users';
 import {RefreshUserInfo} from 'src/app/core/global-state/global-state-actions';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 

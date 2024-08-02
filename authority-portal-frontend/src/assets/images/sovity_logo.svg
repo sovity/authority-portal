@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 26.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 400 110" style="enable-background:new 0 0 400 110;" xml:space="preserve">
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+     viewBox="0 0 400 110" style="enable-background:new 0 0 400 110;" xml:space="preserve">
 <style type="text/css">
 	.st0{display:none;}
 	.st1{display:inline;}
@@ -83,7 +83,7 @@
 		</g>
 	</g>
 	<g class="st1">
-		<polygon class="st4" points="399.5,25.8 382.5,63.7 380.5,68.3 371,89.4 365.1,102.7 357.8,102.7 361.4,94.4 364.1,88.2 
+		<polygon class="st4" points="399.5,25.8 382.5,63.7 380.5,68.3 371,89.4 365.1,102.7 357.8,102.7 361.4,94.4 364.1,88.2
 			364.1,88.2 365.7,84.5 365.7,84.5 369.7,75.5 372.8,68.4 372.9,68.2 374.9,63.7 391.7,25.8 		"/>
 	</g>
 	<g class="st1">
@@ -131,7 +131,7 @@
 		</g>
 	</g>
 </g>
-<polygon class="st4" points="400,24.9 382.6,63.9 380.5,68.6 370.8,90.4 363.2,107.3 355.7,107.3 360.9,95.5 363.6,89.2 363.7,89.2 
+<polygon class="st4" points="400,24.9 382.6,63.9 380.5,68.6 370.8,90.4 363.2,107.3 355.7,107.3 360.9,95.5 363.6,89.2 363.7,89.2
 	365.3,85.4 365.3,85.3 369.4,76.1 372.6,68.8 372.7,68.6 374.7,63.9 392,24.9 "/>
 <g>
 	<path class="st2" d="M256.6,76.2l-2.2-5.1L234.1,25h-8.5l24.6,55.5l2.1,4.6h4.2l2.1-4.6L256.6,76.2z"/>

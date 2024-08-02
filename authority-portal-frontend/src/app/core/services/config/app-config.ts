@@ -11,6 +11,11 @@
  *      sovity GmbH - initial implementation
  */
 import {InjectionToken} from '@angular/core';
+import {getProfileOrFallback} from './profiles/get-profile-or-fallback';
+import {UiColorTheme} from './profiles/ui-color-theme';
+import {UiFeature} from './profiles/ui-feature';
+import {UiLogo} from './profiles/ui-logo';
+import {UiProfile} from './profiles/ui-profile';
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
 /**
@@ -21,16 +26,36 @@ export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
  * Values can be overridden via environment variables
  */
 export interface AppConfig {
+  // selected profile
+  profile: UiProfile;
+  features: Set<UiFeature>;
+
+  // theme by profile
+  theme: UiColorTheme;
+  brandFaviconSrc: string;
+  brandLogo: UiLogo;
+  brandLogoSmall: UiLogo;
+  brandLogoUnauthenticatedPage: UiLogo;
+  brandLogoOnboardingPage: UiLogo;
+  copyrightCompanyName: string;
+
+  // connector registration icons
+  connectorSelfOwnedIconSrc: string;
+  connectorCaasIconSrc: string;
+  caasResellerBrandLogoSrc: string;
+
+  privacyPolicyUrl: string;
+  legalNoticeUrl: string;
+  supportUrl: string;
+  iframeUrl: string;
+
   backendUrl: string;
   loginUrl: string;
   logoutUrl: string;
   invalidateSessionCookiesUrl: string;
   useFakeBackend: boolean;
   useLocalBackend: boolean;
-  iframeUrl: string;
-  privacyPolicyUrl: string;
-  legalNoticeUrl: string;
-  supportUrl: string;
+  brandDataspaceName: string;
 }
 
 /**
@@ -49,6 +74,8 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: string;
   AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: string;
   AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: string;
+  AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: string;
+  AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: string;
 }
 
 /**
@@ -56,7 +83,14 @@ export interface AppConfigEnv {
  * @param envVars env vars as gotten from /assets/config/config.json
  */
 export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
+  const {profile, profileConfig} = getProfileOrFallback(
+    envVars.AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE,
+  );
+
   return {
+    profile,
+    ...profileConfig,
+
     backendUrl: envVars.AUTHORITY_PORTAL_FRONTEND_BACKEND_URL,
     loginUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LOGIN_URL,
     logoutUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL,
@@ -66,9 +100,11 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
       envVars.AUTHORITY_PORTAL_FRONTEND_USE_FAKE_BACKEND === 'true',
     useLocalBackend:
       envVars.AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND === 'true',
+
     iframeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_IFRAME_URL,
     privacyPolicyUrl: envVars.AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL,
     legalNoticeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL,
     supportUrl: envVars.AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL,
+    brandDataspaceName: envVars.AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME,
   };
 }

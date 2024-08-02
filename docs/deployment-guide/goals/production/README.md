@@ -3,8 +3,7 @@ Deploying the Authority Portal in Production
 
 ## About this Guide
 
-This is a productive deployment guide for deploying the Authority Portal from scratch as either the MDS integrator or
-operator company.
+This is a productive deployment guide for deploying the Authority Portal from scratch.
 
 ## Prerequisites
 
@@ -292,6 +291,8 @@ AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://mobility-dataspa-5n9px2qi7r.live-w
 AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice # Authority Portal Legal Notice URL
 AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal # MDS Privacy Policy URL
 AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu # Support page URL
+AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: mds-open-source # UI Branding profile
+AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS # Short Dataspace name, used in some explanatory texts
 ```
 
 ### Data Catalog Crawlers

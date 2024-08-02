@@ -16,7 +16,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Copyable contact email and subject fields on data offer detail dialogs
-- Fixed provider organization ID not showing up on CaaS connectors.
+- Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
+- Fixed provider organization ID not showing up on CaaS connectors [#206](https://github.com/sovity/authority-portal/issues/206)
   - Keep in mind that sovity needs to be registered in the portal for the ID to show up.
   - Already registered connectors will be updated automatically, this process can take up to 24 hours
 
@@ -27,6 +28,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 Read the deployment migration notes carefully if you want to retain the portal's current behavior.
 If you configure the optional variables incorrectly, you might end up with an inconsistent configuration.
 
+#### Backend
 Environment variable changes:
 - Renamed variables:
   - `authority-portal.caas.sovity.limit-per-mdsid` to `authority-portal.caas.sovity.limit-per-organization`
@@ -36,6 +38,16 @@ Environment variable changes:
     # The 'L' stands for 'Legal' and is added automatically after the prefix - the last 2 characters are the checksum
     authority-portal.organization.id.prefix: "MDS"
     authority-portal.organization.id.length: "4"
+    ```
+    
+#### Frontend
+Environment variable changes:
+- New optional configuration variables - the values assigned here are the ones you should use to retain the current behavior:
+  - ```yaml
+    # UI Branding profile
+    AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: mds-open-source
+    # Short Dataspace name, used in some explanatory texts
+    AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS
     ```
 
 #### Compatible Versions

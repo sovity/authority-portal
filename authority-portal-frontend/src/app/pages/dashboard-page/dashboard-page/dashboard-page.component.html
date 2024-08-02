@@ -10,7 +10,11 @@
       label="Logging House"
       [data]="loggingHouseData"></app-dashboard-component-uptime-card>
     <app-dashboard-component-uptime-card
-      label="Catalog Crawler"
+      [label]="
+        ('catalogue' | isActiveFeature)
+          ? 'Catalogue Crawler'
+          : 'Catalog Crawler'
+      "
       [data]="crawlerData"></app-dashboard-component-uptime-card>
     <app-dashboard-csv-reports-card></app-dashboard-csv-reports-card>
   </div>
