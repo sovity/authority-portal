@@ -5,6 +5,7 @@ import {
   UiPolicyExpressionType,
   UiPolicyLiteral,
 } from '@sovity.de/authority-portal-client';
+import {associateBy} from '../../../../core/utils/map-utils';
 import {PolicyExpressionMapped} from './policy-expression-mapped';
 import {
   PolicyMultiExpressionConfig,
@@ -20,7 +21,6 @@ import {
   SUPPORTED_POLICY_VERBS,
   defaultPolicyVerbConfig,
 } from './policy-verbs';
-import {associateBy} from "../../../../core/utils/map-utils";
 
 @Injectable({providedIn: 'root'})
 export class PolicyMapper {

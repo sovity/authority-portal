@@ -10,9 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {formatNumber} from '@angular/common';
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
 import {Subject, distinctUntilChanged, map, takeUntil, tap} from 'rxjs';
 import {take} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
