@@ -13,6 +13,6 @@
 </ng-container>
 
 <!-- Here we can design a default home-page if we're not using the iFrame Feature -->
-<div *ngIf="!this.appConfig.features.has('iframe-in-home')">
+<div *ngIf="'iframe-in-home' | isActiveFeature">
   <h1>Placeholder</h1>
 </div>

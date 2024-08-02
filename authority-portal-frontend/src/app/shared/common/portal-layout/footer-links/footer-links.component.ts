@@ -28,15 +28,15 @@ export class FooterLinksComponent {
   footerLinks: FooterLink[] = [
     {
       name: 'Privacy Policy',
-      href: this.config.privacyPolicyUrl,
+      href: this.appConfig.privacyPolicyUrl,
     },
     {
       name: 'Legal Notice',
-      href: this.config.legalNoticeUrl,
+      href: this.appConfig.legalNoticeUrl,
     },
   ];
 
-  constructor(@Inject(APP_CONFIG) public config: AppConfig) {}
+  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
 
   blurFocus(event: MouseEvent) {
     (event.target as HTMLElement).blur();

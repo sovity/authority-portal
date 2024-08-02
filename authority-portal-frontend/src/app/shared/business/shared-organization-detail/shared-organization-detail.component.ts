@@ -15,7 +15,6 @@ import {
   OrganizationDetailsDto,
   OwnOrganizationDetailsDto,
 } from '@sovity.de/authority-portal-client';
-import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 
 @Component({
   selector: 'app-shared-organization-detail',
@@ -29,6 +28,4 @@ export class SharedOrganizationDetailComponent {
   cls = true;
 
   @Input() organization!: OrganizationDetailsDto | OwnOrganizationDetailsDto;
-
-  constructor(public activeFeatureSet: ActiveFeatureSet) {}
 }

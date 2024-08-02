@@ -12,15 +12,11 @@
  */
 import {Component, Inject} from '@angular/core';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
-import {ActiveFeatureSet} from '../../../../core/services/config/active-feature-set';
 
 @Component({
   selector: 'app-organization-rejected-page',
   templateUrl: './organization-rejected-page.component.html',
 })
 export class OrganizationRejectedPageComponent {
-  constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
-    public activeFeatureSet: ActiveFeatureSet,
-  ) {}
+  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
 }

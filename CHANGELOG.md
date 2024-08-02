@@ -16,7 +16,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Copyable contact email and subject fields on data offer detail dialogs
-- Fixed the close button on the self-hosted/CaaS connector choice page
+- Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
 
 ### Known issues
 

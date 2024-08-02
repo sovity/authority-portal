@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private ngOnDestroy$ = new Subject();
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private store: Store,
   ) {}
 
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.favicon.rel = 'icon';
       document.head.appendChild(this.favicon);
     }
-    this.favicon.href = this.config.brandFaviconSrc;
+    this.favicon.href = this.appConfig.brandFaviconSrc;
   }
 
   private startListeningToGlobalState() {

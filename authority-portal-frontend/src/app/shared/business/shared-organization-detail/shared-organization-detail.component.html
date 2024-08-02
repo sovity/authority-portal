@@ -2,7 +2,7 @@
 <div class="details-row">
   <div class="details-row-key">
     <mat-icon class="material-icons-outlined">label</mat-icon>
-    {{ activeFeatureSet.usesMdsId() ? 'MDS ID' : 'Organization ID' }}
+    {{ ('mds-id' | isActiveFeature) ? 'MDS ID' : 'Organization ID' }}
   </div>
   <div class="details-row-value">
     {{ organization.id }}

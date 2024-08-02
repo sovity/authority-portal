@@ -22,7 +22,7 @@ import {SelectionBoxModel} from './selection-box.model';
 export class SelectionBoxComponent {
   @Input() selectionBoxConfig!: SelectionBoxModel;
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private router: Router,
   ) {}
 

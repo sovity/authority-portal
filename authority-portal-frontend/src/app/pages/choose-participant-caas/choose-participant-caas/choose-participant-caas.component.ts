@@ -29,9 +29,9 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
   selectionBox: SelectionBoxModel = {
     title: 'Start Sponsored CaaS',
     subTitle: 'Managed EDC Connector to begin your journey in Data Spaces',
-    icon: this.config.caasResellerBrandLogoSrc,
+    icon: this.appConfig.caasResellerBrandLogoSrc,
     bulletPoints: [
-      `CaaS sponsored by ${this.config.brandDataspaceName} for their participants`,
+      `CaaS sponsored by ${this.appConfig.brandDataspaceName} for their participants`,
       'Easiest access to our dataspace',
       'Easiest access via web browser',
       'Hosted & maintained solution',
@@ -48,7 +48,7 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
   private ngOnDestroy$ = new Subject();
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private apiService: ApiService,
     private globalStateUtils: GlobalStateUtils,
   ) {}

@@ -11,7 +11,7 @@
       [data]="loggingHouseData"></app-dashboard-component-uptime-card>
     <app-dashboard-component-uptime-card
       [label]="
-        activeFeatureSet.usesBritishCatalogue()
+        ('catalogue' | isActiveFeature)
           ? 'Catalogue Crawler'
           : 'Catalog Crawler'
       "

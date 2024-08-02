@@ -33,10 +33,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   sidebarSections: SidebarSection[] = [];
   private ngOnDestroy$ = new Subject();
 
-  private homeUrl = this.activeFeatureSet.usesMdsId() ? '/mds-home' : '/home';
-
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private globalStateUtils: GlobalStateUtils,
     private activeFeatureSet: ActiveFeatureSet,
   ) {}
@@ -174,7 +172,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
               ? 'MDS Support'
               : 'Support',
             icon: 'question-mark-circle',
-            rLink: this.config.supportUrl,
+            rLink: this.appConfig.supportUrl,
             isExternalLink: true,
           },
         ],

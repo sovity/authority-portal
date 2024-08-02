@@ -7,9 +7,7 @@
     alt="Logo"
     [attr.src]="appConfig.brandLogoUnauthenticatedPage.src"
     [class]="appConfig.brandLogoUnauthenticatedPage.style" />
-  <div
-    *ngIf="activeFeatureSet.usesMdsId()"
-    class="max-w-2xl mx-auto text-center">
+  <div *ngIf="'mds-id' | isActiveFeature" class="max-w-2xl mx-auto text-center">
     <h1 class="full-screen-end-title">
       Thank you for signing up to be a part of the Mobility Data Space Portal!
     </h1>
@@ -29,7 +27,7 @@
     </div>
   </div>
   <div
-    *ngIf="!activeFeatureSet.usesMdsId()"
+    *ngIf="!('mds-id' | isActiveFeature)"
     class="max-w-2xl mx-auto text-center">
     <h1 class="full-screen-end-title">Thank you for signing up!</h1>
     <p class="full-screen-end-prose">

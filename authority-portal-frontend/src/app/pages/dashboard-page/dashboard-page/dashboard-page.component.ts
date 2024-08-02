@@ -22,7 +22,6 @@ import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
-import {ActiveFeatureSet} from '../../../core/services/config/active-feature-set';
 import {ConnectorData} from '../dashboard-connector-card/dashboard-connector-card.component';
 
 @Component({
@@ -44,7 +43,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private globalStateUtils: GlobalStateUtils,
     private apiService: ApiService,
-    public activeFeatureSet: ActiveFeatureSet,
   ) {}
 
   ngOnInit(): void {

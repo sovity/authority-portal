@@ -9,13 +9,13 @@
       <img
         *ngIf="isExpandedMenu"
         alt="logo"
-        [class]="config.brandLogo.style"
-        [attr.src]="config.brandLogo.src" />
+        [class]="appConfig.brandLogo.style"
+        [attr.src]="appConfig.brandLogo.src" />
       <img
         *ngIf="!isExpandedMenu"
         alt="logo"
-        [class]="config.brandLogoSmall.style"
-        [attr.src]="config.brandLogoSmall.src" />
+        [class]="appConfig.brandLogoSmall.style"
+        [attr.src]="appConfig.brandLogoSmall.src" />
     </div>
 
     <div class="flex-grow">

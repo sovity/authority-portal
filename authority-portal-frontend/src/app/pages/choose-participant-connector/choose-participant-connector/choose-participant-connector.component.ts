@@ -19,13 +19,13 @@ import {APP_CONFIG, AppConfig} from '../../../core/services/config/app-config';
   templateUrl: './choose-participant-connector.component.html',
 })
 export class ChooseParticipantConnectorComponent {
-  constructor(@Inject(APP_CONFIG) public config: AppConfig) {}
+  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
 
   selectionBoxes: SelectionBoxModel[] = [
     {
       title: 'I have a connector',
       subTitle: 'Follow the process to set-up your self-hosted connector here',
-      icon: this.config.connectorSelfOwnedIconSrc,
+      icon: this.appConfig.connectorSelfOwnedIconSrc,
       action: {
         url: '/my-organization/connectors/new/self-hosted',
       },
@@ -34,7 +34,7 @@ export class ChooseParticipantConnectorComponent {
       title: 'I need a connector',
       subTitle:
         'Request a managed connector to begin your journey in data spaces',
-      icon: this.config.connectorCaasIconSrc,
+      icon: this.appConfig.connectorCaasIconSrc,
       action: {
         url: '/my-organization/connectors/new/choose-provider',
       },

@@ -2,7 +2,7 @@
 <p class="wizard-end-prose max-w-2xl">
   To setup the connector, you will have to follow the Deployment Guide in the
   {{
-    activeFeatureSet.usesMdsId()
+    ('mds-id' | isActiveFeature)
       ? 'MDS Wiki'
       : 'EDC repository which you can find by clicking the button below'
   }}. <br />

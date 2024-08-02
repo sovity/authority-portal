@@ -68,7 +68,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private store: Store,
     private formBuilder: FormBuilder,
   ) {}
@@ -143,7 +143,7 @@ export class OrganizationCreatePageComponent implements OnInit, OnDestroy {
   }
 
   finish() {
-    window.location.replace(this.config.invalidateSessionCookiesUrl);
+    window.location.replace(this.appConfig.invalidateSessionCookiesUrl);
   }
 
   ngOnDestroy$ = new Subject();

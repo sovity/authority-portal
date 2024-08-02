@@ -18,7 +18,7 @@
                   rowspan="2"
                   scope="col">
                   {{
-                    activeFeatureSet.usesMdsId() ? 'MDS ID' : 'Organization ID'
+                    ('mds-id' | isActiveFeature) ? 'MDS ID' : 'Organization ID'
                   }}
                 </th>
                 <th

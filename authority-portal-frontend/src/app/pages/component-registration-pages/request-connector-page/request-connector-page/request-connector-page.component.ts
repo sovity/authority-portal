@@ -39,10 +39,12 @@ export class RequestConnectorPageComponent implements OnInit {
   createActionName = 'Request CaaS';
   backLink = '/my-organization/connectors/new/choose-provider';
 
+  sponsoredCaasAmount = 1;
+
   private ngOnDestroy$ = new Subject();
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     public form: RequestConnectorPageForm,
     private store: Store,
     private apiService: ApiService,
@@ -80,6 +82,7 @@ export class RequestConnectorPageComponent implements OnInit {
         takeUntil(this.ngOnDestroy$),
       )
       .subscribe((x) => {
+        this.sponsoredCaasAmount = x.limit ?? 1;
         if ((x.current ?? 0) >= (x.limit ?? -1)) {
           this.router.navigate([
             '/my-organization',

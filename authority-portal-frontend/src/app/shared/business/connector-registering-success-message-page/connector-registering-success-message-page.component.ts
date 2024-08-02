@@ -12,7 +12,6 @@
  */
 import {Component, HostBinding, Input} from '@angular/core';
 import {ClipboardUtils} from 'src/app/core/utils/clipboard-utils';
-import {ActiveFeatureSet} from '../../../core/services/config/active-feature-set';
 
 @Component({
   selector: 'app-connector-registering-success-message-page',
@@ -30,10 +29,7 @@ export class ConnectorRegisteringSuccessMessagePageComponent {
   @Input()
   connectorConfig: string = '...';
 
-  constructor(
-    private clipboardUtils: ClipboardUtils,
-    public activeFeatureSet: ActiveFeatureSet,
-  ) {}
+  constructor(private clipboardUtils: ClipboardUtils) {}
 
   copyToClipboard() {
     this.clipboardUtils.copyToClipboard(this.connectorConfig);

@@ -11,7 +11,6 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, Inject} from '@angular/core';
-import {ActiveFeatureSet} from '../../../../core/services/config/active-feature-set';
 import {
   APP_CONFIG,
   AppConfig,
@@ -22,8 +21,5 @@ import {
   templateUrl: './organization-pending-page.component.html',
 })
 export class OrganizationPendingPageComponent {
-  constructor(
-    @Inject(APP_CONFIG) public appConfig: AppConfig,
-    public activeFeatureSet: ActiveFeatureSet,
-  ) {}
+  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
 }
