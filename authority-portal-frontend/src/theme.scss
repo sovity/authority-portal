@@ -27,8 +27,15 @@
 .theme-sovity {
   @include mat.all-component-themes(sovityColors.$app-theme);
   @include themeGeneratedVars.theme-vars(
-      sovityColors.$app-theme,
+      sovityColors.$app-theme
   );
+
+  --color-brand-400: #{sovityColors.$color-brand-400};
+  --color-brand-500: #{sovityColors.$color-brand-500};
+  --color-brand-yellow: #{sovityColors.$color-brand-yellow};
+  --color-brand-black: #{sovityColors.$color-brand-black};
+  --color-brand-golden: #{sovityColors.$color-brand-golden};
+
 }
 
 .theme-mds {
@@ -36,4 +43,12 @@
   @include themeGeneratedVars.theme-vars(
       mdsColors.$app-theme,
   );
+
+  :root {
+    --color-brand-400: #{mdsColors.$color-brand-400};
+    --color-brand-500: #{mdsColors.$color-brand-500};
+    --color-brand-yellow: #{mdsColors.$color-brand-yellow};
+    --color-brand-black: #{mdsColors.$color-brand-black};
+    --color-brand-golden: #{mdsColors.$color-brand-golden};
+  }
 }

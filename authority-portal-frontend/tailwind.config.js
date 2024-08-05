@@ -4,11 +4,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'brand-400': '#FFEE00',
-        'brand-500': '#FFC000',
-        'brand-yellow': '#FFFE00',
-        'brand-black': '#000000',
-        'brand-golden': '#BD7D00',
+        'brand-400': 'var(--color-brand-400)',
+        'brand-500': 'var(--color-brand-500)',
+        'brand-yellow': 'var(--color-brand-yellow)',
+        'brand-black': 'var(--color-brand-black)',
+        'brand-golden': 'var(--color-brand-golden)',
       },
       animation: {
         fadeIn: 'fadeIn 0.3s ease-in-out',
