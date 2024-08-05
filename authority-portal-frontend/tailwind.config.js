@@ -9,6 +9,14 @@ module.exports = {
         'brand-primary': 'rgb(var(--color-brand-primary) / <alpha-value>)',
         'brand-black': 'rgb(var(--color-brand-black) / <alpha-value>)',
         'brand-highlight': 'rgb(var(--color-brand-highlight) / <alpha-value>)',
+        'sidebar-color': 'rgb(var(--color-sidebar-bg) / <alpha-value>)',
+        'sidebar-selected-color':
+          'rgb(var(--color-sidebar-selected) / <alpha-value>)',
+        'sidebar-text-color': 'rgb(var(--color-sidebar-text) / <alpha-value>)',
+        'sidebar-text-selected-color':
+          'rgb(var(--color-sidebar-text-selected) / <alpha-value>)',
+        'sidebar-section-color':
+          'rgb(var(--color-sidebar-section) / <alpha-value>)',
       },
       animation: {
         fadeIn: 'fadeIn 0.3s ease-in-out',

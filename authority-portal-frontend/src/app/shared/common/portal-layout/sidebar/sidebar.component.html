@@ -23,7 +23,7 @@
         <div *ngIf="section.userRoles | hasAnyRole | async">
           <div *ngIf="section.title" class="flex justify-start">
             <p
-              class="py-3 pl-5 text-xs leading-4 text-gray-300"
+              class="py-3 pl-5 text-xs leading-4 text-sidebar-section-color"
               [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
               {{ section.title }}
             </p>

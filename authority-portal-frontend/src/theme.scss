@@ -36,6 +36,11 @@
   --color-brand-black: #{sovityColors.$color-brand-black};
   --color-brand-highlight: #{sovityColors.$color-brand-highlight};
 
+  --color-sidebar-bg: #{sovityColors.$color-sidebar-bg};
+  --color-sidebar-selected: #{sovityColors.$color-sidebar-selected};
+  --color-sidebar-text: #{sovityColors.$color-sidebar-text};
+  --color-sidebar-text-selected: #{sovityColors.$color-sidebar-text-selected};
+  --color-sidebar-section: #{sovityColors.$color-sidebar-section};
 }
 
 .theme-mds {
@@ -49,4 +54,10 @@
   --color-brand-primary: #{mdsColors.$color-brand-primary};
   --color-brand-black: #{mdsColors.$color-brand-black};
   --color-brand-highlight: #{mdsColors.$color-brand-highlight};
+
+  --color-sidebar-bg: #{mdsColors.$color-sidebar-bg};
+  --color-sidebar-selected: #{mdsColors.$color-sidebar-selected};
+  --color-sidebar-text: #{mdsColors.$color-sidebar-text};
+  --color-sidebar-text-selected: #{mdsColors.$color-sidebar-text-selected};
+  --color-sidebar-section: #{mdsColors.$color-sidebar-section};
 }
