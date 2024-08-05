@@ -1,27 +1,9 @@
+@forward 'theme';
+
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* inter-regular - latin */
-@font-face {
-  font-display: swap;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./assets/fonts/inter-v13-latin-regular.woff2') format('woff2');
-}
-
-/* Outlined Material Icons */
-@font-face {
-  font-display: swap;
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Material Icons Outlined'), local('MaterialIcons-Outlined'),
-    url('./assets/fonts/material-icons-outlined-v109-latin-regular.woff2')
-      format('woff2');
-}
 
 html {
   box-sizing: border-box;
@@ -241,11 +223,11 @@ textarea {
 }
 
 .larger-icon {
-  @apply w-9 h-9 !important;
+  @apply w-9 h-9 #{!important};
 }
 
 .smaller-icon {
-  @apply w-4 text-base !important;
+  @apply w-4 text-base #{!important};
 }
 
 .mat-icon .larger {
@@ -375,7 +357,7 @@ select:-webkit-autofill:disabled {
 
 .mat-icon-button,
 .mat-mdc-icon-button {
-  @apply !inline-flex !items-center !justify-center;
+  @apply inline-flex items-center justify-center;
 }
 
 .mat-mdc-paginator-range-label {
@@ -411,7 +393,7 @@ select:-webkit-autofill:disabled {
 }
 
 .markdown-description {
-  @apply !text-sm;
+  @apply text-sm #{!important};
   @apply prose whitespace-normal max-w-none;
   @apply prose-img:rounded-lg prose-img:my-3 prose-img:object-contain prose-img:max-w-full prose-img:max-h-[250px];
   @apply prose-a:text-[--link-color];

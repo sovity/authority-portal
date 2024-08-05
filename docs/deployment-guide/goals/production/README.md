@@ -44,7 +44,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 | Deployment Unit           | Version / Details                                                                                        |
 |---------------------------|----------------------------------------------------------------------------------------------------------|
-| Reverse Proxy / Ingress   | _Infrastructure dependant_                                                                               |
+| Reverse Proxy / Ingress   | _Infrastructure dependent_                                                                               |
 | Keycloak Deployment       | Version 24.0.4 or compatible version                                                                     |
 | OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                                  |
 | Caddy behind OAuth2 Proxy | caddy:2.7                                                                                                |
@@ -75,7 +75,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 ```
 
 - Consider consulting Keycloak's [server administration guide](https://www.keycloak.org/docs/latest/server_admin/).
-- You need to have a running keycloak with the aforementioned compatible version.
+- You need to have a running Keycloak with the aforementioned compatible version.
 - The domain under which the Keycloak should be reachable on the internet will be referred to as `[KC_FQDN]` in this
   guide and should differ from the `[AP_FQDN]`.
 - The steps to set up the realm are the following

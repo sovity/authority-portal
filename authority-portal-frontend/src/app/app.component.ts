@@ -36,16 +36,17 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.startListeningToGlobalState();
     this.startPollingUserInfo();
-    this.setFavicon();
+    this.setTheme();
   }
 
-  private setFavicon() {
+  private setTheme() {
     if (!this.favicon) {
       this.favicon = document.createElement('link');
       this.favicon.rel = 'icon';
       document.head.appendChild(this.favicon);
     }
     this.favicon.href = this.appConfig.brandFaviconSrc;
+    window.document.body.classList.add(this.appConfig.theme);
   }
 
   private startListeningToGlobalState() {
