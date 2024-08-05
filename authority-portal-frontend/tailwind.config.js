@@ -17,6 +17,7 @@ module.exports = {
           'rgb(var(--color-sidebar-text-selected) / <alpha-value>)',
         'sidebar-section-color':
           'rgb(var(--color-sidebar-section) / <alpha-value>)',
+        'color-background': 'rgb(var(--color-background) / <alpha-value>)',
       },
       animation: {
         fadeIn: 'fadeIn 0.3s ease-in-out',

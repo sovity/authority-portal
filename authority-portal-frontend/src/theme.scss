@@ -41,6 +41,8 @@
   --color-sidebar-text: #{sovityColors.$color-sidebar-text};
   --color-sidebar-text-selected: #{sovityColors.$color-sidebar-text-selected};
   --color-sidebar-section: #{sovityColors.$color-sidebar-section};
+
+  --color-background: #{sovityColors.$color-background};
 }
 
 .theme-mds {
@@ -60,4 +62,6 @@
   --color-sidebar-text: #{mdsColors.$color-sidebar-text};
   --color-sidebar-text-selected: #{mdsColors.$color-sidebar-text-selected};
   --color-sidebar-section: #{mdsColors.$color-sidebar-section};
+
+  --color-background: #{mdsColors.$color-background};
 }

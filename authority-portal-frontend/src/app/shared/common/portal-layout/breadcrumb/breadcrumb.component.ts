@@ -36,7 +36,7 @@ export class BreadcrumbComponent implements OnDestroy {
         this.titleService.setTitle(
           `${
             this.activeFeatureSet.usesMdsId()
-              ? 'MDS '
+              ? 'MDS ' + (breadcrumb[breadcrumb.length - 1].label || 'Portal')
               : breadcrumb[breadcrumb.length - 1].label || 'Portal'
           }`,
         );
