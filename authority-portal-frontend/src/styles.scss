@@ -161,7 +161,7 @@ textarea {
 }
 
 .btn-dropdown-menu {
-  @apply inline-flex gap-x-1.5 rounded-full items-center bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-brand-golden hover:text-brand-golden hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none;
+  @apply inline-flex gap-x-1.5 rounded-full items-center bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-brand-highlight hover:text-brand-highlight hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none;
 }
 
 .btn-dropdown-menu:disabled:hover {

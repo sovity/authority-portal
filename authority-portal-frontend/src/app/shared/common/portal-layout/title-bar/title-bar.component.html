@@ -20,10 +20,10 @@
   <div class="flex gap-2 z-10">
     <button
       *ngFor="let tab of titleBarConfig.tabs"
-      class="min-w-16 overflow-visible button flex items-center justify-center gap-2 bg-black text-white rounded-full px-2 py-1 text-sm hover:bg-brand-golden"
+      class="min-w-16 overflow-visible button flex items-center justify-center gap-2 bg-black text-white rounded-full px-2 py-1 text-sm hover:bg-brand-highlight"
       matTooltipClass="whitespace-pre-line"
       [ngClass]="{
-        'bg-brand-golden': selectedTab === tab.view && !tab.isDisabled,
+        'bg-brand-highlight': selectedTab === tab.view && !tab.isDisabled,
         'disabled:bg-gray-700': tab.isDisabled,
       }"
       [disabled]="tab.isDisabled"
@@ -37,7 +37,7 @@
 
     <button
       *ngIf="titleBarConfig?.actionMenu && !isAllDisabled(titleBarConfig)"
-      class="min-w-16 overflow-visible button flex items-center justify-center gap-2 bg-black text-white rounded-full px-2 py-1 text-sm hover:bg-brand-golden disabled:bg-gray-300"
+      class="min-w-16 overflow-visible button flex items-center justify-center gap-2 bg-black text-white rounded-full px-2 py-1 text-sm hover:bg-brand-highlight disabled:bg-gray-300"
       [matMenuTriggerFor]="menu">
       <mat-icon class="smaller-icon material-icons-outlined">
         more_horiz

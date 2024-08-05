@@ -32,9 +32,9 @@
 
   --color-brand-400: #{sovityColors.$color-brand-400};
   --color-brand-500: #{sovityColors.$color-brand-500};
-  --color-brand-yellow: #{sovityColors.$color-brand-yellow};
+  --color-brand-primary: #{sovityColors.$color-brand-primary};
   --color-brand-black: #{sovityColors.$color-brand-black};
-  --color-brand-golden: #{sovityColors.$color-brand-golden};
+  --color-brand-highlight: #{sovityColors.$color-brand-highlight};
 
 }
 
@@ -44,11 +44,9 @@
       mdsColors.$app-theme,
   );
 
-  :root {
-    --color-brand-400: #{mdsColors.$color-brand-400};
-    --color-brand-500: #{mdsColors.$color-brand-500};
-    --color-brand-yellow: #{mdsColors.$color-brand-yellow};
-    --color-brand-black: #{mdsColors.$color-brand-black};
-    --color-brand-golden: #{mdsColors.$color-brand-golden};
-  }
+  --color-brand-400: #{mdsColors.$color-brand-400};
+  --color-brand-500: #{mdsColors.$color-brand-500};
+  --color-brand-primary: #{mdsColors.$color-brand-primary};
+  --color-brand-black: #{mdsColors.$color-brand-black};
+  --color-brand-highlight: #{mdsColors.$color-brand-highlight};
 }
