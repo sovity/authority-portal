@@ -364,6 +364,10 @@ select:-webkit-autofill:disabled {
   overflow-x: hidden !important;
 }
 
+.mat-horizontal-stepper-wrapper {
+  @apply bg-color-background;
+}
+
 .mat-icon-button,
 .mat-mdc-icon-button {
   @apply inline-flex items-center justify-center;

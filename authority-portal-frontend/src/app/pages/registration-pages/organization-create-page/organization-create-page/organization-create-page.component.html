@@ -1,8 +1,11 @@
 <div class="relative h-screen">
   <!-- header -->
   <div
-    class="top-0 p-8 bg-white flex justify-start items-center cursor-pointer">
-    <img src="/assets/images/mds_logo_black.svg" alt="logo" />
+    class="top-0 p-8 bg-color-background flex justify-start items-center cursor-pointer">
+    <img
+      alt="logo"
+      [attr.src]="appConfig.brandLogoOnboardingPage.src"
+      [class]="appConfig.brandLogoOnboardingPage.style" />
   </div>
   <!-- header -->
 
