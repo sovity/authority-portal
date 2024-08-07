@@ -15,18 +15,18 @@ import {UiThemeConfig} from './ui-theme-config';
 export const SOVITY_THEME: UiThemeConfig = {
   theme: 'theme-sovity',
   brandFaviconSrc: 'assets/images/sovity_caas_logo.svg',
-  brandLogo: {src: 'assets/images/sovity_logo_light.svg', style: 'scale-[1.1]'},
+  brandLogo: {src: 'assets/images/sovity_logo.svg', class: 'scale-[1.1]'},
   brandLogoSmall: {
-    src: '/assets/images/sovity_logo_light_no_text.svg',
-    style: 'scale-[0.6]',
+    src: '/assets/images/sovity_logo_no_text.svg',
+    class: 'scale-[0.6]',
   },
   brandLogoUnauthenticatedPage: {
     src: 'assets/images/sovity_logo.svg',
-    style: 'w-[15%] h-[15%]',
+    class: 'w-[15%] h-[15%]',
   },
   brandLogoOnboardingPage: {
     src: 'assets/images/sovity_logo.svg',
-    style: 'w-[10%] h-[10%]',
+    class: 'w-[10%] h-[10%]',
   },
   connectorSelfOwnedIconSrc:
     'assets/images/sovity_self-hosted-connector_logo.svg',
@@ -38,18 +38,18 @@ export const SOVITY_THEME: UiThemeConfig = {
 export const MDS_THEME: UiThemeConfig = {
   theme: 'theme-mds',
   brandFaviconSrc: 'assets/images/logo_light.svg',
-  brandLogo: {src: 'assets/images/mds_logo_yellow.svg', style: 'scale-100'},
+  brandLogo: {src: 'assets/images/mds_logo_yellow.svg', class: 'scale-100'},
   brandLogoSmall: {
     src: '/assets/images/mds_logo_no_text.svg',
-    style: 'scale-[0.7]',
+    class: 'scale-[0.7]',
   },
   brandLogoUnauthenticatedPage: {
     src: 'assets/images/mds_logo_black.svg',
-    style: 'scale-150 mb-14',
+    class: 'scale-150 mb-14',
   },
   brandLogoOnboardingPage: {
     src: '/assets/images/mds_logo_black.svg',
-    style: '',
+    class: '',
   },
   connectorSelfOwnedIconSrc: 'assets/images/mds_self-hosted-connector_logo.svg',
   connectorCaasIconSrc: 'assets/images/mds_request-caas_logo.svg',

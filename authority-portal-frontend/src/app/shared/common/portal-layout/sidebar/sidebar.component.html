@@ -9,12 +9,12 @@
       <img
         *ngIf="isExpandedMenu"
         alt="logo"
-        [class]="appConfig.brandLogo.style"
+        [class]="appConfig.brandLogo.class"
         [attr.src]="appConfig.brandLogo.src" />
       <img
         *ngIf="!isExpandedMenu"
         alt="logo"
-        [class]="appConfig.brandLogoSmall.style"
+        [class]="appConfig.brandLogoSmall.class"
         [attr.src]="appConfig.brandLogoSmall.src" />
     </div>
 
@@ -23,7 +23,7 @@
         <div *ngIf="section.userRoles | hasAnyRole | async">
           <div *ngIf="section.title" class="flex justify-start">
             <p
-              class="py-3 pl-5 text-xs leading-4 text-gray-300"
+              class="py-3 pl-5 text-xs leading-4 text-sidebar-section-color"
               [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
               {{ section.title }}
             </p>

@@ -6,7 +6,7 @@
   <div class="col-span-1 flex justify-center">
     <app-avatar [name]="userAvatar"></app-avatar>
   </div>
-  <div class="flex flex-row cursor-pointer hover:text-brand-golden">
+  <div class="flex flex-row cursor-pointer hover:text-brand-highlight">
     <div class="col-span-2 lg:flex flex-col justify-center mr-3">
       {{ userData.firstName + ' ' + userData.lastName }}
     </div>
@@ -30,7 +30,7 @@
 
   <div>
     <a
-      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-highlight"
       routerLink="control-center/my-profile">
       <mat-icon svgIcon="user"></mat-icon>
       <span>My Profile</span>
@@ -38,13 +38,13 @@
   </div>
   <div>
     <a
-      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-highlight"
       routerLink="control-center/my-organization">
       <mat-icon svgIcon="briefcase"></mat-icon>
       <span>My Organization</span>
     </a>
     <a
-      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-highlight"
       routerLink="control-center/users-and-roles">
       <mat-icon svgIcon="users"></mat-icon>
       <span>Users and Roles</span>
@@ -54,7 +54,7 @@
 
   <div>
     <a
-      class="flex gap-2 justify-start items-center p-2 hover:text-brand-golden"
+      class="flex gap-2 justify-start items-center p-2 hover:text-brand-highlight"
       [href]="logoutUrl">
       <mat-icon svgIcon="arrow-left-on-rectangle"></mat-icon>
       <span>Logout</span>
