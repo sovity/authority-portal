@@ -21,6 +21,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Keep in mind that sovity needs to be registered in the portal for the ID to show up.
   - Already registered connectors will be updated automatically, this process can take up to 24 hours
 - Added a message when the CaaS request feature is not available
+- Catalog: Removed dataspace filter when only one dataspace is known
 
 ### Known issues
 
