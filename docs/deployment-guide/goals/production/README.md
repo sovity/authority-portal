@@ -198,7 +198,7 @@ quarkus.oidc-client.sovity.credentials.secret: "[CAAS_CLIENT_SECRET]"
 # Amount of free sovity CaaS per participant
 authority-portal.caas.sovity.limit-per-organization: "1"
 # Enables the connection (set to false if you don't have the data to fill out the variables above)
-quarkus.oidc-client.sovity.client-enabled: "true"
+quarkus.oidc-client.sovity.client-enabled: true
 
 # Must equal the root URL/home URl from the Keycloak configuration - see above)
 authority-portal.base-url: "https://[AP_FQDN]"
@@ -295,6 +295,7 @@ AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://mobility-dataspace.online/
 AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu # Support page URL
 AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: mds-open-source # UI Branding profile
 AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS # Short Dataspace name, used in some explanatory texts
+AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "MDS Portal" # Portal name displayed in various texts
 ```
 
 ### Data Catalog Crawlers

@@ -56,6 +56,7 @@ export interface AppConfig {
   useFakeBackend: boolean;
   useLocalBackend: boolean;
   brandDataspaceName: string;
+  portalName: string;
 }
 
 /**
@@ -76,6 +77,7 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: string;
   AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: string;
   AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: string;
+  AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: string;
 }
 
 /**
@@ -106,5 +108,6 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
     legalNoticeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL,
     supportUrl: envVars.AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL,
     brandDataspaceName: envVars.AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME,
+    portalName: envVars.AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME,
   };
 }

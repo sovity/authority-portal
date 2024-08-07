@@ -48,12 +48,14 @@ Environment variable changes:
     
 #### Frontend
 Environment variable changes:
-- New optional configuration variables - the values assigned here are the ones you should use to retain the current behavior:
+- New **mandantory** configuration variables - the values assigned here are the ones you should use to retain the current behavior:
   - ```yaml
     # UI Branding profile
     AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: mds-open-source
     # Short Dataspace name, used in some explanatory texts
     AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS
+    # Portal name displayed in various texts
+    AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "MDS Portal"
     ```
 
 #### Compatible Versions
