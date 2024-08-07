@@ -25,4 +25,7 @@ export type UiFeature =
   | 'catalogue'
 
   // Enables the 'Powered by sovity' footer to be used in instances hosted by sovity
-  | 'powered-by-sovity';
+  | 'powered-by-sovity'
+
+  // Enables the Dashboard to display the Logging House status
+  | 'uses-logging-house';

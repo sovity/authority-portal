@@ -18,12 +18,12 @@ import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfigurat
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment.DapsConfig
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import kotlin.jvm.optionals.getOrNull
 
 @ApplicationScoped
-class DeploymentEnvironmentDtoService {
-
-    @Inject
-    lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
+class DeploymentEnvironmentDtoService(
+    val deploymentEnvironmentService: DeploymentEnvironmentService
+) {
 
     fun findByIdOrThrow(envId: String): DeploymentEnvironmentDto =
         buildDto(envId, deploymentEnvironmentService.findByIdOrThrow(envId))
@@ -41,7 +41,7 @@ class DeploymentEnvironmentDtoService {
             title = deploymentEnvironment.title(),
             dapsJwksUrl = buildDapsJwksUrl(deploymentEnvironment.daps()),
             dapsTokenUrl = buildDapsTokenUrl(deploymentEnvironment.daps()),
-            loggingHouseUrl = deploymentEnvironment.loggingHouse().url()
+            loggingHouseUrl = deploymentEnvironment.loggingHouse().getOrNull()?.url()
         )
     }
 
