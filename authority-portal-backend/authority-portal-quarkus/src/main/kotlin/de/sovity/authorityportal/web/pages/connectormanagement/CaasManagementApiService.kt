@@ -43,7 +43,8 @@ class CaasManagementApiService(
     val clientIdUtils: ClientIdUtils,
     val userService: UserService,
     val timeUtils: TimeUtils,
-    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-organization") val caasLimitPerOrganizationId: String
+    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-organization") val caasLimitPerOrganizationId: String,
+    @ConfigProperty(name = "quarkus.oidc-client.sovity.client-enabled") val isCaasClientEnabled: Boolean
 ) {
 
     fun createCaas(
@@ -89,7 +90,11 @@ class CaasManagementApiService(
         return CreateConnectorResponse.ok(connectorId, timeUtils.now())
     }
 
-    fun getFreeCaasUsageForOrganization(organizationId: String, environmentId: String): CaasAvailabilityResponse {
+    fun getCaasAvailabilityForOrganization(organizationId: String, environmentId: String): CaasAvailabilityResponse {
+        if (!isCaasClientEnabled) {
+            return CaasAvailabilityResponse(0, 0)
+        }
+
         val caasLimit = caasLimitPerOrganizationId.toInt()
         val caasCount = connectorService.getCaasCountByOrganizationIdAndEnvironment(organizationId, environmentId)
 

@@ -197,6 +197,8 @@ quarkus.oidc-client.sovity.client-id: "[CAAS_CLIENT_ID]"
 quarkus.oidc-client.sovity.credentials.secret: "[CAAS_CLIENT_SECRET]"
 # Amount of free sovity CaaS per participant
 authority-portal.caas.sovity.limit-per-organization: "1"
+# Enables the connection (set to false if you don't have the data to fill out the variables above)
+quarkus.oidc-client.sovity.client-enabled: "true"
 
 # Must equal the root URL/home URl from the Keycloak configuration - see above)
 authority-portal.base-url: "https://[AP_FQDN]"
