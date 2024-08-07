@@ -9,12 +9,12 @@
       <img
         *ngIf="isExpandedMenu"
         alt="logo"
-        [class]="appConfig.brandLogo.style"
+        [class]="appConfig.brandLogo.class"
         [attr.src]="appConfig.brandLogo.src" />
       <img
         *ngIf="!isExpandedMenu"
         alt="logo"
-        [class]="appConfig.brandLogoSmall.style"
+        [class]="appConfig.brandLogoSmall.class"
         [attr.src]="appConfig.brandLogoSmall.src" />
     </div>
 

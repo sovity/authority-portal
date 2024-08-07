@@ -11,4 +11,4 @@
  *      sovity GmbH - initial implementation
  */
 
-export type UiLogo = {src: string; style: string};
+export type UiLogo = {src: string; class: string};

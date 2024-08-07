@@ -5,6 +5,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* inter-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/inter-v13-latin-regular.woff2') format('woff2');
+}
+
+/* Outlined Material Icons */
+@font-face {
+  font-display: swap;
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons Outlined'), local('MaterialIcons-Outlined'),
+  url('./assets/fonts/material-icons-outlined-v109-latin-regular.woff2')
+  format('woff2');
+}
+
 html {
   box-sizing: border-box;
   margin: 0;
