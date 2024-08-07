@@ -238,7 +238,7 @@ authority-portal.deployment.environments.test.data-catalog.kuma-name: broker
 # Required: Default Dataspace name
 authority-portal.deployment.environments.test.data-catalog.dataspace-names.default: "MDS"
 # Optional: Additional connectors to be given a dataspace name
-authority-portal.deployment.environments.test.data-catalog.dataspace-names.connectorIds."MDSL1234XX.C1234XX": "Mobilithek"
+authority-portal.deployment.environments.test.data-catalog.dataspace-names.connector-ids."MDSL1234XX.C1234XX": "Mobilithek"
 
 # Environment DAPS
 # Env: DAPS URL

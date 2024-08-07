@@ -21,11 +21,14 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQuerySelectedFilterQuery
 import de.sovity.authorityportal.broker.dao.utils.JsonDeserializationUtils.read2dStringList
+import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import jakarta.enterprise.context.ApplicationScoped
+import org.eclipse.microprofile.config.inject.ConfigProperty
 
 @ApplicationScoped
 class CatalogFilterService(
-    val catalogFilterAttributeDefinitionService: CatalogFilterAttributeDefinitionService
+    val catalogFilterAttributeDefinitionService: CatalogFilterAttributeDefinitionService,
+    val deploymentEnvironmentService: DeploymentEnvironmentService
 ) {
 
     private val caseInsensitiveEmptyStringLast = Comparator<String> { s1, s2 ->
@@ -42,13 +45,13 @@ class CatalogFilterService(
          *
          * @return attribute definitions
          */
-        get() = listOf(
+        get() = listOfNotNull(
             catalogFilterAttributeDefinitionService.forField(
                 { fields: CatalogQueryFields -> fields.dataSourceAvailabilityLabel },
                 "dataSourceAvailability",
                 "Data Offer Type"
             ),
-            catalogFilterAttributeDefinitionService.buildDataSpaceFilter(),
+            catalogFilterAttributeDefinitionService.buildDataSpaceFilter().takeIf { this.shouldSupportMultipleDataspaces() },
             catalogFilterAttributeDefinitionService.forField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.DATA_CATEGORY },
                 "dataCategory",
@@ -165,5 +168,14 @@ class CatalogFilterService(
         return cnfFilterValue.selectedAttributeValues
             .filter { it.selectedIds.isNotEmpty() }
             .associate { it.id to it.selectedIds }
+    }
+
+    private fun shouldSupportMultipleDataspaces(): Boolean {
+        deploymentEnvironmentService.findAll().values.forEach {
+            if (it.dataCatalog().dataspaceNames().connectorIds().isNotEmpty()) {
+                return true
+            }
+        }
+        return false
     }
 }
