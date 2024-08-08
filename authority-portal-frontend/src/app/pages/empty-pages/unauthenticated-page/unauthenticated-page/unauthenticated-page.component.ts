@@ -22,7 +22,7 @@ export class UnauthenticatedPageComponent {
 
   get loginUrl(): string {
     const url = new URL(this.appConfig.loginUrl);
-    url.searchParams.set('redirect_uri', location.href);
+    url.searchParams.set('rd', location.href);
     return url.toString();
   }
 }
