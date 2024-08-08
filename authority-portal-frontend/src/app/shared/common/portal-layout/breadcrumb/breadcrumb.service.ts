@@ -44,7 +44,7 @@ export class BreadcrumbService {
         document.title = `${
           this.activeFeatureSet.usesMdsId()
             ? 'MDS '
-            : breadcrumb[breadcrumb.length - 1].label || 'Portal'
+            : breadcrumb[breadcrumb.length - 1].label || 'Authority Portal'
         }`;
         this.breadcrumb$.next(breadcrumb);
       },

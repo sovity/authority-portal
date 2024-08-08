@@ -78,7 +78,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
           }));
         },
       );
-    console.log('loggingHouseData: ', this.loggingHouseData);
   }
 
   private ngOnDestroy$ = new Subject();
