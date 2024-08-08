@@ -18,13 +18,13 @@ import de.sovity.authorityportal.api.model.catalog.CnfFilterAttribute
 import de.sovity.authorityportal.api.model.catalog.CnfFilterItem
 import de.sovity.authorityportal.api.model.catalog.CnfFilterValue
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
-import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
-import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQuerySelectedFilterQuery
 import de.sovity.authorityportal.broker.dao.utils.JsonDeserializationUtils.read2dStringList
+import de.sovity.authorityportal.broker.services.api.filtering.model.CatalogFilterAttributeDefinition
+import de.sovity.authorityportal.broker.services.api.filtering.model.CatalogQueryFilter
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterPredicateImplFn
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import jakarta.enterprise.context.ApplicationScoped
-import org.eclipse.microprofile.config.inject.ConfigProperty
 
 @ApplicationScoped
 class CatalogFilterService(
@@ -48,53 +48,54 @@ class CatalogFilterService(
          * @return attribute definitions
          */
         get() = listOfNotNull(
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataSourceAvailabilityLabel },
                 "dataSourceAvailability",
                 "Data Offer Type"
             ),
             catalogFilterAttributeDefinitionService.buildDataSpaceFilter().takeIf { this.shouldSupportMultipleDataspaces() },
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.DATA_CATEGORY },
                 "dataCategory",
                 "Data Category"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.DATA_SUBCATEGORY },
                 "dataSubcategory",
                 "Data Subcategory"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.DATA_MODEL },
                 "dataModel",
                 "Data Model"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.TRANSPORT_MODE },
                 "transportMode",
                 "Transport Mode"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.GEO_REFERENCE_METHOD },
                 "geoReferenceMethod",
                 "Geo Reference Method"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdNameProperty(
+                { fields: CatalogQueryFields -> fields.organizationTable.ID },
                 { fields: CatalogQueryFields -> fields.organizationTable.NAME },
-                "organizationName",
-                "Organization Name"
+                "organization",
+                "Organization"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.connectorTable.ORGANIZATION_ID },
                 "organizationId",
                 "Organization ID"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.connectorTable.CONNECTOR_ID },
                 "connectorId",
                 "Connector ID"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.connectorTable.ENDPOINT_URL },
                 "connectorEndpoint",
                 "Connector Endpoint"
@@ -108,7 +109,7 @@ class CatalogFilterService(
                 val queryFilter = getQueryFilter(filter, values[filter.name])
                 CatalogQueryFilter(
                     filter.name,
-                    filter.valueGetter,
+                    filter.valueFn,
                     queryFilter
                 )
             }
@@ -118,11 +119,11 @@ class CatalogFilterService(
     private fun getQueryFilter(
         filter: CatalogFilterAttributeDefinition,
         values: List<String>?
-    ): CatalogQuerySelectedFilterQuery? {
+    ): FilterPredicateImplFn? {
         if (values.isNullOrEmpty()) {
             return null
         }
-        return { fields: CatalogQueryFields -> filter.filterApplier(fields, values) }
+        return { fields: CatalogQueryFields -> filter.filterPredicate(fields, values) }
     }
 
     fun buildAvailableFilters(filterValuesJson: String): CnfFilter {

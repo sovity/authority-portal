@@ -11,12 +11,12 @@
  *       sovity GmbH - initial API and implementation
  *
  */
-package de.sovity.authorityportal.broker.services.api.filtering
+package de.sovity.authorityportal.broker.services.api.filtering.model
 
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
 import org.jooq.Condition
 
 /**
- * Filters a Catalog DB Query for a given Filter Attribute with selected values
+ * Given a list of selected values for this filter, can build the Condition for filtering for it
  */
-typealias AttributeFilterQuery = (CatalogQueryFields, Collection<String>) -> Condition
+typealias FilterPredicateFn = (CatalogQueryFields, Collection<String>) -> Condition

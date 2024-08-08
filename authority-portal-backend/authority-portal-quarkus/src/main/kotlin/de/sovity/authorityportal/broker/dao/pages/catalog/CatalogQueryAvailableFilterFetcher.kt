@@ -13,7 +13,7 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
-import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
+import de.sovity.authorityportal.broker.services.api.filtering.model.CatalogQueryFilter
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Field
 import org.jooq.JSON
@@ -55,16 +55,25 @@ class CatalogQueryAvailableFilterFetcher(
     ): Field<JSON> {
         val fields = parentQueryFields.withSuffix("filter_" + currentFilter.name)
 
-        val value = currentFilter.valueQuery(fields)
+        val idField: Field<String> = currentFilter.idField(fields)
+        val nameField: Field<String>? = currentFilter.nameField?.invoke(fields)
+
+        val idNameArray = if (nameField == null) {
+            DSL.array(idField)
+        } else {
+            DSL.array(idField, nameField)
+        }
 
         return DSL.select(
             DSL.coalesce(
-                DSL.arrayAggDistinct(value),
-                DSL.value(arrayOf<String>()).cast<Array<String>>(SQLDataType.VARCHAR.array())
+                DSL.arrayAggDistinct(idNameArray),
+                emptyStringArray()
             )
         )
             .fromCatalogQueryTables(fields)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, otherFilters))
             .asField()
     }
+
+    private fun emptyStringArray() = DSL.value(arrayOf<String>()).cast<Array<String>>(SQLDataType.VARCHAR.array())
 }
