@@ -15,15 +15,9 @@ package de.sovity.authorityportal.api.model.catalog
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "Attribute Value")
-data class CnfFilterItem(
-    @field:Schema(
-        description = "Value ID",
-        example = "https://w3id.org/idsa/code/EN",
-        requiredMode = Schema.RequiredMode.REQUIRED
-    )
-    val id: String,
+@Schema(description = "How should filter items be rendered?")
+enum class CnfFilterAttributeDisplayType {
+    TITLE_ONLY,
+    ID_AND_TITLE
+}
 
-    @field:Schema(description = "Value Title", example = "MDSLXXXXX1", requiredMode = Schema.RequiredMode.REQUIRED)
-    val title: String,
-)

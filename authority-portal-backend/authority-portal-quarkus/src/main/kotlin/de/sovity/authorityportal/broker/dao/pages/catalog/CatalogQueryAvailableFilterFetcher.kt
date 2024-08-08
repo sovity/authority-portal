@@ -39,7 +39,7 @@ class CatalogQueryAvailableFilterFetcher(
         filters: List<FilterAttributeApplied>
     ): Field<JSON> {
         val resultFields = filters.mapIndexed { i, currentFilter ->
-            // When querying a filter's values we apply all filters except for the current filter's values
+            // When querying a filter's values we apply all filters except for the current filter
             val otherFilters = filters.filterIndexed { j, _ -> i != j }
             queryFilterValues(environment, fields, currentFilter, searchQuery, otherFilters)
         }

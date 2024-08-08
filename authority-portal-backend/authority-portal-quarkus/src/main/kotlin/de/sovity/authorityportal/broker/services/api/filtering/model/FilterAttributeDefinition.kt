@@ -12,11 +12,14 @@
  */
 package de.sovity.authorityportal.broker.services.api.filtering.model
 
+import de.sovity.authorityportal.api.model.catalog.CnfFilterAttributeDisplayType
+
 /**
  * Implementation of a filter attribute for the catalog.
  *
  * @param name technical id of the attribute
  * @param label UI showing label for the attribute
+ * @param displayType how to display the available values
  * @param idField get available value's id field
  * @param nameField get an available value's name field (optional)
  * @param filterConditionFactory apply the filter
@@ -24,6 +27,7 @@ package de.sovity.authorityportal.broker.services.api.filtering.model
 data class FilterAttributeDefinition(
     val name: String,
     val label: String,
+    val displayType: CnfFilterAttributeDisplayType,
     val idField: FilterValueFn,
     val nameField: FilterValueFn?,
     val filterConditionFactory: FilterConditionFactory
