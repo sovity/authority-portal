@@ -21,6 +21,7 @@ import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQuerySelectedFilterQuery
 import de.sovity.authorityportal.broker.dao.utils.JsonDeserializationUtils.read2dStringList
+import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import jakarta.enterprise.context.ApplicationScoped
 import org.eclipse.microprofile.config.inject.ConfigProperty
@@ -28,7 +29,8 @@ import org.eclipse.microprofile.config.inject.ConfigProperty
 @ApplicationScoped
 class CatalogFilterService(
     val catalogFilterAttributeDefinitionService: CatalogFilterAttributeDefinitionService,
-    val deploymentEnvironmentService: DeploymentEnvironmentService
+    val deploymentEnvironmentService: DeploymentEnvironmentService,
+    val catalogDataspaceConfigService: CatalogDataspaceConfigService
 ) {
 
     private val caseInsensitiveEmptyStringLast = Comparator<String> { s1, s2 ->
@@ -171,8 +173,8 @@ class CatalogFilterService(
     }
 
     private fun shouldSupportMultipleDataspaces(): Boolean {
-        deploymentEnvironmentService.findAll().values.forEach {
-            if (it.dataCatalog().dataspaceNames().connectorIds().isNotEmpty()) {
+        deploymentEnvironmentService.findAll().forEach {
+            if (catalogDataspaceConfigService.forEnvironment(it.key).namesByConnectorId.isNotEmpty()) {
                 return true
             }
         }
