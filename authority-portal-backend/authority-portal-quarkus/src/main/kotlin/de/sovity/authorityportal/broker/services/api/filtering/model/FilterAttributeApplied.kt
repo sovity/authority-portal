@@ -12,9 +12,15 @@
  */
 package de.sovity.authorityportal.broker.services.api.filtering.model
 
-data class CatalogQueryFilter(
+/**
+ * Abbreviated [FilterAttributeDefinition] with the actual filter condition applied for selected items
+ * that came in specifically for this request.
+ *
+ * Contains the information as required by the JooQ query
+ */
+data class FilterAttributeApplied(
     val name: String,
     val idField: FilterValueFn,
     val nameField: FilterValueFn?,
-    val queryFilterClauseOrNull: FilterPredicateImplFn?
+    val filterConditionOrNull: FilterCondition?
 )

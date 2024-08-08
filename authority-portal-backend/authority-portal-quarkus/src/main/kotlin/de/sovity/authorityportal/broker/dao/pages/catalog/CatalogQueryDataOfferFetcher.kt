@@ -14,7 +14,7 @@
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
 import de.sovity.authorityportal.api.model.catalog.CatalogPageSortingType
-import de.sovity.authorityportal.broker.services.api.filtering.model.CatalogQueryFilter
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeApplied
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery
 import de.sovity.authorityportal.broker.dao.utils.MultisetUtils
@@ -42,7 +42,7 @@ class CatalogQueryDataOfferFetcher(
         environment: String,
         fields: CatalogQueryFields,
         searchQuery: String?,
-        filters: List<CatalogQueryFilter>,
+        filters: List<FilterAttributeApplied>,
         sorting: CatalogPageSortingType,
         pageQuery: PageQuery
     ): Field<List<DataOfferListEntryRs>> {
@@ -86,7 +86,7 @@ class CatalogQueryDataOfferFetcher(
         environment: String,
         fields: CatalogQueryFields,
         searchQuery: String?,
-        filters: List<CatalogQueryFilter>
+        filters: List<FilterAttributeApplied>
     ): Field<Int> {
         val query = DSL.select(DSL.count())
             .fromCatalogQueryTables(fields)

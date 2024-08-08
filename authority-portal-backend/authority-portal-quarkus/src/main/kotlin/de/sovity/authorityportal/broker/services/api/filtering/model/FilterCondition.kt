@@ -20,4 +20,4 @@ import org.jooq.Condition
  *
  * Already knows its list of values, so it was created for one filter attribute of one request
  */
-typealias FilterPredicateImplFn = (CatalogQueryFields) -> Condition
+typealias FilterCondition = (CatalogQueryFields) -> Condition

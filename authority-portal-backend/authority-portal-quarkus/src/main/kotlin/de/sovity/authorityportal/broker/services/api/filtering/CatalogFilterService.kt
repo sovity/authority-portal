@@ -19,9 +19,9 @@ import de.sovity.authorityportal.api.model.catalog.CnfFilterItem
 import de.sovity.authorityportal.api.model.catalog.CnfFilterValue
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
 import de.sovity.authorityportal.broker.dao.utils.JsonDeserializationUtils.read2dStringList
-import de.sovity.authorityportal.broker.services.api.filtering.model.CatalogFilterAttributeDefinition
-import de.sovity.authorityportal.broker.services.api.filtering.model.CatalogQueryFilter
-import de.sovity.authorityportal.broker.services.api.filtering.model.FilterPredicateImplFn
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeDefinition
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeApplied
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterCondition
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import jakarta.enterprise.context.ApplicationScoped
@@ -41,7 +41,7 @@ class CatalogFilterService(
         }
     }
 
-    private val availableFilters: List<CatalogFilterAttributeDefinition>
+    private val availableFilters: List<FilterAttributeDefinition>
         /**
          * Currently supported filters for the catalog page.
          *
@@ -102,12 +102,12 @@ class CatalogFilterService(
             )
         )
 
-    fun getCatalogQueryFilters(cnfFilterValue: CnfFilterValue?): List<CatalogQueryFilter> {
+    fun getCatalogQueryFilters(cnfFilterValue: CnfFilterValue?): List<FilterAttributeApplied> {
         val values = getCnfFilterValuesMap(cnfFilterValue)
         return availableFilters
-            .map { filter: CatalogFilterAttributeDefinition ->
+            .map { filter: FilterAttributeDefinition ->
                 val queryFilter = getQueryFilter(filter, values[filter.name])
-                CatalogQueryFilter(
+                FilterAttributeApplied(
                     filter.name,
                     filter.valueFn,
                     queryFilter
@@ -117,13 +117,13 @@ class CatalogFilterService(
     }
 
     private fun getQueryFilter(
-        filter: CatalogFilterAttributeDefinition,
+        filter: FilterAttributeDefinition,
         values: List<String>?
-    ): FilterPredicateImplFn? {
+    ): FilterCondition? {
         if (values.isNullOrEmpty()) {
             return null
         }
-        return { fields: CatalogQueryFields -> filter.filterPredicate(fields, values) }
+        return { fields: CatalogQueryFields -> filter.filterConditionFactory(fields, values) }
     }
 
     fun buildAvailableFilters(filterValuesJson: String): CnfFilter {
@@ -148,7 +148,7 @@ class CatalogFilterService(
     }
 
     private fun zipAvailableFilters(
-        availableFilters: List<CatalogFilterAttributeDefinition>,
+        availableFilters: List<FilterAttributeDefinition>,
         filterValues: List<List<String>>
     ): List<AvailableFilter> {
         require(availableFilters.size == filterValues.size) {
@@ -160,7 +160,7 @@ class CatalogFilterService(
     }
 
     private data class AvailableFilter(
-        val definition: CatalogFilterAttributeDefinition,
+        val definition: FilterAttributeDefinition,
         val availableValues: List<String>
     )
 

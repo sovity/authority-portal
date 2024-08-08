@@ -19,4 +19,4 @@ import org.jooq.Condition
 /**
  * Given a list of selected values for this filter, can build the Condition for filtering for it
  */
-typealias FilterPredicateFn = (CatalogQueryFields, Collection<String>) -> Condition
+typealias FilterConditionFactory = (CatalogQueryFields, Collection<String>) -> Condition

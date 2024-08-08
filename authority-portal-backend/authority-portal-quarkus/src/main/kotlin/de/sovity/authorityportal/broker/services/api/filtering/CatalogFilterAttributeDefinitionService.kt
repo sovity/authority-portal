@@ -15,7 +15,7 @@ package de.sovity.authorityportal.broker.services.api.filtering
 
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
 import de.sovity.authorityportal.broker.dao.utils.eqAny
-import de.sovity.authorityportal.broker.services.api.filtering.model.CatalogFilterAttributeDefinition
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeDefinition
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Field
 
@@ -25,16 +25,16 @@ class CatalogFilterAttributeDefinitionService {
         fieldExtractor: (CatalogQueryFields) -> Field<String>,
         name: String,
         label: String
-    ): CatalogFilterAttributeDefinition {
-        return CatalogFilterAttributeDefinition(
+    ): FilterAttributeDefinition {
+        return FilterAttributeDefinition(
             name = name,
             label = label,
             valueFn = fieldExtractor
         ) { fields, values -> fieldExtractor(fields).eqAny(values) }
     }
 
-    fun buildDataSpaceFilter(): CatalogFilterAttributeDefinition {
-        return CatalogFilterAttributeDefinition(
+    fun buildDataSpaceFilter(): FilterAttributeDefinition {
+        return FilterAttributeDefinition(
             name = "dataSpace",
             label = "Data Space",
             valueFn = CatalogQueryFields::dataSpace

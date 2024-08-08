@@ -13,7 +13,7 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
-import de.sovity.authorityportal.broker.services.api.filtering.model.CatalogQueryFilter
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeApplied
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Field
 import org.jooq.JSON
@@ -36,7 +36,7 @@ class CatalogQueryAvailableFilterFetcher(
         environment: String,
         fields: CatalogQueryFields,
         searchQuery: String?,
-        filters: List<CatalogQueryFilter>
+        filters: List<FilterAttributeApplied>
     ): Field<JSON> {
         val resultFields = filters.mapIndexed { i, currentFilter ->
             // When querying a filter's values we apply all filters except for the current filter's values
@@ -49,9 +49,9 @@ class CatalogQueryAvailableFilterFetcher(
     private fun queryFilterValues(
         environment: String,
         parentQueryFields: CatalogQueryFields,
-        currentFilter: CatalogQueryFilter,
+        currentFilter: FilterAttributeApplied,
         searchQuery: String?,
-        otherFilters: List<CatalogQueryFilter>
+        otherFilters: List<FilterAttributeApplied>
     ): Field<JSON> {
         val fields = parentQueryFields.withSuffix("filter_" + currentFilter.name)
 
