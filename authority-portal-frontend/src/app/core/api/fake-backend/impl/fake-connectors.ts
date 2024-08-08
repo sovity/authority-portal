@@ -314,7 +314,7 @@ export const checkFreeCaasUsage = (
     )
       ? 1
       : 0,
-    limit: 1,
+    limit: 0,
   };
 };
 
