@@ -20,6 +20,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed provider organization ID not showing up on CaaS connectors [#206](https://github.com/sovity/authority-portal/issues/206)
   - Keep in mind that sovity needs to be registered in the portal for the ID to show up.
   - Already registered connectors will be updated automatically, this process can take up to 24 hours
+- Added a message when the CaaS request feature is not available
+- Catalog: Removed dataspace filter when only one dataspace is known
 
 ### Known issues
 
@@ -39,15 +41,22 @@ Environment variable changes:
     authority-portal.organization.id.prefix: "MDS"
     authority-portal.organization.id.length: "4"
     ```
+- New **mandatory** configuration variables:
+  - ```yaml
+    # Enables the client to connect to the CaaS service. If you weren't provided credentials for the feature by sovity, set this to false
+    quarkus.oidc-client.sovity.client-enabled: true
+    ```
     
 #### Frontend
 Environment variable changes:
-- New optional configuration variables - the values assigned here are the ones you should use to retain the current behavior:
+- New **mandantory** configuration variables - the values assigned here are the ones you should use to retain the current behavior:
   - ```yaml
     # UI Branding profile
     AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: mds-open-source
     # Short Dataspace name, used in some explanatory texts
     AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS
+    # Portal name displayed in various texts
+    AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "MDS Portal"
     ```
 
 #### Compatible Versions

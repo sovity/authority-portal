@@ -17,4 +17,5 @@ export const MDS_FEATURES: UiFeature[] = [
   'catalogue',
   'iframe-in-home',
   'enable-home',
+  'uses-logging-house',
 ];

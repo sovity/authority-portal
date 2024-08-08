@@ -32,6 +32,7 @@ import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtil
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import org.eclipse.microprofile.config.inject.ConfigProperty
+import kotlin.jvm.optionals.getOrNull
 
 @ApplicationScoped
 class CaasManagementApiService(
@@ -43,7 +44,8 @@ class CaasManagementApiService(
     val clientIdUtils: ClientIdUtils,
     val userService: UserService,
     val timeUtils: TimeUtils,
-    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-organization") val caasLimitPerOrganizationId: String
+    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-organization") val caasLimitPerOrganizationId: String,
+    @ConfigProperty(name = "quarkus.oidc-client.sovity.client-enabled") val isCaasClientEnabled: Boolean
 ) {
 
     fun createCaas(
@@ -89,7 +91,11 @@ class CaasManagementApiService(
         return CreateConnectorResponse.ok(connectorId, timeUtils.now())
     }
 
-    fun getFreeCaasUsageForOrganization(organizationId: String, environmentId: String): CaasAvailabilityResponse {
+    fun getCaasAvailabilityForOrganization(organizationId: String, environmentId: String): CaasAvailabilityResponse {
+        if (!isCaasClientEnabled) {
+            return CaasAvailabilityResponse(0, 0)
+        }
+
         val caasLimit = caasLimitPerOrganizationId.toInt()
         val caasCount = connectorService.getCaasCountByOrganizationIdAndEnvironment(organizationId, environmentId)
 
@@ -130,7 +136,7 @@ class CaasManagementApiService(
             connectorDescription = caasRequest.connectorDescription.trim(),
             participantOrganizationUrl = curatorOrganization.url,
             participantOrganizationLegalName = curatorOrganization.name,
-            clearingHouseUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).loggingHouse().url(),
+            clearingHouseUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).loggingHouse().getOrNull()?.url(),
             brokerUrl = "https://this-field-is-deprecated",
             dapsTokenUrl = buildDapsTokenUrl(environmentId),
             dapsJwksUrl = buildDapsJwksUrl(environmentId),

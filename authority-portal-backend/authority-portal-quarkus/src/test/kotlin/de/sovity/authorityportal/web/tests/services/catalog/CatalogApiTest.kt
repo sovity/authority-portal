@@ -367,7 +367,6 @@ class CatalogApiTest {
         // assert
         assertThat(result.availableFilters.fields).allSatisfy {
             it.id in setOf(
-                "dataSpace",
                 "dataCategory",
                 "dataSubcategory",
                 "dataModel",
@@ -382,7 +381,6 @@ class CatalogApiTest {
 
         assertThat(result.availableFilters.fields).allSatisfy {
             it.title in setOf(
-                "Data Space",
                 "Data Category",
                 "Data Subcategory",
                 "Data Model",
@@ -394,9 +392,6 @@ class CatalogApiTest {
                 "Connector Endpoint"
             )
         }
-
-        val dataSpace = getAvailableFilter(result, "dataSpace")
-        assertThat(dataSpace.values).allSatisfy { it.id in setOf("MDS") }
 
         val dataCategory = getAvailableFilter(result, "dataCategory")
         assertThat(dataCategory.values).allSatisfy { it.id in setOf("Data Category 1") }

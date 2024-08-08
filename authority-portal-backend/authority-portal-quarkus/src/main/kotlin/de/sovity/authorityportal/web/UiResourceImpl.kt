@@ -394,7 +394,7 @@ class UiResourceImpl(
     override fun checkFreeCaasUsage(environmentId: String): CaasAvailabilityResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
-        return caasManagementApiService.getFreeCaasUsageForOrganization(loggedInUser.organizationId!!, environmentId)
+        return caasManagementApiService.getCaasAvailabilityForOrganization(loggedInUser.organizationId!!, environmentId)
     }
 
     @Transactional

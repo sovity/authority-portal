@@ -84,12 +84,17 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
 
         this.sponsoredCaasAmount = x.limit;
         const isLimitReached = x.current >= x.limit;
+        const isUnconfigured = x.limit == 0;
 
         this.selectionBox.action = {
-          label: `Request CaaS (${x.current}/${x.limit})`,
+          label: isUnconfigured
+            ? 'Unavailable'
+            : `Request CaaS (${x.current}/${x.limit})`,
           url: 'my-organization/connectors/new/provided',
-          isDisabled: isLimitReached,
-          hint: isLimitReached
+          isDisabled: isLimitReached || isUnconfigured,
+          hint: isUnconfigured
+            ? 'Your dataspace authority has not configured this feature'
+            : isLimitReached
             ? 'The existing CaaS connector needs to be removed before requesting a new one'
             : '',
         };

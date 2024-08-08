@@ -15,11 +15,18 @@
     <h2 class="selection-page-title max-w-xl mx-auto">
       Request a Connector-as-a-Service
     </h2>
-    <p class="selection-page-prose">
+    <p *ngIf="sponsoredCaasAmount > 0" class="selection-page-prose">
       As {{ inferArticle(this.appConfig.brandDataspaceName) }}
       {{ this.appConfig.brandDataspaceName }} member, you have the option to
       request {{ this.sponsoredCaasAmount }} free CaaS per environment.
     </p>
+    <!-- CaaS feature not configured -->
+    <p *ngIf="sponsoredCaasAmount == 0" class="selection-page-prose">
+      Your dataspace authority has not configured this feature yet. Contact
+      <a href="mailto:contact@sovity.de">sovity</a> to purchase an individual
+      CaaS subscription.
+    </p>
+    <!-- END CaaS feature not configured -->
     <div class="flex gap-4 flex-row mt-8 justify-evenly w-full">
       <app-selection-box
         [selectionBoxConfig]="selectionBox"></app-selection-box>
