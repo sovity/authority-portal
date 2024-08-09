@@ -15,7 +15,7 @@ package de.sovity.authorityportal.api.model.catalog
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "How should filter items be rendered?", enumAsRef = true)
+@Schema(description = "How should filter items be rendered in the UI", enumAsRef = true)
 enum class CnfFilterAttributeDisplayType {
     TITLE_ONLY,
     ID_AND_TITLE

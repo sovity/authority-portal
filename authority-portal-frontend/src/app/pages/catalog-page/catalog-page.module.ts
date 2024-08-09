@@ -13,7 +13,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatLineModule} from '@angular/material/core';
 import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
 import {NgxJsonViewerModule} from 'ngx-json-viewer';
@@ -56,7 +55,6 @@ import {ViewSelectionComponent} from './view-selection/view-selection.component'
 
     // Thirdparty
     NgxJsonViewerModule,
-    MatLineModule,
   ],
   declarations: [
     AssetCardTagListComponent,

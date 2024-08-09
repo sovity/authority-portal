@@ -22,7 +22,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Already registered connectors will be updated automatically, this process can take up to 24 hours
 - Added a message when the CaaS request feature is not available
 - Catalog: Removed dataspace filter when only one dataspace is known
-- Catalog: Merged Organization ID and name filter into one
+- Catalog: Organization filter is no longer split into ID and name
+- Catalog: Connector filter is no longer split into ID and endpoint
 
 ### Known issues
 

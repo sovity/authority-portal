@@ -136,7 +136,7 @@ class CatalogFilterService(
             .map {
                 CnfFilterItem(
                     id = it.first(),
-                    title = it.lastOrNull() ?: it.first(),
+                    title = it.last(),
                 )
             }
             .sortedWith(java.util.Comparator.comparing({it.title}, caseInsensitiveEmptyStringLast))
@@ -156,7 +156,7 @@ class CatalogFilterService(
 
     private data class AvailableFilter(
         val definition: FilterAttributeDefinition,
-        val availableValues: List<List<String>> // [ ["MDS"], ["MDSLXXXX", "OrgName"] ]
+        val availableValues: List<List<String>>
     )
 
     private fun getCnfFilterValuesMap(cnfFilterValue: CnfFilterValue?): Map<String, List<String>> {

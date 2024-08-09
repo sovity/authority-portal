@@ -21,7 +21,7 @@ data class CnfFilterAttribute(
     val id: String,
     @field:Schema(description = "Attribute Title", example = "Language", requiredMode = Schema.RequiredMode.REQUIRED)
     val title: String,
-    @field:Schema(description = "Has additional information", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "How should items of this filter be rendered in the UI", requiredMode = Schema.RequiredMode.REQUIRED)
     val displayType: CnfFilterAttributeDisplayType,
     @field:Schema(description = "Available values.", requiredMode = Schema.RequiredMode.REQUIRED)
     val values: List<CnfFilterItem>,

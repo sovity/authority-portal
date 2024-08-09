@@ -13,7 +13,6 @@
 
 package de.sovity.authorityportal.web.tests.services.catalog
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import de.sovity.authorityportal.api.CatalogResource
 import de.sovity.authorityportal.api.model.catalog.CatalogPageQuery
 import de.sovity.authorityportal.api.model.catalog.CatalogPageResult
@@ -36,13 +35,11 @@ import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import de.sovity.authorityportal.web.tests.useDevUser
 import de.sovity.authorityportal.web.tests.useMockNow
 import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
-import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
-import org.jooq.JSONB
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
@@ -59,9 +56,6 @@ class CatalogApiTest {
 
     @Inject
     lateinit var scenarioInstaller: ScenarioInstaller
-
-    @Inject
-    lateinit var objectMapper: ObjectMapper
 
     @InjectMock
     lateinit var catalogDataspaceConfigService: CatalogDataspaceConfigService
@@ -194,7 +188,6 @@ class CatalogApiTest {
             }
 
             dataOffer(0, 0, 0, assetApplier = {
-                it.assetId = dummyDevAssetId(0)
                 it.title = "Data Offer 0"
                 it.description = "Data Offer 0 Description"
                 it.dataSourceAvailability = DataSourceAvailability.ON_REQUEST
@@ -244,7 +237,6 @@ class CatalogApiTest {
             }
 
             dataOffer(0, 0, 0, assetApplier = {
-                it.assetId = dummyDevAssetId(0)
                 it.title = "Data Offer 0"
                 it.description = "Data Offer 0 Description"
                 it.transportMode = "Transport Mode 1"
@@ -254,7 +246,6 @@ class CatalogApiTest {
                 it.dataSourceAvailability = DataSourceAvailability.LIVE
             })
             dataOffer(0, 0, 1, assetApplier = {
-                it.assetId = dummyDevAssetId(1)
                 it.title = "Data Offer 1"
                 it.description = "Data Offer 1 Description"
                 it.dataCategory = "Data Category 1"
@@ -263,7 +254,6 @@ class CatalogApiTest {
                 it.dataSourceAvailability = DataSourceAvailability.LIVE
             })
             dataOffer(0, 0, 2, assetApplier = {
-                it.assetId = dummyDevAssetId(2)
                 it.title = "Data Offer 2"
                 it.description = "Data Offer 2 Description"
                 it.dataCategory = "Data Category 1"
@@ -272,7 +262,6 @@ class CatalogApiTest {
                 it.dataSourceAvailability = DataSourceAvailability.LIVE
             })
             dataOffer(0, 0, 3, assetApplier = {
-                it.assetId = dummyDevAssetId(3)
                 it.title = "Data Offer 3"
                 it.description = "Data Offer 3 Description"
                 it.dataCategory = "Data Category 1"
@@ -395,7 +384,6 @@ class CatalogApiTest {
             }
 
             dataOffer(0, 0, 0, assetApplier = {
-                it.assetId = dummyDevAssetId(0)
                 it.title = "Hello"
                 it.description = "Data Offer 0 Description"
                 it.dataSourceAvailability = DataSourceAvailability.LIVE
@@ -447,14 +435,12 @@ class CatalogApiTest {
             }
 
             dataOffer(0, 0, 0, assetApplier = {
-                it.assetId = dummyDevAssetId(0)
                 it.title = "Data Offer 0"
                 it.description = "Data Offer 0 Description"
                 it.dataCategory = "Data Category 0"
                 it.dataSubcategory = "Data Subcategory 0"
             })
             dataOffer(0, 0, 1, assetApplier = {
-                it.assetId = dummyDevAssetId(1)
                 it.title = "Data Offer 1"
                 it.description = "Data Offer 1 Description"
                 it.dataSubcategory = "Data Subcategory 1"

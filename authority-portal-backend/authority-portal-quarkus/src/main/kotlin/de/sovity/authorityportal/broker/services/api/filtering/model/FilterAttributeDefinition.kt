@@ -18,10 +18,10 @@ import de.sovity.authorityportal.api.model.catalog.CnfFilterAttributeDisplayType
  * Implementation of a filter attribute for the catalog.
  *
  * @param name technical id of the attribute
- * @param label UI showing label for the attribute
- * @param displayType how to display the available values
- * @param idField get available value's id field
- * @param nameField get an available value's name field (optional)
+ * @param label attribute label is shown as the title of the filter-box in the UI
+ * @param displayType how to display the available values in the UI
+ * @param idField get available value's id in the JooQ query
+ * @param nameField get available value's name in the JooQ query (optional)
  * @param filterConditionFactory apply the filter
  */
 data class FilterAttributeDefinition(

@@ -19,11 +19,11 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class CnfFilterItem(
     @field:Schema(
         description = "Value ID",
-        example = "https://w3id.org/idsa/code/EN",
+        example = "MDSLXXXXX1",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val id: String,
 
-    @field:Schema(description = "Value Title", example = "MDSLXXXXX1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @field:Schema(description = "Value Title", example = "Example Organization", requiredMode = Schema.RequiredMode.REQUIRED)
     val title: String,
 )
