@@ -19,6 +19,12 @@ import jakarta.enterprise.context.ApplicationScoped
 class CatalogDataspaceConfigService(
     val deploymentEnvironmentService: DeploymentEnvironmentService
 ) {
+
+    val hasMultipleDataspaces: Boolean by lazy {
+        deploymentEnvironmentService.findAll().values
+            .any { it.dataCatalog().dataspaceNames().connectorIds().isNotEmpty() }
+    }
+
     fun forEnvironment(envId: String): CatalogDataspaceConfig {
         val env = deploymentEnvironmentService.findByIdOrThrow(envId)
         return CatalogDataspaceConfig(

@@ -187,11 +187,12 @@ export class CatalogPageState implements OnDestroy {
       label: x,
     }));
     return {
-      id: 'organizationId',
-      title: 'Organization ID',
+      id: 'organization',
+      title: 'Organization',
       selectedItems: items,
       availableItems: items,
       searchText: '',
+      displayType: 'TITLE_ONLY',
     };
   }
 
@@ -275,7 +276,7 @@ export class CatalogPageState implements OnDestroy {
       state.filters,
     );
 
-    return {
+    state = {
       ...state,
       isPageReady: true,
       paginationDisabled: false,
@@ -284,6 +285,8 @@ export class CatalogPageState implements OnDestroy {
       activeSorting: state.activeSorting ?? data.availableSortings[0] ?? null,
       filters,
     };
+
+    return this._recalculateActiveFilterItems(state);
   }
 
   private buildFiltersWithNewData(

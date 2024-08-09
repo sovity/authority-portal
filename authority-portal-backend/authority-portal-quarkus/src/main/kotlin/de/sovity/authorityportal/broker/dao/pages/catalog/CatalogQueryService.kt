@@ -15,7 +15,7 @@ package de.sovity.authorityportal.broker.dao.pages.catalog
 
 import de.sovity.authorityportal.api.model.catalog.CatalogPageSortingType
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogPageRs
-import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeApplied
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.PageQuery
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
@@ -42,7 +42,7 @@ class CatalogQueryService(
     fun queryCatalogPage(
         environment: String,
         searchQuery: String?,
-        filters: List<CatalogQueryFilter>,
+        filters: List<FilterAttributeApplied>,
         sorting: CatalogPageSortingType,
         pageQuery: PageQuery
     ): CatalogPageRs {

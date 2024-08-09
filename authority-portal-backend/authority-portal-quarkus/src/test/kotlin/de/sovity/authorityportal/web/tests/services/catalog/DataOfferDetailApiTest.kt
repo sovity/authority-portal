@@ -66,20 +66,6 @@ class DataOfferDetailApiTest {
         // arrange
         useDevUser(0, 0)
 
-        val uiAsset1 = UiAsset().also {
-            it.assetId = dummyDevAssetId(0)
-            it.title = "Data Offer 0"
-            it.dataCategory = "Data Category 0"
-            it.description = "Data Offer 0 Description"
-        }
-
-        val uiAsset2 = UiAsset().also {
-            it.assetId = dummyDevAssetId(1)
-            it.title = "Data Offer 1"
-            it.dataCategory = "Data Category 1"
-            it.description = "Data Offer 1 Description"
-        }
-
         ScenarioData().apply {
             organization(0, 0)
             user(0, 0)
@@ -87,15 +73,21 @@ class DataOfferDetailApiTest {
             connector(0, 0, 0) {
                 it.endpointUrl = "https://connector/dsp"
             }
-            dataOffer(0, 0, 0) {
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset1))
-            }
+            dataOffer(0, 0, 0, assetApplier = {
+                it.assetId = dummyDevAssetId(0)
+                it.title = "Data Offer 0"
+                it.dataCategory = "Data Category 0"
+                it.description = "Data Offer 0 Description"
+            })
             contractOffer(0, 0, 0, 0)
 
             connector(1, 0, 0)
-            dataOffer(1, 0, 1) {
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset2))
-            }
+            dataOffer(1, 0, 1, assetApplier = {
+                it.assetId = dummyDevAssetId(1)
+                it.title = "Data Offer 1"
+                it.dataCategory = "Data Category 1"
+                it.description = "Data Offer 1 Description"
+            })
             contractOffer(1, 0, 1, 1)
 
             scenarioInstaller.install(this)

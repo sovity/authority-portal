@@ -95,7 +95,10 @@ class DevScenario(
             }
 
             // Catalog test data
-            val asset1 = UiAsset().also {
+            val objectMapper = ObjectMapper()
+
+            connector(1, 1, 1)
+            dataOffer(1, 1, 1, assetApplier = {
                 it.assetId = dummyDevAssetId(1)
                 it.title = "Asset Title"
                 it.connectorEndpoint = "https://test-connector/dsp"
@@ -105,8 +108,8 @@ class DevScenario(
                 it.description = "Long description"
                 it.descriptionShortText = "Short description"
                 it.dataSourceAvailability = DataSourceAvailability.LIVE
-            }
-            val asset2 = UiAsset().also {
+            })
+            dataOffer(1, 1, 2, assetApplier = {
                 it.assetId = dummyDevAssetId(2)
                 it.title = "OnDemand Asset"
                 it.connectorEndpoint = null
@@ -116,18 +119,7 @@ class DevScenario(
                 it.description = "Long description"
                 it.descriptionShortText = "Short description"
                 it.dataSourceAvailability = DataSourceAvailability.ON_REQUEST
-            }
-            val objectMapper = ObjectMapper()
-
-            connector(1, 1, 1)
-            dataOffer(1, 1, 1) {
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(asset1))
-                it.assetTitle = "Asset Title"
-            }
-            dataOffer(1, 1, 2) {
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(asset2))
-                it.assetTitle = "OnDemand Asset"
-            }
+            })
             contractOffer(1, 1, 1, 1)
             contractOffer(1, 1, 2, 2)
         }

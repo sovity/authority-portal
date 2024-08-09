@@ -13,7 +13,7 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
-import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeApplied
 import de.sovity.authorityportal.broker.services.api.filtering.CatalogSearchService
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.tables.Connector
@@ -33,13 +33,13 @@ class CatalogQueryFilterService(
         environment: String,
         fields: CatalogQueryFields,
         searchQuery: String?,
-        filters: List<CatalogQueryFilter>
+        filters: List<FilterAttributeApplied>
     ): Condition {
         val conditions = ArrayList<Condition>()
         conditions.add(fields.connectorTable.ENVIRONMENT.eq(environment))
         conditions.add(visibleConnectorsOfEnvironment(environment, fields.connectorTable))
         conditions.add(catalogSearchService.filterBySearch(fields, searchQuery))
-        conditions.addAll(filters.mapNotNull { it.queryFilterClauseOrNull }.map { it(fields) })
+        conditions.addAll(filters.mapNotNull { it.filterConditionOrNull }.map { it(fields) })
         return DSL.and(conditions)
     }
 

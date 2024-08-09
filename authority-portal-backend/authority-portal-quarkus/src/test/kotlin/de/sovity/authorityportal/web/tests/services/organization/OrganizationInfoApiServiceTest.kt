@@ -267,18 +267,15 @@ class OrganizationInfoApiServiceTest {
             user(0, 0)
             connector(0, 0, 0)
 
-            val uiAsset1 = UiAsset().also {
+            // On request
+            dataOffer(0, 0, 0, 0, assetApplier = {
                 it.assetId = dummyDevAssetId(0)
                 it.title = "Data Offer 0"
                 it.dataCategory = "Data Category 0"
                 it.description = "Data Offer 0 Description"
                 it.dataSourceAvailability = DataSourceAvailability.ON_REQUEST
-            }
+            })
 
-            // On request
-            dataOffer(0, 0, 0, 0) {
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset1))
-            }
             // Live offer
             dataOffer(0, 0, 1, 0)
 
@@ -311,18 +308,15 @@ class OrganizationInfoApiServiceTest {
             user(1, 1)
             connector(1, 1, 1)
 
-            val uiAsset1 = UiAsset().also {
+            // On request
+            dataOffer(0, 0, 0, 0, assetApplier = {
                 it.assetId = dummyDevAssetId(0)
                 it.title = "Data Offer 0"
                 it.dataCategory = "Data Category 0"
                 it.description = "Data Offer 0 Description"
                 it.dataSourceAvailability = DataSourceAvailability.ON_REQUEST
-            }
+            })
 
-            // On request
-            dataOffer(0, 0, 0, 0) {
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset1))
-            }
             // Live offer
             dataOffer(0, 0, 1, 0)
             dataOffer(1, 1, 2, 0)

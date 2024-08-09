@@ -13,30 +13,51 @@
  */
 package de.sovity.authorityportal.broker.services.api.filtering
 
+import de.sovity.authorityportal.api.model.catalog.CnfFilterAttributeDisplayType
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
 import de.sovity.authorityportal.broker.dao.utils.eqAny
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeDefinition
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Field
 
 @ApplicationScoped
 class CatalogFilterAttributeDefinitionService {
-    fun forField(
+    fun forIdOnlyField(
         fieldExtractor: (CatalogQueryFields) -> Field<String>,
         name: String,
         label: String
-    ): CatalogFilterAttributeDefinition {
-        return CatalogFilterAttributeDefinition(
+    ): FilterAttributeDefinition {
+        return FilterAttributeDefinition(
             name = name,
             label = label,
-            valueGetter = fieldExtractor
+            displayType = CnfFilterAttributeDisplayType.TITLE_ONLY,
+            idField = fieldExtractor,
+            nameField = null
         ) { fields, values -> fieldExtractor(fields).eqAny(values) }
     }
 
-    fun buildDataSpaceFilter(): CatalogFilterAttributeDefinition {
-        return CatalogFilterAttributeDefinition(
+    fun forIdNameProperty(
+        idFieldExtractor: (CatalogQueryFields) -> Field<String>,
+        nameFieldExtractor: (CatalogQueryFields) -> Field<String>,
+        name: String,
+        label: String
+    ): FilterAttributeDefinition {
+        return FilterAttributeDefinition(
+            name = name,
+            label = label,
+            displayType = CnfFilterAttributeDisplayType.ID_AND_TITLE,
+            idField = idFieldExtractor,
+            nameField = nameFieldExtractor
+        ) { fields, values -> idFieldExtractor(fields).eqAny(values) }
+    }
+
+    fun buildDataSpaceFilter(): FilterAttributeDefinition {
+        return FilterAttributeDefinition(
             name = "dataSpace",
             label = "Data Space",
-            valueGetter = CatalogQueryFields::dataSpace
+            displayType = CnfFilterAttributeDisplayType.TITLE_ONLY,
+            idField = CatalogQueryFields::dataSpace,
+            nameField = null
         ) { fields, values -> fields.dataSpace.eqAny(values) }
     }
 }
