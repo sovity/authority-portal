@@ -52,7 +52,6 @@ class ComponentStatusApiServiceTest {
     fun getComponentStatusTest() {
         // arrange
         val now = OffsetDateTime.now()
-        // TODO: make this a list
         val env1 = "test"
         val env2 = "dev"
         val env3 = "env3"

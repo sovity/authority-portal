@@ -103,8 +103,6 @@ class ComponentStatusApiService(
 
         val statusHistoryAsc = componentStatusService.getStatusHistoryAscSince(component, limit, environmentId)
 
-        if (statusHistoryAsc.isEmpty()) return 0.0
-
         val first = statusHistoryAsc.first()
 
         val start = when {
