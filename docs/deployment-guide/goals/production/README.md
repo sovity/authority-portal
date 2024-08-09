@@ -79,8 +79,8 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 - The domain under which the Keycloak should be reachable on the internet will be referred to as `[KC_FQDN]` in this
   guide and should differ from the `[AP_FQDN]`.
 - The steps to set up the realm are the following
-   1. Copy [mds-theme](../../../../authority-portal-keycloak/mds-theme) directory to `{keycloakRoot}/themes/` directory
-   2. Import [realm.json](../../../../authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json) to create `mds-portal` realm
+   1. Copy [mds-theme](../../../../authority-portal-keycloak/mds-theme) or [sovity-theme](../../../../authority-portal-keycloak/sovity-theme) directory to `{keycloakRoot}/themes/` directory
+   2. Import [realm-mds.json](../../../../authority-portal-backend/authority-portal-quarkus/src/main/resources/realm-mds.json) to create `mds-portal` realm or [realm.json](../../../../authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json) to create `authority-portal` realm
    3. Adjust settings for `oauth2-proxy` client (Clients > `oauth2-proxy` > Settings)
       - `Root URL`: URL of the auth proxy, e.g. `https://authority-portal.example.url`
       - `Home URL`: (Relative) sign in URL of auth proxy, e.g. `/oauth2/sign_in`

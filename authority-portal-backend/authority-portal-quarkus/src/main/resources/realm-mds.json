@@ -1,7 +1,7 @@
 {
   "id": "505910bc-ea1d-497e-8107-461505d89736",
-  "realm": "authority-portal",
-  "displayName": "Authority Portal",
+  "realm": "mds-portal",
+  "displayName": "MDS Portal",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -49,7 +49,7 @@
       {
         "id": "d24a6aa3-9805-4324-bc12-51ee5d794156",
         "name": "UR_AUTHORITY-PORTAL_AUTHORITY-ADMIN",
-        "description": "Admin of Dataspace Authority.",
+        "description": "Admin of Dataspace Authority (MDS).",
         "composite": true,
         "composites": {
           "realm": [
@@ -63,7 +63,7 @@
       {
         "id": "04b696ff-910f-4de8-849c-5d1f886546a4",
         "name": "UR_AUTHORITY-PORTAL_AUTHORITY-USER",
-        "description": "User of Dataspace Authority.",
+        "description": "User of Dataspace Authority (MDS).",
         "composite": false,
         "clientRole": false,
         "containerId": "505910bc-ea1d-497e-8107-461505d89736",
@@ -627,13 +627,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/authority-portal/account/",
+      "baseUrl": "/realms/mds-portal/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/authority-portal/account/*"
+        "/realms/mds-portal/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -671,13 +671,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/authority-portal/account/",
+      "baseUrl": "/realms/mds-portal/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/authority-portal/account/*"
+        "/realms/mds-portal/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -1029,13 +1029,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/authority-portal/console/",
+      "baseUrl": "/admin/mds-portal/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/authority-portal/console/*"
+        "/admin/mds-portal/console/*"
       ],
       "webOrigins": [
         "+"
@@ -1623,15 +1623,15 @@
   "smtpServer": {
     "host": "keycloak-mailserver",
     "from": "admin@keycloak.local",
-    "fromDisplayName": "Authority Portal",
+    "fromDisplayName": "MDS Portal",
     "starttls": "false",
     "port": "1025",
     "ssl": "false"
   },
-  "loginTheme": "sovity-theme",
+  "loginTheme": "mds-theme",
   "accountTheme": "",
   "adminTheme": "",
-  "emailTheme": "sovity-theme",
+  "emailTheme": "mds-theme",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
