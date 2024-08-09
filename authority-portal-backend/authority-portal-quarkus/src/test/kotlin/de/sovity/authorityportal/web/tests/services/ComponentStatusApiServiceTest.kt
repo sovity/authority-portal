@@ -126,7 +126,7 @@ class ComponentStatusApiServiceTest {
         assertThat(resultEnv3.dapsStatus?.componentStatus).isEqualTo(ComponentOnlineStatus.UP.toDto())
         assertThat(resultEnv3.dapsStatus?.uptimePercentage).isCloseTo(100.0, Offset.offset(0.1))
         assertThat(resultEnv3.dapsStatus?.timeSpanSeconds).isEqualTo(Duration.ofDays(30).toSeconds())
-        assertThat(resultEnv3.dapsStatus?.upSinceSeconds).isCloseTo(Duration.ofDays(15).toSeconds(), Offset.offset(10L))
+        assertThat(resultEnv3.dapsStatus?.upSinceSeconds).isCloseTo(Duration.ofDays(15).toSeconds(), Offset.offset(1L))
     }
 
     private fun setupStatusHistory(now: OffsetDateTime, environment1: String, environment2: String, environment3: String) {
