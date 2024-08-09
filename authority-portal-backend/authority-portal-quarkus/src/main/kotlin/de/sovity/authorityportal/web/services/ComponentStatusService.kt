@@ -72,7 +72,6 @@ class ComponentStatusService(
                 dsl.selectFrom(c)
                     .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment))
                     .and(c.TIME_STAMP.greaterOrEqual(limit))
-                    .orderBy(c.TIME_STAMP.asc())
             )
             .orderBy(c.TIME_STAMP.asc())
             .fetch()

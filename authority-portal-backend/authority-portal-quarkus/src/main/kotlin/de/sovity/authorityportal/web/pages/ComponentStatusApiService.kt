@@ -105,15 +105,15 @@ class ComponentStatusApiService(
 
         val first = statusHistoryAsc.first()
 
-        val start = when {
+        val head = when {
             first.timeStamp.isBefore(limit) -> ComponentDowntimesRecord(component, first.status, environmentId, limit)
             else -> first
         }
 
-        val middle = statusHistoryAsc.drop(1)
-        val end = ComponentDowntimesRecord(component, statusHistoryAsc.last().status, environmentId, now)
+        val body = statusHistoryAsc.drop(1)
+        val tail = ComponentDowntimesRecord(component, statusHistoryAsc.last().status, environmentId, now)
 
-        val whole = listOf(start) + middle + listOf(end)
+        val whole = listOf(head) + body + listOf(tail)
 
         val duration = whole.zipWithNext().fold(Duration.ZERO) { acc, (start, end) ->
             when (start.status) {
@@ -122,7 +122,7 @@ class ComponentStatusApiService(
             }
         }
 
-        val uptime = 100.0 * duration.toMillis() / between(start.timeStamp, now).toMillis()
+        val uptime = 100.0 * duration.toMillis() / between(head.timeStamp, now).toMillis()
 
         return uptime
     }
