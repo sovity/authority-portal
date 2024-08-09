@@ -55,20 +55,6 @@ class ComponentStatusService(
             .fetchOne()
     }
 
-    fun getFirstRecordBefore(
-        component: ComponentType,
-        limit: OffsetDateTime,
-        environment: String
-    ): ComponentDowntimesRecord? {
-        val c = Tables.COMPONENT_DOWNTIMES
-
-        return dsl.selectFrom(c)
-            .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment)).and(c.TIME_STAMP.lessThan(limit))
-            .orderBy(c.TIME_STAMP.desc())
-            .limit(1)
-            .fetchOne()
-    }
-
     fun getStatusHistoryAscSince(
         component: ComponentType,
         limit: OffsetDateTime,
@@ -77,7 +63,15 @@ class ComponentStatusService(
         val c = Tables.COMPONENT_DOWNTIMES
 
         return dsl.selectFrom(c)
-            .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment)).and(c.TIME_STAMP.greaterOrEqual(limit))
+            .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment))
+            .and(c.TIME_STAMP.lessThan(limit))
+            .orderBy(c.TIME_STAMP.desc())
+            .limit(1)
+            .union(
+                dsl.selectFrom(c)
+                    .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment)).and(c.TIME_STAMP.greaterOrEqual(limit))
+                    .orderBy(c.TIME_STAMP.asc())
+            )
             .orderBy(c.TIME_STAMP.asc())
             .fetch()
     }

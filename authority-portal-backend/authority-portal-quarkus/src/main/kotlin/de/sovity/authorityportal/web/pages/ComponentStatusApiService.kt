@@ -15,7 +15,7 @@ package de.sovity.authorityportal.web.pages
 
 import de.sovity.authorityportal.api.model.ComponentStatusOverview
 import de.sovity.authorityportal.api.model.UptimeStatusDto
-import de.sovity.authorityportal.db.jooq.enums.ComponentOnlineStatus
+import de.sovity.authorityportal.db.jooq.enums.ComponentOnlineStatus.UP
 import de.sovity.authorityportal.db.jooq.enums.ComponentType
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.tables.records.ComponentDowntimesRecord
@@ -25,11 +25,9 @@ import de.sovity.authorityportal.web.thirdparty.uptimekuma.model.toDto
 import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.time.Duration
+import java.time.Duration.between
 import java.time.OffsetDateTime
-import java.util.Locale
 
 @ApplicationScoped
 class ComponentStatusApiService(
@@ -47,7 +45,8 @@ class ComponentStatusApiService(
     }
 
     fun getComponentsStatusForOrganizationId(environmentId: String, organizationId: String): ComponentStatusOverview {
-        val connectorStatuses = connectorStatusQuery.getConnectorStatusInfoByOrganizationIdAndEnvironment(organizationId, environmentId)
+        val connectorStatuses =
+            connectorStatusQuery.getConnectorStatusInfoByOrganizationIdAndEnvironment(organizationId, environmentId)
         val statusCount = countConnectorStatuses(connectorStatuses)
 
         return buildComponenStatusOverview(statusCount, environmentId)
@@ -60,7 +59,8 @@ class ComponentStatusApiService(
         val latestDapsStatus = componentStatusService.getLatestComponentStatus(ComponentType.DAPS, environmentId)
         val latestLoggingHouseStatus =
             componentStatusService.getLatestComponentStatus(ComponentType.LOGGING_HOUSE, environmentId)
-        val latestBrokerCrawlerStatus = componentStatusService.getLatestComponentStatus(ComponentType.CATALOG_CRAWLER, environmentId)
+        val latestBrokerCrawlerStatus =
+            componentStatusService.getLatestComponentStatus(ComponentType.CATALOG_CRAWLER, environmentId)
         val now = timeUtils.now()
 
         return ComponentStatusOverview(
@@ -82,12 +82,12 @@ class ComponentStatusApiService(
             return null
         }
 
-        val upSince = Duration.between(latestStatus.timeStamp.toInstant(), now.toInstant()).abs()
+        val upSince = between(latestStatus.timeStamp.toInstant(), now.toInstant()).abs()
         val timeSpan = Duration.ofDays(30)
 
         return UptimeStatusDto(
             componentStatus = latestStatus.status.toDto(),
-            upSinceSeconds = upSince.toSeconds().takeIf { latestStatus.status == ComponentOnlineStatus.UP } ?: 0,
+            upSinceSeconds = upSince.toSeconds().takeIf { latestStatus.status == UP } ?: 0,
             timeSpanSeconds = timeSpan.toSeconds(),
             uptimePercentage = calculateUptimePercentage(latestStatus.component, timeSpan, environmentId, now)
         )
@@ -100,55 +100,33 @@ class ComponentStatusApiService(
         now: OffsetDateTime
     ): Double {
         val limit = now.minus(timeSpan)
-        var statusHistoryAsc = componentStatusService.getStatusHistoryAscSince(component, limit, environmentId)
-        // If no status was found before the limit, the first record in the history is used as base for the calculation
-        val initialRecord =
-            componentStatusService.getFirstRecordBefore(component, limit, environmentId) ?: statusHistoryAsc.first()
 
-        // If no "UP" status was found, return 0.00
-        // Also, drop all entries before first "UP" status, to avoid wrong uptime calculation
-        var tmpLastUpStatus = if (initialRecord.status == ComponentOnlineStatus.UP) initialRecord else {
-            statusHistoryAsc = statusHistoryAsc.dropWhile { it.status != ComponentOnlineStatus.UP }
-            statusHistoryAsc.firstOrNull()
+        val statusHistoryAsc = componentStatusService.getStatusHistoryAscSince(component, limit, environmentId)
+
+        if (statusHistoryAsc.isEmpty()) return 0.0
+
+        val first = statusHistoryAsc.first()
+
+        val start = when {
+            first.timeStamp.isBefore(limit) -> ComponentDowntimesRecord(component, first.status, environmentId, limit)
+            else -> first
         }
 
-        if (tmpLastUpStatus == null) {
-            return 0.00
-        }
+        val middle = statusHistoryAsc.drop(1)
+        val end = ComponentDowntimesRecord(component, statusHistoryAsc.last().status, environmentId, now)
 
-        // Sum up the total duration of "UP" statuses
-        var totalUptimeDuration = Duration.ZERO
-        for (componentRecord in statusHistoryAsc) {
-            if (componentRecord.status == ComponentOnlineStatus.UP) {
-                tmpLastUpStatus = componentRecord
-            } else {
-                totalUptimeDuration += Duration.between(
-                    tmpLastUpStatus!!.timeStamp.toInstant(),
-                    componentRecord.timeStamp.toInstant()
-                ).abs()
+        val whole = listOf(start) + middle + listOf(end)
+
+        val duration = whole.zipWithNext().fold(Duration.ZERO) { acc, (start, end) ->
+            when (start.status) {
+                UP -> acc + between(start.timeStamp, end.timeStamp)
+                else -> acc
             }
         }
 
-        // Add time if last status is "UP"
-        val lastRecord = statusHistoryAsc.lastOrNull() ?: tmpLastUpStatus
-        if (lastRecord!!.status == ComponentOnlineStatus.UP) {
-            totalUptimeDuration += Duration.between(lastRecord.timeStamp.toInstant(), now.toInstant()).abs()
-        }
+        val uptime = 100.0 * duration.toMillis() / between(start.timeStamp, now).toMillis()
 
-        // Subtract potential uptime before the limit
-        if (initialRecord.status == ComponentOnlineStatus.UP && initialRecord.timeStamp.isBefore(limit)) {
-            totalUptimeDuration -= Duration.between(initialRecord.timeStamp.toInstant(), limit.toInstant()).abs()
-        }
-
-        // Calculate uptime percentage
-        val totalDuration =
-            Duration.between(initialRecord.timeStamp.toInstant(), now.toInstant()).coerceAtMost(timeSpan).abs()
-        val uptimePercentage = totalUptimeDuration.toMillis().toDouble() / totalDuration.toMillis().toDouble() * 100
-
-        // Round value to two decimal places
-        val symbols = DecimalFormatSymbols(Locale.US)
-        val formatter = DecimalFormat("#.##", symbols)
-        return formatter.format(uptimePercentage).toDouble()
+        return uptime
     }
 
     private fun countConnectorStatuses(
