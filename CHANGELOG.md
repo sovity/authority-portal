@@ -13,18 +13,20 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Copyable contact email and subject fields on data offer detail dialogs
+- Catalog: Organization filter is no longer split into ID and name
+- Catalog: Connector filter is no longer split into ID and endpoint
+- Catalog: Removed dataspace filter when only one dataspace is known
+- Added a message when the CaaS request feature is not available
+
 #### Patch
 
-- Copyable contact email and subject fields on data offer detail dialogs
-- Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
+- Fixed Dashboard showing uptimes of over 100%
+- Organization list: Data offer and connector counts now show the correct numbers according to the active environment
 - Fixed provider organization ID not showing up on CaaS connectors [#206](https://github.com/sovity/authority-portal/issues/206)
   - Keep in mind that sovity needs to be registered in the portal for the ID to show up.
   - Already registered connectors will be updated automatically, this process can take up to 24 hours
-- Added a message when the CaaS request feature is not available
-- Catalog: Removed dataspace filter when only one dataspace is known
-- Catalog: Organization filter is no longer split into ID and name
-- Catalog: Connector filter is no longer split into ID and endpoint
-- Organization list: Data offer and connector counts now show the correct numbers according to the active environment
+- Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
 
 ### Known issues
 
