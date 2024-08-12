@@ -92,7 +92,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
           - `Home URL`: (Most likely) same as `Root URL`
       5. Regenerate client secrets for `oauth2-proxy` and `authority-portal-client` clients
           - Clients > `[client]` > Credentials > Regenerate (Client secret)
-      6. Select MDS theme for login & email templates
+      6. Select sovity theme for login & email templates
           - Select `authority-portal` realm
           - Realm settings > Themes > Login theme: Select `sovity-theme`
           - Realm settings > Themes > Email theme: Select `sovity-theme`
