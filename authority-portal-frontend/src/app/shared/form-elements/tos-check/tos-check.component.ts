@@ -25,5 +25,5 @@ export class TosCheckComponent {
   @Input()
   ctrlId = 'dsgvo-tos';
 
-  constructor(@Inject(APP_CONFIG) public config: AppConfig) {}
+  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
 }

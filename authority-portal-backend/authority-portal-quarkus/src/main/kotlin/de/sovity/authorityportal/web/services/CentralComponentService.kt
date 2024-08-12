@@ -38,11 +38,11 @@ class CentralComponentService(
             .fetch()
     }
 
-    fun getCentralComponentsByMdsId(mdsId: String): List<ComponentRecord> {
+    fun getCentralComponentsByOrganizationId(organizationId: String): List<ComponentRecord> {
         val c = Tables.COMPONENT
 
         return dsl.selectFrom(c)
-            .where(c.MDS_ID.eq(mdsId))
+            .where(c.ORGANIZATION_ID.eq(organizationId))
             .fetch()
     }
 
@@ -56,7 +56,7 @@ class CentralComponentService(
 
     fun createCentralComponent(
         centralComponentId: String,
-        mdsId: String,
+        organizationId: String,
         environment: String,
         clientId: String,
         centralComponentCreateRequest: CentralComponentCreateRequest,
@@ -64,7 +64,7 @@ class CentralComponentService(
     ) {
         dsl.newRecord(Tables.COMPONENT).also {
             it.id = centralComponentId
-            it.mdsId = mdsId
+            it.organizationId = organizationId
             it.environment = environment
             it.clientId = clientId
             it.name = centralComponentCreateRequest.name.trim()

@@ -1,7 +1,11 @@
 <h2 class="wizard-end-title">Finish setting up your connector!</h2>
 <p class="wizard-end-prose max-w-2xl">
   To setup the connector, you will have to follow the Deployment Guide in the
-  MDS Wiki. <br />
+  {{
+    ('mds-id' | isActiveFeature)
+      ? 'MDS Wiki'
+      : 'EDC repository which you can find by clicking the button below'
+  }}. <br />
   To get you started, we have prepared the following:
 </p>
 <div class="relative p-4 bg-gray-100 max-w-2xl overflow-hidden">
@@ -22,7 +26,7 @@
 <div class="mt-6">
   <a
     class="btn-outline"
-    href="https://github.com/sovity/edc-extensions/releases"
+    href="https://github.com/sovity/edc-ce/releases"
     target="_blank">
     <mat-icon svgIcon="github"></mat-icon>
     <span>Get your Connector on GitHub</span>

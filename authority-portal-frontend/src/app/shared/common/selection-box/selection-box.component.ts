@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, Input} from '@angular/core';
+import {Component, Inject, Input} from '@angular/core';
 import {Router} from '@angular/router';
+import {APP_CONFIG, AppConfig} from '../../../core/services/config/app-config';
 import {SelectionBoxModel} from './selection-box.model';
 
 @Component({
@@ -19,17 +20,20 @@ import {SelectionBoxModel} from './selection-box.model';
   templateUrl: './selection-box.component.html',
 })
 export class SelectionBoxComponent {
-  @Input() config!: SelectionBoxModel;
-  constructor(private router: Router) {}
+  @Input() selectionBoxConfig!: SelectionBoxModel;
+  constructor(
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
+    private router: Router,
+  ) {}
 
   onAction() {
-    if (this.config?.action?.url) {
-      if (!this.config.action.isDisabled) {
-        this.router.navigate([this.config.action.url]);
+    if (this.selectionBoxConfig?.action?.url) {
+      if (!this.selectionBoxConfig.action.isDisabled) {
+        this.router.navigate([this.selectionBoxConfig.action.url]);
       }
     }
-    if (this.config?.action?.externalUrl) {
-      window.open(this.config.action.externalUrl, '_blank');
+    if (this.selectionBoxConfig?.action?.externalUrl) {
+      window.open(this.selectionBoxConfig.action.externalUrl, '_blank');
     }
   }
 }

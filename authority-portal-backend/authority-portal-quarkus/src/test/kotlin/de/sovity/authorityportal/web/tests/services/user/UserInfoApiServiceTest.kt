@@ -24,7 +24,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDate
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
@@ -70,7 +70,7 @@ class UserInfoApiServiceTest {
             lastName = "User",
             roles = listOf(UserRoleDto.UNAUTHENTICATED),
             registrationStatus = null,
-            organizationMdsId = "unauthenticated",
+            organizationId = "unauthenticated",
             organizationName = "No Organization"
         )
 
@@ -109,7 +109,7 @@ class UserInfoApiServiceTest {
             lastName = "Mustermann",
             roles = listOf(UserRoleDto.USER),
             registrationStatus = UserRegistrationStatusDto.ACTIVE,
-            organizationMdsId = dummyDevMdsId(1),
+            organizationId = dummyDevOrganizationId(1),
             organizationName = "Max's Organization"
         )
 
@@ -163,7 +163,7 @@ class UserInfoApiServiceTest {
             creationDate = dummyDate(1),
             registrationStatus = UserRegistrationStatusDto.ACTIVE,
             roles = listOf(UserRoleDto.USER),
-            organizationMdsId = dummyDevMdsId(1),
+            organizationId = dummyDevOrganizationId(1),
             organizationName = "Max's Organization",
             invitingUserId = dummyDevUserUuid(0),
             invitingUserFirstName = "Inviting",

@@ -1,26 +1,26 @@
 <div
-  class="group w-full cursor-pointer flex flex-col items-center border border-black py-8 px-6 rounded-lg transition ease-in-out delay-100 hover:border-brand-500 hover:scale-[1.04] h-full justify-between"
+  class="bg-white group w-full cursor-pointer flex flex-col items-center border border-black py-8 px-6 rounded-lg transition ease-in-out delay-100 hover:border-brand-500 hover:scale-[1.04] h-full justify-between"
   (click)="onAction()">
   <div class="flex flex-col items-center">
     <img
-      *ngIf="config?.icon"
-      [src]="'assets/images/' + config.icon"
-      [alt]="config.title" />
+      *ngIf="selectionBoxConfig?.icon"
+      [src]="selectionBoxConfig.icon"
+      [alt]="selectionBoxConfig.title" />
     <h3
       class="text-base font-semibold text-black leading-6 group-hover:text-brand-500 mt-3 transition delay-100">
-      {{ config.title }}
+      {{ selectionBoxConfig.title }}
     </h3>
     <p class="text-sm font-normal text-gray-500 leading-5">
-      {{ config.subTitle }}
+      {{ selectionBoxConfig.subTitle }}
     </p>
   </div>
 
   <ul
-    *ngIf="config?.bulletPoints"
+    *ngIf="selectionBoxConfig?.bulletPoints"
     class="w-full my-8 space-y-3 text-sm leading-6 xl:mt-10 text-gray-600"
     role="list">
     <li
-      *ngFor="let bullet of config.bulletPoints"
+      *ngFor="let bullet of selectionBoxConfig.bulletPoints"
       class="flex gap-x-3 text-left">
       <mat-icon svgIcon="checkbox"></mat-icon>
       {{ bullet }}
@@ -28,16 +28,16 @@
   </ul>
 
   <button
-    *ngIf="config?.action?.label"
+    *ngIf="selectionBoxConfig?.action?.label"
     class="btn-accent my-4 flex flex-row items-center gap-2"
     type="button"
     matTooltipClass="w-full p-2 text-sm"
-    [matTooltip]="config.action?.hint ?? ''"
-    [disabledBtn]="config.action?.isDisabled ?? false"
+    [matTooltip]="selectionBoxConfig.action?.hint ?? ''"
+    [disabledBtn]="selectionBoxConfig.action?.isDisabled ?? false"
     (click)="onAction()">
     <div
-      *ngIf="config.action!.isLoading"
+      *ngIf="selectionBoxConfig.action!.isLoading"
       class="border-4 border-gray-300 border-t-0 border-l-0 rounded-full w-4 h-4 animate-spin"></div>
-    {{ config.action!.label }}
+    {{ selectionBoxConfig.action!.label }}
   </button>
 </div>

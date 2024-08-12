@@ -29,7 +29,7 @@
     <!-- organization members tab -->
     <div *ngSwitchCase="'MEMBERS'">
       <app-organization-user-list
-        [organizationId]="organization.mdsId"
+        [organizationId]="organization.id"
         [users]="organization.memberList"
         (onUserSelected)="userSelectedHandler($event)">
       </app-organization-user-list>

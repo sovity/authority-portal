@@ -20,4 +20,10 @@ import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 })
 export class UnauthenticatedPageComponent {
   constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
+
+  get loginUrl(): string {
+    const url = new URL(this.appConfig.loginUrl);
+    url.searchParams.set('redirect_uri', location.href);
+    return url.toString();
+  }
 }

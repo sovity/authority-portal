@@ -86,7 +86,7 @@ class AuthUtils {
 
     fun requiresMemberOfAnyOrganization() {
         requiresAuthenticated()
-        if (loggedInUser.organizationMdsId.isNullOrEmpty()) {
+        if (loggedInUser.organizationId.isNullOrEmpty()) {
             Log.error("User is not associated with any organization. userId=${loggedInUser.userId}.")
             unauthorized("User is not associated with any organization")
         }
@@ -96,8 +96,8 @@ class AuthUtils {
         requiresMemberOfAnyOrganization()
 
         val user = userService.getUserOrThrow(userId)
-        if (user.organizationMdsId != loggedInUser.organizationMdsId) {
-            Log.error("User is not part of logged in/executing user's organization. userId=$userId, loggedInUserMdsId=${loggedInUser.organizationMdsId}, loggedInUserId=${loggedInUser.userId}.")
+        if (user.organizationId != loggedInUser.organizationId) {
+            Log.error("User is not part of logged in/executing user's organization. userId=$userId, loggedInUserOrganizationId=${loggedInUser.organizationId}, loggedInUserId=${loggedInUser.userId}.")
             unauthorized("User is not part of logged in/executing user's organization")
         }
     }
@@ -120,7 +120,7 @@ class AuthUtils {
 
     fun requires(authorized: Boolean, userId: String) {
         if (!authorized) {
-            Log.error("User is not authorized. userId=$userId, loggedInUserMdsId=${loggedInUser.organizationMdsId}, loggedInUserId=${loggedInUser.userId}.")
+            Log.error("User is not authorized. userId=$userId, loggedInUserOrganizationId=${loggedInUser.organizationId}, loggedInUserId=${loggedInUser.userId}.")
             unauthorized()
         }
     }
@@ -140,21 +140,21 @@ class AuthUtils {
 
     fun isMemberOfSameOrganizationAs(userId: String): Boolean {
         requiresAuthenticated()
-        if (loggedInUser.organizationMdsId.isNullOrEmpty()) {
+        if (loggedInUser.organizationId.isNullOrEmpty()) {
             return false;
         }
 
         val user = userService.getUserOrThrow(userId)
-        return user.organizationMdsId == loggedInUser.organizationMdsId;
+        return user.organizationId == loggedInUser.organizationId;
     }
 
     fun requiresOrganizationRegistrationStatus(status: OrganizationRegistrationStatus) {
         requiresAuthenticated()
         requiresMemberOfAnyOrganization()
 
-        val organization = organizationService.getOrganizationOrThrow(loggedInUser.organizationMdsId!!)
+        val organization = organizationService.getOrganizationOrThrow(loggedInUser.organizationId!!)
         if (organization.registrationStatus != status) {
-            Log.error("User can only perform the action if their organization is in the onboarding phase. userId=${loggedInUser.userId}, mdsId=${organization.mdsId}")
+            Log.error("User can only perform the action if their organization is in the onboarding phase. userId=${loggedInUser.userId}, organizationId=${organization.id}")
             unauthorized("User can only perform the action if their organization is in the onboarding phase")
         }
     }

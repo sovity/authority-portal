@@ -39,8 +39,8 @@ data class UserDetailDto(
     @field:Schema(description = "Creation date of the user", requiredMode = Schema.RequiredMode.REQUIRED)
     val creationDate: OffsetDateTime,
 
-    @field:Schema(description = "Organization MDS ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    val organizationMdsId: String,
+    @field:Schema(description = "Organization ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    val organizationId: String,
 
     @field:Schema(description = "Organization name", requiredMode = Schema.RequiredMode.REQUIRED)
     val organizationName: String,

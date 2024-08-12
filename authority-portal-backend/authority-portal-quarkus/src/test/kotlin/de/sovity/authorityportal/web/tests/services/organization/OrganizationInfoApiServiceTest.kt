@@ -18,7 +18,7 @@ import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
@@ -84,17 +84,17 @@ class OrganizationInfoApiServiceTest {
         // assert
         assertThat(result.organizations).hasSize(3)
 
-        assertThat(result.organizations[0].mdsId).isEqualTo(dummyDevMdsId(0))
+        assertThat(result.organizations[0].id).isEqualTo(dummyDevOrganizationId(0))
         assertThat(result.organizations[0].name).isEqualTo("Organization 0")
         assertThat(result.organizations[0].connectorCount).isEqualTo(3)
         assertThat(result.organizations[0].userCount).isEqualTo(1)
 
-        assertThat(result.organizations[1].mdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(result.organizations[1].id).isEqualTo(dummyDevOrganizationId(1))
         assertThat(result.organizations[1].name).isEqualTo("Organization 1")
         assertThat(result.organizations[1].connectorCount).isEqualTo(1)
         assertThat(result.organizations[1].userCount).isEqualTo(1)
 
-        assertThat(result.organizations[2].mdsId).isEqualTo(dummyDevMdsId(2))
+        assertThat(result.organizations[2].id).isEqualTo(dummyDevOrganizationId(2))
         assertThat(result.organizations[2].name).isEqualTo("Organization 2")
         assertThat(result.organizations[2].connectorCount).isEqualTo(0)
         assertThat(result.organizations[2].userCount).isEqualTo(2)
@@ -130,15 +130,15 @@ class OrganizationInfoApiServiceTest {
         // assert
         assertThat(result.organizations).hasSize(2)
 
-        assertThat(result.organizations).noneMatch { it.mdsId == dummyDevMdsId(0) }
+        assertThat(result.organizations).noneMatch { it.id == dummyDevOrganizationId(0) }
         assertThat(result.organizations).noneMatch { it.name == "Organization 0"}
 
-        assertThat(result.organizations[0].mdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(result.organizations[0].id).isEqualTo(dummyDevOrganizationId(1))
         assertThat(result.organizations[0].name).isEqualTo("Organization 1")
         assertThat(result.organizations[0].connectorCount).isEqualTo(1)
         assertThat(result.organizations[0].userCount).isEqualTo(1)
 
-        assertThat(result.organizations[1].mdsId).isEqualTo(dummyDevMdsId(2))
+        assertThat(result.organizations[1].id).isEqualTo(dummyDevOrganizationId(2))
         assertThat(result.organizations[1].name).isEqualTo("Organization 2")
         assertThat(result.organizations[1].connectorCount).isEqualTo(0)
         assertThat(result.organizations[1].userCount).isEqualTo(2)
@@ -174,17 +174,17 @@ class OrganizationInfoApiServiceTest {
         // assert
         assertThat(result.organizations).hasSize(3)
 
-        assertThat(result.organizations[0].mdsId).isEqualTo(dummyDevMdsId(0))
+        assertThat(result.organizations[0].id).isEqualTo(dummyDevOrganizationId(0))
         assertThat(result.organizations[0].name).isEqualTo("Organization 0")
         assertThat(result.organizations[0].connectorCount).isEqualTo(0)
         assertThat(result.organizations[0].userCount).isEqualTo(1)
 
-        assertThat(result.organizations[1].mdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(result.organizations[1].id).isEqualTo(dummyDevOrganizationId(1))
         assertThat(result.organizations[1].name).isEqualTo("Organization 1")
         assertThat(result.organizations[1].connectorCount).isEqualTo(0)
         assertThat(result.organizations[1].userCount).isEqualTo(1)
 
-        assertThat(result.organizations[2].mdsId).isEqualTo(dummyDevMdsId(2))
+        assertThat(result.organizations[2].id).isEqualTo(dummyDevOrganizationId(2))
         assertThat(result.organizations[2].name).isEqualTo("Organization 2")
         assertThat(result.organizations[2].connectorCount).isEqualTo(0)
         assertThat(result.organizations[2].userCount).isEqualTo(2)
@@ -201,7 +201,7 @@ class OrganizationInfoApiServiceTest {
             KeycloakUserDto(dummyDevUserUuid(1), "Test", "User", "test2@mail")
         )
 
-        whenever(keycloakService.getOrganizationMembers(dummyDevMdsId(0))).thenReturn(expectedMembers)
+        whenever(keycloakService.getOrganizationMembers(dummyDevOrganizationId(0))).thenReturn(expectedMembers)
         whenever(keycloakService.getUserRoles(any())).thenReturn(setOf(Roles.UserRoles.PARTICIPANT_USER))
 
         ScenarioData().apply {
@@ -219,7 +219,7 @@ class OrganizationInfoApiServiceTest {
         val result = uiResource.ownOrganizationDetails("test")
 
         // assert
-        assertThat(result.mdsId).isEqualTo(dummyDevMdsId(0))
+        assertThat(result.id).isEqualTo(dummyDevOrganizationId(0))
         assertThat(result.name).isEqualTo("Organization 0")
         assertThat(result.memberList).hasSize(2)
     }
@@ -234,7 +234,7 @@ class OrganizationInfoApiServiceTest {
             KeycloakUserDto(dummyDevUserUuid(2), "Test", "User", "test2@mail")
         )
 
-        whenever(keycloakService.getOrganizationMembers(dummyDevMdsId(1))).thenReturn(expectedMembers)
+        whenever(keycloakService.getOrganizationMembers(dummyDevOrganizationId(1))).thenReturn(expectedMembers)
 
         ScenarioData().apply {
             organization(0, 0)
@@ -248,10 +248,10 @@ class OrganizationInfoApiServiceTest {
         }
 
         // act
-        val result = uiResource.organizationDetailsForAuthority(dummyDevMdsId(1), "test")
+        val result = uiResource.organizationDetailsForAuthority(dummyDevOrganizationId(1), "test")
 
         // assert
-        assertThat(result.mdsId).isEqualTo(dummyDevMdsId(1))
+        assertThat(result.id).isEqualTo(dummyDevOrganizationId(1))
         assertThat(result.name).isEqualTo("Organization 1")
         assertThat(result.memberList).hasSize(1)
     }
@@ -286,10 +286,10 @@ class OrganizationInfoApiServiceTest {
         }
 
         // act
-        val result = uiResource.organizationDetailsForAuthority(dummyDevMdsId(0), "test")
+        val result = uiResource.organizationDetailsForAuthority(dummyDevOrganizationId(0), "test")
 
         // assert
-        assertThat(result.mdsId).isEqualTo(dummyDevMdsId(0))
+        assertThat(result.id).isEqualTo(dummyDevOrganizationId(0))
         assertThat(result.name).isEqualTo("Organization 0")
         assertThat(result.dataOfferCount).isEqualTo(2)
         assertThat(result.liveDataOfferCount).isEqualTo(1)

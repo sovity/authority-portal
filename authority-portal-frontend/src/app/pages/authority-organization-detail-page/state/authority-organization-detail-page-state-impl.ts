@@ -36,7 +36,7 @@ import {
   RefreshOrganization,
   RefreshOrganizationUser,
   RejectOrganization,
-  SetOrganizationMdsId,
+  SetOrganizationId,
   SetOrganizationUserId,
 } from './authority-organization-detail-page-actions';
 import {
@@ -64,15 +64,15 @@ export class AuthorityOrganizationDetailPageStateImpl {
 
   // Organization  State Implementation
 
-  @Action(SetOrganizationMdsId)
-  onSetOrganizationMdsId(
+  @Action(SetOrganizationId)
+  onSetOrganizationId(
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
-    action: SetOrganizationMdsId,
+    action: SetOrganizationId,
   ): Observable<never> {
     ctx.patchState({
       organizationDetail: {
         ...DEFAULT_AUTHORITY_ORGANIZATION_DETAIL_STATE,
-        organizationMdsId: action.organizationMdsId,
+        organizationId: action.organizationId,
       },
     });
 
@@ -86,7 +86,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
         this.apiService.getOrganizationDetailsForAuthority(
-          ctx.getState().organizationDetail.organizationMdsId,
+          ctx.getState().organizationDetail.organizationId,
           deploymentEnvironmentId,
         ),
       ),
@@ -123,13 +123,13 @@ export class AuthorityOrganizationDetailPageStateImpl {
 
     return forkJoin([
       this.apiService.approveOrganization(
-        ctx.getState().organizationDetail.organizationMdsId,
+        ctx.getState().organizationDetail.organizationId,
       ),
       this.globalStateUtils.getDeploymentEnvironmentId(),
     ]).pipe(
       switchMap(([res, deploymentEnvironmentId]) =>
         this.apiService.getOrganizationDetailsForAuthority(
-          ctx.getState().organizationDetail.organizationMdsId,
+          ctx.getState().organizationDetail.organizationId,
           deploymentEnvironmentId,
         ),
       ),
@@ -144,7 +144,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
         ctx.dispatch(new RefreshOrganizations());
         this.toast.showSuccess(
           `Organization ${
-            ctx.getState().organizationDetail.organizationMdsId
+            ctx.getState().organizationDetail.organizationId
           } was successfully approved`,
         );
       }),
@@ -174,13 +174,13 @@ export class AuthorityOrganizationDetailPageStateImpl {
     );
     return forkJoin([
       this.apiService.rejectOrganization(
-        ctx.getState().organizationDetail.organizationMdsId,
+        ctx.getState().organizationDetail.organizationId,
       ),
       this.globalStateUtils.getDeploymentEnvironmentId(),
     ]).pipe(
       switchMap(([res, deploymentEnvironmentId]) =>
         this.apiService.getOrganizationDetailsForAuthority(
-          ctx.getState().organizationDetail.organizationMdsId,
+          ctx.getState().organizationDetail.organizationId,
           deploymentEnvironmentId,
         ),
       ),
@@ -193,7 +193,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
       tap((data) => {
         this.toast.showSuccess(
           `Organization ${
-            ctx.getState().organizationDetail.organizationMdsId
+            ctx.getState().organizationDetail.organizationId
           } was successfully rejected`,
         );
         this.organizationRefreshed(ctx, Fetched.ready(data));
@@ -220,7 +220,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
     ctx.patchState({
       openedUserDetail: {
         ...DEFAULT_AUTHORITY_ORGANIZATION_DETAIL_PAGE_STATE.openedUserDetail,
-        organizationMdsId: action.organizationMdsId,
+        organizationId: action.organizationId,
         userId: action.userId,
       },
     });

@@ -16,7 +16,6 @@ import {
   CatalogPageResult,
   DataOfferDetailPageQuery,
   DataOfferDetailPageResult,
-  DataSourceAvailability,
 } from '@sovity.de/authority-portal-client';
 import {subDays, subMinutes} from 'date-fns';
 import {TestAssets} from './data/test-assets';
@@ -48,7 +47,7 @@ const DATA_OFFERS: DataOfferDetailPageResult[] = [
         contractOfferId: 'contract-offer-1',
         updatedAt: subMinutes(new Date(), 5),
         createdAt: subDays(new Date(), 7),
-        contractPolicy: TestPolicies.warnings,
+        contractPolicy: TestPolicies.connectorRestricted,
       },
     ],
   },
@@ -86,7 +85,7 @@ const DATA_OFFERS: DataOfferDetailPageResult[] = [
         contractOfferId: 'on-request-contract-offer-1',
         updatedAt: subMinutes(new Date(), 20),
         createdAt: subDays(new Date(), 20),
-        contractPolicy: TestPolicies.failedMapping,
+        contractPolicy: TestPolicies.unrestricted,
       },
     ],
   },
@@ -162,8 +161,8 @@ export const getCatalogPage = (
           ],
         },
         {
-          id: 'mdsId',
-          title: 'MDS ID',
+          id: 'organizationId',
+          title: 'Organization ID',
           values: [
             {
               id: 'MDSL1111AA',

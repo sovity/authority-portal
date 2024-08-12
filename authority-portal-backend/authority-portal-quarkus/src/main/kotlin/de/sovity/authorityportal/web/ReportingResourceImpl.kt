@@ -56,10 +56,10 @@ class ReportingResourceImpl(
 
             attachment(csv, filename)
         } else {
-            val mdsId = loggedInUser.organizationMdsId!!
+            val organizationId = loggedInUser.organizationId!!
 
-            val csv = connectorParticipantCsvReportService.generateParticipantConnectorCsvReport(mdsId, environmentId)
-            val filename = "${localDate()}_connectors_${mdsId}_$environmentId.csv"
+            val csv = connectorParticipantCsvReportService.generateParticipantConnectorCsvReport(organizationId, environmentId)
+            val filename = "${localDate()}_connectors_${organizationId}_$environmentId.csv"
 
             attachment(csv, filename)
         }

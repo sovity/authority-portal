@@ -19,8 +19,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 class ComponentStatusOverview {
     @Schema(description = "DAPS status", requiredMode = Schema.RequiredMode.REQUIRED)
     var daps: ComponentStatus? = null
-    @Schema(description = "Logging House status", requiredMode = Schema.RequiredMode.REQUIRED)
-    var loggingHouse: ComponentStatus? = null
     @Schema(description = "Catalog crawler (Broker) status", requiredMode = Schema.RequiredMode.REQUIRED)
     var catalogCrawler: ComponentStatus? = null
+    @Schema(description = "Logging House status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    var loggingHouse: ComponentStatus? = null
 }

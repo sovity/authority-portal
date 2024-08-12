@@ -30,7 +30,7 @@ import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
 import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import de.sovity.authorityportal.web.tests.useDevUser
@@ -367,14 +367,13 @@ class CatalogApiTest {
         // assert
         assertThat(result.availableFilters.fields).allSatisfy {
             it.id in setOf(
-                "dataSpace",
                 "dataCategory",
                 "dataSubcategory",
                 "dataModel",
                 "transportMode",
                 "geoReferenceMethod",
                 "organizationName",
-                "mdsId",
+                "organizationId",
                 "connectorId",
                 "connectorEndpoint"
             )
@@ -382,21 +381,17 @@ class CatalogApiTest {
 
         assertThat(result.availableFilters.fields).allSatisfy {
             it.title in setOf(
-                "Data Space",
                 "Data Category",
                 "Data Subcategory",
                 "Data Model",
                 "Transport Mode",
                 "Geo Reference Method",
                 "Organization Name",
-                "MDS ID",
+                "Organization ID",
                 "Connector ID",
                 "Connector Endpoint"
             )
         }
-
-        val dataSpace = getAvailableFilter(result, "dataSpace")
-        assertThat(dataSpace.values).allSatisfy { it.id in setOf("MDS") }
 
         val dataCategory = getAvailableFilter(result, "dataCategory")
         assertThat(dataCategory.values).allSatisfy { it.id in setOf("Data Category 1") }
@@ -416,8 +411,8 @@ class CatalogApiTest {
         val curatorOrganizationName = getAvailableFilter(result, "organizationName")
         assertThat(curatorOrganizationName.values).allSatisfy { it.id in setOf("Organization 0") }
 
-        val curatorMdsId = getAvailableFilter(result, "mdsId")
-        assertThat(curatorMdsId.values).allSatisfy { it.id in setOf(dummyDevMdsId(0)) }
+        val curatorOrganizationId = getAvailableFilter(result, "organizationId")
+        assertThat(curatorOrganizationId.values).allSatisfy { it.id in setOf(dummyDevOrganizationId(0)) }
 
         val connectorId = getAvailableFilter(result, "connectorId")
         assertThat(connectorId.values).allSatisfy { it.id in setOf(dummyDevConnectorId(0, 0)) }
@@ -817,7 +812,7 @@ class CatalogApiTest {
 
     @Test
     @TestTransaction
-    fun `test filter by mdsId`() {
+    fun `test filter by organizationId`() {
         // arrange
         useDevUser(0, 0)
 
@@ -848,7 +843,7 @@ class CatalogApiTest {
             query = CatalogPageQuery(
                 filter = CnfFilterValue(
                     listOf(
-                        CnfFilterValueAttribute("mdsId", listOf(dummyDevMdsId(0))),
+                        CnfFilterValueAttribute("organizationId", listOf(dummyDevOrganizationId(0))),
                     )
                 ),
                 searchQuery = null,

@@ -20,8 +20,6 @@ import kotlin.random.Random
 
 @ApplicationScoped
 class IdUtils {
-    @Inject
-    lateinit var dsl: DSLContext
 
     private val charPool = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 

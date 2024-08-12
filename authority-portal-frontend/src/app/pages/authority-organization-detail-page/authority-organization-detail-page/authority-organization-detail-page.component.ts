@@ -10,9 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {formatNumber} from '@angular/common';
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
 import {Subject, distinctUntilChanged, map, takeUntil, tap} from 'rxjs';
 import {take} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
@@ -44,7 +42,7 @@ import {
   ReactivateUser,
   RefreshOrganization,
   RejectOrganization,
-  SetOrganizationMdsId,
+  SetOrganizationId,
 } from '../state/authority-organization-detail-page-actions';
 import {
   AuthorityOrganizationDetailPageState,
@@ -87,7 +85,7 @@ export class AuthorityOrganizationDetailPageComponent
     getOrganizationRegistrationStatusClasses;
 
   ngOnInit() {
-    this.setOrganizationMdsId(this.organizationId);
+    this.setOrganizationOrganizationId(this.organizationId);
     this.refresh();
     this.startListeningToState();
     this.startListeningToSlideOverState();
@@ -152,8 +150,8 @@ export class AuthorityOrganizationDetailPageComponent
     });
   }
 
-  setOrganizationMdsId(mdsId: string) {
-    this.store.dispatch(new SetOrganizationMdsId(mdsId));
+  setOrganizationOrganizationId(organizationId: string) {
+    this.store.dispatch(new SetOrganizationId(organizationId));
   }
 
   /**
@@ -331,7 +329,7 @@ export class AuthorityOrganizationDetailPageComponent
     this.slideOverService.setSlideOverNavigationType(NavigationType.GO_BACK);
     this.userDetailPageConfig = {
       userId: user.userId,
-      mdsId: this.organizationId,
+      organizationId: this.organizationId,
     };
     this.setupUserTitleBar(user);
   }

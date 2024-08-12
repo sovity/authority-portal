@@ -40,3 +40,8 @@ export function everythingAfter(separator: string, s: string): string {
 export function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+
+export function inferArticle(input: string) {
+  const first = input.charAt(0);
+  return ['a', 'e', 'i', 'o', 'u'].includes(first) ? 'an' : 'a';
+}

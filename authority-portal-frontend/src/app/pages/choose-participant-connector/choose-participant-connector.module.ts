@@ -14,6 +14,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
+import {RouterLink} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {ChooseParticipantConnectorComponent} from './choose-participant-connector/choose-participant-connector.component';
 
@@ -28,6 +29,7 @@ import {ChooseParticipantConnectorComponent} from './choose-participant-connecto
 
     // Authority Portal
     SharedModule,
+    RouterLink,
   ],
 })
 export class ChooseParticipantConnectorModule {}

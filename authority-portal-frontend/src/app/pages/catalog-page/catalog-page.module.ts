@@ -30,6 +30,8 @@ import {FilterBoxComponent} from './filter-box/filter-box.component';
 import {JsonDialogComponent} from './json-dialog/json-dialog.component';
 import {JsonDialogService} from './json-dialog/json-dialog.service';
 import {MarkdownDescriptionComponent} from './markdown-description/markdown-description.component';
+import {PolicyExpressionComponent} from './policy-editor/renderer/policy-expression/policy-expression.component';
+import {PolicyRendererComponent} from './policy-editor/renderer/policy-renderer/policy-renderer.component';
 import {PropertyGridGroupComponent} from './property-grid-group/property-grid-group.component';
 import {PropertyGridComponent} from './property-grid/property-grid.component';
 import {TruncatedShortDescription} from './truncated-short-description/truncated-short-description.component';
@@ -68,6 +70,8 @@ import {ViewSelectionComponent} from './view-selection/view-selection.component'
     TruncatedShortDescription,
     UrlListDialogComponent,
     ViewSelectionComponent,
+    PolicyRendererComponent,
+    PolicyExpressionComponent,
   ],
   providers: [
     AssetDetailDialogDataService,

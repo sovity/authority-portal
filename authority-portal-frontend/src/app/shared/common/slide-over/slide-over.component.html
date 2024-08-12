@@ -26,19 +26,19 @@
                     <ng-container *ngSwitchCase="'STEPPER'">
                       <button mat-icon-button (click)="onNavigate('PREVIOUS')">
                         <mat-icon
-                          class="align-top text-gray-500 hover:text-brand-golden"
+                          class="align-top text-gray-500 hover:text-brand-highlight"
                           svgIcon="chevron-up"></mat-icon>
                       </button>
                       <button mat-icon-button (click)="onNavigate('NEXT')">
                         <mat-icon
-                          class="align-top text-gray-500 hover:text-brand-golden"
+                          class="align-top text-gray-500 hover:text-brand-highlight"
                           svgIcon="chevron-down"></mat-icon>
                       </button>
                     </ng-container>
                     <ng-container *ngSwitchCase="'GO_BACK'">
                       <button mat-icon-button (click)="onGoBack()">
                         <mat-icon
-                          class="align-top text-gray-500 hover:text-brand-golden"
+                          class="align-top text-gray-500 hover:text-brand-highlight"
                           svgIcon="chevron-left"></mat-icon>
                       </button>
                     </ng-container>
@@ -50,7 +50,7 @@
                 <div class="p-2">
                   <button mat-icon-button (click)="onClose()">
                     <mat-icon
-                      class="align-top text-gray-500 hover:text-brand-golden"
+                      class="align-top text-gray-500 hover:text-brand-highlight"
                       >close</mat-icon
                     >
                   </button>

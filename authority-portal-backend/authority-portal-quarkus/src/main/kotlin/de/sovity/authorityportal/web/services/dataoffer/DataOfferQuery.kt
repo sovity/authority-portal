@@ -30,18 +30,18 @@ class DataOfferQuery(
     val dsl: DSLContext
 ) {
 
-    fun getConnectorCountsByMdsIdsForEnvironment(environmentId: String): Map<String, Int> {
+    fun getConnectorCountsByOrganizationIdsForEnvironment(environmentId: String): Map<String, Int> {
         val c = Tables.CONNECTOR
 
-        return dsl.select(c.MDS_ID, DSL.count())
+        return dsl.select(c.ORGANIZATION_ID, DSL.count())
             .from(c)
             .where(c.ENVIRONMENT.eq(environmentId))
-            .groupBy(c.MDS_ID)
-            .fetchMap(c.MDS_ID, DSL.count())
+            .groupBy(c.ORGANIZATION_ID)
+            .fetchMap(c.ORGANIZATION_ID, DSL.count())
     }
 
     data class DataOfferCountRs(
-        val mdsId: String,
+        val organizationId: String,
         val liveOffers: Int,
         val onRequestOffers: Int
     )
@@ -53,9 +53,9 @@ class DataOfferQuery(
         val c = Tables.CONNECTOR
 
         return dsl.select(
-            c.MDS_ID.`as`("mdsId"),
-            getDataOfferCount(c.MDS_ID, environmentId, DataSourceAvailability.LIVE, "live").`as`("liveOffers"),
-            getDataOfferCount(c.MDS_ID, environmentId, DataSourceAvailability.ON_REQUEST, "on_request").`as`("onRequestOffers")
+            c.ORGANIZATION_ID.`as`("organizationId"),
+            getDataOfferCount(c.ORGANIZATION_ID, environmentId, DataSourceAvailability.LIVE, "live").`as`("liveOffers"),
+            getDataOfferCount(c.ORGANIZATION_ID, environmentId, DataSourceAvailability.ON_REQUEST, "on_request").`as`("onRequestOffers")
         )
             .from(c)
             .where(conditionFn(c))
@@ -63,7 +63,7 @@ class DataOfferQuery(
     }
 
     private fun getDataOfferCount(
-        mdsId: Field<String>,
+        organizationId: Field<String>,
         environmentId: String,
         dataSourceAvailability: DataSourceAvailability,
         suffix: String
@@ -81,7 +81,7 @@ class DataOfferQuery(
             .from(d)
             .join(c).on(c.CONNECTOR_ID.eq(d.CONNECTOR_ID))
             .where(
-                c.MDS_ID.eq(mdsId),
+                c.ORGANIZATION_ID.eq(organizationId),
                 c.ENVIRONMENT.eq(environmentId),
                 isSameAvailability
             )
@@ -90,14 +90,14 @@ class DataOfferQuery(
 
     fun countOrganizationDataOffers(
         environmentId: String,
-        mdsId: String
+        organizationId: String
     ): DataOfferCountRs? =
-        countAllOrganizationDataOffers(environmentId) { c -> c.MDS_ID.eq(mdsId) }
+        countAllOrganizationDataOffers(environmentId) { c -> c.ORGANIZATION_ID.eq(organizationId) }
             .singleOrNull()
 
     data class DataOfferInfoRs(
         val connectorId: String,
-        val mdsId: String,
+        val organizationId: String,
         val onlineStatus: ConnectorOnlineStatusDto,
         val offlineSinceOrLastUpdatedAt: OffsetDateTime,
         val dataOfferName: String,
@@ -116,7 +116,7 @@ class DataOfferQuery(
 
         return dsl.select(
             c.CONNECTOR_ID,
-            c.MDS_ID,
+            c.ORGANIZATION_ID,
             c.ONLINE_STATUS,
             c.LAST_SUCCESSFUL_REFRESH_AT.`as`("offlineSinceOrLastUpdatedAt"),
             d.ASSET_TITLE.`as`("dataOfferName"),

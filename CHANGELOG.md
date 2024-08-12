@@ -13,18 +13,58 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
-- Added unique URLs to data offers that enable direct navigation
-- Added a button in the data offer detail view to copy the data offer URL
-
 #### Patch
 
 - Fix Catalog UI after Broker intergration [#238](https://github.com/sovity/authority-portal/issues/238)
 - Fix deployment environment not syncing in URLs for the catalog
 - Redirect user to correct URL after login
+- Copyable contact email and subject fields on data offer detail dialogs
+- Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
+- Fixed provider organization ID not showing up on CaaS connectors [#206](https://github.com/sovity/authority-portal/issues/206)
+  - Keep in mind that sovity needs to be registered in the portal for the ID to show up.
+  - Already registered connectors will be updated automatically, this process can take up to 24 hours
+- Added a message when the CaaS request feature is not available
+- Catalog: Removed dataspace filter when only one dataspace is known
 
 ### Known issues
 
 ### Deployment Migration Notes
+
+Read the deployment migration notes carefully if you want to retain the portal's current behavior.
+If you configure the optional variables incorrectly, you might end up with an inconsistent configuration.
+
+#### Backend
+
+Environment variable changes:
+
+- Renamed variables:
+  - `authority-portal.caas.sovity.limit-per-mdsid` to `authority-portal.caas.sovity.limit-per-organization`
+- New optional configuration variables - the values assigned here are the ones you should use to retain the current behavior:
+  - ```yaml
+    # Organization ID configuration (example: prefix: MDS & length: 4 would generate Ids in the format MDSL1234XX)
+    # The 'L' stands for 'Legal' and is added automatically after the prefix - the last 2 characters are the checksum
+    authority-portal.organization.id.prefix: "MDS"
+    authority-portal.organization.id.length: "4"
+    ```
+- New **mandatory** configuration variables:
+  - ```yaml
+    # Enables the client to connect to the CaaS service. If you weren't provided credentials for the feature by sovity, set this to false
+    quarkus.oidc-client.sovity.client-enabled: true
+    ```
+
+#### Frontend
+
+Environment variable changes:
+
+- New **mandantory** configuration variables - the values assigned here are the ones you should use to retain the current behavior:
+  - ```yaml
+    # UI Branding profile
+    AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: mds-open-source
+    # Short Dataspace name, used in some explanatory texts
+    AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS
+    # Portal name displayed in various texts
+    AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "MDS Portal"
+    ```
 
 #### Compatible Versions
 
@@ -32,6 +72,36 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
 - Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
 - Sovity EDC CE: {{ CE Release Link }}
+
+## [v3.1.0] - 2024-07-24
+
+### Overview
+
+MDS 2.2 release
+
+### Detailed Changes
+
+#### Minor
+
+- Data offers now have their own URLs and are sharable
+- Complex policy support for the catalog browser
+
+#### Patch
+
+- Fixed some styling issues in the Data Catalog [#238](https://github.com/sovity/authority-portal/issues/238)
+- Fixed deployment environment not syncing in URLs for the catalog
+- Fixed keycloak not redirecting to the correct page after login.
+
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:3.1.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:3.1.0`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.0.0`
+- Sovity EDC CE: [`10.0.0`](https://github.com/sovity/edc-ce/releases/tag/v10.0.0)
 
 ## [v3.0.0] - 2024-07-15
 
@@ -97,7 +167,7 @@ MDS 2.2 intermediate release
   - Any broker's database is not required anymore and can be undeployed.
   - A Catalog Crawler must be deployed for each environment to fill the catalog with live data.
   - Just like the broker, the Catalog Crawler is a modified EDC connector. As such, it can only fetch the catalogs from connectors registered in the same DAPS environment.
-  - There is a dedicated [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v9.0.0/docs/deployment-guide/goals/catalog-crawler-production/README.md)
+  - There is a dedicated [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v10.0.0/docs/deployment-guide/goals/catalog-crawler-production/README.md)
   - Running Uptime Kuma instances must be reconfigured to track the status of the catalog crawler instead of the Broker.
   - While the Catalog Crawler is similar to the broker, please note, that many environment variables have been renamed or removed. It is recommended to do a fresh deployment using the deployment guide.
 

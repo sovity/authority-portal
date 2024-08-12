@@ -13,7 +13,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {MdsHomePageComponent} from './mds-home/mds-home.component';
+import {HomePageComponent} from './home/home.component';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import {MdsHomePageComponent} from './mds-home/mds-home.component';
     // Authority Portal
     SharedModule,
   ],
-  declarations: [MdsHomePageComponent],
-  exports: [MdsHomePageComponent],
+  declarations: [HomePageComponent],
+  exports: [HomePageComponent],
 })
 export class MdsHomePageModule {}

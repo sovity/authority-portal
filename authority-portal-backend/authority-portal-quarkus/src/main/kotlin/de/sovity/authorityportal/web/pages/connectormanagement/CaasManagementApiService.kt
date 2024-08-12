@@ -32,6 +32,7 @@ import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtil
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import org.eclipse.microprofile.config.inject.ConfigProperty
+import kotlin.jvm.optionals.getOrNull
 
 @ApplicationScoped
 class CaasManagementApiService(
@@ -43,19 +44,21 @@ class CaasManagementApiService(
     val clientIdUtils: ClientIdUtils,
     val userService: UserService,
     val timeUtils: TimeUtils,
-    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-mdsid") val caasLimitPerMdsId: String
+    @ConfigProperty(name = "authority-portal.caas.sovity.limit-per-organization") val caasLimitPerOrganizationId: String,
+    @ConfigProperty(name = "quarkus.oidc-client.sovity.client-enabled") val isCaasClientEnabled: Boolean
 ) {
 
     fun createCaas(
-        mdsId: String,
+        organizationId: String,
         userId: String,
         caasRequest: CreateCaasRequest,
         environmentId: String
     ): CreateConnectorResponse {
-        val curatorOrganization = organizationService.getOrganizationOrThrow(mdsId)
+        val curatorOrganization = organizationService.getOrganizationOrThrow(organizationId)
         val curatorUser = userService.getUserOrThrow(userId)
-        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(mdsId)
+        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(organizationId)
         val clientId = clientIdUtils.generateFromConnectorId(connectorId)
+        val providerOrgId = organizationService.getOrganizationIdByName("sovity GmbH")
 
         val apDeploymentDto = buildAuthorityPortalDeploymentDto(
             curatorOrganization = curatorOrganization,
@@ -66,7 +69,7 @@ class CaasManagementApiService(
             curatorUser = curatorUser
         )
 
-        val configAssertion = assertValidConfig(apDeploymentDto, mdsId, environmentId)
+        val configAssertion = assertValidConfig(apDeploymentDto, organizationId, environmentId)
         if (!configAssertion.valid) {
             Log.error(configAssertion.message)
             return CreateConnectorResponse.error(configAssertion.message, timeUtils.now())
@@ -77,30 +80,35 @@ class CaasManagementApiService(
         connectorService.createCaas(
             connectorId = connectorId,
             clientId = clientId,
-            mdsId = mdsId,
+            organizationId = organizationId,
             name = caasRequest.connectorTitle,
             createdBy = userId,
             status = CaasStatus.PROVISIONING,
-            environmentId = environmentId
+            environmentId = environmentId,
+            providerOrganizationId = providerOrgId
         )
 
         return CreateConnectorResponse.ok(connectorId, timeUtils.now())
     }
 
-    fun getFreeCaasUsageForOrganization(mdsId: String, environmentId: String): CaasAvailabilityResponse {
-        val caasLimit = caasLimitPerMdsId.toInt()
-        val caasCount = connectorService.getCaasCountByMdsIdAndEnvironment(mdsId, environmentId)
+    fun getCaasAvailabilityForOrganization(organizationId: String, environmentId: String): CaasAvailabilityResponse {
+        if (!isCaasClientEnabled) {
+            return CaasAvailabilityResponse(0, 0)
+        }
+
+        val caasLimit = caasLimitPerOrganizationId.toInt()
+        val caasCount = connectorService.getCaasCountByOrganizationIdAndEnvironment(organizationId, environmentId)
 
         return CaasAvailabilityResponse(caasLimit, caasCount)
     }
 
     private fun assertValidConfig(
         apDeploymentDto: CaasPortalDeploymentDto,
-        mdsId: String,
+        organizationId: String,
         environmentId: String
     ): ConfigAssertion {
-        if (!connectorService.assertCaasRegistrationLimit(mdsId, environmentId)) {
-            return ConfigAssertion(false, "Connector limit reached for MDS ID: $mdsId")
+        if (!connectorService.assertCaasRegistrationLimit(organizationId, environmentId)) {
+            return ConfigAssertion(false, "Connector limit reached for Organization ID: $organizationId")
         }
         if (!caasClient.validateSubdomain(apDeploymentDto.subdomain.trim())) {
             return ConfigAssertion(
@@ -128,7 +136,7 @@ class CaasManagementApiService(
             connectorDescription = caasRequest.connectorDescription.trim(),
             participantOrganizationUrl = curatorOrganization.url,
             participantOrganizationLegalName = curatorOrganization.name,
-            clearingHouseUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).loggingHouse().url(),
+            clearingHouseUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).loggingHouse().getOrNull()?.url(),
             brokerUrl = "https://this-field-is-deprecated",
             dapsTokenUrl = buildDapsTokenUrl(environmentId),
             dapsJwksUrl = buildDapsJwksUrl(environmentId),

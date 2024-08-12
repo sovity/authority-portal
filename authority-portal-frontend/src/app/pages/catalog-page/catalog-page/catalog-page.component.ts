@@ -30,6 +30,7 @@ import {
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {LocalStoredValue} from 'src/app/core/utils/local-stored-value';
 import {DeploymentEnvironmentUrlSyncService} from '../../../core/global-state/deployment-environment-url-sync.service';
+import {ActiveFeatureSet} from '../../../core/services/config/active-feature-set';
 import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
 import {AssetDetailDialogService} from '../asset-detail-dialog/asset-detail-dialog.service';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
@@ -65,6 +66,10 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   // only tracked to prevent the component from resetting
   expandedFilterId = '';
 
+  catalogSpelling = this.activeFeatureSet.usesBritishCatalogue()
+    ? 'Catalogue'
+    : 'Catalog';
+
   constructor(
     private assetDetailDialogService: AssetDetailDialogService,
     private store: Store,
@@ -72,6 +77,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private globalStateUtils: GlobalStateUtils,
     private deploymentEnvironmentUrlSyncService: DeploymentEnvironmentUrlSyncService,
+    private activeFeatureSet: ActiveFeatureSet,
   ) {}
 
   ngOnInit(): void {
@@ -104,16 +110,18 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
           if (isMyDataOffers) {
             return this.globalStateUtils.userInfo$.pipe(
               take(1),
-              map((it) => it.organizationMdsId),
+              map((it) => it.organizationId),
             );
           }
 
           return of(null);
         }),
       )
-      .subscribe((mdsId) => {
-        const initialMdsIds = mdsId ? [mdsId] : undefined;
-        this.store.dispatch(new CatalogPage.Reset(initialMdsIds));
+      .subscribe((organizationId) => {
+        const initialOrganizationIds = organizationId
+          ? [organizationId]
+          : undefined;
+        this.store.dispatch(new CatalogPage.Reset(initialOrganizationIds));
       });
   }
 
@@ -184,7 +192,9 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       },
     });
     // BreadcrumbService builds the name from the URL which is nonsensical in casse of asset IDs
-    document.title = 'MDS Catalog - Data Offer';
+    document.title = `${this.activeFeatureSet.usesMdsId() ? 'MDS ' : ''}${
+      this.catalogSpelling
+    } - Data Offer`;
   }
 
   private changeUrlToCatalogRoot() {
@@ -249,14 +259,14 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     if (isMyDataOffers) {
       return {
         title: 'My Data Offers',
-        subtitle: 'Catalogue of your public Data Offers',
+        subtitle: `${this.catalogSpelling} of your public Data Offers`,
         headerActions: [],
       };
     }
 
     return {
-      title: 'Catalogue',
-      subtitle: 'Catalogue of all public Data Offers',
+      title: this.catalogSpelling,
+      subtitle: `${this.catalogSpelling} of all public Data Offers`,
       headerActions: [],
     };
   }

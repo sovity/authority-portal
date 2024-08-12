@@ -10,14 +10,12 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {HttpErrorResponse} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {catchError, ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {ApiService} from 'src/app/core/api/api.service';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
-import {ErrorService} from 'src/app/core/services/error.service';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 import {CreateOrganization, Reset} from './organization-create-page-action';
 import {
@@ -32,10 +30,9 @@ import {
 @Injectable()
 export class OrganizationCreatePageStateImpl {
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private apiService: ApiService,
     private toast: ToastService,
-    private errorService: ErrorService,
     private actions$: Actions,
   ) {}
 

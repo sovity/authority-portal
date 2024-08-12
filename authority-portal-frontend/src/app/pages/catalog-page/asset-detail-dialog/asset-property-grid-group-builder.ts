@@ -21,6 +21,7 @@ import {LanguageService} from 'src/app/core/services/languages/language.service'
 import {getPrettyDataOfferType} from '../../../core/utils/data-offer-utils';
 import {formatDateAgo} from '../../../shared/pipes-and-directives/ago.pipe';
 import {JsonDialogService} from '../json-dialog/json-dialog.service';
+import {PolicyMapper} from '../policy-editor/model/policy-mapper';
 import {PropertyGridGroup} from '../property-grid-group/property-grid-group';
 import {PropertyGridField} from '../property-grid/property-grid-field';
 import {PropertyGridFieldService} from '../property-grid/property-grid-field.service';
@@ -33,6 +34,7 @@ export class AssetPropertyGridGroupBuilder {
     private jsonDialogService: JsonDialogService,
     private urlListDialogService: UrlListDialogService,
     private languageService: LanguageService,
+    private policyMapper: PolicyMapper,
   ) {}
 
   buildDataOfferGroup(dataOffer: DataOfferDetailPageResult): PropertyGridGroup {
@@ -301,11 +303,19 @@ export class AssetPropertyGridGroupBuilder {
     i: number,
     total: number,
   ) {
+    const policy = contractOffer.contractPolicy;
     const groupLabel = `Contract Offer ${total > 1 ? i + 1 : ''}`;
     const properties: PropertyGridField[] = [
       {
         icon: 'policy',
         label: 'Contract Policy',
+        policy: this.policyMapper.buildPolicy(policy.expression!),
+        policyErrors: policy.errors || [],
+        additionalContainerClasses: 'col-span-2',
+      },
+      {
+        icon: 'policy',
+        label: 'Contract Policy JSON-LD',
         text: 'Show Policy Details',
         onclick: () =>
           this.jsonDialogService.showJsonDetailDialog({
@@ -455,5 +465,38 @@ export class AssetPropertyGridGroupBuilder {
     } catch (e) {}
 
     return bad;
+  }
+
+  buildOnRequestContactInformation(
+    dataOffer: DataOfferDetailPageResult,
+  ): PropertyGridGroup[] {
+    const asset = dataOffer.asset;
+    if (asset.dataSourceAvailability === 'LIVE') {
+      return [];
+    }
+    return [
+      {
+        groupLabel: 'Contact Information',
+        properties: [
+          {
+            icon: 'mail',
+            label: 'Contact E-Mail Address',
+            copyButton: true,
+            hideFieldValue: true,
+            ...this.propertyGridFieldService.guessValue(
+              asset.onRequestContactEmail,
+            ),
+          },
+          {
+            icon: 'subject',
+            label: 'Preferred E-Mail Subject',
+            copyButton: true,
+            ...this.propertyGridFieldService.guessValue(
+              asset.onRequestContactEmailSubject,
+            ),
+          },
+        ],
+      },
+    ];
   }
 }

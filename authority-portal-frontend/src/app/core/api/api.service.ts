@@ -126,11 +126,14 @@ export class ApiService {
   }
 
   getOrganizationDetailsForAuthority(
-    mdsId: string,
+    organizationId: string,
     environmentId: string,
   ): Observable<OrganizationDetailsDto> {
     return toObservable(() =>
-      this.api().organizationDetailsForAuthority({mdsId, environmentId}),
+      this.api().organizationDetailsForAuthority({
+        organizationId,
+        environmentId,
+      }),
     );
   }
 
@@ -143,11 +146,11 @@ export class ApiService {
   }
 
   getOrganizationDetailsForApplicationRoles(
-    mdsId: string,
+    organizationId: string,
     environmentId: string,
   ): Observable<OrganizationDetailsDto> {
     return toObservable(() =>
-      this.api().organizationDetails({mdsId, environmentId}),
+      this.api().organizationDetails({organizationId, environmentId}),
     );
   }
 
@@ -171,12 +174,12 @@ export class ApiService {
     return toObservable(() => this.api().userDetails({userId}));
   }
 
-  approveOrganization(mdsId: string): Observable<IdResponse> {
-    return toObservable(() => this.api().approveOrganization({mdsId}));
+  approveOrganization(organizationId: string): Observable<IdResponse> {
+    return toObservable(() => this.api().approveOrganization({organizationId}));
   }
 
-  rejectOrganization(mdsId: string): Observable<IdResponse> {
-    return toObservable(() => this.api().rejectOrganization({mdsId}));
+  rejectOrganization(organizationId: string): Observable<IdResponse> {
+    return toObservable(() => this.api().rejectOrganization({organizationId}));
   }
 
   // Connectors
@@ -225,13 +228,13 @@ export class ApiService {
 
   createProvidedConnector(
     connector: CreateConnectorRequest,
-    mdsId: string,
+    organizationId: string,
     environmentId: string,
   ): Observable<CreateConnectorResponse> {
     return toObservable(() =>
       this.api().createProvidedConnector({
         createConnectorRequest: connector,
-        mdsId,
+        organizationId,
         environmentId,
       }),
     );

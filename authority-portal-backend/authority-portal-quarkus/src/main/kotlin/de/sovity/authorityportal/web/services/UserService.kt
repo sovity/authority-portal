@@ -47,22 +47,22 @@ class UserService(
             .toList()
     }
 
-    fun getUsersByMdsId(mdsId: String): List<UserRecord> {
+    fun getUsersByOrganizationId(organizationId: String): List<UserRecord> {
         val u = Tables.USER
 
         return dsl.selectFrom(u)
-            .where(u.ORGANIZATION_MDS_ID.eq(mdsId))
+            .where(u.ORGANIZATION_ID.eq(organizationId))
             .fetch()
             .toList()
     }
 
-    fun getUserCountsByMdsIds(): Map<String, Int> {
+    fun getUserCountsByOrganizationIds(): Map<String, Int> {
         val u = Tables.USER
 
-        return dsl.select(u.ORGANIZATION_MDS_ID, DSL.count())
+        return dsl.select(u.ORGANIZATION_ID, DSL.count())
             .from(u)
-            .groupBy(u.ORGANIZATION_MDS_ID)
-            .fetchMap(u.ORGANIZATION_MDS_ID, DSL.count())
+            .groupBy(u.ORGANIZATION_ID)
+            .fetchMap(u.ORGANIZATION_ID, DSL.count())
     }
 
     private fun getUser(userId: String): UserRecord? {
@@ -73,10 +73,10 @@ class UserService(
             .fetchOne()
     }
 
-    fun createUser(userId: String, mdsId: String? = null, onboardingType: UserOnboardingType, invitedBy: String? = null): UserRecord {
+    fun createUser(userId: String, organizationId: String? = null, onboardingType: UserOnboardingType, invitedBy: String? = null): UserRecord {
         return dsl.newRecord(Tables.USER).also {
             it.id = userId
-            it.organizationMdsId = mdsId
+            it.organizationId = organizationId
             it.registrationStatus = initialRegistrationStatus(onboardingType)
             it.createdAt = timeUtils.now()
             it.onboardingType = onboardingType
@@ -89,7 +89,7 @@ class UserService(
     fun createUser(
         userId: String,
         userData: CreateUserData,
-        mdsId: String? = null,
+        organizationId: String? = null,
         onboardingType: UserOnboardingType
     ): UserRecord {
         return dsl.newRecord(Tables.USER).also {
@@ -99,7 +99,7 @@ class UserService(
             it.lastName = userData.lastName?.trim()
             it.jobTitle = userData.jobTitle?.trim()
             it.phone = userData.phone?.trim()
-            it.organizationMdsId = mdsId
+            it.organizationId = organizationId
             it.registrationStatus = initialRegistrationStatus(onboardingType)
             it.createdAt = timeUtils.now()
             it.onboardingType = onboardingType
@@ -140,11 +140,11 @@ class UserService(
             .fetch(u.ID)
     }
 
-    fun removeMdsIdFromUnconfirmedUsers(expirationCutoffTime: OffsetDateTime) {
+    fun removeOrganizationIdFromUnconfirmedUsers(expirationCutoffTime: OffsetDateTime) {
         val u = Tables.USER
 
         dsl.update(u)
-            .setNull(u.ORGANIZATION_MDS_ID)
+            .setNull(u.ORGANIZATION_ID)
             .where(u.REGISTRATION_STATUS.eq(UserRegistrationStatus.INVITED))
             .and(u.CREATED_AT.lt(expirationCutoffTime))
             .execute()
@@ -176,11 +176,11 @@ class UserService(
             .execute()
     }
 
-    fun deleteMdsIds(orgMemberIds: List<String>) {
+    fun deleteOrganizationIds(orgMemberIds: List<String>) {
         val u = Tables.USER
 
         dsl.update(u)
-            .setNull(u.ORGANIZATION_MDS_ID)
+            .setNull(u.ORGANIZATION_ID)
             .where(u.ID.eqAny(orgMemberIds))
             .execute()
     }

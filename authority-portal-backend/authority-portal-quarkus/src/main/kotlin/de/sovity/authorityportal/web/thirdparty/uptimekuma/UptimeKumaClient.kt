@@ -19,22 +19,16 @@ import de.sovity.authorityportal.web.thirdparty.uptimekuma.model.ComponentStatus
 import de.sovity.authorityportal.web.thirdparty.uptimekuma.model.ComponentStatusOverview
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import java.util.Base64
+import kotlin.jvm.optionals.getOrNull
 
 @ApplicationScoped
-class UptimeKumaClient {
-
-    @Inject
-    lateinit var deploymentEnvironmentService: DeploymentEnvironmentService
-
-    @Inject
-    lateinit var uptimeKumaClientResource: UptimeKumaClientResource
-
-    @ConfigProperty(name = "authority-portal.kuma.api-key")
-    lateinit var uptimeKumaApiKey: String
-
+class UptimeKumaClient(
+    val deploymentEnvironmentService: DeploymentEnvironmentService,
+    val uptimeKumaClientResource: UptimeKumaClientResource,
+    @ConfigProperty(name = "authority-portal.kuma.api-key") val uptimeKumaApiKey: String,
+) {
 
     fun getStatusByEnvironments(): Map<String, ComponentStatusOverview> {
         val basicAuthHeader = Base64.getEncoder().encodeToString(":$uptimeKumaApiKey".toByteArray())
@@ -44,11 +38,17 @@ class UptimeKumaClient {
         return environments.mapValues { getComponentStatusOverview(response, it.value) }
     }
 
-    private fun getComponentStatusOverview(response: String, envConfig: DeploymentEnvironment): ComponentStatusOverview =
+    private fun getComponentStatusOverview(
+        response: String,
+        envConfig: DeploymentEnvironment
+    ): ComponentStatusOverview =
         ComponentStatusOverview().also {
             it.daps = getComponentStatus(envConfig.daps().kumaName(), response)
-            it.loggingHouse = getComponentStatus(envConfig.loggingHouse().kumaName(), response)
             it.catalogCrawler = getComponentStatus(envConfig.dataCatalog().kumaName(), response)
+            it.loggingHouse = getComponentStatus(
+                envConfig.loggingHouse().get().kumaName(),
+                response
+            ).takeUnless { envConfig.loggingHouse().getOrNull()?.kumaName().isNullOrBlank() }
         }
 
     private fun getComponentStatus(componentName: String, response: String): ComponentStatus {

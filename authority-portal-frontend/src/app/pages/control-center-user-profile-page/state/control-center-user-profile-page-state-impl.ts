@@ -39,7 +39,7 @@ type Ctx = StateContext<ControlCenterUserProfilePageState>;
 @Injectable()
 export class ControlCenterUserProfilePageStateImpl {
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private router: Router,
     private apiService: ApiService,
     private globalStateUtils: GlobalStateUtils,
@@ -94,7 +94,7 @@ export class ControlCenterUserProfilePageStateImpl {
                 userFullName: user.firstName + ' ' + user.lastName,
                 userOrganizationName: user.organizationName,
                 onDeleteSuccess: () =>
-                  (window.location.href = this.config.logoutUrl),
+                  (window.location.href = this.appConfig.logoutUrl),
               },
               componentLifetime$,
             );

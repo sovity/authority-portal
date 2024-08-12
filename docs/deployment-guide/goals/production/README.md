@@ -3,8 +3,7 @@ Deploying the Authority Portal in Production
 
 ## About this Guide
 
-This is a productive deployment guide for deploying the Authority Portal from scratch as either the MDS integrator or
-operator company.
+This is a productive deployment guide for deploying the Authority Portal from scratch.
 
 ## Prerequisites
 
@@ -45,7 +44,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 | Deployment Unit           | Version / Details                                                                                        |
 |---------------------------|----------------------------------------------------------------------------------------------------------|
-| Reverse Proxy / Ingress   | _Infrastructure dependant_                                                                               |
+| Reverse Proxy / Ingress   | _Infrastructure dependent_                                                                               |
 | Keycloak Deployment       | Version 24.0.4 or compatible version                                                                     |
 | OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                                  |
 | Caddy behind OAuth2 Proxy | caddy:2.7                                                                                                |
@@ -76,7 +75,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 ```
 
 - Consider consulting Keycloak's [server administration guide](https://www.keycloak.org/docs/latest/server_admin/).
-- You need to have a running keycloak with the aforementioned compatible version.
+- You need to have a running Keycloak with the aforementioned compatible version.
 - The domain under which the Keycloak should be reachable on the internet will be referred to as `[KC_FQDN]` in this
   guide and should differ from the `[AP_FQDN]`.
 - The steps to set up the realm are the following
@@ -197,7 +196,9 @@ quarkus.oidc-client.sovity.client-id: "[CAAS_CLIENT_ID]"
 # CaaS Portal: OAuth2 Client Secret
 quarkus.oidc-client.sovity.credentials.secret: "[CAAS_CLIENT_SECRET]"
 # Amount of free sovity CaaS per participant
-authority-portal.caas.sovity.limit-per-mdsid: "1"
+authority-portal.caas.sovity.limit-per-organization: "1"
+# Enables the connection (set to false if you don't have the data to fill out the variables above)
+quarkus.oidc-client.sovity.client-enabled: true
 
 # Must equal the root URL/home URl from the Keycloak configuration - see above)
 authority-portal.base-url: "https://[AP_FQDN]"
@@ -237,7 +238,7 @@ authority-portal.deployment.environments.test.data-catalog.kuma-name: broker
 # Required: Default Dataspace name
 authority-portal.deployment.environments.test.data-catalog.dataspace-names.default: "MDS"
 # Optional: Additional connectors to be given a dataspace name
-authority-portal.deployment.environments.test.data-catalog.dataspace-names.connectorIds."MDSL1234XX.C1234XX": "Mobilithek"
+authority-portal.deployment.environments.test.data-catalog.dataspace-names.connector-ids."MDSL1234XX.C1234XX": "Mobilithek"
 
 # Environment DAPS
 # Env: DAPS URL
@@ -256,6 +257,14 @@ authority-portal.deployment.environments.test.daps.kuma-name: "[DAPS_KUMA_NAME]"
 authority-portal.deployment.environments.test.logging-house.url: "https://[LOGGING_HOUSE_FQDN]"
 # Env: Logging House Kuma name
 authority-portal.deployment.environments.test.logging-house.kuma-name: "[LOGGING_HOUSE_KUMA_NAME]"
+```
+
+Optional configuration variables
+```yaml
+# Organization ID configuration (example: prefix: BPN & length: 10 would generate Ids in the format BPNL000000000011)
+# The 'L' stands for 'Legal' and is added automatically after the prefix - the last 2 characters are the checksum
+authority-portal.organization.id.prefix: "BPN"
+authority-portal.organization.id.length: "10"
 ```
 
 #### Adjusting the log level at runtime
@@ -284,6 +293,9 @@ AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://mobility-dataspa-5n9px2qi7r.live-w
 AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice # Authority Portal Legal Notice URL
 AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal # MDS Privacy Policy URL
 AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu # Support page URL
+AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: mds-open-source # UI Branding profile
+AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS # Short Dataspace name, used in some explanatory texts
+AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "MDS Portal" # Portal name displayed in various texts
 ```
 
 ### Data Catalog Crawlers
@@ -292,31 +304,7 @@ AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu # S
 - Each deployment environment requires a Data Catalog Crawler.
   - A Data Catalog Crawler is based on the EDC Connector and crawls the catalogs of all connectors in the dataspace.
   - You will need an SKI/AKI client ID to register the crawler. Please refer to the [EDC documentation](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq) on how to generate one.
-  - Pre-configured configuration values for the crawler can be found in the [edc-extensions/launcher/.env.catalog-crawler](https://github.com/sovity/edc-ce/blob/main/launchers/.env.catalog-crawler) for the appropriate version.
-  - As specified in the crawler's deployment guide, following environment variables must be configured manually:
-  - ```yaml
-      # Required: Fully Qualified Domain Name
-      MY_EDC_FQDN: "crawler.test.example.com"
-  
-      # Required: Authority Portal Environment ID
-      CRAWLER_ENVIRONMENT_ID: test
-  
-      # Required: Authority Portal Postgresql DB Access
-      CRAWLER_DB_JDBC_URL: jdbc:postgresql://authority-portal:5432/portal
-      CRAWLER_DB_JDBC_USER: portal
-      CRAWLER_DB_JDBC_PASSWORD: portal
-  
-      # Required: DAPS credentials
-      EDC_OAUTH_TOKEN_URL: 'https://daps.test.mobility-dataspace.eu/token'
-      EDC_OAUTH_PROVIDER_JWKS_URL: 'https://daps.test.mobility-dataspace.eu/jwks.json'
-      EDC_OAUTH_CLIENT_ID: '_your SKI/AKI_'
-      EDC_KEYSTORE: '_your keystore file_' # Needs to be available as file in the running container
-      EDC_KEYSTORE_PASSWORD: '_your keystore password_'
-      EDC_OAUTH_CERTIFICATE_ALIAS: 1
-      EDC_OAUTH_PRIVATE_KEY_ALIAS: 1
-      ```
-  - The DAPS needs to contain the claim `referringConnector=MY_EDC_PARTICIPANT_ID` where `MY_EDC_PARTICIPANT_ID` is the value of same named configuration variable (default: 'broker').
-  - For help with the deployment and configuration of a crawler, see its [productive deployment guide](https://github.com/sovity/edc-ce/blob/main/docs/deployment-guide/goals/catalog-crawler-production/README.md)
+- See the [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v10.0.0/docs/deployment-guide/goals/catalog-crawler-production/README.md) 
 
 ## Initial Setup
 

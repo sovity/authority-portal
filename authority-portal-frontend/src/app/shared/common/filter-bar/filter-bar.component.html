@@ -1,5 +1,5 @@
 <form [formGroup]="filterForm">
-  <div class="bg-white py-5">
+  <div class="bg-color-background py-5">
     <div
       class="-ml-4 -mt-4 flex flex-wrap justify-between items-center justify between sm:flex-nowrap">
       <div class="ml-4 mt-4 flex flex-shrink-0 gap-4">
@@ -13,7 +13,7 @@
             [disabled]="filter.options.length === 0">
             <mat-icon
               *ngIf="filter.icon"
-              class="hover:text-brand-golden"
+              class="hover:text-brand-highlight"
               [svgIcon]="filter.icon"></mat-icon>
 
             <span>{{ filter.label }}</span>

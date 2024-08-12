@@ -25,7 +25,7 @@ let centralComponents: Record<string, CentralComponentDto[]> = {
       endpointUrl: 'https://broker.dev.my-dataspace.sovity.io/backend/api/dsp',
       createdByUserFullName: 'Your Name',
       createdByOrgName: 'Your Org Name',
-      createdByOrgMdsId: 'MDSL1234XX',
+      createdByOrganizationId: 'MDSL1234XX',
     },
     {
       centralComponentId: 'MDSL1234XX.C0002XX',
@@ -34,7 +34,7 @@ let centralComponents: Record<string, CentralComponentDto[]> = {
       endpointUrl: 'https://broker2.dev.my-dataspace.sovity.io/backend/api/dsp',
       createdByUserFullName: 'Your Name',
       createdByOrgName: 'Your Org Name',
-      createdByOrgMdsId: 'MDSL1234XX',
+      createdByOrganizationId: 'MDSL1234XX',
     },
   ],
 };
@@ -53,7 +53,7 @@ export const createCentralComponent = (
     name: request.name,
     endpointUrl: request.endpointUrl,
     homepageUrl: request.homepageUrl,
-    createdByOrgMdsId: 'MDSL1234XX',
+    createdByOrganizationId: 'MDSL1234XX',
     createdByOrgName: 'Your Org Name',
     createdByUserFullName: 'Your Name',
   };

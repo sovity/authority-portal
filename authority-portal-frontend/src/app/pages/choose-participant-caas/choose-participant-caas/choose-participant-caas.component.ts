@@ -10,25 +10,29 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject, switchMap, takeUntil} from 'rxjs';
 import {CaasAvailabilityResponse} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SelectionBoxModel} from 'src/app/shared/common/selection-box/selection-box.model';
+import {APP_CONFIG, AppConfig} from '../../../core/services/config/app-config';
+import {inferArticle} from '../../../core/utils/string-utils';
 
 @Component({
   selector: 'app-choose-participant-caas',
   templateUrl: './choose-participant-caas.component.html',
 })
 export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
+  sponsoredCaasAmount: number = 1;
+
   selectionBox: SelectionBoxModel = {
     title: 'Start Sponsored CaaS',
     subTitle: 'Managed EDC Connector to begin your journey in Data Spaces',
-    icon: 'caas_logo.svg',
+    icon: this.appConfig.caasResellerBrandLogoSrc,
     bulletPoints: [
-      '1st CaaS free for MDS participants',
-      'Easiest access to Mobility Data Space',
+      `CaaS sponsored by ${this.appConfig.brandDataspaceName} for their participants`,
+      'Easiest access to our dataspace',
       'Easiest access via web browser',
       'Hosted & maintained solution',
       '2 actively consumed data contracts included',
@@ -44,6 +48,7 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
   private ngOnDestroy$ = new Subject();
 
   constructor(
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private apiService: ApiService,
     private globalStateUtils: GlobalStateUtils,
   ) {}
@@ -77,16 +82,24 @@ export class ChooseParticipantCaasComponent implements OnInit, OnDestroy {
           return;
         }
 
+        this.sponsoredCaasAmount = x.limit;
         const isLimitReached = x.current >= x.limit;
+        const isUnconfigured = x.limit == 0;
 
         this.selectionBox.action = {
-          label: `Request CaaS (${x.current}/${x.limit})`,
+          label: isUnconfigured
+            ? 'Unavailable'
+            : `Request CaaS (${x.current}/${x.limit})`,
           url: 'my-organization/connectors/new/provided',
-          isDisabled: isLimitReached,
-          hint: isLimitReached
+          isDisabled: isLimitReached || isUnconfigured,
+          hint: isUnconfigured
+            ? 'Your dataspace authority has not configured this feature'
+            : isLimitReached
             ? 'The existing CaaS connector needs to be removed before requesting a new one'
             : '',
         };
       });
   }
+
+  protected readonly inferArticle = inferArticle;
 }

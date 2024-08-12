@@ -1,19 +1,21 @@
-<aside class="h-full flex flex-col justify-between overflow-y-auto px-2">
+<aside
+  class="h-full flex flex-col justify-between overflow-y-auto px-2"
+  [ngClass]="isExpandedMenu ? 'w-[16rem]' : ''">
   <div class="flex flex-col w-full">
     <div
       class="flex justify-start my-7 items-center cursor-pointer text-white"
-      [ngClass]="isExpandedMenu ? 'lg:p-5 space-x-3 mx-3' : 'mr-0 space-x-0'"
-      (click)="openNewTab()">
+      [ngClass]="isExpandedMenu ? 'p-5 space-x-3 mx-3' : 'mr-0 space-x-0'"
+      (click)="navigateHome()">
       <img
         *ngIf="isExpandedMenu"
-        class="scale-95"
-        src="/assets/images/mds_logo_yellow.svg"
-        alt="logo" />
+        alt="logo"
+        [class]="appConfig.brandLogo.class"
+        [attr.src]="appConfig.brandLogo.src" />
       <img
         *ngIf="!isExpandedMenu"
-        class="scale-[0.7]"
-        src="/assets/images/mds_logo_no_text.svg"
-        alt="logo" />
+        alt="logo"
+        [class]="appConfig.brandLogoSmall.class"
+        [attr.src]="appConfig.brandLogoSmall.src" />
     </div>
 
     <div class="flex-grow">
@@ -21,7 +23,7 @@
         <div *ngIf="section.userRoles | hasAnyRole | async">
           <div *ngIf="section.title" class="flex justify-start">
             <p
-              class="py-3 pl-5 text-xs leading-4 text-gray-300"
+              class="py-3 pl-5 text-xs leading-4 text-sidebar-section-color"
               [ngClass]="isExpandedMenu ? 'block' : 'hidden'">
               {{ section.title }}
             </p>

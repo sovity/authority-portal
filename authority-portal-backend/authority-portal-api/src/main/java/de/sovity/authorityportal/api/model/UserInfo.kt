@@ -35,8 +35,8 @@ data class UserInfo(
     @field:Schema(description = "Name of the user's organization", requiredMode = Schema.RequiredMode.REQUIRED)
     val organizationName: String,
 
-    @field:Schema(description = "MDS-ID of the user's organization", requiredMode = Schema.RequiredMode.REQUIRED)
-    val organizationMdsId: String,
+    @field:Schema(description = "ID of the user's organization", requiredMode = Schema.RequiredMode.REQUIRED)
+    val organizationId: String,
 
     @field:Schema(description = "Roles of the user", requiredMode = Schema.RequiredMode.REQUIRED)
     val roles: List<UserRoleDto>,

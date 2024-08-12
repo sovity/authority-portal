@@ -125,9 +125,9 @@ class KeycloakService {
             .toSet()
     }
 
-    fun getOrganizationMembers(mdsId: String): List<KeycloakUserDto> {
+    fun getOrganizationMembers(organizationId: String): List<KeycloakUserDto> {
         val groups = keycloak.realm(keycloakRealm).groups()
-        val orgGroupId = groups.groups().find { it.name == mdsId }?.id ?: return emptyList()
+        val orgGroupId = groups.groups().find { it.name == organizationId }?.id ?: return emptyList()
         val subGroupIds = getSubGroupIds(orgGroupId).values
 
         var orgMembers: List<KeycloakUserDto> = emptyList()
@@ -149,9 +149,9 @@ class KeycloakService {
         }
     }
 
-    fun getParticipantAdmins(mdsId: String): List<KeycloakUserDto> {
+    fun getParticipantAdmins(organizationId: String): List<KeycloakUserDto> {
         val groups = keycloak.realm(keycloakRealm).groups()
-        val orgGroupId = groups.groups(mdsId, 0, 1).firstOrNull()!!.id
+        val orgGroupId = groups.groups(organizationId, 0, 1).firstOrNull()!!.id
         val subGroupIds = getSubGroupIds(orgGroupId)
         val participantAdminGroupId = subGroupIds[OrganizationRole.PARTICIPANT_ADMIN.kcSubGroupName]
 
@@ -160,9 +160,9 @@ class KeycloakService {
         }
     }
 
-    fun createOrganization(mdsId: String) {
+    fun createOrganization(organizationId: String) {
         val organization = GroupRepresentation().apply {
-            name = mdsId
+            name = organizationId
         }
 
         // Create organization group
@@ -192,8 +192,8 @@ class KeycloakService {
         }
     }
 
-    fun deleteOrganization(mdsId: String) {
-        keycloak.realm(keycloakRealm).groups().groups(mdsId, 0, 1).firstOrNull()?.let {
+    fun deleteOrganization(organizationId: String) {
+        keycloak.realm(keycloakRealm).groups().groups(organizationId, 0, 1).firstOrNull()?.let {
             keycloak.realm(keycloakRealm).groups().group(it.id).remove()
         }
     }
@@ -203,13 +203,13 @@ class KeycloakService {
      * Can also be used to change the user's role in the organization.
      *
      * @param userId The user's ID
-     * @param mdsId The organization's MDS-ID
+     * @param organizationId The organization's MDS-ID
      * @param role The user's role in the organization
      */
-    fun joinOrganization(userId: String, mdsId: String, role: OrganizationRole) {
+    fun joinOrganization(userId: String, organizationId: String, role: OrganizationRole) {
         val user = keycloak.realm(keycloakRealm).users().get(userId)
         val orgGroupId = keycloak.realm(keycloakRealm).groups()
-            .groups(mdsId, 0, 1).firstOrNull()!!.id
+            .groups(organizationId, 0, 1).firstOrNull()!!.id
         val subGroupIds = getSubGroupIds(orgGroupId)
 
         OrganizationRole.entries.forEach {

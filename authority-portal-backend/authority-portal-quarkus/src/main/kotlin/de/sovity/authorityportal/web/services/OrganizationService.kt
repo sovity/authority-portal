@@ -33,15 +33,15 @@ class OrganizationService(
     val timeUtils: TimeUtils
 ) {
 
-    fun getOrganizationOrThrow(mdsId: String): OrganizationRecord {
-        return getOrganization(mdsId) ?: error("Organization with id $mdsId not found")
+    fun getOrganizationOrThrow(organizationId: String): OrganizationRecord {
+        return getOrganization(organizationId) ?: error("Organization with id $organizationId not found")
     }
 
-    private fun getOrganization(mdsId: String): OrganizationRecord? {
+    private fun getOrganization(organizationId: String): OrganizationRecord? {
         val o = Tables.ORGANIZATION
 
         return dsl.selectFrom(o)
-            .where(o.MDS_ID.eq(mdsId))
+            .where(o.ID.eq(organizationId))
             .fetchOne()
     }
 
@@ -58,18 +58,27 @@ class OrganizationService(
     fun getAllOrganizationNames(): Map<String, String> {
         val o = Tables.ORGANIZATION
 
-        return dsl.select(o.MDS_ID, o.NAME)
+        return dsl.select(o.ID, o.NAME)
             .from(o)
-            .fetchMap(o.MDS_ID, o.NAME)
+            .fetchMap(o.ID, o.NAME)
+    }
+
+    fun getOrganizationIdByName(name: String): String? {
+        val o = Tables.ORGANIZATION
+
+        return dsl.select(o.ID)
+            .from(o)
+            .where(o.NAME.eq(name))
+            .fetchOne(o.ID)
     }
 
     fun createInvitedOrganization(
         userId: String,
-        mdsId: String,
+        organizationId: String,
         orgName: String
     ) {
         dsl.newRecord(Tables.ORGANIZATION).also {
-            it.mdsId = mdsId
+            it.id = organizationId
             it.name = orgName.trim()
             it.createdBy = userId
             it.registrationStatus = OrganizationRegistrationStatus.INVITED
@@ -81,13 +90,13 @@ class OrganizationService(
 
     fun createOrganization(
         userId: String,
-        mdsId: String,
+        organizationId: String,
         organizationData: CreateOrganizationData,
         registrationStatus: OrganizationRegistrationStatus
     ) {
         val legalIdType = organizationData.legalIdType
         dsl.newRecord(Tables.ORGANIZATION).also {
-            it.mdsId = mdsId
+            it.id = organizationId
             it.name = organizationData.name?.trim()
             it.registrationStatus = registrationStatus
             it.createdAt = timeUtils.now()
@@ -112,8 +121,8 @@ class OrganizationService(
         }
     }
 
-    fun updateOrganization(mdsId: String, dto: UpdateOrganizationDto) {
-        val organization = getOrganizationOrThrow(mdsId)
+    fun updateOrganization(organizationId: String, dto: UpdateOrganizationDto) {
+        val organization = getOrganizationOrThrow(organizationId)
         organization.url = dto.url.trim()
         organization.description = dto.description.trim()
         organization.businessUnit = dto.businessUnit.trim()
@@ -130,8 +139,8 @@ class OrganizationService(
         organization.update()
     }
 
-    fun onboardOrganization(mdsId: String, dto: OnboardingOrganizationUpdateDto) {
-        val organization = getOrganizationOrThrow(mdsId)
+    fun onboardOrganization(organizationId: String, dto: OnboardingOrganizationUpdateDto) {
+        val organization = getOrganizationOrThrow(organizationId)
         organization.name = dto.name.trim()
         organization.registrationStatus = OrganizationRegistrationStatus.ACTIVE
         organization.createdAt = timeUtils.now()
@@ -166,38 +175,38 @@ class OrganizationService(
         organization.commerceRegisterLocation = commerceRegisterLocation.takeIf { legalIdType == OrganizationLegalIdType.COMMERCE_REGISTER_INFO }?.trim()
     }
 
-    fun deleteOrganization(mdsId: String) {
+    fun deleteOrganization(organizationId: String) {
         val o = Tables.ORGANIZATION
 
         dsl.deleteFrom(o)
-            .where(o.MDS_ID.eq(mdsId))
+            .where(o.ID.eq(organizationId))
             .execute()
     }
 
-    fun getUnconfirmedOrganizationMdsIds(expirationCutoffTime: OffsetDateTime): List<String> {
+    fun getUnconfirmedOrganizationOrganizationIds(expirationCutoffTime: OffsetDateTime): List<String> {
         val o = Tables.ORGANIZATION
 
-        return dsl.select(o.MDS_ID)
+        return dsl.select(o.ID)
             .from(o)
             .where(o.REGISTRATION_STATUS.eq(OrganizationRegistrationStatus.INVITED))
             .and(o.CREATED_AT.lt(expirationCutoffTime))
-            .fetch(o.MDS_ID)
+            .fetch(o.ID)
     }
 
-    fun deleteUnconfirmedOrganizations(mdsIds: List<String>): Int {
+    fun deleteUnconfirmedOrganizations(organizationIds: List<String>): Int {
         val o = Tables.ORGANIZATION
 
         return dsl.deleteFrom(o)
-            .where(o.MDS_ID.eqAny(mdsIds))
+            .where(o.ID.eqAny(organizationIds))
             .execute()
     }
 
-    fun updateStatus(mdsId: String, status: OrganizationRegistrationStatus) {
+    fun updateStatus(organizationId: String, status: OrganizationRegistrationStatus) {
         val o = Tables.ORGANIZATION
 
         dsl.update(o)
             .set(o.REGISTRATION_STATUS, status)
-            .where(o.MDS_ID.eq(mdsId))
+            .where(o.ID.eq(organizationId))
             .execute()
     }
 }

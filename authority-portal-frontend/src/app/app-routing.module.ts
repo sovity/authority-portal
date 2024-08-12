@@ -30,7 +30,7 @@ import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dash
 import {LoadingPageComponent} from './pages/empty-pages/loading-page/loading-page/loading-page.component';
 import {PageNotFoundPageComponent} from './pages/empty-pages/page-not-found-page/page-not-found-page/page-not-found-page.component';
 import {UnauthenticatedPageComponent} from './pages/empty-pages/unauthenticated-page/unauthenticated-page/unauthenticated-page.component';
-import {MdsHomePageComponent} from './pages/mds-home/mds-home/mds-home.component';
+import {HomePageComponent} from './pages/home/home/home.component';
 import {ParticipantOwnConnectorDetailPageComponent} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {ParticipantOwnConnectorListPageComponent} from './pages/participant-own-connector-list-page/participant-own-connector-list-page/participant-own-connector-list-page.component';
 import {OrganizationCreatePageComponent} from './pages/registration-pages/organization-create-page/organization-create-page/organization-create-page.component';
@@ -73,6 +73,17 @@ export const LOADING_ROUTES: Routes = [
   },
 ];
 
+export const FEATURE_HOME_ROUTE: Routes = [
+  {
+    path: 'home',
+    component: HomePageComponent,
+    data: {
+      requiresRole: ['USER'] satisfies UserRoleDto[],
+    },
+    canActivate: [requiresRole],
+  },
+];
+
 const REDIRECT_TO_HOME: string[] = [
   '',
   'registration/pending',
@@ -80,10 +91,20 @@ const REDIRECT_TO_HOME: string[] = [
   'onboard',
 ];
 
-const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
+export const CATALOG_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   path,
   redirectTo: (() => {
-    const url = localStorage.getItem('originalUrl') || 'mds-home';
+    const url = localStorage.getItem('originalUrl') || 'catalog';
+    localStorage.removeItem('originalUrl');
+    return url;
+  })(),
+  pathMatch: 'full',
+}));
+
+export const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
+  path,
+  redirectTo: (() => {
+    const url = localStorage.getItem('originalUrl') || 'home';
     localStorage.removeItem('originalUrl');
     return url;
   })(),
@@ -129,15 +150,6 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     path: '',
     component: PortalLayoutComponent,
     children: [
-      ...HOME_REDIRECTS,
-      {
-        path: 'mds-home',
-        component: MdsHomePageComponent,
-        data: {
-          requiresRole: ['USER'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
       {
         path: 'dashboard',
         component: DashboardPageComponent,

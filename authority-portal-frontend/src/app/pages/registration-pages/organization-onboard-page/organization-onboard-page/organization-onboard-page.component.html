@@ -1,8 +1,11 @@
 <div class="relative h-screen">
   <!-- header -->
   <div
-    class="top-0 p-8 bg-white flex justify-between items-center cursor-pointer">
-    <img src="/assets/images/mds_logo_black.svg" alt="logo" />
+    class="top-0 p-8 bg-color-background flex justify-between items-center cursor-pointer">
+    <img
+      alt="logo"
+      [attr.src]="appConfig.brandLogoOnboardingPage.src"
+      [class]="appConfig.brandLogoOnboardingPage.class" />
     <div class="static top-10 right-10">
       <logout-button></logout-button>
     </div>
@@ -103,7 +106,13 @@
         <ng-template matStepLabel>Confirmation</ng-template>
         <div class="my-12 flex flex-col justify-center items-center">
           <h3 class="wizard-end-title text-center">
-            Thank you for onboarding on the MDS Portal!
+            {{
+              ('mds-id' | isActiveFeature)
+                ? 'Thank you for onboarding on the MDS Portal!'
+                : 'Thank you for onboarding on the ' +
+                  appConfig.portalName +
+                  '!'
+            }}
           </h3>
           <p class="wizard-end-prose max-w-3xl text-center">
             Congratulations on successfully onboarding to our platform! We're

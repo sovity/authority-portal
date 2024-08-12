@@ -21,10 +21,10 @@ export enum AuthorityOrganizationDetailTab {
 
 export interface UserDetailPageConfig {
   userId: string;
-  mdsId: string;
+  organizationId: string;
 }
 
 export interface UserDetailPageConfig {
   userId: string;
-  mdsId: string;
+  organizationId: string;
 }

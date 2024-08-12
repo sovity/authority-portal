@@ -210,11 +210,11 @@ interface UiResource {
     ): OwnOrganizationDetailsDto
 
     @GET
-    @Path("/authority/organizations/{mdsId}")
+    @Path("/authority/organizations/{organizationId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any organization.")
     fun organizationDetailsForAuthority(
-        @PathParam("mdsId") mdsId: String,
+        @PathParam("organizationId") organizationId: String,
 
         @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
@@ -222,11 +222,11 @@ interface UiResource {
     ): OrganizationDetailsDto
 
     @GET
-    @Path("/application/organizations/{mdsId}")
+    @Path("/application/organizations/{organizationId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any organization. (For Service Partners and Operators)")
     fun organizationDetails(
-        @PathParam("mdsId") mdsId: String,
+        @PathParam("organizationId") organizationId: String,
 
         @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
@@ -266,16 +266,16 @@ interface UiResource {
     ): IdResponse
 
     @PUT
-    @Path("/authority/organizations/{mdsId}/approve")
+    @Path("/authority/organizations/{organizationId}/approve")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Approve a newly registered organization.")
-    fun approveOrganization(@PathParam("mdsId") mdsId: String): IdResponse
+    fun approveOrganization(@PathParam("organizationId") organizationId: String): IdResponse
 
     @PUT
-    @Path("/authority/organizations/{mdsId}/reject")
+    @Path("/authority/organizations/{organizationId}/reject")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Reject a newly registered organization.")
-    fun rejectOrganization(@PathParam("mdsId") mdsId: String): IdResponse
+    fun rejectOrganization(@PathParam("organizationId") organizationId: String): IdResponse
 
     // Connector management
     @GET
@@ -315,12 +315,12 @@ interface UiResource {
     fun deleteOwnConnector(@PathParam("connectorId") connectorId: String): IdResponse
 
     @POST
-    @Path("/organizations/{mdsId}/connectors/create-service-provided")
+    @Path("/organizations/{organizationId}/connectors/create-service-provided")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Register a connector for another organization as a service provider.")
     fun createProvidedConnector(
-        @PathParam("mdsId") mdsId: String,
+        @PathParam("organizationId") organizationId: String,
 
         @QueryParam("environmentId")
         @Valid @NotBlank(message = "EnvironmentId cannot be blank")
@@ -413,12 +413,12 @@ interface UiResource {
     ): IdResponse
 
     @PUT
-    @Path("/authority/organizations/{mdsId}")
+    @Path("/authority/organizations/{organizationId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(description = "Update organization information")
     fun updateOrganizationDetails(
-        @PathParam("mdsId") mdsId: String,
+        @PathParam("organizationId") organizationId: String,
 
         @Valid @NotNull(message = "Update organization request cannot be null")
         organizationDto: UpdateOrganizationDto

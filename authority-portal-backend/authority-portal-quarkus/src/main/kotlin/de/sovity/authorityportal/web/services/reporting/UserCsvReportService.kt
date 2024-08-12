@@ -38,7 +38,7 @@ class UserCsvReportService {
 
     data class UserReportRow(
         val userId: String,
-        val organizationMdsId: String?,
+        val organizationId: String?,
         val organizationName: String?,
         val firstName: String,
         val lastName: String,
@@ -50,7 +50,7 @@ class UserCsvReportService {
 
     val columns = listOf<CsvColumn<UserReportRow>>(
         CsvColumn("User ID") { it.userId },
-        CsvColumn("Organization MDS ID") { it.organizationMdsId ?: "" },
+        CsvColumn("Organization ID") { it.organizationId ?: "" },
         CsvColumn("Organization Name") { it.organizationName ?: "" },
         CsvColumn("First Name") { it.firstName },
         CsvColumn("Last Name") { it.lastName },
@@ -72,8 +72,8 @@ class UserCsvReportService {
         return userDetails.map {
             UserReportRow(
                 userId = it.userId,
-                organizationMdsId = it.organizationMdsId,
-                organizationName = organizationNames[it.organizationMdsId],
+                organizationId = it.organizationId,
+                organizationName = organizationNames[it.organizationId],
                 firstName = it.firstName,
                 lastName = it.lastName,
                 roles = userRoleMapper.getUserRoles(it.roles),

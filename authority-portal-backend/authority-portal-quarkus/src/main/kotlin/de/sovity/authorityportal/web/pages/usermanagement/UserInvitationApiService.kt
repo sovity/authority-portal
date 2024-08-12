@@ -32,7 +32,7 @@ class UserInvitationApiService(
 
     fun inviteParticipantUser(
         userInformation: InviteParticipantUserRequest,
-        mdsId: String,
+        organizationId: String,
         adminUserId: String
     ): IdResponse {
         val userId =
@@ -40,13 +40,13 @@ class UserInvitationApiService(
         keycloakService.sendInvitationEmailWithPasswordReset(userId)
         keycloakService.joinOrganization(
             userId = userId,
-            mdsId = mdsId,
+            organizationId = organizationId,
             role = userRoleMapper.toOrganizationRole(userInformation.role, userId, adminUserId)
         )
 
         userService.createUser(
             userId = userId,
-            mdsId = mdsId,
+            organizationId = organizationId,
             onboardingType = UserOnboardingType.INVITATION,
             invitedBy = adminUserId
         ).also {
@@ -56,7 +56,7 @@ class UserInvitationApiService(
             it.update()
         }
 
-        Log.info("New participant account invited. userId=$userId, role=${userInformation.role}, mdsId=$mdsId, adminUserId=$adminUserId")
+        Log.info("New participant account invited. userId=$userId, role=${userInformation.role}, organizationId=$organizationId, adminUserId=$adminUserId")
 
         return IdResponse(userId, timeUtils.now())
     }

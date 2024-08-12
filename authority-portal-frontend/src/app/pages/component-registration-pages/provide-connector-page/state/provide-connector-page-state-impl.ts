@@ -66,7 +66,7 @@ export class ProvideConnectorPageStateImpl {
         (deploymentEnvironmentId): Observable<CreateConnectorResponse> =>
           this.apiService.createProvidedConnector(
             action.request,
-            action.mdsId,
+            action.organizationId,
             deploymentEnvironmentId,
           ),
       ),

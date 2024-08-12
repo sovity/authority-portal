@@ -13,9 +13,9 @@
 
 const tag = 'AuthorityOrganizationDetailPage';
 
-export class SetOrganizationMdsId {
-  static readonly type = `[${tag}] Set Organization Mds Id`;
-  constructor(public organizationMdsId: string) {}
+export class SetOrganizationId {
+  static readonly type = `[${tag}] Set Organization Id`;
+  constructor(public organizationId: string) {}
 }
 
 export class RefreshOrganization {
@@ -34,7 +34,7 @@ export class RejectOrganization {
 
 export class SetOrganizationUserId {
   static readonly type = `[${tag}] Set Currently Opened Organization User Id`;
-  constructor(public organizationMdsId: string, public userId: string) {}
+  constructor(public organizationId: string, public userId: string) {}
 }
 
 export class RefreshOrganizationUser {

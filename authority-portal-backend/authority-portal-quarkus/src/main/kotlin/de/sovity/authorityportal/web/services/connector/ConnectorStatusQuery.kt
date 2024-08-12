@@ -40,14 +40,14 @@ class ConnectorStatusQuery(
             .fetchInto(ConnectorStatusInfoRs::class.java)
     }
 
-    fun getConnectorStatusInfoByMdsIdAndEnvironment(mdsId: String, environmentId: String): List<ConnectorStatusInfoRs> {
+    fun getConnectorStatusInfoByOrganizationIdAndEnvironment(organizationId: String, environmentId: String): List<ConnectorStatusInfoRs> {
         val c = Tables.CONNECTOR
 
         return dsl.select(c.CONNECTOR_ID, c.ONLINE_STATUS, c.LAST_SUCCESSFUL_REFRESH_AT)
             .from(c)
             .where(
                 c.ENVIRONMENT.eq(environmentId),
-                DSL.or(c.MDS_ID.eq(mdsId), c.PROVIDER_MDS_ID.eq(mdsId))
+                DSL.or(c.ORGANIZATION_ID.eq(organizationId), c.PROVIDER_ORGANIZATION_ID.eq(organizationId))
             )
             .fetchInto(ConnectorStatusInfoRs::class.java)
     }

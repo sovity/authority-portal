@@ -42,14 +42,14 @@ import {RouteConfigService} from './routes/route-config-service';
 @Injectable()
 export class GlobalStateImpl implements NgxsOnInit {
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private ngZone: NgZone,
     private apiService: ApiService,
     private routeConfigService: RouteConfigService,
   ) {}
 
   ngxsOnInit(ctx: StateContext<any>): void {
-    if (this.config.useLocalBackend) {
+    if (this.appConfig.useLocalBackend) {
       ctx.dispatch(new SwitchE2eDevUser(E2E_DEV_USERS[0]));
     }
     ctx.dispatch(RefreshDeploymentEnvironments);
@@ -75,7 +75,7 @@ export class GlobalStateImpl implements NgxsOnInit {
         firstName: 'Authentication',
         lastName: 'Failure',
         registrationStatus: undefined,
-        organizationMdsId: 'error',
+        organizationId: 'error',
         organizationName: 'Authentication Failure',
       }),
       tap((userInfo) => this.onUserInfoRefreshed(ctx, userInfo)),

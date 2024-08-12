@@ -57,7 +57,7 @@ export class RegisterCentralComponentPageComponent
   private ngOnDestroy$ = new Subject();
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private store: Store,
     public form: RegisterCentralComponentPageForm,
     private globalStateUtils: GlobalStateUtils,

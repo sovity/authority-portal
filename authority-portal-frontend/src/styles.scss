@@ -1,3 +1,5 @@
+@forward 'theme';
+
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
@@ -19,8 +21,8 @@
   font-style: normal;
   font-weight: 400;
   src: local('Material Icons Outlined'), local('MaterialIcons-Outlined'),
-    url('./assets/fonts/material-icons-outlined-v109-latin-regular.woff2')
-      format('woff2');
+  url('./assets/fonts/material-icons-outlined-v109-latin-regular.woff2')
+  format('woff2');
 }
 
 html {
@@ -40,6 +42,7 @@ html {
 
 body {
   font-family: Arial, 'Inter', sans-serif;
+  @apply bg-color-background;
 }
 
 a {
@@ -179,7 +182,7 @@ textarea {
 }
 
 .btn-dropdown-menu {
-  @apply inline-flex gap-x-1.5 rounded-full items-center bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-brand-golden hover:text-brand-golden hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none;
+  @apply inline-flex gap-x-1.5 rounded-full items-center bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-brand-highlight hover:text-brand-highlight hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none;
 }
 
 .btn-dropdown-menu:disabled:hover {
@@ -211,7 +214,7 @@ textarea {
 }
 
 .details-row {
-  @apply flex flex-col @md:grid @md:grid-cols-12 @md:gap-4 px-4 py-3 @md:px-0 items-start transition duration-300 ease-in-out transform;
+  @apply flex flex-col @md:grid @md:grid-cols-12 @md:gap-4 px-4 py-3 @md:px-0 items-start transition duration-300 ease-in-out transform bg-white;
 }
 
 .details-row:nth-child(odd) {
@@ -241,11 +244,11 @@ textarea {
 }
 
 .larger-icon {
-  @apply w-9 h-9 !important;
+  @apply w-9 h-9 #{!important};
 }
 
 .smaller-icon {
-  @apply w-4 text-base !important;
+  @apply w-4 text-base #{!important};
 }
 
 .mat-icon .larger {
@@ -262,6 +265,14 @@ textarea {
 
 .mat-mdc-form-field-error:first-child {
   display: block !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  background-color: white;
+}
+
+.mat-mdc-paginator-container {
+  @apply bg-color-background;
 }
 
 input:-webkit-autofill,
@@ -373,9 +384,13 @@ select:-webkit-autofill:disabled {
   overflow-x: hidden !important;
 }
 
+.mat-horizontal-stepper-wrapper {
+  @apply bg-color-background;
+}
+
 .mat-icon-button,
 .mat-mdc-icon-button {
-  @apply !inline-flex !items-center !justify-center;
+  @apply inline-flex items-center justify-center;
 }
 
 .mat-mdc-paginator-range-label {
@@ -411,7 +426,7 @@ select:-webkit-autofill:disabled {
 }
 
 .markdown-description {
-  @apply !text-sm;
+  @apply text-sm #{!important};
   @apply prose whitespace-normal max-w-none;
   @apply prose-img:rounded-lg prose-img:my-3 prose-img:object-contain prose-img:max-w-full prose-img:max-h-[250px];
   @apply prose-a:text-[--link-color];

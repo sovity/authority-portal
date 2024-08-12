@@ -19,7 +19,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
 import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import jakarta.enterprise.context.ApplicationScoped
@@ -82,7 +82,7 @@ class DevScenario(
             user(6, null) {
                 it.firstName = "Broken"
                 it.lastName = "User"
-                it.organizationMdsId = null
+                it.organizationId = null
             }
 
             // Service Partner Admin
@@ -99,7 +99,7 @@ class DevScenario(
                 it.assetId = dummyDevAssetId(1)
                 it.title = "Asset Title"
                 it.connectorEndpoint = "https://test-connector/dsp"
-                it.participantId = dummyDevMdsId(1)
+                it.participantId = dummyDevOrganizationId(1)
                 it.creatorOrganizationName = "Authority Organization"
                 it.language = "de"
                 it.description = "Long description"
@@ -110,7 +110,7 @@ class DevScenario(
                 it.assetId = dummyDevAssetId(2)
                 it.title = "OnDemand Asset"
                 it.connectorEndpoint = null
-                it.participantId = dummyDevMdsId(1)
+                it.participantId = dummyDevOrganizationId(1)
                 it.creatorOrganizationName = "Authority Organization"
                 it.language = "de"
                 it.description = "Long description"

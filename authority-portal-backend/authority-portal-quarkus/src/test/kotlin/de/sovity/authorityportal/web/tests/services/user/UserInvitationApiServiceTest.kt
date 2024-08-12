@@ -21,7 +21,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
-import de.sovity.authorityportal.seeds.utils.dummyDevMdsId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.useDevUser
@@ -101,7 +101,7 @@ class UserInvitationApiServiceTest {
             it.firstName = "Max"
             it.lastName = "Mustermann"
             it.email = "max.mustermann@test.sovity.io"
-            it.organizationMdsId = dummyDevMdsId(0)
+            it.organizationId = dummyDevOrganizationId(0)
             it.registrationStatus = UserRegistrationStatus.INVITED
             it.createdAt = now
             it.onboardingType = UserOnboardingType.INVITATION

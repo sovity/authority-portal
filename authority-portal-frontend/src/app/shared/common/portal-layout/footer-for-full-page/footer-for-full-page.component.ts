@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, HostBinding} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-footer-for-full-page',

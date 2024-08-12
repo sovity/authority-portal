@@ -118,7 +118,7 @@ class FirstUserRegistrationTest {
 
         val expectedUser = dsl.newRecord(Tables.USER).also {
             it.id = dummyDevUserUuid(0)
-            it.organizationMdsId = actualOrganization!!.mdsId
+            it.organizationId = actualOrganization!!.id
             it.registrationStatus = UserRegistrationStatus.ACTIVE
             it.createdAt = now
             it.email = request.userEmail
@@ -131,7 +131,7 @@ class FirstUserRegistrationTest {
         }
 
         val expectedOrganization = dsl.newRecord(Tables.ORGANIZATION).also {
-            it.mdsId = actualOrganization!!.mdsId
+            it.id = actualOrganization!!.id
             it.name = request.organizationName
             it.address = request.organizationAddress
             it.url = request.organizationUrl
