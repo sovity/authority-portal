@@ -34,6 +34,7 @@ import {
   SlideOverAction,
   SlideOverConfig,
 } from 'src/app/shared/common/slide-over/slide-over.model';
+import {GlobalStateUtils} from '../../../core/global-state/global-state-utils';
 import {AuthorityOrganizationDetailPageComponent} from '../../authority-organization-detail-page/authority-organization-detail-page/authority-organization-detail-page.component';
 import {AuthorityInviteNewOrganizationComponent} from '../authority-invite-new-organization/authority-invite-new-organization.component';
 import {
@@ -71,6 +72,7 @@ export class AuthorityOrganizationListPageComponent
     private store: Store,
     public dialog: MatDialog,
     private slideOverService: SlideOverService,
+    private globalStateUtils: GlobalStateUtils,
   ) {}
 
   ngOnInit() {
@@ -78,6 +80,7 @@ export class AuthorityOrganizationListPageComponent
     this.initializeFilterBar();
     this.refresh();
     this.startListeningToState();
+    this.startRefreshingOnEnvChange();
   }
 
   initializeHeaderBar() {
@@ -126,6 +129,15 @@ export class AuthorityOrganizationListPageComponent
         this.state = state;
         this.showDetail = state.showDetail;
       });
+  }
+
+  private startRefreshingOnEnvChange() {
+    this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
+      ngOnDestroy$: this.ngOnDestroy$,
+      onChanged: () => {
+        this.refresh();
+      },
+    });
   }
 
   openDetailPage(organization: OrganizationOverviewEntryDto) {
