@@ -23,6 +23,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Already registered connectors will be updated automatically, this process can take up to 24 hours
 - Added a message when the CaaS request feature is not available
 - Catalog: Removed dataspace filter when only one dataspace is known
+- Organization list: Data offer and connector counts now show the correct numbers according to the active environment
 
 ### Known issues
 
