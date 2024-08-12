@@ -36,9 +36,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
  */
 object JsonDeserializationUtils {
     private val objectMapper: ObjectMapper = ObjectMapper()
-    private val TYPE_STRING_LIST_2: TypeReference<List<List<String>>> = object : TypeReference<List<List<String>>>() {}
+    private val TYPE_STRING_LIST_3: TypeReference<List<List<List<String>>>> = object : TypeReference<List<List<List<String>>>>() {}
 
-    fun read2dStringList(json: String): List<List<String>> {
-        return objectMapper.readValue(json, TYPE_STRING_LIST_2)
+    fun read3dStringList(json: String): List<List<List<String>>> {
+        return objectMapper.readValue(json, TYPE_STRING_LIST_3)
     }
 }
