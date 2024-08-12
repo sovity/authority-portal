@@ -49,7 +49,7 @@ class ComponentStatusService(
         val c = Tables.COMPONENT_DOWNTIMES
 
         return dsl.selectFrom(c)
-            .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment))
+            .where(c.COMPONENT.eq(component), c.ENVIRONMENT.eq(environment))
             .orderBy(c.TIME_STAMP.desc())
             .limit(1)
             .fetchOne()
@@ -63,15 +63,20 @@ class ComponentStatusService(
         val c = Tables.COMPONENT_DOWNTIMES
 
         return dsl.selectFrom(c)
-            .where(c.COMPONENT.eq(component))
-            .and(c.ENVIRONMENT.eq(environment))
-            .and(c.TIME_STAMP.lessThan(limit))
+            .where(
+                c.COMPONENT.eq(component),
+                c.ENVIRONMENT.eq(environment),
+                c.TIME_STAMP.lessThan(limit)
+            )
             .orderBy(c.TIME_STAMP.desc())
             .limit(1)
             .union(
                 dsl.selectFrom(c)
-                    .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment))
-                    .and(c.TIME_STAMP.greaterOrEqual(limit))
+                    .where(
+                        c.COMPONENT.eq(component),
+                        c.ENVIRONMENT.eq(environment),
+                        c.TIME_STAMP.greaterOrEqual(limit)
+                    )
             )
             .orderBy(c.TIME_STAMP.asc())
             .fetch()
