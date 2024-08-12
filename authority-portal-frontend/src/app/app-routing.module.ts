@@ -99,13 +99,13 @@ const getProperRedirectUrl = (fallbackUrl: string) => {
 
 export const CATALOG_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   path,
-  redirectTo: getProperRedirectUrl('catalog'),
+  redirectTo: (() => getProperRedirectUrl('catalog'))(),
   pathMatch: 'full',
 }));
 
 export const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   path,
-  redirectTo: getProperRedirectUrl('home'),
+  redirectTo: (() => getProperRedirectUrl('home'))(),
   pathMatch: 'full',
 }));
 
