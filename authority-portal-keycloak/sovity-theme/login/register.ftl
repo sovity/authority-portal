@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <span id="fe-input-error-first-name" class="${properties.kcInputErrorMessageClass!}">
-                            Please specify first name.
+                            Please specify a first name.
                         </span>
 
                         <#-- Last name -->
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <span id="fe-input-error-last-name" class="${properties.kcInputErrorMessageClass!}">
-                            Please specify last name.
+                            Please specify a last name.
                         </span>
 
                         <#-- E-mail -->

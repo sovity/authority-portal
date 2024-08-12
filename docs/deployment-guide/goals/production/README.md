@@ -29,7 +29,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
   - URL of the Keycloak for authorizing at the CaaS-Portal, referred to as `[CAAS_KC_FQDN]` in this guide.
   - Credentials for the CaaS-Portal, referred to as `[CAAS_CLIENT_ID]` and `[CAAS_CLIENT_SECRET]` in this guide.
 - A running instance of Uptime Kuma is required.
-  - This should track the DAPS, Logging House and Catalog Crawler status
+  - This should track the DAPS and Catalog Crawler status. If the Logging House is used, its status should be tracked as well
   - The statuses must be available via the API (`/metrics` endpoint)
     - The output per component should look like this:
       ```
@@ -79,24 +79,44 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 - The domain under which the Keycloak should be reachable on the internet will be referred to as `[KC_FQDN]` in this
   guide and should differ from the `[AP_FQDN]`.
 - The steps to set up the realm are the following
-   1. Copy [mds-theme](../../../../authority-portal-keycloak/mds-theme) or [sovity-theme](../../../../authority-portal-keycloak/sovity-theme) directory to `{keycloakRoot}/themes/` directory
-   2. Import [realm-mds.json](../../../../authority-portal-backend/authority-portal-quarkus/src/main/resources/realm-mds.json) to create `mds-portal` realm or [realm.json](../../../../authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json) to create `authority-portal` realm
-   3. Adjust settings for `oauth2-proxy` client (Clients > `oauth2-proxy` > Settings)
-      - `Root URL`: URL of the auth proxy, e.g. `https://authority-portal.example.url`
-      - `Home URL`: (Relative) sign in URL of auth proxy, e.g. `/oauth2/sign_in`
-      - `Valid Redirect URIs`: (Relative) callback URL of auth proxy, e.g. `/oauth2/callback`
-      - `Valid post logout redirect URIs`: `/*`
-   4. Adjust settings for `authority-portal-client` client (Clients > `authority-portal-client` > Settings)
-      - `Root URL`: URL of the authority portal, e.g. `https://authority-portal.example.url`
-      - `Home URL`: (Most likely) same as `Root URL`
-   5. Regenerate client secrets for `oauth2-proxy` and `authority-portal-client` clients
-      - Clients > `[client]` > Credentials > Regenerate (Client secret)
-   6. Select MDS theme for login & email templates
-      - Select `mds-portal` realm
-      - Realm settings > Themes > Login theme: Select `mds-theme`
-      - Realm settings > Themes > Email theme: Select `mds-theme`
-   7. Add email settings (Realm settings > Email)
-      - At least `From` and `Host` are required
+  - sovity theme
+      1. Copy [sovity-theme](../../../../authority-portal-keycloak/sovity-theme) directory to `{keycloakRoot}/themes/` directory
+      2. Import [realm.json](../../../../authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json) to create the `authority-portal` realm
+      3. Adjust settings for `oauth2-proxy` client (Clients > `oauth2-proxy` > Settings)
+          - `Root URL`: URL of the auth proxy, e.g. `https://authority-portal.example.url`
+          - `Home URL`: (Relative) sign in URL of auth proxy, e.g. `/oauth2/sign_in`
+          - `Valid Redirect URIs`: (Relative) callback URL of auth proxy, e.g. `/oauth2/callback`
+          - `Valid post logout redirect URIs`: `/*`
+      4. Adjust settings for `authority-portal-client` client (Clients > `authority-portal-client` > Settings)
+          - `Root URL`: URL of the authority portal, e.g. `https://authority-portal.example.url`
+          - `Home URL`: (Most likely) same as `Root URL`
+      5. Regenerate client secrets for `oauth2-proxy` and `authority-portal-client` clients
+          - Clients > `[client]` > Credentials > Regenerate (Client secret)
+      6. Select MDS theme for login & email templates
+          - Select `authority-portal` realm
+          - Realm settings > Themes > Login theme: Select `sovity-theme`
+          - Realm settings > Themes > Email theme: Select `sovity-theme`
+      7. Add email settings (Realm settings > Email)
+          - At least `From` and `Host` are required
+  - MDS theme
+    1. Copy [mds-theme](../../../../authority-portal-keycloak/mds-theme) directory to `{keycloakRoot}/themes/` directory
+    2. Import [realm-mds.json](../../../../authority-portal-backend/authority-portal-quarkus/src/main/resources/realm-mds.json) to create the `mds-portal` realm
+    3. Adjust settings for `oauth2-proxy` client (Clients > `oauth2-proxy` > Settings)
+       - `Root URL`: URL of the auth proxy, e.g. `https://authority-portal.example.url`
+       - `Home URL`: (Relative) sign in URL of auth proxy, e.g. `/oauth2/sign_in`
+       - `Valid Redirect URIs`: (Relative) callback URL of auth proxy, e.g. `/oauth2/callback`
+       - `Valid post logout redirect URIs`: `/*`
+    4. Adjust settings for `authority-portal-client` client (Clients > `authority-portal-client` > Settings)
+       - `Root URL`: URL of the authority portal, e.g. `https://authority-portal.example.url`
+       - `Home URL`: (Most likely) same as `Root URL`
+    5. Regenerate client secrets for `oauth2-proxy` and `authority-portal-client` clients
+       - Clients > `[client]` > Credentials > Regenerate (Client secret)
+    6. Select MDS theme for login & email templates
+       - Select `mds-portal` realm
+       - Realm settings > Themes > Login theme: Select `mds-theme`
+       - Realm settings > Themes > Email theme: Select `mds-theme`
+    7. Add email settings (Realm settings > Email)
+       - At least `From` and `Host` are required
 
 #### Caddy
 
@@ -120,7 +140,7 @@ AUTH_PROXY_UPSTREAM_HOST: auth-proxy
 ```yaml
 OAUTH2_PROXY_PROVIDER: keycloak-oidc
 OAUTH2_PROXY_PROVIDER_DISPLAY_NAME: Keycloak
-OAUTH2_PROXY_OIDC_ISSUER_URL: https://[KC_FQDN]/realms/mds-portal
+OAUTH2_PROXY_OIDC_ISSUER_URL: https://[KC_FQDN]/realms/[KC_REALM]
 OAUTH2_PROXY_COOKIE_SECRET: [COOKIE_SECRET] # (32-bit base64 encoded secret)
 OAUTH2_PROXY_COOKIE_REFRESH: 30s # Access Token Lifespan - 30 seconds
 OAUTH2_PROXY_COOKIE_EXPIRE: 30m # Client Session Idle / SSO Session Idle
@@ -169,13 +189,13 @@ quarkus.datasource.password: "postgres"
 
 # Keycloak Client for User IAM
 # Base URL of the OIDC server (Keycloak). Must contain the '/realms/{realm}' part of the URL
-quarkus.oidc.auth-server-url: "https://[KC_FQDN]/realms/mds-portal"
+quarkus.oidc.auth-server-url: "https://[KC_FQDN]/realms/[KC_REALM]"
 
 # Keycloak Admin Client
 # Keycloak Admin Client: Server URL
 quarkus.keycloak.admin-client.server-url: "https://[KC_FQDN]"
 # Keycloak Admin Client: Realm
-quarkus.keycloak.admin-client.realm: "mds-portal"
+quarkus.keycloak.admin-client.realm: "[KC_REALM]"
 # Keycloak Admin Client: Client ID
 quarkus.keycloak.admin-client.client-id: "authority-portal-client"
 # Keycloak Admin Client: Client secret
@@ -190,7 +210,7 @@ quarkus.log.level: "INFO"
 # CaaS Portal: URL
 authority-portal.caas.sovity.url: "https://[CAAS_PORTAL_FQDN]"
 # CaaS Portal: OAuth2 Auth server URL
-quarkus.oidc-client.sovity.auth-server-url: "https://[CAAS_KC_FQDN]/realms/[REALM]"
+quarkus.oidc-client.sovity.auth-server-url: "https://[CAAS_KC_FQDN]/realms/[CAAS_REALM]"
 # CaaS Portal: OAuth2 Client ID
 quarkus.oidc-client.sovity.client-id: "[CAAS_CLIENT_ID]"
 # CaaS Portal: OAuth2 Client Secret
@@ -286,14 +306,14 @@ curl -X PUT 'https://authority-portal.example.com/api/config/log-level?level=DEB
 AUTHORITY_PORTAL_FRONTEND_BACKEND_URL: https://[AP_FQDN] # Authority Portal URL
 AUTHORITY_PORTAL_FRONTEND_LOGIN_URL: https://[AP_FQDN]/oauth2/start?rd=https%3A%2F%2F[AP_FQDN] # Auth Proxy: Login URL (with redirect to the Authority Portal)
 # Following is the URL to signal the Auth Proxy to log out the user.
-# Example: https://[AP_FQDN]/oauth2/sign_out?rd=https%3A%2F%2F[KC_FQDN]%2Frealms%2Fmds-portal%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F[AP_FQDN]
+# Example: https://[AP_FQDN]/oauth2/sign_out?rd=https%3A%2F%2F[KC_FQDN]%2Frealms%2F[KC_REALM]l%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F[AP_FQDN]
 AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: (...) # Auth Proxy: Logout URL
 AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: https://[AP_FQDN]/oauth2/sign_out # Auth Proxy: URL to invalidate sessions cookies
-AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://mobility-dataspa-5n9px2qi7r.live-website.com/mds-news # MDS Dashboard iFrame URL
-AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice # Authority Portal Legal Notice URL
-AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal # MDS Privacy Policy URL
-AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.mobility-dataspace.eu # Support page URL
-AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: mds-open-source # UI Branding profile
+AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://news.yourdataspace.com # iFrame URL for the "Home" page if it's used
+AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://yourdataspace.com/legal-notice # Legal Notice URL
+AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://yourdataspace.com/privacy-policy # Privacy policy URL
+AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.yourdataspace.com # Support page URL
+AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: sovity-open-source # UI Branding profile (sovity-open-source or mds-open-source)
 AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS # Short Dataspace name, used in some explanatory texts
 AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "MDS Portal" # Portal name displayed in various texts
 ```

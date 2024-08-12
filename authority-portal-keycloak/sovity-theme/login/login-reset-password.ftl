@@ -4,7 +4,7 @@
     <#elseif section = "form">
             <div class="formContainer">
                 <div class="formHeader">
-                    <h3>UPDATE PASSWORD</h3>
+                    <h3>RESET PASSWORD</h3>
                 </div>
                 <div class="formBody">
                     <form id="kc-reset-password-form" class="${properties.kcFormClass!}" action="${url.loginAction}" method="post">
