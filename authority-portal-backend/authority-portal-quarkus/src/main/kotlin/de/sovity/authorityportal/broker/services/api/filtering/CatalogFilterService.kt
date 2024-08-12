@@ -24,6 +24,7 @@ import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttri
 import de.sovity.authorityportal.broker.services.api.filtering.model.FilterCondition
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import jakarta.enterprise.context.ApplicationScoped
+import org.jooq.impl.DSL
 
 @ApplicationScoped
 class CatalogFilterService(
@@ -86,7 +87,13 @@ class CatalogFilterService(
             ),
             catalogFilterAttributeDefinitionService.forIdNameProperty(
                 { fields: CatalogQueryFields -> fields.connectorTable.CONNECTOR_ID },
-                { fields: CatalogQueryFields -> fields.connectorTable.NAME },
+                { fields: CatalogQueryFields ->
+                    DSL.concat(
+                        fields.connectorTable.NAME,
+                        DSL.`val`(" - "),
+                        fields.organizationTable.NAME
+                    )
+                },
                 "connectorId",
                 "Connector"
             ),
@@ -139,7 +146,7 @@ class CatalogFilterService(
                     title = it.last(),
                 )
             }
-            .sortedWith(java.util.Comparator.comparing({it.title}, caseInsensitiveEmptyStringLast))
+            .sortedWith(java.util.Comparator.comparing({ it.title }, caseInsensitiveEmptyStringLast))
     }
 
     private fun zipAvailableFilters(

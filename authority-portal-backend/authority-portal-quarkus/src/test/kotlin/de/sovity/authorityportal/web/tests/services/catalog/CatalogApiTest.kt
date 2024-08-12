@@ -346,7 +346,7 @@ class CatalogApiTest {
 
         val connector = getAvailableFilter(result, "connectorId")
         assertThat(connector.values).usingRecursiveFieldByFieldElementComparator().containsExactly(
-            CnfFilterItem(dummyDevConnectorId(0, 0), "Connector")
+            CnfFilterItem(dummyDevConnectorId(0, 0), "Connector - Organization 0"),
         )
     }
 
