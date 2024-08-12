@@ -49,7 +49,7 @@ if (!Object.keys(filteredProps).length) {
 }
 
 // Write app-config.json
-const output = './src/assets/config/app-config.json';
+const output = './src/assets/config/app-configuration.json';
 const json = JSON.stringify(filteredProps);
 writeFileSync(output, json);
 
