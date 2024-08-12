@@ -13,7 +13,7 @@
  */
 package de.sovity.authorityportal.broker.dao.pages.catalog
 
-import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeApplied
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.Field
 import org.jooq.JSON
@@ -36,10 +36,10 @@ class CatalogQueryAvailableFilterFetcher(
         environment: String,
         fields: CatalogQueryFields,
         searchQuery: String?,
-        filters: List<CatalogQueryFilter>
+        filters: List<FilterAttributeApplied>
     ): Field<JSON> {
         val resultFields = filters.mapIndexed { i, currentFilter ->
-            // When querying a filter's values we apply all filters except for the current filter's values
+            // When querying a filter's values we apply all filters except for the current filter
             val otherFilters = filters.filterIndexed { j, _ -> i != j }
             queryFilterValues(environment, fields, currentFilter, searchQuery, otherFilters)
         }
@@ -49,22 +49,31 @@ class CatalogQueryAvailableFilterFetcher(
     private fun queryFilterValues(
         environment: String,
         parentQueryFields: CatalogQueryFields,
-        currentFilter: CatalogQueryFilter,
+        currentFilter: FilterAttributeApplied,
         searchQuery: String?,
-        otherFilters: List<CatalogQueryFilter>
+        otherFilters: List<FilterAttributeApplied>
     ): Field<JSON> {
         val fields = parentQueryFields.withSuffix("filter_" + currentFilter.name)
 
-        val value = currentFilter.valueQuery(fields)
+        val idField: Field<String> = currentFilter.idField(fields)
+        val nameField: Field<String>? = currentFilter.nameField?.invoke(fields)
+
+        val idNameArray = if (nameField == null) {
+            DSL.array(idField)
+        } else {
+            DSL.array(idField, nameField)
+        }
 
         return DSL.select(
             DSL.coalesce(
-                DSL.arrayAggDistinct(value),
-                DSL.value(arrayOf<String>()).cast<Array<String>>(SQLDataType.VARCHAR.array())
+                DSL.arrayAggDistinct(idNameArray),
+                emptyStringArray()
             )
         )
             .fromCatalogQueryTables(fields)
             .where(catalogQueryFilterService.filterDbQuery(environment, fields, searchQuery, otherFilters))
             .asField()
     }
+
+    private fun emptyStringArray() = DSL.value(arrayOf<String>()).cast<Array<String>>(SQLDataType.VARCHAR.array())
 }

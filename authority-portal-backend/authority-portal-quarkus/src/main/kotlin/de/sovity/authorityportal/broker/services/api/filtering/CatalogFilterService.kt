@@ -18,18 +18,17 @@ import de.sovity.authorityportal.api.model.catalog.CnfFilterAttribute
 import de.sovity.authorityportal.api.model.catalog.CnfFilterItem
 import de.sovity.authorityportal.api.model.catalog.CnfFilterValue
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
-import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQueryFilter
-import de.sovity.authorityportal.broker.dao.pages.catalog.models.CatalogQuerySelectedFilterQuery
-import de.sovity.authorityportal.broker.dao.utils.JsonDeserializationUtils.read2dStringList
+import de.sovity.authorityportal.broker.dao.utils.JsonDeserializationUtils.read3dStringList
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeApplied
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterAttributeDefinition
+import de.sovity.authorityportal.broker.services.api.filtering.model.FilterCondition
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
-import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import jakarta.enterprise.context.ApplicationScoped
-import org.eclipse.microprofile.config.inject.ConfigProperty
+import org.jooq.impl.DSL
 
 @ApplicationScoped
 class CatalogFilterService(
     val catalogFilterAttributeDefinitionService: CatalogFilterAttributeDefinitionService,
-    val deploymentEnvironmentService: DeploymentEnvironmentService,
     val catalogDataspaceConfigService: CatalogDataspaceConfigService
 ) {
 
@@ -41,114 +40,118 @@ class CatalogFilterService(
         }
     }
 
-    private val availableFilters: List<CatalogFilterAttributeDefinition>
+    private val availableFilters: List<FilterAttributeDefinition>
         /**
          * Currently supported filters for the catalog page.
          *
          * @return attribute definitions
          */
         get() = listOfNotNull(
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataSourceAvailabilityLabel },
                 "dataSourceAvailability",
                 "Data Offer Type"
             ),
-            catalogFilterAttributeDefinitionService.buildDataSpaceFilter().takeIf { this.shouldSupportMultipleDataspaces() },
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.buildDataSpaceFilter()
+                .takeIf { catalogDataspaceConfigService.hasMultipleDataspaces },
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.DATA_CATEGORY },
                 "dataCategory",
                 "Data Category"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.DATA_SUBCATEGORY },
                 "dataSubcategory",
                 "Data Subcategory"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.DATA_MODEL },
                 "dataModel",
                 "Data Model"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.TRANSPORT_MODE },
                 "transportMode",
                 "Transport Mode"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdOnlyField(
                 { fields: CatalogQueryFields -> fields.dataOfferTable.GEO_REFERENCE_METHOD },
                 "geoReferenceMethod",
                 "Geo Reference Method"
             ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdNameProperty(
+                { fields: CatalogQueryFields -> fields.organizationTable.ID },
                 { fields: CatalogQueryFields -> fields.organizationTable.NAME },
-                "organizationName",
-                "Organization Name"
+                "organization",
+                "Organization"
             ),
-            catalogFilterAttributeDefinitionService.forField(
-                { fields: CatalogQueryFields -> fields.connectorTable.ORGANIZATION_ID },
-                "organizationId",
-                "Organization ID"
-            ),
-            catalogFilterAttributeDefinitionService.forField(
+            catalogFilterAttributeDefinitionService.forIdNameProperty(
                 { fields: CatalogQueryFields -> fields.connectorTable.CONNECTOR_ID },
+                { fields: CatalogQueryFields ->
+                    DSL.concat(
+                        fields.connectorTable.NAME,
+                        DSL.`val`(" - "),
+                        fields.organizationTable.NAME
+                    )
+                },
                 "connectorId",
-                "Connector ID"
+                "Connector"
             ),
-            catalogFilterAttributeDefinitionService.forField(
-                { fields: CatalogQueryFields -> fields.connectorTable.ENDPOINT_URL },
-                "connectorEndpoint",
-                "Connector Endpoint"
-            )
         )
 
-    fun getCatalogQueryFilters(cnfFilterValue: CnfFilterValue?): List<CatalogQueryFilter> {
+    fun getCatalogQueryFilters(cnfFilterValue: CnfFilterValue?): List<FilterAttributeApplied> {
         val values = getCnfFilterValuesMap(cnfFilterValue)
         return availableFilters
-            .map { filter: CatalogFilterAttributeDefinition ->
+            .map { filter: FilterAttributeDefinition ->
                 val queryFilter = getQueryFilter(filter, values[filter.name])
-                CatalogQueryFilter(
-                    filter.name,
-                    filter.valueGetter,
-                    queryFilter
+                FilterAttributeApplied(
+                    name = filter.name,
+                    idField = filter.idField,
+                    nameField = filter.nameField,
+                    filterConditionOrNull = queryFilter
                 )
             }
             .toList()
     }
 
     private fun getQueryFilter(
-        filter: CatalogFilterAttributeDefinition,
+        filter: FilterAttributeDefinition,
         values: List<String>?
-    ): CatalogQuerySelectedFilterQuery? {
+    ): FilterCondition? {
         if (values.isNullOrEmpty()) {
             return null
         }
-        return { fields: CatalogQueryFields -> filter.filterApplier(fields, values) }
+        return { fields: CatalogQueryFields -> filter.filterConditionFactory(fields, values) }
     }
 
     fun buildAvailableFilters(filterValuesJson: String): CnfFilter {
-        val filterValues = read2dStringList(filterValuesJson)
+        val filterValues = read3dStringList(filterValuesJson)
         val filterAttributes = zipAvailableFilters(availableFilters, filterValues)
             .map { availableFilter: AvailableFilter ->
                 CnfFilterAttribute(
-                    availableFilter.definition.name,
-                    availableFilter.definition.label,
-                    buildAvailableFilterValues(availableFilter)
+                    id = availableFilter.definition.name,
+                    title = availableFilter.definition.label,
+                    values = buildAvailableFilterValues(availableFilter),
+                    displayType = availableFilter.definition.displayType
                 )
             }
-            .toList()
         return CnfFilter(filterAttributes)
     }
 
     private fun buildAvailableFilterValues(availableFilter: AvailableFilter): List<CnfFilterItem> {
         return availableFilter.availableValues
-            .sortedWith(caseInsensitiveEmptyStringLast)
-            .map { CnfFilterItem(it, it) }
-            .toList()
+            .map {
+                CnfFilterItem(
+                    id = it.first(),
+                    title = it.last(),
+                )
+            }
+            .sortedWith(java.util.Comparator.comparing({ it.title }, caseInsensitiveEmptyStringLast))
     }
 
     private fun zipAvailableFilters(
-        availableFilters: List<CatalogFilterAttributeDefinition>,
-        filterValues: List<List<String>>
+        availableFilters: List<FilterAttributeDefinition>,
+        filterValues: List<List<List<String>>>
     ): List<AvailableFilter> {
         require(availableFilters.size == filterValues.size) {
             "Number of available filters and filter values must match: ${availableFilters.size} != ${filterValues.size}"
@@ -159,8 +162,8 @@ class CatalogFilterService(
     }
 
     private data class AvailableFilter(
-        val definition: CatalogFilterAttributeDefinition,
-        val availableValues: List<String>
+        val definition: FilterAttributeDefinition,
+        val availableValues: List<List<String>>
     )
 
     private fun getCnfFilterValuesMap(cnfFilterValue: CnfFilterValue?): Map<String, List<String>> {
@@ -170,14 +173,5 @@ class CatalogFilterService(
         return cnfFilterValue.selectedAttributeValues
             .filter { it.selectedIds.isNotEmpty() }
             .associate { it.id to it.selectedIds }
-    }
-
-    private fun shouldSupportMultipleDataspaces(): Boolean {
-        deploymentEnvironmentService.findAll().forEach {
-            if (catalogDataspaceConfigService.forEnvironment(it.key).namesByConnectorId.isNotEmpty()) {
-                return true
-            }
-        }
-        return false
     }
 }

@@ -179,34 +179,43 @@ class ScenarioData {
         orgId: Int,
         assetId: Int,
         viewCount: Int = 0,
-        applyer: (DataOfferRecord) -> Unit = {}
+        dataOfferApplier: (DataOfferRecord) -> Unit = {},
+        assetApplier: (UiAsset) -> Unit = {},
     ) {
         val fullConnectorId = dummyDevConnectorId(orgId, connectorId)
         val objectMapper = ObjectMapper()
 
         val uiAsset = UiAsset().also {
-            it.title = "Title"
-            it.description = "# Long Description"
-            it.descriptionShortText = "shortDescription"
             it.dataSourceAvailability = DataSourceAvailability.LIVE
+
+            it.assetId = dummyDevAssetId(assetId)
+            it.title = "Asset $assetId"
+            it.description = "Asset description"
+            it.descriptionShortText = "shortDescription"
+            it.dataCategory = "dataCategory"
+            it.keywords = listOf("keyword")
+            assetApplier(it)
         }
 
         DataOfferRecord().also {
             it.connectorId = fullConnectorId
-            it.assetId = dummyDevAssetId(assetId)
             it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset))
             it.createdAt = OffsetDateTime.now()
             it.updatedAt = OffsetDateTime.now()
+
+
+            it.assetId = uiAsset.assetId
             it.assetTitle = uiAsset.title
-            it.descriptionNoMarkdown = "Long Description"
-            it.shortDescriptionNoMarkdown = "shortDescription"
-            it.dataCategory = "Data Category"
-            it.dataSubcategory = "Data Subcategory"
-            it.transportMode = "Transport Mode"
-            it.geoReferenceMethod = "Geo Reference Method"
-            it.keywords = emptyList()
-            it.keywordsCommaJoined = ""
-            applyer(it)
+            it.descriptionNoMarkdown = uiAsset.description?.let{ d -> "$d no markdown" } ?: ""
+            it.shortDescriptionNoMarkdown = uiAsset.descriptionShortText ?: ""
+            it.dataCategory = uiAsset.dataCategory ?: ""
+            it.dataSubcategory = uiAsset.dataSubcategory ?: ""
+            it.transportMode = uiAsset.transportMode ?: ""
+            it.geoReferenceMethod = uiAsset.geoReferenceMethod ?: ""
+            it.keywords = uiAsset.keywords ?: emptyList()
+            it.keywordsCommaJoined = uiAsset.keywords?.joinToString(",") ?: ""
+            it.dataModel = uiAsset.dataModel ?: ""
+            dataOfferApplier(it)
             dataOffers.add(it)
         }
 

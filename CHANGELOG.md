@@ -23,6 +23,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added a message when the CaaS request feature is not available
 - Catalog: Removed dataspace filter when only one dataspace is known
 - Uptime: Fix uptime calculation
+- Catalog: Organization filter is no longer split into ID and name
+- Catalog: Connector filter is no longer split into ID and endpoint
 - Organization list: Data offer and connector counts now show the correct numbers according to the active environment
 
 ### Known issues
