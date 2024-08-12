@@ -11,12 +11,13 @@
  *       sovity GmbH - initial API and implementation
  *
  */
-package de.sovity.authorityportal.broker.dao.pages.catalog.models
+package de.sovity.authorityportal.api.model.catalog
 
-import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryFields
-import org.jooq.Condition
+import io.swagger.v3.oas.annotations.media.Schema
 
-/**
- * Adds a filter to a Catalog Query.
- */
-typealias CatalogQuerySelectedFilterQuery = (CatalogQueryFields) -> Condition
+@Schema(description = "How should filter items be rendered in the UI", enumAsRef = true)
+enum class CnfFilterAttributeDisplayType {
+    TITLE_ONLY,
+    ID_AND_TITLE
+}
+

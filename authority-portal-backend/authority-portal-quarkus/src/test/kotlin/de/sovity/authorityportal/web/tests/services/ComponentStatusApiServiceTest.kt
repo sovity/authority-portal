@@ -54,7 +54,8 @@ class ComponentStatusApiServiceTest {
         val now = OffsetDateTime.now()
         val env1 = "test"
         val env2 = "dev"
-        setupStatusHistory(now, env1, env2)
+        val env3 = "env3"
+        setupStatusHistory(now, env1, env2, env3)
 
         useMockNow(now)
 
@@ -96,6 +97,7 @@ class ComponentStatusApiServiceTest {
         // act
         val resultEnv1 = componentStatusApiService.getComponentsStatus(env1)
         val resultEnv2 = componentStatusApiService.getComponentsStatus(env2)
+        val resultEnv3 = componentStatusApiService.getComponentsStatus(env3)
 
         // assert
         assertThat(resultEnv1.dapsStatus?.componentStatus).isEqualTo(ComponentOnlineStatus.MAINTENANCE.toDto())
@@ -115,9 +117,19 @@ class ComponentStatusApiServiceTest {
         assertThat(resultEnv2.dapsStatus?.timeSpanSeconds).isEqualTo(Duration.ofDays(30).toSeconds())
         assertThat(resultEnv2.dapsStatus?.upSinceSeconds).isEqualTo(Duration.ZERO.toSeconds())
         assertThat(resultEnv2.loggingHouseStatus).isNull()
+
+        assertThat(resultEnv3.loggingHouseStatus?.componentStatus).isEqualTo(ComponentOnlineStatus.DOWN.toDto())
+        assertThat(resultEnv3.loggingHouseStatus?.uptimePercentage).isCloseTo(50.0, Offset.offset(0.1))
+        assertThat(resultEnv3.loggingHouseStatus?.timeSpanSeconds).isEqualTo(Duration.ofDays(30).toSeconds())
+        assertThat(resultEnv3.loggingHouseStatus?.upSinceSeconds).isEqualTo(Duration.ZERO.toSeconds())
+
+        assertThat(resultEnv3.dapsStatus?.componentStatus).isEqualTo(ComponentOnlineStatus.UP.toDto())
+        assertThat(resultEnv3.dapsStatus?.uptimePercentage).isCloseTo(100.0, Offset.offset(0.1))
+        assertThat(resultEnv3.dapsStatus?.timeSpanSeconds).isEqualTo(Duration.ofDays(30).toSeconds())
+        assertThat(resultEnv3.dapsStatus?.upSinceSeconds).isCloseTo(Duration.ofDays(15).toSeconds(), Offset.offset(1L))
     }
 
-    private fun setupStatusHistory(now: OffsetDateTime, environment1: String, environment2: String) {
+    private fun setupStatusHistory(now: OffsetDateTime, environment1: String, environment2: String, environment3: String) {
         val c = Tables.COMPONENT_DOWNTIMES
 
         dsl.insertInto(c)
@@ -137,6 +149,13 @@ class ComponentStatusApiServiceTest {
             // DAPS: Only "DOWN" status, older than 30 days
             .values(ComponentType.DAPS, ComponentOnlineStatus.DOWN, environment2, now.minus(Duration.ofDays(31)))
             // LH: Empty
+            // Environment 3
+            // LH: Up
+            .values(ComponentType.LOGGING_HOUSE, ComponentOnlineStatus.UP, environment3, now.minus(Duration.ofDays(10)))
+            .values(ComponentType.LOGGING_HOUSE, ComponentOnlineStatus.PENDING, environment3, now.minus(Duration.ofDays(5)))
+            .values(ComponentType.LOGGING_HOUSE, ComponentOnlineStatus.DOWN, environment3, now.minus(Duration.ofSeconds(1)))
+            // DAPS: Only "UP" status
+            .values(ComponentType.DAPS, ComponentOnlineStatus.UP, environment3, now.minus(Duration.ofDays(15)))
             .execute()
     }
 }

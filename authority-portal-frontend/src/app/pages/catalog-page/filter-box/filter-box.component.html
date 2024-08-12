@@ -11,7 +11,13 @@
     [class.italic]="item.type === 'NO_VALUE'"
     [value]="item"
     [attr.title]="item.label">
-    {{ item.label }}
+    <div mat-line>{{ item.label }}</div>
+    <div
+      *ngIf="state.model.displayType === 'ID_AND_TITLE'"
+      class="text-gray-500"
+      mat-line>
+      {{ item.id }}
+    </div>
   </mat-list-option>
 </mat-selection-list>
 <div
