@@ -15,8 +15,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
-- Fix Catalog UI after Broker intergration [#238](https://github.com/sovity/authority-portal/issues/238)
-- Fix deployment environment not syncing in URLs for the catalog
 - Redirect user to correct URL after login
 - Copyable contact email and subject fields on data offer detail dialogs
 - Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
