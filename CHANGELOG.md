@@ -21,6 +21,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Fixed user not being redirected to the correct URL after login
+- Copyable contact email and subject fields on data offer detail dialogs
+- Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
 - Fixed Dashboard showing uptimes of over 100%
 - Organization list: Data offer and connector counts now show the correct numbers according to the active environment
 - Fixed provider organization ID not showing up on CaaS connectors [#206](https://github.com/sovity/authority-portal/issues/206)
@@ -36,7 +39,9 @@ Read the deployment migration notes carefully if you want to retain the portal's
 If you configure the optional variables incorrectly, you might end up with an inconsistent configuration.
 
 #### Backend
+
 Environment variable changes:
+
 - Renamed variables:
   - `authority-portal.caas.sovity.limit-per-mdsid` to `authority-portal.caas.sovity.limit-per-organization`
 - New optional configuration variables - the values assigned here are the ones you should use to retain the current behavior:
@@ -51,9 +56,11 @@ Environment variable changes:
     # Enables the client to connect to the CaaS service. If you weren't provided credentials for the feature by sovity, set this to false
     quarkus.oidc-client.sovity.client-enabled: true
     ```
-    
+
 #### Frontend
+
 Environment variable changes:
+
 - New **mandantory** configuration variables - the values assigned here are the ones you should use to retain the current behavior:
   - ```yaml
     # UI Branding profile

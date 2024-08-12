@@ -27,6 +27,7 @@ import {
 } from '../../../app-routing.module';
 import {ActiveFeatureSet} from '../../services/config/active-feature-set';
 import {AuthorityPortalPageSet} from './authority-portal-page-set';
+import {UrlBeforeLoginService} from './url-before-login.service';
 
 @Injectable({providedIn: 'root'})
 export class RouteConfigService {
@@ -45,6 +46,7 @@ export class RouteConfigService {
 
   constructor(
     private router: Router,
+    private urlBeforeLoginService: UrlBeforeLoginService,
     private activeFeatureSet: ActiveFeatureSet,
   ) {}
 
@@ -101,7 +103,13 @@ export class RouteConfigService {
         .navigateByUrl('/random-redirect-for-force-refresh', {
           skipLocationChange: true,
         })
-        .then(() => this.router.navigate([this.defaultRoute]));
+        .then(() => {
+          if (this.urlBeforeLoginService.originalUrl != '') {
+            this.urlBeforeLoginService.goToOriginalUrl();
+          } else {
+            this.router.navigate([this.defaultRoute]);
+          }
+        });
     } else {
       // Force refresh
       this.forceRefreshCurrentRoute();

@@ -91,15 +91,21 @@ const REDIRECT_TO_HOME: string[] = [
   'onboard',
 ];
 
+const getProperRedirectUrl = (fallbackUrl: string) => {
+  const url = localStorage.getItem('originalUrl') || fallbackUrl;
+  localStorage.removeItem('originalUrl');
+  return url;
+};
+
 export const CATALOG_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   path,
-  redirectTo: 'catalog',
+  redirectTo: (() => getProperRedirectUrl('catalog'))(),
   pathMatch: 'full',
 }));
 
 export const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   path,
-  redirectTo: 'home',
+  redirectTo: (() => getProperRedirectUrl('home'))(),
   pathMatch: 'full',
 }));
 
