@@ -112,8 +112,9 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
           () => this.form.group.disable(),
           () => {
             setTimeout(() => {
-              this.stepper.next();
-            }, 0);
+              this.stepper.selectedIndex = 2;
+              console.log('AsDASSDA');
+            }, 50);
           },
         ),
       );
@@ -137,7 +138,8 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
           () => {
             setTimeout(() => {
               this.stepper.next();
-            }, 0);
+              console.log('AABVBVBVNJNJVN');
+            }, 50);
           },
         ),
       );

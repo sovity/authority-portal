@@ -263,6 +263,7 @@ class ConnectorService(
             it.frontendUrl = connector.frontendUrl.trim()
             it.endpointUrl = connector.endpointUrl.trim()
             it.managementUrl = connector.managementUrl.trim()
+            it.jwksUrl = connector.jwksUrl?.trim()
             it.createdBy = createdBy
             it.createdAt = timeUtils.now()
             it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED

@@ -22,6 +22,7 @@ import {
   CreateCaasRequestFromJSON,
   CreateConnectorRequestFromJSON,
   CreateConnectorResponseToJSON,
+  CreateConnectorWithJwksRequestFromJSON,
   DataOfferDetailPageQueryFromJSON,
   DataOfferDetailPageResultToJSON,
   DeploymentEnvironmentDtoToJSON,
@@ -55,6 +56,7 @@ import {
   createCaas,
   createOwnConnector,
   createProvidedConnector,
+  createProvidedConnectorWithJwks,
   deleteOwnConnector,
   deleteProvidedConnector,
   getFullConnectorDetails,
@@ -420,6 +422,13 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .on('POST', (organizationId) => {
       const request = CreateConnectorRequestFromJSON(body);
       const result = createProvidedConnector(request, organizationId);
+      return ok(CreateConnectorResponseToJSON(result));
+    })
+
+    .url('organizations/*/connectors/create-service-provided/with-jwks')
+    .on('POST', (organizationId) => {
+      const request = CreateConnectorWithJwksRequestFromJSON(body);
+      const result = createProvidedConnectorWithJwks(request, organizationId);
       return ok(CreateConnectorResponseToJSON(result));
     })
 

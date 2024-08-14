@@ -20,6 +20,7 @@ import {
   CreateConnectorRequest,
   CreateConnectorResponse,
   CreateConnectorStatusDto,
+  CreateConnectorWithJwksRequest,
   DeleteOwnConnectorRequest,
   IdResponse,
   ProvidedConnectorOverviewEntryDto,
@@ -320,6 +321,41 @@ export const checkFreeCaasUsage = (
 
 export const createProvidedConnector = (
   request: CreateConnectorRequest,
+  clientOrganizationId: string,
+): CreateConnectorResponse => {
+  const hostOrganizationId = getUserInfo().organizationId;
+  const hostOrgName = getUserInfo().organizationName;
+  const status = 'OFFLINE';
+
+  const clientOrgName = TEST_ORGANIZATIONS.filter(
+    (it) => it.id === clientOrganizationId,
+  )[0].name;
+
+  const randomId = generateRandomId(clientOrganizationId);
+  TEST_CONNECTORS.push({
+    connectorId: randomId,
+    organizationId: clientOrganizationId,
+    organizationName: clientOrgName,
+    hostOrganizationId: hostOrganizationId,
+    hostOrganizationName: hostOrgName,
+    type: ConnectorTypeDto.Provided,
+    environment: fakeEnv('test'),
+    connectorName: request.name,
+    location: request.location,
+    frontendUrl: request.frontendUrl,
+    endpointUrl: request.endpointUrl,
+    managementUrl: request.managementUrl,
+    status: status,
+  });
+  return {
+    id: randomId,
+    changedDate: new Date(),
+    status: CreateConnectorStatusDto.Ok,
+  };
+};
+
+export const createProvidedConnectorWithJwks = (
+  request: CreateConnectorWithJwksRequest,
   clientOrganizationId: string,
 ): CreateConnectorResponse => {
   const hostOrganizationId = getUserInfo().organizationId;
