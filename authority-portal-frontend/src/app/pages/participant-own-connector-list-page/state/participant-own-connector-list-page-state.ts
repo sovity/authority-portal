@@ -10,13 +10,17 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {ConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
+import {
+  ConnectorOverviewEntryDto,
+  ConnectorStatusDto,
+} from '@sovity.de/authority-portal-client';
 import {Fetched} from 'src/app/core/utils/fetched';
 
 export interface ParticipantOwnConnectorListPageState {
   connectors: Fetched<ConnectorOverviewEntryDto[]>;
   busy: boolean;
   showDetail: boolean;
+  statuses: connectorStatus[];
 }
 
 export const DEFAULT_PARTICIPANT_OWN_CONNECTOR_LIST_PAGE_STATE: ParticipantOwnConnectorListPageState =
@@ -24,4 +28,10 @@ export const DEFAULT_PARTICIPANT_OWN_CONNECTOR_LIST_PAGE_STATE: ParticipantOwnCo
     connectors: Fetched.empty(),
     busy: false,
     showDetail: false,
+    statuses: [],
   };
+
+export interface connectorStatus {
+  connectorId: string;
+  status: ConnectorStatusDto;
+}

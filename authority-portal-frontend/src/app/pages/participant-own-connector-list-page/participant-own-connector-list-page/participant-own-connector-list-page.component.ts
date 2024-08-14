@@ -34,6 +34,7 @@ import {ParticipantOwnConnectorDetailPageComponent} from '../../participant-own-
 import {
   CloseConnectorDetail,
   GetOwnOrganizationConnectors,
+  GetStatusesOfConnectors,
   ShowConnectorDetail,
 } from '../state/participant-own-connector-list-page-actions';
 import {
@@ -114,6 +115,7 @@ export class ParticipantOwnConnectorListPageComponent
 
   refresh() {
     this.store.dispatch(GetOwnOrganizationConnectors);
+    this.store.dispatch(GetStatusesOfConnectors);
   }
 
   private startListeningToState() {
@@ -156,6 +158,7 @@ export class ParticipantOwnConnectorListPageComponent
       label: this.state.connectors.data[nextIndex].name,
     };
     this.slideOverService.setSlideOverConfig(this.slideOverConfig);
+    this.store.dispatch(GetStatusesOfConnectors);
   }
 
   closeDetailPage() {
@@ -180,6 +183,21 @@ export class ParticipantOwnConnectorListPageComponent
     };
     this.slideOverService.setSlideOverConfig(this.slideOverConfig);
     this.store.dispatch(ShowConnectorDetail);
+  }
+
+  getConnectorsStatus(connectorId: string) {
+    if (this.state.statuses.length > 0) {
+      const statusObj = this.state.statuses.find(
+        (status) => status.connectorId === connectorId,
+      );
+      if (statusObj) {
+        return statusObj.status;
+      } else {
+        return 'UNKNOWN';
+      }
+    } else {
+      return 'UNKNOWN';
+    }
   }
 
   ngOnDestroy(): void {

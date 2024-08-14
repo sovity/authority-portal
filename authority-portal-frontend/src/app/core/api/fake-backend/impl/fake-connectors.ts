@@ -15,6 +15,7 @@ import {
   CheckFreeCaasUsageRequest,
   ConnectorDetailDto,
   ConnectorOverviewResult,
+  ConnectorStatusDto,
   ConnectorTypeDto,
   CreateCaasRequest,
   CreateConnectorRequest,
@@ -137,6 +138,8 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   },
 ];
 
+const statuses: ConnectorStatusDto[] = ['ONLINE', 'OFFLINE', 'INIT'];
+
 export const getListOfConnectorsForTable = (
   organizationId: string,
 ): ConnectorOverviewResult => {
@@ -187,7 +190,7 @@ export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
         type: c.type,
         environment: c.environment,
         name: c.connectorName,
-        status: c.status,
+        status: statuses[Math.floor(Math.random() * statuses.length)],
         frontendUrl: c.frontendUrl,
       };
     }),
