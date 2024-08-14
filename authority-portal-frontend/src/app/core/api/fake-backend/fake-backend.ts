@@ -69,6 +69,7 @@ import {
   approveOrganization,
   getListOfOrganizationsForTable,
   getOrganizationDetails,
+  getOrganizations,
   getOwnOrganizationDetails,
   inviteOrganization,
   onboardOrganization,
@@ -434,6 +435,12 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       const query = DataOfferDetailPageQueryFromJSON(body);
       const result = getDataOfferDetailPage(query, environmentId!);
       return result ? ok(DataOfferDetailPageResultToJSON(result)) : failed(404);
+    })
+
+    .url('service-partner/providable-organizations')
+    .on('GET', () => {
+      const result = getListOfOrganizationsForTable();
+      return ok(OrganizationOverviewResultToJSON(result));
     })
 
     .tryMatch();

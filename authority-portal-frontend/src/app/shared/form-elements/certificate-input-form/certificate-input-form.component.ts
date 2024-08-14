@@ -72,9 +72,9 @@ export class CertificateInputFormComponent implements OnDestroy {
     }
 
     this.isGenerating = true;
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
-        this.generateCertificateAndDownloadP12();
+        await this.generateCertificateAndDownloadP12();
       } catch (e) {
         console.error('error while generating certificate', e);
         alert('error while generating certificate. Please check console');
@@ -84,7 +84,7 @@ export class CertificateInputFormComponent implements OnDestroy {
     }, 100);
   }
 
-  private generateCertificateAndDownloadP12() {
+  private async generateCertificateAndDownloadP12() {
     this.group.controls.generatedCertificate.setValue('');
     const formValue: CertificateFormValue = this.group
       .value as CertificateFormValue;
@@ -99,7 +99,7 @@ export class CertificateInputFormComponent implements OnDestroy {
       emailAddress: formValue.email,
     };
 
-    const keyPair = this.certificateGenerateService.generateKeyPair(2048);
+    const keyPair = await this.certificateGenerateService.generateKeyPair(2048);
     const validUntil = this.plusYears(new Date(), 5);
     const selfSignedCertificate =
       this.certificateGenerateService.generateSelfSignedCertificate(
