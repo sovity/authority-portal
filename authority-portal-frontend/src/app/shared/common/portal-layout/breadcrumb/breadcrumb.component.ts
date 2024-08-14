@@ -13,6 +13,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {Subject, takeUntil} from 'rxjs';
+import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {BreadcrumbItem} from './breadcrumb.model';
 import {BreadcrumbService} from './breadcrumb.service';
 
@@ -26,13 +27,18 @@ export class BreadcrumbComponent implements OnDestroy {
   constructor(
     private breadcrumbService: BreadcrumbService,
     private titleService: Title,
+    private activeFeatureSet: ActiveFeatureSet,
   ) {
     this.breadcrumbService.breadcrumb$
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((breadcrumb) => {
         this.breadcrumb = breadcrumb;
         this.titleService.setTitle(
-          'MDS ' + breadcrumb[breadcrumb.length - 1].label || 'Portal',
+          `${
+            this.activeFeatureSet.usesMdsId()
+              ? 'MDS ' + (breadcrumb[breadcrumb.length - 1].label || 'Portal')
+              : breadcrumb[breadcrumb.length - 1].label || 'Portal'
+          }`,
         );
       });
   }

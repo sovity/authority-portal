@@ -16,7 +16,6 @@ import {
   CatalogPageResult,
   DataOfferDetailPageQuery,
   DataOfferDetailPageResult,
-  DataSourceAvailability,
 } from '@sovity.de/authority-portal-client';
 import {subDays, subMinutes} from 'date-fns';
 import {TestAssets} from './data/test-assets';
@@ -146,6 +145,7 @@ export const getCatalogPage = (
         {
           id: 'example-filter',
           title: 'Example Filter',
+          displayType: 'TITLE_ONLY',
           values: [
             {id: 'example-value', title: 'Example Value'},
             {id: 'other-value', title: 'Other Value'},
@@ -155,6 +155,7 @@ export const getCatalogPage = (
         {
           id: 'other-filter',
           title: 'Other Filter',
+          displayType: 'TITLE_ONLY',
           values: [
             {id: 'example-value', title: 'Example Value'},
             {id: 'other-value', title: 'Other Value'},
@@ -162,16 +163,21 @@ export const getCatalogPage = (
           ],
         },
         {
-          id: 'organizationId',
-          title: 'Organization ID',
+          id: 'organization',
+          title: 'Organization',
+          displayType: 'ID_AND_TITLE',
           values: [
             {
               id: 'MDSL1111AA',
-              title: 'MDSL1111AA',
+              title: 'Example Organization',
             },
             {
               id: 'MDSL2222BB',
-              title: 'MDSL2222BB',
+              title: 'Other Organization',
+            },
+            {
+              id: '',
+              title: '',
             },
           ],
         },

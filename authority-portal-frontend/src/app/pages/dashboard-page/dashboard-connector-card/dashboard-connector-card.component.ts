@@ -43,6 +43,7 @@ export class DashboardConnectorCardComponent {
   @HostBinding('class.rounded-xl')
   @HostBinding('class.p-6')
   @HostBinding('class.overflow-hidden')
+  @HostBinding('class.bg-white')
   @HostBinding()
   cls = true;
 

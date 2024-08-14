@@ -16,6 +16,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
+import {UrlBeforeLoginService} from 'src/app/core/global-state/routes/url-before-login.service';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {UnauthenticatedPageComponent} from './unauthenticated-page/unauthenticated-page.component';
 
@@ -34,5 +35,6 @@ import {UnauthenticatedPageComponent} from './unauthenticated-page/unauthenticat
   ],
   declarations: [UnauthenticatedPageComponent],
   exports: [UnauthenticatedPageComponent],
+  providers: [UrlBeforeLoginService],
 })
 export class UnauthenticatedPageModule {}

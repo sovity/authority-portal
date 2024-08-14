@@ -4,11 +4,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'brand-400': '#FFEE00',
-        'brand-500': '#FFC000',
-        'brand-yellow': '#FFFE00',
-        'brand-black': '#000000',
-        'brand-golden': '#BD7D00',
+        'brand-400': 'rgb(var(--color-brand-400) / <alpha-value>)',
+        'brand-500': 'rgb(var(--color-brand-500) / <alpha-value>)',
+        'brand-primary': 'rgb(var(--color-brand-primary) / <alpha-value>)',
+        'brand-black': 'rgb(var(--color-brand-black) / <alpha-value>)',
+        'brand-highlight': 'rgb(var(--color-brand-highlight) / <alpha-value>)',
+        'sidebar-color': 'rgb(var(--color-sidebar-bg) / <alpha-value>)',
+        'sidebar-selected-color':
+          'rgb(var(--color-sidebar-selected) / <alpha-value>)',
+        'sidebar-text-color': 'rgb(var(--color-sidebar-text) / <alpha-value>)',
+        'sidebar-text-selected-color':
+          'rgb(var(--color-sidebar-text-selected) / <alpha-value>)',
+        'sidebar-section-color':
+          'rgb(var(--color-sidebar-section) / <alpha-value>)',
+        'color-background': 'rgb(var(--color-background) / <alpha-value>)',
       },
       animation: {
         fadeIn: 'fadeIn 0.3s ease-in-out',

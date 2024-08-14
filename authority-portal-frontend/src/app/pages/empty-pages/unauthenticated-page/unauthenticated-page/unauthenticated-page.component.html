@@ -1,13 +1,14 @@
 <div
   class="container mx-auto h-screen flex flex-col justify-center items-center">
   <img
-    class="scale-150 mb-14"
-    src="assets/images/mds_logo_black.svg"
-    alt="Mobility Data Space Logo" />
+    alt="Logo"
+    [class]="this.appConfig.brandLogoUnauthenticatedPage.class"
+    [attr.src]="this.appConfig.brandLogoUnauthenticatedPage.src" />
   <div class="max-w-2xl mx-auto text-center">
     <p class="full-screen-end-prose max-w-md">
-      If your organization is already participating in the MDS, please ask your
-      organization's administrator to invite you.
+      If your organization is already participating in the
+      {{ this.appConfig.brandDataspaceName }}, please ask your organization's
+      administrator to invite you.
     </p>
     <div class="flex items-center flex-col gap-2">
       <a

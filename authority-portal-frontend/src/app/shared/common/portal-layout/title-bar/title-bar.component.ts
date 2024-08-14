@@ -15,12 +15,11 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   Output,
   ViewChild,
 } from '@angular/core';
-import {Subject, combineLatest, map, takeUntil} from 'rxjs';
+import {Subject} from 'rxjs';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SlideOverService} from 'src/app/core/services/slide-over.service';
 import {isEllipsisActive} from 'src/app/core/utils/text-ellipsis-utils';

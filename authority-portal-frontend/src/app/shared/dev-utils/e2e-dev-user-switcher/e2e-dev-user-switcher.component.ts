@@ -34,7 +34,7 @@ export class E2EDevUserSwitcherComponent {
   users = E2E_DEV_USERS;
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     public store: Store,
     private routeConfig: RouteConfigService,
   ) {}

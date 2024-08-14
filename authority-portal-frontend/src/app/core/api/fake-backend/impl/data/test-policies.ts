@@ -11,12 +11,12 @@
  *      sovity GmbH - initial implementation
  */
 import {UiPolicy, UiPolicyExpression} from '@sovity.de/authority-portal-client';
+import {policyLeftExpressions} from '../../../../../pages/catalog-page/policy-editor/model/policy-left-expressions';
 import {
   constraint,
   constraintList,
-  multi
-} from "../../../../../pages/catalog-page/policy-editor/model/ui-policy-expression-utils";
-import {policyLeftExpressions} from "../../../../../pages/catalog-page/policy-editor/model/policy-left-expressions";
+  multi,
+} from '../../../../../pages/catalog-page/policy-editor/model/ui-policy-expression-utils';
 
 export namespace TestPolicies {
   const policy = (

@@ -63,6 +63,15 @@ class OrganizationService(
             .fetchMap(o.ID, o.NAME)
     }
 
+    fun getOrganizationIdByName(name: String): String? {
+        val o = Tables.ORGANIZATION
+
+        return dsl.select(o.ID)
+            .from(o)
+            .where(o.NAME.eq(name))
+            .fetchOne(o.ID)
+    }
+
     fun createInvitedOrganization(
         userId: String,
         organizationId: String,

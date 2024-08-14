@@ -5,7 +5,7 @@
 }
 
 .version-keyword {
-  background-color: #b57d00;
+  @apply bg-brand-highlight;
   color: white;
   border: none;
 }

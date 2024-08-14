@@ -35,6 +35,7 @@ export class DashboardCsvReportsCardComponent implements OnInit, OnDestroy {
   @HostBinding('class.shadow')
   @HostBinding('class.rounded-xl')
   @HostBinding('class.p-6')
+  @HostBinding('class.bg-white')
   cls = true;
 
   reportLinks: ReportLink[] = [];

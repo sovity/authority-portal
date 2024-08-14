@@ -52,7 +52,7 @@ export class RegisterConnectorPageComponent implements OnInit, OnDestroy {
   private ngOnDestroy$ = new Subject();
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private store: Store,
     public form: RegisterConnectorPageForm,
     private globalStateUtils: GlobalStateUtils,

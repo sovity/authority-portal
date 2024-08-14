@@ -18,4 +18,5 @@ export interface SidebarMenu {
   isExternalLink?: boolean;
   icon: string;
   queryParams?: Params;
+  isDisabled?: boolean;
 }

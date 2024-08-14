@@ -34,6 +34,7 @@ export class DashboardComponentUptimeCardComponent {
   @HostBinding('class.rounded-xl')
   @HostBinding('class.p-6')
   @HostBinding('class.overflow-hidden')
+  @HostBinding('class.bg-white')
   cls = true;
 
   @Input() label!: string;

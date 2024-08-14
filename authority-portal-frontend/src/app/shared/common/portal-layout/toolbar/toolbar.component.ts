@@ -27,7 +27,7 @@ export class ToolbarComponent {
   userAvatarData!: ControlCenterModel;
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private globalStateUtils: GlobalStateUtils,
   ) {}
 

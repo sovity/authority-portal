@@ -63,4 +63,4 @@ _Note_: As the MDS Portal is the instance, which tracks the status of the Data S
 ## Ticket System
 
 In case of any need for support, e.g. when encountering malfunctions, problems finding information or questions regarding the provided information, click on “MDS Support” to access the Fault Management system.
-Find further support [here](https://mobility-dataspace.online/).
+Find further support [here](https://mobility-dataspace.eu/).

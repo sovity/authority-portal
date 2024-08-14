@@ -13,9 +13,23 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Copyable contact email and subject fields on data offer detail dialogs
+- Catalog: Organization filter is no longer split into ID and name
+- Catalog: Connector filter is no longer split into ID and endpoint
+- Catalog: Removed dataspace filter when only one dataspace is known
+- Added a message when the CaaS request feature is not available
+
 #### Patch
 
+- Fixed user not being redirected to the correct URL after login
 - Copyable contact email and subject fields on data offer detail dialogs
+- Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
+- Fixed Dashboard showing uptimes of over 100%
+- Organization list: Data offer and connector counts now show the correct numbers according to the active environment
+- Fixed provider organization ID not showing up on CaaS connectors [#206](https://github.com/sovity/authority-portal/issues/206)
+  - Keep in mind that sovity needs to be registered in the portal for the ID to show up.
+  - Already registered connectors will be updated automatically, this process can take up to 24 hours
+- Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
 
 ### Known issues
 
@@ -24,7 +38,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 Read the deployment migration notes carefully if you want to retain the portal's current behavior.
 If you configure the optional variables incorrectly, you might end up with an inconsistent configuration.
 
+#### Backend
+
 Environment variable changes:
+
 - Renamed variables:
   - `authority-portal.caas.sovity.limit-per-mdsid` to `authority-portal.caas.sovity.limit-per-organization`
 - New optional configuration variables - the values assigned here are the ones you should use to retain the current behavior:
@@ -33,6 +50,25 @@ Environment variable changes:
     # The 'L' stands for 'Legal' and is added automatically after the prefix - the last 2 characters are the checksum
     authority-portal.organization.id.prefix: "MDS"
     authority-portal.organization.id.length: "4"
+    ```
+- New **mandatory** configuration variables:
+  - ```yaml
+    # Enables the client to connect to the CaaS service. If you weren't provided credentials for the feature by sovity, set this to false
+    quarkus.oidc-client.sovity.client-enabled: true
+    ```
+
+#### Frontend
+
+Environment variable changes:
+
+- New **mandantory** configuration variables - the values assigned here are the ones you should use to retain the current behavior:
+  - ```yaml
+    # UI Branding profile
+    AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: mds-open-source
+    # Short Dataspace name, used in some explanatory texts
+    AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS
+    # Portal name displayed in various texts
+    AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "MDS Portal"
     ```
 
 #### Compatible Versions

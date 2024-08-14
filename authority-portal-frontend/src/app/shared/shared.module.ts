@@ -21,7 +21,10 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatLineModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatDividerModule} from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
@@ -104,12 +107,11 @@ import {FormControlErrorDirective} from './pipes-and-directives/form-control-err
 import {FormatIntegerPipe} from './pipes-and-directives/format-integer.pipe';
 import {HasAnyRolePipe} from './pipes-and-directives/has-any-role.pipe';
 import {HasRolePipe} from './pipes-and-directives/has-role.pipe';
+import {IsActiveFeaturePipe} from './pipes-and-directives/is-active-feature.pipe';
 import {RemoveClassDirective} from './pipes-and-directives/remove-class.directive';
 import {SentenceCasePipe} from './pipes-and-directives/sentence-case.pipe';
 import {TrackByFieldDirective} from './pipes-and-directives/track-by-field.directive';
 import {ValuesPipe} from './pipes-and-directives/values.pipe';
-import {MatDividerModule} from "@angular/material/divider";
-import {MatDatepickerModule} from "@angular/material/datepicker";
 
 const COMPONENTS = [
   // ./business
@@ -186,6 +188,7 @@ const COMPONENTS = [
   FormControlErrorDirective,
   HasAnyRolePipe,
   HasRolePipe,
+  IsActiveFeaturePipe,
   RemoveClassDirective,
   SentenceCasePipe,
   TrackByFieldDirective,
@@ -203,6 +206,7 @@ const MODULES = [
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatLineModule,
   MatMenuModule,
   MatRadioModule,
   MatSelectModule,

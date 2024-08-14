@@ -21,6 +21,7 @@ import {Subject, distinctUntilChanged, takeUntil} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {ActiveFeatureSet} from '../../../../core/services/config/active-feature-set';
 import {SidebarSection} from './sidebar.model';
 
 @Component({
@@ -33,8 +34,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private ngOnDestroy$ = new Subject();
 
   constructor(
-    @Inject(APP_CONFIG) public config: AppConfig,
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
     private globalStateUtils: GlobalStateUtils,
+    private activeFeatureSet: ActiveFeatureSet,
   ) {}
 
   ngOnInit() {
@@ -64,30 +66,36 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isExpandedMenu = window.innerWidth > 768; // Set the breakpoint as per your design
   }
 
-  openNewTab() {
-    window.open('/mds-home', '_self');
+  navigateHome() {
+    const defaultRoute = this.activeFeatureSet.isHomePageEnabled()
+      ? 'home'
+      : 'catalog';
+    window.open(defaultRoute, '_self');
   }
 
   setSideBarSections(organizationName: string): void {
     this.sidebarSections = [
       {
-        title: 'MDS',
+        title: this.activeFeatureSet.usesMdsId() ? 'MDS' : 'Home',
         userRoles: ['USER'],
         menus: [
           {
             title: 'Home',
             icon: 'home',
-            rLink: '/mds-home',
+            rLink: '/home',
+            isDisabled: !this.activeFeatureSet.isHomePageEnabled(),
+          },
+          {
+            title: this.activeFeatureSet.usesBritishCatalogue()
+              ? 'Data Catalogue'
+              : 'Data Catalog',
+            icon: 'tag',
+            rLink: '/catalog',
           },
           {
             title: 'Dashboard',
             icon: 'dashboard',
             rLink: '/dashboard',
-          },
-          {
-            title: `Data Catalogue`,
-            icon: 'tag',
-            rLink: '/catalog',
           },
         ],
       },
@@ -160,9 +168,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
         userRoles: ['USER'],
         menus: [
           {
-            title: 'MDS Support',
+            title: this.activeFeatureSet.usesMdsId()
+              ? 'MDS Support'
+              : 'Support',
             icon: 'question-mark-circle',
-            rLink: this.config.supportUrl,
+            rLink: this.appConfig.supportUrl,
             isExternalLink: true,
           },
         ],

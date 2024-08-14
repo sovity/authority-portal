@@ -13,7 +13,6 @@
 
 package de.sovity.authorityportal.web.tests.services.catalog
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import de.sovity.authorityportal.api.CatalogResource
 import de.sovity.authorityportal.api.model.catalog.CatalogPageQuery
 import de.sovity.authorityportal.api.model.catalog.CatalogPageResult
@@ -36,13 +35,11 @@ import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import de.sovity.authorityportal.web.tests.useDevUser
 import de.sovity.authorityportal.web.tests.useMockNow
 import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
-import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
-import org.jooq.JSONB
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
@@ -59,9 +56,6 @@ class CatalogApiTest {
 
     @Inject
     lateinit var scenarioInstaller: ScenarioInstaller
-
-    @Inject
-    lateinit var objectMapper: ObjectMapper
 
     @InjectMock
     lateinit var catalogDataspaceConfigService: CatalogDataspaceConfigService
@@ -94,6 +88,7 @@ class CatalogApiTest {
                 defaultName = "MDS"
             )
         )
+        whenever(catalogDataspaceConfigService.hasMultipleDataspaces).thenReturn(true)
 
         val query = CatalogPageQuery(
             filter = CnfFilterValue(
@@ -115,57 +110,6 @@ class CatalogApiTest {
 
     @Test
     @TestTransaction
-    fun `test connector endpoint filter - two connectors and filter for one`() {
-        // arrange
-        useDevUser(0, 0)
-
-        ScenarioData().apply {
-            organization(0, 0)
-            user(0, 0)
-
-            connector(0, 0, 0) {
-                it.endpointUrl = "https://connector-0/dsp"
-            }
-            dataOffer(0, 0, 0)
-
-            connector(1, 0, 0) {
-                it.endpointUrl = "https://connector-1/dsp"
-            }
-            dataOffer(1, 0, 0)
-
-            scenarioInstaller.install(this)
-        }
-
-        whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
-            CatalogDataspaceConfig(
-                namesByConnectorId = mapOf(
-                    dummyDevConnectorId(0, 1) to "Dataspace 1",
-                    dummyDevConnectorId(0, 2) to "Dataspace 2"
-                ),
-                defaultName = "MDS"
-            )
-        )
-
-        val query = CatalogPageQuery(
-            filter = CnfFilterValue(
-                listOf(
-                    CnfFilterValueAttribute("connectorEndpoint", listOf("https://connector-0/dsp"))
-                )
-            ),
-            searchQuery = null,
-            sorting = null
-        )
-
-        // act
-        val result = catalogResource.catalogPage("test", query)
-
-        // assert
-        assertThat(result.dataOffers).hasSize(1)
-        assertThat(result.dataOffers.first().connectorId).isEqualTo(dummyDevConnectorId(0, 0))
-    }
-
-    @Test
-    @TestTransaction
     fun `test available filter values to filter by`() {
         // arrange
         val now = OffsetDateTime.now()
@@ -182,6 +126,7 @@ class CatalogApiTest {
                 defaultName = "MDS"
             )
         )
+        whenever(catalogDataspaceConfigService.hasMultipleDataspaces).thenReturn(true)
 
         ScenarioData().apply {
             organization(0, 0)
@@ -233,13 +178,6 @@ class CatalogApiTest {
             )
         )
 
-        val uiAsset = UiAsset().also {
-            it.assetId = dummyDevAssetId(0)
-            it.title = "Data Offer 0"
-            it.description = "Data Offer 0 Description"
-            it.dataSourceAvailability = DataSourceAvailability.ON_REQUEST
-        }
-
         ScenarioData().apply {
             organization(0, 0)
             user(0, 0)
@@ -249,11 +187,11 @@ class CatalogApiTest {
                 it.endpointUrl = "https://connector-0/dsp"
             }
 
-            dataOffer(0, 0, 0) {
-                it.assetTitle = "Data Offer 0"
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset))
-                it.descriptionNoMarkdown = "Data Offer Description 0"
-            }
+            dataOffer(0, 0, 0, assetApplier = {
+                it.title = "Data Offer 0"
+                it.description = "Data Offer 0 Description"
+                it.dataSourceAvailability = DataSourceAvailability.ON_REQUEST
+            })
 
             scenarioInstaller.install(this)
         }
@@ -289,43 +227,6 @@ class CatalogApiTest {
             )
         )
 
-        val uiAsset1 = UiAsset().also {
-            it.assetId = dummyDevAssetId(0)
-            it.title = "Data Offer 0"
-            it.description = "Data Offer 0 Description"
-            it.transportMode = "Transport Mode 1"
-            it.dataSubcategory = "Data Subcategory 1"
-            it.dataModel = "Data Model 1"
-            it.geoReferenceMethod = "Geo Reference Method 1"
-            it.dataSourceAvailability = DataSourceAvailability.LIVE
-        }
-        val uiAsset2 = UiAsset().also {
-            it.assetId = dummyDevAssetId(1)
-            it.title = "Data Offer 1"
-            it.description = "Data Offer 1 Description"
-            it.dataCategory = "Data Category 1"
-            it.transportMode = "Transport Mode 1"
-            it.dataSubcategory = "Data Subcategory 1"
-            it.dataSourceAvailability = DataSourceAvailability.LIVE
-        }
-        val uiAsset3 = UiAsset().also {
-            it.assetId = dummyDevAssetId(2)
-            it.title = "Data Offer 2"
-            it.description = "Data Offer 2 Description"
-            it.dataCategory = "Data Category 1"
-            it.transportMode = "Transport Mode 2"
-            it.dataSubcategory = "Data Subcategory 2"
-            it.dataSourceAvailability = DataSourceAvailability.LIVE
-        }
-        val uiAsset4 = UiAsset().also {
-            it.assetId = dummyDevAssetId(3)
-            it.title = "Data Offer 3"
-            it.description = "Data Offer 3 Description"
-            it.dataCategory = "Data Category 1"
-            it.transportMode = ""
-            it.dataSourceAvailability = DataSourceAvailability.LIVE
-        }
-
         ScenarioData().apply {
             organization(0, 0)
             user(0, 0)
@@ -335,25 +236,38 @@ class CatalogApiTest {
                 it.endpointUrl = "https://connector-0/dsp"
             }
 
-            dataOffer(0, 0, 0) {
-                it.assetTitle = "Data Offer 0"
-            }
-            dataOffer(0, 0, 1) {
-                it.assetTitle = "Data Offer 1"
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset1))
-            }
-            dataOffer(0, 0, 2) {
-                it.assetTitle = "Data Offer 2"
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset2))
-            }
-            dataOffer(0, 0, 3) {
-                it.assetTitle = "Data Offer 3"
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset3))
-            }
-            dataOffer(0, 0, 4) {
-                it.assetTitle = "Data Offer 4"
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset4))
-            }
+            dataOffer(0, 0, 0, assetApplier = {
+                it.title = "Data Offer 0"
+                it.description = "Data Offer 0 Description"
+                it.transportMode = "Transport Mode 1"
+                it.dataSubcategory = "Data Subcategory 1"
+                it.dataModel = "Data Model 1"
+                it.geoReferenceMethod = "Geo Reference Method 1"
+                it.dataSourceAvailability = DataSourceAvailability.LIVE
+            })
+            dataOffer(0, 0, 1, assetApplier = {
+                it.title = "Data Offer 1"
+                it.description = "Data Offer 1 Description"
+                it.dataCategory = "Data Category 1"
+                it.transportMode = "Transport Mode 1"
+                it.dataSubcategory = "Data Subcategory 1"
+                it.dataSourceAvailability = DataSourceAvailability.LIVE
+            })
+            dataOffer(0, 0, 2, assetApplier = {
+                it.title = "Data Offer 2"
+                it.description = "Data Offer 2 Description"
+                it.dataCategory = "Data Category 1"
+                it.transportMode = "Transport Mode 2"
+                it.dataSubcategory = "Data Subcategory 2"
+                it.dataSourceAvailability = DataSourceAvailability.LIVE
+            })
+            dataOffer(0, 0, 3, assetApplier = {
+                it.title = "Data Offer 3"
+                it.description = "Data Offer 3 Description"
+                it.dataCategory = "Data Category 1"
+                it.transportMode = ""
+                it.dataSourceAvailability = DataSourceAvailability.LIVE
+            })
 
             scenarioInstaller.install(this)
         }
@@ -367,7 +281,6 @@ class CatalogApiTest {
         // assert
         assertThat(result.availableFilters.fields).allSatisfy {
             it.id in setOf(
-                "dataSpace",
                 "dataCategory",
                 "dataSubcategory",
                 "dataModel",
@@ -382,7 +295,6 @@ class CatalogApiTest {
 
         assertThat(result.availableFilters.fields).allSatisfy {
             it.title in setOf(
-                "Data Space",
                 "Data Category",
                 "Data Subcategory",
                 "Data Model",
@@ -395,36 +307,47 @@ class CatalogApiTest {
             )
         }
 
-        val dataSpace = getAvailableFilter(result, "dataSpace")
-        assertThat(dataSpace.values).allSatisfy { it.id in setOf("MDS") }
-
         val dataCategory = getAvailableFilter(result, "dataCategory")
-        assertThat(dataCategory.values).allSatisfy { it.id in setOf("Data Category 1") }
+        assertThat(dataCategory.values).usingRecursiveFieldByFieldElementComparator().containsExactly(
+            CnfFilterItem("Data Category 1", "Data Category 1"),
+            CnfFilterItem("dataCategory", "dataCategory"),
+        )
 
         val dataSubcategory = getAvailableFilter(result, "dataSubcategory")
-        assertThat(dataSubcategory.values).allSatisfy { it.id in setOf("Data Subcategory 1", "Data Subcategory 2", "") }
+        assertThat(dataSubcategory.values).usingRecursiveFieldByFieldElementComparator().containsExactly(
+            CnfFilterItem("Data Subcategory 1", "Data Subcategory 1"),
+            CnfFilterItem("Data Subcategory 2", "Data Subcategory 2"),
+            CnfFilterItem("", ""),
+        )
 
         val dataModel = getAvailableFilter(result, "dataModel")
-        assertThat(dataModel.values).allSatisfy { it.id in setOf("Data Model 1", "") }
+        assertThat(dataModel.values).usingRecursiveFieldByFieldElementComparator().containsExactly(
+            CnfFilterItem("Data Model 1", "Data Model 1"),
+            CnfFilterItem("", "")
+        )
 
         val transportMode = getAvailableFilter(result, "transportMode")
-        assertThat(transportMode.values).allSatisfy { it.id in setOf("Transport Mode 1", "Transport Mode 2", "") }
+        assertThat(transportMode.values).usingRecursiveFieldByFieldElementComparator().containsExactly(
+            CnfFilterItem("Transport Mode 1", "Transport Mode 1"),
+            CnfFilterItem("Transport Mode 2", "Transport Mode 2"),
+            CnfFilterItem("", "")
+        )
 
         val geoReferenceMethod = getAvailableFilter(result, "geoReferenceMethod")
-        assertThat(geoReferenceMethod.values).allSatisfy { it.id in setOf("Geo Reference Method 1", "") }
+        assertThat(geoReferenceMethod.values).usingRecursiveFieldByFieldElementComparator().containsExactly(
+            CnfFilterItem("Geo Reference Method 1", "Geo Reference Method 1"),
+            CnfFilterItem("", "")
+        )
 
-        val curatorOrganizationName = getAvailableFilter(result, "organizationName")
-        assertThat(curatorOrganizationName.values).allSatisfy { it.id in setOf("Organization 0") }
+        val organization = getAvailableFilter(result, "organization")
+        assertThat(organization.values).usingRecursiveFieldByFieldElementComparator().containsExactly(
+            CnfFilterItem(dummyDevOrganizationId(0), "Organization 0"),
+        )
 
-        val curatorOrganizationId = getAvailableFilter(result, "organizationId")
-        assertThat(curatorOrganizationId.values).allSatisfy { it.id in setOf(dummyDevOrganizationId(0)) }
-
-        val connectorId = getAvailableFilter(result, "connectorId")
-        assertThat(connectorId.values).allSatisfy { it.id in setOf(dummyDevConnectorId(0, 0)) }
-
-        val connectorEndpoint = getAvailableFilter(result, "connectorEndpoint")
-        assertThat(connectorEndpoint.values).allSatisfy { it.id in setOf("https://connector-0/dsp") }
-
+        val connector = getAvailableFilter(result, "connectorId")
+        assertThat(connector.values).usingRecursiveFieldByFieldElementComparator().containsExactly(
+            CnfFilterItem(dummyDevConnectorId(0, 0), "Connector - Organization 0"),
+        )
     }
 
     /**
@@ -451,13 +374,6 @@ class CatalogApiTest {
             )
         )
 
-        val uiAsset = UiAsset().also {
-            it.assetId = dummyDevAssetId(0)
-            it.title = "Hello"
-            it.description = "Data Offer 0 Description"
-            it.dataSourceAvailability = DataSourceAvailability.LIVE
-        }
-
         ScenarioData().apply {
             organization(0, 0)
             user(0, 0)
@@ -467,10 +383,11 @@ class CatalogApiTest {
                 it.endpointUrl = "https://connector-0/dsp"
             }
 
-            dataOffer(0, 0, 0) {
-                it.assetTitle = "Hello"
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset))
-            }
+            dataOffer(0, 0, 0, assetApplier = {
+                it.title = "Hello"
+                it.description = "Data Offer 0 Description"
+                it.dataSourceAvailability = DataSourceAvailability.LIVE
+            })
 
             scenarioInstaller.install(this)
         }
@@ -508,20 +425,6 @@ class CatalogApiTest {
             )
         )
 
-        val uiAsset1 = UiAsset().also {
-            it.assetId = dummyDevAssetId(0)
-            it.title = "Data Offer 0"
-            it.description = "Data Offer 0 Description"
-            it.dataCategory = "Data Category 0"
-            it.dataSubcategory = "Data Subcategory 0"
-        }
-        val uiAsset2 = UiAsset().also {
-            it.assetId = dummyDevAssetId(1)
-            it.title = "Data Offer 1"
-            it.description = "Data Offer 1 Description"
-            it.dataSubcategory = "Data Subcategory 1"
-        }
-
         ScenarioData().apply {
             organization(0, 0)
             user(0, 0)
@@ -531,14 +434,17 @@ class CatalogApiTest {
                 it.endpointUrl = "https://connector-0/dsp"
             }
 
-            dataOffer(0, 0, 0) {
-                it.assetTitle = "Data Offer 0"
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset1))
-            }
-            dataOffer(0, 0, 1) {
-                it.assetTitle = "Data Offer 1"
-                it.uiAssetJson = JSONB.valueOf(objectMapper.writeValueAsString(uiAsset2))
-            }
+            dataOffer(0, 0, 0, assetApplier = {
+                it.title = "Data Offer 0"
+                it.description = "Data Offer 0 Description"
+                it.dataCategory = "Data Category 0"
+                it.dataSubcategory = "Data Subcategory 0"
+            })
+            dataOffer(0, 0, 1, assetApplier = {
+                it.title = "Data Offer 1"
+                it.description = "Data Offer 1 Description"
+                it.dataSubcategory = "Data Subcategory 1"
+            })
 
             scenarioInstaller.install(this)
         }
@@ -589,8 +495,8 @@ class CatalogApiTest {
             user(0, 0)
             connector(0, 0, 0)
 
-            repeat(15) { index -> dataOffer(0, 0, index) { it.assetId = "my-asset-$index" } }
-            repeat(15) { index -> dataOffer(0, 0, index) { it.assetId = "other-asset-$index" } }
+            repeat(15) { index -> dataOffer(0, 0, index, assetApplier = { it.assetId = "my-asset-$index" }) }
+            repeat(15) { index -> dataOffer(0, 0, index, assetApplier = { it.assetId = "other-asset-$index" }) }
 
             scenarioInstaller.install(this)
         }
@@ -638,8 +544,8 @@ class CatalogApiTest {
             user(0, 0)
             connector(0, 0, 0)
 
-            repeat(15) { index -> dataOffer(0, 0, index) { it.assetId = "my-asset-$index" } }
-            repeat(15) { index -> dataOffer(0, 0, index) { it.assetId = "other-asset-$index" } }
+            repeat(15) { index -> dataOffer(0, 0, index, assetApplier = { it.assetId = "my-asset-$index" }) }
+            repeat(15) { index -> dataOffer(0, 0, index, assetApplier = { it.assetId = "other-asset-$index" }) }
 
             scenarioInstaller.install(this)
         }
@@ -727,52 +633,6 @@ class CatalogApiTest {
 
     @Test
     @TestTransaction
-    fun `test filter by org name`() {
-        // arrange
-        useDevUser(0, 0)
-
-        whenever(catalogDataspaceConfigService.forEnvironment(any())).thenReturn(
-            CatalogDataspaceConfig(
-                namesByConnectorId = emptyMap(),
-                defaultName = "MDS"
-            )
-        )
-
-        ScenarioData().apply {
-            organization(0, 0)
-            user(0, 0)
-            connector(0, 0, 0)
-            dataOffer(0, 0, 0)
-
-            organization(1, 1)
-            user(1, 1)
-            connector(1, 1, 1)
-            dataOffer(1, 1, 1)
-
-            scenarioInstaller.install(this)
-        }
-
-        // act
-        val result = catalogResource.catalogPage(
-            environmentId = "test",
-            query = CatalogPageQuery(
-                filter = CnfFilterValue(
-                    listOf(
-                        CnfFilterValueAttribute("organizationName", listOf("Organization 0")),
-                    )
-                ),
-                searchQuery = null,
-                sorting = null
-            )
-        )
-
-        // assert
-        assertThat(result.dataOffers).hasSize(1)
-        assertThat(result.dataOffers.first().connectorId).isEqualTo(dummyDevConnectorId(0, 0))
-    }
-
-    @Test
-    @TestTransaction
     fun `test search for org name`() {
         // arrange
         useDevUser(0, 0)
@@ -817,7 +677,7 @@ class CatalogApiTest {
 
     @Test
     @TestTransaction
-    fun `test filter by organizationId`() {
+    fun `test filter by organization`() {
         // arrange
         useDevUser(0, 0)
 
@@ -848,7 +708,7 @@ class CatalogApiTest {
             query = CatalogPageQuery(
                 filter = CnfFilterValue(
                     listOf(
-                        CnfFilterValueAttribute("organizationId", listOf(dummyDevOrganizationId(0))),
+                        CnfFilterValueAttribute("organization", listOf(dummyDevOrganizationId(0))),
                     )
                 ),
                 searchQuery = null,

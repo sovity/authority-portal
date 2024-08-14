@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, Inject} from '@angular/core';
+import {UrlBeforeLoginService} from 'src/app/core/global-state/routes/url-before-login.service';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
@@ -22,7 +23,7 @@ export class UnauthenticatedPageComponent {
 
   get loginUrl(): string {
     const url = new URL(this.appConfig.loginUrl);
-    url.searchParams.set("redirect_uri", location.href)
+    url.searchParams.set('redirect_uri', location.href);
     return url.toString();
   }
 }

@@ -1,6 +1,6 @@
 import {UiPolicyLiteral} from '@sovity.de/authority-portal-client';
 import {format} from 'date-fns-tz';
-import {filterNonNull} from "../../../../core/utils/array-utils";
+import {filterNonNull} from '../../../../core/utils/array-utils';
 
 export interface PolicyFormAdapter<T> {
   displayText: (value: UiPolicyLiteral) => string | null;
