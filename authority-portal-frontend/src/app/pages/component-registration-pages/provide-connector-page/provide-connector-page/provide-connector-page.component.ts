@@ -85,31 +85,63 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  registerConnector(): void {
+  registerConnector(useJwks: boolean): void {
+    if (useJwks) {
+      this.form.certificateTab.disable();
+    }
+
     const formValue = this.form.value;
     const organizationId = formValue.connectorTab.organization!.id;
-    this.store.dispatch(
-      new Submit(
-        {
-          name: formValue.connectorTab.name,
-          endpointUrl: formValue.connectorTab.endpointUrl,
-          location: formValue.connectorTab.location,
-          frontendUrl: formValue.connectorTab.frontendUrl,
-          managementUrl: formValue.connectorTab.managementUrl,
-          certificate: formValue.certificateTab.bringOwnCert
-            ? formValue.certificateTab.ownCertificate
-            : formValue.certificateTab.generatedCertificate,
-        },
-        organizationId,
-        () => this.form.group.enable(),
-        () => this.form.group.disable(),
-        () => {
-          setTimeout(() => {
-            this.stepper.next();
-          }, 0);
-        },
-      ),
-    );
+
+    if (useJwks) {
+      this.form.certificateTab.disable();
+
+      this.store.dispatch(
+        new Submit(
+          {
+            requestType: 'jwks',
+            name: formValue.connectorTab.name,
+            endpointUrl: formValue.connectorTab.endpointUrl,
+            location: formValue.connectorTab.location,
+            frontendUrl: formValue.connectorTab.frontendUrl,
+            managementUrl: formValue.connectorTab.managementUrl,
+            jwksUrl: formValue.connectorTab.jwksUrl,
+          },
+          organizationId,
+          () => this.form.group.enable(),
+          () => this.form.group.disable(),
+          () => {
+            setTimeout(() => {
+              this.stepper.next();
+            }, 0);
+          },
+        ),
+      );
+    } else {
+      this.store.dispatch(
+        new Submit(
+          {
+            requestType: 'certificate',
+            name: formValue.connectorTab.name,
+            endpointUrl: formValue.connectorTab.endpointUrl,
+            location: formValue.connectorTab.location,
+            frontendUrl: formValue.connectorTab.frontendUrl,
+            managementUrl: formValue.connectorTab.managementUrl,
+            certificate: formValue.connectorTab.useJwks
+              ? formValue.certificateTab.ownCertificate
+              : formValue.certificateTab.generatedCertificate,
+          },
+          organizationId,
+          () => this.form.group.enable(),
+          () => this.form.group.disable(),
+          () => {
+            setTimeout(() => {
+              this.stepper.next();
+            }, 0);
+          },
+        ),
+      );
+    }
   }
 
   ngOnDestroy() {

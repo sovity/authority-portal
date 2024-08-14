@@ -63,12 +63,22 @@ export class ProvideConnectorPageStateImpl {
 
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap(
-        (deploymentEnvironmentId): Observable<CreateConnectorResponse> =>
-          this.apiService.createProvidedConnector(
-            action.request,
-            action.organizationId,
-            deploymentEnvironmentId,
-          ),
+        (deploymentEnvironmentId): Observable<CreateConnectorResponse> => {
+          switch (action.request.requestType) {
+            case 'certificate':
+              return this.apiService.createProvidedConnectorWithCertificate(
+                action.request,
+                action.organizationId,
+                deploymentEnvironmentId,
+              );
+            case 'jwks':
+              return this.apiService.createProvidedConnectorWithJwks(
+                action.request,
+                action.organizationId,
+                deploymentEnvironmentId,
+              );
+          }
+        },
       ),
       tap((res) => {
         ctx.patchState({
