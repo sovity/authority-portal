@@ -734,7 +734,7 @@ class ConnectorManagementApiServiceTest {
 
     @Test
     @TestTransaction
-    fun `create provided connector fails because certificate was already used`() {
+    fun `create provided connector fails because client id was already used`() {
         // arrange
         val now = OffsetDateTime.now()
         val certificate = loadTestResource("create-connector-certificate.pem")
@@ -772,7 +772,7 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.id).isNull()
         assertThat(result.changedDate).isEqualTo(now)
         assertThat(result.status).isEqualTo(CreateConnectorStatusDto.ERROR)
-        assertThat(result.message).contains("Connector with this certificate already exists.")
+        assertThat(result.message).contains("Connector with this client ID already exists.")
     }
 
     @Test

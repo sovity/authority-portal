@@ -21,6 +21,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
+import de.sovity.authorityportal.web.model.ConnectorCreationData
 import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import org.eclipse.microprofile.config.inject.ConfigProperty
@@ -171,7 +172,7 @@ class ConnectorService(
         organizationId: String,
         environment: String,
         clientId: String,
-        connector: CreateConnectorRequest,
+        connector: ConnectorCreationData,
         createdBy: String
     ) {
         createConnector(
@@ -192,7 +193,7 @@ class ConnectorService(
         providerOrganizationId: String,
         environment: String,
         clientId: String,
-        connector: CreateConnectorRequest,
+        connector: ConnectorCreationData,
         createdBy: String
     ) {
         createConnector(
@@ -247,7 +248,7 @@ class ConnectorService(
         type: ConnectorType,
         environment: String,
         clientId: String,
-        connector: CreateConnectorRequest,
+        connector: ConnectorCreationData,
         createdBy: String
     ) {
         dsl.newRecord(Tables.CONNECTOR).also {
