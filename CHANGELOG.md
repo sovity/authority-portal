@@ -18,6 +18,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Catalog: Connector filter is no longer split into ID and endpoint
 - Catalog: Removed dataspace filter when only one dataspace is known
 - Added a message when the CaaS request feature is not available
+- Service providers can now provicde connectors using a Connector JWKS URL instead of a certificate [#272](https://github.com/sovity/authority-portal/pull/272)
 
 #### Patch
 
