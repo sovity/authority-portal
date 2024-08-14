@@ -58,7 +58,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     frontendUrl: 'https://xample.test1/connector',
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
-    status: 'DEAD',
+    status: 'OFFLINE',
   },
   {
     connectorId: 'MDSL1111AA.AP42I3L',
