@@ -32,19 +32,22 @@ data class CreateConnectorResponse(
 
     @field:Schema(description = "Optional error message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val message: String?,
+
+    @field:Schema(description = "Connector's generated client ID", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    val clientId: String?
 ) {
 
     companion object {
-        fun ok(connectorId: String, changedTime: OffsetDateTime): CreateConnectorResponse {
-            return CreateConnectorResponse(connectorId, changedTime, CreateConnectorStatusDto.OK, null)
+        fun ok(connectorId: String, clientId: String, changedTime: OffsetDateTime): CreateConnectorResponse {
+            return CreateConnectorResponse(connectorId, changedTime, CreateConnectorStatusDto.OK, null, clientId)
         }
 
         fun error(message: String, changedTime: OffsetDateTime): CreateConnectorResponse {
-            return CreateConnectorResponse(null, changedTime, CreateConnectorStatusDto.ERROR, message)
+            return CreateConnectorResponse(null, changedTime, CreateConnectorStatusDto.ERROR, message, null)
         }
 
-        fun warning(connectorId: String, message: String, changedTime: OffsetDateTime): CreateConnectorResponse {
-            return CreateConnectorResponse(connectorId, changedTime, CreateConnectorStatusDto.WARNING, message)
+        fun warning(connectorId: String, message: String, clientId: String, changedTime: OffsetDateTime): CreateConnectorResponse {
+            return CreateConnectorResponse(connectorId, changedTime, CreateConnectorStatusDto.WARNING, message, clientId)
         }
     }
 }

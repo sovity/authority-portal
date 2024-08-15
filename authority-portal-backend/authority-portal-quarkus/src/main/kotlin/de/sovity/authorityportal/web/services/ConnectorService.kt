@@ -13,16 +13,14 @@
 
 package de.sovity.authorityportal.web.services
 
-import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.IdResponse
-import de.sovity.authorityportal.broker.dao.utils.eqAny
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
-import de.sovity.authorityportal.web.model.ConnectorCreationData
+import de.sovity.authorityportal.web.model.CreateConnectorParams
 import de.sovity.authorityportal.web.utils.TimeUtils
 import jakarta.enterprise.context.ApplicationScoped
 import org.eclipse.microprofile.config.inject.ConfigProperty
@@ -181,7 +179,7 @@ class ConnectorService(
         organizationId: String,
         environment: String,
         clientId: String,
-        connector: ConnectorCreationData,
+        createConnectorParams: CreateConnectorParams,
         createdBy: String
     ) {
         createConnector(
@@ -191,7 +189,7 @@ class ConnectorService(
             type = ConnectorType.OWN,
             environment = environment,
             clientId = clientId,
-            connector = connector,
+            createConnectorParams = createConnectorParams,
             createdBy = createdBy
         )
     }
@@ -202,7 +200,7 @@ class ConnectorService(
         providerOrganizationId: String,
         environment: String,
         clientId: String,
-        connector: ConnectorCreationData,
+        createConnectorParams: CreateConnectorParams,
         createdBy: String
     ) {
         createConnector(
@@ -212,7 +210,7 @@ class ConnectorService(
             type = ConnectorType.PROVIDED,
             environment = environment,
             clientId = clientId,
-            connector = connector,
+            createConnectorParams = createConnectorParams,
             createdBy = createdBy
         )
     }
@@ -257,7 +255,7 @@ class ConnectorService(
         type: ConnectorType,
         environment: String,
         clientId: String,
-        connector: ConnectorCreationData,
+        createConnectorParams: CreateConnectorParams,
         createdBy: String
     ) {
         dsl.newRecord(Tables.CONNECTOR).also {
@@ -267,12 +265,12 @@ class ConnectorService(
             it.type = type
             it.environment = environment
             it.clientId = clientId
-            it.name = connector.name.trim()
-            it.location = connector.location.trim()
-            it.frontendUrl = connector.frontendUrl.trim()
-            it.endpointUrl = connector.endpointUrl.trim()
-            it.managementUrl = connector.managementUrl.trim()
-            it.jwksUrl = connector.jwksUrl?.trim()
+            it.name = createConnectorParams.name
+            it.location = createConnectorParams.location
+            it.frontendUrl = createConnectorParams.frontendUrl
+            it.endpointUrl = createConnectorParams.endpointUrl
+            it.managementUrl = createConnectorParams.managementUrl
+            it.jwksUrl = createConnectorParams.jwksUrl
             it.createdBy = createdBy
             it.createdAt = timeUtils.now()
             it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED

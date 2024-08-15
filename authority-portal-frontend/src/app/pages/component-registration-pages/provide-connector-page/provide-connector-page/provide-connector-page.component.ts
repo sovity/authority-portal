@@ -85,65 +85,29 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  registerConnector(useJwks: boolean): void {
-    if (useJwks) {
+  registerConnector(registrationType: 'certificate' | 'jwks'): void {
+    if (registrationType === 'jwks') {
       this.form.certificateTab.disable();
     }
 
     const formValue = this.form.value;
     const organizationId = formValue.connectorTab.organization!.id;
 
-    if (useJwks) {
-      this.form.certificateTab.disable();
-
-      this.store.dispatch(
-        new Submit(
-          {
-            requestType: 'jwks',
-            name: formValue.connectorTab.name,
-            endpointUrl: formValue.connectorTab.endpointUrl,
-            location: formValue.connectorTab.location,
-            frontendUrl: formValue.connectorTab.frontendUrl,
-            managementUrl: formValue.connectorTab.managementUrl,
-            jwksUrl: formValue.connectorTab.jwksUrl,
-          },
-          organizationId,
-          () => this.form.group.enable(),
-          () => this.form.group.disable(),
-          () => {
-            setTimeout(() => {
-              this.stepper.selectedIndex = 2;
-              console.log('AsDASSDA');
-            }, 50);
-          },
-        ),
-      );
-    } else {
-      this.store.dispatch(
-        new Submit(
-          {
-            requestType: 'certificate',
-            name: formValue.connectorTab.name,
-            endpointUrl: formValue.connectorTab.endpointUrl,
-            location: formValue.connectorTab.location,
-            frontendUrl: formValue.connectorTab.frontendUrl,
-            managementUrl: formValue.connectorTab.managementUrl,
-            certificate: formValue.connectorTab.useJwks
-              ? formValue.certificateTab.ownCertificate
-              : formValue.certificateTab.generatedCertificate,
-          },
-          organizationId,
-          () => this.form.group.enable(),
-          () => this.form.group.disable(),
-          () => {
-            setTimeout(() => {
-              this.stepper.next();
-              console.log('AABVBVBVNJNJVN');
-            }, 50);
-          },
-        ),
-      );
-    }
+    this.store.dispatch(
+      new Submit(
+        formValue,
+        organizationId,
+        () => this.form.group.enable(),
+        () => this.form.group.disable(),
+        () => {
+          setTimeout(() => {
+            formValue.connectorTab.useJwks
+              ? (this.stepper.selectedIndex = 2)
+              : this.stepper.next();
+          }, 200);
+        },
+      ),
+    );
   }
 
   ngOnDestroy() {

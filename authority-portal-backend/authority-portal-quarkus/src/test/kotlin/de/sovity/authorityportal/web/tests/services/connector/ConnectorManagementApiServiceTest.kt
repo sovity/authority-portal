@@ -678,10 +678,6 @@ class ConnectorManagementApiServiceTest {
             it.createdBy = dummyDevUserUuid(0)
             it.createdAt = now
             it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
-            it.jwksUrl = null
-            it.caasStatus = null
-            it.lastRefreshAttemptAt = null
-            it.lastSuccessfulRefreshAt = null
             it.onlineStatus = ConnectorOnlineStatus.OFFLINE
             it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
             it.contractOffersExceeded = ConnectorContractOffersExceeded.OK
@@ -756,13 +752,10 @@ class ConnectorManagementApiServiceTest {
             it.frontendUrl = "https://connector.test.sovity.io" // service should remove trailing slashes
             it.endpointUrl = "https://connector.test.sovity.io/dsp" // service should remove trailing slashes
             it.managementUrl = "https://connector.test.sovity.io/api/management" // service should remove trailing slashes
+            it.jwksUrl = "https://connector.test.sovity.io/api/dsp/jwks"
             it.createdBy = dummyDevUserUuid(0)
             it.createdAt = now
             it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
-            it.jwksUrl = "https://connector.test.sovity.io/api/dsp/jwks"
-            it.caasStatus = null
-            it.lastRefreshAttemptAt = null
-            it.lastSuccessfulRefreshAt = null
             it.onlineStatus = ConnectorOnlineStatus.OFFLINE
             it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
             it.contractOffersExceeded = ConnectorContractOffersExceeded.OK

@@ -41,6 +41,7 @@ export class CertificateGenerateService {
    * @returns
    */
   generateKeyPair(bits: number): Promise<forge.pki.rsa.KeyPair> {
+    // Defer certificate generation to prevent the UI from freezing
     return new Promise((resolve, reject) => {
       forge.pki.rsa.generateKeyPair(
         {bits: bits, workers: -1},

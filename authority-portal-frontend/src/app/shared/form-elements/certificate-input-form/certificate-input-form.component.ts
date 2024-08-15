@@ -72,16 +72,15 @@ export class CertificateInputFormComponent implements OnDestroy {
     }
 
     this.isGenerating = true;
-    setTimeout(async () => {
-      try {
-        await this.generateCertificateAndDownloadP12();
-      } catch (e) {
-        console.error('error while generating certificate', e);
-        alert('error while generating certificate. Please check console');
-      } finally {
-        this.isGenerating = false;
-      }
-    }, 100);
+    this.generateCertificateAndDownloadP12()
+      .finally(() => (this.isGenerating = false))
+      .then(
+        () => {},
+        (e) => {
+          console.error('error while generating certificate', e);
+          alert('error while generating certificate. Please check console');
+        },
+      );
   }
 
   private async generateCertificateAndDownloadP12() {

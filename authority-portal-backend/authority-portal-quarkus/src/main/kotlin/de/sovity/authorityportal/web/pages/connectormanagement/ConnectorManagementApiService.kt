@@ -28,7 +28,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
-import de.sovity.authorityportal.web.model.ConnectorCreationData
+import de.sovity.authorityportal.web.model.CreateConnectorParams
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
@@ -152,7 +152,7 @@ class ConnectorManagementApiService(
     ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
-        val connectorData = ConnectorCreationData(
+        val createConnectorParams = CreateConnectorParams(
             name = connector.name,
             location = connector.location,
             frontendUrl = removeUrlTrailingSlash(connector.frontendUrl),
@@ -162,13 +162,10 @@ class ConnectorManagementApiService(
             jwksUrl = null
         )
 
-        if (!isValidUrlConfiguration(connectorData.frontendUrl, connectorData.endpointUrl, connectorData.managementUrl)) {
-            Log.error("Connector URL is not valid. url=${connectorData.frontendUrl}, userId=$userId, organizationId=$organizationId.")
-            return CreateConnectorResponse.error("Connector URL is not valid.", timeUtils.now())
-        }
+        validateUrlConfiguration(createConnectorParams)?.let { return it }
 
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(organizationId)
-        val clientId = clientIdUtils.generateFromCertificate(connectorData.certificate!!)
+        val clientId = clientIdUtils.generateFromCertificate(createConnectorParams.certificate!!)
 
         if (clientIdUtils.exists(clientId)) {
             Log.error("Connector with this certificate already exists. connectorId=$connectorId, organizationId=$organizationId, userId=$userId, clientId=$clientId.")
@@ -180,13 +177,13 @@ class ConnectorManagementApiService(
             organizationId = organizationId,
             environment = deploymentEnvId,
             clientId = clientId,
-            connector = connectorData,
+            createConnectorParams = createConnectorParams,
             createdBy = userId
         )
-        registerConnectorAtDaps(clientId, connectorId, connectorData, deploymentEnvId)
+        registerConnectorAtDaps(clientId, connectorId, createConnectorParams, deploymentEnvId)
 
         Log.info("Connector for own organization registered. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
-        return CreateConnectorResponse.ok(connectorId, timeUtils.now())
+        return CreateConnectorResponse.ok(connectorId, clientId, timeUtils.now())
     }
 
     fun reserveProvidedConnector(
@@ -214,7 +211,7 @@ class ConnectorManagementApiService(
         userId: String,
         deploymentEnvId: String
     ): CreateConnectorResponse {
-        val connectorData = ConnectorCreationData(
+        val connectorData = CreateConnectorParams(
             name = connector.name,
             location = connector.location,
             frontendUrl = removeUrlTrailingSlash(connector.frontendUrl),
@@ -233,7 +230,7 @@ class ConnectorManagementApiService(
         userId: String,
         deploymentEnvId: String
     ): CreateConnectorResponse {
-        val connectorData = ConnectorCreationData(
+        val connectorData = CreateConnectorParams(
             name = connector.name,
             location = connector.location,
             frontendUrl = removeUrlTrailingSlash(connector.frontendUrl),
@@ -246,7 +243,7 @@ class ConnectorManagementApiService(
     }
 
     private fun createProvidedConnector(
-        connector: ConnectorCreationData,
+        connector: CreateConnectorParams,
         customerOrganizationId: String,
         providerOrganizationId: String,
         userId: String,
@@ -276,13 +273,13 @@ class ConnectorManagementApiService(
             providerOrganizationId = providerOrganizationId,
             environment = deploymentEnvId,
             clientId = clientId,
-            connector = connector,
+            createConnectorParams = connector,
             createdBy = userId
         )
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
 
         Log.info("Connector for foreign organization registered. connectorId=$connectorId, customerOrganizationId=$customerOrganizationId, userId=$userId.")
-        return CreateConnectorResponse.ok(connectorId, timeUtils.now())
+        return CreateConnectorResponse.ok(connectorId, clientId, timeUtils.now())
     }
 
     private fun isValidUrlConfiguration(
@@ -307,11 +304,7 @@ class ConnectorManagementApiService(
     }
 
     private fun removeUrlTrailingSlash(url: String): String {
-        return if (url.endsWith("/")) {
-            url.dropLast(1)
-        } else {
-            url
-        }
+        return url.trim().removeSuffix("/")
     }
 
     fun deleteOwnOrProvidedConnector(
@@ -357,7 +350,7 @@ class ConnectorManagementApiService(
     private fun registerConnectorAtDaps(
         clientId: String,
         connectorId: String,
-        connector: ConnectorCreationData,
+        connector: CreateConnectorParams,
         deploymentEnvId: String
     ) {
         val dapsClient = dapsClientService.forEnvironment(deploymentEnvId)
@@ -387,6 +380,14 @@ class ConnectorManagementApiService(
         } else {
             filterDeadConnectorStatus(it.onlineStatus).toDto()
         }
+
+    private fun validateUrlConfiguration(connectorData: CreateConnectorParams): CreateConnectorResponse? {
+        if (isValidUrlConfiguration(connectorData.frontendUrl, connectorData.endpointUrl, connectorData.managementUrl)) return null
+        else {
+            Log.error("Connector URL is not valid. frontendUrl=${connectorData.frontendUrl}, endpointUrl=${connectorData.endpointUrl}, managementUrl=${connectorData.managementUrl}.")
+            return CreateConnectorResponse.error("Connector URL is not valid.", timeUtils.now())
+        }
+    }
 
     private fun filterDeadConnectorStatus(status: ConnectorOnlineStatus) =
         if (status == ConnectorOnlineStatus.DEAD) {
