@@ -270,6 +270,7 @@ export const createOwnConnector = (
     id: randomId,
     changedDate: new Date(),
     status: CreateConnectorStatusDto.Ok,
+    clientId: 'client-id',
   };
 };
 
@@ -301,6 +302,7 @@ export const createCaas = (
     id: randomId,
     changedDate: new Date(),
     status: CreateConnectorStatusDto.Ok,
+    clientId: 'client-id',
   };
 };
 
@@ -351,6 +353,7 @@ export const createProvidedConnector = (
     id: randomId,
     changedDate: new Date(),
     status: CreateConnectorStatusDto.Ok,
+    clientId: 'client-id',
   };
 };
 
@@ -386,6 +389,7 @@ export const createProvidedConnectorWithJwks = (
     id: randomId,
     changedDate: new Date(),
     status: CreateConnectorStatusDto.Ok,
+    clientId: 'client-id',
   };
 };
 

@@ -183,7 +183,7 @@ class ConnectorManagementApiService(
         registerConnectorAtDaps(clientId, connectorId, createConnectorParams, deploymentEnvId)
 
         Log.info("Connector for own organization registered. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
-        return CreateConnectorResponse.ok(connectorId, timeUtils.now())
+        return CreateConnectorResponse.ok(connectorId, clientId, timeUtils.now())
     }
 
     fun createProvidedConnectorWithCertificate(
@@ -261,7 +261,7 @@ class ConnectorManagementApiService(
         registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
 
         Log.info("Connector for foreign organization registered. connectorId=$connectorId, customerOrganizationId=$customerOrganizationId, userId=$userId.")
-        return CreateConnectorResponse.ok(connectorId, timeUtils.now())
+        return CreateConnectorResponse.ok(connectorId, clientId, timeUtils.now())
     }
 
     private fun isValidUrlConfiguration(
