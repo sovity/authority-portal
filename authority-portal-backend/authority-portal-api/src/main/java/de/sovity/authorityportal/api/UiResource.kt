@@ -185,6 +185,16 @@ interface UiResource {
     ): OrganizationOverviewResult
 
     @GET
+    @Path("/service-partner/reserve-connector")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Creates a reserved connector that can be registered later for another organization.")
+    fun reserveProvidedConnector(
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        @QueryParam("environmentId")
+        environmentId: String
+    ): IdResponse
+
+    @GET
     @Path("/authority/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any connector.")

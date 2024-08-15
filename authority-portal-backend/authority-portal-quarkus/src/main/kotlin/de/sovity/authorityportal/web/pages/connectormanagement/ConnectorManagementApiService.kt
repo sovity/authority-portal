@@ -189,6 +189,24 @@ class ConnectorManagementApiService(
         return CreateConnectorResponse.ok(connectorId, timeUtils.now())
     }
 
+    fun reserveProvidedConnector(
+        providerOrganizationId: String,
+        userId: String,
+        deploymentEnvId: String
+    ): IdResponse {
+        val connectorData = ConnectorCreationData(
+            name = "Reserved Connector",
+            location = "n/a",
+            frontendUrl = null,
+            endpointUrl = null,
+            managementUrl = null,
+            certificate = null,
+            jwksUrl = null
+        )
+
+        return connectorService.reserveConnector()
+    }
+
     fun createProvidedConnectorWithCertificate(
         connector: CreateConnectorRequest,
         customerOrganizationId: String,
@@ -268,10 +286,14 @@ class ConnectorManagementApiService(
     }
 
     private fun isValidUrlConfiguration(
-        frontendUrlString: String,
-        endpointUrlString: String,
-        managementUrlString: String
+        frontendUrlString: String?,
+        endpointUrlString: String?,
+        managementUrlString: String?
     ): Boolean {
+        if (frontendUrlString == null || endpointUrlString == null || managementUrlString == null) {
+            return false
+        }
+
         try {
             val frontendUrl = URL(frontendUrlString)
             val endpointUrl = URL(endpointUrlString)

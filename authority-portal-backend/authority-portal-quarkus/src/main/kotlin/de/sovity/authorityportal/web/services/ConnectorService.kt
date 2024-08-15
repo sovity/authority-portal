@@ -14,6 +14,7 @@
 package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.broker.dao.utils.eqAny
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
@@ -165,6 +166,14 @@ class ConnectorService(
             error("No limit configured for CaaS registration")
         }
         return getCaasCountByOrganizationIdAndEnvironment(organizationId, environmentId) < limit
+    }
+
+    fun reserveConnector(
+        connectorId: String,
+        providerOrganizationId: String,
+        environment: String
+    ): IdResponse {
+        return IdResponse("")
     }
 
     fun createOwnConnector(

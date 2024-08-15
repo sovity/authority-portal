@@ -239,6 +239,12 @@ class UiResourceImpl(
         )
     }
 
+    override fun reserveProvidedConnector(environmentId: String): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        authUtils.requiresMemberOfAnyOrganization()
+        TODO("Not yet implemented")
+    }
+
     @Transactional
     override fun getConnector(connectorId: String): ConnectorDetailDto {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_USER, Roles.UserRoles.OPERATOR_ADMIN)
