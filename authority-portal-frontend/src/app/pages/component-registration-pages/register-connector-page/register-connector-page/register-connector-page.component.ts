@@ -100,7 +100,7 @@ export class RegisterConnectorPageComponent implements OnInit, OnDestroy {
         () => {
           setTimeout(() => {
             this.stepper.next();
-          }, 0);
+          }, 200);
         },
       ),
     );

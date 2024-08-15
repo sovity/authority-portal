@@ -20,6 +20,7 @@ import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.api.model.CreateConnectorWithJwksRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
@@ -328,6 +329,22 @@ interface UiResource {
 
         @Valid @NotNull(message = "Connector cannot be null")
         connector: CreateConnectorRequest
+    ): CreateConnectorResponse
+
+    @POST
+    @Path("/organizations/{organizationId}/connectors/create-service-provided/with-jwks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Register a connector for another organization as a service provider with JWKS URL instead of a certificate.")
+    fun createProvidedConnectorWithJwks(
+        @PathParam("organizationId") organizationId: String,
+
+        @QueryParam("environmentId")
+        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
+        environmentId: String,
+
+        @Valid @NotNull(message = "Connector cannot be null")
+        connector: CreateConnectorWithJwksRequest
     ): CreateConnectorResponse
 
     @POST

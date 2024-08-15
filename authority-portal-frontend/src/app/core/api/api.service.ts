@@ -22,6 +22,7 @@ import {
   CreateCaasRequest,
   CreateConnectorRequest,
   CreateConnectorResponse,
+  CreateConnectorWithJwksRequest,
   DeploymentEnvironmentDto,
   IdResponse,
   InviteOrganizationRequest,
@@ -226,7 +227,7 @@ export class ApiService {
     );
   }
 
-  createProvidedConnector(
+  createProvidedConnectorWithCertificate(
     connector: CreateConnectorRequest,
     organizationId: string,
     environmentId: string,
@@ -234,6 +235,20 @@ export class ApiService {
     return toObservable(() =>
       this.api().createProvidedConnector({
         createConnectorRequest: connector,
+        organizationId,
+        environmentId,
+      }),
+    );
+  }
+
+  createProvidedConnectorWithJwks(
+    connector: CreateConnectorWithJwksRequest,
+    organizationId: string,
+    environmentId: string,
+  ): Observable<CreateConnectorResponse> {
+    return toObservable(() =>
+      this.api().createProvidedConnectorWithJwks({
+        createConnectorWithJwksRequest: connector,
         organizationId,
         environmentId,
       }),

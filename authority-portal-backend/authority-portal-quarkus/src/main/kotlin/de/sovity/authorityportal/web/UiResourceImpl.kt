@@ -22,6 +22,7 @@ import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.api.model.CreateConnectorWithJwksRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
@@ -369,7 +370,23 @@ class UiResourceImpl(
     ): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.createProvidedConnector(
+        return connectorManagementApiService.createProvidedConnectorWithCertificate(
+            connector,
+            organizationId,
+            loggedInUser.organizationId!!,
+            loggedInUser.userId,
+            environmentId
+        )
+    }
+
+    override fun createProvidedConnectorWithJwks(
+        organizationId: String,
+        environmentId: String,
+        connector: CreateConnectorWithJwksRequest
+    ): CreateConnectorResponse {
+        authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
+        authUtils.requiresMemberOfAnyOrganization()
+        return connectorManagementApiService.createProvidedConnectorWithJwks(
             connector,
             organizationId,
             loggedInUser.organizationId!!,

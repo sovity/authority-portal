@@ -40,8 +40,20 @@ export class CertificateGenerateService {
    * @param bits
    * @returns
    */
-  generateKeyPair(bits: number): forge.pki.rsa.KeyPair {
-    return forge.pki.rsa.generateKeyPair({bits: bits});
+  generateKeyPair(bits: number): Promise<forge.pki.rsa.KeyPair> {
+    // Defer certificate generation to prevent the UI from freezing
+    return new Promise((resolve, reject) => {
+      forge.pki.rsa.generateKeyPair(
+        {bits: bits, workers: -1},
+        (err, keyPair) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(keyPair);
+          }
+        },
+      );
+    });
   }
 
   /**
