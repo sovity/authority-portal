@@ -74,7 +74,8 @@
           <mat-checkbox
             class="self-start gap-2"
             [formControl]="form.connectorTab.controls.useJwks">
-            Enable JWKS Support</mat-checkbox
+            Use the Connector's JWKS URL to retrieve the connector
+            certificate</mat-checkbox
           >
 
           <app-connector-url-input
@@ -110,7 +111,7 @@
             *ngIf="form.connectorTab.controls.useJwks.value"
             class="btn-accent"
             [disabledBtn]="!form.connectorTab.valid"
-            (click)="registerConnector(true)">
+            (click)="registerConnector('jwks')">
             Provide Connector
           </button>
         </div>
@@ -150,7 +151,7 @@
             !form.connectorTab.valid ||
             !form.certificateTab.valid
           "
-          (click)="registerConnector(false)">
+          (click)="registerConnector('certificate')">
           {{ createActionName }}
         </button>
       </div>

@@ -13,7 +13,7 @@
 
 package de.sovity.authorityportal.web.model
 
-data class ConnectorCreationData(
+data class CreateConnectorParams(
     val name: String,
     val location: String,
     val frontendUrl: String,
