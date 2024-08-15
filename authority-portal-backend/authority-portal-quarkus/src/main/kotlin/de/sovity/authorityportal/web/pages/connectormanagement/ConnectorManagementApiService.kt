@@ -282,11 +282,7 @@ class ConnectorManagementApiService(
     }
 
     private fun removeUrlTrailingSlash(url: String): String {
-        return if (url.endsWith("/")) {
-            url.dropLast(1).trim()
-        } else {
-            url.trim()
-        }
+        return url.trim().removeSuffix("/")
     }
 
     fun deleteOwnOrProvidedConnector(
