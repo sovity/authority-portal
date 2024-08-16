@@ -23,6 +23,7 @@ import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
+import de.sovity.authorityportal.api.model.ReserveConnectorRequest
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
@@ -189,11 +190,14 @@ class ConnectorManagementApiService(
     fun reserveProvidedConnector(
         providerOrganizationId: String,
         userId: String,
-        deploymentEnvId: String
+        deploymentEnvId: String,
+        connector: ReserveConnectorRequest
     ): IdResponse {
-        val connectorData = ConnectorCreationData(
-            name = "Reserved Connector",
-            location = "n/a",
+        deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
+
+        val connectorParams = CreateConnectorParams(
+            name = connector.name,
+            location = connector.location,
             frontendUrl = null,
             endpointUrl = null,
             managementUrl = null,
@@ -201,7 +205,18 @@ class ConnectorManagementApiService(
             jwksUrl = null
         )
 
-        return connectorService.reserveConnector()
+        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(providerOrganizationId)
+        val clientId = clientIdUtils.generateFromConnectorId(connectorId)
+
+        return connectorService.reserveProvidedConnector(
+            connectorId = connectorId,
+            clientId = clientId,
+            organizationId = connector.customerOrganizationId,
+            providerOrganizationId = providerOrganizationId,
+            creationParams = connectorParams,
+            environment = deploymentEnvId,
+            createdBy = userId
+        )
     }
 
     fun createProvidedConnectorWithCertificate(

@@ -140,7 +140,6 @@ class ScenarioData {
             it.location = "Location"
             it.frontendUrl = "https://connector"
             it.createdBy = dummyDevUserUuid(createdByUserId)
-            it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.REGISTERED
             it.managementUrl = "https://connector/management"
             it.endpointUrl = "https://connector/dsp"
             it.jwksUrl = "https://jwks"

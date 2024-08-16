@@ -127,7 +127,6 @@ class CaasManagementApiServiceTest {
             it.managementUrl = null
             it.createdBy = dummyDevUserUuid(0)
             it.createdAt = now
-            it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
             it.jwksUrl = null
             it.caasStatus = CaasStatus.PROVISIONING
             it.lastRefreshAttemptAt = null

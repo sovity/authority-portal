@@ -16,7 +16,6 @@ package de.sovity.authorityportal.web.services
 import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
-import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
@@ -166,12 +165,29 @@ class ConnectorService(
         return getCaasCountByOrganizationIdAndEnvironment(organizationId, environmentId) < limit
     }
 
-    fun reserveConnector(
+    fun reserveProvidedConnector(
         connectorId: String,
+        clientId: String,
+        organizationId: String,
         providerOrganizationId: String,
-        environment: String
+        creationParams: CreateConnectorParams,
+        environment: String,
+        createdBy: String
     ): IdResponse {
-        return IdResponse("")
+        dsl.newRecord(Tables.CONNECTOR).also {
+            it.connectorId = connectorId
+            it.clientId = clientId
+            it.organizationId = organizationId
+            it.providerOrganizationId = providerOrganizationId
+            it.name = creationParams.name
+            it.createdBy = createdBy
+            it.createdAt = timeUtils.now()
+            it.environment = environment
+            it.type = ConnectorType.AWAITING_PROVISIONING
+            it.location = creationParams.location
+            it.insert()
+        }
+        return IdResponse(connectorId)
     }
 
     fun createOwnConnector(
@@ -273,7 +289,6 @@ class ConnectorService(
             it.jwksUrl = createConnectorParams.jwksUrl
             it.createdBy = createdBy
             it.createdAt = timeUtils.now()
-            it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
 
             it.insert()
         }
