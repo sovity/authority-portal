@@ -13,7 +13,6 @@
 
 package de.sovity.authorityportal.web.services
 
-import de.sovity.authorityportal.api.model.IdResponse
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
@@ -94,6 +93,13 @@ class ConnectorService(
             .fetchOneInto(ConnectorDetailRs::class.java)
     }
 
+    fun getConnectorByIdOrThrow(connectorId: String): ConnectorRecord {
+        val c = Tables.CONNECTOR
+        return dsl.selectFrom(c)
+            .where(c.CONNECTOR_ID.eq(connectorId))
+            .fetchOne() ?: error("Connector with id $connectorId not found")
+    }
+
     fun updateConnectorsCreator(newCreatedBy: String, oldCreatedBy: String) {
         val c = Tables.CONNECTOR
         dsl.update(c)
@@ -170,24 +176,24 @@ class ConnectorService(
         clientId: String,
         organizationId: String,
         providerOrganizationId: String,
-        creationParams: CreateConnectorParams,
+        name: String,
+        location: String,
         environment: String,
         createdBy: String
-    ): IdResponse {
+    ) {
         dsl.newRecord(Tables.CONNECTOR).also {
             it.connectorId = connectorId
             it.clientId = clientId
             it.organizationId = organizationId
             it.providerOrganizationId = providerOrganizationId
-            it.name = creationParams.name
+            it.name = name
             it.createdBy = createdBy
             it.createdAt = timeUtils.now()
             it.environment = environment
             it.type = ConnectorType.CONFIGURING
-            it.location = creationParams.location
+            it.location = location
             it.insert()
         }
-        return IdResponse(connectorId)
     }
 
     fun createOwnConnector(
@@ -203,27 +209,6 @@ class ConnectorService(
             organizationId = organizationId,
             providerOrganizationId = organizationId,
             type = ConnectorType.OWN,
-            environment = environment,
-            clientId = clientId,
-            createConnectorParams = createConnectorParams,
-            createdBy = createdBy
-        )
-    }
-
-    fun createProvidedConnector(
-        connectorId: String,
-        organizationId: String,
-        providerOrganizationId: String,
-        environment: String,
-        clientId: String,
-        createConnectorParams: CreateConnectorParams,
-        createdBy: String
-    ) {
-        createConnector(
-            connectorId = connectorId,
-            organizationId = organizationId,
-            providerOrganizationId = providerOrganizationId,
-            type = ConnectorType.PROVIDED,
             environment = environment,
             clientId = clientId,
             createConnectorParams = createConnectorParams,

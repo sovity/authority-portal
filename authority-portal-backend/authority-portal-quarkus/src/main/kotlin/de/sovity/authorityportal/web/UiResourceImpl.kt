@@ -18,11 +18,12 @@ import de.sovity.authorityportal.api.model.CaasAvailabilityResponse
 import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
 import de.sovity.authorityportal.api.model.CentralComponentDto
 import de.sovity.authorityportal.api.model.ComponentStatusOverview
+import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithCertificateRequest
 import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
-import de.sovity.authorityportal.api.model.CreateConnectorWithJwksRequest
+import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithJwksRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
@@ -66,7 +67,6 @@ import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiS
 import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
-import java.time.OffsetDateTime
 
 @PermitAll // auth checks will be in code in this unit
 @ApplicationScoped
@@ -377,32 +377,34 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun createProvidedConnector(
+    override fun configureProvidedConnectorWithCertificate(
         organizationId: String,
+        connectorId: String,
         environmentId: String,
-        connector: CreateConnectorRequest
+        connector: ConfigureProvidedConnectorWithCertificateRequest
     ): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.createProvidedConnectorWithCertificate(
+        return connectorManagementApiService.configureProvidedConnectorWithCertificate(
             connector,
-            organizationId,
+            connectorId,
             loggedInUser.organizationId!!,
             loggedInUser.userId,
             environmentId
         )
     }
 
-    override fun createProvidedConnectorWithJwks(
+    override fun configureProvidedConnectorWithJwks(
         organizationId: String,
+        connectorId: String,
         environmentId: String,
-        connector: CreateConnectorWithJwksRequest
+        connector: ConfigureProvidedConnectorWithJwksRequest
     ): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.createProvidedConnectorWithJwks(
+        return connectorManagementApiService.configureProvidedConnectorWithJwks(
             connector,
-            organizationId,
+            connectorId,
             loggedInUser.organizationId!!,
             loggedInUser.userId,
             environmentId

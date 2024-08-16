@@ -16,11 +16,12 @@ import de.sovity.authorityportal.api.model.CaasAvailabilityResponse
 import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
 import de.sovity.authorityportal.api.model.CentralComponentDto
 import de.sovity.authorityportal.api.model.ComponentStatusOverview
+import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithCertificateRequest
 import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
-import de.sovity.authorityportal.api.model.CreateConnectorWithJwksRequest
+import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithJwksRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
@@ -329,36 +330,38 @@ interface UiResource {
     @Operation(description = "Unregister a self-hosted connector.")
     fun deleteOwnConnector(@PathParam("connectorId") connectorId: String): IdResponse
 
-    @POST
-    @Path("/organizations/{organizationId}/connectors/create-service-provided")
+    @PUT
+    @Path("/organizations/{organizationId}/connectors/{connectorId}/configure-service-provided")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Register a connector for another organization as a service provider.")
-    fun createProvidedConnector(
+    @Operation(description = "Configure a connector for another organization as a service provider.")
+    fun configureProvidedConnectorWithCertificate(
         @PathParam("organizationId") organizationId: String,
+        @PathParam("connectorId") connectorId: String,
 
         @QueryParam("environmentId")
         @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         environmentId: String,
 
         @Valid @NotNull(message = "Connector cannot be null")
-        connector: CreateConnectorRequest
+        connector: ConfigureProvidedConnectorWithCertificateRequest
     ): CreateConnectorResponse
 
-    @POST
-    @Path("/organizations/{organizationId}/connectors/create-service-provided/with-jwks")
+    @PUT
+    @Path("/organizations/{organizationId}/connectors/{connectorId}/configure-service-provided/with-jwks")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Register a connector for another organization as a service provider with JWKS URL instead of a certificate.")
-    fun createProvidedConnectorWithJwks(
+    @Operation(description = "Configure a connector for another organization as a service provider with JWKS URL instead of a certificate.")
+    fun configureProvidedConnectorWithJwks(
         @PathParam("organizationId") organizationId: String,
+        @PathParam("connectorId") connectorId: String,
 
         @QueryParam("environmentId")
         @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         environmentId: String,
 
         @Valid @NotNull(message = "Connector cannot be null")
-        connector: CreateConnectorWithJwksRequest
+        connector: ConfigureProvidedConnectorWithJwksRequest
     ): CreateConnectorResponse
 
     @POST

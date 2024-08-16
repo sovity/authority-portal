@@ -13,11 +13,12 @@
 
 package de.sovity.authorityportal.web.pages.connectormanagement
 
+import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithCertificateRequest
 import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
-import de.sovity.authorityportal.api.model.CreateConnectorWithJwksRequest
+import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithJwksRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
@@ -30,6 +31,7 @@ import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentDtoService
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentService
 import de.sovity.authorityportal.web.model.CreateConnectorParams
+import de.sovity.authorityportal.web.model.UpdateProvidedConnectorParams
 import de.sovity.authorityportal.web.services.ConnectorService
 import de.sovity.authorityportal.web.services.OrganizationService
 import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
@@ -37,6 +39,7 @@ import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import de.sovity.authorityportal.web.utils.TimeUtils
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
 import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtils
+import de.sovity.authorityportal.web.utils.unauthorized
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import java.net.MalformedURLException
@@ -163,7 +166,7 @@ class ConnectorManagementApiService(
             jwksUrl = null
         )
 
-        validateUrlConfiguration(createConnectorParams)?.let { return it }
+        validateUrlConfiguration(createConnectorParams.frontendUrl, createConnectorParams.endpointUrl, createConnectorParams.managementUrl)?.let { return it }
 
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(organizationId)
         val clientId = clientIdUtils.generateFromCertificate(createConnectorParams.certificate!!)
@@ -181,7 +184,14 @@ class ConnectorManagementApiService(
             createConnectorParams = createConnectorParams,
             createdBy = userId
         )
-        registerConnectorAtDaps(clientId, connectorId, createConnectorParams, deploymentEnvId)
+
+        registerConnectorAtDaps(
+            clientId = clientId,
+            connectorId = connectorId,
+            certificate = createConnectorParams.certificate,
+            jwksUrl = createConnectorParams.jwksUrl,
+            deploymentEnvId = deploymentEnvId
+        )
 
         Log.info("Connector for own organization registered. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
         return CreateConnectorResponse.ok(connectorId, clientId, timeUtils.now())
@@ -195,25 +205,21 @@ class ConnectorManagementApiService(
     ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
-        val connectorParams = CreateConnectorParams(
-            name = connector.name,
-            location = connector.location,
-            frontendUrl = null,
-            endpointUrl = null,
-            managementUrl = null,
-            certificate = null,
-            jwksUrl = null
-        )
-
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(connector.customerOrganizationId)
         val clientId = clientIdUtils.generateFromConnectorId(connectorId)
+
+        if (clientIdUtils.exists(clientId)) {
+            Log.error("Connector with this client ID already exists. connectorId=$connectorId, userId=$userId, clientId=$clientId.")
+            return CreateConnectorResponse.error("Connector with this client ID already exists.", timeUtils.now())
+        }
 
         connectorService.reserveProvidedConnector(
             connectorId = connectorId,
             clientId = clientId,
             organizationId = connector.customerOrganizationId,
             providerOrganizationId = providerOrganizationId,
-            creationParams = connectorParams,
+            name = connector.name,
+            location = connector.location,
             environment = deploymentEnvId,
             createdBy = userId
         )
@@ -221,82 +227,85 @@ class ConnectorManagementApiService(
         return CreateConnectorResponse.ok(connectorId, clientId, timeUtils.now())
     }
 
-    fun createProvidedConnectorWithCertificate(
-        connector: CreateConnectorRequest,
-        customerOrganizationId: String,
+    fun configureProvidedConnectorWithCertificate(
+        connector: ConfigureProvidedConnectorWithCertificateRequest,
+        connectorId: String,
         providerOrganizationId: String,
         userId: String,
         deploymentEnvId: String
     ): CreateConnectorResponse {
-        val connectorData = CreateConnectorParams(
-            name = connector.name,
-            location = connector.location,
+        val connectorData = UpdateProvidedConnectorParams(
             frontendUrl = removeUrlTrailingSlash(connector.frontendUrl),
             endpointUrl = removeUrlTrailingSlash(connector.endpointUrl),
             managementUrl = removeUrlTrailingSlash(connector.managementUrl),
             certificate = connector.certificate,
             jwksUrl = null
         )
-        return createProvidedConnector(connectorData, customerOrganizationId, providerOrganizationId, userId, deploymentEnvId)
+        return finalizeProvidedConnectorConfig(connectorData, connectorId, providerOrganizationId, userId, deploymentEnvId)
     }
 
-    fun createProvidedConnectorWithJwks(
-        connector: CreateConnectorWithJwksRequest,
-        customerOrganizationId: String,
+    fun configureProvidedConnectorWithJwks(
+        connector: ConfigureProvidedConnectorWithJwksRequest,
+        connectorId: String,
         providerOrganizationId: String,
         userId: String,
         deploymentEnvId: String
     ): CreateConnectorResponse {
-        val connectorData = CreateConnectorParams(
-            name = connector.name,
-            location = connector.location,
+        val connectorData = UpdateProvidedConnectorParams(
             frontendUrl = removeUrlTrailingSlash(connector.frontendUrl),
             endpointUrl = removeUrlTrailingSlash(connector.endpointUrl),
             managementUrl = removeUrlTrailingSlash(connector.managementUrl),
             certificate = null,
             jwksUrl = connector.jwksUrl
         )
-        return createProvidedConnector(connectorData, customerOrganizationId, providerOrganizationId, userId, deploymentEnvId)
+        return finalizeProvidedConnectorConfig(connectorData, connectorId, providerOrganizationId, userId, deploymentEnvId)
     }
 
-    private fun createProvidedConnector(
-        connector: CreateConnectorParams,
-        customerOrganizationId: String,
+    private fun finalizeProvidedConnectorConfig(
+        connectorParams: UpdateProvidedConnectorParams,
+        connectorId: String,
         providerOrganizationId: String,
         userId: String,
         deploymentEnvId: String = "test"
     ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
-        if (!isValidUrlConfiguration(connector.frontendUrl, connector.endpointUrl, connector.managementUrl)) {
-            Log.error("Connector URL is not valid. url=${connector.frontendUrl}, userId=$userId, customerOrganizationId=$customerOrganizationId.")
-            return CreateConnectorResponse.error("Connector URL is not valid.", timeUtils.now())
+        val existingConnector = connectorService.getConnectorByIdOrThrow(connectorId)
+
+        assertProvidedConnectorConfigurable(existingConnector, providerOrganizationId)
+        validateUrlConfiguration(connectorParams.frontendUrl, connectorParams.endpointUrl, connectorParams.managementUrl)?.let { return it }
+
+        existingConnector.apply {
+            frontendUrl = connectorParams.frontendUrl
+            endpointUrl = connectorParams.endpointUrl
+            managementUrl = connectorParams.managementUrl
+            jwksUrl = connectorParams.jwksUrl
+            type = ConnectorType.PROVIDED
+            update()
         }
 
-        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(customerOrganizationId)
-        val clientId = when (connector.certificate) {
-            null -> clientIdUtils.generateFromConnectorId(connectorId)
-            else -> clientIdUtils.generateFromCertificate(connector.certificate)
-        }
-
-        if (clientIdUtils.exists(clientId)) {
-            Log.error("Connector with this client ID already exists. connectorId=$connectorId, customerOrganizationId=$customerOrganizationId, userId=$userId, clientId=$clientId.")
-            return CreateConnectorResponse.error("Connector with this client ID already exists.", timeUtils.now())
-        }
-
-        connectorService.createProvidedConnector(
+        registerConnectorAtDaps(
+            clientId = existingConnector.clientId,
             connectorId = connectorId,
-            organizationId = customerOrganizationId,
-            providerOrganizationId = providerOrganizationId,
-            environment = deploymentEnvId,
-            clientId = clientId,
-            createConnectorParams = connector,
-            createdBy = userId
+            certificate = connectorParams.certificate,
+            jwksUrl = connectorParams.jwksUrl,
+            deploymentEnvId = deploymentEnvId
         )
-        registerConnectorAtDaps(clientId, connectorId, connector, deploymentEnvId)
 
-        Log.info("Connector for foreign organization registered. connectorId=$connectorId, customerOrganizationId=$customerOrganizationId, userId=$userId.")
-        return CreateConnectorResponse.ok(connectorId, clientId, timeUtils.now())
+        Log.info("Connector for foreign organization configured and registered in DAPS. connectorId=$connectorId, customerOrganizationId=${existingConnector.organizationId}, userId=$userId.")
+        return CreateConnectorResponse.ok(connectorId, existingConnector.clientId, timeUtils.now())
+    }
+
+    private fun assertProvidedConnectorConfigurable(connector: ConnectorRecord, userOrganizationId: String) {
+        if (connector.providerOrganizationId != userOrganizationId) {
+            Log.error("User is not allowed to configure this connector. connectorId=${connector.connectorId}, userOrganizationId=$userOrganizationId.")
+            unauthorized("User is not allowed to configure this connector.")
+        }
+
+        if (connector.type != ConnectorType.CONFIGURING) {
+            Log.error("Connector is not in configuring state. connectorId=${connector.connectorId}.")
+            unauthorized("Connector is not in configuring state.")
+        }
     }
 
     private fun isValidUrlConfiguration(
@@ -367,17 +376,18 @@ class ConnectorManagementApiService(
     private fun registerConnectorAtDaps(
         clientId: String,
         connectorId: String,
-        connector: CreateConnectorParams,
+        certificate: String?,
+        jwksUrl: String?,
         deploymentEnvId: String
     ) {
         val dapsClient = dapsClientService.forEnvironment(deploymentEnvId)
         dapsClient.createClient(clientId)
 
-        if (!connector.certificate.isNullOrEmpty()) {
-            dapsClient.addCertificate(clientId, connector.certificate)
-            dapsClient.configureMappers(clientId, connectorId, connector.certificate)
-        } else if (!connector.jwksUrl.isNullOrEmpty()) {
-            dapsClient.addJwksUrl(clientId, connector.jwksUrl)
+        if (!certificate.isNullOrEmpty()) {
+            dapsClient.addCertificate(clientId, certificate)
+            dapsClient.configureMappers(clientId, connectorId, certificate)
+        } else if (!jwksUrl.isNullOrEmpty()) {
+            dapsClient.addJwksUrl(clientId, jwksUrl)
             dapsClient.configureMappers(clientId, connectorId)
         } else {
             error("Either certificate or JWKS URL must be provided, connectorId=$connectorId, clientId=$clientId.")
@@ -398,10 +408,10 @@ class ConnectorManagementApiService(
             filterDeadConnectorStatus(it.onlineStatus).toDto()
         }
 
-    private fun validateUrlConfiguration(connectorData: CreateConnectorParams): CreateConnectorResponse? {
-        if (isValidUrlConfiguration(connectorData.frontendUrl, connectorData.endpointUrl, connectorData.managementUrl)) return null
+    private fun validateUrlConfiguration(frontendUrl: String?, endpointUrl: String?, managementUrl: String?): CreateConnectorResponse? {
+        if (isValidUrlConfiguration(frontendUrl, endpointUrl, managementUrl)) return null
         else {
-            Log.error("Connector URL is not valid. frontendUrl=${connectorData.frontendUrl}, endpointUrl=${connectorData.endpointUrl}, managementUrl=${connectorData.managementUrl}.")
+            Log.error("Connector URL is not valid. frontendUrl=${frontendUrl}, endpointUrl=${endpointUrl}, managementUrl=${managementUrl}.")
             return CreateConnectorResponse.error("Connector URL is not valid.", timeUtils.now())
         }
     }

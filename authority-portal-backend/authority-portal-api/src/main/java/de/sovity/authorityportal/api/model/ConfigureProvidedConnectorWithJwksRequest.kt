@@ -16,16 +16,8 @@ package de.sovity.authorityportal.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 
-@Schema(description = "Connector object for connector registration.")
-data class CreateConnectorWithJwksRequest(
-    @field:NotBlank(message = "Name cannot be blank")
-    @field:Schema(description = "Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    val name: String,
-
-    @field:NotBlank(message = "Location cannot be blank")
-    @field:Schema(description = "Location", requiredMode = Schema.RequiredMode.REQUIRED)
-    val location: String,
-
+@Schema(description = "DTO for configuring SP Connectors")
+data class ConfigureProvidedConnectorWithJwksRequest(
     @field:NotBlank(message = "URL of the connector frontend cannot be blank")
     @field:Schema(description = "URL of the connector frontend", requiredMode = Schema.RequiredMode.REQUIRED)
     var frontendUrl: String,
