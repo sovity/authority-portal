@@ -17,6 +17,7 @@ import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
   ConnectorOverviewEntryDto,
+  ConnectorTypeDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
@@ -185,4 +186,5 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
   }
 
   protected readonly getConnectorsTypeText = getConnectorsTypeText;
+  protected readonly ConnectorTypeDto = ConnectorTypeDto;
 }

@@ -71,10 +71,24 @@
                     </td>
                     <td class="py-8 text-sm whitespace-nowrap">
                       <div
+                        *ngIf="
+                          connector.type !==
+                          ConnectorTypeDto.AwaitingProvisioning
+                        "
                         class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2"
                         [ngClass]="getConnectorsTypeClasses(connector.type)">
                         {{ getConnectorsTypeText(connector.type) }}
                       </div>
+                      <button
+                        *ngIf="
+                          connector.type ===
+                          ConnectorTypeDto.AwaitingProvisioning
+                        "
+                        class="btn-accent"
+                        type="button"
+                        (click)="(null)">
+                        Configure
+                      </button>
                     </td>
                     <td class="py-8 text-sm whitespace-nowrap text-gray-700">
                       {{ connector.environment.title }}
