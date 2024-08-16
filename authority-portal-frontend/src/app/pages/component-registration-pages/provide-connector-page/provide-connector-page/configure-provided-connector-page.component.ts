@@ -28,20 +28,22 @@ import {
   GetOrganizations,
   Reset,
   Submit,
-} from '../state/provide-connector-page-actions';
+} from '../state/configure-provided-connector-page-actions';
 import {
+  ConfigureProvidedConnectorPageState,
   DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE,
-  ProvideConnectorPageState,
-} from '../state/provide-connector-page-state';
-import {ProvideConnectorPageStateImpl} from '../state/provide-connector-page-state-impl';
-import {ProvideConnectorPageForm} from './provide-connector-page-form';
+} from '../state/configure-provided-connector-page-state';
+import {ConfigureProvidedConnectorPageStateImpl} from '../state/configure-provided-connector-page-state-impl';
+import {ConfigureProvidedConnectorPageForm} from './configure-provided-connector-page-form.service';
 
 @Component({
   selector: 'app-provide-connector-page',
-  templateUrl: './provide-connector-page.component.html',
-  providers: [ProvideConnectorPageForm],
+  templateUrl: './configure-provided-connector-page.component.html',
+  providers: [ConfigureProvidedConnectorPageForm],
 })
-export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
+export class ConfigureProvidedConnectorPageComponent
+  implements OnInit, OnDestroy
+{
   @HostBinding('class.overflow-y-auto')
   cls = true;
   state = DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE;
@@ -57,7 +59,7 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private store: Store,
-    public form: ProvideConnectorPageForm,
+    public form: ConfigureProvidedConnectorPageForm,
     private globalStateUtils: GlobalStateUtils,
   ) {}
 
@@ -78,7 +80,9 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
 
   private startListeningToState() {
     this.store
-      .select<ProvideConnectorPageState>(ProvideConnectorPageStateImpl)
+      .select<ConfigureProvidedConnectorPageState>(
+        ConfigureProvidedConnectorPageStateImpl,
+      )
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;

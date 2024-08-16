@@ -17,19 +17,19 @@ import {connectorUrlValidator} from 'src/app/core/utils/validators/connector-url
 import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {buildCertificateInputForm} from '../../../../shared/form-elements/certificate-input-form/certificate-input-form-builder';
 import {certificateInputFormEnabledCtrls} from '../../../../shared/form-elements/certificate-input-form/certificate-input-form-enabled-ctrls';
-import {provideConnectorPageFormEnabledCtrls} from './provide-connector-page-form-enabled-ctrls';
+import {configureProvideConnectorPageFormEnabledCtrls} from './configure-provide-connector-page-form-enabled-ctrls';
 import {
   CertificateTabFormModel,
   CertificateTabFormValue,
+  ConfigureProvidedConnectorPageFormModel,
+  ConfigureProvidedConnectorPageFormValue,
   ConnectorTabFormModel,
   ConnectorTabFormValue,
   DEFAULT_PROVIDE_CONNECTOR_PAGE_FORM_VALUE,
-  ProvideConnectorPageFormModel,
-  ProvideConnectorPageFormValue,
-} from './provide-connector-page-form-model';
+} from './configure-provided-connector-page-form-model';
 
 @Injectable()
-export class ProvideConnectorPageForm {
+export class ConfigureProvidedConnectorPageForm {
   group = this.buildFormGroup();
 
   get connectorTab(): FormGroup<ConnectorTabFormModel> {
@@ -40,13 +40,13 @@ export class ProvideConnectorPageForm {
     return this.group.controls.certificateTab;
   }
 
-  get value(): ProvideConnectorPageFormValue {
-    return this.group.value as ProvideConnectorPageFormValue;
+  get value(): ConfigureProvidedConnectorPageFormValue {
+    return this.group.value as ConfigureProvidedConnectorPageFormValue;
   }
 
   constructor(private formBuilder: FormBuilder) {}
 
-  buildFormGroup(): FormGroup<ProvideConnectorPageFormModel> {
+  buildFormGroup(): FormGroup<ConfigureProvidedConnectorPageFormModel> {
     const initial = DEFAULT_PROVIDE_CONNECTOR_PAGE_FORM_VALUE;
 
     const connectorTab = this.formBuilder.nonNullable.group({
@@ -111,7 +111,7 @@ export class ProvideConnectorPageForm {
     );
 
     switchDisabledControls<ConnectorTabFormValue>(connectorTab, (value) =>
-      provideConnectorPageFormEnabledCtrls(value),
+      configureProvideConnectorPageFormEnabledCtrls(value),
     );
 
     return this.formBuilder.nonNullable.group({

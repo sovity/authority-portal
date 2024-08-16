@@ -108,7 +108,7 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
           label: 'Provide Connector',
           action: () =>
             this.router.navigate([
-              'service-partner/provided-connectors/reserve-connector',
+              'service-partner/provided-connectors/provide-connector',
             ]),
           permissions: [UserRoleDto.ServicePartnerAdmin],
         },

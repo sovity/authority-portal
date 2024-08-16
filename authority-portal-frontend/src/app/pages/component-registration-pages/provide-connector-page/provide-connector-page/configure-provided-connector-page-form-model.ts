@@ -45,14 +45,14 @@ export type CertificateTabFormValue =
 export const DEFAULT_CERTIFICATE_TAB_FORM_VALUE: CertificateTabFormValue =
   DEFAULT_CERTIFICATE_FORM_VALUE;
 
-export interface ProvideConnectorPageFormModel {
+export interface ConfigureProvidedConnectorPageFormModel {
   connectorTab: FormGroup<ConnectorTabFormModel>;
   certificateTab: FormGroup<CertificateTabFormModel>;
 }
-export const DEFAULT_PROVIDE_CONNECTOR_PAGE_FORM_VALUE: ProvideConnectorPageFormValue =
+export const DEFAULT_PROVIDE_CONNECTOR_PAGE_FORM_VALUE: ConfigureProvidedConnectorPageFormValue =
   {
     connectorTab: DEFAULT_CONNECTOR_TAB_FORM_VALUE,
     certificateTab: DEFAULT_CERTIFICATE_TAB_FORM_VALUE,
   };
-export type ProvideConnectorPageFormValue =
-  ɵFormGroupRawValue<ProvideConnectorPageFormModel>;
+export type ConfigureProvidedConnectorPageFormValue =
+  ɵFormGroupRawValue<ConfigureProvidedConnectorPageFormModel>;

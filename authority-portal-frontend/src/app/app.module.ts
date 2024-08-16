@@ -34,7 +34,7 @@ import {CatalogPageModule} from './pages/catalog-page/catalog-page.module';
 import {CentralComponentListPageModule} from './pages/central-component-list-page/central-component-list-page.module';
 import {ChooseParticipantCaasModule} from './pages/choose-participant-caas/choose-participant-caas.module';
 import {ChooseParticipantConnectorModule} from './pages/choose-participant-connector/choose-participant-connector.module';
-import {ProvideConnectorPageModule} from './pages/component-registration-pages/provide-connector-page/provide-connector-page.module';
+import {ConfigureProvidedConnectorPageModule} from './pages/component-registration-pages/provide-connector-page/configure-provided-connector-page.module';
 import {RegisterCentralComponentPageModule} from './pages/component-registration-pages/register-central-component-page/register-central-component-page.module';
 import {RegisterConnectorPageModule} from './pages/component-registration-pages/register-connector-page/register-connector-page.module';
 import {RequestConnectorPageModule} from './pages/component-registration-pages/request-connector-page/request-connector-page.module';
@@ -115,7 +115,7 @@ import {SharedModule} from './shared/shared.module';
     PageNotFoundPageModule,
     ParticipantOwnConnectorDetailPageModule,
     ParticipantOwnConnectorListPageModule,
-    ProvideConnectorPageModule,
+    ConfigureProvidedConnectorPageModule,
     RegisterCentralComponentPageModule,
     RegisterConnectorPageModule,
     RequestConnectorPageModule,

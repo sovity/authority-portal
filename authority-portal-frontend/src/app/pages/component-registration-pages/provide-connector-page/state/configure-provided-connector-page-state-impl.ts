@@ -26,23 +26,23 @@ import {ErrorService} from 'src/app/core/services/error.service';
 import {buildConnectorConfig} from 'src/app/core/utils/connector-config-utils';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
-import {ProvideConnectorPageFormValue} from '../provide-connector-page/provide-connector-page-form-model';
+import {ConfigureProvidedConnectorPageFormValue} from '../provide-connector-page/configure-provided-connector-page-form-model';
 import {
   GetOrganizations,
   Reset,
   Submit,
-} from './provide-connector-page-actions';
+} from './configure-provided-connector-page-actions';
 import {
+  ConfigureProvidedConnectorPageState,
   DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE,
-  ProvideConnectorPageState,
-} from './provide-connector-page-state';
+} from './configure-provided-connector-page-state';
 
-@State<ProvideConnectorPageState>({
+@State<ConfigureProvidedConnectorPageState>({
   name: 'ProvideConnectorPage',
   defaults: DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE,
 })
 @Injectable()
-export class ProvideConnectorPageStateImpl {
+export class ConfigureProvidedConnectorPageStateImpl {
   constructor(
     private apiService: ApiService,
     private actions$: Actions,
@@ -52,13 +52,13 @@ export class ProvideConnectorPageStateImpl {
   ) {}
 
   @Action(Reset)
-  onReset(ctx: StateContext<ProvideConnectorPageState>): void {
+  onReset(ctx: StateContext<ConfigureProvidedConnectorPageState>): void {
     ctx.setState(DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE);
   }
 
   @Action(Submit, {cancelUncompleted: true})
   onSubmit(
-    ctx: StateContext<ProvideConnectorPageState>,
+    ctx: StateContext<ConfigureProvidedConnectorPageState>,
     action: Submit,
   ): Observable<never> {
     ctx.patchState({state: 'submitting'});
@@ -127,7 +127,7 @@ export class ProvideConnectorPageStateImpl {
 
   @Action(GetOrganizations, {cancelUncompleted: true})
   onRefreshOrganizations(
-    ctx: StateContext<ProvideConnectorPageState>,
+    ctx: StateContext<ConfigureProvidedConnectorPageState>,
   ): Observable<never> {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
@@ -143,14 +143,14 @@ export class ProvideConnectorPageStateImpl {
   }
 
   private organizationsRefreshed(
-    ctx: StateContext<ProvideConnectorPageState>,
+    ctx: StateContext<ConfigureProvidedConnectorPageState>,
     newOrganizations: Fetched<OrganizationOverviewEntryDto[]>,
   ) {
     ctx.patchState({organizationList: newOrganizations});
   }
 
   private buildCreateConnectorWithJwksRequest(
-    formValue: ProvideConnectorPageFormValue,
+    formValue: ConfigureProvidedConnectorPageFormValue,
   ): CreateConnectorWithJwksRequest {
     return {
       name: formValue.connectorTab.name,
@@ -163,7 +163,7 @@ export class ProvideConnectorPageStateImpl {
   }
 
   private buildCreateConnectorRequest(
-    formValue: ProvideConnectorPageFormValue,
+    formValue: ConfigureProvidedConnectorPageFormValue,
   ): CreateConnectorRequest {
     return {
       name: formValue.connectorTab.name,
