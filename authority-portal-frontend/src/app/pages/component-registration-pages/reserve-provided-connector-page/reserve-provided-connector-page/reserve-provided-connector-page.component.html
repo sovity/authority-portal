@@ -1,0 +1,49 @@
+<div class="flex justify-center items-center">
+  <div class="mt-4 w-full lg:w-2/3">
+    <form class="flex flex-col w-full justify-center">
+      <div
+        class="select-none flex flex-col justify-center items-center my-10 w-2/3 mx-auto">
+        <app-organization-select
+          class="w-full"
+          label="Client Organization"
+          [ctrl]="form.connectorInfo.controls.organization"
+          [organizations]="state.organizationList"></app-organization-select>
+
+        <!-- Connector's Name -->
+        <app-text-input
+          class="w-full"
+          label="Connector's Name"
+          ctrlId="formRegOConName"
+          placeholder="My Connector"
+          required
+          [ctrl]="form.connectorInfo.controls.name"></app-text-input>
+
+        <!-- Connector's Location -->
+        <app-text-input
+          class="w-full"
+          label="Connector's Location"
+          ctrlId="formRegOConLocation"
+          placeholder="DE"
+          required
+          [ctrl]="form.connectorInfo.controls.location"></app-text-input>
+      </div>
+
+      <div
+        class="border-t border-gray-900/10 pt-6 mt-6 flex items-center justify-end gap-x-6">
+        <button
+          class="btn-accent-outline"
+          type="button"
+          [routerLink]="exitLink">
+          Cancel
+        </button>
+
+        <button
+          class="btn-accent"
+          [disabledBtn]="!form.connectorInfo.valid"
+          (click)="reserveConnector()">
+          Create Connector
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

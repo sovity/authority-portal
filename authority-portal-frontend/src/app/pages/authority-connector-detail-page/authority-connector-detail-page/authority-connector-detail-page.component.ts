@@ -24,6 +24,7 @@ import {ClipboardUtils} from 'src/app/core/utils/clipboard-utils';
 import {
   getConnectorStatusText,
   getConnectorsTypeClasses,
+  getConnectorsTypeText,
 } from 'src/app/core/utils/ui-utils';
 import {
   ActionMenu,
@@ -116,7 +117,7 @@ export class AuthorityConnectorDetailPageComponent
     this.titleBarConfig = {
       title: connector.connectorName,
       icon: 'connector-2',
-      status: connector.type,
+      status: getConnectorsTypeText(connector.type),
       statusStyle: this.getConnectorsTypeClasses(connector.type),
       tabs: [],
     };

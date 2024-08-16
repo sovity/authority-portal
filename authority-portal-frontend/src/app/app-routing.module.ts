@@ -24,6 +24,7 @@ import {ProvideConnectorPageComponent} from './pages/component-registration-page
 import {RegisterCentralComponentPageComponent} from './pages/component-registration-pages/register-central-component-page/register-central-component-page/register-central-component-page.component';
 import {RegisterConnectorPageComponent} from './pages/component-registration-pages/register-connector-page/register-connector-page/register-connector-page.component';
 import {RequestConnectorPageComponent} from './pages/component-registration-pages/request-connector-page/request-connector-page/request-connector-page.component';
+import {ReserveProvidedConnectorPageComponent} from './pages/component-registration-pages/reserve-provided-connector-page/reserve-provided-connector-page/reserve-provided-connector-page.component';
 import {ControlCenterPageComponent} from './pages/control-center-page/control-center-page/control-center-page.component';
 import {CONTROL_CENTER_ROUTES} from './pages/control-center-page/control-center-routes';
 import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dashboard-page.component';
@@ -255,6 +256,14 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
       {
         path: 'service-partner/provided-connectors/provide-connector',
         component: ProvideConnectorPageComponent,
+        data: {
+          requiresRole: ['SERVICE_PARTNER_ADMIN'] satisfies UserRoleDto[],
+        },
+        canActivate: [requiresRole],
+      },
+      {
+        path: 'service-partner/provided-connectors/reserve-connector',
+        component: ReserveProvidedConnectorPageComponent,
         data: {
           requiresRole: ['SERVICE_PARTNER_ADMIN'] satisfies UserRoleDto[],
         },

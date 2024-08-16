@@ -29,6 +29,7 @@ import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
+import de.sovity.authorityportal.api.model.ReserveConnectorRequest
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.UpdateUserDto
 import de.sovity.authorityportal.api.model.UserDeletionCheck
@@ -184,15 +185,18 @@ interface UiResource {
         environmentId: String
     ): OrganizationOverviewResult
 
-    @GET
+    @POST
     @Path("/service-partner/reserve-connector")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Creates a reserved connector that can be registered later for another organization.")
     fun reserveProvidedConnector(
         @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         @QueryParam("environmentId")
-        environmentId: String
-    ): IdResponse
+        environmentId: String,
+
+        @Valid @NotNull(message = "Connector reserve request cannot be null")
+        connectorReserveRequest: ReserveConnectorRequest
+    ): CreateConnectorResponse
 
     @GET
     @Path("/authority/connectors/{connectorId}")

@@ -34,6 +34,7 @@ import {
   OwnOrganizationDetailsDto,
   ProvidedConnectorOverviewResult,
   RegistrationRequestDto,
+  ReserveConnectorRequest,
   UiApi,
   UpdateOrganizationDto,
   UpdateUserDto,
@@ -224,6 +225,18 @@ export class ApiService {
   ): Observable<CreateConnectorResponse> {
     return toObservable(() =>
       this.api().createOwnConnector({createConnectorRequest, environmentId}),
+    );
+  }
+
+  reserveProvidedConnector(
+    connector: ReserveConnectorRequest,
+    environmentId: string,
+  ): Observable<CreateConnectorResponse> {
+    return toObservable(() =>
+      this.api().reserveProvidedConnector({
+        reserveConnectorRequest: connector,
+        environmentId,
+      }),
     );
   }
 

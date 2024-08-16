@@ -31,6 +31,7 @@ import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
+import de.sovity.authorityportal.api.model.ReserveConnectorRequest
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.UpdateUserDto
 import de.sovity.authorityportal.api.model.UserDeletionCheck
@@ -65,6 +66,7 @@ import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiS
 import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
+import java.time.OffsetDateTime
 
 @PermitAll // auth checks will be in code in this unit
 @ApplicationScoped
@@ -239,10 +241,16 @@ class UiResourceImpl(
         )
     }
 
-    override fun reserveProvidedConnector(environmentId: String): IdResponse {
+    @Transactional
+    override fun reserveProvidedConnector(environmentId: String, connectorReserveRequest: ReserveConnectorRequest): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        TODO("Not yet implemented")
+        return connectorManagementApiService.reserveProvidedConnector(
+            loggedInUser.organizationId!!,
+            loggedInUser.userId,
+            environmentId,
+            connectorReserveRequest
+        )
     }
 
     @Transactional

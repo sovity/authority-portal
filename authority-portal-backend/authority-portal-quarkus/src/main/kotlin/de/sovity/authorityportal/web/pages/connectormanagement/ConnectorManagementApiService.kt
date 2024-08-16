@@ -192,7 +192,7 @@ class ConnectorManagementApiService(
         userId: String,
         deploymentEnvId: String,
         connector: ReserveConnectorRequest
-    ): IdResponse {
+    ): CreateConnectorResponse {
         deploymentEnvironmentService.assertValidEnvId(deploymentEnvId)
 
         val connectorParams = CreateConnectorParams(
@@ -205,10 +205,10 @@ class ConnectorManagementApiService(
             jwksUrl = null
         )
 
-        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(providerOrganizationId)
+        val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(connector.customerOrganizationId)
         val clientId = clientIdUtils.generateFromConnectorId(connectorId)
 
-        return connectorService.reserveProvidedConnector(
+        connectorService.reserveProvidedConnector(
             connectorId = connectorId,
             clientId = clientId,
             organizationId = connector.customerOrganizationId,
@@ -217,6 +217,8 @@ class ConnectorManagementApiService(
             environment = deploymentEnvId,
             createdBy = userId
         )
+
+        return CreateConnectorResponse.ok(connectorId, clientId, timeUtils.now())
     }
 
     fun createProvidedConnectorWithCertificate(

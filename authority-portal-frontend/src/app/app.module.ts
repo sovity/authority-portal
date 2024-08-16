@@ -38,6 +38,7 @@ import {ProvideConnectorPageModule} from './pages/component-registration-pages/p
 import {RegisterCentralComponentPageModule} from './pages/component-registration-pages/register-central-component-page/register-central-component-page.module';
 import {RegisterConnectorPageModule} from './pages/component-registration-pages/register-connector-page/register-connector-page.module';
 import {RequestConnectorPageModule} from './pages/component-registration-pages/request-connector-page/request-connector-page.module';
+import {ReserveProvidedConnectorPageModule} from './pages/component-registration-pages/reserve-provided-connector-page/reserve-provided-connector-page.module';
 import {ControlCenterOrganizationEditPageModule} from './pages/control-center-organization-edit-page/control-center-organization-edit-page.module';
 import {ControlCenterOrganizationMemberDetailPageModule} from './pages/control-center-organization-member-detail-page/control-center-organization-member-detail-page.module';
 import {ControlCenterOrganizationMembersPageModule} from './pages/control-center-organization-members-page/control-center-organization-members-page.module';
@@ -118,6 +119,7 @@ import {SharedModule} from './shared/shared.module';
     RegisterCentralComponentPageModule,
     RegisterConnectorPageModule,
     RequestConnectorPageModule,
+    ReserveProvidedConnectorPageModule,
     SpConnectorDetailPageModule,
     SpConnectorListPageModule,
     UnauthenticatedPageModule,

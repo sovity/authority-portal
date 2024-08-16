@@ -25,6 +25,7 @@ import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {
   getConnectorStatusText,
   getConnectorsTypeClasses,
+  getConnectorsTypeText,
 } from 'src/app/core/utils/ui-utils';
 import {TitleBarConfig} from 'src/app/shared/common/portal-layout/title-bar/title-bar.model';
 import {ChildComponentInput} from 'src/app/shared/common/slide-over/slide-over.model';
@@ -93,7 +94,7 @@ export class ParticipantOwnConnectorDetailPageComponent
           this.titleBarConfig = {
             title: data.connectorName,
             icon: 'connector-2',
-            status: data.type,
+            status: getConnectorsTypeText(data.type),
             statusStyle: this.getConnectorsTypeClasses(data.type),
             tabs: [],
             actionMenu: hasRole

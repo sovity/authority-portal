@@ -22,7 +22,10 @@ import {
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SlideOverService} from 'src/app/core/services/slide-over.service';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
-import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
+import {
+  getConnectorsTypeClasses,
+  getConnectorsTypeText,
+} from 'src/app/core/utils/ui-utils';
 import {FilterBarConfig} from 'src/app/shared/common/filter-bar/filter-bar.model';
 import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
 import {
@@ -187,4 +190,6 @@ export class ParticipantOwnConnectorListPageComponent
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }
+
+  protected readonly getConnectorsTypeText = getConnectorsTypeText;
 }
