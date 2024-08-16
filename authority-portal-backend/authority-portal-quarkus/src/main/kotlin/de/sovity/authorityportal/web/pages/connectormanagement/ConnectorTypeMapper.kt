@@ -20,12 +20,12 @@ fun ConnectorType.toDto(): ConnectorTypeDto = when (this) {
     ConnectorType.OWN -> ConnectorTypeDto.OWN
     ConnectorType.PROVIDED -> ConnectorTypeDto.PROVIDED
     ConnectorType.CAAS -> ConnectorTypeDto.CAAS
-    ConnectorType.AWAITING_PROVISIONING -> ConnectorTypeDto.AWAITING_PROVISIONING
+    ConnectorType.CONFIGURING -> ConnectorTypeDto.CONFIGURING
 }
 
 fun ConnectorTypeDto.toDb(): ConnectorType = when (this) {
     ConnectorTypeDto.OWN -> ConnectorType.OWN
     ConnectorTypeDto.PROVIDED -> ConnectorType.PROVIDED
     ConnectorTypeDto.CAAS -> ConnectorType.CAAS
-    ConnectorTypeDto.AWAITING_PROVISIONING -> ConnectorType.AWAITING_PROVISIONING
+    ConnectorTypeDto.CONFIGURING -> ConnectorType.CONFIGURING
 }

@@ -183,7 +183,7 @@ class ConnectorService(
             it.createdBy = createdBy
             it.createdAt = timeUtils.now()
             it.environment = environment
-            it.type = ConnectorType.AWAITING_PROVISIONING
+            it.type = ConnectorType.CONFIGURING
             it.location = creationParams.location
             it.insert()
         }

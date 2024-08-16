@@ -22,9 +22,11 @@ import {MatStepper} from '@angular/material/stepper';
 import {Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {UserInfo} from '@sovity.de/authority-portal-client';
+import {UserInfo, UserRoleDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {HeaderBarConfig} from '../../../../shared/common/header-bar/header-bar.model';
+import {DEFAULT_CONTROL_CENTER_ORGANIZATION_EDIT_PAGE_STATE} from '../../../control-center-organization-edit-page/state/control-center-organization-edit-page-state';
 import {
   GetOrganizations,
   Reset,
@@ -56,6 +58,8 @@ export class ReserveProvidedConnectorPageComponent
 
   private ngOnDestroy$ = new Subject();
 
+  headerConfig!: HeaderBarConfig;
+
   constructor(
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private store: Store,
@@ -69,6 +73,7 @@ export class ReserveProvidedConnectorPageComponent
     this.store.dispatch(Reset);
     this.startListeningToState();
     this.getUserInfo();
+    this.initializeHeaderBar();
   }
 
   getUserInfo() {
@@ -77,6 +82,14 @@ export class ReserveProvidedConnectorPageComponent
       .subscribe((userInfo: UserInfo) => {
         this.userInfo = userInfo;
       });
+  }
+
+  initializeHeaderBar() {
+    this.headerConfig = {
+      title: 'Provide Connector',
+      subtitle: 'Register a connector for a participant organization.',
+      headerActions: [],
+    };
   }
 
   private startListeningToState() {

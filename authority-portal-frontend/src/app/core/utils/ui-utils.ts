@@ -61,7 +61,7 @@ export const getConnectorsTypeClasses = (status: ConnectorTypeDto): string => {
       return 'text-blue-700 bg-blue-100/60';
     case ConnectorTypeDto.Caas:
       return 'bg-yellow-300/90';
-    case ConnectorTypeDto.AwaitingProvisioning:
+    case ConnectorTypeDto.Configuring:
       return 'bg-red-300/90';
     default:
       return '';
@@ -76,8 +76,8 @@ export const getConnectorsTypeText = (status: ConnectorTypeDto): string => {
       return 'PROVIDED';
     case ConnectorTypeDto.Caas:
       return 'CAAS';
-    case ConnectorTypeDto.AwaitingProvisioning:
-      return 'AWAITING PROVISIONING';
+    case ConnectorTypeDto.Configuring:
+      return 'CONFIGURING';
   }
 };
 

@@ -20,5 +20,5 @@ enum class ConnectorTypeDto {
     OWN,
     PROVIDED,
     CAAS,
-    AWAITING_PROVISIONING
+    CONFIGURING
 }
