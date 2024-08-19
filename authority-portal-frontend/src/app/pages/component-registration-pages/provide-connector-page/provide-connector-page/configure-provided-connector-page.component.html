@@ -14,12 +14,15 @@
         <div
           class="select-none flex flex-col justify-center items-center my-10 w-2/3 mx-auto">
           <!-- Connector config info -->
-          <div class="relative p-4 bg-gray-100 max-w-5xl overflow-hidden">
+          <div class="text-lg text-semibold mb-2">
+            You can expect the following configuration for your connector
+          </div>
+          <div class="relative p-4 bg-gray-100 max-w-5xl overflow-hidden mb-3">
             <div class="absolute top-0 right-0">
               <button
                 mat-icon-button
                 aria-label="copy button with"
-                (click)="(null)">
+                (click)="copyPreliminaryConnectorConfig()">
                 <mat-icon>content_copy</mat-icon>
               </button>
             </div>
@@ -122,12 +125,10 @@
         <app-certificate-input-form
           class="w-full"
           [group]="form.certificateTab"
-          [organizationLegalName]="
-            form.connectorTab.controls.organization.value?.name ?? ''
-          "
+          [organizationLegalName]="state.connectorData?.organizationName ?? ''"
           [commonName]="form.connectorTab.controls.endpointUrl.value"
           [location]="
-            form.connectorTab.controls.location.value
+            state.connectorData?.location ?? ''
           "></app-certificate-input-form>
       </div>
 

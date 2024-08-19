@@ -169,19 +169,19 @@ export const getListOfConnectorsForTable = (
 
 export const listSpConnectors = (): ProvidedConnectorOverviewResult => {
   return {
-    connectors: TEST_CONNECTORS.filter((c) => c.type === 'PROVIDED').map(
-      (c): ProvidedConnectorOverviewEntryDto => {
-        return {
-          id: c.connectorId,
-          customerOrgName: c.organizationName,
-          frontendUrl: c.frontendUrl,
-          type: c.type,
-          environment: c.environment,
-          name: c.connectorName,
-          status: c.status,
-        };
-      },
-    ),
+    connectors: TEST_CONNECTORS.filter(
+      (c) => c.type === 'PROVIDED' || c.type === 'CONFIGURING',
+    ).map((c): ProvidedConnectorOverviewEntryDto => {
+      return {
+        id: c.connectorId,
+        customerOrgName: c.organizationName,
+        frontendUrl: c.frontendUrl,
+        type: c.type,
+        environment: c.environment,
+        name: c.connectorName,
+        status: c.status,
+      };
+    }),
   };
 };
 

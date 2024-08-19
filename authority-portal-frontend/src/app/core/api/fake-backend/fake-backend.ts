@@ -440,7 +440,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     })
 
     .url('organizations/*/connectors/*/configure-service-provided/with-jwks')
-    .on('POST', (organizationId, connectorId) => {
+    .on('PUT', (organizationId, connectorId) => {
       const request = ConfigureProvidedConnectorWithJwksRequestFromJSON(body);
       const result = configureProvidedConnectorWithJwks(
         request,

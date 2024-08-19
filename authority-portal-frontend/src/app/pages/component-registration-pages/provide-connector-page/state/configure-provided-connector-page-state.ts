@@ -10,7 +10,10 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {OrganizationOverviewEntryDto} from '@sovity.de/authority-portal-client';
+import {
+  ConnectorDetailDto,
+  OrganizationOverviewEntryDto,
+} from '@sovity.de/authority-portal-client';
 import {Fetched} from 'src/app/core/utils/fetched';
 
 export interface ConfigureProvidedConnectorPageState {
@@ -18,6 +21,7 @@ export interface ConfigureProvidedConnectorPageState {
   organizationList: Fetched<OrganizationOverviewEntryDto[]>;
   connectorConfig: string;
   localConnectorConfig: string;
+  connectorData: ConnectorDetailDto | null;
 }
 
 export const DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE: ConfigureProvidedConnectorPageState =
@@ -26,4 +30,5 @@ export const DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE: ConfigureProvidedConnectorPag
     organizationList: Fetched.empty(),
     connectorConfig: '',
     localConnectorConfig: '',
+    connectorData: null,
   };

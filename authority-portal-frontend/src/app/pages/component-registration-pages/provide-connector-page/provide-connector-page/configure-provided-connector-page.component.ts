@@ -25,6 +25,7 @@ import {Store} from '@ngxs/store';
 import {UserInfo} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {ClipboardUtils} from '../../../../core/utils/clipboard-utils';
 import {buildConnectorConfigFromLocalData} from '../../../../core/utils/connector-config-utils';
 import {
   GetConnector,
@@ -67,6 +68,7 @@ export class ConfigureProvidedConnectorPageComponent
     public form: ConfigureProvidedConnectorPageForm,
     public globalStateUtils: GlobalStateUtils,
     private route: ActivatedRoute,
+    public clipboardUtils: ClipboardUtils,
   ) {
     const routeParams = this.route.snapshot.params;
     this.connectorId = routeParams['connectorId'];
@@ -105,7 +107,7 @@ export class ConfigureProvidedConnectorPageComponent
     }
 
     const formValue = this.form.value;
-    const organizationId = formValue.connectorTab.organization!.id;
+    const organizationId = this.state.connectorData?.organizationId!;
 
     this.store.dispatch(
       new Submit(
@@ -123,6 +125,10 @@ export class ConfigureProvidedConnectorPageComponent
         },
       ),
     );
+  }
+
+  copyPreliminaryConnectorConfig() {
+    this.clipboardUtils.copyToClipboard(this.state.localConnectorConfig);
   }
 
   ngOnDestroy() {

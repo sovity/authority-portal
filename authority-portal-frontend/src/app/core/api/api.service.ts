@@ -243,8 +243,8 @@ export class ApiService {
 
   configureProvidedConnectorWithCertificate(
     connector: ConfigureProvidedConnectorWithCertificateRequest,
-    connectorId: string,
     organizationId: string,
+    connectorId: string,
     environmentId: string,
   ): Observable<CreateConnectorResponse> {
     return toObservable(() =>
@@ -259,8 +259,8 @@ export class ApiService {
 
   configureProvidedConnectorWithJwks(
     connector: ConfigureProvidedConnectorWithJwksRequest,
-    connectorId: string,
     organizationId: string,
+    connectorId: string,
     environmentId: string,
   ): Observable<CreateConnectorResponse> {
     return toObservable(() =>

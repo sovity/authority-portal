@@ -394,6 +394,7 @@ class UiResourceImpl(
         )
     }
 
+    @Transactional
     override fun configureProvidedConnectorWithJwks(
         organizationId: String,
         connectorId: String,

@@ -50,14 +50,6 @@ export class ConfigureProvidedConnectorPageForm {
     const initial = DEFAULT_PROVIDE_CONNECTOR_PAGE_FORM_VALUE;
 
     const connectorTab = this.formBuilder.nonNullable.group({
-      name: [
-        initial.connectorTab.name,
-        [Validators.required, Validators.maxLength(128), notBlankValidator()],
-      ],
-      location: [
-        initial.connectorTab.location,
-        [Validators.required, Validators.maxLength(128), notBlankValidator()],
-      ],
       frontendUrl: [
         initial.connectorTab.frontendUrl,
         [
@@ -84,10 +76,6 @@ export class ConfigureProvidedConnectorPageForm {
           notBlankValidator(),
           connectorUrlValidator,
         ],
-      ],
-      organization: [
-        initial.connectorTab.organization,
-        [Validators.required, Validators.maxLength(128)],
       ],
       useJwks: [initial.connectorTab.useJwks],
       jwksUrl: [

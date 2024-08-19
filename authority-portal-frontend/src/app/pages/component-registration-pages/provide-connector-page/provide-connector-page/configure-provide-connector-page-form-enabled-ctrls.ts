@@ -17,9 +17,6 @@ export const configureProvideConnectorPageFormEnabledCtrls = (
 ): Record<keyof ConnectorTabFormValue, boolean> => {
   let useJwks = value.useJwks;
   return {
-    organization: true,
-    name: true,
-    location: true,
     frontendUrl: true,
     endpointUrl: true,
     managementUrl: true,

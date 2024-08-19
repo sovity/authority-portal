@@ -105,9 +105,7 @@ export class ConfigureProvidedConnectorPageStateImpl {
         });
         switch (res.status) {
           case 'OK':
-            this.toast.showSuccess(
-              `Connector ${action.request.connectorTab.name} was successfully provided`,
-            );
+            this.toast.showSuccess(`Connector was successfully configured`);
             ctx.patchState({state: 'success'});
             action.success();
             break;
@@ -161,7 +159,6 @@ export class ConfigureProvidedConnectorPageStateImpl {
       switchMap((deploymentEnvironmentId) =>
         this.apiService.getProvidedConnectorDetails(action.connectorId),
       ),
-      //Fetched.wrap({failureMessage: 'Failed loading connector'}),
       tap((connector) => this.connectorFetched(ctx, connector)),
       ignoreElements(),
     );
@@ -184,6 +181,7 @@ export class ConfigureProvidedConnectorPageStateImpl {
         connector.connectorId,
         connector.clientId,
       ),
+      connectorData: connector,
     });
   }
 
