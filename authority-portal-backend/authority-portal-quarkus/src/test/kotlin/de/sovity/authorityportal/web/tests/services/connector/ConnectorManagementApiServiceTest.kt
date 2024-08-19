@@ -642,6 +642,9 @@ class ConnectorManagementApiServiceTest {
             connector(0, 1, 0) {
                 it.type = ConnectorType.CONFIGURING
                 it.providerOrganizationId = dummyDevOrganizationId(0)
+                it.onlineStatus = ConnectorOnlineStatus.OFFLINE
+                it.lastRefreshAttemptAt = null
+                it.lastSuccessfulRefreshAt = null
             }
 
             scenarioInstaller.install(this)
@@ -685,9 +688,9 @@ class ConnectorManagementApiServiceTest {
             it.providerOrganizationId = dummyDevOrganizationId(0)
             it.type = ConnectorType.PROVIDED
             it.environment = "test"
-            it.clientId = clientIdUtils.generateFromConnectorId(actual.connectorId)
-            it.name = "Test Connector"
-            it.location = "DE"
+            it.clientId = "clientId"
+            it.name = "Connector"
+            it.location = "Location"
             it.frontendUrl = "https://connector.test.sovity.io" // service should remove trailing slashes
             it.endpointUrl = "https://connector.test.sovity.io/dsp" // service should remove trailing slashes
             it.managementUrl =
@@ -724,6 +727,9 @@ class ConnectorManagementApiServiceTest {
             connector(0, 1, 0) {
                 it.type = ConnectorType.CONFIGURING
                 it.providerOrganizationId = dummyDevOrganizationId(0)
+                it.onlineStatus = ConnectorOnlineStatus.OFFLINE
+                it.lastRefreshAttemptAt = null
+                it.lastSuccessfulRefreshAt = null
             }
 
             scenarioInstaller.install(this)
@@ -764,9 +770,9 @@ class ConnectorManagementApiServiceTest {
             it.providerOrganizationId = dummyDevOrganizationId(0)
             it.type = ConnectorType.PROVIDED
             it.environment = "test"
-            it.clientId = clientIdUtils.generateFromConnectorId(actual.connectorId)
-            it.name = "Test Connector"
-            it.location = "DE"
+            it.clientId = "clientId"
+            it.name = "Connector"
+            it.location = "Location"
             it.frontendUrl = "https://connector.test.sovity.io" // service should remove trailing slashes
             it.endpointUrl = "https://connector.test.sovity.io/dsp" // service should remove trailing slashes
             it.managementUrl =
