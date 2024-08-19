@@ -58,7 +58,8 @@ class ConnectorService(
         val endpointUrl: String?,
         val managementUrl: String?,
         val caasStatus: CaasStatus?,
-        val onlineStatus: ConnectorOnlineStatus?
+        val onlineStatus: ConnectorOnlineStatus?,
+        val clientId: String
     )
 
     fun getConnectorDetailOrThrow(connectorId: String): ConnectorDetailRs {
@@ -84,7 +85,8 @@ class ConnectorService(
             c.ENDPOINT_URL.`as`("endpointUrl"),
             c.MANAGEMENT_URL.`as`("managementUrl"),
             c.CAAS_STATUS.`as`("caasStatus"),
-            c.ONLINE_STATUS.`as`("onlineStatus")
+            c.ONLINE_STATUS.`as`("onlineStatus"),
+            c.CLIENT_ID.`as`("clientId")
         )
             .from(c)
             .leftJoin(org).on(c.ORGANIZATION_ID.eq(org.ID))

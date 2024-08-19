@@ -17,17 +17,23 @@ import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {
   ConfigureProvidedConnectorWithCertificateRequest,
   ConfigureProvidedConnectorWithJwksRequest,
+  ConnectorDetailDto,
   CreateConnectorResponse,
   OrganizationOverviewEntryDto,
 } from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ErrorService} from 'src/app/core/services/error.service';
-import {buildConnectorConfig} from 'src/app/core/utils/connector-config-utils';
+import {
+  buildConnectorConfigFromLocalData,
+  buildConnectorConfigFromResponse,
+} from 'src/app/core/utils/connector-config-utils';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
+import {deploymentEnvironmentList} from '../../../../core/api/fake-backend/impl/deployment-environment-list-fake';
 import {ConfigureProvidedConnectorPageFormValue} from '../provide-connector-page/configure-provided-connector-page-form-model';
 import {
+  GetConnector,
   GetOrganizations,
   Reset,
   Submit,
@@ -92,7 +98,7 @@ export class ConfigureProvidedConnectorPageStateImpl {
       ),
       tap((res) => {
         ctx.patchState({
-          connectorConfig: buildConnectorConfig(
+          connectorConfig: buildConnectorConfigFromResponse(
             this.globalStateUtils.snapshot.selectedEnvironment!,
             res,
           ),
@@ -146,11 +152,39 @@ export class ConfigureProvidedConnectorPageStateImpl {
     );
   }
 
+  @Action(GetConnector, {cancelUncompleted: true})
+  onGetConnector(
+    ctx: StateContext<ConfigureProvidedConnectorPageState>,
+    action: GetConnector,
+  ): Observable<never> {
+    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
+      switchMap((deploymentEnvironmentId) =>
+        this.apiService.getProvidedConnectorDetails(action.connectorId),
+      ),
+      //Fetched.wrap({failureMessage: 'Failed loading connector'}),
+      tap((connector) => this.connectorFetched(ctx, connector)),
+      ignoreElements(),
+    );
+  }
+
   private organizationsRefreshed(
     ctx: StateContext<ConfigureProvidedConnectorPageState>,
     newOrganizations: Fetched<OrganizationOverviewEntryDto[]>,
   ) {
     ctx.patchState({organizationList: newOrganizations});
+  }
+
+  private connectorFetched(
+    ctx: StateContext<ConfigureProvidedConnectorPageState>,
+    connector: ConnectorDetailDto,
+  ) {
+    ctx.patchState({
+      localConnectorConfig: buildConnectorConfigFromLocalData(
+        this.globalStateUtils.snapshot.selectedEnvironment!,
+        connector.connectorId,
+        connector.clientId,
+      ),
+    });
   }
 
   private buildConfigureConnectorWithJwksRequest(

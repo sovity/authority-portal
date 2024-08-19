@@ -47,6 +47,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
     status: 'ONLINE',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL1111AA.AP23H5W',
@@ -62,6 +63,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
     status: 'DEAD',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL1111AA.AP42I3L',
@@ -77,6 +79,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
     status: 'INIT',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL1111AA.AP35I6Y',
@@ -92,6 +95,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
     status: 'ONLINE',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL2222BB.CP59I8U',
@@ -107,6 +111,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
     status: 'ONLINE',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL2222BB.CFIWWBD',
@@ -122,6 +127,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test2/connector/api/dsp',
     managementUrl: 'https://xample.test2/connector/api/management',
     status: 'ONLINE',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL2222BB.CWAQ71U',
@@ -137,6 +143,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test3/connector/api/dsp',
     managementUrl: 'https://xample.test3/connector/api/management',
     status: 'OFFLINE',
+    clientId: 'client-id',
   },
 ];
 
@@ -267,6 +274,7 @@ export const createOwnConnector = (
     endpointUrl: request.endpointUrl,
     managementUrl: request.managementUrl,
     status: status,
+    clientId: 'client-id',
   });
   return {
     id: randomId,
@@ -299,6 +307,7 @@ export const createCaas = (
     endpointUrl: `https://${request.connectorSubdomain}.sovity.caas/connector/api/dsp`,
     managementUrl: `https://${request.connectorSubdomain}.sovity.caas/connector/api/management`,
     status: status,
+    clientId: 'client-id',
   });
   return {
     id: randomId,
@@ -346,6 +355,7 @@ export const reserveProvidedConnector = (
     connectorName: request.name,
     location: request.location,
     status: status,
+    clientId: 'client-id',
   });
 
   return {

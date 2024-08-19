@@ -17,6 +17,7 @@ export interface ConfigureProvidedConnectorPageState {
   state: 'editing' | 'submitting' | 'success' | 'error';
   organizationList: Fetched<OrganizationOverviewEntryDto[]>;
   connectorConfig: string;
+  localConnectorConfig: string;
 }
 
 export const DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE: ConfigureProvidedConnectorPageState =
@@ -24,4 +25,5 @@ export const DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE: ConfigureProvidedConnectorPag
     state: 'editing',
     organizationList: Fetched.empty(),
     connectorConfig: '',
+    localConnectorConfig: '',
   };

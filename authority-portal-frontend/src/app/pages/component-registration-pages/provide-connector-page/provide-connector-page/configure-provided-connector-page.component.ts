@@ -19,13 +19,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import {MatStepper} from '@angular/material/stepper';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {UserInfo} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import {buildConnectorConfigFromLocalData} from '../../../../core/utils/connector-config-utils';
 import {
+  GetConnector,
   GetOrganizations,
   Reset,
   Submit,
@@ -63,15 +65,16 @@ export class ConfigureProvidedConnectorPageComponent
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private store: Store,
     public form: ConfigureProvidedConnectorPageForm,
-    private globalStateUtils: GlobalStateUtils,
+    public globalStateUtils: GlobalStateUtils,
     private route: ActivatedRoute,
   ) {
-    const params = this.route.snapshot.params;
-    this.connectorId = params['connectorId'];
+    const routeParams = this.route.snapshot.params;
+    this.connectorId = routeParams['connectorId'];
   }
 
   ngOnInit(): void {
     this.store.dispatch(GetOrganizations);
+    this.store.dispatch(new GetConnector(this.connectorId));
     this.store.dispatch(Reset);
     this.startListeningToState();
     this.getUserInfo();
@@ -126,4 +129,7 @@ export class ConfigureProvidedConnectorPageComponent
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }
+
+  protected readonly buildConnectorConfigFromLocalData =
+    buildConnectorConfigFromLocalData;
 }

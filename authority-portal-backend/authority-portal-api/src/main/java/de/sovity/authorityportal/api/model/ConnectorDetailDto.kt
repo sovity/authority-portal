@@ -43,4 +43,6 @@ data class ConnectorDetailDto(
     val managementUrl: String?,
     @field:Schema(description = "Connector status", requiredMode = Schema.RequiredMode.REQUIRED)
     val status: ConnectorStatusDto,
+    @field:Schema(description = "Client ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    val clientId: String
 )

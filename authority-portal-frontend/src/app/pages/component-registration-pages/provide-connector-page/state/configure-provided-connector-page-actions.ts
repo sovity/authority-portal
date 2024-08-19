@@ -33,3 +33,8 @@ export class Submit {
 export class GetOrganizations {
   static readonly type = `[${tag}] Refresh Organizations`;
 }
+
+export class GetConnector {
+  static readonly type = `[${tag}] Get Connector`;
+  constructor(public connectorId: string) {}
+}

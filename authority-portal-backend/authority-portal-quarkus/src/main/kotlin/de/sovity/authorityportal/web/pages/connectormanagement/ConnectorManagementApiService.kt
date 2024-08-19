@@ -91,7 +91,8 @@ class ConnectorManagementApiService(
             frontendUrl = connector.frontendUrl,
             endpointUrl = connector.endpointUrl,
             managementUrl = connector.managementUrl,
-            status = buildConnectorStatusFromConnectorDetails(connector)
+            status = buildConnectorStatusFromConnectorDetails(connector),
+            clientId = connector.clientId
         )
     }
 
