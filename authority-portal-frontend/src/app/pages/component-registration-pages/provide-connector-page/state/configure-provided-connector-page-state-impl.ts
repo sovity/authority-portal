@@ -71,14 +71,14 @@ export class ConfigureProvidedConnectorPageStateImpl {
             const request = this.buildCreateConnectorWithJwksRequest(
               action.request,
             );
-            return this.apiService.createProvidedConnectorWithJwks(
+            return this.apiService.configureProvidedConnectorWithJwks(
               request,
               action.organizationId,
               deploymentEnvironmentId,
             );
           } else {
             const request = this.buildCreateConnectorRequest(action.request);
-            return this.apiService.createProvidedConnectorWithCertificate(
+            return this.apiService.configureProvidedConnectorWithCertificate(
               request,
               action.organizationId,
               deploymentEnvironmentId,

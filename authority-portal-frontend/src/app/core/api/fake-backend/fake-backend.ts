@@ -17,12 +17,13 @@ import {
   CentralComponentCreateRequestFromJSON,
   CentralComponentDtoToJSON,
   ComponentStatusOverviewToJSON,
+  ConfigureProvidedConnectorWithCertificateRequestFromJSON,
+  ConfigureProvidedConnectorWithJwksRequestFromJSON,
   ConnectorDetailDtoToJSON,
   ConnectorOverviewResultToJSON,
   CreateCaasRequestFromJSON,
   CreateConnectorRequestFromJSON,
   CreateConnectorResponseToJSON,
-  CreateConnectorWithJwksRequestFromJSON,
   DataOfferDetailPageQueryFromJSON,
   DataOfferDetailPageResultToJSON,
   DeploymentEnvironmentDtoToJSON,
@@ -37,6 +38,7 @@ import {
   OwnOrganizationDetailsDtoToJSON,
   ProvidedConnectorOverviewResultToJSON,
   RegistrationRequestDtoFromJSON,
+  ReserveConnectorRequestFromJSON,
   UpdateOrganizationDtoFromJSON,
   UpdateUserDtoFromJSON,
   UserDeletionCheckToJSON,
@@ -53,10 +55,10 @@ import {deploymentEnvironmentList} from './impl/deployment-environment-list-fake
 import {getComponentStatus} from './impl/fake-component-statuses';
 import {
   checkFreeCaasUsage,
+  configureProvidedConnectorWithCertificate,
+  configureProvidedConnectorWithJwks,
   createCaas,
   createOwnConnector,
-  createProvidedConnector,
-  createProvidedConnectorWithJwks,
   deleteOwnConnector,
   deleteProvidedConnector,
   getFullConnectorDetails,
@@ -66,12 +68,12 @@ import {
   getOwnConnectorDetail,
   getProvidedConnectorDetails,
   listSpConnectors,
+  reserveProvidedConnector,
 } from './impl/fake-connectors';
 import {
   approveOrganization,
   getListOfOrganizationsForTable,
   getOrganizationDetails,
-  getOrganizations,
   getOwnOrganizationDetails,
   inviteOrganization,
   onboardOrganization,
@@ -418,17 +420,33 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(ComponentStatusOverviewToJSON(result));
     })
 
-    .url('organizations/*/connectors/create-service-provided')
-    .on('POST', (organizationId) => {
-      const request = CreateConnectorRequestFromJSON(body);
-      const result = createProvidedConnector(request, organizationId);
+    .url('service-partner/reserve-connector')
+    .on('POST', () => {
+      const request = ReserveConnectorRequestFromJSON(body);
+      const result = reserveProvidedConnector(request);
       return ok(CreateConnectorResponseToJSON(result));
     })
 
-    .url('organizations/*/connectors/create-service-provided/with-jwks')
-    .on('POST', (organizationId) => {
-      const request = CreateConnectorWithJwksRequestFromJSON(body);
-      const result = createProvidedConnectorWithJwks(request, organizationId);
+    .url('organizations/*/connectors/*/configure-service-provided')
+    .on('PUT', (organizationId, connectorId) => {
+      const request =
+        ConfigureProvidedConnectorWithCertificateRequestFromJSON(body);
+      const result = configureProvidedConnectorWithCertificate(
+        request,
+        organizationId,
+        connectorId,
+      );
+      return ok(CreateConnectorResponseToJSON(result));
+    })
+
+    .url('organizations/*/connectors/*/configure-service-provided/with-jwks')
+    .on('POST', (organizationId, connectorId) => {
+      const request = ConfigureProvidedConnectorWithJwksRequestFromJSON(body);
+      const result = configureProvidedConnectorWithJwks(
+        request,
+        organizationId,
+        connectorId,
+      );
       return ok(CreateConnectorResponseToJSON(result));
     })
 

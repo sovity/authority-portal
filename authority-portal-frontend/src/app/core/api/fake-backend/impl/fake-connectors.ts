@@ -13,6 +13,8 @@
 import {
   CaasAvailabilityResponse,
   CheckFreeCaasUsageRequest,
+  ConfigureProvidedConnectorWithCertificateRequest,
+  ConfigureProvidedConnectorWithJwksRequest,
   ConnectorDetailDto,
   ConnectorOverviewResult,
   ConnectorTypeDto,
@@ -20,11 +22,11 @@ import {
   CreateConnectorRequest,
   CreateConnectorResponse,
   CreateConnectorStatusDto,
-  CreateConnectorWithJwksRequest,
   DeleteOwnConnectorRequest,
   IdResponse,
   ProvidedConnectorOverviewEntryDto,
   ProvidedConnectorOverviewResult,
+  ReserveConnectorRequest,
 } from '@sovity.de/authority-portal-client';
 import {fakeEnv} from './fake-environments';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
@@ -321,34 +323,31 @@ export const checkFreeCaasUsage = (
   };
 };
 
-export const createProvidedConnector = (
-  request: CreateConnectorRequest,
-  clientOrganizationId: string,
+export const reserveProvidedConnector = (
+  request: ReserveConnectorRequest,
 ): CreateConnectorResponse => {
   const hostOrganizationId = getUserInfo().organizationId;
   const hostOrgName = getUserInfo().organizationName;
   const status = 'OFFLINE';
 
   const clientOrgName = TEST_ORGANIZATIONS.find(
-    (it) => it.id === clientOrganizationId,
+    (it) => it.id === request.customerOrganizationId,
   )?.name;
 
-  const randomId = generateRandomId(clientOrganizationId);
+  const randomId = generateRandomId(request.customerOrganizationId);
   TEST_CONNECTORS.push({
     connectorId: randomId,
-    organizationId: clientOrganizationId,
+    organizationId: request.customerOrganizationId,
     organizationName: clientOrgName ?? '',
     hostOrganizationId: hostOrganizationId,
     hostOrganizationName: hostOrgName,
-    type: ConnectorTypeDto.Provided,
+    type: ConnectorTypeDto.Configuring,
     environment: fakeEnv('test'),
     connectorName: request.name,
     location: request.location,
-    frontendUrl: request.frontendUrl,
-    endpointUrl: request.endpointUrl,
-    managementUrl: request.managementUrl,
     status: status,
   });
+
   return {
     id: randomId,
     changedDate: new Date(),
@@ -357,40 +356,62 @@ export const createProvidedConnector = (
   };
 };
 
-export const createProvidedConnectorWithJwks = (
-  request: CreateConnectorWithJwksRequest,
+export const configureProvidedConnectorWithCertificate = (
+  request: ConfigureProvidedConnectorWithCertificateRequest,
   clientOrganizationId: string,
+  connectorId: string,
 ): CreateConnectorResponse => {
-  const hostOrganizationId = getUserInfo().organizationId;
-  const hostOrgName = getUserInfo().organizationName;
-  const status = 'OFFLINE';
+  return configureProvidedConnector(
+    connectorId,
+    request.frontendUrl,
+    request.endpointUrl,
+    request.managementUrl,
+  );
+};
 
-  const clientOrgName = TEST_ORGANIZATIONS.find(
-    (it) => it.id === clientOrganizationId,
-  )?.name;
+export const configureProvidedConnectorWithJwks = (
+  request: ConfigureProvidedConnectorWithJwksRequest,
+  clientOrganizationId: string,
+  connectorId: string,
+): CreateConnectorResponse => {
+  return configureProvidedConnector(
+    connectorId,
+    request.frontendUrl,
+    request.endpointUrl,
+    request.managementUrl,
+  );
+};
 
-  const randomId = generateRandomId(clientOrganizationId);
-  TEST_CONNECTORS.push({
-    connectorId: randomId,
-    organizationId: clientOrganizationId,
-    organizationName: clientOrgName ?? '',
-    hostOrganizationId: hostOrganizationId,
-    hostOrganizationName: hostOrgName,
-    type: ConnectorTypeDto.Provided,
-    environment: fakeEnv('test'),
-    connectorName: request.name,
-    location: request.location,
-    frontendUrl: request.frontendUrl,
-    endpointUrl: request.endpointUrl,
-    managementUrl: request.managementUrl,
-    status: status,
-  });
-  return {
-    id: randomId,
-    changedDate: new Date(),
-    status: CreateConnectorStatusDto.Ok,
-    clientId: 'client-id',
-  };
+const configureProvidedConnector = (
+  connectorId: string,
+  frontendUrl: string,
+  endpointUrl: string,
+  managementUrl: string,
+): CreateConnectorResponse => {
+  const connector = TEST_CONNECTORS.find(
+    (it) => it.connectorId === connectorId,
+  );
+
+  if (!connector) {
+    return {
+      id: '',
+      changedDate: new Date(),
+      status: CreateConnectorStatusDto.Error,
+      message: 'Connector not found',
+    };
+  } else {
+    connector.frontendUrl = frontendUrl;
+    connector.endpointUrl = endpointUrl;
+    connector.managementUrl = managementUrl;
+    connector.type = ConnectorTypeDto.Provided;
+
+    return {
+      id: connectorId,
+      changedDate: new Date(),
+      status: CreateConnectorStatusDto.Ok,
+      clientId: 'client-id',
+    };
+  }
 };
 
 export const deleteOwnConnector = (
