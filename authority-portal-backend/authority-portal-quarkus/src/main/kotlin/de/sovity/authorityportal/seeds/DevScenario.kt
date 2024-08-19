@@ -21,10 +21,8 @@ import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevAssetId
 import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
 import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
-import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
-import org.jooq.JSONB
 
 @ApplicationScoped
 class DevScenario(

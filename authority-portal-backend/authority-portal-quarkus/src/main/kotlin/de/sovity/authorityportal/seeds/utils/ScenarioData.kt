@@ -14,7 +14,6 @@
 package de.sovity.authorityportal.seeds.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
