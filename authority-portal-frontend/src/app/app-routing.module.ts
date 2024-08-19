@@ -254,7 +254,7 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
         canActivate: [requiresRole],
       },
       {
-        path: 'service-partner/provided-connectors/configure-connector',
+        path: 'service-partner/provided-connectors/:connectorId/configure-connector',
         component: ConfigureProvidedConnectorPageComponent,
         data: {
           requiresRole: ['SERVICE_PARTNER_ADMIN'] satisfies UserRoleDto[],

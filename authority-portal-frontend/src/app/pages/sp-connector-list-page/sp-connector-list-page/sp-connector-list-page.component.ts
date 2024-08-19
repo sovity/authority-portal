@@ -139,6 +139,12 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  configureConnector(connectorId: string) {
+    this.router.navigate([
+      `service-partner/provided-connectors/${connectorId}/configure-connector`,
+    ]);
+  }
+
   handleNavigation(direction: SlideOverAction, currentConnectorId: string) {
     let totalConnectors = this.state.connectors.data.length;
     let currentIndex = this.state.connectors.data.findIndex(

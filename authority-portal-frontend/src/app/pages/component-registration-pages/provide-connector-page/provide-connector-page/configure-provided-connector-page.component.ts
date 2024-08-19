@@ -19,6 +19,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {MatStepper} from '@angular/material/stepper';
+import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {UserInfo} from '@sovity.de/authority-portal-client';
@@ -52,6 +53,8 @@ export class ConfigureProvidedConnectorPageComponent
   createActionName = 'Provide Connector';
   exitLink = '/service-partner/provided-connectors';
 
+  connectorId: string;
+
   @ViewChild('stepper') stepper!: MatStepper;
 
   private ngOnDestroy$ = new Subject();
@@ -61,7 +64,11 @@ export class ConfigureProvidedConnectorPageComponent
     private store: Store,
     public form: ConfigureProvidedConnectorPageForm,
     private globalStateUtils: GlobalStateUtils,
-  ) {}
+    private route: ActivatedRoute,
+  ) {
+    const params = this.route.snapshot.params;
+    this.connectorId = params['connectorId'];
+  }
 
   ngOnInit(): void {
     this.store.dispatch(GetOrganizations);
@@ -101,6 +108,7 @@ export class ConfigureProvidedConnectorPageComponent
       new Submit(
         formValue,
         organizationId,
+        this.connectorId,
         () => this.form.group.enable(),
         () => this.form.group.disable(),
         () => {

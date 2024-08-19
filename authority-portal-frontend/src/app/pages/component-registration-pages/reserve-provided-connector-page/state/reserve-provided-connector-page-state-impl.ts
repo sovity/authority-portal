@@ -15,10 +15,7 @@ import {Observable} from 'rxjs';
 import {ignoreElements, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {
-  CreateConnectorRequest,
   CreateConnectorResponse,
-  CreateConnectorWithJwksRequest,
-  IdResponse,
   OrganizationOverviewEntryDto,
   ReserveConnectorRequest,
 } from '@sovity.de/authority-portal-client';

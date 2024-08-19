@@ -15,9 +15,9 @@ import {Observable} from 'rxjs';
 import {ignoreElements, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {
-  CreateConnectorRequest,
+  ConfigureProvidedConnectorWithCertificateRequest,
+  ConfigureProvidedConnectorWithJwksRequest,
   CreateConnectorResponse,
-  CreateConnectorWithJwksRequest,
   OrganizationOverviewEntryDto,
 } from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
@@ -68,19 +68,23 @@ export class ConfigureProvidedConnectorPageStateImpl {
       switchMap(
         (deploymentEnvironmentId): Observable<CreateConnectorResponse> => {
           if (action.request.connectorTab.useJwks) {
-            const request = this.buildCreateConnectorWithJwksRequest(
+            const request = this.buildConfigureConnectorWithJwksRequest(
               action.request,
             );
             return this.apiService.configureProvidedConnectorWithJwks(
               request,
               action.organizationId,
+              action.connectorId,
               deploymentEnvironmentId,
             );
           } else {
-            const request = this.buildCreateConnectorRequest(action.request);
+            const request = this.buildConfigureConnectorWithCertificateRequest(
+              action.request,
+            );
             return this.apiService.configureProvidedConnectorWithCertificate(
               request,
               action.organizationId,
+              action.connectorId,
               deploymentEnvironmentId,
             );
           }
@@ -149,12 +153,10 @@ export class ConfigureProvidedConnectorPageStateImpl {
     ctx.patchState({organizationList: newOrganizations});
   }
 
-  private buildCreateConnectorWithJwksRequest(
+  private buildConfigureConnectorWithJwksRequest(
     formValue: ConfigureProvidedConnectorPageFormValue,
-  ): CreateConnectorWithJwksRequest {
+  ): ConfigureProvidedConnectorWithJwksRequest {
     return {
-      name: formValue.connectorTab.name,
-      location: formValue.connectorTab.location,
       frontendUrl: formValue.connectorTab.frontendUrl,
       endpointUrl: formValue.connectorTab.endpointUrl,
       managementUrl: formValue.connectorTab.managementUrl,
@@ -162,12 +164,10 @@ export class ConfigureProvidedConnectorPageStateImpl {
     };
   }
 
-  private buildCreateConnectorRequest(
+  private buildConfigureConnectorWithCertificateRequest(
     formValue: ConfigureProvidedConnectorPageFormValue,
-  ): CreateConnectorRequest {
+  ): ConfigureProvidedConnectorWithCertificateRequest {
     return {
-      name: formValue.connectorTab.name,
-      location: formValue.connectorTab.location,
       frontendUrl: formValue.connectorTab.frontendUrl,
       endpointUrl: formValue.connectorTab.endpointUrl,
       managementUrl: formValue.connectorTab.managementUrl,

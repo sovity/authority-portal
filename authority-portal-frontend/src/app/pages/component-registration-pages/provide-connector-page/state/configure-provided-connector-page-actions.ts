@@ -23,6 +23,7 @@ export class Submit {
   constructor(
     public request: ConfigureProvidedConnectorPageFormValue,
     public organizationId: string,
+    public connectorId: string,
     public enableForm: () => void,
     public disableForm: () => void,
     public success: () => void,
