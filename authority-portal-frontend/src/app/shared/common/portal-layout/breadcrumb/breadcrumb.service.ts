@@ -62,7 +62,9 @@ export class BreadcrumbService {
     }
 
     if (this.activeFeatureSet.usesBritishCatalogue()) {
-      this.replaceCatalogSpelling(segments);
+      segments = segments.map((segment) =>
+        segment === 'catalog' ? 'catalogue' : segment,
+      );
     }
 
     return [
@@ -75,14 +77,6 @@ export class BreadcrumbService {
         isLinkable: !this.nonLinkable.includes(segment),
       })),
     ];
-  }
-
-  private replaceCatalogSpelling(segments: string[]) {
-    segments.find((segment, index) => {
-      if (segment === 'catalog') {
-        segments[index] = 'catalogue';
-      }
-    });
   }
 
   private url$(): Observable<string> {
