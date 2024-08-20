@@ -45,12 +45,14 @@ fun CaasStatus.toDto(): ConnectorStatusDto = when (this) {
     CaasStatus.NOT_FOUND -> ConnectorStatusDto.NOT_FOUND
 }
 
+// Mapping from our DB to the UI
 fun ConnectorOnlineStatus.toDto(): ConnectorStatusDto = when (this) {
     ConnectorOnlineStatus.ONLINE -> ConnectorStatusDto.ONLINE
     ConnectorOnlineStatus.OFFLINE -> ConnectorStatusDto.OFFLINE
-    ConnectorOnlineStatus.DEAD -> ConnectorStatusDto.DEAD
+    ConnectorOnlineStatus.DEAD -> ConnectorStatusDto.OFFLINE // changed
 }
 
+// Mapping from Connector Table to Uptime monitoring table
 fun ConnectorOnlineStatus.toDb(): ConnectorUptimeStatus = when (this) {
     ConnectorOnlineStatus.ONLINE -> ConnectorUptimeStatus.UP
     ConnectorOnlineStatus.OFFLINE -> ConnectorUptimeStatus.DOWN
