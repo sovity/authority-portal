@@ -32,6 +32,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
   - Keep in mind that sovity needs to be registered in the portal for the ID to show up.
   - Already registered connectors will be updated automatically, this process can take up to 24 hours
 - Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
+- Adjusted connector status naming for more consistency [#270](https://github.com/sovity/authority-portal/issues/270)
+  - `RUNNING (CaaS) -> ONLINE`
+  - `STOPPED (CaaS) -> OFFLINE`
+  - `DEAD -> OFFLINE`
 
 ### Known issues
 
