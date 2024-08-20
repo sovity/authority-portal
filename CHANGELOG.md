@@ -31,7 +31,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 ### Overview
 
 This release introduces support for UI branding configuration, adds improvements to the process of registering connectors for service providers and fixes several minor issues.
-Check the deployment migration notes to ensure that your configure everything correctly.
+Check the deployment migration notes to ensure that you configured everything correctly.
 
 ### Detailed Changes
 
