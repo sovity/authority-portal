@@ -314,8 +314,8 @@ AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://yourdataspace.com/legal-noti
 AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://yourdataspace.com/privacy-policy # Privacy policy URL
 AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.yourdataspace.com # Support page URL
 AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: sovity-open-source # UI Branding profile (sovity-open-source or mds-open-source)
-AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: MDS # Short Dataspace name, used in some explanatory texts
-AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "MDS Portal" # Portal name displayed in various texts
+AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: ExDS # Short Dataspace name, used in some explanatory texts
+AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "Authority Portal" # Portal name displayed in various texts
 ```
 
 ### Data Catalog Crawlers
@@ -324,7 +324,7 @@ AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "MDS Portal" # Portal name displa
 - Each deployment environment requires a Data Catalog Crawler.
   - A Data Catalog Crawler is based on the EDC Connector and crawls the catalogs of all connectors in the dataspace.
   - You will need an SKI/AKI client ID to register the crawler. Please refer to the [EDC documentation](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq) on how to generate one.
-- See the [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v10.0.0/docs/deployment-guide/goals/catalog-crawler-production/README.md) 
+- See the [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v10.2.0/docs/deployment-guide/goals/catalog-crawler-production/README.md) 
 
 ## Initial Setup
 
