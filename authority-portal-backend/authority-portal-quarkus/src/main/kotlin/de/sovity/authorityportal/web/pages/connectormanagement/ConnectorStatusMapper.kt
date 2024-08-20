@@ -19,6 +19,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorUptimeStatus
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasStatusDto
 
+// Mapping from external API to our DB
 fun CaasStatusDto.toDb(): CaasStatus = when (this) {
     CaasStatusDto.INIT -> CaasStatus.INIT
     CaasStatusDto.PROVISIONING -> CaasStatus.PROVISIONING
@@ -31,14 +32,15 @@ fun CaasStatusDto.toDb(): CaasStatus = when (this) {
     CaasStatusDto.NOT_FOUND -> CaasStatus.NOT_FOUND
 }
 
+// Mapping from our DB to the UI
 fun CaasStatus.toDto(): ConnectorStatusDto = when (this) {
     CaasStatus.INIT -> ConnectorStatusDto.INIT
     CaasStatus.PROVISIONING -> ConnectorStatusDto.PROVISIONING
     CaasStatus.AWAITING_RUNNING -> ConnectorStatusDto.AWAITING_RUNNING
-    CaasStatus.RUNNING -> ConnectorStatusDto.RUNNING
+    CaasStatus.RUNNING -> ConnectorStatusDto.ONLINE // streamlined wording for consistency with regular connectors
     CaasStatus.DEPROVISIONING -> ConnectorStatusDto.DEPROVISIONING
     CaasStatus.AWAITING_STOPPED -> ConnectorStatusDto.AWAITING_STOPPED
-    CaasStatus.STOPPED -> ConnectorStatusDto.STOPPED
+    CaasStatus.STOPPED -> ConnectorStatusDto.OFFLINE // streamlined wording for consistency with regular connectors
     CaasStatus.ERROR -> ConnectorStatusDto.ERROR
     CaasStatus.NOT_FOUND -> ConnectorStatusDto.NOT_FOUND
 }
