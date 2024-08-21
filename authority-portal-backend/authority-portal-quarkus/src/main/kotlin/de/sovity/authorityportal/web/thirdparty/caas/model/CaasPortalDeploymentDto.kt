@@ -36,7 +36,7 @@ class CaasPortalDeploymentDto(
     var dapsTokenUrl: String,
     @Schema(description = "The URL of the DAPS JWKS endpoint", requiredMode = Schema.RequiredMode.REQUIRED)
     var dapsJwksUrl: String,
-    @Schema(description = "The URL of the Clearing House", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "The URL of the Clearing House", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     var clearingHouseUrl: String?,
     @Schema(description = "The URL of the broker", requiredMode = Schema.RequiredMode.REQUIRED)
     var brokerUrl: String?,

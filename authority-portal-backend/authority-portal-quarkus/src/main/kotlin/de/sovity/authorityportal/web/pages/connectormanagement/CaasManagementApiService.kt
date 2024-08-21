@@ -136,7 +136,7 @@ class CaasManagementApiService(
             connectorDescription = caasRequest.connectorDescription.trim(),
             participantOrganizationUrl = curatorOrganization.url,
             participantOrganizationLegalName = curatorOrganization.name,
-            clearingHouseUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).loggingHouse().getOrNull()?.url(),
+            clearingHouseUrl = deploymentEnvironmentService.findByIdOrThrow(environmentId).loggingHouse().getOrNull()?.url() ?: "https://url.de",
             brokerUrl = "https://this-field-is-deprecated",
             dapsTokenUrl = buildDapsTokenUrl(environmentId),
             dapsJwksUrl = buildDapsJwksUrl(environmentId),
