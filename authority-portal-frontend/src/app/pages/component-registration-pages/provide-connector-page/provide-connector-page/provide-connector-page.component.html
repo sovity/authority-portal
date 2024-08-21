@@ -69,6 +69,25 @@
             [ctrl]="
               form.connectorTab.controls.managementUrl
             "></app-connector-url-input>
+
+          <!-- JWKS Support -->
+          <mat-checkbox
+            class="self-start gap-2"
+            [formControl]="form.connectorTab.controls.useJwks">
+            Use the Connector's JWKS URL to retrieve the connector
+            certificate</mat-checkbox
+          >
+
+          <app-connector-url-input
+            *ngIf="form.connectorTab.controls.useJwks.value"
+            class="w-full mt-2.5"
+            label="Connector's JWKS URL"
+            ctrlId="formRegOConJwksUrl"
+            urlSuffix="/api/dsp/jwks"
+            [ctrl]="form.connectorTab.controls.jwksUrl"
+            [required]="
+              form.connectorTab.controls.useJwks.value
+            "></app-connector-url-input>
         </div>
 
         <div
@@ -81,10 +100,19 @@
           </button>
 
           <button
+            *ngIf="!form.connectorTab.controls.useJwks.value"
             class="btn-accent"
             [disabledBtn]="!form.connectorTab.valid"
             (click)="stepper.next()">
             Next
+          </button>
+
+          <button
+            *ngIf="form.connectorTab.controls.useJwks.value"
+            class="btn-accent"
+            [disabledBtn]="!form.connectorTab.valid"
+            (click)="registerConnector('jwks')">
+            Provide Connector
           </button>
         </div>
       </form>
@@ -123,7 +151,7 @@
             !form.connectorTab.valid ||
             !form.certificateTab.valid
           "
-          (click)="registerConnector()">
+          (click)="registerConnector('certificate')">
           {{ createActionName }}
         </button>
       </div>

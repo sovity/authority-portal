@@ -17,10 +17,12 @@ import {connectorUrlValidator} from 'src/app/core/utils/validators/connector-url
 import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {buildCertificateInputForm} from '../../../../shared/form-elements/certificate-input-form/certificate-input-form-builder';
 import {certificateInputFormEnabledCtrls} from '../../../../shared/form-elements/certificate-input-form/certificate-input-form-enabled-ctrls';
+import {provideConnectorPageFormEnabledCtrls} from './provide-connector-page-form-enabled-ctrls';
 import {
   CertificateTabFormModel,
   CertificateTabFormValue,
   ConnectorTabFormModel,
+  ConnectorTabFormValue,
   DEFAULT_PROVIDE_CONNECTOR_PAGE_FORM_VALUE,
   ProvideConnectorPageFormModel,
   ProvideConnectorPageFormValue,
@@ -87,6 +89,16 @@ export class ProvideConnectorPageForm {
         initial.connectorTab.organization,
         [Validators.required, Validators.maxLength(128)],
       ],
+      useJwks: [initial.connectorTab.useJwks],
+      jwksUrl: [
+        initial.connectorTab.jwksUrl,
+        [
+          Validators.required,
+          Validators.maxLength(128),
+          notBlankValidator(),
+          connectorUrlValidator,
+        ],
+      ],
     });
 
     const certificateTab = buildCertificateInputForm(
@@ -96,6 +108,10 @@ export class ProvideConnectorPageForm {
 
     switchDisabledControls<CertificateTabFormValue>(certificateTab, (value) =>
       certificateInputFormEnabledCtrls(value),
+    );
+
+    switchDisabledControls<ConnectorTabFormValue>(connectorTab, (value) =>
+      provideConnectorPageFormEnabledCtrls(value),
     );
 
     return this.formBuilder.nonNullable.group({

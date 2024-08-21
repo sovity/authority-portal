@@ -22,6 +22,7 @@ import {
   CreateCaasRequestFromJSON,
   CreateConnectorRequestFromJSON,
   CreateConnectorResponseToJSON,
+  CreateConnectorWithJwksRequestFromJSON,
   DataOfferDetailPageQueryFromJSON,
   DataOfferDetailPageResultToJSON,
   DeploymentEnvironmentDtoToJSON,
@@ -55,6 +56,7 @@ import {
   createCaas,
   createOwnConnector,
   createProvidedConnector,
+  createProvidedConnectorWithJwks,
   deleteOwnConnector,
   deleteProvidedConnector,
   getFullConnectorDetails,
@@ -69,6 +71,7 @@ import {
   approveOrganization,
   getListOfOrganizationsForTable,
   getOrganizationDetails,
+  getOrganizations,
   getOwnOrganizationDetails,
   inviteOrganization,
   onboardOrganization,
@@ -422,6 +425,13 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       return ok(CreateConnectorResponseToJSON(result));
     })
 
+    .url('organizations/*/connectors/create-service-provided/with-jwks')
+    .on('POST', (organizationId) => {
+      const request = CreateConnectorWithJwksRequestFromJSON(body);
+      const result = createProvidedConnectorWithJwks(request, organizationId);
+      return ok(CreateConnectorResponseToJSON(result));
+    })
+
     .url('catalog/catalog-page')
     .on('POST', () => {
       const query = CatalogPageQueryFromJSON(body);
@@ -434,6 +444,12 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
       const query = DataOfferDetailPageQueryFromJSON(body);
       const result = getDataOfferDetailPage(query, environmentId!);
       return result ? ok(DataOfferDetailPageResultToJSON(result)) : failed(404);
+    })
+
+    .url('service-partner/providable-organizations')
+    .on('GET', () => {
+      const result = getListOfOrganizationsForTable();
+      return ok(OrganizationOverviewResultToJSON(result));
     })
 
     .tryMatch();

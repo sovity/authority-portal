@@ -26,8 +26,9 @@ class DeploymentEnvironmentService {
     lateinit var deploymentEnvironmentConfiguration: DeploymentEnvironmentConfiguration
 
     fun onStartUp(@Observes event: StartupEvent) {
-        // TODO: validate all found deployment environments
-        assertValidEnvId("test")
+        findAll().ifEmpty {
+            error("No deployment environments were configured. Please configure at least one environment.")
+        }
     }
 
     fun findAll(): Map<String, DeploymentEnvironment> = deploymentEnvironmentConfiguration.environments()
