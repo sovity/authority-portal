@@ -4,9 +4,9 @@
 
 Organization management is only available to Authority Admins and Authority Users. If you have one of these application roles you can see the Authority section on the navigation bar.
 
-![organizations-page](images/authority-section/organizations-list.png)
+![organizations-page](images/organizations-list.png)
 
-On the Organization page you can see all organizations registered in the MDS Portal. They can be filtered by:
+On the Organization page you can see all organizations registered in the Authority Portal. They can be filtered by:
 
 - _Active_: Fully registered organizations
 - _Invited_: Organization invitation has been sent, but was not yet accepted
@@ -14,13 +14,13 @@ On the Organization page you can see all organizations registered in the MDS Por
 - _Pending_: Organization has sent a registration request
 - _Rejected_: Organization registration request has been rejected
 
-Click in the row of an organization to view the organization details. Quickly switch between two organization detail pages by using the arrows at the top.
+Click in the row of an organization to view the organization details. Quickly switch between two organization detail pages by using the arrows at the top left of the details view.
 
-![organization-detail-page](images/authority-section/organization-detail-page.png)
+![organization-detail-page](images/organization-detail-page.png)
 
 From the organization detail page, Authority Users and Admins are able to manage the organization of interest and e.g. approve or reject an organization or see the different users of it.
 
-![manage-organizations](images/authority-section/manage-organization.png)
+![manage-organizations](images/manage-organization.png)
 
 As an Authority User you have the rights to:
 
@@ -44,12 +44,12 @@ The process is as follows:
 
 ## Connector overview
 
-Under "All Connectors", Authority Users and Admins can see all registered connectors of all organizations in the MDS Portal.
+Under "All Connectors", Authority Users and Admins can see all registered connectors of all organizations in the Authority Portal.
 Also, the connector details can be accessed from here.
 
 ## Dashboard & Reporting
 
-Additionally to the features listed in [Administration and Support](Administration%20and%20Support.md#dashboard--reporting), Authority Users and Admins have access to the following features.
+Additionally Authority Users and Admins have access to the following features on the Dashboard:
 
 - They can download a report about all users and their roles.
 - Instead of only their own, all connectors are respected in the connector report.
