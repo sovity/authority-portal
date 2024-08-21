@@ -31,16 +31,19 @@ import {fakeEnv} from './fake-environments';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
 import {getUserInfo} from './fake-users';
 
+const ACTIVATE_RANDOM_STATUSES: boolean = false;
+
 const getRandomStatus = (): ConnectorStatusDto => {
   const statuses: ConnectorStatusDto[] = ['ONLINE', 'OFFLINE', 'INIT'];
   return statuses[Math.floor(Math.random() * statuses.length)];
 };
 
-setInterval(() => {
-  TEST_CONNECTORS.forEach((c) => {
-    c.status = getRandomStatus();
-  });
-}, 5000);
+if (ACTIVATE_RANDOM_STATUSES)
+  setInterval(() => {
+    TEST_CONNECTORS.forEach((c) => {
+      c.status = getRandomStatus();
+    });
+  }, 20000);
 
 export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   {
