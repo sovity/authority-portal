@@ -21,10 +21,11 @@ Manage your Dataspace
 
 ## About The Project
 
-Allows a Dataspace to manage its participants. Supports participant organization structure, multiple ways to get or add
-connectors and service partners that can provide their own CaaS for other participants.
+The **Authority Portal** is an open-source Software as a Service (SaaS) solution designed to streamline the management of your Dataspace. This innovative tool serves as a comprehensive Dataspace Administration Tool, offering a platform where you can seamlessly invite organizations and their users to participate in your Dataspace.
 
-Since the Authority Portal is part of a dataspace administration, technical connections to other dataspace systems are necessary. If you would like to deploy the Authority Portal yourself and use it productively, please contact sovity so that we can help you.
+The Authority Portal is not just about managing participants. It also provides multiple avenues to add or acquire connectors and service partners. These partners can offer their own Connector-as-a-Service (CaaS), extending the functionality and versatility of your Dataspace.
+
+As a Dataspace administration tool, the Authority Portal necessitates technical connections with other dataspace components, including the CaaS component. This integration ensures a smooth and efficient operation, enhancing the overall user experience.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -85,6 +86,6 @@ See [`LICENSE`](./LICENSE) for more information.
 
 ## Contact
 
-contact@sovity.de
+If you're interested in deploying the Authority Portal for productive use, we at sovity are ready to assist you. Our team is committed to providing the support you need to make the most of this powerful tool. Contact us today to learn more about how the Authority Portal can transform your dataspace management: contact@sovity.de
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
