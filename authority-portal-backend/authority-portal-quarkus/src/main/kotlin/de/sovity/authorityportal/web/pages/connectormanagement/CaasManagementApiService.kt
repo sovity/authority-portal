@@ -88,7 +88,7 @@ class CaasManagementApiService(
             providerOrganizationId = providerOrgId
         )
 
-        return CreateConnectorResponse.ok(connectorId, timeUtils.now())
+        return CreateConnectorResponse.ok(connectorId, clientId, timeUtils.now())
     }
 
     fun getCaasAvailabilityForOrganization(organizationId: String, environmentId: String): CaasAvailabilityResponse {

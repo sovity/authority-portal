@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {CreateConnectorRequest} from '@sovity.de/authority-portal-client';
+import {ProvideConnectorPageFormValue} from '../provide-connector-page/provide-connector-page-form-model';
 
 const tag = 'ProvideConnectorPage';
 
@@ -21,7 +21,7 @@ export class Reset {
 export class Submit {
   static readonly type = `[${tag}] Provide Connector`;
   constructor(
-    public request: CreateConnectorRequest,
+    public request: ProvideConnectorPageFormValue,
     public organizationId: string,
     public enableForm: () => void,
     public disableForm: () => void,

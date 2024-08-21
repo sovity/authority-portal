@@ -24,6 +24,8 @@ export interface ConnectorTabFormModel {
   endpointUrl: FormControl<string>;
   managementUrl: FormControl<string>;
   organization: FormControl<OrganizationOverviewEntryDto | null>;
+  useJwks: FormControl<boolean>;
+  jwksUrl: FormControl<string>;
 }
 export type ConnectorTabFormValue = ɵFormGroupRawValue<ConnectorTabFormModel>;
 export const DEFAULT_CONNECTOR_TAB_FORM_VALUE: ConnectorTabFormValue = {
@@ -33,6 +35,8 @@ export const DEFAULT_CONNECTOR_TAB_FORM_VALUE: ConnectorTabFormValue = {
   endpointUrl: '',
   managementUrl: '',
   organization: null,
+  useJwks: false,
+  jwksUrl: '',
 };
 
 export interface CertificateTabFormModel extends CertificateFormModel {}

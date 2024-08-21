@@ -16,6 +16,7 @@ package de.sovity.authorityportal.web.tests.services.connector
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateConnectorStatusDto
+import de.sovity.authorityportal.api.model.CreateConnectorWithJwksRequest
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
@@ -614,7 +615,7 @@ class ConnectorManagementApiServiceTest {
 
     @Test
     @TestTransaction
-    fun `create provided connector creates a connector for target organization`() {
+    fun `create provided connector creates a connector with certificate for target organization`() {
         // arrange
         val now = OffsetDateTime.now()
 
@@ -677,10 +678,84 @@ class ConnectorManagementApiServiceTest {
             it.createdBy = dummyDevUserUuid(0)
             it.createdAt = now
             it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
-            it.jwksUrl = null
-            it.caasStatus = null
-            it.lastRefreshAttemptAt = null
-            it.lastSuccessfulRefreshAt = null
+            it.onlineStatus = ConnectorOnlineStatus.OFFLINE
+            it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
+            it.contractOffersExceeded = ConnectorContractOffersExceeded.OK
+        }
+
+        assertThat(actual!!.copy())
+            .usingRecursiveComparison()
+            .withOffsetDateTimeComparator()
+            .withStrictTypeChecking()
+            .isEqualTo(expected.copy())
+    }
+
+    @Test
+    @TestTransaction
+    fun `create provided connector creates a connector with jwks url for target organization`() {
+        // arrange
+        val now = OffsetDateTime.now()
+
+        useDevUser(0, 0, setOf(Roles.UserRoles.SERVICE_PARTNER_ADMIN))
+        useMockNow(now)
+
+        ScenarioData().apply {
+            organization(0, 0)
+            user(0, 0)
+
+            organization(1, 1)
+            user(1, 1)
+
+            scenarioInstaller.install(this)
+        }
+
+        val dapsClient = mock<DapsClient>()
+
+        whenever(dapsClientService.forEnvironment(any())).thenReturn(dapsClient)
+        doNothing().whenever(dapsClient).createClient(any())
+        doNothing().whenever(dapsClient).addJwksUrl(any(), any())
+        doNothing().whenever(dapsClient).configureMappers(any(), any())
+
+        val request = CreateConnectorWithJwksRequest(
+            name = "Test Connector",
+            location = "DE",
+            frontendUrl = "https://connector.test.sovity.io/",
+            endpointUrl = "https://connector.test.sovity.io/dsp/",
+            managementUrl = "https://connector.test.sovity.io/api/management/",
+            jwksUrl = "https://connector.test.sovity.io/api/dsp/jwks",
+        )
+
+        // act
+        val result = uiResource.createProvidedConnectorWithJwks(dummyDevOrganizationId(1),"test", request)
+
+        // assert
+        assertThat(result).isNotNull
+        assertThat(result.id).contains(dummyDevOrganizationId(1))
+        assertThat(result.changedDate).isEqualTo(now)
+        assertThat(result.status).isEqualTo(CreateConnectorStatusDto.OK)
+
+        val actual = dsl.selectFrom(Tables.CONNECTOR)
+            .where(Tables.CONNECTOR.CONNECTOR_ID.eq(result.id))
+            .fetchOne()
+
+        assertThat(actual).isNotNull
+
+        val expected = dsl.newRecord(Tables.CONNECTOR).also {
+            it.connectorId = actual!!.connectorId // id is generated, so we can only predict the first part of it
+            it.organizationId = dummyDevOrganizationId(1)
+            it.providerOrganizationId = dummyDevOrganizationId(0)
+            it.type = ConnectorType.PROVIDED
+            it.environment = "test"
+            it.clientId = clientIdUtils.generateFromConnectorId(actual.connectorId)
+            it.name = "Test Connector"
+            it.location = "DE"
+            it.frontendUrl = "https://connector.test.sovity.io" // service should remove trailing slashes
+            it.endpointUrl = "https://connector.test.sovity.io/dsp" // service should remove trailing slashes
+            it.managementUrl = "https://connector.test.sovity.io/api/management" // service should remove trailing slashes
+            it.jwksUrl = "https://connector.test.sovity.io/api/dsp/jwks"
+            it.createdBy = dummyDevUserUuid(0)
+            it.createdAt = now
+            it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
             it.onlineStatus = ConnectorOnlineStatus.OFFLINE
             it.dataOffersExceeded = ConnectorDataOffersExceeded.OK
             it.contractOffersExceeded = ConnectorContractOffersExceeded.OK
@@ -734,7 +809,7 @@ class ConnectorManagementApiServiceTest {
 
     @Test
     @TestTransaction
-    fun `create provided connector fails because certificate was already used`() {
+    fun `create provided connector fails because client id was already used`() {
         // arrange
         val now = OffsetDateTime.now()
         val certificate = loadTestResource("create-connector-certificate.pem")
@@ -772,7 +847,7 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.id).isNull()
         assertThat(result.changedDate).isEqualTo(now)
         assertThat(result.status).isEqualTo(CreateConnectorStatusDto.ERROR)
-        assertThat(result.message).contains("Connector with this certificate already exists.")
+        assertThat(result.message).contains("Connector with this client ID already exists.")
     }
 
     @Test

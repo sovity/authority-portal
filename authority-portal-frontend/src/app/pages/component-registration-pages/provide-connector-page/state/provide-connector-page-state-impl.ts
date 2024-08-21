@@ -15,7 +15,9 @@ import {Observable} from 'rxjs';
 import {ignoreElements, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {
+  CreateConnectorRequest,
   CreateConnectorResponse,
+  CreateConnectorWithJwksRequest,
   OrganizationOverviewEntryDto,
 } from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
@@ -24,6 +26,7 @@ import {ErrorService} from 'src/app/core/services/error.service';
 import {buildConnectorConfig} from 'src/app/core/utils/connector-config-utils';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
+import {ProvideConnectorPageFormValue} from '../provide-connector-page/provide-connector-page-form-model';
 import {
   GetOrganizations,
   Reset,
@@ -63,12 +66,25 @@ export class ProvideConnectorPageStateImpl {
 
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap(
-        (deploymentEnvironmentId): Observable<CreateConnectorResponse> =>
-          this.apiService.createProvidedConnector(
-            action.request,
-            action.organizationId,
-            deploymentEnvironmentId,
-          ),
+        (deploymentEnvironmentId): Observable<CreateConnectorResponse> => {
+          if (action.request.connectorTab.useJwks) {
+            const request = this.buildCreateConnectorWithJwksRequest(
+              action.request,
+            );
+            return this.apiService.createProvidedConnectorWithJwks(
+              request,
+              action.organizationId,
+              deploymentEnvironmentId,
+            );
+          } else {
+            const request = this.buildCreateConnectorRequest(action.request);
+            return this.apiService.createProvidedConnectorWithCertificate(
+              request,
+              action.organizationId,
+              deploymentEnvironmentId,
+            );
+          }
+        },
       ),
       tap((res) => {
         ctx.patchState({
@@ -80,7 +96,7 @@ export class ProvideConnectorPageStateImpl {
         switch (res.status) {
           case 'OK':
             this.toast.showSuccess(
-              `Connector ${action.request.name} was successfully provided`,
+              `Connector ${action.request.connectorTab.name} was successfully provided`,
             );
             ctx.patchState({state: 'success'});
             action.success();
@@ -131,5 +147,33 @@ export class ProvideConnectorPageStateImpl {
     newOrganizations: Fetched<OrganizationOverviewEntryDto[]>,
   ) {
     ctx.patchState({organizationList: newOrganizations});
+  }
+
+  private buildCreateConnectorWithJwksRequest(
+    formValue: ProvideConnectorPageFormValue,
+  ): CreateConnectorWithJwksRequest {
+    return {
+      name: formValue.connectorTab.name,
+      location: formValue.connectorTab.location,
+      frontendUrl: formValue.connectorTab.frontendUrl,
+      endpointUrl: formValue.connectorTab.endpointUrl,
+      managementUrl: formValue.connectorTab.managementUrl,
+      jwksUrl: formValue.connectorTab.jwksUrl,
+    };
+  }
+
+  private buildCreateConnectorRequest(
+    formValue: ProvideConnectorPageFormValue,
+  ): CreateConnectorRequest {
+    return {
+      name: formValue.connectorTab.name,
+      location: formValue.connectorTab.location,
+      frontendUrl: formValue.connectorTab.frontendUrl,
+      endpointUrl: formValue.connectorTab.endpointUrl,
+      managementUrl: formValue.connectorTab.managementUrl,
+      certificate: formValue.certificateTab.bringOwnCert
+        ? formValue.certificateTab.ownCertificate
+        : formValue.certificateTab.generatedCertificate,
+    };
   }
 }

@@ -85,28 +85,26 @@ export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  registerConnector(): void {
+  registerConnector(registrationType: 'certificate' | 'jwks'): void {
+    if (registrationType === 'jwks') {
+      this.form.certificateTab.disable();
+    }
+
     const formValue = this.form.value;
     const organizationId = formValue.connectorTab.organization!.id;
+
     this.store.dispatch(
       new Submit(
-        {
-          name: formValue.connectorTab.name,
-          endpointUrl: formValue.connectorTab.endpointUrl,
-          location: formValue.connectorTab.location,
-          frontendUrl: formValue.connectorTab.frontendUrl,
-          managementUrl: formValue.connectorTab.managementUrl,
-          certificate: formValue.certificateTab.bringOwnCert
-            ? formValue.certificateTab.ownCertificate
-            : formValue.certificateTab.generatedCertificate,
-        },
+        formValue,
         organizationId,
         () => this.form.group.enable(),
         () => this.form.group.disable(),
         () => {
           setTimeout(() => {
-            this.stepper.next();
-          }, 0);
+            formValue.connectorTab.useJwks
+              ? (this.stepper.selectedIndex = 2)
+              : this.stepper.next();
+          }, 200);
         },
       ),
     );

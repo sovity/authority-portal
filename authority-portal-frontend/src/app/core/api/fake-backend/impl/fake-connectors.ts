@@ -21,6 +21,7 @@ import {
   CreateConnectorRequest,
   CreateConnectorResponse,
   CreateConnectorStatusDto,
+  CreateConnectorWithJwksRequest,
   DeleteOwnConnectorRequest,
   IdResponse,
   ProvidedConnectorOverviewEntryDto,
@@ -277,6 +278,7 @@ export const createOwnConnector = (
     id: randomId,
     changedDate: new Date(),
     status: CreateConnectorStatusDto.Ok,
+    clientId: 'client-id',
   };
 };
 
@@ -308,6 +310,7 @@ export const createCaas = (
     id: randomId,
     changedDate: new Date(),
     status: CreateConnectorStatusDto.Ok,
+    clientId: 'client-id',
   };
 };
 
@@ -334,15 +337,15 @@ export const createProvidedConnector = (
   const hostOrgName = getUserInfo().organizationName;
   const status = 'OFFLINE';
 
-  const clientOrgName = TEST_ORGANIZATIONS.filter(
+  const clientOrgName = TEST_ORGANIZATIONS.find(
     (it) => it.id === clientOrganizationId,
-  )[0].name;
+  )?.name;
 
   const randomId = generateRandomId(clientOrganizationId);
   TEST_CONNECTORS.push({
     connectorId: randomId,
     organizationId: clientOrganizationId,
-    organizationName: clientOrgName,
+    organizationName: clientOrgName ?? '',
     hostOrganizationId: hostOrganizationId,
     hostOrganizationName: hostOrgName,
     type: ConnectorTypeDto.Provided,
@@ -358,6 +361,43 @@ export const createProvidedConnector = (
     id: randomId,
     changedDate: new Date(),
     status: CreateConnectorStatusDto.Ok,
+    clientId: 'client-id',
+  };
+};
+
+export const createProvidedConnectorWithJwks = (
+  request: CreateConnectorWithJwksRequest,
+  clientOrganizationId: string,
+): CreateConnectorResponse => {
+  const hostOrganizationId = getUserInfo().organizationId;
+  const hostOrgName = getUserInfo().organizationName;
+  const status = 'OFFLINE';
+
+  const clientOrgName = TEST_ORGANIZATIONS.find(
+    (it) => it.id === clientOrganizationId,
+  )?.name;
+
+  const randomId = generateRandomId(clientOrganizationId);
+  TEST_CONNECTORS.push({
+    connectorId: randomId,
+    organizationId: clientOrganizationId,
+    organizationName: clientOrgName ?? '',
+    hostOrganizationId: hostOrganizationId,
+    hostOrganizationName: hostOrgName,
+    type: ConnectorTypeDto.Provided,
+    environment: fakeEnv('test'),
+    connectorName: request.name,
+    location: request.location,
+    frontendUrl: request.frontendUrl,
+    endpointUrl: request.endpointUrl,
+    managementUrl: request.managementUrl,
+    status: status,
+  });
+  return {
+    id: randomId,
+    changedDate: new Date(),
+    status: CreateConnectorStatusDto.Ok,
+    clientId: 'client-id',
   };
 };
 

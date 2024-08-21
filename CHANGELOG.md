@@ -13,25 +13,60 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
-- Copyable contact email and subject fields on data offer detail dialogs
-- Catalog: Organization filter is no longer split into ID and name
-- Catalog: Connector filter is no longer split into ID and endpoint
-- Catalog: Removed dataspace filter when only one dataspace is known
-- Added a message when the CaaS request feature is not available
+#### Patch
+
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
+- Sovity EDC CE: {{ CE Release Link }}
+
+## [v4.0.0] - 2024-08-20
+
+### Overview
+
+This release introduces support for UI branding configuration, adds improvements to the process of registering connectors for service providers and fixes several minor issues.
+Check the deployment migration notes to ensure that you configured everything correctly.
+
+### Detailed Changes
+
+#### Major
+
+- The portal now supports multiple theme configurations
+
+#### Minor
+
+- Catalog
+  - Added copyable contact email and subject fields in the data offer detail dialog
+  - Organization filter is no longer split into ID and name
+  - Connector filter is no longer split into ID and endpoint
+  - Removed dataspace filter when only one dataspace is configured
+- Service provider
+  - Service providers can now provide connectors using a Connector JWKS URL instead of a certificate ([#272](https://github.com/sovity/authority-portal/pull/272))
+  - The configuration summary after registering a connector now shows the value for `EDC_OAUTH_CLIENT_ID`
+- Added a message on the CaaS request page to inform the user in case the feature is not configured
 
 #### Patch
 
-- Fixed user not being redirected to the correct URL after login
-- Copyable contact email and subject fields on data offer detail dialogs
-- Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
-- Fixed Dashboard showing uptimes of over 100%
-- Organization list: Data offer and connector counts now show the correct numbers according to the active environment
-- Fixed provider organization ID not showing up on CaaS connectors [#206](https://github.com/sovity/authority-portal/issues/206)
+- Fixed user not being redirected to the correct URL after login ([#280](https://github.com/sovity/authority-portal/issues/280))
+- Fixed the close button on the self-hosted/CaaS connector choice page ([#258](https://github.com/sovity/authority-portal/issues/258))
+- Fixed Dashboard showing uptimes of over 100% ([#262](https://github.com/sovity/authority-portal/issues/262))
+- Organization list: Data offer and connector counts now show the correct numbers according to the active environment ([#255](https://github.com/sovity/authority-portal/issues/255))
+- Fixed provider organization ID not showing up on CaaS connectors ([#206](https://github.com/sovity/authority-portal/issues/206))
   - Keep in mind that sovity needs to be registered in the portal for the ID to show up.
   - Already registered connectors will be updated automatically, this process can take up to 24 hours
-- Fixed the close button on the self-hosted/CaaS connector choice page [#258](https://github.com/sovity/authority-portal/issues/258)
-
-### Known issues
+- Fixed the close button on the self-hosted/CaaS connector choice page ([#258](https://github.com/sovity/authority-portal/issues/258))
+- Adjusted connector status naming for more consistency ([#270](https://github.com/sovity/authority-portal/issues/270))
+  - `RUNNING (CaaS) -> ONLINE`
+  - `STOPPED (CaaS) -> OFFLINE`
+  - `DEAD -> OFFLINE`
+- Breadcrumbs now show "Catalogue" properly when using the MDS theme
+- Removed requirement for an environment with ID `test`
 
 ### Deployment Migration Notes
 
@@ -73,10 +108,10 @@ Environment variable changes:
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
-- Sovity EDC CE: {{ CE Release Link }}
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:4.0.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:4.0.0`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.2.0`
+- Sovity EDC CE: [`10.2.0`](https://github.com/sovity/edc-ce/releases/tag/v10.2.0)
 
 ## [v3.1.0] - 2024-07-24
 
