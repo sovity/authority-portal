@@ -46,7 +46,7 @@ New users can be invited by clicking on "Invite User".
 Specify the user's name, email and role.
 Click on "Send invitation" to add the user to the list of registered users.
 
-![invited-user](images/administration-and-support/invited-user.png)
+![invited-user](images/invited-user.png)
 
 The invited user will receive an invitation email with a link.
 When clicking the link, the user will be asked to set a password for their account and to set up two-factor authentication.
@@ -60,5 +60,4 @@ Also, it is possible to download reports about connectors, data offers and syste
 
 ## Ticket System
 
-In case of any need for support, e.g. when encountering malfunctions, problems finding information or questions regarding the provided information, click on “MDS Support” to access the Fault Management system.
-Find further support [here](https://mobility-dataspace.eu/).
+In case of any need for support, e.g. when encountering malfunctions, problems finding information or questions regarding the provided information, click on “Support” to access the Support ticketing system.
