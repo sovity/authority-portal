@@ -122,7 +122,6 @@ export class ParticipantOwnConnectorListPageComponent
       .subscribe(() => {
         this.store.dispatch(GetOwnOrganizationConnectorsSilent);
         if (this.state.showDetail) {
-          console.log('refreshing connector silently');
           this.store.dispatch(RefreshConnectorSilent);
         }
       });

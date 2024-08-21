@@ -54,14 +54,11 @@ export class ParticipantOwnConnectorDetailPageStateImpl {
     ctx: StateContext<ParticipantOwnConnectorDetailPageState>,
     action: RefreshConnector,
   ): Observable<never> {
-    console.log('connectorId', ctx.getState().connectorId);
-
     return this.apiService
       .getOwnOrganizationConnectorDetails(ctx.getState().connectorId)
       .pipe(
         catchError(() => EMPTY),
         tap((connector) => {
-          console.log('connector', connector);
           this.connectorRefreshed(ctx, Fetched.ready(connector));
         }),
         ignoreElements(),
