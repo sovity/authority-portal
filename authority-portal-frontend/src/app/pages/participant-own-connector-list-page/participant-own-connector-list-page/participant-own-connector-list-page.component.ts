@@ -117,7 +117,7 @@ export class ParticipantOwnConnectorListPageComponent
   refresh() {
     this.store.dispatch(GetOwnOrganizationConnectors);
 
-    interval(5000)
+    interval(30000)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe(() => {
         this.store.dispatch(GetOwnOrganizationConnectorsSilent);

@@ -101,7 +101,7 @@ export class AuthorityConnectorListPageComponent implements OnInit, OnDestroy {
   refresh() {
     this.store.dispatch(GetConnectors);
 
-    interval(5000)
+    interval(30000)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe(() => {
         this.store.dispatch(GetConnectorsSilent);
