@@ -11,8 +11,8 @@
  *      sovity GmbH - initial implementation
  */
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ignoreElements, tap} from 'rxjs/operators';
+import {Observable, interval} from 'rxjs';
+import {ignoreElements, startWith, switchMap, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
@@ -39,13 +39,18 @@ export class ParticipantOwnConnectorDetailPageStateImpl {
     ctx: StateContext<ParticipantOwnConnectorDetailPageState>,
     action: RefreshConnector,
   ): Observable<never> {
-    return this.apiService
-      .getOwnOrganizationConnectorDetails(ctx.getState().connectorId)
-      .pipe(
-        Fetched.wrap({failureMessage: 'Failed loading Connector'}),
-        tap((connector) => this.connectorRefreshed(ctx, connector)),
-        ignoreElements(),
-      );
+    return interval(30000).pipe(
+      startWith(0),
+      switchMap(() =>
+        this.apiService
+          .getOwnOrganizationConnectorDetails(ctx.getState().connectorId)
+          .pipe(
+            Fetched.wrap({failureMessage: 'Failed loading Connector'}),
+            tap((connector) => this.connectorRefreshed(ctx, connector)),
+            ignoreElements(),
+          ),
+      ),
+    );
   }
 
   private connectorRefreshed(

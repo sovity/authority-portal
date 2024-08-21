@@ -201,9 +201,14 @@ export const getOwnConnectorDetail = (
   connectorId: string,
 ): ConnectorDetailDto => {
   const organizationId = getUserInfo().organizationId;
-  return TEST_CONNECTORS.filter(
+  let connector = TEST_CONNECTORS.filter(
     (c) => c.organizationId === organizationId && c.connectorId === connectorId,
   )[0];
+
+  return {
+    ...connector,
+    status: statuses[Math.floor(Math.random() * statuses.length)],
+  };
 };
 
 export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {

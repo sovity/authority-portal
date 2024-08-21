@@ -12,7 +12,7 @@
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
+import {Subject, interval} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
@@ -34,7 +34,7 @@ import {ParticipantOwnConnectorDetailPageComponent} from '../../participant-own-
 import {
   CloseConnectorDetail,
   GetOwnOrganizationConnectors,
-  GetStatusesOfConnectors,
+  GetOwnOrganizationConnectorsSilent,
   ShowConnectorDetail,
 } from '../state/participant-own-connector-list-page-actions';
 import {
@@ -115,7 +115,12 @@ export class ParticipantOwnConnectorListPageComponent
 
   refresh() {
     this.store.dispatch(GetOwnOrganizationConnectors);
-    this.store.dispatch(GetStatusesOfConnectors);
+
+    interval(3000)
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe(() => {
+        this.store.dispatch(GetOwnOrganizationConnectorsSilent);
+      });
   }
 
   private startListeningToState() {
@@ -158,7 +163,6 @@ export class ParticipantOwnConnectorListPageComponent
       label: this.state.connectors.data[nextIndex].name,
     };
     this.slideOverService.setSlideOverConfig(this.slideOverConfig);
-    this.store.dispatch(GetStatusesOfConnectors);
   }
 
   closeDetailPage() {
@@ -183,21 +187,6 @@ export class ParticipantOwnConnectorListPageComponent
     };
     this.slideOverService.setSlideOverConfig(this.slideOverConfig);
     this.store.dispatch(ShowConnectorDetail);
-  }
-
-  getConnectorsStatus(connectorId: string) {
-    if (this.state.statuses.length > 0) {
-      const statusObj = this.state.statuses.find(
-        (status) => status.connectorId === connectorId,
-      );
-      if (statusObj) {
-        return statusObj.status;
-      } else {
-        return 'UNKNOWN';
-      }
-    } else {
-      return 'UNKNOWN';
-    }
   }
 
   ngOnDestroy(): void {

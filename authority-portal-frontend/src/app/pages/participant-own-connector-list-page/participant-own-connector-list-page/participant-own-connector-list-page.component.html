@@ -58,7 +58,7 @@
                       <div class="flex items-center gap-1.5">
                         <app-connector-status-led
                           [status]="
-                            getConnectorsStatus(connector.id)
+                            connector.status
                           "></app-connector-status-led>
                         <span>
                           {{ connector.id }}

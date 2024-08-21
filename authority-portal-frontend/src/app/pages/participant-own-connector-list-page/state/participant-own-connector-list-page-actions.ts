@@ -17,6 +17,10 @@ export class GetOwnOrganizationConnectors {
   static readonly type = `[${tag}]  Get Own Organization Connectors`;
 }
 
+export class GetOwnOrganizationConnectorsSilent {
+  static readonly type = `[${tag}]  Get Own Organization Connectors (silent)`;
+}
+
 export class DeleteOwnConnector {
   static readonly type = `[${tag}]  Delete Own Connector`;
   constructor(public connectorId: string) {}
@@ -28,8 +32,4 @@ export class ShowConnectorDetail {
 
 export class CloseConnectorDetail {
   static readonly type = `[${tag}]  Close Connector Details Slider`;
-}
-
-export class GetStatusesOfConnectors {
-  static readonly type = `[${tag}]  Get Statuses of Connectors`;
 }

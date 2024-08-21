@@ -11,13 +11,13 @@
  *      sovity GmbH - initial implementation
  */
 import {Injectable} from '@angular/core';
-import {EMPTY, Observable, interval} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {
+  catchError,
   filter,
   finalize,
   ignoreElements,
   map,
-  startWith,
   switchMap,
   takeUntil,
   tap,
@@ -33,13 +33,12 @@ import {
   CloseConnectorDetail,
   DeleteOwnConnector,
   GetOwnOrganizationConnectors,
-  GetStatusesOfConnectors,
+  GetOwnOrganizationConnectorsSilent,
   ShowConnectorDetail,
 } from './participant-own-connector-list-page-actions';
 import {
   DEFAULT_PARTICIPANT_OWN_CONNECTOR_LIST_PAGE_STATE,
   ParticipantOwnConnectorListPageState,
-  connectorStatus,
 } from './participant-own-connector-list-page-state';
 
 @State<ParticipantOwnConnectorListPageState>({
@@ -67,12 +66,23 @@ export class ParticipantOwnConnectorListPageStateImpl {
       ),
       map((result) => result.connectors),
       Fetched.wrap({failureMessage: 'Failed loading connectors'}),
+      tap((connectors) => this.connectorsRefreshed(ctx, connectors)),
+      ignoreElements(),
+    );
+  }
+
+  @Action(GetOwnOrganizationConnectorsSilent)
+  onGetOwnOrganizationConnectorsSilent(
+    ctx: StateContext<ParticipantOwnConnectorListPageState>,
+  ): Observable<never> {
+    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
+      switchMap((deploymentEnvironmentId) =>
+        this.apiService.getOwnOrganizationConnectors(deploymentEnvironmentId),
+      ),
+      map((result) => result.connectors),
+      catchError(() => EMPTY),
       tap((connectors) => {
-        this.connectorsRefreshed(ctx, connectors);
-        if (connectors.isReady) {
-          const statuses = this.extractStatuses(connectors.data);
-          this.statusesRefreshed(ctx, statuses);
-        }
+        this.connectorsRefreshed(ctx, Fetched.ready(connectors));
       }),
       ignoreElements(),
     );
@@ -83,45 +93,6 @@ export class ParticipantOwnConnectorListPageStateImpl {
     newConnectors: Fetched<ConnectorOverviewEntryDto[]>,
   ) {
     ctx.patchState({connectors: newConnectors});
-  }
-
-  private extractStatuses(connectors: ConnectorOverviewEntryDto[]) {
-    return connectors.map((connector) => ({
-      connectorId: connector.id,
-      status: connector.status,
-    }));
-  }
-
-  @Action(GetStatusesOfConnectors)
-  onGetStatusesOfConnectors(
-    ctx: StateContext<ParticipantOwnConnectorListPageState>,
-  ): Observable<never> {
-    return interval(30000).pipe(
-      startWith(0),
-      switchMap(() => this.globalStateUtils.getDeploymentEnvironmentId()),
-      switchMap((deploymentEnvironmentId) =>
-        this.apiService.getOwnOrganizationConnectors(deploymentEnvironmentId),
-      ),
-      tap((result) => {
-        console.log('result.connectors', result.connectors);
-      }),
-      map((result) => result.connectors),
-      Fetched.wrap({failureMessage: 'Failed loading connectors'}),
-      tap((connectors: Fetched<ConnectorOverviewEntryDto[]>) => {
-        if (connectors.isReady) {
-          const statuses = this.extractStatuses(connectors.data);
-          this.statusesRefreshed(ctx, statuses);
-        }
-      }),
-      ignoreElements(),
-    );
-  }
-
-  private statusesRefreshed(
-    ctx: StateContext<ParticipantOwnConnectorListPageState>,
-    newStatuses: connectorStatus[],
-  ) {
-    ctx.patchState({statuses: newStatuses});
   }
 
   @Action(DeleteOwnConnector)
