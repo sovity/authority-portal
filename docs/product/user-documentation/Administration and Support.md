@@ -21,14 +21,14 @@ To manage the users in your organization, maneuver to the list of users by
 a) clicking on your name in the top right corner and then "Users and Roles"
 or b) Click on "My Organization" and then "Users and Roles"
 
-![user-management](images/administration-and-support/user-management.png)
+![user-management](images/user-management.png)
 
 The "User & Roles" list shows a list of all registered members in your organization.
 To manage a user, click somewhere in the row the user of interest is listed in.
 
 Only Admins have the rights to make changes here!
 
-![users-list](images/administration-and-support/users-list.png)
+![users-list](images/users-list.png)
 
 As an Admin you are able to:
 
@@ -41,7 +41,7 @@ As an Admin you are able to:
 As described above, to invite new users into your organization, you must have the role Admin!
 New users can be invited by clicking on "Invite User".
 
-![invitation-form](images/administration-and-support/invitation-form.png)
+![invitation-form](images/invitation-form.png)
 
 Specify the user's name, email and role.
 Click on "Send invitation" to add the user to the list of registered users.
@@ -56,7 +56,7 @@ When clicking the link, the user will be asked to set a password for their accou
 The Dashboard provides an overview over the current status of central Data Space Components as well as the organization's connectors.
 Also, it is possible to download reports about connectors, data offers and system stability from here.
 
-![dashboard](images/administration-and-support/dashboard.png)
+![dashboard](images/dashboard.png)
 
 ## Ticket System
 
