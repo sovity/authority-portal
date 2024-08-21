@@ -31,6 +31,17 @@ import {fakeEnv} from './fake-environments';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
 import {getUserInfo} from './fake-users';
 
+const getRandomStatus = (): ConnectorStatusDto => {
+  const statuses: ConnectorStatusDto[] = ['ONLINE', 'OFFLINE', 'INIT'];
+  return statuses[Math.floor(Math.random() * statuses.length)];
+};
+
+setInterval(() => {
+  TEST_CONNECTORS.forEach((c) => {
+    c.status = getRandomStatus();
+  });
+}, 5000);
+
 export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   {
     connectorId: 'MDSL1111AA.AP12I3U',
@@ -139,7 +150,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   },
 ];
 
-const statuses: ConnectorStatusDto[] = ['ONLINE', 'OFFLINE', 'INIT'];
+// const statuses: ConnectorStatusDto[] = ['ONLINE', 'OFFLINE', 'INIT'];
 
 export const getListOfConnectorsForTable = (
   organizationId: string,
@@ -191,7 +202,7 @@ export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
         type: c.type,
         environment: c.environment,
         name: c.connectorName,
-        status: statuses[Math.floor(Math.random() * statuses.length)],
+        status: c.status,
         frontendUrl: c.frontendUrl,
       };
     }),
@@ -202,14 +213,9 @@ export const getOwnConnectorDetail = (
   connectorId: string,
 ): ConnectorDetailDto => {
   const organizationId = getUserInfo().organizationId;
-  let connector = TEST_CONNECTORS.filter(
+  return TEST_CONNECTORS.filter(
     (c) => c.organizationId === organizationId && c.connectorId === connectorId,
   )[0];
-
-  return {
-    ...connector,
-    status: statuses[Math.floor(Math.random() * statuses.length)],
-  };
 };
 
 export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {

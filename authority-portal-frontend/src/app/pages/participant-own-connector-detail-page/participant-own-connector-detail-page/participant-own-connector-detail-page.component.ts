@@ -15,6 +15,7 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {
   Subject,
   distinctUntilChanged,
+  interval,
   map,
   switchMap,
   takeUntil,
@@ -31,6 +32,7 @@ import {ChildComponentInput} from 'src/app/shared/common/slide-over/slide-over.m
 import {DeleteOwnConnector} from '../../participant-own-connector-list-page/state/participant-own-connector-list-page-actions';
 import {
   RefreshConnector,
+  RefreshConnectorSilent,
   SetConnectorId,
 } from '../state/participant-own-connector-detail-page-actions';
 import {
@@ -69,6 +71,12 @@ export class ParticipantOwnConnectorDetailPageComponent
   ngOnInit() {
     this.store.dispatch(new SetConnectorId(this.connectorId));
     this.store.dispatch(RefreshConnector);
+
+    interval(5000)
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe(() => {
+        this.store.dispatch(RefreshConnectorSilent);
+      });
 
     this.startListeningToState();
   }

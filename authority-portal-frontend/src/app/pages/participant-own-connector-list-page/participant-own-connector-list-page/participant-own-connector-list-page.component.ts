@@ -31,6 +31,7 @@ import {
   SlideOverConfig,
 } from 'src/app/shared/common/slide-over/slide-over.model';
 import {ParticipantOwnConnectorDetailPageComponent} from '../../participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
+import {RefreshConnectorSilent} from '../../participant-own-connector-detail-page/state/participant-own-connector-detail-page-actions';
 import {
   CloseConnectorDetail,
   GetOwnOrganizationConnectors,
@@ -116,10 +117,14 @@ export class ParticipantOwnConnectorListPageComponent
   refresh() {
     this.store.dispatch(GetOwnOrganizationConnectors);
 
-    interval(3000)
+    interval(5000)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe(() => {
         this.store.dispatch(GetOwnOrganizationConnectorsSilent);
+        if (this.state.showDetail) {
+          console.log('refreshing connector silently');
+          this.store.dispatch(RefreshConnectorSilent);
+        }
       });
   }
 

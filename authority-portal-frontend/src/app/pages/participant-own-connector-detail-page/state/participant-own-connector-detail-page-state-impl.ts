@@ -11,14 +11,15 @@
  *      sovity GmbH - initial implementation
  */
 import {Injectable} from '@angular/core';
-import {Observable, interval} from 'rxjs';
-import {ignoreElements, startWith, switchMap, tap} from 'rxjs/operators';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError, ignoreElements, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {
   RefreshConnector,
+  RefreshConnectorSilent,
   SetConnectorId,
 } from './participant-own-connector-detail-page-actions';
 import {
@@ -39,18 +40,32 @@ export class ParticipantOwnConnectorDetailPageStateImpl {
     ctx: StateContext<ParticipantOwnConnectorDetailPageState>,
     action: RefreshConnector,
   ): Observable<never> {
-    return interval(30000).pipe(
-      startWith(0),
-      switchMap(() =>
-        this.apiService
-          .getOwnOrganizationConnectorDetails(ctx.getState().connectorId)
-          .pipe(
-            Fetched.wrap({failureMessage: 'Failed loading Connector'}),
-            tap((connector) => this.connectorRefreshed(ctx, connector)),
-            ignoreElements(),
-          ),
-      ),
-    );
+    return this.apiService
+      .getOwnOrganizationConnectorDetails(ctx.getState().connectorId)
+      .pipe(
+        Fetched.wrap({failureMessage: 'Failed loading Connector'}),
+        tap((connector) => this.connectorRefreshed(ctx, connector)),
+        ignoreElements(),
+      );
+  }
+
+  @Action(RefreshConnectorSilent, {cancelUncompleted: true})
+  onRefreshConnectorSilent(
+    ctx: StateContext<ParticipantOwnConnectorDetailPageState>,
+    action: RefreshConnector,
+  ): Observable<never> {
+    console.log('connectorId', ctx.getState().connectorId);
+
+    return this.apiService
+      .getOwnOrganizationConnectorDetails(ctx.getState().connectorId)
+      .pipe(
+        catchError(() => EMPTY),
+        tap((connector) => {
+          console.log('connector', connector);
+          this.connectorRefreshed(ctx, Fetched.ready(connector));
+        }),
+        ignoreElements(),
+      );
   }
 
   private connectorRefreshed(
