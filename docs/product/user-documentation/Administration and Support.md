@@ -7,10 +7,10 @@ A user can see their profile by clicking on their name in the top right corner a
 Any user is able to edit their own information by maneuvering to his own profile and clicking "Edit".
 First name, last name, job title, email and phone number can be updated and changes persisted by clicking "Update".
 
-Also, a user can see the roles assigned to them here.
-As a participant in the MDS, you can have one of the following roles:
+Also, a user can see the roles assigned to him/her by clicking on the Tab "Users and Roles".
+As a participant in the AP, you can have one of the following roles:
 
-- _User_: The basic role that allows a person to open multiple participant related sections in the MDS Portal, but basically cannot change anything
+- _User_: The basic role that allows a person to open multiple participant related sections in the AP, but basically cannot change anything
 - _Key User_: The role allows creating and editing connectors for the user's organization
 - _Admin_: Can additionally manage users, invite new users and deactivate existing users
 
@@ -55,8 +55,6 @@ When clicking the link, the user will be asked to set a password for their accou
 
 The Dashboard provides an overview over the current status of central Data Space Components as well as the organization's connectors.
 Also, it is possible to download reports about connectors, data offers and system stability from here.
-
-_Note_: As the MDS Portal is the instance, which tracks the status of the Data Space Components and connectors, downtimes that occur when the MDS Portal is offline, are not captured. 
 
 ![dashboard](images/administration-and-support/dashboard.png)
 
