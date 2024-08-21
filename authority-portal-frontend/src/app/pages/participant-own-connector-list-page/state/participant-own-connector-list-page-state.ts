@@ -25,7 +25,3 @@ export const DEFAULT_PARTICIPANT_OWN_CONNECTOR_LIST_PAGE_STATE: ParticipantOwnCo
     busy: false,
     showDetail: false,
   };
-
-export interface connectorStatus {
-  connectorId: string;
-}
