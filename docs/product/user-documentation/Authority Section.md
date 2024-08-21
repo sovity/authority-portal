@@ -20,8 +20,6 @@ Click in the row of an organization to view the organization details. Quickly sw
 
 From the organization detail page, Authority Users and Admins are able to manage the organization of interest and e.g. approve or reject an organization or see the different users of it.
 
-![manage-organizations](images/manage-organization.png)
-
 As an Authority User you have the rights to:
 
 - See the list of all registered, pending & invited organizations
