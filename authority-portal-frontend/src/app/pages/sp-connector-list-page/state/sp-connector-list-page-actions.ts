@@ -17,6 +17,10 @@ export class GetProvidedConnectors {
   static readonly type = `[${tag}]  Get Provided Connectors`;
 }
 
+export class GetProvidedConnectorsSilent {
+  static readonly type = `[${tag}]  Get Provided Connectors (silent)`;
+}
+
 export class DeleteProvidedConnector {
   static readonly type = `[${tag}]  Delete Provided Connector`;
   constructor(public connectorId: string) {}
