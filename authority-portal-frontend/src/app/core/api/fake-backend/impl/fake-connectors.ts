@@ -153,8 +153,6 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   },
 ];
 
-// const statuses: ConnectorStatusDto[] = ['ONLINE', 'OFFLINE', 'INIT'];
-
 export const getListOfConnectorsForTable = (
   organizationId: string,
 ): ConnectorOverviewResult => {
