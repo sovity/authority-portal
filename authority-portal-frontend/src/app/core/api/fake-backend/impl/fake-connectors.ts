@@ -31,20 +31,6 @@ import {fakeEnv} from './fake-environments';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
 import {getUserInfo} from './fake-users';
 
-const ACTIVATE_RANDOM_STATUSES: boolean = false;
-
-const getRandomStatus = (): ConnectorStatusDto => {
-  const statuses: ConnectorStatusDto[] = ['ONLINE', 'OFFLINE', 'INIT'];
-  return statuses[Math.floor(Math.random() * statuses.length)];
-};
-
-if (ACTIVATE_RANDOM_STATUSES)
-  setInterval(() => {
-    TEST_CONNECTORS.forEach((c) => {
-      c.status = getRandomStatus();
-    });
-  }, 20000);
-
 export let TEST_CONNECTORS: ConnectorDetailDto[] = [
   {
     connectorId: 'MDSL1111AA.AP12I3U',
@@ -265,6 +251,7 @@ export const createOwnConnector = (
   const organizationName = getUserInfo().organizationName;
   const randomId = generateRandomId(organizationId);
   const status = 'OFFLINE';
+  updateConnectorStatus(randomId);
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
@@ -281,6 +268,7 @@ export const createOwnConnector = (
     managementUrl: request.managementUrl,
     status: status,
   });
+
   return {
     id: randomId,
     changedDate: new Date(),
@@ -297,6 +285,7 @@ export const createCaas = (
   const organizationName = getUserInfo().organizationName;
   const randomId = generateRandomId(organizationId);
   const status = 'INIT';
+  updateConnectorStatus(randomId);
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
@@ -349,6 +338,8 @@ export const createProvidedConnector = (
   )?.name;
 
   const randomId = generateRandomId(clientOrganizationId);
+  updateConnectorStatus(randomId);
+
   TEST_CONNECTORS.push({
     connectorId: randomId,
     organizationId: clientOrganizationId,
@@ -385,6 +376,8 @@ export const createProvidedConnectorWithJwks = (
   )?.name;
 
   const randomId = generateRandomId(clientOrganizationId);
+  updateConnectorStatus(randomId);
+
   TEST_CONNECTORS.push({
     connectorId: randomId,
     organizationId: clientOrganizationId,
@@ -440,4 +433,20 @@ const generateRandomId = (organizationId: string): string => {
   } else {
     return result;
   }
+};
+
+const updateConnectorStatus = (
+  connectorId: string,
+  status: ConnectorStatusDto = 'ONLINE',
+  timeout = 5000,
+): void => {
+  setTimeout(() => {
+    const connector = TEST_CONNECTORS.find(
+      (c) => c.connectorId === connectorId,
+    );
+    if (connector) {
+      console.log('updateConnectorStatus', connectorId, status);
+      connector.status = status;
+    }
+  }, timeout);
 };
