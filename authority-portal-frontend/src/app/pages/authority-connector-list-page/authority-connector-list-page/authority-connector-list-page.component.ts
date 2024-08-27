@@ -11,7 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Subject, interval} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {ConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
@@ -27,9 +27,11 @@ import {
   SlideOverConfig,
 } from 'src/app/shared/common/slide-over/slide-over.model';
 import {AuthorityConnectorDetailPageComponent} from '../../authority-connector-detail-page/authority-connector-detail-page/authority-connector-detail-page.component';
+import {RefreshConnectorSilent} from '../../authority-connector-detail-page/state/authority-connector-detail-page-actions';
 import {
   CloseConnectorDetail,
   GetConnectors,
+  GetConnectorsSilent,
   ShowConnectorDetail,
 } from '../state/authority-connector-list-page-actions';
 import {
@@ -98,6 +100,15 @@ export class AuthorityConnectorListPageComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.store.dispatch(GetConnectors);
+
+    interval(30000)
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe(() => {
+        this.store.dispatch(GetConnectorsSilent);
+        if (this.showDetail) {
+          this.store.dispatch(RefreshConnectorSilent);
+        }
+      });
   }
 
   private startListeningToState() {

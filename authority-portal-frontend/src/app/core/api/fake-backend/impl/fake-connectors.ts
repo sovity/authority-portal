@@ -15,6 +15,7 @@ import {
   CheckFreeCaasUsageRequest,
   ConnectorDetailDto,
   ConnectorOverviewResult,
+  ConnectorStatusDto,
   ConnectorTypeDto,
   CreateCaasRequest,
   CreateConnectorRequest,
@@ -26,6 +27,7 @@ import {
   ProvidedConnectorOverviewEntryDto,
   ProvidedConnectorOverviewResult,
 } from '@sovity.de/authority-portal-client';
+import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {fakeEnv} from './fake-environments';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
 import {getUserInfo} from './fake-users';
@@ -59,7 +61,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     frontendUrl: 'https://xample.test1/connector',
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
-    status: 'DEAD',
+    status: 'OFFLINE',
   },
   {
     connectorId: 'MDSL1111AA.AP42I3L',
@@ -250,6 +252,7 @@ export const createOwnConnector = (
   const organizationName = getUserInfo().organizationName;
   const randomId = generateRandomId(organizationId);
   const status = 'OFFLINE';
+  updateConnectorStatus(randomId);
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
@@ -266,6 +269,7 @@ export const createOwnConnector = (
     managementUrl: request.managementUrl,
     status: status,
   });
+
   return {
     id: randomId,
     changedDate: new Date(),
@@ -282,6 +286,7 @@ export const createCaas = (
   const organizationName = getUserInfo().organizationName;
   const randomId = generateRandomId(organizationId);
   const status = 'INIT';
+  updateConnectorStatus(randomId);
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
@@ -334,6 +339,8 @@ export const createProvidedConnector = (
   )?.name;
 
   const randomId = generateRandomId(clientOrganizationId);
+  updateConnectorStatus(randomId);
+
   TEST_CONNECTORS.push({
     connectorId: randomId,
     organizationId: clientOrganizationId,
@@ -370,6 +377,8 @@ export const createProvidedConnectorWithJwks = (
   )?.name;
 
   const randomId = generateRandomId(clientOrganizationId);
+  updateConnectorStatus(randomId);
+
   TEST_CONNECTORS.push({
     connectorId: randomId,
     organizationId: clientOrganizationId,
@@ -425,4 +434,23 @@ const generateRandomId = (organizationId: string): string => {
   } else {
     return result;
   }
+};
+
+const updateConnector = (
+  connectorId: string,
+  patcher: Patcher<ConnectorDetailDto> = () => ({}),
+): void => {
+  TEST_CONNECTORS = TEST_CONNECTORS.map((it) =>
+    it.connectorId === connectorId ? patchObj(it, patcher) : it,
+  );
+};
+
+const updateConnectorStatus = (
+  connectorId: string,
+  status: ConnectorStatusDto = 'ONLINE',
+  timeout: number = 5000,
+): void => {
+  setTimeout(() => {
+    updateConnector(connectorId, () => ({status}));
+  }, timeout);
 };

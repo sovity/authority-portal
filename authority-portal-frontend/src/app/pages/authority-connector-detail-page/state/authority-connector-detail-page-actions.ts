@@ -21,3 +21,7 @@ export class SetConnectorId {
 export class RefreshConnector {
   static readonly type = `[${tag}] Refresh Connector`;
 }
+
+export class RefreshConnectorSilent {
+  static readonly type = `[${tag}] Refresh Connector (silent)`;
+}
