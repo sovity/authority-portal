@@ -17,6 +17,10 @@ export class GetConnectors {
   static readonly type = `[${tag}]  Get Connectors`;
 }
 
+export class GetConnectorsSilent {
+  static readonly type = `[${tag}]  Get Connectors (silent)`;
+}
+
 export class ShowConnectorDetail {
   static readonly type = `[${tag}]  Show Connector Details Slider`;
 }

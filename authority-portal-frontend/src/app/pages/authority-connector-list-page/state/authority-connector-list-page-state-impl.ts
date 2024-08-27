@@ -13,6 +13,7 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
 import {
+  catchError,
   filter,
   finalize,
   ignoreElements,
@@ -32,6 +33,7 @@ import {
   CloseConnectorDetail,
   DeleteConnector,
   GetConnectors,
+  GetConnectorsSilent,
   ShowConnectorDetail,
 } from './authority-connector-list-page-actions';
 import {
@@ -65,6 +67,23 @@ export class AuthorityConnectorListPageStateImpl {
       map((result) => result.connectors),
       Fetched.wrap({failureMessage: 'Failed loading connectors'}),
       tap((connectors) => this.connectorsRefreshed(ctx, connectors)),
+      ignoreElements(),
+    );
+  }
+
+  @Action(GetConnectorsSilent)
+  onGetConnectorsSilent(
+    ctx: StateContext<AuthorityConnectorListPageState>,
+  ): Observable<never> {
+    return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
+      switchMap((deploymentEnvironmentId) =>
+        this.apiService.getAllConnectors(deploymentEnvironmentId),
+      ),
+      map((result) => result.connectors),
+      catchError((error) => EMPTY),
+      tap((connectors) =>
+        this.connectorsRefreshed(ctx, Fetched.ready(connectors)),
+      ),
       ignoreElements(),
     );
   }
