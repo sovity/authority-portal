@@ -27,6 +27,7 @@ import {
   ProvidedConnectorOverviewEntryDto,
   ProvidedConnectorOverviewResult,
 } from '@sovity.de/authority-portal-client';
+import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {fakeEnv} from './fake-environments';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
 import {getUserInfo} from './fake-users';
@@ -435,18 +436,21 @@ const generateRandomId = (organizationId: string): string => {
   }
 };
 
+const updateConnector = (
+  connectorId: string,
+  patcher: Patcher<ConnectorDetailDto> = () => ({}),
+): void => {
+  TEST_CONNECTORS = TEST_CONNECTORS.map((it) =>
+    it.connectorId === connectorId ? patchObj(it, patcher) : it,
+  );
+};
+
 const updateConnectorStatus = (
   connectorId: string,
   status: ConnectorStatusDto = 'ONLINE',
-  timeout = 5000,
+  timeout: number = 5000,
 ): void => {
   setTimeout(() => {
-    const connector = TEST_CONNECTORS.find(
-      (c) => c.connectorId === connectorId,
-    );
-    if (connector) {
-      console.log('updateConnectorStatus', connectorId, status);
-      connector.status = status;
-    }
+    updateConnector(connectorId, () => ({status}));
   }, timeout);
 };
