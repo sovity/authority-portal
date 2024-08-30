@@ -1,3 +1,7 @@
+---
+icon: user
+---
+
 # Registration in the MDS Portal
 
 ## Organization Registration
