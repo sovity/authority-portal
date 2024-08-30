@@ -1,3 +1,7 @@
+---
+icon: user
+---
+
 # Connect to the MDS
 
 ## Environments
