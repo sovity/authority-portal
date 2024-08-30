@@ -1,3 +1,7 @@
+---
+icon: user
+---
+
 # Manage the Data Space components
 
 Besides the Data Space Authority roles, there are two other application roles that are able to manage elements of the Data Space.
