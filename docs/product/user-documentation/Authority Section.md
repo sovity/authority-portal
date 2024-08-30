@@ -1,3 +1,7 @@
+---
+icon: user
+---
+
 # Authority Section
 
 ## Organization management
