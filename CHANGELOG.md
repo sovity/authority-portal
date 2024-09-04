@@ -28,6 +28,29 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
 - Sovity EDC CE: {{ CE Release Link }}
 
+## [v4.1.0] - 2024-09-04
+
+### Overview
+
+Quality of Life improvements
+
+### Detailed Changes
+
+#### Minor
+
+- Added auto refresh for pages with connectors every 30 seconds
+
+### Deployment Migration Notes
+
+_No special migration steps required_
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:4.1.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:4.1.0`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.3.0`
+- Sovity EDC CE: https://github.com/sovity/edc-ce/releases/tag/v10.3.0
+
 ## [v4.0.0] - 2024-08-20
 
 ### Overview
