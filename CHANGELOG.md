@@ -15,8 +15,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
-- Added auto refresh for pages with connectors every 30 seconds
-
 ### Known issues
 
 ### Deployment Migration Notes
