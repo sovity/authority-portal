@@ -25,6 +25,22 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
 - Broker Server: `{{ broker version }}`
 
+## [v2.3.1] - 2024-09-06
+
+### Overview
+
+Hotfix release for MDS 2.1
+
+#### Patch
+
+- Dashboard now displays component uptimes correctly
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.3.1`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.3.1`
+- Broker Server: [`4.2.0`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v4.2.0)
+
 ## [v2.3.0] - 2024-05-13
 
 ### Overview
