@@ -241,6 +241,22 @@ MDS 2.2 intermediate release
 - Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:9.0.0`
 - Sovity EDC CE: [`9.0.0`](https://github.com/sovity/edc-ce/releases/tag/v9.0.0)
 
+## [v2.3.1] - 2024-09-06
+
+### Overview
+
+Hotfix release for MDS 2.1
+
+#### Patch
+
+- Dashboard now displays component uptimes correctly
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:2.3.1`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:2.3.1`
+- Broker Server: [`4.2.0`](https://github.com/sovity/edc-broker-server-extension/releases/tag/v4.2.0)
+
 ## [v2.3.0] - 2024-05-13
 
 ### Overview
