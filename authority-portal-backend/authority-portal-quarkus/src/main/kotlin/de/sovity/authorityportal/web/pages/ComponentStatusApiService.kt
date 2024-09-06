@@ -17,6 +17,7 @@ import de.sovity.authorityportal.api.model.UptimeStatusDto
 import de.sovity.authorityportal.api.model.ComponentStatusOverview
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.ComponentOnlineStatus
+import de.sovity.authorityportal.db.jooq.enums.ComponentOnlineStatus.UP
 import de.sovity.authorityportal.db.jooq.enums.ComponentType
 import de.sovity.authorityportal.db.jooq.tables.records.ComponentDowntimesRecord
 import de.sovity.authorityportal.web.services.ComponentStatusService
@@ -35,6 +36,7 @@ import org.jooq.impl.DSL
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.Duration
+import java.time.Duration.between
 import java.time.OffsetDateTime
 import java.util.Locale
 
@@ -111,52 +113,38 @@ class ComponentStatusApiService {
         }
     }
 
-    private fun calculateUptimePercentage(component: ComponentType, timeSpan: Duration, environmentId: String, now: OffsetDateTime): Double {
+    private fun calculateUptimePercentage(
+        component: ComponentType,
+        timeSpan: Duration,
+        environmentId: String,
+        now: OffsetDateTime
+    ): Double {
         val limit = now.minus(timeSpan)
-        var statusHistoryAsc = componentStatusService.getStatusHistoryAscSince(component, limit, environmentId)
-        // If no status was found before the limit, the first record in the history is used as base for the calculation
-        val initialRecord = componentStatusService.getFirstRecordBefore(component, limit, environmentId) ?: statusHistoryAsc.first()
 
-        // If no "UP" status was found, return 0.00
-        // Also, drop all entries before first "UP" status, to avoid wrong uptime calculation
-        var tmpLastUpStatus = if (initialRecord.status == ComponentOnlineStatus.UP) initialRecord else {
-            statusHistoryAsc = statusHistoryAsc.dropWhile { it.status != ComponentOnlineStatus.UP }
-            statusHistoryAsc.firstOrNull()
+        val statusHistoryAsc = componentStatusService.getStatusHistoryAscSince(component, limit, environmentId)
+
+        val first = statusHistoryAsc.first()
+
+        val head = when {
+            first.timeStamp.isBefore(limit) -> ComponentDowntimesRecord(component, first.status, environmentId, limit)
+            else -> first
         }
 
-        if (tmpLastUpStatus == null) {
-            return 0.00
-        }
+        val body = statusHistoryAsc.drop(1)
+        val tail = ComponentDowntimesRecord(component, statusHistoryAsc.last().status, environmentId, now)
 
-        // Sum up the total duration of "UP" statuses
-        var totalUptimeDuration = Duration.ZERO
-        for (componentRecord in statusHistoryAsc) {
-            if (componentRecord.status == ComponentOnlineStatus.UP) {
-                tmpLastUpStatus = componentRecord
-            } else {
-                totalUptimeDuration += Duration.between(tmpLastUpStatus!!.timeStamp.toInstant(), componentRecord.timeStamp.toInstant()).abs()
+        val whole = listOf(head) + body + listOf(tail)
+
+        val duration = whole.zipWithNext().fold(Duration.ZERO) { acc, (start, end) ->
+            when (start.status) {
+                UP -> acc + between(start.timeStamp, end.timeStamp)
+                else -> acc
             }
         }
 
-        // Add time if last status is "UP"
-        val lastRecord = statusHistoryAsc.lastOrNull() ?: tmpLastUpStatus
-        if (lastRecord!!.status == ComponentOnlineStatus.UP) {
-            totalUptimeDuration += Duration.between(lastRecord.timeStamp.toInstant(), now.toInstant()).abs()
-        }
+        val uptime = 100.0 * duration.toMillis() / between(head.timeStamp, now).toMillis()
 
-        // Subtract potential uptime before the limit
-        if (initialRecord.status == ComponentOnlineStatus.UP && initialRecord.timeStamp.isBefore(limit)) {
-            totalUptimeDuration -= Duration.between(initialRecord.timeStamp.toInstant(), limit.toInstant()).abs()
-        }
-
-        // Calculate uptime percentage
-        val totalDuration = Duration.between(initialRecord.timeStamp.toInstant(), now.toInstant()).coerceAtMost(timeSpan).abs()
-        val uptimePercentage = totalUptimeDuration.toMillis().toDouble() / totalDuration.toMillis().toDouble() * 100
-
-        // Round value to two decimal places
-        val symbols = DecimalFormatSymbols(Locale.US)
-        val formatter = DecimalFormat("#.##", symbols)
-        return formatter.format(uptimePercentage).toDouble()
+        return uptime
     }
 
     private fun countConnectorStatuses(

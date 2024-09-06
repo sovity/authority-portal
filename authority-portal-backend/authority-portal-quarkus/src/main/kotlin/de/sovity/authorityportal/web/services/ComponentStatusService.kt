@@ -51,27 +51,35 @@ class ComponentStatusService {
         val c = Tables.COMPONENT_DOWNTIMES
 
         return dsl.selectFrom(c)
-            .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment))
+            .where(c.COMPONENT.eq(component), c.ENVIRONMENT.eq(environment))
             .orderBy(c.TIME_STAMP.desc())
             .limit(1)
             .fetchOne()
     }
 
-    fun getFirstRecordBefore(component: ComponentType, limit: OffsetDateTime, environment: String): ComponentDowntimesRecord? {
+    fun getStatusHistoryAscSince(
+        component: ComponentType,
+        limit: OffsetDateTime,
+        environment: String
+    ): List<ComponentDowntimesRecord> {
         val c = Tables.COMPONENT_DOWNTIMES
 
         return dsl.selectFrom(c)
-            .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment)).and(c.TIME_STAMP.lessThan(limit))
+            .where(
+                c.COMPONENT.eq(component),
+                c.ENVIRONMENT.eq(environment),
+                c.TIME_STAMP.lessThan(limit)
+            )
             .orderBy(c.TIME_STAMP.desc())
             .limit(1)
-            .fetchOne()
-    }
-
-    fun getStatusHistoryAscSince(component: ComponentType, limit: OffsetDateTime, environment: String): List<ComponentDowntimesRecord> {
-        val c = Tables.COMPONENT_DOWNTIMES
-
-        return dsl.selectFrom(c)
-            .where(c.COMPONENT.eq(component)).and(c.ENVIRONMENT.eq(environment)).and(c.TIME_STAMP.greaterOrEqual(limit))
+            .union(
+                dsl.selectFrom(c)
+                    .where(
+                        c.COMPONENT.eq(component),
+                        c.ENVIRONMENT.eq(environment),
+                        c.TIME_STAMP.greaterOrEqual(limit)
+                    )
+            )
             .orderBy(c.TIME_STAMP.asc())
             .fetch()
     }
@@ -80,12 +88,19 @@ class ComponentStatusService {
         val c = Tables.COMPONENT_DOWNTIMES
 
         return dsl.selectFrom(c)
-            .where(c.ENVIRONMENT.eq(environment), c.STATUS.eq(DSL.any(ComponentOnlineStatus.UP, ComponentOnlineStatus.DOWN)))
+            .where(
+                c.ENVIRONMENT.eq(environment),
+                c.STATUS.eq(DSL.any(ComponentOnlineStatus.UP, ComponentOnlineStatus.DOWN))
+            )
             .orderBy(c.TIME_STAMP.asc())
             .fetch()
     }
 
-    private fun addComponentStatusIfChanged(component: ComponentType, environment: String, status: ComponentOnlineStatus?) {
+    private fun addComponentStatusIfChanged(
+        component: ComponentType,
+        environment: String,
+        status: ComponentOnlineStatus?
+    ) {
         val latestStatus = getLatestComponentStatus(component, environment)?.status
 
         if (status != null && latestStatus != status) {
