@@ -43,11 +43,11 @@ jobs:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
 
-    - name: Authenticate to GitHub Registry
-      run: echo "${{ secrets.GHCR_READONLY_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_READONLY_USER }}" --password-stdin
-
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
+      env:
+        GPR_USER: ${{ secrets.GHCR_READONLY_USER }}
+        GPR_KEY: ${{ secrets.GHCR_READONLY_TOKEN }}
       with:
         token: ${{ secrets.GHCR_READONLY_TOKEN }}
 
