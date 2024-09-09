@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Fixed table header of Data Offer Types on Organizations page
+
 ### Known issues
 
 ### Deployment Migration Notes
