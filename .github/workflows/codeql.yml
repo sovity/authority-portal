@@ -46,8 +46,8 @@ jobs:
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
       env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        USERNAME: ${{ secrets.GHCR_READONLY_USER }}
+        TOKEN: ${{ secrets.GHCR_READONLY_TOKEN }}
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
