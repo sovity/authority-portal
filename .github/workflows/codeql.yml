@@ -54,7 +54,7 @@ jobs:
         GRADLE_OPTS: "-Xmx7g"
       with:
         build-root-directory: authority-portal-backend
-        arguments: build --no-daemon --parallel
+        arguments: build -Dkotlin.daemon.jvmargs='-Xmx6g'
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
