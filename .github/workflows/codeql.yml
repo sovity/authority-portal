@@ -51,6 +51,7 @@ jobs:
       env:
         GPR_USER: ${{ secrets.GHCR_READONLY_USER }}
         GPR_KEY: ${{ secrets.GHCR_READONLY_TOKEN }}
+        GRADLE_OPTS: "-Xmx7g"
       with:
         build-root-directory: authority-portal-backend
         arguments: build
