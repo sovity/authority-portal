@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Adjusted the table header on the Organization overview page
+
 ### Known issues
 
 ### Deployment Migration Notes

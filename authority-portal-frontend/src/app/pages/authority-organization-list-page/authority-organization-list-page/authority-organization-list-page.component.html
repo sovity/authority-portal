@@ -14,72 +14,60 @@
             <thead class="bg-gray-200 border-l-4 border-gray-200">
               <tr>
                 <th
-                  class="py-3.5 pl-4 text-sm font-normal text-gray-700 text-left"
-                  rowspan="2"
+                  class="py-3.5 pl-4 text-sm font-bold text-gray-700 text-left"
                   scope="col">
                   {{
                     ('mds-id' | isActiveFeature) ? 'MDS ID' : 'Organization ID'
                   }}
                 </th>
                 <th
-                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
-                  rowspan="2"
+                  class="py-3.5 px-4 text-sm font-bold text-left text-gray-700"
                   scope="col">
                   Organization Name
                 </th>
 
                 <th
-                  class="py-3.5 px-4 text-sm font-normal text-left text-gray-700"
-                  rowspan="2"
+                  class="py-3.5 px-4 text-sm font-bold text-left text-gray-700"
                   scope="col">
                   Admin Email
                 </th>
 
                 <th
-                  class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
-                  rowspan="2"
+                  class="py-3.5 px-4 text-sm font-bold text-center text-gray-700"
                   scope="col">
                   Users
                 </th>
 
                 <th
-                  class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
-                  rowspan="2"
+                  class="py-3.5 px-4 text-sm font-bold text-center text-gray-700"
                   scope="col">
                   Connectors
                 </th>
 
                 <th
-                  class="pt-3.5 px-4 text-sm font-normal text-center text-gray-700"
-                  colspan="3"
+                  class="pt-6 pb-5 px-4 text-sm font-bold text-center text-gray-700"
                   scope="col">
-                  Data Offers
+                  Data Offers<br />
+                  <span class="font-normal">On Request</span>
+                </th>
+                <th
+                  class="pt-6 pb-5 px-4 text-sm font-bold text-center text-gray-700"
+                  scope="col">
+                  Data Offers<br />
+                  <span class="font-normal">Available</span>
                 </th>
 
                 <th
-                  class="px-12 py-3.5 text-sm font-normal text-left text-gray-700"
-                  rowspan="2"
+                  class="pt-6 pb-5 px-4 text-sm font-bold text-center text-gray-700"
+                  scope="col">
+                  Data Offers<br />
+                  <span class="font-normal">Total</span>
+                </th>
+
+                <th
+                  class="px-12 py-3.5 text-sm font-bold text-left text-gray-700"
                   scope="col">
                   Status
-                </th>
-              </tr>
-              <tr>
-                <th
-                  class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
-                  scope="col">
-                  On Request
-                </th>
-
-                <th
-                  class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
-                  scope="col">
-                  Available
-                </th>
-
-                <th
-                  class="py-3.5 px-4 text-sm font-normal text-center text-gray-700"
-                  scope="col">
-                  Total
                 </th>
               </tr>
             </thead>
