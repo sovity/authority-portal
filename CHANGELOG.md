@@ -16,6 +16,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Adjusted the table header on the Organization overview page
+- Adjusted data source availability naming in the CSV report
+  - `LIVE` -> `Available`
+  - `ON_REQUEST` -> `On Request`
 
 ### Known issues
 
