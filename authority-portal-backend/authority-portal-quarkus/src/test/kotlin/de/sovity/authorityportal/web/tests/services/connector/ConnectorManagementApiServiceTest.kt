@@ -525,7 +525,7 @@ class ConnectorManagementApiServiceTest {
             it.providerOrganizationId = it.organizationId
             it.type = ConnectorType.OWN
             it.environment = "test"
-            it.clientId = clientIdUtils.generateFromCertificate(request.certificate)
+            it.clientId = clientIdUtils.generateFromConnectorId(actual.connectorId)
             it.name = "Test Connector"
             it.location = "DE"
             it.frontendUrl = "https://connector.test.sovity.io" // service should remove trailing slashes
@@ -583,45 +583,6 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.changedDate).isEqualTo(now)
         assertThat(result.status).isEqualTo(CreateConnectorStatusDto.ERROR)
         assertThat(result.message).isEqualTo("Connector URL is not valid.")
-    }
-
-    @Test
-    @TestTransaction
-    fun `create own connector fails because certificate was already used`() {
-        // arrange
-        val now = OffsetDateTime.now()
-        val certificate = loadTestResource("create-connector-certificate.pem")
-
-        useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_CURATOR))
-        useMockNow(now)
-
-        ScenarioData().apply {
-            organization(0, 0)
-            user(0, 0)
-            connector(0, 0, 0) {
-                it.clientId = clientIdUtils.generateFromCertificate(certificate)
-            }
-            scenarioInstaller.install(this)
-        }
-
-        val request = CreateConnectorRequest(
-            name = "Test Connector",
-            location = "DE",
-            frontendUrl = "https://connector.test.sovity.io/",
-            endpointUrl = "https://connector.test.sovity.io/dsp/",
-            managementUrl = "https://connector.test.sovity.io/api/management/",
-            certificate = certificate
-        )
-
-        // act
-        val result = uiResource.createOwnConnector("test", request)
-
-        // assert
-        assertThat(result).isNotNull
-        assertThat(result.id).isNull()
-        assertThat(result.changedDate).isEqualTo(now)
-        assertThat(result.status).isEqualTo(CreateConnectorStatusDto.ERROR)
-        assertThat(result.message).contains("Connector with this certificate already exists.")
     }
 
     @Test

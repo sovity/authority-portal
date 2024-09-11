@@ -69,11 +69,11 @@ class CentralComponentManagementApiService(
         deploymentEnvironmentService.assertValidEnvId(envId)
 
         val centralComponentId = dataspaceComponentIdUtils.generateDataspaceComponentId(organizationId)
-        val clientId = clientIdUtils.generateFromCertificate(centralComponentCreateRequest.certificate)
+        val clientId = clientIdUtils.generateFromConnectorId(centralComponentId)
 
         if (clientIdUtils.exists(clientId)) {
-            Log.error("Component with this certificate already exists. connectorId=$centralComponentId, organizationId=$organizationId, userId=$userId, clientId=$clientId.")
-            error("Component with this certificate already exists")
+            Log.error("Component with this client-id already exists. connectorId=$centralComponentId, organizationId=$organizationId, userId=$userId, clientId=$clientId.")
+            error("Component with this client-id already exists")
         }
 
         centralComponentService.createCentralComponent(

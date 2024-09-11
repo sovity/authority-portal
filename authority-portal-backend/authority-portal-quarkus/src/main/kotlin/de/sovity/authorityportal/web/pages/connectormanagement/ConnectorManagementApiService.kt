@@ -170,7 +170,7 @@ class ConnectorManagementApiService(
         validateUrlConfiguration(createConnectorParams.frontendUrl, createConnectorParams.endpointUrl, createConnectorParams.managementUrl)?.let { return it }
 
         val connectorId = dataspaceComponentIdUtils.generateDataspaceComponentId(organizationId)
-        val clientId = clientIdUtils.generateFromCertificate(createConnectorParams.certificate!!)
+        val clientId = clientIdUtils.generateFromConnectorId(connectorId)
 
         if (clientIdUtils.exists(clientId)) {
             Log.error("Connector with this certificate already exists. connectorId=$connectorId, organizationId=$organizationId, userId=$userId, clientId=$clientId.")
