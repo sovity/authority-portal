@@ -32,7 +32,9 @@ class CaasUpdateService(
     val connectorService: ConnectorService,
     val caasClient: CaasClient,
     val dapsClientService: DapsClientService,
-    @ConfigProperty(name = "quarkus.oidc-client.sovity.client-enabled") val isCaasClientEnabled: Boolean
+
+    @ConfigProperty(name = "quarkus.oidc-client.sovity.client-enabled")
+    val isCaasClientEnabled: Boolean
 ) {
 
     @Scheduled(every = "30s")
