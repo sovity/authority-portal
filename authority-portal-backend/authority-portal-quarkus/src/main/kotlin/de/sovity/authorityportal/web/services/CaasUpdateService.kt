@@ -23,6 +23,7 @@ import de.sovity.authorityportal.web.thirdparty.daps.DapsClientService
 import io.quarkus.logging.Log
 import io.quarkus.scheduler.Scheduled
 import jakarta.enterprise.context.ApplicationScoped
+import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.jooq.DSLContext
 
 @ApplicationScoped
@@ -31,16 +32,19 @@ class CaasUpdateService(
     val connectorService: ConnectorService,
     val caasClient: CaasClient,
     val dapsClientService: DapsClientService,
+    @ConfigProperty(name = "quarkus.oidc-client.sovity.client-enabled") val isCaasClientEnabled: Boolean
 ) {
 
     @Scheduled(every = "30s")
     fun scheduledCaasStatusUpdate() {
-        val connectors = connectorService.getAllCaas()
-        val connectorStatusList = caasClient.getCaasStatus(connectors.map { it.connectorId })
-        val connectorStatusMap = buildConnectorStatusMap(connectorStatusList, connectors)
+        if (!isCaasClientEnabled) {
+            val connectors = connectorService.getAllCaas()
+            val connectorStatusList = caasClient.getCaasStatus(connectors.map { it.connectorId })
+            val connectorStatusMap = buildConnectorStatusMap(connectorStatusList, connectors)
 
-        updateCaasStatus(connectorStatusMap)
-        dsl.batchUpdate(connectorStatusMap.keys).execute()
+            updateCaasStatus(connectorStatusMap)
+            dsl.batchUpdate(connectorStatusMap.keys).execute()
+        }
     }
 
     private fun updateCaasStatus(connectorStatusMap: Map<ConnectorRecord, CaasStatusResponse>) {
