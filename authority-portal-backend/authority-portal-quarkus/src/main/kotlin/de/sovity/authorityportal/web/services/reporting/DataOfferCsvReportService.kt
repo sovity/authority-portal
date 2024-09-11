@@ -63,7 +63,7 @@ class DataOfferCsvReportService(
                 organizationId = it.organizationId,
                 organizationName = organizationNames[it.organizationId] ?: "",
                 status = it.onlineStatus.toString(),
-                dataSourceAvailability = it.dataSourceAvailability
+                dataSourceAvailability = if (it.dataSourceAvailability == "LIVE") "Available" else it.dataSourceAvailability
             )
         }
     }
