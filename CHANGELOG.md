@@ -19,6 +19,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Adjusted data source availability naming in the CSV report
   - `LIVE` -> `Available`
   - `ON_REQUEST` -> `On Request`
+- Changed the error message on user/organization invite failures to be more descriptive
 
 ### Known issues
 

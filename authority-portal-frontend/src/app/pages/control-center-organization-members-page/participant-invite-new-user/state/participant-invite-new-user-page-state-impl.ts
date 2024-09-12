@@ -15,8 +15,8 @@ import {Observable} from 'rxjs';
 import {ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {ApiService} from 'src/app/core/api/api.service';
-import {ErrorService} from 'src/app/core/services/error.service';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
+import {ErrorService} from '../../../../core/services/error.service';
 import {InviteNewUser, Reset} from './participant-invite-new-user-page-actions';
 import {
   DEFAULT_PARTICIPANT_INVITE_NEW_USER_PAGE_STATE,
@@ -50,10 +50,6 @@ export class ParticipantInviteNewUserPageStateImpl {
     action.disableForm();
     return this.apiService.inviteUser(action.request).pipe(
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      this.errorService.toastFailureRxjs('Failed Inviting User', () => {
-        ctx.patchState({state: 'error'});
-        action.enableForm();
-      }),
       tap(() => {
         this.toast.showSuccess(
           `The invitation for ${action.request.firstName} ${action.request.lastName} was sent.`,
@@ -61,6 +57,13 @@ export class ParticipantInviteNewUserPageStateImpl {
         ctx.patchState({state: 'success'});
         action.success();
       }),
+      this.errorService.toastRegistrationErrorRxjs(
+        'Failed inviting user due to an unknown error.',
+        () => {
+          ctx.patchState({state: 'error'});
+          action.enableForm();
+        },
+      ),
       ignoreElements(),
     );
   }

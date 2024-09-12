@@ -36,4 +36,21 @@ export class ErrorService {
       return EMPTY;
     });
   }
+
+  toastRegistrationErrorRxjs<T>(
+    genericFailureMessage: string,
+    onError?: () => void,
+  ): MonoTypeOperatorFunction<T> {
+    return catchError((err) => {
+      let errorMessage = genericFailureMessage;
+      if (err?.response?.status === 409) {
+        errorMessage = 'A user with this email address already exists.';
+      }
+      this.toastFailure(errorMessage);
+      if (onError) {
+        onError();
+      }
+      return EMPTY;
+    });
+  }
 }

@@ -22,9 +22,9 @@ import {
   ofAction,
 } from '@ngxs/store';
 import {ApiService} from 'src/app/core/api/api.service';
-import {ErrorService} from 'src/app/core/services/error.service';
 import {RefreshOrganizations} from 'src/app/pages/authority-organization-list-page/authority-organization-list-page/state/authority-organization-list-page-actions';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
+import {ErrorService} from '../../../../core/services/error.service';
 import {
   InviteNewOrganization,
   Reset,
@@ -44,8 +44,8 @@ export class AuthorityInviteNewOrganizationPageStateImpl {
     private apiService: ApiService,
     private toast: ToastService,
     private actions$: Actions,
-    private errorService: ErrorService,
     private store: Store,
+    private errorService: ErrorService,
   ) {}
 
   @Action(Reset)
@@ -69,10 +69,13 @@ export class AuthorityInviteNewOrganizationPageStateImpl {
         this.store.dispatch(RefreshOrganizations);
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      this.errorService.toastFailureRxjs('Failed Inviting Organization', () => {
-        ctx.patchState({state: 'error'});
-        action.enableForm();
-      }),
+      this.errorService.toastRegistrationErrorRxjs(
+        'Failed inviting organization due to an unknown error.',
+        () => {
+          ctx.patchState({state: 'error'});
+          action.enableForm();
+        },
+      ),
       ignoreElements(),
     );
   }
