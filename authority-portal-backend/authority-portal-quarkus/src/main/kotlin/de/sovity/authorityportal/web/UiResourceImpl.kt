@@ -20,7 +20,7 @@ import de.sovity.authorityportal.api.model.CentralComponentDto
 import de.sovity.authorityportal.api.model.ComponentStatusOverview
 import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithCertificateRequest
 import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithJwksRequest
-import de.sovity.authorityportal.api.model.ConnectorDetailDto
+import de.sovity.authorityportal.api.model.ConnectorDetailsDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
@@ -254,7 +254,7 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun getConnector(connectorId: String): ConnectorDetailDto {
+    override fun getConnector(connectorId: String): ConnectorDetailsDto {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_USER, Roles.UserRoles.OPERATOR_ADMIN)
         return connectorManagementApiService.getAuthorityConnectorDetails(connectorId)
     }
@@ -295,7 +295,7 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun getProvidedConnectorDetails(connectorId: String): ConnectorDetailDto {
+    override fun getProvidedConnectorDetails(connectorId: String): ConnectorDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.getConnectorDetails(
@@ -343,7 +343,7 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun ownOrganizationConnectorDetails(connectorId: String): ConnectorDetailDto {
+    override fun ownOrganizationConnectorDetails(connectorId: String): ConnectorDetailsDto {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.ownOrganizationConnectorDetails(
@@ -515,7 +515,7 @@ class UiResourceImpl(
         authUtils.requiresAuthenticated()
         authUtils.requiresMemberOfAnyOrganization()
         if (authUtils.hasRole(Roles.UserRoles.AUTHORITY_USER)) {
-            return componentStatusApiService.getComponentsStatus(environmentId);
+            return componentStatusApiService.getComponentsStatus(environmentId)
         }
         return componentStatusApiService.getComponentsStatusForOrganizationId(environmentId, loggedInUser.organizationId!!)
     }

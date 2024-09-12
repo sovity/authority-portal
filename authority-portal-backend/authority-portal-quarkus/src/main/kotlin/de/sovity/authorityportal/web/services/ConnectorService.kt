@@ -173,7 +173,7 @@ class ConnectorService(
         return getCaasCountByOrganizationIdAndEnvironment(organizationId, environmentId) < limit
     }
 
-    fun reserveProvidedConnector(
+    fun createReservedConnector(
         connectorId: String,
         clientId: String,
         organizationId: String,

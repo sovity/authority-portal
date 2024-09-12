@@ -15,7 +15,7 @@ package de.sovity.authorityportal.web.pages.connectormanagement
 
 import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithCertificateRequest
 import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithJwksRequest
-import de.sovity.authorityportal.api.model.ConnectorDetailDto
+import de.sovity.authorityportal.api.model.ConnectorDetailsDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewEntryDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
@@ -58,10 +58,10 @@ class ConnectorManagementApiService(
     val timeUtils: TimeUtils
 ) {
 
-    fun ownOrganizationConnectorDetails(connectorId: String, organizationId: String, userId: String): ConnectorDetailDto =
+    fun ownOrganizationConnectorDetails(connectorId: String, organizationId: String, userId: String): ConnectorDetailsDto =
         getConnectorDetails(connectorId, organizationId, userId)
 
-    fun getConnectorDetails(connectorId: String, organizationId: String, userId: String): ConnectorDetailDto {
+    fun getConnectorDetails(connectorId: String, organizationId: String, userId: String): ConnectorDetailsDto {
         val connector = connectorService.getConnectorDetailOrThrow(connectorId)
 
         if (!connectorId.contains(organizationId) && connector.hostOrganizationId != organizationId) {
@@ -72,13 +72,13 @@ class ConnectorManagementApiService(
         return buildConnectorDetailDto(connector)
     }
 
-    fun getAuthorityConnectorDetails(connectorId: String): ConnectorDetailDto {
+    fun getAuthorityConnectorDetails(connectorId: String): ConnectorDetailsDto {
         val connector = connectorService.getConnectorDetailOrThrow(connectorId)
         return buildConnectorDetailDto(connector)
     }
 
-    private fun buildConnectorDetailDto(connector: ConnectorService.ConnectorDetailRs): ConnectorDetailDto {
-        return ConnectorDetailDto(
+    private fun buildConnectorDetailDto(connector: ConnectorService.ConnectorDetailRs): ConnectorDetailsDto {
+        return ConnectorDetailsDto(
             connectorId = connector.connectorId,
             type = connector.type.toDto(),
             organizationName = connector.orgName,
@@ -214,7 +214,7 @@ class ConnectorManagementApiService(
             return CreateConnectorResponse.error("Connector with this client ID already exists.", timeUtils.now())
         }
 
-        connectorService.reserveProvidedConnector(
+        connectorService.createReservedConnector(
             connectorId = connectorId,
             clientId = clientId,
             organizationId = connector.customerOrganizationId,
@@ -318,15 +318,12 @@ class ConnectorManagementApiService(
             return false
         }
 
-        try {
-            val frontendUrl = URL(frontendUrlString)
-            val endpointUrl = URL(endpointUrlString)
-            val managementUrl = URL(managementUrlString)
-            return (frontendUrl.protocol == "https"
-                && endpointUrl.protocol == "https"
-                && managementUrl.protocol == "https")
+        return try {
+            listOf(frontendUrlString, endpointUrlString, managementUrlString)
+                .map { URL(it).protocol }
+                .all { it == "https" }
         } catch (e: MalformedURLException) {
-            return false
+            false
         }
     }
 

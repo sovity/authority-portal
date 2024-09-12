@@ -16,12 +16,7 @@ package de.sovity.authorityportal.web.utils.idmanagement
 import de.sovity.authorityportal.db.jooq.Tables
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
-import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier
-import org.bouncycastle.asn1.x509.SubjectKeyIdentifier
-import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder
 import org.jooq.DSLContext
-import java.security.cert.CertificateFactory
-import java.security.cert.X509Certificate
 import java.util.Locale
 
 @ApplicationScoped

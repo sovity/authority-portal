@@ -16,7 +16,7 @@ package de.sovity.authorityportal.api.model
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 
-@Schema(description = "DTO for configuring SP Connectors")
+@Schema(description = "Request data for configuring SP Connectors")
 data class ConfigureProvidedConnectorWithCertificateRequest(
     @field:NotBlank(message = "URL of the connector frontend cannot be blank")
     @field:Schema(description = "URL of the connector frontend", requiredMode = Schema.RequiredMode.REQUIRED)

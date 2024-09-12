@@ -15,10 +15,9 @@ package de.sovity.authorityportal.web.tests.services.connector
 
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithCertificateRequest
+import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithJwksRequest
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
 import de.sovity.authorityportal.api.model.CreateConnectorStatusDto
-import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithJwksRequest
-import de.sovity.authorityportal.api.model.ReserveConnectorRequest
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded

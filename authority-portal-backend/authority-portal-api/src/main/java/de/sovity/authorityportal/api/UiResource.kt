@@ -17,7 +17,7 @@ import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
 import de.sovity.authorityportal.api.model.CentralComponentDto
 import de.sovity.authorityportal.api.model.ComponentStatusOverview
 import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithCertificateRequest
-import de.sovity.authorityportal.api.model.ConnectorDetailDto
+import de.sovity.authorityportal.api.model.ConnectorDetailsDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
@@ -203,7 +203,7 @@ interface UiResource {
     @Path("/authority/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any connector.")
-    fun getConnector(@PathParam("connectorId") connectorId: String): ConnectorDetailDto
+    fun getConnector(@PathParam("connectorId") connectorId: String): ConnectorDetailsDto
 
     @GET
     @Path("/authority/connectors")
@@ -263,7 +263,7 @@ interface UiResource {
     @Path("/application/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of a connector provided by own organization. (For Service Partners)")
-    fun getProvidedConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailDto
+    fun getProvidedConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailsDto
 
     @DELETE
     @Path("/application/connectors/{connectorId}")
@@ -308,7 +308,7 @@ interface UiResource {
     @Path("/organizations/my-org/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of a user's own organization's connector.")
-    fun ownOrganizationConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailDto
+    fun ownOrganizationConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailsDto
 
     @POST
     @Path("/organizations/my-org/connectors/create-on-premise")
