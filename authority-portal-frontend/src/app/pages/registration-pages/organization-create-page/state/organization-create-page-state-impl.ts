@@ -59,10 +59,8 @@ export class OrganizationCreatePageStateImpl {
       takeUntil(this.actions$.pipe(ofAction(Reset))),
       catchError((err) => {
         let errorMessage = 'Registration failed due to an unknown error.';
-        console.log(err);
-        console.log(err.status);
         if (err?.response?.status === 409) {
-          errorMessage = 'This e-mail address is already registered.';
+          errorMessage = 'This email address is already registered.';
         }
         this.toast.showDanger(errorMessage);
         ctx.patchState({state: 'error'});

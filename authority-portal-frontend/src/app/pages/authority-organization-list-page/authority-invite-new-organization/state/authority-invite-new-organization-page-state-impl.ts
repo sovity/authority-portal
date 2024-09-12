@@ -11,8 +11,8 @@
  *      sovity GmbH - initial implementation
  */
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ignoreElements, takeUntil, tap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {
   Action,
   Actions,
@@ -22,7 +22,6 @@ import {
   ofAction,
 } from '@ngxs/store';
 import {ApiService} from 'src/app/core/api/api.service';
-import {ErrorService} from 'src/app/core/services/error.service';
 import {RefreshOrganizations} from 'src/app/pages/authority-organization-list-page/authority-organization-list-page/state/authority-organization-list-page-actions';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 import {
@@ -44,7 +43,6 @@ export class AuthorityInviteNewOrganizationPageStateImpl {
     private apiService: ApiService,
     private toast: ToastService,
     private actions$: Actions,
-    private errorService: ErrorService,
     private store: Store,
   ) {}
 
@@ -69,9 +67,15 @@ export class AuthorityInviteNewOrganizationPageStateImpl {
         this.store.dispatch(RefreshOrganizations);
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      this.errorService.toastFailureRxjs('Failed Inviting Organization', () => {
+      catchError((err) => {
+        let errorMessage = 'Failed inviting user due to an unknown error.';
+        if (err?.response?.status === 409) {
+          errorMessage = 'A user with this email address already exists.';
+        }
+        this.toast.showDanger(errorMessage);
         ctx.patchState({state: 'error'});
         action.enableForm();
+        return of(null);
       }),
       ignoreElements(),
     );
