@@ -15,11 +15,12 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
-- Adjusted the table header on the Organization overview page
-- Adjusted data source availability naming in the CSV report
+- Adjusted the table header on the Organization overview page ([#286](https://github.com/sovity/authority-portal/issues/286))
+- Adjusted data source availability naming in the CSV report ([#283](https://github.com/sovity/authority-portal/issues/283))
   - `LIVE` -> `Available`
   - `ON_REQUEST` -> `On Request`
-- Changed the error message on user/organization invite failures to be more descriptive
+- Changed the error message on user/organization invite failures to be more descriptive ([#290](https://github.com/sovity/authority-portal/issues/290))
+- Fixed UI issues after deleting the last user of an organization ([#289](https://github.com/sovity/authority-portal/issues/289))
 
 ### Known issues
 
