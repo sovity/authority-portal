@@ -11,11 +11,12 @@
  *      sovity GmbH - initial implementation
  */
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {catchError, ignoreElements, takeUntil, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {ApiService} from 'src/app/core/api/api.service';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
+import {ErrorService} from '../../../../core/services/error.service';
 import {InviteNewUser, Reset} from './participant-invite-new-user-page-actions';
 import {
   DEFAULT_PARTICIPANT_INVITE_NEW_USER_PAGE_STATE,
@@ -32,6 +33,7 @@ export class ParticipantInviteNewUserPageStateImpl {
     private apiService: ApiService,
     private toast: ToastService,
     private actions$: Actions,
+    private errorService: ErrorService,
   ) {}
 
   @Action(Reset)
@@ -55,16 +57,13 @@ export class ParticipantInviteNewUserPageStateImpl {
         ctx.patchState({state: 'success'});
         action.success();
       }),
-      catchError((err) => {
-        let errorMessage = 'Failed inviting user due to an unknown error.';
-        if (err?.response?.status === 409) {
-          errorMessage = 'A user with this email address already exists.';
-        }
-        this.toast.showDanger(errorMessage);
-        ctx.patchState({state: 'error'});
-        action.enableForm();
-        return of(null);
-      }),
+      this.errorService.toastRegistrationErrorRxjs(
+        'Failed inviting user due to an unknown error.',
+        () => {
+          ctx.patchState({state: 'error'});
+          action.enableForm();
+        },
+      ),
       ignoreElements(),
     );
   }
