@@ -232,7 +232,6 @@ export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {
 };
 
 export const getFullConnectorDetails = (
-  organizationId: string | null,
   connectorId: string,
 ): ConnectorDetailDto => {
   return TEST_CONNECTORS.filter((c) => c.connectorId === connectorId)[0];
@@ -375,7 +374,6 @@ export const reserveProvidedConnector = (
 
 export const configureProvidedConnectorWithCertificate = (
   request: ConfigureProvidedConnectorWithCertificateRequest,
-  clientOrganizationId: string,
   connectorId: string,
 ): CreateConnectorResponse => {
   updateConnectorStatus(connectorId);
@@ -389,7 +387,6 @@ export const configureProvidedConnectorWithCertificate = (
 
 export const configureProvidedConnectorWithJwks = (
   request: ConfigureProvidedConnectorWithJwksRequest,
-  clientOrganizationId: string,
   connectorId: string,
 ): CreateConnectorResponse => {
   updateConnectorStatus(connectorId);
@@ -441,14 +438,6 @@ export const deleteOwnConnector = (
   );
 
   return {id: request.connectorId, changedDate: new Date()};
-};
-
-export const getNumberOfOrganizationConnectors = (
-  organizationId: string,
-): number => {
-  return TEST_CONNECTORS.filter(
-    (connector) => connector.organizationId === organizationId,
-  ).length;
 };
 
 const generateRandomId = (organizationId: string): string => {

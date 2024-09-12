@@ -194,7 +194,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('authority/connectors/*')
     .on('GET', (connectorId: string) => {
-      const result = getFullConnectorDetails(null, connectorId);
+      const result = getFullConnectorDetails(connectorId);
       return ok(ConnectorDetailDtoToJSON(result));
     })
 
@@ -320,7 +320,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('organizations/*/connectors/*')
     .on('GET', (organizationId: string, connectorId: string) => {
-      const result = getFullConnectorDetails(organizationId, connectorId);
+      const result = getFullConnectorDetails(connectorId);
       return ok(ConnectorDetailDtoToJSON(result));
     })
     .on('DELETE', (organizationId, connectorId) => {
@@ -433,7 +433,6 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
         ConfigureProvidedConnectorWithCertificateRequestFromJSON(body);
       const result = configureProvidedConnectorWithCertificate(
         request,
-        organizationId,
         connectorId,
       );
       return ok(CreateConnectorResponseToJSON(result));
@@ -442,11 +441,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('organizations/*/connectors/*/configure-service-provided/with-jwks')
     .on('PUT', (organizationId, connectorId) => {
       const request = ConfigureProvidedConnectorWithJwksRequestFromJSON(body);
-      const result = configureProvidedConnectorWithJwks(
-        request,
-        organizationId,
-        connectorId,
-      );
+      const result = configureProvidedConnectorWithJwks(request, connectorId);
       return ok(CreateConnectorResponseToJSON(result));
     })
 
