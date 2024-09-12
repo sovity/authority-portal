@@ -17,6 +17,7 @@ import {
   ConfigureProvidedConnectorWithJwksRequest,
   ConnectorDetailDto,
   ConnectorOverviewResult,
+  ConnectorStatusDto,
   ConnectorTypeDto,
   CreateCaasRequest,
   CreateConnectorRequest,
@@ -28,6 +29,7 @@ import {
   ProvidedConnectorOverviewResult,
   ReserveConnectorRequest,
 } from '@sovity.de/authority-portal-client';
+import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {fakeEnv} from './fake-environments';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
 import {getUserInfo} from './fake-users';
@@ -62,7 +64,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     frontendUrl: 'https://xample.test1/connector',
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
-    status: 'DEAD',
+    status: 'OFFLINE',
     clientId: 'client-id',
   },
   {
@@ -259,6 +261,7 @@ export const createOwnConnector = (
   const organizationName = getUserInfo().organizationName;
   const randomId = generateRandomId(organizationId);
   const status = 'OFFLINE';
+  updateConnectorStatus(randomId);
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
@@ -276,6 +279,7 @@ export const createOwnConnector = (
     status: status,
     clientId: 'client-id',
   });
+
   return {
     id: randomId,
     changedDate: new Date(),
@@ -292,6 +296,7 @@ export const createCaas = (
   const organizationName = getUserInfo().organizationName;
   const randomId = generateRandomId(organizationId);
   const status = 'INIT';
+  updateConnectorStatus(randomId);
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
@@ -344,6 +349,8 @@ export const reserveProvidedConnector = (
   )?.name;
 
   const randomId = generateRandomId(request.customerOrganizationId);
+  updateConnectorStatus(randomId);
+
   TEST_CONNECTORS.push({
     connectorId: randomId,
     organizationId: request.customerOrganizationId,
@@ -371,6 +378,7 @@ export const configureProvidedConnectorWithCertificate = (
   clientOrganizationId: string,
   connectorId: string,
 ): CreateConnectorResponse => {
+  updateConnectorStatus(connectorId);
   return configureProvidedConnector(
     connectorId,
     request.frontendUrl,
@@ -384,6 +392,7 @@ export const configureProvidedConnectorWithJwks = (
   clientOrganizationId: string,
   connectorId: string,
 ): CreateConnectorResponse => {
+  updateConnectorStatus(connectorId);
   return configureProvidedConnector(
     connectorId,
     request.frontendUrl,
@@ -456,4 +465,23 @@ const generateRandomId = (organizationId: string): string => {
   } else {
     return result;
   }
+};
+
+const updateConnector = (
+  connectorId: string,
+  patcher: Patcher<ConnectorDetailDto> = () => ({}),
+): void => {
+  TEST_CONNECTORS = TEST_CONNECTORS.map((it) =>
+    it.connectorId === connectorId ? patchObj(it, patcher) : it,
+  );
+};
+
+const updateConnectorStatus = (
+  connectorId: string,
+  status: ConnectorStatusDto = 'ONLINE',
+  timeout: number = 5000,
+): void => {
+  setTimeout(() => {
+    updateConnector(connectorId, () => ({status}));
+  }, timeout);
 };

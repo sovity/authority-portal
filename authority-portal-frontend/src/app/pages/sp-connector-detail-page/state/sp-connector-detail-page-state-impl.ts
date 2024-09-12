@@ -11,14 +11,15 @@
  *      sovity GmbH - initial implementation
  */
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ignoreElements, tap} from 'rxjs/operators';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError, ignoreElements, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {
   RefreshConnector,
+  RefreshConnectorSilent,
   SetConnectorId,
 } from './sp-connector-detail-page-actions';
 import {
@@ -43,6 +44,21 @@ export class SpConnectorDetailPageStateImpl {
       .pipe(
         Fetched.wrap({failureMessage: 'Failed loading Connector'}),
         tap((connector) => this.connectorRefreshed(ctx, connector)),
+        ignoreElements(),
+      );
+  }
+
+  @Action(RefreshConnectorSilent, {cancelUncompleted: true})
+  onRefreshConnectorSilent(
+    ctx: StateContext<SpConnectorDetailPageState>,
+  ): Observable<never> {
+    return this.apiService
+      .getProvidedConnectorDetails(ctx.getState().connectorId)
+      .pipe(
+        catchError(() => EMPTY),
+        tap((connector) =>
+          this.connectorRefreshed(ctx, Fetched.ready(connector)),
+        ),
         ignoreElements(),
       );
   }

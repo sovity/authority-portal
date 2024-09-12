@@ -61,6 +61,12 @@ export class BreadcrumbService {
       segments = [];
     }
 
+    if (this.activeFeatureSet.usesBritishCatalogue()) {
+      segments = segments.map((segment) =>
+        segment === 'catalog' ? 'catalogue' : segment,
+      );
+    }
+
     return [
       {label: 'Home', link: '', isLinkable: true},
       ...segments.map((segment) => ({

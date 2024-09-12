@@ -12,7 +12,7 @@
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
+import {Subject, interval} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
@@ -35,9 +35,11 @@ import {
   SlideOverConfig,
 } from 'src/app/shared/common/slide-over/slide-over.model';
 import {SpConnectorDetailPageComponent} from '../../sp-connector-detail-page/sp-connector-detail-page/sp-connector-detail-page.component';
+import {RefreshConnectorSilent} from '../../sp-connector-detail-page/state/sp-connector-detail-page-actions';
 import {
   CloseConnectorDetail,
   GetProvidedConnectors,
+  GetProvidedConnectorsSilent,
   ShowConnectorDetail,
 } from '../state/sp-connector-list-page-actions';
 import {
@@ -118,6 +120,14 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.store.dispatch(GetProvidedConnectors);
+    interval(3000)
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe(() => {
+        this.store.dispatch(GetProvidedConnectorsSilent);
+        if (this.showDetail) {
+          this.store.dispatch(RefreshConnectorSilent);
+        }
+      });
   }
 
   startListeningToState() {

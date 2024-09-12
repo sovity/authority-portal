@@ -12,6 +12,7 @@ assignees: ""
 
 Feel free to edit this release checklist in-progress depending on what tasks need to be done:
 
+- [ ] Check whether the flyway migrations in Authority Portal and sovity EDC-CE Catalog Crawler are identical. If not, you cannot proceed with the release or you need to make clear which EDC CE version is compatible and vice versa
 - [ ] Release [sovity EDC CE](https://github.com/sovity/edc-ce), this might require several steps, first of which is
   to [create a new `Release` issue](https://github.com/sovity/edc-ce/issues/new/choose)
 - [ ] Decide a release version depending on major/minor/patch changes in the CHANGELOG.md.
@@ -21,7 +22,7 @@ Feel free to edit this release checklist in-progress depending on what tasks nee
         - [ ] Add a clean `Unreleased` version.
         - [ ] Add the version to the old section.
         - [ ] Add the current date to the old version.
-        - [ ] Bump the EDC CE Version to a released version in the `gradle.libs.toml`.
+        - [ ] Bump the EDC CE Version to a release version in the `libs.versions.toml`.
         - [ ] Bump the links to the Catalog Crawler initial deployment guide to the fixed EDC CE Version
         - [ ] Add all Catalog Crawler or Catalog relevant changelog entries from the newer EDC CE release(s), merge and
           reword them.
@@ -37,14 +38,13 @@ Feel free to edit this release checklist in-progress depending on what tasks nee
 - [ ] Create a release and re-use the changelog section as release description, and the version as title.
 - [ ] Create a release in the [Authority Portal EE](https://github.com/sovity/authority-portal-ee) repository.
     - [ ] `release-prep` PR:
-        - [ ] Ensure that the correct Catalog Crawler image is set in EE's `.env`.
-        - [ ] Copy the [Keycloak theme](https://github.com/sovity/authority-portal/tree/main/authority-portal-keycloak)
+        - [ ] Copy the [Keycloak themes](https://github.com/sovity/authority-portal/tree/main/authority-portal-keycloak) for all flavors
           from here to the EE repository.
         - [ ] Copy
           the [OAuth2 proxy templates](https://github.com/sovity/authority-portal/tree/main/authority-portal-oauth2-proxy)
           from here to the EE repository.
         - [ ] Copy
-          the [realm.json](https://github.com/sovity/authority-portal/blob/main/authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json)
+          the [realm.json](https://github.com/sovity/authority-portal/blob/main/authority-portal-backend/authority-portal-quarkus/src/main/resources/realm.json) files for all flavors
           from here to the EE repository.
         - [ ] Update the Catalog Crawler image in EE's `.env`.
         - [ ] Link this release in the EE changelog.

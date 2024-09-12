@@ -12,7 +12,7 @@
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
+import {Subject, interval} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
@@ -34,9 +34,11 @@ import {
   SlideOverConfig,
 } from 'src/app/shared/common/slide-over/slide-over.model';
 import {ParticipantOwnConnectorDetailPageComponent} from '../../participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
+import {RefreshConnectorSilent} from '../../participant-own-connector-detail-page/state/participant-own-connector-detail-page-actions';
 import {
   CloseConnectorDetail,
   GetOwnOrganizationConnectors,
+  GetOwnOrganizationConnectorsSilent,
   ShowConnectorDetail,
 } from '../state/participant-own-connector-list-page-actions';
 import {
@@ -117,6 +119,15 @@ export class ParticipantOwnConnectorListPageComponent
 
   refresh() {
     this.store.dispatch(GetOwnOrganizationConnectors);
+
+    interval(30000)
+      .pipe(takeUntil(this.ngOnDestroy$))
+      .subscribe(() => {
+        this.store.dispatch(GetOwnOrganizationConnectorsSilent);
+        if (this.state.showDetail) {
+          this.store.dispatch(RefreshConnectorSilent);
+        }
+      });
   }
 
   private startListeningToState() {
