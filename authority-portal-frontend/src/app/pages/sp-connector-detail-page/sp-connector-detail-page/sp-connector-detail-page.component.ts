@@ -13,7 +13,7 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
+import {ConnectorDetailsDto} from '@sovity.de/authority-portal-client';
 import {
   getConnectorsTypeClasses,
   getConnectorsTypeText,
@@ -70,7 +70,7 @@ export class SpConnectorDetailPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  setupConnectorTitleBar(connector: ConnectorDetailDto) {
+  setupConnectorTitleBar(connector: ConnectorDetailsDto) {
     this.titleBarConfig = {
       title: connector.connectorName,
       icon: 'connector-2',

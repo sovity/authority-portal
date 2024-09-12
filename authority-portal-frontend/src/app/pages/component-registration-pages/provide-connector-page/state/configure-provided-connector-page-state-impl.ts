@@ -17,7 +17,7 @@ import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {
   ConfigureProvidedConnectorWithCertificateRequest,
   ConfigureProvidedConnectorWithJwksRequest,
-  ConnectorDetailDto,
+  ConnectorDetailsDto,
   CreateConnectorResponse,
   OrganizationOverviewEntryDto,
 } from '@sovity.de/authority-portal-client';
@@ -173,7 +173,7 @@ export class ConfigureProvidedConnectorPageStateImpl {
 
   private connectorFetched(
     ctx: StateContext<ConfigureProvidedConnectorPageState>,
-    connector: ConnectorDetailDto,
+    connector: ConnectorDetailsDto,
   ) {
     ctx.patchState({
       localConnectorConfig: buildConnectorConfigFromLocalData(

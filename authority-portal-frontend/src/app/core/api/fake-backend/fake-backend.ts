@@ -19,7 +19,7 @@ import {
   ComponentStatusOverviewToJSON,
   ConfigureProvidedConnectorWithCertificateRequestFromJSON,
   ConfigureProvidedConnectorWithJwksRequestFromJSON,
-  ConnectorDetailDtoToJSON,
+  ConnectorDetailsDtoToJSON,
   ConnectorOverviewResultToJSON,
   CreateCaasRequestFromJSON,
   CreateConnectorRequestFromJSON,
@@ -195,7 +195,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('authority/connectors/*')
     .on('GET', (connectorId: string) => {
       const result = getFullConnectorDetails(connectorId);
-      return ok(ConnectorDetailDtoToJSON(result));
+      return ok(ConnectorDetailsDtoToJSON(result));
     })
 
     .url('organizations/my-org/connectors')
@@ -230,7 +230,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('organizations/my-org/connectors/*')
     .on('GET', (connectorId: string) => {
       const result = getOwnConnectorDetail(connectorId);
-      return ok(ConnectorDetailDtoToJSON(result));
+      return ok(ConnectorDetailsDtoToJSON(result));
     })
     .on('DELETE', (connectorId: string) => {
       const result = deleteOwnConnector({connectorId});
@@ -246,7 +246,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('application/connectors/*')
     .on('GET', (connectorId: string) => {
       const result = getProvidedConnectorDetails(connectorId);
-      return ok(ConnectorDetailDtoToJSON(result));
+      return ok(ConnectorDetailsDtoToJSON(result));
     })
     .on('DELETE', (connectorId: string) => {
       const result = deleteProvidedConnector({connectorId});
@@ -321,7 +321,7 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
     .url('organizations/*/connectors/*')
     .on('GET', (organizationId: string, connectorId: string) => {
       const result = getFullConnectorDetails(connectorId);
-      return ok(ConnectorDetailDtoToJSON(result));
+      return ok(ConnectorDetailsDtoToJSON(result));
     })
     .on('DELETE', (organizationId, connectorId) => {
       throw new Error('TODO');

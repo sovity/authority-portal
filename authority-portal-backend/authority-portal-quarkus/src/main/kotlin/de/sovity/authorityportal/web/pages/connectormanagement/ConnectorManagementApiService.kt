@@ -69,15 +69,15 @@ class ConnectorManagementApiService(
             error("Connector ID does not match with organization or host organization")
         }
 
-        return buildConnectorDetailDto(connector)
+        return buildConnectorDetailsDto(connector)
     }
 
     fun getAuthorityConnectorDetails(connectorId: String): ConnectorDetailsDto {
         val connector = connectorService.getConnectorDetailOrThrow(connectorId)
-        return buildConnectorDetailDto(connector)
+        return buildConnectorDetailsDto(connector)
     }
 
-    private fun buildConnectorDetailDto(connector: ConnectorService.ConnectorDetailRs): ConnectorDetailsDto {
+    private fun buildConnectorDetailsDto(connector: ConnectorService.ConnectorDetailRs): ConnectorDetailsDto {
         return ConnectorDetailsDto(
             connectorId = connector.connectorId,
             type = connector.type.toDto(),

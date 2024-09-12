@@ -14,7 +14,7 @@ import {Component, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {
-  ConnectorDetailDto,
+  ConnectorDetailsDto,
   UserInfo,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
@@ -109,7 +109,7 @@ export class AuthorityConnectorDetailPageComponent
   }
 
   setupConnectorTitleBar(
-    connector: ConnectorDetailDto,
+    connector: ConnectorDetailsDto,
     actionMenu?: ActionMenu,
   ) {
     this.titleBarConfig = {

@@ -11,7 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {
-  ConnectorDetailDto,
+  ConnectorDetailsDto,
   OrganizationOverviewEntryDto,
 } from '@sovity.de/authority-portal-client';
 import {Fetched} from 'src/app/core/utils/fetched';
@@ -21,7 +21,7 @@ export interface ConfigureProvidedConnectorPageState {
   organizationList: Fetched<OrganizationOverviewEntryDto[]>;
   connectorConfig: string;
   localConnectorConfig: string;
-  connectorData: ConnectorDetailDto | null;
+  connectorData: ConnectorDetailsDto | null;
 }
 
 export const DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE: ConfigureProvidedConnectorPageState =

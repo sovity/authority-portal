@@ -19,7 +19,7 @@ import {
   ComponentStatusOverview,
   ConfigureProvidedConnectorWithCertificateRequest,
   ConfigureProvidedConnectorWithJwksRequest,
-  ConnectorDetailDto,
+  ConnectorDetailsDto,
   ConnectorOverviewResult,
   CreateCaasRequest,
   CreateConnectorRequest,
@@ -200,13 +200,13 @@ export class ApiService {
     return toObservable(() => this.api().getAllConnectors({environmentId}));
   }
 
-  getConnector(connectorId: string): Observable<ConnectorDetailDto> {
+  getConnector(connectorId: string): Observable<ConnectorDetailsDto> {
     return toObservable(() => this.api().getConnector({connectorId}));
   }
 
   getOwnOrganizationConnectorDetails(
     connectorId: string,
-  ): Observable<ConnectorDetailDto> {
+  ): Observable<ConnectorDetailsDto> {
     return toObservable(() =>
       this.api().ownOrganizationConnectorDetails({connectorId}),
     );
@@ -296,7 +296,7 @@ export class ApiService {
 
   getProvidedConnectorDetails(
     connectorId: string,
-  ): Observable<ConnectorDetailDto> {
+  ): Observable<ConnectorDetailsDto> {
     return toObservable(() =>
       this.api().getProvidedConnectorDetails({connectorId}),
     );

@@ -15,7 +15,7 @@ import {
   CheckFreeCaasUsageRequest,
   ConfigureProvidedConnectorWithCertificateRequest,
   ConfigureProvidedConnectorWithJwksRequest,
-  ConnectorDetailDto,
+  ConnectorDetailsDto,
   ConnectorOverviewResult,
   ConnectorStatusDto,
   ConnectorTypeDto,
@@ -34,7 +34,7 @@ import {fakeEnv} from './fake-environments';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
 import {getUserInfo} from './fake-users';
 
-export let TEST_CONNECTORS: ConnectorDetailDto[] = [
+export let TEST_CONNECTORS: ConnectorDetailsDto[] = [
   {
     connectorId: 'MDSL1111AA.AP12I3U',
     type: ConnectorTypeDto.Own,
@@ -208,7 +208,7 @@ export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
 
 export const getOwnConnectorDetail = (
   connectorId: string,
-): ConnectorDetailDto => {
+): ConnectorDetailsDto => {
   const organizationId = getUserInfo().organizationId;
   return TEST_CONNECTORS.filter(
     (c) => c.organizationId === organizationId && c.connectorId === connectorId,
@@ -233,13 +233,13 @@ export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {
 
 export const getFullConnectorDetails = (
   connectorId: string,
-): ConnectorDetailDto => {
+): ConnectorDetailsDto => {
   return TEST_CONNECTORS.filter((c) => c.connectorId === connectorId)[0];
 };
 
 export const getProvidedConnectorDetails = (
   connectorId: string,
-): ConnectorDetailDto => {
+): ConnectorDetailsDto => {
   return TEST_CONNECTORS.filter((c) => c.connectorId === connectorId)[0];
 };
 
@@ -458,7 +458,7 @@ const generateRandomId = (organizationId: string): string => {
 
 const updateConnector = (
   connectorId: string,
-  patcher: Patcher<ConnectorDetailDto> = () => ({}),
+  patcher: Patcher<ConnectorDetailsDto> = () => ({}),
 ): void => {
   TEST_CONNECTORS = TEST_CONNECTORS.map((it) =>
     it.connectorId === connectorId ? patchObj(it, patcher) : it,
