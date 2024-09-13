@@ -11,12 +11,13 @@
  *      sovity GmbH - initial implementation
  */
 import {Inject, Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, ignoreElements, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {ApiService} from 'src/app/core/api/api.service';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
+import {ErrorService} from '../../../../core/services/error.service';
 import {CreateOrganization, Reset} from './organization-create-page-action';
 import {
   DEFAULT_ORGANIZATION_REGISTRATION_PAGE_STATE,
@@ -34,6 +35,7 @@ export class OrganizationCreatePageStateImpl {
     private apiService: ApiService,
     private toast: ToastService,
     private actions$: Actions,
+    private errorService: ErrorService,
   ) {}
 
   @Action(Reset)
@@ -57,18 +59,13 @@ export class OrganizationCreatePageStateImpl {
         action.success();
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      catchError((err) => {
-        let errorMessage = 'Registration failed due to an unknown error.';
-        console.log(err);
-        console.log(err.status);
-        if (err?.response?.status === 409) {
-          errorMessage = 'This e-mail address is already registered.';
-        }
-        this.toast.showDanger(errorMessage);
-        ctx.patchState({state: 'error'});
-        action.enableForm();
-        return of(null);
-      }),
+      this.errorService.toastRegistrationErrorRxjs(
+        'Registration failed due to an unknown error',
+        () => {
+          ctx.patchState({state: 'error'});
+          action.enableForm();
+        },
+      ),
       ignoreElements(),
     );
   }
