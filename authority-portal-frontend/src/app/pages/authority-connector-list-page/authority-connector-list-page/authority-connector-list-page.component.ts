@@ -18,10 +18,7 @@ import {ConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {SlideOverService} from 'src/app/core/services/slide-over.service';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
-import {
-  getConnectorsTypeClasses,
-  getConnectorsTypeText,
-} from 'src/app/core/utils/ui-utils';
+import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
 import {FilterBarConfig} from 'src/app/shared/common/filter-bar/filter-bar.model';
 import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
 import {
@@ -29,6 +26,7 @@ import {
   SlideOverAction,
   SlideOverConfig,
 } from 'src/app/shared/common/slide-over/slide-over.model';
+import {getConnectorsTypeText} from '../../../core/utils/mappers/dto-ui-mapper';
 import {AuthorityConnectorDetailPageComponent} from '../../authority-connector-detail-page/authority-connector-detail-page/authority-connector-detail-page.component';
 import {RefreshConnectorSilent} from '../../authority-connector-detail-page/state/authority-connector-detail-page-actions';
 import {

@@ -15,8 +15,8 @@ import {ConnectorStatusDto} from '@sovity.de/authority-portal-client';
 import {
   getConnectorStatusInnerCircleClasses,
   getConnectorStatusOuterRingClasses,
-  getConnectorStatusText,
 } from 'src/app/core/utils/ui-utils';
+import {getConnectorStatusText} from '../../../core/utils/mappers/dto-ui-mapper';
 
 @Component({
   selector: 'app-connector-status-led',

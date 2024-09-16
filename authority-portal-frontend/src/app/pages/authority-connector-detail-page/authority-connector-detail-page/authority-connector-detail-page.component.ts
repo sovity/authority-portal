@@ -19,16 +19,16 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {
-  getConnectorStatusText,
-  getConnectorsTypeClasses,
-  getConnectorsTypeText,
-} from 'src/app/core/utils/ui-utils';
+import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
 import {
   ActionMenu,
   TitleBarConfig,
 } from 'src/app/shared/common/portal-layout/title-bar/title-bar.model';
 import {ChildComponentInput} from 'src/app/shared/common/slide-over/slide-over.model';
+import {
+  getConnectorStatusText,
+  getConnectorsTypeText,
+} from '../../../core/utils/mappers/dto-ui-mapper';
 import {DeleteConnector} from '../../authority-connector-list-page/state/authority-connector-list-page-actions';
 import {
   RefreshConnector,

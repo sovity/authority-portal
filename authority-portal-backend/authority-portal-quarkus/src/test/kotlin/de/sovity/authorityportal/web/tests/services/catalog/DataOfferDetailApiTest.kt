@@ -13,7 +13,6 @@
 
 package de.sovity.authorityportal.web.tests.services.catalog
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import de.sovity.authorityportal.api.CatalogResource
 import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageQuery
 import de.sovity.authorityportal.db.jooq.Tables
@@ -48,9 +47,6 @@ class DataOfferDetailApiTest {
 
     @Inject
     lateinit var scenarioInstaller: ScenarioInstaller
-
-    @Inject
-    lateinit var objectMapper: ObjectMapper
 
     @Inject
     lateinit var dsl: DSLContext

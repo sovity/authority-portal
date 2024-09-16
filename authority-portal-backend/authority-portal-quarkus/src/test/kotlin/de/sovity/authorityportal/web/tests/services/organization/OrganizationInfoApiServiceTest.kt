@@ -13,7 +13,6 @@
 
 package de.sovity.authorityportal.web.tests.services.organization
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
@@ -45,9 +44,6 @@ class OrganizationInfoApiServiceTest {
 
     @Inject
     lateinit var scenarioInstaller: ScenarioInstaller
-
-    @Inject
-    lateinit var objectMapper: ObjectMapper
 
     @InjectMock
     lateinit var keycloakService: KeycloakService

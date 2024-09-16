@@ -68,50 +68,6 @@ export const getConnectorsTypeClasses = (status: ConnectorTypeDto): string => {
   }
 };
 
-export const getConnectorsTypeText = (status: ConnectorTypeDto): string => {
-  switch (status) {
-    case ConnectorTypeDto.Own:
-      return 'OWN';
-    case ConnectorTypeDto.Provided:
-      return 'PROVIDED';
-    case ConnectorTypeDto.Caas:
-      return 'CAAS';
-    case ConnectorTypeDto.Configuring:
-      return 'CONFIGURING';
-  }
-};
-
-export const getConnectorStatusText = (status: ConnectorStatusDto): string => {
-  switch (status) {
-    case ConnectorStatusDto.Init:
-      return 'Init';
-    case ConnectorStatusDto.Provisioning:
-      return 'Provisioning';
-    case ConnectorStatusDto.AwaitingRunning:
-      return 'Awaiting Running';
-    case ConnectorStatusDto.Running:
-      return 'Running';
-    case ConnectorStatusDto.Deprovisioning:
-      return 'Deprovisioning';
-    case ConnectorStatusDto.AwaitingStopped:
-      return 'Awaiting stopped';
-    case ConnectorStatusDto.Stopped:
-      return 'Stopped';
-    case ConnectorStatusDto.Error:
-      return 'Error';
-    case ConnectorStatusDto.NotFound:
-      return 'Not Found';
-    case ConnectorStatusDto.Online:
-      return 'Online';
-    case ConnectorStatusDto.Offline:
-      return 'Offline';
-    case ConnectorStatusDto.Dead:
-      return 'Dead';
-    case ConnectorStatusDto.Unknown:
-      return 'Unknown';
-  }
-};
-
 export const getConnectorStatusOuterRingClasses = (
   status: ConnectorStatusDto,
 ): string => {
