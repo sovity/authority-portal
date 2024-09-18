@@ -15,13 +15,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
-- Adjusted the table header on the Organization overview page ([#286](https://github.com/sovity/authority-portal/issues/286))
-- Adjusted data source availability naming in the CSV report ([#283](https://github.com/sovity/authority-portal/issues/283))
-  - `LIVE` -> `Available`
-  - `ON_REQUEST` -> `On Request`
-- Changed the error message on user/organization invite failures to be more descriptive ([#290](https://github.com/sovity/authority-portal/issues/290))
-- Fixed UI issues after deleting the last user of an organization ([#289](https://github.com/sovity/authority-portal/issues/289))
-
 ### Known issues
 
 ### Deployment Migration Notes
@@ -32,6 +25,34 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
 - Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
 - Sovity EDC CE: {{ CE Release Link }}
+
+## [v4.1.1] - 2024-09-18
+
+### Overview
+
+Quality of Life improvements
+
+### Detailed Changes
+
+#### Patch
+
+- Adjusted the table header on the Organization overview page ([#286](https://github.com/sovity/authority-portal/issues/286))
+- Adjusted data source availability naming in the CSV report ([#283](https://github.com/sovity/authority-portal/issues/283))
+  - `LIVE` -> `Available`
+  - `ON_REQUEST` -> `On Request`
+- Changed the error message on user/organization invite failures to be more descriptive ([#290](https://github.com/sovity/authority-portal/issues/290))
+- Fixed UI issues after deleting the last user of an organization ([#289](https://github.com/sovity/authority-portal/issues/289))
+
+### Deployment Migration Notes
+
+_No special migration steps required_
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:4.1.1`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:4.1.1`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.4.0`
+- Sovity EDC CE: [`v10.4.0`](https://github.com/sovity/edc-ce/releases/tag/v10.4.0)
 
 ## [v4.1.0] - 2024-09-04
 
@@ -54,7 +75,7 @@ _No special migration steps required_
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:4.1.0`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:4.1.0`
 - Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.3.0`
-- Sovity EDC CE: https://github.com/sovity/edc-ce/releases/tag/v10.3.0
+- Sovity EDC CE: [`v10.3.0`](https://github.com/sovity/edc-ce/releases/tag/v10.3.0)
 
 ## [v4.0.0] - 2024-08-20
 
