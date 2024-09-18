@@ -10,12 +10,12 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
+import {ConnectorDetailsDto} from '@sovity.de/authority-portal-client';
 import {Fetched} from 'src/app/core/utils/fetched';
 
 export interface AuthorityConnectorDetailPageState {
   connectorId: string;
-  connector: Fetched<ConnectorDetailDto>;
+  connector: Fetched<ConnectorDetailsDto>;
 }
 
 export const DEFAULT_AUTHORITY_CONNECTOR_DETAIL_PAGE_STATE: AuthorityConnectorDetailPageState =

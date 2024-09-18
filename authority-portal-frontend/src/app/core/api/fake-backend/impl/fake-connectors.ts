@@ -13,7 +13,9 @@
 import {
   CaasAvailabilityResponse,
   CheckFreeCaasUsageRequest,
-  ConnectorDetailDto,
+  ConfigureProvidedConnectorWithCertificateRequest,
+  ConfigureProvidedConnectorWithJwksRequest,
+  ConnectorDetailsDto,
   ConnectorOverviewResult,
   ConnectorStatusDto,
   ConnectorTypeDto,
@@ -21,18 +23,18 @@ import {
   CreateConnectorRequest,
   CreateConnectorResponse,
   CreateConnectorStatusDto,
-  CreateConnectorWithJwksRequest,
   DeleteOwnConnectorRequest,
   IdResponse,
   ProvidedConnectorOverviewEntryDto,
   ProvidedConnectorOverviewResult,
+  ReserveConnectorRequest,
 } from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
 import {fakeEnv} from './fake-environments';
 import {TEST_ORGANIZATIONS} from './fake-organizations';
 import {getUserInfo} from './fake-users';
 
-export let TEST_CONNECTORS: ConnectorDetailDto[] = [
+export let TEST_CONNECTORS: ConnectorDetailsDto[] = [
   {
     connectorId: 'MDSL1111AA.AP12I3U',
     type: ConnectorTypeDto.Own,
@@ -47,6 +49,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
     status: 'ONLINE',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL1111AA.AP23H5W',
@@ -62,6 +65,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
     status: 'OFFLINE',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL1111AA.AP42I3L',
@@ -77,6 +81,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
     status: 'INIT',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL1111AA.AP35I6Y',
@@ -92,6 +97,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
     status: 'ONLINE',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL2222BB.CP59I8U',
@@ -107,6 +113,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test1/connector/api/dsp',
     managementUrl: 'https://xample.test1/connector/api/management',
     status: 'ONLINE',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL2222BB.CFIWWBD',
@@ -122,6 +129,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test2/connector/api/dsp',
     managementUrl: 'https://xample.test2/connector/api/management',
     status: 'ONLINE',
+    clientId: 'client-id',
   },
   {
     connectorId: 'MDSL2222BB.CWAQ71U',
@@ -137,6 +145,7 @@ export let TEST_CONNECTORS: ConnectorDetailDto[] = [
     endpointUrl: 'https://xample.test3/connector/api/dsp',
     managementUrl: 'https://xample.test3/connector/api/management',
     status: 'OFFLINE',
+    clientId: 'client-id',
   },
 ];
 
@@ -162,19 +171,19 @@ export const getListOfConnectorsForTable = (
 
 export const listSpConnectors = (): ProvidedConnectorOverviewResult => {
   return {
-    connectors: TEST_CONNECTORS.filter((c) => c.type === 'PROVIDED').map(
-      (c): ProvidedConnectorOverviewEntryDto => {
-        return {
-          id: c.connectorId,
-          customerOrgName: c.organizationName,
-          frontendUrl: c.frontendUrl,
-          type: c.type,
-          environment: c.environment,
-          name: c.connectorName,
-          status: c.status,
-        };
-      },
-    ),
+    connectors: TEST_CONNECTORS.filter(
+      (c) => c.type === 'PROVIDED' || c.type === 'CONFIGURING',
+    ).map((c): ProvidedConnectorOverviewEntryDto => {
+      return {
+        id: c.connectorId,
+        customerOrgName: c.organizationName,
+        frontendUrl: c.frontendUrl,
+        type: c.type,
+        environment: c.environment,
+        name: c.connectorName,
+        status: c.status,
+      };
+    }),
   };
 };
 
@@ -199,7 +208,7 @@ export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
 
 export const getOwnConnectorDetail = (
   connectorId: string,
-): ConnectorDetailDto => {
+): ConnectorDetailsDto => {
   const organizationId = getUserInfo().organizationId;
   return TEST_CONNECTORS.filter(
     (c) => c.organizationId === organizationId && c.connectorId === connectorId,
@@ -223,15 +232,14 @@ export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {
 };
 
 export const getFullConnectorDetails = (
-  organizationId: string | null,
   connectorId: string,
-): ConnectorDetailDto => {
+): ConnectorDetailsDto => {
   return TEST_CONNECTORS.filter((c) => c.connectorId === connectorId)[0];
 };
 
 export const getProvidedConnectorDetails = (
   connectorId: string,
-): ConnectorDetailDto => {
+): ConnectorDetailsDto => {
   return TEST_CONNECTORS.filter((c) => c.connectorId === connectorId)[0];
 };
 
@@ -268,6 +276,7 @@ export const createOwnConnector = (
     endpointUrl: request.endpointUrl,
     managementUrl: request.managementUrl,
     status: status,
+    clientId: 'client-id',
   });
 
   return {
@@ -302,6 +311,7 @@ export const createCaas = (
     endpointUrl: `https://${request.connectorSubdomain}.sovity.caas/connector/api/dsp`,
     managementUrl: `https://${request.connectorSubdomain}.sovity.caas/connector/api/management`,
     status: status,
+    clientId: 'client-id',
   });
   return {
     id: randomId,
@@ -326,36 +336,34 @@ export const checkFreeCaasUsage = (
   };
 };
 
-export const createProvidedConnector = (
-  request: CreateConnectorRequest,
-  clientOrganizationId: string,
+export const reserveProvidedConnector = (
+  request: ReserveConnectorRequest,
 ): CreateConnectorResponse => {
   const hostOrganizationId = getUserInfo().organizationId;
   const hostOrgName = getUserInfo().organizationName;
   const status = 'OFFLINE';
 
   const clientOrgName = TEST_ORGANIZATIONS.find(
-    (it) => it.id === clientOrganizationId,
+    (it) => it.id === request.customerOrganizationId,
   )?.name;
 
-  const randomId = generateRandomId(clientOrganizationId);
+  const randomId = generateRandomId(request.customerOrganizationId);
   updateConnectorStatus(randomId);
 
   TEST_CONNECTORS.push({
     connectorId: randomId,
-    organizationId: clientOrganizationId,
+    organizationId: request.customerOrganizationId,
     organizationName: clientOrgName ?? '',
     hostOrganizationId: hostOrganizationId,
     hostOrganizationName: hostOrgName,
-    type: ConnectorTypeDto.Provided,
+    type: ConnectorTypeDto.Configuring,
     environment: fakeEnv('test'),
     connectorName: request.name,
     location: request.location,
-    frontendUrl: request.frontendUrl,
-    endpointUrl: request.endpointUrl,
-    managementUrl: request.managementUrl,
     status: status,
+    clientId: 'client-id',
   });
+
   return {
     id: randomId,
     changedDate: new Date(),
@@ -364,42 +372,62 @@ export const createProvidedConnector = (
   };
 };
 
-export const createProvidedConnectorWithJwks = (
-  request: CreateConnectorWithJwksRequest,
-  clientOrganizationId: string,
+export const configureProvidedConnectorWithCertificate = (
+  request: ConfigureProvidedConnectorWithCertificateRequest,
+  connectorId: string,
 ): CreateConnectorResponse => {
-  const hostOrganizationId = getUserInfo().organizationId;
-  const hostOrgName = getUserInfo().organizationName;
-  const status = 'OFFLINE';
+  updateConnectorStatus(connectorId);
+  return configureProvidedConnector(
+    connectorId,
+    request.frontendUrl,
+    request.endpointUrl,
+    request.managementUrl,
+  );
+};
 
-  const clientOrgName = TEST_ORGANIZATIONS.find(
-    (it) => it.id === clientOrganizationId,
-  )?.name;
+export const configureProvidedConnectorWithJwks = (
+  request: ConfigureProvidedConnectorWithJwksRequest,
+  connectorId: string,
+): CreateConnectorResponse => {
+  updateConnectorStatus(connectorId);
+  return configureProvidedConnector(
+    connectorId,
+    request.frontendUrl,
+    request.endpointUrl,
+    request.managementUrl,
+  );
+};
 
-  const randomId = generateRandomId(clientOrganizationId);
-  updateConnectorStatus(randomId);
+const configureProvidedConnector = (
+  connectorId: string,
+  frontendUrl: string,
+  endpointUrl: string,
+  managementUrl: string,
+): CreateConnectorResponse => {
+  const connector = TEST_CONNECTORS.find(
+    (it) => it.connectorId === connectorId,
+  );
 
-  TEST_CONNECTORS.push({
-    connectorId: randomId,
-    organizationId: clientOrganizationId,
-    organizationName: clientOrgName ?? '',
-    hostOrganizationId: hostOrganizationId,
-    hostOrganizationName: hostOrgName,
-    type: ConnectorTypeDto.Provided,
-    environment: fakeEnv('test'),
-    connectorName: request.name,
-    location: request.location,
-    frontendUrl: request.frontendUrl,
-    endpointUrl: request.endpointUrl,
-    managementUrl: request.managementUrl,
-    status: status,
-  });
-  return {
-    id: randomId,
-    changedDate: new Date(),
-    status: CreateConnectorStatusDto.Ok,
-    clientId: 'client-id',
-  };
+  if (!connector) {
+    return {
+      id: '',
+      changedDate: new Date(),
+      status: CreateConnectorStatusDto.Error,
+      message: 'Connector not found',
+    };
+  } else {
+    connector.frontendUrl = frontendUrl;
+    connector.endpointUrl = endpointUrl;
+    connector.managementUrl = managementUrl;
+    connector.type = ConnectorTypeDto.Provided;
+
+    return {
+      id: connectorId,
+      changedDate: new Date(),
+      status: CreateConnectorStatusDto.Ok,
+      clientId: 'client-id',
+    };
+  }
 };
 
 export const deleteOwnConnector = (
@@ -410,14 +438,6 @@ export const deleteOwnConnector = (
   );
 
   return {id: request.connectorId, changedDate: new Date()};
-};
-
-export const getNumberOfOrganizationConnectors = (
-  organizationId: string,
-): number => {
-  return TEST_CONNECTORS.filter(
-    (connector) => connector.organizationId === organizationId,
-  ).length;
 };
 
 const generateRandomId = (organizationId: string): string => {
@@ -438,7 +458,7 @@ const generateRandomId = (organizationId: string): string => {
 
 const updateConnector = (
   connectorId: string,
-  patcher: Patcher<ConnectorDetailDto> = () => ({}),
+  patcher: Patcher<ConnectorDetailsDto> = () => ({}),
 ): void => {
   TEST_CONNECTORS = TEST_CONNECTORS.map((it) =>
     it.connectorId === connectorId ? patchObj(it, patcher) : it,

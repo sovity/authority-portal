@@ -11,14 +11,12 @@
  *      sovity GmbH - initial implementation
  */
 
-package de.sovity.authorityportal.api.model
+package de.sovity.authorityportal.web.model
 
-import io.swagger.v3.oas.annotations.media.Schema
-
-@Schema(description = "Available connector types.", enumAsRef = true)
-enum class ConnectorTypeDto {
-    OWN,
-    PROVIDED,
-    CAAS,
-    CONFIGURING
-}
+data class UpdateProvidedConnectorParams(
+    val frontendUrl: String?,
+    val endpointUrl: String?,
+    val managementUrl: String?,
+    val certificate: String?,
+    val jwksUrl: String?
+)

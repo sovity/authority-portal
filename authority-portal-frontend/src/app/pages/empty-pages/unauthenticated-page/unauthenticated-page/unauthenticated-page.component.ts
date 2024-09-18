@@ -11,7 +11,6 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, Inject} from '@angular/core';
-import {UrlBeforeLoginService} from 'src/app/core/global-state/routes/url-before-login.service';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({

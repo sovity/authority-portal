@@ -17,12 +17,13 @@ import {
   CentralComponentCreateRequest,
   CentralComponentDto,
   ComponentStatusOverview,
-  ConnectorDetailDto,
+  ConfigureProvidedConnectorWithCertificateRequest,
+  ConfigureProvidedConnectorWithJwksRequest,
+  ConnectorDetailsDto,
   ConnectorOverviewResult,
   CreateCaasRequest,
   CreateConnectorRequest,
   CreateConnectorResponse,
-  CreateConnectorWithJwksRequest,
   DeploymentEnvironmentDto,
   IdResponse,
   InviteOrganizationRequest,
@@ -34,6 +35,7 @@ import {
   OwnOrganizationDetailsDto,
   ProvidedConnectorOverviewResult,
   RegistrationRequestDto,
+  ReserveConnectorRequest,
   UiApi,
   UpdateOrganizationDto,
   UpdateUserDto,
@@ -198,13 +200,13 @@ export class ApiService {
     return toObservable(() => this.api().getAllConnectors({environmentId}));
   }
 
-  getConnector(connectorId: string): Observable<ConnectorDetailDto> {
+  getConnector(connectorId: string): Observable<ConnectorDetailsDto> {
     return toObservable(() => this.api().getConnector({connectorId}));
   }
 
   getOwnOrganizationConnectorDetails(
     connectorId: string,
-  ): Observable<ConnectorDetailDto> {
+  ): Observable<ConnectorDetailsDto> {
     return toObservable(() =>
       this.api().ownOrganizationConnectorDetails({connectorId}),
     );
@@ -227,29 +229,45 @@ export class ApiService {
     );
   }
 
-  createProvidedConnectorWithCertificate(
-    connector: CreateConnectorRequest,
-    organizationId: string,
+  reserveProvidedConnector(
+    connector: ReserveConnectorRequest,
     environmentId: string,
   ): Observable<CreateConnectorResponse> {
     return toObservable(() =>
-      this.api().createProvidedConnector({
-        createConnectorRequest: connector,
-        organizationId,
+      this.api().reserveProvidedConnector({
+        reserveConnectorRequest: connector,
         environmentId,
       }),
     );
   }
 
-  createProvidedConnectorWithJwks(
-    connector: CreateConnectorWithJwksRequest,
+  configureProvidedConnectorWithCertificate(
+    connector: ConfigureProvidedConnectorWithCertificateRequest,
     organizationId: string,
+    connectorId: string,
     environmentId: string,
   ): Observable<CreateConnectorResponse> {
     return toObservable(() =>
-      this.api().createProvidedConnectorWithJwks({
-        createConnectorWithJwksRequest: connector,
+      this.api().configureProvidedConnectorWithCertificate({
+        configureProvidedConnectorWithCertificateRequest: connector,
         organizationId,
+        connectorId,
+        environmentId,
+      }),
+    );
+  }
+
+  configureProvidedConnectorWithJwks(
+    connector: ConfigureProvidedConnectorWithJwksRequest,
+    organizationId: string,
+    connectorId: string,
+    environmentId: string,
+  ): Observable<CreateConnectorResponse> {
+    return toObservable(() =>
+      this.api().configureProvidedConnectorWithJwks({
+        configureProvidedConnectorWithJwksRequest: connector,
+        organizationId,
+        connectorId,
         environmentId,
       }),
     );
@@ -278,7 +296,7 @@ export class ApiService {
 
   getProvidedConnectorDetails(
     connectorId: string,
-  ): Observable<ConnectorDetailDto> {
+  ): Observable<ConnectorDetailsDto> {
     return toObservable(() =>
       this.api().getProvidedConnectorDetails({connectorId}),
     );

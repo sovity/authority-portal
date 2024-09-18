@@ -14,7 +14,7 @@ import {Injectable} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
 import {catchError, ignoreElements, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
-import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
+import {ConnectorDetailsDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {
@@ -61,7 +61,7 @@ export class AuthorityConnectorDetailPageStateImpl {
 
   private connectorRefreshed(
     ctx: StateContext<AuthorityConnectorDetailPageState>,
-    connector: Fetched<ConnectorDetailDto>,
+    connector: Fetched<ConnectorDetailsDto>,
   ) {
     ctx.patchState({connector});
   }

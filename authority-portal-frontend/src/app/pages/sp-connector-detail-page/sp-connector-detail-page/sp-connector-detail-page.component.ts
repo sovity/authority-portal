@@ -13,10 +13,11 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
+import {ConnectorDetailsDto} from '@sovity.de/authority-portal-client';
 import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
 import {TitleBarConfig} from 'src/app/shared/common/portal-layout/title-bar/title-bar.model';
 import {ChildComponentInput} from 'src/app/shared/common/slide-over/slide-over.model';
+import {getConnectorsTypeText} from '../../../core/utils/mappers/dto-ui-mapper';
 import {DeleteProvidedConnector} from '../../sp-connector-list-page/state/sp-connector-list-page-actions';
 import {
   RefreshConnector,
@@ -67,11 +68,11 @@ export class SpConnectorDetailPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  setupConnectorTitleBar(connector: ConnectorDetailDto) {
+  setupConnectorTitleBar(connector: ConnectorDetailsDto) {
     this.titleBarConfig = {
       title: connector.connectorName,
       icon: 'connector-2',
-      status: connector.type,
+      status: getConnectorsTypeText(connector.type),
       statusStyle: getConnectorsTypeClasses(connector.type),
       tabs: [],
       actionMenu: {

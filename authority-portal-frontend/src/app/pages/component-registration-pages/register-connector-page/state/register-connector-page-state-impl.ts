@@ -18,7 +18,7 @@ import {CreateConnectorResponse} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ErrorService} from 'src/app/core/services/error.service';
-import {buildConnectorConfig} from 'src/app/core/utils/connector-config-utils';
+import {buildConnectorConfigFromResponse} from 'src/app/core/utils/connector-config-utils';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 import {Reset, Submit} from './register-connector-page-actions';
 import {
@@ -63,7 +63,7 @@ export class RegisterConnectorPageStateImpl {
       ),
       tap((res) => {
         ctx.patchState({
-          connectorConfig: buildConnectorConfig(
+          connectorConfig: buildConnectorConfigFromResponse(
             this.globalStateUtils.snapshot.selectedEnvironment!,
             res,
           ),

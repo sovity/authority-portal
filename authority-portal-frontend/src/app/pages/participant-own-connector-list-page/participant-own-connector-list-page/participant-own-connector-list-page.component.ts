@@ -30,6 +30,7 @@ import {
   SlideOverAction,
   SlideOverConfig,
 } from 'src/app/shared/common/slide-over/slide-over.model';
+import {getConnectorsTypeText} from '../../../core/utils/mappers/dto-ui-mapper';
 import {ParticipantOwnConnectorDetailPageComponent} from '../../participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {RefreshConnectorSilent} from '../../participant-own-connector-detail-page/state/participant-own-connector-detail-page-actions';
 import {
@@ -198,4 +199,6 @@ export class ParticipantOwnConnectorListPageComponent
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }
+
+  protected readonly getConnectorsTypeText = getConnectorsTypeText;
 }

@@ -14,7 +14,6 @@
 package de.sovity.authorityportal.seeds.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
@@ -140,7 +139,6 @@ class ScenarioData {
             it.location = "Location"
             it.frontendUrl = "https://connector"
             it.createdBy = dummyDevUserUuid(createdByUserId)
-            it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.REGISTERED
             it.managementUrl = "https://connector/management"
             it.endpointUrl = "https://connector/dsp"
             it.jwksUrl = "https://jwks"
