@@ -63,8 +63,16 @@ class DataOfferCsvReportService(
                 organizationId = it.organizationId,
                 organizationName = organizationNames[it.organizationId] ?: "",
                 status = it.onlineStatus.toString(),
-                dataSourceAvailability = if (it.dataSourceAvailability == "LIVE") "Available" else it.dataSourceAvailability
+                dataSourceAvailability = mapDataSourceAvailabilityToReadableFormat(it.dataSourceAvailability)
             )
+        }
+    }
+
+    private fun mapDataSourceAvailabilityToReadableFormat(dataSourceAvailability: String): String {
+        return when (dataSourceAvailability) {
+            "LIVE" -> "Available"
+            "ON_REQUEST" -> "On Request"
+            else -> dataSourceAvailability
         }
     }
 }

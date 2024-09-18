@@ -39,7 +39,7 @@ class CaasUpdateService(
 
     @Scheduled(every = "30s")
     fun scheduledCaasStatusUpdate() {
-        if (!isCaasClientEnabled) {
+        if (isCaasClientEnabled) {
             val connectors = connectorService.getAllCaas()
             val connectorStatusList = caasClient.getCaasStatus(connectors.map { it.connectorId })
             val connectorStatusMap = buildConnectorStatusMap(connectorStatusList, connectors)
