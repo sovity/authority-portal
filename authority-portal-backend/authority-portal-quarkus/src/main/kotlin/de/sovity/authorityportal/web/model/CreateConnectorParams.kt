@@ -16,9 +16,9 @@ package de.sovity.authorityportal.web.model
 data class CreateConnectorParams(
     val name: String,
     val location: String,
-    val frontendUrl: String,
-    val endpointUrl: String,
-    val managementUrl: String,
+    val frontendUrl: String?,
+    val endpointUrl: String?,
+    val managementUrl: String?,
     val certificate: String?,
     val jwksUrl: String?
 )

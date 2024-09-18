@@ -13,7 +13,12 @@
  */
 package de.sovity.authorityportal.broker.services.api
 
-import de.sovity.authorityportal.api.model.catalog.*
+import de.sovity.authorityportal.api.model.catalog.CatalogDataOffer
+import de.sovity.authorityportal.api.model.catalog.CatalogPageQuery
+import de.sovity.authorityportal.api.model.catalog.CatalogPageResult
+import de.sovity.authorityportal.api.model.catalog.CatalogPageSortingItem
+import de.sovity.authorityportal.api.model.catalog.CatalogPageSortingType
+import de.sovity.authorityportal.api.model.catalog.ConnectorOnlineStatusDto
 import de.sovity.authorityportal.broker.dao.pages.catalog.CatalogQueryService
 import de.sovity.authorityportal.broker.dao.pages.catalog.models.DataOfferListEntryRs
 import de.sovity.authorityportal.broker.services.api.filtering.CatalogFilterService

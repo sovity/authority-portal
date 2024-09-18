@@ -13,7 +13,6 @@
 
 package de.sovity.authorityportal.web.tests.services.organization
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import de.sovity.authorityportal.api.UiResource
 import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
@@ -25,13 +24,11 @@ import de.sovity.authorityportal.web.tests.useDevUser
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.KeycloakUserDto
 import de.sovity.edc.ext.wrapper.api.common.model.DataSourceAvailability
-import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
-import org.jooq.JSONB
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
@@ -47,9 +44,6 @@ class OrganizationInfoApiServiceTest {
 
     @Inject
     lateinit var scenarioInstaller: ScenarioInstaller
-
-    @Inject
-    lateinit var objectMapper: ObjectMapper
 
     @InjectMock
     lateinit var keycloakService: KeycloakService

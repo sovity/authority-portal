@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {ProvideConnectorPageFormValue} from '../provide-connector-page/provide-connector-page-form-model';
+import {ConfigureProvidedConnectorPageFormValue} from '../provide-connector-page/configure-provided-connector-page-form-model';
 
 const tag = 'ProvideConnectorPage';
 
@@ -21,8 +21,9 @@ export class Reset {
 export class Submit {
   static readonly type = `[${tag}] Provide Connector`;
   constructor(
-    public request: ProvideConnectorPageFormValue,
+    public request: ConfigureProvidedConnectorPageFormValue,
     public organizationId: string,
+    public connectorId: string,
     public enableForm: () => void,
     public disableForm: () => void,
     public success: () => void,
@@ -31,4 +32,9 @@ export class Submit {
 
 export class GetOrganizations {
   static readonly type = `[${tag}] Refresh Organizations`;
+}
+
+export class GetConnector {
+  static readonly type = `[${tag}] Get Connector`;
+  constructor(public connectorId: string) {}
 }
