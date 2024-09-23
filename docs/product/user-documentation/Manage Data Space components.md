@@ -44,7 +44,7 @@ $ keytool -importkeystore -srckeystore connector-certificate.p12 -srcstoretype p
 ```
 
 > [!TIP]  
-> By ticking the checkbox "Use the Connector's JWKS URL [...]", you can define a JWKS endpoint to automatically fetch the certificate from and thus skip the certificate step. sovity's CaaS (Connector-as-a-Service) are equiped with this functionality.
+> By ticking the checkbox "Use the Connector's JWKS URL [...]", you can define a JWKS endpoint to automatically fetch the certificate from and thus skip the certificate step. sovity's CaaS (Connector-as-a-Service) are equipped with this functionality.
 
 After clicking on the register button the list of provided connectors appears, where the added connector can be found.
 
