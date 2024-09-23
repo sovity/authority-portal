@@ -33,7 +33,19 @@ When clicking on the button "Provide Connector" in the upper right corner a mask
 
 ![provide-connector](images/provide-connector.png)
 
-To provide a connector in the Authority Portal all fields of the mask must be submitted. The process is identical to the registration of connectors for users without any application role but registers the connector for another organization who is named in the slightly changed registration mask.
+To provide a connector in the Authority Portal all fields of the mask must be submitted. The process is identical to the registration of connectors for users without any application role but registers the connector for another organization who is named in the slightly changed registration mask. 
+
+You might generate the required certificate within the browser or alternatively via a Linux shell with `openssl` and `keytool` installed:
+
+```bash
+$ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out connector-certificate.crt -nodes -days 1825
+$ openssl pkcs12 -export -in connector-certificate.crt -inkey key.pem -out connector-certificate.p12
+$ keytool -importkeystore -srckeystore connector-certificate.p12 -srcstoretype pkcs12 -destkeystore connector-certificate.jks
+```
+
+> [!TIP]  
+> By ticking the checkbox "Use the Connector's JWKS URL [...]", you can define a JWKS endpoint to automatically fetch the certificate from and thus skip the certificate step. sovity's CaaS (Connector-as-a-Service) are equipped with this functionality.
+
 After clicking on the register button the list of provided connectors appears, where the added connector can be found.
 
 #### 3. Assign Service Partner Admin role to users within own organization
