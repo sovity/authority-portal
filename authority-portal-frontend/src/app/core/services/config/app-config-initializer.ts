@@ -24,7 +24,7 @@ export const provideAppConfig = (): Provider => ({
 });
 
 export async function loadConfig() {
-  return fetch('/assets/config/app-config.json')
+  return fetch('/assets/config/app-configuration.json')
     .then((response) => response.json())
     .then(buildAppConfig)
     .then((config) => {
