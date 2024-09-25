@@ -16,6 +16,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Docs describe how to locally self-generate X.509 certificates ([#192](https://github.com/sovity/authority-portal/issues/192))
+- Fixed configuration not applying properly after a version upgrade ([#322](https://github.com/sovity/authority-portal/issues/322))
 
 ### Known issues
 
