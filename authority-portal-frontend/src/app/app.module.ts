@@ -34,11 +34,10 @@ import {CatalogPageModule} from './pages/catalog-page/catalog-page.module';
 import {CentralComponentListPageModule} from './pages/central-component-list-page/central-component-list-page.module';
 import {ChooseParticipantCaasModule} from './pages/choose-participant-caas/choose-participant-caas.module';
 import {ChooseParticipantConnectorModule} from './pages/choose-participant-connector/choose-participant-connector.module';
-import {ConfigureProvidedConnectorPageModule} from './pages/component-registration-pages/provide-connector-page/configure-provided-connector-page.module';
+import {ProvideConnectorPageModule} from './pages/component-registration-pages/provide-connector-page/provide-connector-page.module';
 import {RegisterCentralComponentPageModule} from './pages/component-registration-pages/register-central-component-page/register-central-component-page.module';
 import {RegisterConnectorPageModule} from './pages/component-registration-pages/register-connector-page/register-connector-page.module';
 import {RequestConnectorPageModule} from './pages/component-registration-pages/request-connector-page/request-connector-page.module';
-import {ReserveProvidedConnectorPageModule} from './pages/component-registration-pages/reserve-provided-connector-page/reserve-provided-connector-page.module';
 import {ControlCenterOrganizationEditPageModule} from './pages/control-center-organization-edit-page/control-center-organization-edit-page.module';
 import {ControlCenterOrganizationMemberDetailPageModule} from './pages/control-center-organization-member-detail-page/control-center-organization-member-detail-page.module';
 import {ControlCenterOrganizationMembersPageModule} from './pages/control-center-organization-members-page/control-center-organization-members-page.module';
@@ -115,11 +114,10 @@ import {SharedModule} from './shared/shared.module';
     PageNotFoundPageModule,
     ParticipantOwnConnectorDetailPageModule,
     ParticipantOwnConnectorListPageModule,
-    ConfigureProvidedConnectorPageModule,
+    ProvideConnectorPageModule,
     RegisterCentralComponentPageModule,
     RegisterConnectorPageModule,
     RequestConnectorPageModule,
-    ReserveProvidedConnectorPageModule,
     SpConnectorDetailPageModule,
     SpConnectorListPageModule,
     UnauthenticatedPageModule,

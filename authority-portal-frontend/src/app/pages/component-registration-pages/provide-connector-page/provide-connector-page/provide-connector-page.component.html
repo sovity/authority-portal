@@ -13,25 +13,30 @@
         <ng-template matStepLabel>Add Connector Details</ng-template>
         <div
           class="select-none flex flex-col justify-center items-center my-10 w-2/3 mx-auto">
-          <!-- Connector config info -->
-          <div class="text-lg text-semibold mb-2 whitespace-nowrap">
-            You can expect the following configuration for your connector
-          </div>
-          <div class="relative p-4 bg-gray-100 max-w-5xl overflow-hidden mb-3">
-            <div class="absolute top-0 right-0">
-              <button
-                mat-icon-button
-                aria-label="copy button with"
-                (click)="copyPreliminaryConnectorConfig()">
-                <mat-icon>content_copy</mat-icon>
-              </button>
-            </div>
+          <!-- MDS ID of client Organization -->
+          <app-organization-select
+            class="w-full"
+            label="Client Organization"
+            [ctrl]="form.connectorTab.controls.organization"
+            [organizations]="state.organizationList"></app-organization-select>
 
-            <code
-              class="block text-left text-sm text-gray-500 whitespace-pre overflow-y-auto break-words p-3"
-              >{{ state.localConnectorConfig }}</code
-            >
-          </div>
+          <!-- Connector's Name -->
+          <app-text-input
+            class="w-full"
+            label="Connector's Name"
+            ctrlId="formRegOConName"
+            placeholder="My Connector"
+            required
+            [ctrl]="form.connectorTab.controls.name"></app-text-input>
+
+          <!-- Connector's Location -->
+          <app-text-input
+            class="w-full"
+            label="Connector's Location"
+            ctrlId="formRegOConLocation"
+            placeholder="DE"
+            required
+            [ctrl]="form.connectorTab.controls.location"></app-text-input>
 
           <!-- Frontend URL -->
           <app-connector-url-input
@@ -125,10 +130,12 @@
         <app-certificate-input-form
           class="w-full"
           [group]="form.certificateTab"
-          [organizationLegalName]="state.connectorData?.organizationName ?? ''"
+          [organizationLegalName]="
+            form.connectorTab.controls.organization.value?.name ?? ''
+          "
           [commonName]="form.connectorTab.controls.endpointUrl.value"
           [location]="
-            state.connectorData?.location ?? ''
+            form.connectorTab.controls.location.value
           "></app-certificate-input-form>
       </div>
 

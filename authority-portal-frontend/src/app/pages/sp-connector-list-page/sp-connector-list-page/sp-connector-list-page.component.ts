@@ -17,7 +17,6 @@ import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
   ConnectorOverviewEntryDto,
-  ConnectorTypeDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
@@ -31,7 +30,6 @@ import {
   SlideOverAction,
   SlideOverConfig,
 } from 'src/app/shared/common/slide-over/slide-over.model';
-import {getConnectorsTypeText} from '../../../core/utils/mappers/dto-ui-mapper';
 import {SpConnectorDetailPageComponent} from '../../sp-connector-detail-page/sp-connector-detail-page/sp-connector-detail-page.component';
 import {RefreshConnectorSilent} from '../../sp-connector-detail-page/state/sp-connector-detail-page-actions';
 import {
@@ -147,12 +145,6 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  configureConnector(connectorId: string) {
-    this.router.navigate([
-      `service-partner/provided-connectors/${connectorId}/configure-connector`,
-    ]);
-  }
-
   handleNavigation(direction: SlideOverAction, currentConnectorId: string) {
     let totalConnectors = this.state.connectors.data.length;
     let currentIndex = this.state.connectors.data.findIndex(
@@ -198,7 +190,4 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }
-
-  protected readonly getConnectorsTypeText = getConnectorsTypeText;
-  protected readonly ConnectorTypeDto = ConnectorTypeDto;
 }

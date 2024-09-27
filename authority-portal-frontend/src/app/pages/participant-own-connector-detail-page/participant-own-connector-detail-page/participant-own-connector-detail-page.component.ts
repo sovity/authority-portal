@@ -22,13 +22,12 @@ import {
 } from 'rxjs';
 import {Store} from '@ngxs/store';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
-import {TitleBarConfig} from 'src/app/shared/common/portal-layout/title-bar/title-bar.model';
-import {ChildComponentInput} from 'src/app/shared/common/slide-over/slide-over.model';
 import {
   getConnectorStatusText,
-  getConnectorsTypeText,
-} from '../../../core/utils/mappers/dto-ui-mapper';
+  getConnectorsTypeClasses,
+} from 'src/app/core/utils/ui-utils';
+import {TitleBarConfig} from 'src/app/shared/common/portal-layout/title-bar/title-bar.model';
+import {ChildComponentInput} from 'src/app/shared/common/slide-over/slide-over.model';
 import {DeleteOwnConnector} from '../../participant-own-connector-list-page/state/participant-own-connector-list-page-actions';
 import {
   RefreshConnector,
@@ -94,7 +93,7 @@ export class ParticipantOwnConnectorDetailPageComponent
           this.titleBarConfig = {
             title: data.connectorName,
             icon: 'connector-2',
-            status: getConnectorsTypeText(data.type),
+            status: data.type,
             statusStyle: this.getConnectorsTypeClasses(data.type),
             tabs: [],
             actionMenu: hasRole

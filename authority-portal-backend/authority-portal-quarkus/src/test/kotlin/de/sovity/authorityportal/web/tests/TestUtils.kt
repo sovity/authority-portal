@@ -36,13 +36,7 @@ inline fun <reified T> installMock(mock: T): T {
 }
 
 fun <T : RecursiveComparisonAssert<T>> RecursiveComparisonAssert<T>.withOffsetDateTimeComparator(): RecursiveComparisonAssert<T> {
-    return withEqualsForType({ a, b ->
-        if (a == null || b == null) {
-            a == b
-        } else {
-            Duration.between(a, b).abs().nano < 1_000_000
-        }
-    }, OffsetDateTime::class.java)
+    return withEqualsForType({ a, b -> Duration.between(a, b).abs().nano < 1_000_000 }, OffsetDateTime::class.java)
 }
 
 fun useDevUser(userUuidNr: Int, orgIdNr: Int?, roles: Set<String> = setOf(Roles.UserRoles.AUTHORITY_ADMIN)) {

@@ -13,6 +13,7 @@
 
 package de.sovity.authorityportal.web.tests.services.catalog
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.sovity.authorityportal.api.CatalogResource
 import de.sovity.authorityportal.api.model.catalog.DataOfferDetailPageQuery
 import de.sovity.authorityportal.db.jooq.Tables
@@ -24,6 +25,7 @@ import de.sovity.authorityportal.seeds.utils.dummyDevContractOfferId
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfig
 import de.sovity.authorityportal.web.environment.CatalogDataspaceConfigService
 import de.sovity.authorityportal.web.tests.useDevUser
+import de.sovity.edc.ext.wrapper.api.common.model.UiAsset
 import de.sovity.edc.ext.wrapper.api.common.model.UiPolicyExpression
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
@@ -31,6 +33,7 @@ import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
 import org.jooq.DSLContext
+import org.jooq.JSONB
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
@@ -47,6 +50,9 @@ class DataOfferDetailApiTest {
 
     @Inject
     lateinit var scenarioInstaller: ScenarioInstaller
+
+    @Inject
+    lateinit var objectMapper: ObjectMapper
 
     @Inject
     lateinit var dsl: DSLContext

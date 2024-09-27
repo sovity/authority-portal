@@ -19,53 +19,46 @@ import {
   ViewChild,
 } from '@angular/core';
 import {MatStepper} from '@angular/material/stepper';
-import {Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {UserInfo, UserRoleDto} from '@sovity.de/authority-portal-client';
+import {UserInfo} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
-import {HeaderBarConfig} from '../../../../shared/common/header-bar/header-bar.model';
-import {DEFAULT_CONTROL_CENTER_ORGANIZATION_EDIT_PAGE_STATE} from '../../../control-center-organization-edit-page/state/control-center-organization-edit-page-state';
 import {
   GetOrganizations,
   Reset,
   Submit,
-} from '../state/reserve-provided-connector-page-actions';
+} from '../state/provide-connector-page-actions';
 import {
-  DEFAULT_RESERVE_PROVIDED_CONNECTOR_PAGE_STATE,
-  ReserveProvidedConnectorPageState,
-} from '../state/reserve-provided-connector-page-state';
-import {ReserveProvidedConnectorPageStateImpl} from '../state/reserve-provided-connector-page-state-impl';
-import {ReserveProvidedConnectorPageForm} from './reserve-provided-connector-page-form';
+  DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE,
+  ProvideConnectorPageState,
+} from '../state/provide-connector-page-state';
+import {ProvideConnectorPageStateImpl} from '../state/provide-connector-page-state-impl';
+import {ProvideConnectorPageForm} from './provide-connector-page-form';
 
 @Component({
-  selector: 'app-reserve-provided-connector-page',
-  templateUrl: './reserve-provided-connector-page.component.html',
-  providers: [ReserveProvidedConnectorPageForm],
+  selector: 'app-provide-connector-page',
+  templateUrl: './provide-connector-page.component.html',
+  providers: [ProvideConnectorPageForm],
 })
-export class ReserveProvidedConnectorPageComponent
-  implements OnInit, OnDestroy
-{
+export class ProvideConnectorPageComponent implements OnInit, OnDestroy {
   @HostBinding('class.overflow-y-auto')
   cls = true;
-  state = DEFAULT_RESERVE_PROVIDED_CONNECTOR_PAGE_STATE;
+  state = DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE;
   userInfo!: UserInfo;
 
+  createActionName = 'Provide Connector';
   exitLink = '/service-partner/provided-connectors';
 
   @ViewChild('stepper') stepper!: MatStepper;
 
   private ngOnDestroy$ = new Subject();
 
-  headerConfig!: HeaderBarConfig;
-
   constructor(
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private store: Store,
-    public form: ReserveProvidedConnectorPageForm,
+    public form: ProvideConnectorPageForm,
     private globalStateUtils: GlobalStateUtils,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -73,7 +66,6 @@ export class ReserveProvidedConnectorPageComponent
     this.store.dispatch(Reset);
     this.startListeningToState();
     this.getUserInfo();
-    this.initializeHeaderBar();
   }
 
   getUserInfo() {
@@ -84,28 +76,22 @@ export class ReserveProvidedConnectorPageComponent
       });
   }
 
-  initializeHeaderBar() {
-    this.headerConfig = {
-      title: 'Provide Connector',
-      subtitle: 'Register a connector for a participant organization.',
-      headerActions: [],
-    };
-  }
-
   private startListeningToState() {
     this.store
-      .select<ReserveProvidedConnectorPageState>(
-        ReserveProvidedConnectorPageStateImpl,
-      )
+      .select<ProvideConnectorPageState>(ProvideConnectorPageStateImpl)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((state) => {
         this.state = state;
       });
   }
 
-  reserveConnector(): void {
+  registerConnector(registrationType: 'certificate' | 'jwks'): void {
+    if (registrationType === 'jwks') {
+      this.form.certificateTab.disable();
+    }
+
     const formValue = this.form.value;
-    const organizationId = formValue.connectorInfo.organization!.id;
+    const organizationId = formValue.connectorTab.organization!.id;
 
     this.store.dispatch(
       new Submit(
@@ -115,7 +101,9 @@ export class ReserveProvidedConnectorPageComponent
         () => this.form.group.disable(),
         () => {
           setTimeout(() => {
-            this.router.navigate(['/service-partner/provided-connectors']);
+            formValue.connectorTab.useJwks
+              ? (this.stepper.selectedIndex = 2)
+              : this.stepper.next();
           }, 200);
         },
       ),

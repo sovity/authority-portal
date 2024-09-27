@@ -19,6 +19,5 @@ import io.swagger.v3.oas.annotations.media.Schema
 enum class ConnectorTypeDto {
     OWN,
     PROVIDED,
-    CAAS,
-    CONFIGURING
+    CAAS
 }

@@ -15,33 +15,34 @@ import {Observable} from 'rxjs';
 import {ignoreElements, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
 import {
+  CreateConnectorRequest,
   CreateConnectorResponse,
+  CreateConnectorWithJwksRequest,
   OrganizationOverviewEntryDto,
-  ReserveConnectorRequest,
 } from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {ErrorService} from 'src/app/core/services/error.service';
-import {buildConnectorConfigFromResponse} from 'src/app/core/utils/connector-config-utils';
+import {buildConnectorConfig} from 'src/app/core/utils/connector-config-utils';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
-import {ReserveProvidedConnectorPageFormValue} from '../reserve-provided-connector-page/reserve-provided-connector-page-form-model';
+import {ProvideConnectorPageFormValue} from '../provide-connector-page/provide-connector-page-form-model';
 import {
   GetOrganizations,
   Reset,
   Submit,
-} from './reserve-provided-connector-page-actions';
+} from './provide-connector-page-actions';
 import {
-  DEFAULT_RESERVE_PROVIDED_CONNECTOR_PAGE_STATE,
-  ReserveProvidedConnectorPageState,
-} from './reserve-provided-connector-page-state';
+  DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE,
+  ProvideConnectorPageState,
+} from './provide-connector-page-state';
 
-@State<ReserveProvidedConnectorPageState>({
-  name: 'ReserveProvidedConnectorPage',
-  defaults: DEFAULT_RESERVE_PROVIDED_CONNECTOR_PAGE_STATE,
+@State<ProvideConnectorPageState>({
+  name: 'ProvideConnectorPage',
+  defaults: DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE,
 })
 @Injectable()
-export class ReserveProvidedConnectorPageStateImpl {
+export class ProvideConnectorPageStateImpl {
   constructor(
     private apiService: ApiService,
     private actions$: Actions,
@@ -51,13 +52,13 @@ export class ReserveProvidedConnectorPageStateImpl {
   ) {}
 
   @Action(Reset)
-  onReset(ctx: StateContext<ReserveProvidedConnectorPageState>): void {
-    ctx.setState(DEFAULT_RESERVE_PROVIDED_CONNECTOR_PAGE_STATE);
+  onReset(ctx: StateContext<ProvideConnectorPageState>): void {
+    ctx.setState(DEFAULT_PROVIDE_CONNECTOR_PAGE_STATE);
   }
 
   @Action(Submit, {cancelUncompleted: true})
   onSubmit(
-    ctx: StateContext<ReserveProvidedConnectorPageState>,
+    ctx: StateContext<ProvideConnectorPageState>,
     action: Submit,
   ): Observable<never> {
     ctx.patchState({state: 'submitting'});
@@ -66,16 +67,28 @@ export class ReserveProvidedConnectorPageStateImpl {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap(
         (deploymentEnvironmentId): Observable<CreateConnectorResponse> => {
-          const request = this.buildReserveConnectorRequest(action.request);
-          return this.apiService.reserveProvidedConnector(
-            request,
-            deploymentEnvironmentId,
-          );
+          if (action.request.connectorTab.useJwks) {
+            const request = this.buildCreateConnectorWithJwksRequest(
+              action.request,
+            );
+            return this.apiService.createProvidedConnectorWithJwks(
+              request,
+              action.organizationId,
+              deploymentEnvironmentId,
+            );
+          } else {
+            const request = this.buildCreateConnectorRequest(action.request);
+            return this.apiService.createProvidedConnectorWithCertificate(
+              request,
+              action.organizationId,
+              deploymentEnvironmentId,
+            );
+          }
         },
       ),
       tap((res) => {
         ctx.patchState({
-          connectorConfig: buildConnectorConfigFromResponse(
+          connectorConfig: buildConnectorConfig(
             this.globalStateUtils.snapshot.selectedEnvironment!,
             res,
           ),
@@ -83,7 +96,7 @@ export class ReserveProvidedConnectorPageStateImpl {
         switch (res.status) {
           case 'OK':
             this.toast.showSuccess(
-              `Connector ${action.request.connectorInfo.name} was successfully reserved`,
+              `Connector ${action.request.connectorTab.name} was successfully provided`,
             );
             ctx.patchState({state: 'success'});
             action.success();
@@ -91,20 +104,20 @@ export class ReserveProvidedConnectorPageStateImpl {
           case 'WARNING':
             this.toast.showWarning(
               res?.message ||
-                'A problem occurred while reserving the connector.',
+                'A problem occurred while providing the connector.',
             );
             ctx.patchState({state: 'success'});
             action.success();
             break;
           case 'ERROR':
-            this.toast.showDanger(res?.message || 'Failed reserving connector');
+            this.toast.showDanger(res?.message || 'Failed providing connector');
             ctx.patchState({state: 'error'});
             action.enableForm();
             break;
         }
       }),
       takeUntil(this.actions$.pipe(ofAction(Reset))),
-      this.errorService.toastFailureRxjs('Failed reserving connector', () => {
+      this.errorService.toastFailureRxjs('Failed providing connector', () => {
         ctx.patchState({state: 'error'});
         action.enableForm();
       }),
@@ -114,7 +127,7 @@ export class ReserveProvidedConnectorPageStateImpl {
 
   @Action(GetOrganizations, {cancelUncompleted: true})
   onRefreshOrganizations(
-    ctx: StateContext<ReserveProvidedConnectorPageState>,
+    ctx: StateContext<ProvideConnectorPageState>,
   ): Observable<never> {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
@@ -130,19 +143,37 @@ export class ReserveProvidedConnectorPageStateImpl {
   }
 
   private organizationsRefreshed(
-    ctx: StateContext<ReserveProvidedConnectorPageState>,
+    ctx: StateContext<ProvideConnectorPageState>,
     newOrganizations: Fetched<OrganizationOverviewEntryDto[]>,
   ) {
     ctx.patchState({organizationList: newOrganizations});
   }
 
-  private buildReserveConnectorRequest(
-    formValue: ReserveProvidedConnectorPageFormValue,
-  ): ReserveConnectorRequest {
+  private buildCreateConnectorWithJwksRequest(
+    formValue: ProvideConnectorPageFormValue,
+  ): CreateConnectorWithJwksRequest {
     return {
-      name: formValue.connectorInfo.name,
-      location: formValue.connectorInfo.location,
-      customerOrganizationId: formValue.connectorInfo.organization!.id,
+      name: formValue.connectorTab.name,
+      location: formValue.connectorTab.location,
+      frontendUrl: formValue.connectorTab.frontendUrl,
+      endpointUrl: formValue.connectorTab.endpointUrl,
+      managementUrl: formValue.connectorTab.managementUrl,
+      jwksUrl: formValue.connectorTab.jwksUrl,
+    };
+  }
+
+  private buildCreateConnectorRequest(
+    formValue: ProvideConnectorPageFormValue,
+  ): CreateConnectorRequest {
+    return {
+      name: formValue.connectorTab.name,
+      location: formValue.connectorTab.location,
+      frontendUrl: formValue.connectorTab.frontendUrl,
+      endpointUrl: formValue.connectorTab.endpointUrl,
+      managementUrl: formValue.connectorTab.managementUrl,
+      certificate: formValue.certificateTab.bringOwnCert
+        ? formValue.certificateTab.ownCertificate
+        : formValue.certificateTab.generatedCertificate,
     };
   }
 }

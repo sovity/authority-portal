@@ -18,12 +18,11 @@ import de.sovity.authorityportal.api.model.CaasAvailabilityResponse
 import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
 import de.sovity.authorityportal.api.model.CentralComponentDto
 import de.sovity.authorityportal.api.model.ComponentStatusOverview
-import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithCertificateRequest
-import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithJwksRequest
-import de.sovity.authorityportal.api.model.ConnectorDetailsDto
+import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
+import de.sovity.authorityportal.api.model.CreateConnectorWithJwksRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
@@ -32,7 +31,6 @@ import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
-import de.sovity.authorityportal.api.model.ReserveConnectorRequest
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.UpdateUserDto
 import de.sovity.authorityportal.api.model.UserDeletionCheck
@@ -242,19 +240,7 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun reserveProvidedConnector(environmentId: String, connectorReserveRequest: ReserveConnectorRequest): CreateConnectorResponse {
-        authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
-        authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.reserveProvidedConnector(
-            loggedInUser.organizationId!!,
-            loggedInUser.userId,
-            environmentId,
-            connectorReserveRequest
-        )
-    }
-
-    @Transactional
-    override fun getConnector(connectorId: String): ConnectorDetailsDto {
+    override fun getConnector(connectorId: String): ConnectorDetailDto {
         authUtils.requiresAnyRole(Roles.UserRoles.AUTHORITY_USER, Roles.UserRoles.OPERATOR_ADMIN)
         return connectorManagementApiService.getAuthorityConnectorDetails(connectorId)
     }
@@ -295,7 +281,7 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun getProvidedConnectorDetails(connectorId: String): ConnectorDetailsDto {
+    override fun getProvidedConnectorDetails(connectorId: String): ConnectorDetailDto {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.getConnectorDetails(
@@ -343,7 +329,7 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun ownOrganizationConnectorDetails(connectorId: String): ConnectorDetailsDto {
+    override fun ownOrganizationConnectorDetails(connectorId: String): ConnectorDetailDto {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_USER)
         authUtils.requiresMemberOfAnyOrganization()
         return connectorManagementApiService.ownOrganizationConnectorDetails(
@@ -377,35 +363,32 @@ class UiResourceImpl(
     }
 
     @Transactional
-    override fun configureProvidedConnectorWithCertificate(
+    override fun createProvidedConnector(
         organizationId: String,
-        connectorId: String,
         environmentId: String,
-        connector: ConfigureProvidedConnectorWithCertificateRequest
+        connector: CreateConnectorRequest
     ): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.configureProvidedConnectorWithCertificate(
+        return connectorManagementApiService.createProvidedConnectorWithCertificate(
             connector,
-            connectorId,
+            organizationId,
             loggedInUser.organizationId!!,
             loggedInUser.userId,
             environmentId
         )
     }
 
-    @Transactional
-    override fun configureProvidedConnectorWithJwks(
+    override fun createProvidedConnectorWithJwks(
         organizationId: String,
-        connectorId: String,
         environmentId: String,
-        connector: ConfigureProvidedConnectorWithJwksRequest
+        connector: CreateConnectorWithJwksRequest
     ): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
         authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.configureProvidedConnectorWithJwks(
+        return connectorManagementApiService.createProvidedConnectorWithJwks(
             connector,
-            connectorId,
+            organizationId,
             loggedInUser.organizationId!!,
             loggedInUser.userId,
             environmentId
@@ -515,7 +498,7 @@ class UiResourceImpl(
         authUtils.requiresAuthenticated()
         authUtils.requiresMemberOfAnyOrganization()
         if (authUtils.hasRole(Roles.UserRoles.AUTHORITY_USER)) {
-            return componentStatusApiService.getComponentsStatus(environmentId)
+            return componentStatusApiService.getComponentsStatus(environmentId);
         }
         return componentStatusApiService.getComponentsStatusForOrganizationId(environmentId, loggedInUser.organizationId!!)
     }

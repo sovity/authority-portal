@@ -5,14 +5,10 @@
     [id]="ctrlId"
     [formControl]="ctrl"
     [compareWith]="compareWith">
-    <mat-select-trigger>
-      <span *ngIf="ctrl.value">{{ ctrl.value.name }}</span>
-    </mat-select-trigger>
     <mat-option
       *ngFor="let organization of organizations?.dataOrUndefined"
       [value]="organization">
-      <div mat-line>{{ organization.name }}</div>
-      <div class="text-gray-500 text-xs" mat-line>{{ organization.id }}</div>
+      {{ organization.name }}
     </mat-option>
   </mat-select>
   <mat-error

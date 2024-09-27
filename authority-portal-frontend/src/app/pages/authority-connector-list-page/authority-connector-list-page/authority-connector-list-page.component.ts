@@ -26,7 +26,6 @@ import {
   SlideOverAction,
   SlideOverConfig,
 } from 'src/app/shared/common/slide-over/slide-over.model';
-import {getConnectorsTypeText} from '../../../core/utils/mappers/dto-ui-mapper';
 import {AuthorityConnectorDetailPageComponent} from '../../authority-connector-detail-page/authority-connector-detail-page/authority-connector-detail-page.component';
 import {RefreshConnectorSilent} from '../../authority-connector-detail-page/state/authority-connector-detail-page-actions';
 import {
@@ -184,6 +183,4 @@ export class AuthorityConnectorListPageComponent implements OnInit, OnDestroy {
     this.ngOnDestroy$.next(null);
     this.ngOnDestroy$.complete();
   }
-
-  protected readonly getConnectorsTypeText = getConnectorsTypeText;
 }

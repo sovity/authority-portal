@@ -18,6 +18,7 @@ import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorStatusDto
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
+import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
@@ -126,6 +127,7 @@ class CaasManagementApiServiceTest {
             it.managementUrl = null
             it.createdBy = dummyDevUserUuid(0)
             it.createdAt = now
+            it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
             it.jwksUrl = null
             it.caasStatus = CaasStatus.PROVISIONING
             it.lastRefreshAttemptAt = null

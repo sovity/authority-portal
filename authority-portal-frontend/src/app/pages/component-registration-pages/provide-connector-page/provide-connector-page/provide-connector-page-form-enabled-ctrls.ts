@@ -10,13 +10,16 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {ConnectorTabFormValue} from './configure-provided-connector-page-form-model';
+import {ConnectorTabFormValue} from './provide-connector-page-form-model';
 
-export const configureProvideConnectorPageFormEnabledCtrls = (
+export const provideConnectorPageFormEnabledCtrls = (
   value: ConnectorTabFormValue,
 ): Record<keyof ConnectorTabFormValue, boolean> => {
   let useJwks = value.useJwks;
   return {
+    organization: true,
+    name: true,
+    location: true,
     frontendUrl: true,
     endpointUrl: true,
     managementUrl: true,

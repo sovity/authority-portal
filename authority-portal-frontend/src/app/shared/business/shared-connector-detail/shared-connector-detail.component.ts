@@ -11,9 +11,9 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, HostBinding, Input} from '@angular/core';
-import {ConnectorDetailsDto} from '@sovity.de/authority-portal-client';
+import {ConnectorDetailDto} from '@sovity.de/authority-portal-client';
 import {ClipboardUtils} from 'src/app/core/utils/clipboard-utils';
-import {getConnectorStatusText} from '../../../core/utils/mappers/dto-ui-mapper';
+import {getConnectorStatusText} from 'src/app/core/utils/ui-utils';
 
 @Component({
   selector: 'app-shared-connector-detail',
@@ -26,7 +26,7 @@ export class SharedConnectorDetailComponent {
   @HostBinding('class.@container') // tailwind container queries
   cls = true;
 
-  @Input() connector!: ConnectorDetailsDto;
+  @Input() connector!: ConnectorDetailDto;
 
   getConnectorStatusText = getConnectorStatusText;
 

@@ -16,12 +16,11 @@ import de.sovity.authorityportal.api.model.CaasAvailabilityResponse
 import de.sovity.authorityportal.api.model.CentralComponentCreateRequest
 import de.sovity.authorityportal.api.model.CentralComponentDto
 import de.sovity.authorityportal.api.model.ComponentStatusOverview
-import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithCertificateRequest
-import de.sovity.authorityportal.api.model.ConnectorDetailsDto
+import de.sovity.authorityportal.api.model.ConnectorDetailDto
 import de.sovity.authorityportal.api.model.ConnectorOverviewResult
 import de.sovity.authorityportal.api.model.CreateCaasRequest
 import de.sovity.authorityportal.api.model.CreateConnectorRequest
-import de.sovity.authorityportal.api.model.ConfigureProvidedConnectorWithJwksRequest
+import de.sovity.authorityportal.api.model.CreateConnectorWithJwksRequest
 import de.sovity.authorityportal.api.model.CreateConnectorResponse
 import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.api.model.IdResponse
@@ -30,7 +29,6 @@ import de.sovity.authorityportal.api.model.InviteParticipantUserRequest
 import de.sovity.authorityportal.api.model.OnboardingUserUpdateDto
 import de.sovity.authorityportal.api.model.ProvidedConnectorOverviewResult
 import de.sovity.authorityportal.api.model.RegistrationRequestDto
-import de.sovity.authorityportal.api.model.ReserveConnectorRequest
 import de.sovity.authorityportal.api.model.UpdateOrganizationDto
 import de.sovity.authorityportal.api.model.UpdateUserDto
 import de.sovity.authorityportal.api.model.UserDeletionCheck
@@ -186,24 +184,11 @@ interface UiResource {
         environmentId: String
     ): OrganizationOverviewResult
 
-    @POST
-    @Path("/service-partner/reserve-connector")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Creates a reserved connector that can be registered later for another organization.")
-    fun reserveProvidedConnector(
-        @Valid @NotBlank(message = "EnvironmentId cannot be blank")
-        @QueryParam("environmentId")
-        environmentId: String,
-
-        @Valid @NotNull(message = "Connector reserve request cannot be null")
-        connectorReserveRequest: ReserveConnectorRequest
-    ): CreateConnectorResponse
-
     @GET
     @Path("/authority/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of any connector.")
-    fun getConnector(@PathParam("connectorId") connectorId: String): ConnectorDetailsDto
+    fun getConnector(@PathParam("connectorId") connectorId: String): ConnectorDetailDto
 
     @GET
     @Path("/authority/connectors")
@@ -263,7 +248,7 @@ interface UiResource {
     @Path("/application/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of a connector provided by own organization. (For Service Partners)")
-    fun getProvidedConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailsDto
+    fun getProvidedConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailDto
 
     @DELETE
     @Path("/application/connectors/{connectorId}")
@@ -308,7 +293,7 @@ interface UiResource {
     @Path("/organizations/my-org/connectors/{connectorId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Get details of a user's own organization's connector.")
-    fun ownOrganizationConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailsDto
+    fun ownOrganizationConnectorDetails(@PathParam("connectorId") connectorId: String): ConnectorDetailDto
 
     @POST
     @Path("/organizations/my-org/connectors/create-on-premise")
@@ -330,38 +315,36 @@ interface UiResource {
     @Operation(description = "Unregister a self-hosted connector.")
     fun deleteOwnConnector(@PathParam("connectorId") connectorId: String): IdResponse
 
-    @PUT
-    @Path("/organizations/{organizationId}/connectors/{connectorId}/configure-service-provided")
+    @POST
+    @Path("/organizations/{organizationId}/connectors/create-service-provided")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Configure a connector for another organization as a service provider.")
-    fun configureProvidedConnectorWithCertificate(
+    @Operation(description = "Register a connector for another organization as a service provider.")
+    fun createProvidedConnector(
         @PathParam("organizationId") organizationId: String,
-        @PathParam("connectorId") connectorId: String,
 
         @QueryParam("environmentId")
         @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         environmentId: String,
 
         @Valid @NotNull(message = "Connector cannot be null")
-        connector: ConfigureProvidedConnectorWithCertificateRequest
+        connector: CreateConnectorRequest
     ): CreateConnectorResponse
 
-    @PUT
-    @Path("/organizations/{organizationId}/connectors/{connectorId}/configure-service-provided/with-jwks")
+    @POST
+    @Path("/organizations/{organizationId}/connectors/create-service-provided/with-jwks")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Configure a connector for another organization as a service provider with JWKS URL instead of a certificate.")
-    fun configureProvidedConnectorWithJwks(
+    @Operation(description = "Register a connector for another organization as a service provider with JWKS URL instead of a certificate.")
+    fun createProvidedConnectorWithJwks(
         @PathParam("organizationId") organizationId: String,
-        @PathParam("connectorId") connectorId: String,
 
         @QueryParam("environmentId")
         @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         environmentId: String,
 
         @Valid @NotNull(message = "Connector cannot be null")
-        connector: ConfigureProvidedConnectorWithJwksRequest
+        connector: CreateConnectorWithJwksRequest
     ): CreateConnectorResponse
 
     @POST

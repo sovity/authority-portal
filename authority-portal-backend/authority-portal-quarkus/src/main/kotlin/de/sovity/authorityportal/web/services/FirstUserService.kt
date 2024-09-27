@@ -20,6 +20,7 @@ import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.ApplicationRole
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
 import org.jooq.DSLContext
 import java.util.concurrent.atomic.AtomicBoolean
 

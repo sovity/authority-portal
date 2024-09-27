@@ -61,10 +61,39 @@ export const getConnectorsTypeClasses = (status: ConnectorTypeDto): string => {
       return 'text-blue-700 bg-blue-100/60';
     case ConnectorTypeDto.Caas:
       return 'bg-yellow-300/90';
-    case ConnectorTypeDto.Configuring:
-      return 'bg-red-300/90';
     default:
       return '';
+  }
+};
+
+export const getConnectorStatusText = (status: ConnectorStatusDto): string => {
+  switch (status) {
+    case ConnectorStatusDto.Init:
+      return 'Init';
+    case ConnectorStatusDto.Provisioning:
+      return 'Provisioning';
+    case ConnectorStatusDto.AwaitingRunning:
+      return 'Awaiting Running';
+    case ConnectorStatusDto.Running:
+      return 'Running';
+    case ConnectorStatusDto.Deprovisioning:
+      return 'Deprovisioning';
+    case ConnectorStatusDto.AwaitingStopped:
+      return 'Awaiting stopped';
+    case ConnectorStatusDto.Stopped:
+      return 'Stopped';
+    case ConnectorStatusDto.Error:
+      return 'Error';
+    case ConnectorStatusDto.NotFound:
+      return 'Not Found';
+    case ConnectorStatusDto.Online:
+      return 'Online';
+    case ConnectorStatusDto.Offline:
+      return 'Offline';
+    case ConnectorStatusDto.Dead:
+      return 'Dead';
+    case ConnectorStatusDto.Unknown:
+      return 'Unknown';
   }
 };
 

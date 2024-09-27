@@ -17,6 +17,7 @@ import de.sovity.authorityportal.api.model.DeploymentEnvironmentDto
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment.DapsConfig
 import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
 import kotlin.jvm.optionals.getOrNull
 
 @ApplicationScoped

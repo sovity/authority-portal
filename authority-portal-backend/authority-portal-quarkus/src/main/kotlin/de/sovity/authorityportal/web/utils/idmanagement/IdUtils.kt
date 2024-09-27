@@ -14,6 +14,8 @@
 package de.sovity.authorityportal.web.utils.idmanagement
 
 import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
+import org.jooq.DSLContext
 import kotlin.random.Random
 
 @ApplicationScoped

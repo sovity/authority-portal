@@ -15,6 +15,7 @@ package de.sovity.authorityportal.web.services
 
 import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.CaasStatus
+import de.sovity.authorityportal.db.jooq.enums.ConnectorBrokerRegistrationStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord
@@ -58,8 +59,7 @@ class ConnectorService(
         val endpointUrl: String?,
         val managementUrl: String?,
         val caasStatus: CaasStatus?,
-        val onlineStatus: ConnectorOnlineStatus?,
-        val clientId: String
+        val onlineStatus: ConnectorOnlineStatus?
     )
 
     fun getConnectorDetailOrThrow(connectorId: String): ConnectorDetailRs {
@@ -85,21 +85,13 @@ class ConnectorService(
             c.ENDPOINT_URL.`as`("endpointUrl"),
             c.MANAGEMENT_URL.`as`("managementUrl"),
             c.CAAS_STATUS.`as`("caasStatus"),
-            c.ONLINE_STATUS.`as`("onlineStatus"),
-            c.CLIENT_ID.`as`("clientId")
+            c.ONLINE_STATUS.`as`("onlineStatus")
         )
             .from(c)
             .leftJoin(org).on(c.ORGANIZATION_ID.eq(org.ID))
             .leftJoin(host).on(c.PROVIDER_ORGANIZATION_ID.eq(host.ID))
             .where(c.CONNECTOR_ID.eq(connectorId))
             .fetchOneInto(ConnectorDetailRs::class.java)
-    }
-
-    fun getConnectorByIdOrThrow(connectorId: String): ConnectorRecord {
-        val c = Tables.CONNECTOR
-        return dsl.selectFrom(c)
-            .where(c.CONNECTOR_ID.eq(connectorId))
-            .fetchOne() ?: error("Connector with id $connectorId not found")
     }
 
     fun updateConnectorsCreator(newCreatedBy: String, oldCreatedBy: String) {
@@ -173,31 +165,6 @@ class ConnectorService(
         return getCaasCountByOrganizationIdAndEnvironment(organizationId, environmentId) < limit
     }
 
-    fun createReservedConnector(
-        connectorId: String,
-        clientId: String,
-        organizationId: String,
-        providerOrganizationId: String,
-        name: String,
-        location: String,
-        environment: String,
-        createdBy: String
-    ) {
-        dsl.newRecord(Tables.CONNECTOR).also {
-            it.connectorId = connectorId
-            it.clientId = clientId
-            it.organizationId = organizationId
-            it.providerOrganizationId = providerOrganizationId
-            it.name = name
-            it.createdBy = createdBy
-            it.createdAt = timeUtils.now()
-            it.environment = environment
-            it.type = ConnectorType.CONFIGURING
-            it.location = location
-            it.insert()
-        }
-    }
-
     fun createOwnConnector(
         connectorId: String,
         organizationId: String,
@@ -211,6 +178,27 @@ class ConnectorService(
             organizationId = organizationId,
             providerOrganizationId = organizationId,
             type = ConnectorType.OWN,
+            environment = environment,
+            clientId = clientId,
+            createConnectorParams = createConnectorParams,
+            createdBy = createdBy
+        )
+    }
+
+    fun createProvidedConnector(
+        connectorId: String,
+        organizationId: String,
+        providerOrganizationId: String,
+        environment: String,
+        clientId: String,
+        createConnectorParams: CreateConnectorParams,
+        createdBy: String
+    ) {
+        createConnector(
+            connectorId = connectorId,
+            organizationId = organizationId,
+            providerOrganizationId = providerOrganizationId,
+            type = ConnectorType.PROVIDED,
             environment = environment,
             clientId = clientId,
             createConnectorParams = createConnectorParams,
@@ -276,6 +264,7 @@ class ConnectorService(
             it.jwksUrl = createConnectorParams.jwksUrl
             it.createdBy = createdBy
             it.createdAt = timeUtils.now()
+            it.brokerRegistrationStatus = ConnectorBrokerRegistrationStatus.UNREGISTERED
 
             it.insert()
         }

@@ -17,12 +17,12 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {ConfigureProvidedConnectorPageComponent} from './provide-connector-page/configure-provided-connector-page.component';
-import {ConfigureProvidedConnectorPageStateImpl} from './state/configure-provided-connector-page-state-impl';
+import {ProvideConnectorPageComponent} from './provide-connector-page/provide-connector-page.component';
+import {ProvideConnectorPageStateImpl} from './state/provide-connector-page-state-impl';
 
 @NgModule({
-  declarations: [ConfigureProvidedConnectorPageComponent],
-  exports: [ConfigureProvidedConnectorPageComponent],
+  declarations: [ProvideConnectorPageComponent],
+  exports: [ProvideConnectorPageComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -30,9 +30,9 @@ import {ConfigureProvidedConnectorPageStateImpl} from './state/configure-provide
     FormsModule,
     ReactiveFormsModule,
 
-    NgxsModule.forFeature([ConfigureProvidedConnectorPageStateImpl]),
+    NgxsModule.forFeature([ProvideConnectorPageStateImpl]),
 
     SharedModule,
   ],
 })
-export class ConfigureProvidedConnectorPageModule {}
+export class ProvideConnectorPageModule {}
