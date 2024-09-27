@@ -324,7 +324,7 @@ AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "Authority Portal" # Portal name 
 - Each deployment environment requires a Data Catalog Crawler.
   - A Data Catalog Crawler is based on the EDC Connector and crawls the catalogs of all connectors in the dataspace.
   - You will need an SKI/AKI client ID to register the crawler. Please refer to the [EDC documentation](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq) on how to generate one.
-- See the [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v10.4.0/docs/deployment-guide/goals/catalog-crawler-production/README.md) 
+- See the [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v10.4.1/docs/deployment-guide/goals/catalog-crawler-production/README.md) 
 
 ## Initial Setup
 

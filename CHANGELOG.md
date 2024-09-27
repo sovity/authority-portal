@@ -15,9 +15,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
-- Docs describe how to locally self-generate X.509 certificates ([#192](https://github.com/sovity/authority-portal/issues/192))
-- Fixed configuration not applying properly after a version upgrade ([#322](https://github.com/sovity/authority-portal/issues/322))
-
 ### Known issues
 
 ### Deployment Migration Notes
@@ -28,6 +25,34 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
 - Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
 - Sovity EDC CE: {{ CE Release Link }}
+
+## [v4.1.2] - 2024-09-26
+
+### Overview
+
+MDS 2.2 Hotfix
+
+### Detailed Changes
+
+#### Patch
+
+- Docs describe how to locally self-generate X.509 certificates ([#192](https://github.com/sovity/authority-portal/issues/192))
+- Fixed configuration not applying properly after a version upgrade ([#322](https://github.com/sovity/authority-portal/issues/322))
+
+### Known issues
+
+- Users are not redirected to the correct URL after login ([#324](https://github.com/sovity/authority-portal/issues/324))
+
+### Deployment Migration Notes
+
+_No special migration steps required_
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:4.1.2`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:4.1.2`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.4.1`
+- Sovity EDC CE: [`v10.4.1`](https://github.com/sovity/edc-ce/releases/tag/v10.4.1)
 
 ## [v4.1.1] - 2024-09-18
 
