@@ -15,6 +15,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Added documentation for roles and rights ([#334](https://github.com/sovity/authority-portal/issues/334))
+
+
 ### Known issues
 
 ### Deployment Migration Notes
