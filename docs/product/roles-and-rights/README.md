@@ -1,3 +1,30 @@
 # Roles and Rights
 A matrix containing parties and capabilites as basis for deciding user and application roles:
 [roles-and-rights-xlsx](https://sovity.sharepoint.com/sites/sovity/Shared%20Documents/General/Mobility%20Data%20Space/CONFIDENTIALS%20ONLY%202023%20Portal%20and%20Dashboard/Processes%20and%20Requirements/role-rights-matrix.xlsx?web=1)
+
+| Area               | Type       | Action                            | Scope    | participant_user | participant_curator | participant_admin | authority_user | authority_admin | servicepartner_admin | operator_admin |
+|--------------------|------------|-----------------------------------|----------|------------------|---------------------|-------------------|----------------|-----------------|----------------------|----------------|
+| User               | Process    | Invite User (incl. Roles)         | Internal |                  |                     | x                 |                |                 |                      |                |
+| User               | Process    | Reset Password                    | Own      | x                |                     |                   |                |                 |                      |                |
+| User               | Data       | Userprofile (incl. Roles)         | Own      | r, u             |                     |                   |                |                 |                      |                |
+| User               | Data       | Userprofile (incl. Roles)         | Internal | r                |                     | d                 |                |                 |                      |                |
+| User               | Data       | Userprofile (incl. Roles)         | External |                  |                     |                   | r              | u, d            |                      |                |
+| User               | Data       | Comp. Internal Identity Provider  | Internal | r                |                     | c, u, d           |                |                 |                      |                |
+| User               | Data       | Comp. Internal Identity Provider  | External |                  |                     |                   |                | r               |                      |                |
+| Organization       | Process    | Organization invitation           | External |                  |                     |                   | x              |                 |                      |                |
+| Organization       | Process    | Organization activation           | External |                  |                     |                   | x              |                 |                      |                |
+| Organization       | Process    | Organization removal              | External |                  |                     |                   | x              |                 |                      |                |
+| Organization       | Data       | Organization Profile              | Internal | r                |                     | u                 |                |                 |                      |                |
+| Organization       | Data       | Organization Profile              | External |                  |                     |                   | r              | c, u, d         | r                    | r              |
+| Data Matching      | Data       | Place data offerings/requests     | Internal | r                | c, u, d             |                   |                |                 |                      |                |
+| Data Matching      | Data       | Place data offerings/requests     | External | r                |                     |                   |                | d               |                      |                |
+| Admin              | Data       | Service partner integration mgmt  | Global   |                  |                     |                   |                | c, r, u, d      |                      |                |
+| Admin              | Process    | Deploy connector                  | External |                  |                     |                   |                |                 | x                    |                |
+| Admin              | Data       | Connector Management              | Internal | r                | c, u, d             |                   |                |                 |                      |                |
+| Admin              | Data       | Connector Management              | External |                  |                     |                   | r              | u               | c, u, d              | r, d           |
+| Admin              | Data       | Portal configuration              | Global   |                  |                     |                   |                | r               |                      | r, u           |
+| Admin              | Data       | Central component management      | Global   |                  |                     |                   |                |                 |                      | c, r, u        |
+| Status Monitoring  | Data       | Connector Status                  | Global   | r                |                     |                   |                |                 |                      |                |
+| Status Monitoring  | Data       | DAPS Status                       | Global   | r                |                     |                   |                |                 |                      |                |
+| Status Monitoring  | Data       | ClearingHouse Status              | Global   | r                |                     |                   |                |                 |                      |                |
+| Status Monitoring  | Data       | Debugging/Logging                 | Global   |                  |                     |                   |                |  r              |                      |  r             |
