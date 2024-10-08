@@ -104,10 +104,10 @@ jobs:
       - name: "Docker Image: catalog-crawler-dev"
         uses: ./.github/actions/build-connector-image
         with:
-          registry-url: ${{ env.REGISTRY_URL }}
-          registry-user: ${{ env.REGISTRY_USER }}
+          registry-url: ${{ env.REGISTRY }}
+          registry-user: ${{ github.actor }}
           registry-password: ${{ secrets.GITHUB_TOKEN }}
-          image-base-name: ${{ env.IMAGE_BASE_NAME }}
+          image-base-name: ${{ env.IMAGE_NAME_BASE }}
           image-name: "catalog-crawler-dev"
           connector-name: "catalog-crawler-dev"
           title: "Catalog Crawler (Dev)"
@@ -115,10 +115,10 @@ jobs:
       - name: "Docker Image: catalog-crawler-ce"
         uses: ./.github/actions/build-connector-image
         with:
-          registry-url: ${{ env.REGISTRY_URL }}
-          registry-user: ${{ env.REGISTRY_USER }}
+          registry-url: ${{ env.REGISTRY }}
+          registry-user: ${{ github.actor }}
           registry-password: ${{ secrets.GITHUB_TOKEN }}
-          image-base-name: ${{ env.IMAGE_BASE_NAME }}
+          image-base-name: ${{ env.IMAGE_NAME_BASE }}
           image-name: "catalog-crawler-ce"
           connector-name: "catalog-crawler-ce"
           title: "Catalog Crawler (Community Edition, DAPS)"
