@@ -8,7 +8,7 @@ sovityCatalogCrawlerGroup = "de.sovity.edc.catalog.crawler"
 sovityEdcExtensionGroup = "de.sovity.edc.ext"
 sovityEdcGroup = "de.sovity.edc"
 
-sovity-edcCe = "10.4.1"
+sovity-edcCe = "0.0.1-SNAPSHOT"
 edc = "0.2.1.4"
 quartz = "2.3.2"
 shadow = "7.1.2"
@@ -40,6 +40,7 @@ sovity-edc-wrapperCommonApi = { module = "de.sovity.edc:wrapper-common-api", ver
 sovity-edc-wrapperCommonMappers = { module = "de.sovity.edc:wrapper-common-mappers", version.ref = "sovity-edcCe" }
 sovity-edc-jsonAndJsonLdUtils = { module = "de.sovity.edc:json-and-jsonld-utils", version.ref = "sovity-edcCe" }
 sovity-edc-catalogParser = { module = "de.sovity.edc:catalog-parser", version.ref = "sovity-edcCe" }
+sovity-edc-config = { module = "de.sovity.edc:config", version.ref = "sovity-edcCe" }
 sovity-edc-ext-postgresFlywayCore = { module = "de.sovity.edc.ext:postgres-flyway-core", version.ref = "sovity-edcCe" }
 
 quarkus-universeBom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }
