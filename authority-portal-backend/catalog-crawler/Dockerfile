@@ -16,10 +16,10 @@ ARG EDC_LAST_COMMIT_INFO_ARG="The docker container was built outside of github a
 ARG EDC_BUILD_DATE_ARG="The docker container was built outside of github actions and you didn't provide the build arg EDC_BUILD_DATE_ARG, so there's no build date."
 
 WORKDIR /app
-COPY ./${CONNECTOR_NAME}-launcher/build/libs/app.jar /app
-COPY ./logging.properties /app
-COPY ./logging.dev.properties /app
-COPY ./.env.catalog-crawler /app/.env
+COPY ./authority-portal-backend/catalog-crawler/${CONNECTOR_NAME}-launcher/build/libs/app.jar /app
+COPY ./authority-portal-backend/catalog-crawler/logging.properties /app
+COPY ./authority-portal-backend/catalog-crawler/logging.dev.properties /app
+COPY ./authority-portal-backend/catalog-crawler/.env.catalog-crawler /app/.env
 
 RUN touch /app/empty-properties-file.properties
 
@@ -30,7 +30,7 @@ ENV EDC_LAST_COMMIT_INFO=$EDC_LAST_COMMIT_INFO_ARG
 ENV EDC_BUILD_DATE=$EDC_BUILD_DATE_ARG
 ENV JVM_ARGS=""
 
-COPY ./docker-entrypoint.sh /app/entrypoint.sh
+COPY ./authority-portal-backend/catalog-crawler/docker-entrypoint.sh /app/entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["start"]
 
