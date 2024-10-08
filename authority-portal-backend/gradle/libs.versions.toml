@@ -3,9 +3,9 @@ java = "17"
 kotlin = "1.9.22"
 npmVersion = "8.15.0"
 
-sovity-edcCe = "10.4.0"
+sovity-edcCe = "10.4.1"
 
-quarkus = "3.9.2"
+quarkus = "3.15.1"
 quarkus-keycloakAdminClientReactive = "3.6.6"
 quarkus-jooq = "2.0.0"
 
