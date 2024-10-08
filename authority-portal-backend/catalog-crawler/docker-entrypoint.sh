@@ -7,6 +7,12 @@
 # Do not set -u to permit unset variables in .env
 set -eo pipefail
 
+# Apply ENV Vars on JAR startup
+set -a
+source /app/.env
+set +a
+
+
 if [[ "x${1:-}" == "xstart" ]]; then
     cmd=(java ${JAVA_ARGS:-})
 

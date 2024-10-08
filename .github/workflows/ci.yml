@@ -92,7 +92,7 @@ jobs:
             type=sha
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=release,enable=${{ startsWith(github.ref, 'refs/tags/') }}
-      - name: "Docker: Build and Push Image"
+      - name: "Docker: Build and Push Image (authority-portal-backend)"
         uses: docker/build-push-action@v4
         with:
           file: authority-portal-backend/authority-portal-quarkus/src/main/docker/Dockerfile.jvm
@@ -101,7 +101,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           network: host
-      - name: "Docker Image: catalog-crawler-dev"
+      - name: "Docker: Build and Push Image (catalog-crawler-dev)"
         uses: ./.github/actions/build-connector-image
         with:
           registry-url: ${{ env.REGISTRY }}
@@ -112,7 +112,7 @@ jobs:
           connector-name: "catalog-crawler-dev"
           title: "Catalog Crawler (Dev)"
           description: "sovity CE Catalog crawler for the sovity CE Authority Portal. This dev version contains no auth and can be used to quickly start a locally running Catalog Crawler."
-      - name: "Docker Image: catalog-crawler-ce"
+      - name: "Docker: Build and Push Image (catalog-crawler-ce)"
         uses: ./.github/actions/build-connector-image
         with:
           registry-url: ${{ env.REGISTRY }}
