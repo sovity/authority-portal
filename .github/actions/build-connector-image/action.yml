@@ -64,7 +64,7 @@ runs:
     - name: "Docker: Build and Push"
       uses: docker/build-push-action@v5
       with:
-        file: launchers/Dockerfile
+        file: catalog-crawler/Dockerfile
         context: .
         push: true
         tags: ${{ steps.meta.outputs.tags }}

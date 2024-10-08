@@ -9,18 +9,17 @@ RUN adduser -D -H -s /sbin/nologin edc
 USER edc:edc
 
 # Which app.jar to include
-ARG CONNECTOR_NAME="sovity-ce"
-ARG CONNECTOR_TYPE="connector"
+ARG CONNECTOR_NAME="catalog-crawler-ce"
 
 # For last-commit-info extension
 ARG EDC_LAST_COMMIT_INFO_ARG="The docker container was built outside of github actions and you didn't provide the build arg EDC_LAST_COMMIT_INFO_ARG, so there's no last commit info."
 ARG EDC_BUILD_DATE_ARG="The docker container was built outside of github actions and you didn't provide the build arg EDC_BUILD_DATE_ARG, so there's no build date."
 
 WORKDIR /app
-COPY ./launchers/connectors/$CONNECTOR_NAME/build/libs/app.jar /app
-COPY ./launchers/logging.properties /app
-COPY ./launchers/logging.dev.properties /app
-COPY ./launchers/.env.$CONNECTOR_TYPE /app/.env
+COPY ./${CONNECTOR_NAME}-launcher/build/libs/app.jar /app
+COPY ./logging.properties /app
+COPY ./logging.dev.properties /app
+COPY ./.env.catalog-crawler /app/.env
 
 RUN touch /app/empty-properties-file.properties
 
@@ -31,7 +30,7 @@ ENV EDC_LAST_COMMIT_INFO=$EDC_LAST_COMMIT_INFO_ARG
 ENV EDC_BUILD_DATE=$EDC_BUILD_DATE_ARG
 ENV JVM_ARGS=""
 
-COPY ./launchers/docker-entrypoint.sh /app/entrypoint.sh
+COPY ./docker-entrypoint.sh /app/entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["start"]
 
