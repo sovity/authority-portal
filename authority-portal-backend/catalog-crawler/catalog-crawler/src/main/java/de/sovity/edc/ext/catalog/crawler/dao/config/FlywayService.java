@@ -44,7 +44,7 @@ public class FlywayService {
 
     public static FlywayExecutionParams.FlywayExecutionParamsBuilder baseConfig(String additionalMigrationLocations) {
         var migrationLocations = FlywayUtils.parseFlywayLocations(
-                "classpath:db-crawler/migration,%s".formatted(additionalMigrationLocations)
+                "classpath:/db/migration,%s".formatted(additionalMigrationLocations)
         );
 
         return FlywayExecutionParams.builder()

@@ -39,7 +39,7 @@ public class CrawlerTestDb implements BeforeAllCallback, AfterAllCallback {
         dslContextFactory = new DslContextFactory(dataSource);
 
         // Migrate DB
-        var params = FlywayService.baseConfig("migration-test-utils")
+        var params = FlywayService.baseConfig("classpath:/migration-test-utils")
                 .migrate(true)
                 .build();
         try {

@@ -13,7 +13,7 @@ dependencies {
     api(libs.edc.jsonLd)
 
     // Data Catalog Crawler
-    api(project(":catalog-crawler"))
+    api(project(":catalog-crawler:catalog-crawler"))
 }
 
 group = libs.versions.sovityEdcGroup.get()

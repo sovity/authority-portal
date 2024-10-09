@@ -33,3 +33,8 @@ dependencies {
     testImplementation(libs.jsonAssert)
     testRuntimeOnly(libs.junit.engine)
 }
+
+tasks.getByName<Test>("test") {
+    useJUnitPlatform()
+    maxParallelForks = 1
+}
