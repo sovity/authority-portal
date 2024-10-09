@@ -16,6 +16,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Added documentation for roles and rights ([#334](https://github.com/sovity/authority-portal/issues/334))
+- Fixed Confirm and Delete buttons' behavior in confirmation modals ([#304](https://github.com/sovity/authority-portal/issues/304))
+- Fixed final step not showing when registering a central component ([#305](https://github.com/sovity/authority-portal/issues/305))
 
 ### Known issues
 
