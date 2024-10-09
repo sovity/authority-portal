@@ -155,48 +155,6 @@ public class CrawlerConfigProps {
         .required(true)
     );
 
-    public static final ConfigProp MY_EDC_TITLE = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.BASIC)
-        .property("my.edc.title")
-        .description("Connector Title")
-        .required(true)
-    );
-
-    public static final ConfigProp MY_EDC_DESCRIPTION = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.BASIC)
-        .property("my.edc.description")
-        .description("Connector Description")
-        .required(true)
-    );
-
-    public static final ConfigProp MY_EDC_CURATOR_URL = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.BASIC)
-        .property("my.edc.curator.url")
-        .description("Curator URL")
-        .required(true)
-    );
-
-    public static final ConfigProp MY_EDC_CURATOR_NAME = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.BASIC)
-        .property("my.edc.curator.name")
-        .description("Curator Name")
-        .required(true)
-    );
-
-    public static final ConfigProp MY_EDC_MAINTAINER_URL = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.BASIC)
-        .property("my.edc.maintainer.url")
-        .description("Maintainer URL")
-        .defaultValue("https://sovity.de")
-    );
-
-    public static final ConfigProp MY_EDC_MAINTAINER_NAME = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.BASIC)
-        .property("my.edc.maintainer.name")
-        .description("Maintainer Name")
-        .defaultValue("sovity GmbH")
-    );
-
     public static final ConfigProp MY_EDC_FQDN = addCeProp(builder -> builder
         .category(CrawlerConfigProps.Category.BASIC)
         .property("my.edc.fqdn")
@@ -206,16 +164,6 @@ public class CrawlerConfigProps {
     );
 
     /* Auth */
-
-    // EDC_API_AUTH_KEY: ApiKeyDefaultValue
-    public static final ConfigProp EDC_API_AUTH_KEY = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.BASIC)
-        .property("edc.api.auth.key")
-        .description("Management API: API Key, provided with Header X-Api-Key.")
-        .required(true)
-        .defaultValue("ApiKeyDefaultValue")
-        .warnIfUnset(true)
-    );
 
     public static final ConfigProp MY_EDC_C2C_IAM_TYPE = addCeProp(builder -> builder
         .category(CrawlerConfigProps.Category.C2C_IAM)
@@ -361,20 +309,6 @@ public class CrawlerConfigProps {
         .defaultValue("*")
     );
 
-    public static final ConfigProp EDC_BUILD_DATE = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.ADVANCED)
-        .property("edc.build.date")
-        .description("Build Date, usually set via CI into a build arg into the built image")
-        .defaultValue("Unknown Version")
-    );
-
-    public static final ConfigProp EDC_LAST_COMMIT_INFO = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.ADVANCED)
-        .property("edc.last.commit.info")
-        .description("Last Commit Info / Build Version, usually set via CI into a build arg into the built image")
-        .defaultValue("Unknown Version")
-    );
-
     /* Defaults of EDC Configuration */
 
     public static final ConfigProp MY_EDC_PROTOCOL = addCeProp(builder -> builder
@@ -393,41 +327,6 @@ public class CrawlerConfigProps {
         .defaultValue("/")
     );
 
-    public static final ConfigProp WEB_HTTP_PATH = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
-        .property("web.http.path")
-        .description("API Group 'Web' contains misc API endpoints, usually not meant to be public, this is the base path.")
-        .warnIfOverridden(true)
-        .defaultValueFn(props -> UrlPathUtils.urlPathJoin(MY_EDC_BASE_PATH.getRaw(props), "api"))
-    );
-
-    public static final ConfigProp WEB_HTTP_PORT = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
-        .property("web.http.port")
-        .description("API Group 'Web' contains misc API endpoints, usually not meant to be public, this is the port.")
-        .warnIfOverridden(true)
-        .defaultValueFn(props -> plus(props, MY_EDC_FIRST_PORT, 1))
-    );
-
-    public static final ConfigProp WEB_HTTP_MANAGEMENT_PATH = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
-        .property("web.http.management.path")
-        .description("API Group 'Management' contains API endpoints for EDC interaction and " +
-            "should be protected from unauthorized access. This is the base path.")
-        .warnIfOverridden(true)
-        .defaultValueFn(props -> UrlPathUtils.urlPathJoin(MY_EDC_BASE_PATH.getRaw(props), "api/management"))
-    );
-
-    public static final ConfigProp WEB_HTTP_MANAGEMENT_PORT = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
-        .property("web.http.management.port")
-        .description(
-            "API Group 'Management' contains API endpoints for EDC interaction and " +
-                "should be protected from unauthorized access. This is the port.")
-        .warnIfOverridden(true)
-        .defaultValueFn(props -> plus(props, MY_EDC_FIRST_PORT, 2))
-    );
-
     public static final ConfigProp WEB_HTTP_PROTOCOL_PATH = addCeProp(builder -> builder
         .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
         .property("web.http.protocol.path")
@@ -442,32 +341,6 @@ public class CrawlerConfigProps {
         .description("API Group 'Protocol' must be public as it is used for connector to connector communication, this is the port.")
         .warnIfOverridden(true)
         .defaultValueFn(props -> plus(props, MY_EDC_FIRST_PORT, 3))
-    );
-
-    public static final ConfigProp WEB_HTTP_CONTROL_PATH = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
-        .property("web.http.control.path")
-        .description("API Group 'Control' contains API endpoints for control plane/data plane interaction and " +
-            "should be non-public, this is the base path.")
-        .warnIfOverridden(true)
-        .defaultValueFn(props -> UrlPathUtils.urlPathJoin(MY_EDC_BASE_PATH.getRaw(props), "api/control"))
-    );
-
-    public static final ConfigProp WEB_HTTP_CONTROL_PORT = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
-        .property("web.http.control.port")
-        .description("API Group 'Control' contains API endpoints for control plane/data plane interaction and " +
-            "should be non-public, this is the port.")
-        .warnIfOverridden(true)
-        .defaultValueFn(props -> plus(props, MY_EDC_FIRST_PORT, 4))
-    );
-
-    public static final ConfigProp WEB_HTTP_PUBLIC_PATH = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
-        .property("web.http.public.path")
-        .description("API Group 'Public' contains public data plane API endpoints. This is the base path.")
-        .warnIfOverridden(true)
-        .defaultValueFn(props -> UrlPathUtils.urlPathJoin(MY_EDC_BASE_PATH.getRaw(props), "api/public"))
     );
 
     public static final ConfigProp WEB_HTTP_PUBLIC_PORT = addCeProp(builder -> builder
@@ -486,19 +359,12 @@ public class CrawlerConfigProps {
         .defaultValue("true")
     );
 
-    public static final ConfigProp MY_EDC_NAME_KEBAB_CASE = addCeProp(builder -> builder
-        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
-        .property("my.edc.name.kebab-case")
-        .description("Deprecated. Prefer using %s instead".formatted(MY_EDC_PARTICIPANT_ID.getProperty()))
-        .warnIfOverridden(true)
-    );
-
     public static final ConfigProp EDC_CONNECTOR_NAME = addCeProp(builder -> builder
         .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
         .property("edc.connector.name")
         .description("Connector Name")
         .warnIfOverridden(true)
-        .defaultValueFn(props -> firstNonNull(MY_EDC_PARTICIPANT_ID.getRaw(props), MY_EDC_NAME_KEBAB_CASE.getRaw(props)))
+        .defaultValueFn(MY_EDC_PARTICIPANT_ID::getRaw)
     );
 
     public static final ConfigProp EDC_PARTICIPANT_ID = addCeProp(builder -> builder
@@ -506,7 +372,7 @@ public class CrawlerConfigProps {
         .property("edc.participant.id")
         .description("Participant ID / Connector ID")
         .warnIfOverridden(true)
-        .defaultValueFn(props -> firstNonNull(MY_EDC_PARTICIPANT_ID.getRaw(props), MY_EDC_NAME_KEBAB_CASE.getRaw(props)))
+        .defaultValueFn(MY_EDC_PARTICIPANT_ID::getRaw)
     );
 
     public static final ConfigProp EDC_HOSTNAME = addCeProp(builder -> builder
