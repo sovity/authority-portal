@@ -13,6 +13,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {Reset} from '../state/control-center-user-profile-page-action';
 import {
   ControlCenterUserProfilePageState,
@@ -30,11 +31,15 @@ export class ControlCenterUserProfilePageComponent
   state: ControlCenterUserProfilePageState =
     DEFAULT_CONTROL_CENTER_USER_PROFILE_PAGE_STATE;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private globalStateUtils: GlobalStateUtils,
+  ) {}
 
   ngOnInit(): void {
     this.refresh();
     this.startListeningToState();
+    this.startRefreshingOnEnvChange();
   }
 
   refresh(): void {
@@ -50,6 +55,15 @@ export class ControlCenterUserProfilePageComponent
       .subscribe((state) => {
         this.state = state;
       });
+  }
+
+  startRefreshingOnEnvChange() {
+    this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
+      ngOnDestroy$: this.ngOnDestroy$,
+      onChanged: () => {
+        this.refresh();
+      },
+    });
   }
 
   ngOnDestroy$ = new Subject();
