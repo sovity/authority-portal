@@ -5,7 +5,7 @@
 </mat-dialog-content>
 <mat-dialog-actions class="flex gap-3" align="end">
   <button
-    *ngFor="let button of confirmationDialog.actionButtons.reverse()"
+    *ngFor="let button of confirmationDialog.actionButtons"
     [ngClass]="button?.style || 'btn-accent-outline'"
     (click)="actionHandler(button.action)">
     {{ button.label }}
