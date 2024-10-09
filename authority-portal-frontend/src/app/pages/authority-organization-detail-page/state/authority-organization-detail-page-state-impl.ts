@@ -82,6 +82,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
   @Action(RefreshOrganization, {cancelUncompleted: true})
   onRefreshOrganization(
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
+    action: RefreshOrganization,
   ): Observable<never> {
     return this.globalStateUtils.getDeploymentEnvironmentId().pipe(
       switchMap((deploymentEnvironmentId) =>
@@ -91,7 +92,9 @@ export class AuthorityOrganizationDetailPageStateImpl {
         ),
       ),
       Fetched.wrap({failureMessage: 'Failed loading organizations'}),
-      tap((organization) => this.organizationRefreshed(ctx, organization)),
+      tap((organization) =>
+        this.organizationRefreshed(ctx, organization, action.cb),
+      ),
       ignoreElements(),
     );
   }
@@ -99,12 +102,16 @@ export class AuthorityOrganizationDetailPageStateImpl {
   private organizationRefreshed(
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
     organization: Fetched<OrganizationDetailsDto>,
+    cb?: () => void,
   ) {
     this.globalStateUtils.updateNestedProperty(
       ctx,
       'organizationDetail.organization',
       organization,
     );
+    if (cb) {
+      cb();
+    }
   }
 
   @Action(ApproveOrganization)
@@ -251,6 +258,17 @@ export class AuthorityOrganizationDetailPageStateImpl {
     );
   }
 
+  redirectToMemebersTab() {
+    setTimeout(
+      () =>
+        this.slideOverService.setSlideOverViews(
+          {viewName: 'MEMBERS'},
+          {viewName: ''},
+        ),
+      0,
+    );
+  }
+
   @Action(DeactivateUser)
   onDeactivateUser(
     ctx: StateContext<AuthorityOrganizationDetailPageState>,
@@ -275,13 +293,19 @@ export class AuthorityOrganizationDetailPageStateImpl {
         this.toast.showSuccess(`User deactivated successfully`);
         this.organizationUserRefreshed(ctx, Fetched.ready(data));
       }),
-      finalize(() =>
-        this.globalStateUtils.updateNestedProperty(
+      finalize(() => {
+        ctx.dispatch(
+          new RefreshOrganization(() => {
+            this.redirectToMemebersTab();
+          }),
+        );
+
+        return this.globalStateUtils.updateNestedProperty(
           ctx,
           'openedUserDetail.busy',
           false,
-        ),
-      ),
+        );
+      }),
       ignoreElements(),
     );
   }
@@ -310,13 +334,18 @@ export class AuthorityOrganizationDetailPageStateImpl {
         this.toast.showSuccess(`User re-activated successfully`);
         this.organizationUserRefreshed(ctx, Fetched.ready(data));
       }),
-      finalize(() =>
-        this.globalStateUtils.updateNestedProperty(
+      finalize(() => {
+        ctx.dispatch(
+          new RefreshOrganization(() => {
+            this.redirectToMemebersTab();
+          }),
+        );
+        return this.globalStateUtils.updateNestedProperty(
           ctx,
           'openedUserDetail.busy',
           false,
-        ),
-      ),
+        );
+      }),
       ignoreElements(),
     );
   }

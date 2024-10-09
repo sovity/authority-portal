@@ -23,6 +23,7 @@ import {
   UserDeletionCheck,
   UserDetailDto,
   UserInfo,
+  UserRegistrationStatusDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
@@ -32,6 +33,7 @@ import {
 } from '../../../utils/user-role-utils';
 import {
   deleteOrganization,
+  findOrganizationByUserId,
   getOrganizationDetails,
   getParticipantAdmins,
   updateOrganization,
@@ -447,13 +449,36 @@ export const clearApplicationRole = (
   return {id: request.userId, changedDate: new Date()};
 };
 
+const updateUserStatusOfOrganizationById = (
+  userId: string,
+  status: UserRegistrationStatusDto,
+) => {
+  const organizationId = findOrganizationByUserId(userId);
+  if (organizationId) {
+    updateOrganization(organizationId, (organization) => {
+      return {
+        ...organization,
+        memberList: organization.memberList.map((member) => {
+          if (member.userId === userId) {
+            return {
+              ...member,
+              registrationStatus: status,
+            };
+          }
+          return member;
+        }),
+      };
+    });
+  }
+};
+
 export const deactivateUser = (userId: string): IdResponse => {
-  patchUser(userId, () => ({registrationStatus: 'DEACTIVATED'}));
+  updateUserStatusOfOrganizationById(userId, 'DEACTIVATED');
   return {id: userId, changedDate: new Date()};
 };
 
 export const reactivateUser = (userId: string): IdResponse => {
-  patchUser(userId, () => ({registrationStatus: 'ACTIVE'}));
+  updateUserStatusOfOrganizationById(userId, 'ACTIVE');
   return {id: userId, changedDate: new Date()};
 };
 
