@@ -29,6 +29,7 @@ import {SlideOverService} from 'src/app/core/services/slide-over.service';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {ToastService} from 'src/app/shared/common/toast-notifications/toast.service';
 import {RefreshOrganizations} from '../../authority-organization-list-page/authority-organization-list-page/state/authority-organization-list-page-actions';
+import {AuthorityOrganizationDetailTab} from '../authority-organization-detail-page/authority-organization-detail-page.model';
 import {
   ApproveOrganization,
   DeactivateUser,
@@ -258,14 +259,10 @@ export class AuthorityOrganizationDetailPageStateImpl {
     );
   }
 
-  redirectToMemebersTab() {
-    setTimeout(
-      () =>
-        this.slideOverService.setSlideOverViews(
-          {viewName: 'MEMBERS'},
-          {viewName: ''},
-        ),
-      0,
+  redirectToMembersTab() {
+    this.slideOverService.setSlideOverViews(
+      {viewName: AuthorityOrganizationDetailTab.MEMBERS},
+      {viewName: AuthorityOrganizationDetailTab.DETAIL},
     );
   }
 
@@ -296,7 +293,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
       finalize(() => {
         ctx.dispatch(
           new RefreshOrganization(() => {
-            this.redirectToMemebersTab();
+            this.redirectToMembersTab();
           }),
         );
 
@@ -337,7 +334,7 @@ export class AuthorityOrganizationDetailPageStateImpl {
       finalize(() => {
         ctx.dispatch(
           new RefreshOrganization(() => {
-            this.redirectToMemebersTab();
+            this.redirectToMembersTab();
           }),
         );
         return this.globalStateUtils.updateNestedProperty(
