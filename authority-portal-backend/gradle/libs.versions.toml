@@ -12,6 +12,7 @@ sovity-edcCe = "0.0.1-SNAPSHOT"
 edc = "0.2.1.4"
 quartz = "2.3.2"
 shadow = "7.1.2"
+junit = "5.10.0"
 
 quarkus = "3.9.2"
 quarkus-keycloakAdminClientReactive = "3.6.6"
@@ -118,6 +119,10 @@ edc-transformCore = { module = "org.eclipse.edc:transform-core", version.ref = "
 edc-transformSpi = { module = "org.eclipse.edc:transform-spi", version.ref = "edc" }
 edc-vaultFilesystem = { module = "org.eclipse.edc:vault-filesystem", version.ref = "edc" }
 quartz-quartz = { module = "org.quartz-scheduler:quartz", version.ref = "quartz" }
+
+junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junit-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
 
 [bundles]
 mockito = ["mockito-core", "mockito-kotlin", "mockito-junitJupiter"]

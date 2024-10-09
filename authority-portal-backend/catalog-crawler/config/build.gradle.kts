@@ -16,5 +16,13 @@ plugins {
 }
 
 dependencies {
+    annotationProcessor(libs.lombok)
+    compileOnly(libs.lombok)
     api(libs.sovity.edc.config)
+
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.junitJupiter)
+    testImplementation(libs.assertj.core)
+    testImplementation(libs.junit.api)
+    testRuntimeOnly(libs.junit.engine)
 }

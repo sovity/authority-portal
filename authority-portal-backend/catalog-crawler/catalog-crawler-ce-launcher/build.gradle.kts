@@ -15,10 +15,12 @@ dependencies {
 }
 
 application {
-    mainClass.set("org.eclipse.edc.boot.system.runtime.BaseRuntime")
+    mainClass.set("de.sovity.edc.Main")
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     mergeServiceFiles()
     archiveFileName.set("app.jar")
 }
+
+group = libs.versions.sovityEdcGroup.get()

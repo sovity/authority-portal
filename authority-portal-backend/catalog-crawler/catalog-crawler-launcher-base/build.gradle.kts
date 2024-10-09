@@ -14,6 +14,7 @@ dependencies {
 
     // Data Catalog Crawler
     api(project("::catalog-crawler"))
+    api(project("::catalog-crawler:config"))
 }
 
 group = libs.versions.sovityEdcGroup.get()
