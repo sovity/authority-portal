@@ -474,11 +474,13 @@ const updateUserStatusOfOrganizationById = (
 
 export const deactivateUser = (userId: string): IdResponse => {
   updateUserStatusOfOrganizationById(userId, 'DEACTIVATED');
+  patchUser(userId, () => ({registrationStatus: 'DEACTIVATED'}));
   return {id: userId, changedDate: new Date()};
 };
 
 export const reactivateUser = (userId: string): IdResponse => {
   updateUserStatusOfOrganizationById(userId, 'ACTIVE');
+  patchUser(userId, () => ({registrationStatus: 'ACTIVE'}));
   return {id: userId, changedDate: new Date()};
 };
 
