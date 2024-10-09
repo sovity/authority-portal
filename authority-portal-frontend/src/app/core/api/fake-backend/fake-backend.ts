@@ -166,11 +166,13 @@ export const AUTHORITY_PORTAL_FAKE_BACKEND: FetchAPI = async (
 
     .url('authority/users/*/deactivate')
     .on('PUT', (userId) => {
+      deactivateUser(userId);
       return ok(userId);
     })
 
     .url('authority/users/*/reactivate')
     .on('PUT', (userId) => {
+      reactivateUser(userId);
       return ok(userId);
     })
 
