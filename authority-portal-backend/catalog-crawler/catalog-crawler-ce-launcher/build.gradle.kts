@@ -15,7 +15,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("de.sovity.edc.Main")
+    mainClass.set("de.sovity.edc.ext.catalog.crawler.Main")
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {

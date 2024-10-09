@@ -14,8 +14,8 @@
 
 package de.sovity.edc.ext.catalog.crawler.dao.contract_offers;
 
-import de.sovity.edc.ext.catalog.crawler.db.jooq.Tables;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.tables.records.ContractOfferRecord;
+import de.sovity.authorityportal.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.tables.records.ContractOfferRecord;
 import org.jooq.DSLContext;
 
 import java.util.List;

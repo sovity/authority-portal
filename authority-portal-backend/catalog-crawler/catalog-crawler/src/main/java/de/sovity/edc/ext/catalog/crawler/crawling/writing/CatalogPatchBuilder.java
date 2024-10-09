@@ -14,6 +14,8 @@
 
 package de.sovity.edc.ext.catalog.crawler.crawling.writing;
 
+import de.sovity.authorityportal.db.jooq.tables.records.ContractOfferRecord;
+import de.sovity.authorityportal.db.jooq.tables.records.DataOfferRecord;
 import de.sovity.edc.ext.catalog.crawler.crawling.fetching.model.FetchedContractOffer;
 import de.sovity.edc.ext.catalog.crawler.crawling.fetching.model.FetchedDataOffer;
 import de.sovity.edc.ext.catalog.crawler.crawling.writing.utils.DiffUtils;
@@ -23,8 +25,6 @@ import de.sovity.edc.ext.catalog.crawler.dao.contract_offers.ContractOfferQuerie
 import de.sovity.edc.ext.catalog.crawler.dao.contract_offers.ContractOfferRecordUpdater;
 import de.sovity.edc.ext.catalog.crawler.dao.data_offers.DataOfferQueries;
 import de.sovity.edc.ext.catalog.crawler.dao.data_offers.DataOfferRecordUpdater;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.tables.records.ContractOfferRecord;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.tables.records.DataOfferRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 

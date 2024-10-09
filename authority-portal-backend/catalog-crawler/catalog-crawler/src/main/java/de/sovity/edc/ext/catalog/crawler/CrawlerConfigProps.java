@@ -11,8 +11,9 @@
  *      sovity GmbH - initial implementation
  */
 
-package de.sovity.edc.utils.config;
+package de.sovity.edc.ext.catalog.crawler;
 
+import de.sovity.edc.utils.config.ConfigUtils;
 import de.sovity.edc.utils.config.model.ConfigProp;
 import de.sovity.edc.utils.config.utils.UrlPathUtils;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ import java.util.function.Supplier;
 
 @UtilityClass
 public class CrawlerConfigProps {
-    public static final List<ConfigProp> ALL_CE_PROPS = new ArrayList<>();
+    public static final List<ConfigProp> ALL_CRAWLER_PROPS = new ArrayList<>();
 
     /* Crawler-specific Configuration */
     public static final ConfigProp CRAWLER_ENVIRONMENT_ID = addCeProp(builder -> builder
@@ -542,7 +543,7 @@ public class CrawlerConfigProps {
 
         // Register the property in the list of all available CE properties
         // Order matters here, as the property defaults are calculated in order
-        built.also(ALL_CE_PROPS::add);
+        built.also(ALL_CRAWLER_PROPS::add);
         return built;
     }
 
@@ -569,15 +570,15 @@ public class CrawlerConfigProps {
         public static final List<String> ALL_NETWORK_TYPES = List.of(PRODUCTION, LOCAL_DEMO_DOCKER_COMPOSE, UNIT_TEST);
 
         public static boolean isProduction(Map<String, String> props) {
-            return ConfigProps.NetworkType.PRODUCTION.equals(MY_EDC_NETWORK_TYPE.getRaw(props));
+            return CrawlerConfigProps.NetworkType.PRODUCTION.equals(MY_EDC_NETWORK_TYPE.getRaw(props));
         }
 
         public static boolean isLocalDemoDockerCompose(Map<String, String> props) {
-            return ConfigProps.NetworkType.LOCAL_DEMO_DOCKER_COMPOSE.equals(MY_EDC_NETWORK_TYPE.getRaw(props));
+            return CrawlerConfigProps.NetworkType.LOCAL_DEMO_DOCKER_COMPOSE.equals(MY_EDC_NETWORK_TYPE.getRaw(props));
         }
 
         public static boolean isUnitTest(Map<String, String> props) {
-            return ConfigProps.NetworkType.UNIT_TEST.equals(MY_EDC_NETWORK_TYPE.getRaw(props));
+            return CrawlerConfigProps.NetworkType.UNIT_TEST.equals(MY_EDC_NETWORK_TYPE.getRaw(props));
         }
     }
 
@@ -591,15 +592,15 @@ public class CrawlerConfigProps {
         private Supplier<T> unitTest;
 
         public T orElse(Supplier<T> elseFn) {
-            if (production != null && ConfigProps.NetworkType.isProduction(props)) {
+            if (production != null && CrawlerConfigProps.NetworkType.isProduction(props)) {
                 return production.get();
             }
 
-            if (localDemoDockerCompose != null && ConfigProps.NetworkType.isLocalDemoDockerCompose(props)) {
+            if (localDemoDockerCompose != null && CrawlerConfigProps.NetworkType.isLocalDemoDockerCompose(props)) {
                 return localDemoDockerCompose.get();
             }
 
-            if (unitTest != null && ConfigProps.NetworkType.isUnitTest(props)) {
+            if (unitTest != null && CrawlerConfigProps.NetworkType.isUnitTest(props)) {
                 return unitTest.get();
             }
 

@@ -5,9 +5,9 @@ import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
+import javax.sql.DataSource;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import javax.sql.DataSource;
 
 /**
  * Quickly launch {@link org.jooq.DSLContext}s from EDC configuration.

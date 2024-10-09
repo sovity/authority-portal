@@ -101,29 +101,17 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           network: host
-      - name: "Docker: Build and Push Image (catalog-crawler-dev)"
+      - name: "Docker: Build and Push Image (authority-portal-crawler)"
         uses: ./.github/actions/build-connector-image
         with:
           registry-url: ${{ env.REGISTRY }}
           registry-user: ${{ github.actor }}
           registry-password: ${{ secrets.GITHUB_TOKEN }}
           image-base-name: ${{ env.IMAGE_NAME_BASE }}
-          image-name: "catalog-crawler-dev"
-          connector-name: "catalog-crawler-dev"
-          title: "Catalog Crawler (Dev)"
-          description: "sovity CE Catalog crawler for the sovity CE Authority Portal. This dev version contains no auth and can be used to quickly start a locally running Catalog Crawler."
-      - name: "Docker: Build and Push Image (catalog-crawler-ce)"
-        uses: ./.github/actions/build-connector-image
-        with:
-          registry-url: ${{ env.REGISTRY }}
-          registry-user: ${{ github.actor }}
-          registry-password: ${{ secrets.GITHUB_TOKEN }}
-          image-base-name: ${{ env.IMAGE_NAME_BASE }}
-          image-name: "catalog-crawler-ce"
+          image-name: "authority-portal-crawler"
           connector-name: "catalog-crawler-ce"
           title: "Catalog Crawler (Community Edition, DAPS)"
           description: "sovity CE Catalog crawler for the sovity CE Authority Portal. Requires DAPS dataspace credentials to join an existing dataspace."
-
 
   frontend:
     name: Frontend
