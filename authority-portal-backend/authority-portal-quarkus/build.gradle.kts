@@ -41,12 +41,11 @@ dependencies {
     implementation("io.quarkus:quarkus-oidc-client-reactive-filter")
     implementation("io.quarkus:quarkus-hibernate-validator")
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
+    implementation("io.quarkus:quarkus-keycloak-admin-client-reactive")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.opentelemetry.instrumentation:opentelemetry-jdbc")
     implementation("org.bouncycastle:bcprov-jdk18on:1.77")
-    implementation("org.bouncycastle:bcpkix-jdk18on:1.77")
     implementation("com.opencsv:opencsv:5.9")
-    implementation(libs.quarkus.keycloakAdminClientReactive)
     implementation(libs.quarkus.jooq)
     implementation(libs.commons.lang3)
     implementation(project(":authority-portal-api"))
@@ -70,6 +69,12 @@ quarkus {
     quarkusBuildProperties.set(mapOf(
         "quarkus.datasource.db-version" to libs.versions.postgresDbVersion.get()
     ))
+}
+
+configurations.all {
+    resolutionStrategy {
+        force(libs.keycloak.adminClient)
+    }
 }
 
 tasks.withType<Test> {
