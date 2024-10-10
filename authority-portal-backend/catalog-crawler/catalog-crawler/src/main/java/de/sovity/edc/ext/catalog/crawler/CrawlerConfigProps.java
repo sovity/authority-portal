@@ -13,6 +13,7 @@
 
 package de.sovity.edc.ext.catalog.crawler;
 
+import de.sovity.edc.utils.config.ConfigProps;
 import de.sovity.edc.utils.config.ConfigUtils;
 import de.sovity.edc.utils.config.model.ConfigProp;
 import de.sovity.edc.utils.config.utils.UrlPathUtils;
@@ -329,6 +330,41 @@ public class CrawlerConfigProps {
         .defaultValue("/")
     );
 
+    public static final ConfigProp WEB_HTTP_PATH = addCeProp(builder -> builder
+        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
+        .property("web.http.path")
+        .description("API Group 'Web' contains misc API endpoints, usually not meant to be public, this is the base path.")
+        .warnIfOverridden(true)
+        .defaultValueFn(props -> UrlPathUtils.urlPathJoin(MY_EDC_BASE_PATH.getRaw(props), "api"))
+    );
+
+    public static final ConfigProp WEB_HTTP_PORT = addCeProp(builder -> builder
+        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
+        .property("web.http.port")
+        .description("API Group 'Web' contains misc API endpoints, usually not meant to be public, this is the port.")
+        .warnIfOverridden(true)
+        .defaultValueFn(props -> plus(props, MY_EDC_FIRST_PORT, 1))
+    );
+
+    public static final ConfigProp WEB_HTTP_MANAGEMENT_PATH = addCeProp(builder -> builder
+        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
+        .property("web.http.management.path")
+        .description("API Group 'Management' contains API endpoints for EDC interaction and " +
+            "should be protected from unauthorized access. This is the base path.")
+        .warnIfOverridden(true)
+        .defaultValueFn(props -> UrlPathUtils.urlPathJoin(MY_EDC_BASE_PATH.getRaw(props), "api/management"))
+    );
+
+    public static final ConfigProp WEB_HTTP_MANAGEMENT_PORT = addCeProp(builder -> builder
+        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
+        .property("web.http.management.port")
+        .description(
+            "API Group 'Management' contains API endpoints for EDC interaction and " +
+                "should be protected from unauthorized access. This is the port.")
+        .warnIfOverridden(true)
+        .defaultValueFn(props -> plus(props, MY_EDC_FIRST_PORT, 2))
+    );
+
     public static final ConfigProp WEB_HTTP_PROTOCOL_PATH = addCeProp(builder -> builder
         .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
         .property("web.http.protocol.path")
@@ -343,6 +379,32 @@ public class CrawlerConfigProps {
         .description("API Group 'Protocol' must be public as it is used for connector to connector communication, this is the port.")
         .warnIfOverridden(true)
         .defaultValueFn(props -> plus(props, MY_EDC_FIRST_PORT, 3))
+    );
+
+    public static final ConfigProp WEB_HTTP_CONTROL_PATH = addCeProp(builder -> builder
+        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
+        .property("web.http.control.path")
+        .description("API Group 'Control' contains API endpoints for control plane/data plane interaction and " +
+            "should be non-public, this is the base path.")
+        .warnIfOverridden(true)
+        .defaultValueFn(props -> UrlPathUtils.urlPathJoin(MY_EDC_BASE_PATH.getRaw(props), "api/control"))
+    );
+
+    public static final ConfigProp WEB_HTTP_CONTROL_PORT = addCeProp(builder -> builder
+        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
+        .property("web.http.control.port")
+        .description("API Group 'Control' contains API endpoints for control plane/data plane interaction and " +
+            "should be non-public, this is the port.")
+        .warnIfOverridden(true)
+        .defaultValueFn(props -> plus(props, MY_EDC_FIRST_PORT, 4))
+    );
+
+    public static final ConfigProp WEB_HTTP_PUBLIC_PATH = addCeProp(builder -> builder
+        .category(CrawlerConfigProps.Category.RAW_EDC_CONFIG_DEFAULTS)
+        .property("web.http.public.path")
+        .description("API Group 'Public' contains public data plane API endpoints. This is the base path.")
+        .warnIfOverridden(true)
+        .defaultValueFn(props -> UrlPathUtils.urlPathJoin(MY_EDC_BASE_PATH.getRaw(props), "api/public"))
     );
 
     public static final ConfigProp WEB_HTTP_PUBLIC_PORT = addCeProp(builder -> builder
