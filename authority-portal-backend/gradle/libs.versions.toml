@@ -2,8 +2,9 @@
 java = "17"
 kotlin = "1.9.22"
 npmVersion = "8.15.0"
+postgresDbVersion = "14"
 
-keycloakAdminClient = "23.0.7"
+keycloakAdminClient = "24.0.3"
 
 sovity-edcCe = "10.4.1"
 
@@ -16,7 +17,6 @@ jakarta-wsRsApi = "3.1.0"
 jooq = "3.18.5"
 jooq-ext-postgres-json = "4.0.0"
 lombok = "1.18.32"
-postgresDbVersion = "14"
 postgresql = "42.7.2"
 swaggerCore = "2.2.15"
 testcontainers = "1.18.3"
