@@ -37,8 +37,15 @@ When clicking on the button "Provide Connector" in the upper right corner a mask
 
 ![provide-connector](images/provide-connector.png)
 
-To provide a connector in the Authority Portal all fields of the mask must be submitted. The process is identical to the registration of connectors for users without any application role but registers the connector for another organization who is named in the slightly changed registration mask.
-After clicking on the register button the list of provided connectors appears, where the added connector can be found.
+To provide a connector in the Authority Portal all fields of the mask must be submitted.
+After clicking on the "Create Connector" the list of provided connectors appears, where an added connector can be found which has to be configured further at some point in time.
+
+![provide-connector](images/provide-connectors-list.png)
+
+By doing the further configuration by clicking in the list on "Configure", the additional data for the connector must be entered, such as the URL at which the frontend of the connector can be accessed.
+The most important entry here is the connector endpoint, the DSP-endpoint, so that the connector's offers can be searched and displayed in the portal.
+The process of the further configuration guides you through the necessary steps and needed information to specify the URLs or enter valid information about the connector certificate.
+Please follow the steps in the dialog.
 
 #### 3. Assign Service Partner Admin role to users within own organization
 
