@@ -42,8 +42,8 @@ After clicking on the "Create Connector" the list of provided connectors appears
 
 ![provide-connector](images/provide-connectors-list.png)
 
-By doing the further configuration by clicking in the list on "Configure", the additional data for the connector must be entered, such as the URL at which the frontend of the connector can be accessed.
-The most important entry here is the connector endpoint, the DSP-endpoint, so that the connector's offers can be searched and displayed in the portal.
+By clicking in the list on "Configure", the additional data for the connector must be entered, such as the URL at which the frontend of the connector can be accessed.
+The most important entry  is the connector endpoint, the DSP-endpoint, so that the connector's offers can be searched and displayed in the authority portal, since the authority portal also crawls the connectors in the dataspace for available offers which the authority portal's crawler is allowed to access.
 The process of the further configuration guides you through the necessary steps and needed information to specify the URLs or enter valid information about the connector certificate.
 Please follow the steps in the dialog.
 
