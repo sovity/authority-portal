@@ -152,6 +152,8 @@ public class CrawlerConfigProps {
         .category(CrawlerConfigProps.Category.BASIC)
         .property("my.edc.participant.id")
         .description("Participant ID / Connector ID")
+        .defaultValue("broker")
+        .warnIfOverridden(true)
         .required(true)
     );
 
@@ -398,6 +400,7 @@ public class CrawlerConfigProps {
             "but for some reason it is required, and EDC won't start up if it isn't configured." +
             "It is created in the Dockerfile")
         .relevantIf(CrawlerConfigProps.NetworkType::isProduction)
+        .defaultValue("/app/empty-properties-file.properties")
     );
 
     /* Helpers */
