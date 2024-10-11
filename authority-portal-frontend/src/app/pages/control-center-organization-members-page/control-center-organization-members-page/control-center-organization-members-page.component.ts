@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {MemberInfo} from '@sovity.de/authority-portal-client';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {BreadcrumbService} from '../../../shared/common/portal-layout/breadcrumb/breadcrumb.service';
 import {Reset} from './state/control-center-organization-members-page-action';
 import {
@@ -37,11 +38,13 @@ export class ControlCenterOrganizationMembersPageComponent
     private store: Store,
     private router: Router,
     private breadcrumbService: BreadcrumbService,
+    private globalStateUtils: GlobalStateUtils,
   ) {}
 
   ngOnInit(): void {
     this.refresh();
     this.startListeningToState();
+    this.startRefreshingOnEnvChange();
   }
 
   refresh(): void {
@@ -67,6 +70,15 @@ export class ControlCenterOrganizationMembersPageComponent
       );
     }
     this.router.navigate(['control-center/users-and-roles', user.userId]);
+  }
+
+  startRefreshingOnEnvChange() {
+    this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
+      ngOnDestroy$: this.ngOnDestroy$,
+      onChanged: () => {
+        this.refresh();
+      },
+    });
   }
 
   ngOnDestroy$ = new Subject();

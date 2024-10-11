@@ -23,10 +23,16 @@ export class ConfirmationDialogComponent {
     private dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public confirmationDialog: ConfirmationDialog,
   ) {
-    this.confirmationDialog.actionButtons.push({
-      label: 'Cancel',
-      action: 'CANCEL',
-    });
+    this.confirmationDialog = {
+      ...this.confirmationDialog,
+      actionButtons: [
+        ...this.confirmationDialog.actionButtons,
+        {
+          label: 'Cancel',
+          action: 'CANCEL',
+        },
+      ].reverse(),
+    };
   }
 
   actionHandler(action: string) {
