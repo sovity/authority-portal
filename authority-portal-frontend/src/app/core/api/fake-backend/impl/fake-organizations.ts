@@ -551,6 +551,14 @@ export const getOrganizationDetails = (
   ) as OrganizationDetailsDto;
 };
 
+export const findOrganizationByUserId = (
+  userId: string,
+): string | undefined => {
+  return TEST_ORGANIZATIONS.find((organization) =>
+    organization.memberList.some((member) => member.userId === userId),
+  )?.id;
+};
+
 export const getOrganizations = (): OrganizationDetailsDto[] => {
   return TEST_ORGANIZATIONS;
 };

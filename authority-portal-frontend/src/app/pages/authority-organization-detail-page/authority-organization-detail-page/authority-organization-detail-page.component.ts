@@ -278,7 +278,7 @@ export class AuthorityOrganizationDetailPageComponent
                       this.store.dispatch(RefreshOrganizations);
                     } else {
                       this.store
-                        .dispatch(RefreshOrganization)
+                        .dispatch(new RefreshOrganization())
                         .pipe(take(1))
                         .subscribe(() => {
                           this.slideOverService.setSlideOverViews(
