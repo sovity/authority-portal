@@ -291,16 +291,7 @@ export const TEST_USERS: UserInfo[] = [
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000014']),
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000006']),
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000011']),
-  {
-    authenticationStatus: 'UNAUTHENTICATED',
-    userId: 'unauthenticated',
-    roles: ['UNAUTHENTICATED'],
-    registrationStatus: undefined,
-    firstName: 'Unauthenticated',
-    lastName: 'User',
-    organizationName: 'No Organization',
-    organizationId: 'unauthenticated',
-  },
+  buildUnauthenticatedUserInfo(),
 ];
 
 /**
@@ -314,7 +305,9 @@ let currentlyLoggedInUser: UserInfo = buildUserInfo(
  * Update currently logged-in User for local dev UI
  */
 export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
+  console.log('updateLoggedInUser', JSON.stringify(patcher));
   currentlyLoggedInUser = patchObj<UserInfo>(currentlyLoggedInUser, patcher);
+  console.log('currentlyLoggedInUser', currentlyLoggedInUser);
 };
 
 /**
@@ -323,6 +316,7 @@ export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
 export const getUserInfo = (): UserInfo => currentlyLoggedInUser;
 
 export const getUserOrThrow = (userId: string): UserDetailDto => {
+  console.log('userId', userId);
   const id = Object.keys(ALL_USERS).find((id) => id === userId);
   if (!id) throw new Error(`User not found ${userId}`);
 
@@ -507,6 +501,19 @@ function buildUserInfo(user: UserDetailDto): UserInfo {
     lastName: user.lastName,
     organizationName: user.organizationName,
     organizationId: user.organizationId,
+  };
+}
+
+function buildUnauthenticatedUserInfo(): UserInfo {
+  return {
+    authenticationStatus: 'UNAUTHENTICATED',
+    userId: 'unauthenticated',
+    roles: ['UNAUTHENTICATED'],
+    registrationStatus: undefined,
+    firstName: 'Unauthenticated',
+    lastName: 'User',
+    organizationName: 'No Organization',
+    organizationId: 'unauthenticated',
   };
 }
 
