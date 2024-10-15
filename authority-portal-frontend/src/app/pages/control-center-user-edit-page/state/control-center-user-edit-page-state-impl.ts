@@ -50,7 +50,6 @@ export class ControlCenterUserEditPageStateImpl {
   @Action(Reset)
   onReset(ctx: Ctx, action: Reset): Observable<never> {
     return this.globalStateUtils.userInfo$.pipe(
-      take(1),
       switchMap((userInfo) =>
         this.apiService.getUserDetailDto(userInfo.userId),
       ),

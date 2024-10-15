@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {Subject} from 'rxjs';
 import {map, switchMap, takeUntil} from 'rxjs/operators';
 import {
@@ -43,7 +44,10 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private globalStateUtils: GlobalStateUtils,
     private apiService: ApiService,
-  ) {}
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('Dashboard');
+  }
 
   ngOnInit(): void {
     this.fetchDashboardPageData();

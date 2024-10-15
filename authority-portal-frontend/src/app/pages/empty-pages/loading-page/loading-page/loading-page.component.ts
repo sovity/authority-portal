@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {Subject} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {GlobalState} from 'src/app/core/global-state/global-state';
@@ -25,7 +26,9 @@ export class LoadingPageComponent implements OnInit, OnDestroy {
 
   private ngOnDestroy$ = new Subject();
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private titleService: Title) {
+    this.titleService.setTitle('Error');
+  }
 
   ngOnInit() {
     this.startListeningToGlobalState();

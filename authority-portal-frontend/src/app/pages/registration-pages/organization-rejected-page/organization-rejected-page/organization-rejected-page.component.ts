@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, Inject} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
@@ -18,5 +19,10 @@ import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
   templateUrl: './organization-rejected-page.component.html',
 })
 export class OrganizationRejectedPageComponent {
-  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
+  constructor(
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('Rejected');
+  }
 }

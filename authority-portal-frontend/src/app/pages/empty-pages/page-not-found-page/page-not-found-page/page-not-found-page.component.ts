@@ -11,9 +11,14 @@
  *      sovity GmbH - initial implementation
  */
 import {Component} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-page-not-found',
   templateUrl: './page-not-found-page.component.html',
 })
-export class PageNotFoundPageComponent {}
+export class PageNotFoundPageComponent {
+  constructor(private titleService: Title) {
+    this.titleService.setTitle('404 - Page Not Found');
+  }
+}

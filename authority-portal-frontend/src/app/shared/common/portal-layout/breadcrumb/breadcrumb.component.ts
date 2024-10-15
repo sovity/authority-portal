@@ -33,13 +33,6 @@ export class BreadcrumbComponent implements OnDestroy {
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((breadcrumb) => {
         this.breadcrumb = breadcrumb;
-        this.titleService.setTitle(
-          `${
-            this.activeFeatureSet.usesMdsId()
-              ? 'MDS ' + (breadcrumb[breadcrumb.length - 1].label || 'Portal')
-              : breadcrumb[breadcrumb.length - 1].label || 'Portal'
-          }`,
-        );
       });
   }
 

@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, Inject} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {
   APP_CONFIG,
   AppConfig,
@@ -21,5 +22,10 @@ import {
   templateUrl: './organization-pending-page.component.html',
 })
 export class OrganizationPendingPageComponent {
-  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
+  constructor(
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('Pending');
+  }
 }

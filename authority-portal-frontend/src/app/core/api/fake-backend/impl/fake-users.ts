@@ -291,30 +291,29 @@ export const TEST_USERS: UserInfo[] = [
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000014']),
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000006']),
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000011']),
-  {
-    authenticationStatus: 'UNAUTHENTICATED',
-    userId: 'unauthenticated',
-    roles: ['UNAUTHENTICATED'],
-    registrationStatus: undefined,
-    firstName: 'Unauthenticated',
-    lastName: 'User',
-    organizationName: 'No Organization',
-    organizationId: 'unauthenticated',
-  },
+  buildUnauthenticatedUserInfo(),
 ];
 
 /**
  * Currently "logged-in user" for local dev UI
  */
-let currentlyLoggedInUser: UserInfo = buildUserInfo(
-  ALL_USERS['00000000-0000-0000-0000-000000000001'],
-);
+// let currentlyLoggedInUser: UserInfo = buildUserInfo(
+//   ALL_USERS['00000000-0000-0000-0000-000000000001'],
+// );
+
+let currentlyLoggedInUser = buildUnauthenticatedUserInfo();
 
 /**
  * Update currently logged-in User for local dev UI
  */
 export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
   currentlyLoggedInUser = patchObj<UserInfo>(currentlyLoggedInUser, patcher);
+};
+
+export const fakeLogin = () => {
+  currentlyLoggedInUser = buildUserInfo(
+    ALL_USERS['00000000-0000-0000-0000-000000000001'],
+  );
 };
 
 /**
@@ -507,6 +506,19 @@ function buildUserInfo(user: UserDetailDto): UserInfo {
     lastName: user.lastName,
     organizationName: user.organizationName,
     organizationId: user.organizationId,
+  };
+}
+
+function buildUnauthenticatedUserInfo(): UserInfo {
+  return {
+    authenticationStatus: 'UNAUTHENTICATED',
+    userId: 'unauthenticated',
+    roles: ['UNAUTHENTICATED'],
+    registrationStatus: undefined,
+    firstName: 'Unauthenticated',
+    lastName: 'User',
+    organizationName: 'No Organization',
+    organizationId: 'unauthenticated',
   };
 }
 
