@@ -305,9 +305,7 @@ let currentlyLoggedInUser: UserInfo = buildUserInfo(
  * Update currently logged-in User for local dev UI
  */
 export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
-  console.log('updateLoggedInUser', JSON.stringify(patcher));
   currentlyLoggedInUser = patchObj<UserInfo>(currentlyLoggedInUser, patcher);
-  console.log('currentlyLoggedInUser', currentlyLoggedInUser);
 };
 
 /**
