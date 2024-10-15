@@ -316,7 +316,6 @@ export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
 export const getUserInfo = (): UserInfo => currentlyLoggedInUser;
 
 export const getUserOrThrow = (userId: string): UserDetailDto => {
-  console.log('userId', userId);
   const id = Object.keys(ALL_USERS).find((id) => id === userId);
   if (!id) throw new Error(`User not found ${userId}`);
 

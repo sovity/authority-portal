@@ -650,3 +650,10 @@ export const deleteOrganization = (organizationId: string) => {
     (x) => x.id !== organizationId,
   );
 };
+
+export const findOrganizationByUserId = (userId: string): string | null => {
+  const organization = TEST_ORGANIZATIONS.find((org) =>
+    org.memberList.some((member) => member.userId === userId),
+  );
+  return organization ? organization.id : null;
+};
