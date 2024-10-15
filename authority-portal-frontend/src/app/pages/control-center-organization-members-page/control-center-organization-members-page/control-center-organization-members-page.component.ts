@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
@@ -39,7 +40,10 @@ export class ControlCenterOrganizationMembersPageComponent
     private router: Router,
     private breadcrumbService: BreadcrumbService,
     private globalStateUtils: GlobalStateUtils,
-  ) {}
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('Users and Roles');
+  }
 
   ngOnInit(): void {
     this.refresh();

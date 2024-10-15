@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {Subject, interval} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
@@ -60,7 +61,10 @@ export class AuthorityConnectorListPageComponent implements OnInit, OnDestroy {
     private store: Store,
     private globalStateUtils: GlobalStateUtils,
     private slideOverService: SlideOverService,
-  ) {}
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('All Connectors');
+  }
 
   ngOnInit() {
     this.initializeHeaderBar();

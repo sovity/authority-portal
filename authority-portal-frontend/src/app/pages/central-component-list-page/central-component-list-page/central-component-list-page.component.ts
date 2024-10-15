@@ -12,6 +12,7 @@
  */
 import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
+import {Title} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -54,7 +55,10 @@ export class CentralComponentListPageComponent implements OnInit, OnDestroy {
     private globalStateUtils: GlobalStateUtils,
     private router: Router,
     private dialog: MatDialog,
-  ) {}
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('Central Components');
+  }
 
   ngOnInit() {
     this.refresh();
