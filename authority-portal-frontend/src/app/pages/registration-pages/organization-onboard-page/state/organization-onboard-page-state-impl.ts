@@ -54,7 +54,6 @@ export class OrganizationOnboardPageStateImpl {
   @Action(Reset, {cancelUncompleted: true})
   onReset(ctx: StateContext<OrganizationOnboardPageState>): Observable<never> {
     return this.globalStateUtils.userInfo$.pipe(
-      take(1),
       switchMap((userInfo) =>
         combineLatest([
           this.apiService.getOrganizationUser(userInfo.userId),

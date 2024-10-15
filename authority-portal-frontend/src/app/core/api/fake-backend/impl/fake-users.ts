@@ -310,6 +310,12 @@ export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
   currentlyLoggedInUser = patchObj<UserInfo>(currentlyLoggedInUser, patcher);
 };
 
+export const fakeLogin = () => {
+  currentlyLoggedInUser = buildUserInfo(
+    ALL_USERS['00000000-0000-0000-0000-000000000001'],
+  );
+};
+
 /**
  * Fake implementation for "userInfo" endpoint
  */

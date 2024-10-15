@@ -12,6 +12,7 @@
  */
 import {Component, Inject} from '@angular/core';
 import {Title} from '@angular/platform-browser';
+import {fakeLogin} from 'src/app/core/api/fake-backend/impl/fake-users';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
@@ -30,5 +31,13 @@ export class UnauthenticatedPageComponent {
     const url = new URL(this.appConfig.loginUrl);
     url.searchParams.set('redirect_uri', location.href);
     return url.toString();
+  }
+
+  login() {
+    if (this.appConfig.useFakeBackend) {
+      fakeLogin();
+    } else {
+      location.href = this.loginUrl;
+    }
   }
 }
