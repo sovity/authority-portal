@@ -33,7 +33,7 @@ export const requiresRole: CanActivateFn = (route: ActivatedRouteSnapshot) => {
       if (hasAnyRole) {
         return true;
       } else {
-        router.navigate(['/unauthorized']);
+        router.navigate(['/dashboard']);
         return false;
       }
     }),
