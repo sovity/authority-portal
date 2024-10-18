@@ -108,7 +108,6 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.ngOnDestroy$),
         map((data) => data.catalogType === 'my-data-offers'),
-        distinctUntilChanged(),
         tap((isMyDataOffers) => {
           this.headerConfig = this.buildHeaderConfig(isMyDataOffers);
         }),
@@ -116,6 +115,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
           if (isMyDataOffers) {
             return this.globalStateUtils.userInfo$.pipe(
               map((it) => it.organizationId),
+              distinctUntilChanged(),
             );
           }
 
