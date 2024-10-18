@@ -12,11 +12,25 @@
     </p>
     <div class="flex items-center flex-col gap-2">
       <a
+        *ngIf="!this.appConfig.useFakeBackend"
         id="btn-login"
         class="w-[300px] bg-black hover:bg-black text-white font-bold py-2 px-4 rounded active:scale-[0.99]"
-        [attr.href]="loginUrl">
+        (click)="login('')">
         Log In
       </a>
+      <select
+        *ngIf="this.appConfig.useFakeBackend"
+        class="w-[300px] bg-white text-black border border-gray-700 font-bold py-2 px-4 rounded active:scale-[0.99]"
+        (change)="login($event)">
+        <option class="text-center" value="">Select Fake Backend User</option>
+        <option
+          *ngFor="let user of fakeBackendUserIds"
+          class="text-center"
+          [value]="fakeBackendUsers[user]['userId']">
+          {{ fakeBackendUsers[user]['firstName'] }}
+          {{ fakeBackendUsers[user]['lastName'] }}
+        </option>
+      </select>
       <a
         id="btn-register-organization"
         class="w-[300px] bg-white text-black border border-gray-700 font-bold py-2 px-4 rounded active:scale-[0.99]"
@@ -24,8 +38,8 @@
         Register Organization
       </a>
     </div>
-  </div>
 
-  <!-- footer -->
-  <app-footer-for-full-page></app-footer-for-full-page>
+    <!-- footer -->
+    <app-footer-for-full-page></app-footer-for-full-page>
+  </div>
 </div>

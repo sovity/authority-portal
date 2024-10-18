@@ -11,6 +11,13 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, Inject} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {Store} from '@ngxs/store';
+import {
+  ALL_USERS,
+  fakeLogin,
+} from 'src/app/core/api/fake-backend/impl/fake-users';
+import {RefreshUserInfo} from 'src/app/core/global-state/global-state-actions';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
@@ -18,11 +25,28 @@ import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
   templateUrl: './unauthenticated-page.component.html',
 })
 export class UnauthenticatedPageComponent {
-  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
+  fakeBackendUserIds = Object.keys(ALL_USERS);
+  fakeBackendUsers = ALL_USERS;
+
+  constructor(
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
+    public store: Store,
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('Unauthenticated');
+  }
 
   get loginUrl(): string {
     const url = new URL(this.appConfig.loginUrl);
     url.searchParams.set('redirect_uri', location.href);
     return url.toString();
+  }
+
+  login(event: any): void {
+    if (this.appConfig.useFakeBackend) {
+      fakeLogin(event.target.value);
+    } else {
+      location.href = this.loginUrl;
+    }
   }
 }

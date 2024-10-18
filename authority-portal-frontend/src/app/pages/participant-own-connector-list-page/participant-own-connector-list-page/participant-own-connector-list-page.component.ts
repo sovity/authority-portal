@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 import {Subject, interval} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -69,7 +70,10 @@ export class ParticipantOwnConnectorListPageComponent
     private globalStateUtils: GlobalStateUtils,
     private router: Router,
     private slideOverService: SlideOverService,
-  ) {}
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('Connectors');
+  }
 
   ngOnInit() {
     this.initializeHeaderBar();

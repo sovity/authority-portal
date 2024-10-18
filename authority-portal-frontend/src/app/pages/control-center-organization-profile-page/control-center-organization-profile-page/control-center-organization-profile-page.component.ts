@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
@@ -34,7 +35,10 @@ export class ControlCenterOrganizationProfilePageComponent
   constructor(
     private store: Store,
     private globalStateUtils: GlobalStateUtils,
-  ) {}
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('My Organization');
+  }
 
   ngOnInit(): void {
     this.refresh();
