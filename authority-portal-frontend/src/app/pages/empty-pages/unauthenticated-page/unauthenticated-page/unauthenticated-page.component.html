@@ -18,27 +18,25 @@
         (click)="login('')">
         Log In
       </a>
-      <div *ngIf="this.appConfig.useFakeBackend">
-        Login as
-        <br />
-        <br />
-        <select
-          class="w-[300px] bg-white text-black border border-gray-700 font-bold py-2 px-4 rounded active:scale-[0.99]"
-          (change)="login($event)">
-          <option
-            *ngFor="let user of fakeBackendUserIds"
-            [value]="fakeBackendUsers[user]['userId']">
-            {{ fakeBackendUsers[user]['firstName'] }}
-            {{ fakeBackendUsers[user]['lastName'] }}
-          </option>
-        </select>
-        <a
-          id="btn-register-organization"
-          class="w-[300px] bg-white text-black border border-gray-700 font-bold py-2 px-4 rounded active:scale-[0.99]"
-          routerLink="/create-organization">
-          Register Organization
-        </a>
-      </div>
+      <select
+        *ngIf="this.appConfig.useFakeBackend"
+        class="w-[300px] bg-white text-black border border-gray-700 font-bold py-2 px-4 rounded active:scale-[0.99]"
+        (change)="login($event)">
+        <option class="text-center" value="">Select Fake Backend User</option>
+        <option
+          *ngFor="let user of fakeBackendUserIds"
+          class="text-center"
+          [value]="fakeBackendUsers[user]['userId']">
+          {{ fakeBackendUsers[user]['firstName'] }}
+          {{ fakeBackendUsers[user]['lastName'] }}
+        </option>
+      </select>
+      <a
+        id="btn-register-organization"
+        class="w-[300px] bg-white text-black border border-gray-700 font-bold py-2 px-4 rounded active:scale-[0.99]"
+        routerLink="/create-organization">
+        Register Organization
+      </a>
     </div>
 
     <!-- footer -->
