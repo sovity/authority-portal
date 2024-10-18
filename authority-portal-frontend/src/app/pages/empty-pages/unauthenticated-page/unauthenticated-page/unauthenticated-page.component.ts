@@ -12,7 +12,12 @@
  */
 import {Component, Inject} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {fakeLogin} from 'src/app/core/api/fake-backend/impl/fake-users';
+import {Store} from '@ngxs/store';
+import {
+  ALL_USERS,
+  fakeLogin,
+} from 'src/app/core/api/fake-backend/impl/fake-users';
+import {RefreshUserInfo} from 'src/app/core/global-state/global-state-actions';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
@@ -20,8 +25,12 @@ import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
   templateUrl: './unauthenticated-page.component.html',
 })
 export class UnauthenticatedPageComponent {
+  fakeBackendUserIds = Object.keys(ALL_USERS);
+  fakeBackendUsers = ALL_USERS;
+
   constructor(
     @Inject(APP_CONFIG) public appConfig: AppConfig,
+    public store: Store,
     private titleService: Title,
   ) {
     this.titleService.setTitle('Unauthenticated');
@@ -33,9 +42,9 @@ export class UnauthenticatedPageComponent {
     return url.toString();
   }
 
-  login() {
+  login(event: any): void {
     if (this.appConfig.useFakeBackend) {
-      fakeLogin();
+      fakeLogin(event.target.value);
     } else {
       location.href = this.loginUrl;
     }

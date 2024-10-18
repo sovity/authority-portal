@@ -310,10 +310,18 @@ export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
   currentlyLoggedInUser = patchObj<UserInfo>(currentlyLoggedInUser, patcher);
 };
 
-export const fakeLogin = () => {
-  currentlyLoggedInUser = buildUserInfo(
-    ALL_USERS['00000000-0000-0000-0000-000000000001'],
-  );
+export const fakeLogin = (userId?: string) => {
+  if (userId && Object.keys(ALL_USERS).includes(userId)) {
+    currentlyLoggedInUser = buildUserInfo(ALL_USERS[userId]);
+  } else {
+    currentlyLoggedInUser = buildUserInfo(
+      ALL_USERS['00000000-0000-0000-0000-000000000001'],
+    );
+  }
+};
+
+export const fakeLogout = () => {
+  currentlyLoggedInUser = buildUnauthenticatedUserInfo();
 };
 
 /**

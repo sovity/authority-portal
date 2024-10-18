@@ -10,7 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Inject, Input, OnChanges} from '@angular/core';
+import {fakeLogout} from 'src/app/core/api/fake-backend/impl/fake-users';
+import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {AvatarConfig} from '../avatar/avatar.component';
 import {ControlCenterModel} from './control-center.model';
 
@@ -25,10 +27,20 @@ export class ControlCenterComponent implements OnChanges {
   userAvatar!: AvatarConfig;
   userMenuOpen = false;
 
+  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
+
   ngOnChanges(): void {
     this.userAvatar = {
       firstName: this.userData.firstName,
       lastName: this.userData.lastName,
     };
+  }
+
+  logout(): void {
+    if (this.appConfig.useFakeBackend) {
+      fakeLogout();
+    } else {
+      location.href = this.logoutUrl;
+    }
   }
 }

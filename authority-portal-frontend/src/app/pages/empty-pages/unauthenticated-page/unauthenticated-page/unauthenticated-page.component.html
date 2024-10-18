@@ -12,20 +12,36 @@
     </p>
     <div class="flex items-center flex-col gap-2">
       <a
+        *ngIf="!this.appConfig.useFakeBackend"
         id="btn-login"
         class="w-[300px] bg-black hover:bg-black text-white font-bold py-2 px-4 rounded active:scale-[0.99]"
-        (click)="login()">
+        (click)="login('')">
         Log In
       </a>
-      <a
-        id="btn-register-organization"
-        class="w-[300px] bg-white text-black border border-gray-700 font-bold py-2 px-4 rounded active:scale-[0.99]"
-        routerLink="/create-organization">
-        Register Organization
-      </a>
+      <div *ngIf="this.appConfig.useFakeBackend">
+        Login as
+        <br />
+        <br />
+        <select
+          class="w-[300px] bg-white text-black border border-gray-700 font-bold py-2 px-4 rounded active:scale-[0.99]"
+          (change)="login($event)">
+          <option
+            *ngFor="let user of fakeBackendUserIds"
+            [value]="fakeBackendUsers[user]['userId']">
+            {{ fakeBackendUsers[user]['firstName'] }}
+            {{ fakeBackendUsers[user]['lastName'] }}
+          </option>
+        </select>
+        <a
+          id="btn-register-organization"
+          class="w-[300px] bg-white text-black border border-gray-700 font-bold py-2 px-4 rounded active:scale-[0.99]"
+          routerLink="/create-organization">
+          Register Organization
+        </a>
+      </div>
     </div>
-  </div>
 
-  <!-- footer -->
-  <app-footer-for-full-page></app-footer-for-full-page>
+    <!-- footer -->
+    <app-footer-for-full-page></app-footer-for-full-page>
+  </div>
 </div>

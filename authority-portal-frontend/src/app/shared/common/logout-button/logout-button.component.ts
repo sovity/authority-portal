@@ -11,6 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, Inject} from '@angular/core';
+import {fakeLogout} from 'src/app/core/api/fake-backend/impl/fake-users';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
@@ -19,4 +20,12 @@ import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 })
 export class LogoutButtonComponent {
   constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
+
+  logout() {
+    if (this.appConfig.useFakeBackend) {
+      fakeLogout();
+    } else {
+      location.href = this.appConfig.logoutUrl;
+    }
+  }
 }
