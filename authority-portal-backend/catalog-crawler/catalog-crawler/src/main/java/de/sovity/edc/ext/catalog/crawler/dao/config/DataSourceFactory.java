@@ -16,11 +16,9 @@ package de.sovity.edc.ext.catalog.crawler.dao.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import de.sovity.edc.ext.catalog.crawler.CrawlerConfigProps;
-import de.sovity.edc.ext.catalog.crawler.CrawlerExtension;
 import de.sovity.edc.extension.postgresql.HikariDataSourceFactory;
 import de.sovity.edc.extension.postgresql.JdbcCredentials;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.Validate;
 import org.eclipse.edc.spi.system.configuration.Config;
 
 import javax.sql.DataSource;

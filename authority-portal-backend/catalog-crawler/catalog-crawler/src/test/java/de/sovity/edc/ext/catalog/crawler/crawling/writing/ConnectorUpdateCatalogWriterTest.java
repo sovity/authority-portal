@@ -14,10 +14,10 @@
 
 package de.sovity.edc.ext.catalog.crawler.crawling.writing;
 
+import de.sovity.authorityportal.db.jooq.tables.records.DataOfferRecord;
 import de.sovity.edc.ext.catalog.crawler.AssertionUtils;
 import de.sovity.edc.ext.catalog.crawler.CrawlerTestDb;
 import de.sovity.edc.ext.catalog.crawler.crawling.logging.ConnectorChangeTracker;
-import de.sovity.authorityportal.db.jooq.tables.records.DataOfferRecord;
 import org.assertj.core.data.TemporalUnitLessThanOffset;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;

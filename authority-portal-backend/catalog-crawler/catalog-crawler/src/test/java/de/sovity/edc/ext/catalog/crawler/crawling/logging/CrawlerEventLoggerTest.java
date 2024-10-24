@@ -14,9 +14,9 @@
 
 package de.sovity.edc.ext.catalog.crawler.crawling.logging;
 
+import de.sovity.authorityportal.db.jooq.Tables;
 import de.sovity.edc.ext.catalog.crawler.CrawlerTestDb;
 import de.sovity.edc.ext.catalog.crawler.dao.connectors.ConnectorRef;
-import de.sovity.authorityportal.db.jooq.Tables;
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;

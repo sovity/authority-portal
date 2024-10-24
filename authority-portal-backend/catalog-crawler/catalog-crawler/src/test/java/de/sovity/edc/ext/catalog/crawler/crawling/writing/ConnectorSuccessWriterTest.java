@@ -14,15 +14,15 @@
 
 package de.sovity.edc.ext.catalog.crawler.crawling.writing;
 
+import de.sovity.authorityportal.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded;
+import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded;
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import de.sovity.edc.ext.catalog.crawler.CrawlerTestDb;
 import de.sovity.edc.ext.catalog.crawler.TestData;
 import de.sovity.edc.ext.catalog.crawler.crawling.fetching.model.FetchedCatalog;
 import de.sovity.edc.ext.catalog.crawler.crawling.fetching.model.FetchedContractOffer;
 import de.sovity.edc.ext.catalog.crawler.crawling.fetching.model.FetchedDataOffer;
-import de.sovity.authorityportal.db.jooq.Tables;
-import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded;
-import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded;
-import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import de.sovity.edc.ext.wrapper.api.common.model.UiAsset;
 import org.assertj.core.data.TemporalUnitLessThanOffset;
 import org.jooq.impl.DSL;

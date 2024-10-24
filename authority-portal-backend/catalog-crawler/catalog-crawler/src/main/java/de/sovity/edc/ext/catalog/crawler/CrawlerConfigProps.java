@@ -13,7 +13,6 @@
 
 package de.sovity.edc.ext.catalog.crawler;
 
-import de.sovity.edc.utils.config.ConfigProps;
 import de.sovity.edc.utils.config.ConfigUtils;
 import de.sovity.edc.utils.config.model.ConfigProp;
 import de.sovity.edc.utils.config.utils.UrlPathUtils;
@@ -476,15 +475,6 @@ public class CrawlerConfigProps {
         // Order matters here, as the property defaults are calculated in order
         built.also(ALL_CRAWLER_PROPS::add);
         return built;
-    }
-
-    private String firstNonNull(String... values) {
-        for (String value : values) {
-            if (value != null) {
-                return value;
-            }
-        }
-        return null;
     }
 
     private static String plus(Map<String, String> props, ConfigProp prop, int add) {

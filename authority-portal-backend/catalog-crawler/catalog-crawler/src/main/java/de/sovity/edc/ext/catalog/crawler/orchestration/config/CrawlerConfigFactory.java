@@ -15,10 +15,7 @@
 package de.sovity.edc.ext.catalog.crawler.orchestration.config;
 
 import de.sovity.edc.ext.catalog.crawler.CrawlerConfigProps;
-import de.sovity.edc.ext.catalog.crawler.CrawlerExtension;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.edc.spi.system.configuration.Config;
 
 import java.time.Duration;

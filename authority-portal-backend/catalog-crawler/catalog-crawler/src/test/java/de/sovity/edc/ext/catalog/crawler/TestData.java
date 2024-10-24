@@ -14,12 +14,12 @@
 
 package de.sovity.edc.ext.catalog.crawler;
 
-import de.sovity.edc.ext.catalog.crawler.dao.connectors.ConnectorRef;
 import de.sovity.authorityportal.db.jooq.Tables;
 import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded;
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded;
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord;
+import de.sovity.edc.ext.catalog.crawler.dao.connectors.ConnectorRef;
 import lombok.experimental.UtilityClass;
 import org.jooq.DSLContext;
 
