@@ -15,6 +15,7 @@
 package de.sovity.edc.ext.catalog.crawler.dao.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import de.sovity.edc.ext.catalog.crawler.CrawlerConfigProps;
 import de.sovity.edc.ext.catalog.crawler.CrawlerExtension;
 import de.sovity.edc.extension.postgresql.HikariDataSourceFactory;
 import de.sovity.edc.extension.postgresql.JdbcCredentials;
@@ -36,8 +37,8 @@ public class DataSourceFactory {
      */
     public HikariDataSource newDataSource() {
         var jdbcCredentials = getJdbcCredentials();
-        int maxPoolSize = config.getInteger(CrawlerExtension.DB_CONNECTION_POOL_SIZE);
-        int connectionTimeoutInMs = config.getInteger(CrawlerExtension.DB_CONNECTION_TIMEOUT_IN_MS);
+        int maxPoolSize = CrawlerConfigProps.CRAWLER_DB_CONNECTION_POOL_SIZE.getInt(config);
+        int connectionTimeoutInMs = CrawlerConfigProps.CRAWLER_DB_CONNECTION_TIMEOUT_IN_MS.getInt(config);
         return HikariDataSourceFactory.newDataSource(
                 jdbcCredentials,
                 maxPoolSize,
@@ -48,16 +49,9 @@ public class DataSourceFactory {
 
     public JdbcCredentials getJdbcCredentials() {
         return new JdbcCredentials(
-                getRequiredStringProperty(config, CrawlerExtension.JDBC_URL),
-                getRequiredStringProperty(config, CrawlerExtension.JDBC_USER),
-                getRequiredStringProperty(config, CrawlerExtension.JDBC_PASSWORD)
+                CrawlerConfigProps.CRAWLER_DB_JDBC_URL.getStringOrThrow(config),
+                CrawlerConfigProps.CRAWLER_DB_JDBC_USER.getStringOrThrow(config),
+                CrawlerConfigProps.CRAWLER_DB_JDBC_PASSWORD.getStringOrThrow(config)
         );
     }
-
-    private String getRequiredStringProperty(Config config, String name) {
-        String value = config.getString(name, "");
-        Validate.notBlank(value, "EDC Property '%s' is required".formatted(name));
-        return value;
-    }
-
 }

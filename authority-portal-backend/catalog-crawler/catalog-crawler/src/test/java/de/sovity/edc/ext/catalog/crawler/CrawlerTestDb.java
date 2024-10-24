@@ -2,8 +2,8 @@ package de.sovity.edc.ext.catalog.crawler;
 
 import com.zaxxer.hikari.HikariDataSource;
 import de.sovity.edc.ext.catalog.crawler.dao.config.DslContextFactory;
-import de.sovity.edc.ext.catalog.crawler.dao.config.FlywayService;
 import de.sovity.edc.extension.e2e.db.TestDatabaseViaTestcontainers;
+import de.sovity.edc.extension.postgresql.FlywayExecutionParams;
 import de.sovity.edc.extension.postgresql.FlywayUtils;
 import de.sovity.edc.extension.postgresql.HikariDataSourceFactory;
 import de.sovity.edc.extension.postgresql.JdbcCredentials;
@@ -39,7 +39,7 @@ public class CrawlerTestDb implements BeforeAllCallback, AfterAllCallback {
         dslContextFactory = new DslContextFactory(dataSource);
 
         // Migrate DB
-        var params = FlywayService.baseConfig("classpath:/migration-test-utils")
+        var params = baseConfig("classpath:/migration-test-utils")
                 .migrate(true)
                 .build();
         try {
@@ -58,5 +58,15 @@ public class CrawlerTestDb implements BeforeAllCallback, AfterAllCallback {
 
         // Close DB
         db.afterAll(extensionContext);
+    }
+
+    public static FlywayExecutionParams.FlywayExecutionParamsBuilder baseConfig(String additionalMigrationLocations) {
+        var migrationLocations = FlywayUtils.parseFlywayLocations(
+            "classpath:/db/migration,%s".formatted(additionalMigrationLocations)
+        );
+
+        return FlywayExecutionParams.builder()
+            .migrationLocations(migrationLocations)
+            .table("flyway_schema_history");
     }
 }

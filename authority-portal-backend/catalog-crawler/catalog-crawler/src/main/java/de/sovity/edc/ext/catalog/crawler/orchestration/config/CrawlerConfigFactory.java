@@ -14,6 +14,7 @@
 
 package de.sovity.edc.ext.catalog.crawler.orchestration.config;
 
+import de.sovity.edc.ext.catalog.crawler.CrawlerConfigProps;
 import de.sovity.edc.ext.catalog.crawler.CrawlerExtension;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +28,11 @@ public class CrawlerConfigFactory {
     private final Config config;
 
     public CrawlerConfig buildCrawlerConfig() {
-        var environmentId = config.getString(CrawlerExtension.ENVIRONMENT_ID);
-        var numThreads = config.getInteger(CrawlerExtension.NUM_THREADS, 1);
-        var killOfflineConnectorsAfter = getDuration(CrawlerExtension.KILL_OFFLINE_CONNECTORS_AFTER, Duration.ofDays(5));
-        var maxDataOffers = config.getInteger(CrawlerExtension.MAX_DATA_OFFERS_PER_CONNECTOR, -1);
-        var maxContractOffers = config.getInteger(CrawlerExtension.MAX_CONTRACT_OFFERS_PER_DATA_OFFER, -1);
+        var environmentId = CrawlerConfigProps.CRAWLER_ENVIRONMENT_ID.getStringOrThrow(config);
+        var numThreads = CrawlerConfigProps.CRAWLER_NUM_THREADS.getInt(config);
+        var killOfflineConnectorsAfter = Duration.parse(CrawlerConfigProps.CRAWLER_KILL_OFFLINE_CONNECTORS_AFTER.getStringOrThrow(config));
+        var maxDataOffers = CrawlerConfigProps.CRAWLER_MAX_DATA_OFFERS_PER_CONNECTOR.getInt(config);
+        var maxContractOffers = CrawlerConfigProps.CRAWLER_MAX_CONTRACT_OFFERS_PER_DATA_OFFER.getInt(config);
 
         return CrawlerConfig.builder()
                 .environmentId(environmentId)
@@ -40,15 +41,5 @@ public class CrawlerConfigFactory {
                 .maxDataOffersPerConnector(maxDataOffers)
                 .maxContractOffersPerDataOffer(maxContractOffers)
                 .build();
-    }
-
-    private Duration getDuration(@NonNull String configProperty, Duration defaultValue) {
-        var value = config.getString(configProperty, "");
-
-        if (StringUtils.isBlank(value)) {
-            return defaultValue;
-        }
-
-        return Duration.parse(value);
     }
 }

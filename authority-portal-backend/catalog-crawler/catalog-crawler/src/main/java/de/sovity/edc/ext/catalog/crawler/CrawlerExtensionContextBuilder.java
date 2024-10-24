@@ -33,7 +33,6 @@ import de.sovity.edc.ext.catalog.crawler.dao.CatalogCleaner;
 import de.sovity.edc.ext.catalog.crawler.dao.CatalogPatchApplier;
 import de.sovity.edc.ext.catalog.crawler.dao.config.DataSourceFactory;
 import de.sovity.edc.ext.catalog.crawler.dao.config.DslContextFactory;
-import de.sovity.edc.ext.catalog.crawler.dao.config.FlywayService;
 import de.sovity.edc.ext.catalog.crawler.dao.connectors.ConnectorQueries;
 import de.sovity.edc.ext.catalog.crawler.dao.connectors.ConnectorStatusUpdater;
 import de.sovity.edc.ext.catalog.crawler.dao.contract_offers.ContractOfferQueries;
@@ -112,8 +111,6 @@ public class CrawlerExtensionContextBuilder {
         // DB
         var dataSourceFactory = new DataSourceFactory(config);
         var dataSource = dataSourceFactory.newDataSource();
-        var flywayService = new FlywayService(config, monitor, dataSource);
-        flywayService.validateOrMigrateInTests();
 
         // Dao
         var dataOfferQueries = new DataOfferQueries();
@@ -183,10 +180,10 @@ public class CrawlerExtensionContextBuilder {
 
         // Schedules
         List<CronJobRef<?>> jobs = List.of(
-            getOnlineConnectorRefreshCronJob(dslContextFactory, connectorQueueFiller),
-            getOfflineConnectorRefreshCronJob(dslContextFactory, connectorQueueFiller),
-            getDeadConnectorRefreshCronJob(dslContextFactory, connectorQueueFiller),
-            getOfflineConnectorCleanerCronJob(dslContextFactory, offlineConnectorCleaner)
+            getOnlineConnectorRefreshCronJob(dslContextFactory, connectorQueueFiller, config),
+            getOfflineConnectorRefreshCronJob(dslContextFactory, connectorQueueFiller, config),
+            getDeadConnectorRefreshCronJob(dslContextFactory, connectorQueueFiller, config),
+            getOfflineConnectorCleanerCronJob(dslContextFactory, offlineConnectorCleaner, config)
         );
 
         // Startup
@@ -264,9 +261,9 @@ public class CrawlerExtensionContextBuilder {
 
     @NotNull
     private static CronJobRef<OfflineConnectorCleanerJob> getOfflineConnectorCleanerCronJob(DslContextFactory dslContextFactory,
-                                                                                            OfflineConnectorCleaner offlineConnectorCleaner) {
+                                                                                            OfflineConnectorCleaner offlineConnectorCleaner, Config config) {
         return new CronJobRef<>(
-            CrawlerExtension.SCHEDULED_KILL_OFFLINE_CONNECTORS,
+            CrawlerConfigProps.CRAWLER_SCHEDULED_KILL_OFFLINE_CONNECTORS.getStringOrThrow(config),
             OfflineConnectorCleanerJob.class,
             () -> new OfflineConnectorCleanerJob(dslContextFactory, offlineConnectorCleaner)
         );
@@ -275,10 +272,11 @@ public class CrawlerExtensionContextBuilder {
     @NotNull
     private static CronJobRef<OnlineConnectorRefreshJob> getOnlineConnectorRefreshCronJob(
         DslContextFactory dslContextFactory,
-        ConnectorQueueFiller connectorQueueFiller
+        ConnectorQueueFiller connectorQueueFiller,
+        Config config
     ) {
         return new CronJobRef<>(
-            CrawlerExtension.CRON_ONLINE_CONNECTOR_REFRESH,
+            CrawlerConfigProps.CRAWLER_CRON_ONLINE_CONNECTOR_REFRESH.getStringOrThrow(config),
             OnlineConnectorRefreshJob.class,
             () -> new OnlineConnectorRefreshJob(dslContextFactory, connectorQueueFiller)
         );
@@ -287,10 +285,11 @@ public class CrawlerExtensionContextBuilder {
     @NotNull
     private static CronJobRef<OfflineConnectorRefreshJob> getOfflineConnectorRefreshCronJob(
         DslContextFactory dslContextFactory,
-        ConnectorQueueFiller connectorQueueFiller
+        ConnectorQueueFiller connectorQueueFiller,
+        Config config
     ) {
         return new CronJobRef<>(
-            CrawlerExtension.CRON_OFFLINE_CONNECTOR_REFRESH,
+            CrawlerConfigProps.CRAWLER_CRON_OFFLINE_CONNECTOR_REFRESH.getStringOrThrow(config),
             OfflineConnectorRefreshJob.class,
             () -> new OfflineConnectorRefreshJob(dslContextFactory, connectorQueueFiller)
         );
@@ -298,9 +297,9 @@ public class CrawlerExtensionContextBuilder {
 
     @NotNull
     private static CronJobRef<DeadConnectorRefreshJob> getDeadConnectorRefreshCronJob(DslContextFactory dslContextFactory,
-                                                                                      ConnectorQueueFiller connectorQueueFiller) {
+                                                                                      ConnectorQueueFiller connectorQueueFiller, Config config) {
         return new CronJobRef<>(
-            CrawlerExtension.CRON_DEAD_CONNECTOR_REFRESH,
+            CrawlerConfigProps.CRAWLER_CRON_DEAD_CONNECTOR_REFRESH.getStringOrThrow(config),
             DeadConnectorRefreshJob.class,
             () -> new DeadConnectorRefreshJob(dslContextFactory, connectorQueueFiller)
         );
