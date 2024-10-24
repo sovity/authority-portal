@@ -11,6 +11,9 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Major
 
+- The Catalog Crawler has been moved to the AP repository.
+  - To prevent versioning conflicts with the image from EDC CE up to version 10.4.1, the image is now named differently. See [compatible versions](#compatible-versions) below.
+
 #### Minor
 
 #### Patch
@@ -24,11 +27,15 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ### Deployment Migration Notes
 
+- Please change the image used for the Catalog Crawler. The old image is no longer updated and will not work with future versions of the Portal.
+  - Previously: `ghcr.io/sovity/catalog-crawler-ce`
+  - Now: `ghcr.io/sovity/authority-portal-crawler`
+
 #### Compatible Versions
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
+- Catalog Crawler CE: `ghcr.io/sovity/authority-portal-crawler:{{ version }}`
 - Sovity EDC CE: {{ CE Release Link }}
 
 ## [v4.1.2] - 2024-09-26
@@ -255,7 +262,7 @@ MDS 2.2 intermediate release
 
 - All brokers can be undeployed including their databases.
 - Keycloak
-  - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
+  - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs) for more information.
 - Portal Backend
 
   - Following environment variables have been added and **must be configured** for each environment
