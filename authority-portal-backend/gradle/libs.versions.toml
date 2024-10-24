@@ -45,7 +45,6 @@ sovity-edc-wrapperCommonMappers = { module = "de.sovity.edc:wrapper-common-mappe
 sovity-edc-jsonAndJsonLdUtils = { module = "de.sovity.edc:json-and-jsonld-utils", version.ref = "sovity-edcCe" }
 sovity-edc-catalogParser = { module = "de.sovity.edc:catalog-parser", version.ref = "sovity-edcCe" }
 sovity-edc-config = { module = "de.sovity.edc:config", version.ref = "sovity-edcCe" }
-sovity-edc-ext-postgresFlywayCore = { module = "de.sovity.edc.ext:postgres-flyway-core", version.ref = "sovity-edcCe" }
 sovity-edc-ext-testUtils = { module = "de.sovity.edc.ext:test-utils", version.ref = "sovity-edcCe" }
 
 quarkus-universeBom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }

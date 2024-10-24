@@ -263,7 +263,7 @@ public class CrawlerExtensionContextBuilder {
     private static CronJobRef<OfflineConnectorCleanerJob> getOfflineConnectorCleanerCronJob(DslContextFactory dslContextFactory,
                                                                                             OfflineConnectorCleaner offlineConnectorCleaner, Config config) {
         return new CronJobRef<>(
-            CrawlerConfigProps.CRAWLER_SCHEDULED_KILL_OFFLINE_CONNECTORS.getStringOrThrow(config),
+            CrawlerConfigProps.CRAWLER_SCHEDULED_KILL_OFFLINE_CONNECTORS.getProperty(),
             OfflineConnectorCleanerJob.class,
             () -> new OfflineConnectorCleanerJob(dslContextFactory, offlineConnectorCleaner)
         );
@@ -276,7 +276,7 @@ public class CrawlerExtensionContextBuilder {
         Config config
     ) {
         return new CronJobRef<>(
-            CrawlerConfigProps.CRAWLER_CRON_ONLINE_CONNECTOR_REFRESH.getStringOrThrow(config),
+            CrawlerConfigProps.CRAWLER_CRON_ONLINE_CONNECTOR_REFRESH.getProperty(),
             OnlineConnectorRefreshJob.class,
             () -> new OnlineConnectorRefreshJob(dslContextFactory, connectorQueueFiller)
         );
@@ -289,7 +289,7 @@ public class CrawlerExtensionContextBuilder {
         Config config
     ) {
         return new CronJobRef<>(
-            CrawlerConfigProps.CRAWLER_CRON_OFFLINE_CONNECTOR_REFRESH.getStringOrThrow(config),
+            CrawlerConfigProps.CRAWLER_CRON_OFFLINE_CONNECTOR_REFRESH.getProperty(),
             OfflineConnectorRefreshJob.class,
             () -> new OfflineConnectorRefreshJob(dslContextFactory, connectorQueueFiller)
         );
@@ -299,7 +299,7 @@ public class CrawlerExtensionContextBuilder {
     private static CronJobRef<DeadConnectorRefreshJob> getDeadConnectorRefreshCronJob(DslContextFactory dslContextFactory,
                                                                                       ConnectorQueueFiller connectorQueueFiller, Config config) {
         return new CronJobRef<>(
-            CrawlerConfigProps.CRAWLER_CRON_DEAD_CONNECTOR_REFRESH.getStringOrThrow(config),
+            CrawlerConfigProps.CRAWLER_CRON_DEAD_CONNECTOR_REFRESH.getProperty(),
             DeadConnectorRefreshJob.class,
             () -> new DeadConnectorRefreshJob(dslContextFactory, connectorQueueFiller)
         );

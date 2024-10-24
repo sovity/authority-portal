@@ -11,6 +11,7 @@ dependencies {
 
     implementation(libs.quartz.quartz)
     implementation(libs.commons.lang3)
+    implementation(libs.quarkus.jooq)
 
     api(libs.sovity.edc.catalogParser)
     api(libs.sovity.edc.jsonAndJsonLdUtils)
