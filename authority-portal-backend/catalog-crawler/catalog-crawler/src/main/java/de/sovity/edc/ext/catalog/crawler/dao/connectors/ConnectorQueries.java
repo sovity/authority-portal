@@ -65,7 +65,7 @@ public class ConnectorQueries {
                 )
                 .from(c)
                 .leftJoin(o).on(c.ORGANIZATION_ID.eq(o.ID))
-                .where(condition.apply(c, o), c.ENVIRONMENT.eq(crawlerConfig.getEnvironmentId()))
+                .where(condition.apply(c, o), c.ENVIRONMENT.eq(crawlerConfig.getEnvironmentId()), c.ENDPOINT_URL.isNotNull())
                 .fetchInto(ConnectorRef.class);
 
         return new HashSet<>(query);

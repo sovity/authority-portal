@@ -52,7 +52,7 @@ public class ConnectorCrawler {
 
         try {
             monitor.info("Updating connector: " + connectorRef);
-
+            
             var catalog = fetchedCatalogService.fetchCatalog(connectorRef);
 
             // Update connector in a single transaction
