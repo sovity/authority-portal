@@ -14,17 +14,18 @@
 
 package de.sovity.edc.ext.catalog.crawler.dao.data_offers;
 
+import de.sovity.authorityportal.db.jooq.tables.records.DataOfferRecord;
 import de.sovity.edc.ext.catalog.crawler.crawling.fetching.model.FetchedDataOffer;
 import de.sovity.edc.ext.catalog.crawler.crawling.writing.utils.ChangeTracker;
 import de.sovity.edc.ext.catalog.crawler.dao.connectors.ConnectorRef;
 import de.sovity.edc.ext.catalog.crawler.dao.utils.JsonbUtils;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.tables.records.DataOfferRecord;
 import de.sovity.edc.ext.catalog.crawler.utils.JsonUtils2;
 import de.sovity.edc.ext.wrapper.api.common.mappers.asset.utils.ShortDescriptionBuilder;
 import lombok.RequiredArgsConstructor;
 import org.jooq.JSONB;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -128,7 +129,7 @@ public class DataOfferRecordUpdater {
                 emptyIfNull(record.getKeywords()),
                 emptyIfNull(asset.getKeywords()),
                 it -> {
-                    record.setKeywords(it.toArray(new String[0]));
+                    record.setKeywords(new ArrayList<>(it));
                     record.setKeywordsCommaJoined(String.join(", ", it));
                 }
         );

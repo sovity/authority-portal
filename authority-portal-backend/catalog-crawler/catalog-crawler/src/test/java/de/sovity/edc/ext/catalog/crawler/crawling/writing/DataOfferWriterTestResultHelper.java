@@ -14,9 +14,9 @@
 
 package de.sovity.edc.ext.catalog.crawler.crawling.writing;
 
-import de.sovity.edc.ext.catalog.crawler.db.jooq.Tables;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.tables.records.ContractOfferRecord;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.tables.records.DataOfferRecord;
+import de.sovity.authorityportal.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.tables.records.ContractOfferRecord;
+import de.sovity.authorityportal.db.jooq.tables.records.DataOfferRecord;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
 

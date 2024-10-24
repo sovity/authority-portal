@@ -10,18 +10,19 @@ dependencies {
     implementation(libs.edc.managementApiConfiguration)
 
     implementation(libs.quartz.quartz)
-    implementation(libs.apache.commonsLang)
-    implementation(project(":utils:versions"))
+    implementation(libs.commons.lang3)
+    implementation(libs.quarkus.jooq)
 
-    api(project(":utils:catalog-parser"))
-    api(project(":utils:json-and-jsonld-utils"))
-    api(project(":extensions:wrapper:wrapper-common-mappers"))
-    api(project(":extensions:catalog-crawler:catalog-crawler-db"))
-    api(project(":extensions:postgres-flyway-core"))
+    api(libs.sovity.edc.catalogParser)
+    api(libs.sovity.edc.jsonAndJsonLdUtils)
+    api(libs.sovity.edc.wrapperCommonMappers)
+    api(libs.sovity.edc.ext.postgresFlywayCore)
+    api(libs.sovity.edc.config)
+    api(project(":authority-portal-db"))
 
     testAnnotationProcessor(libs.lombok)
     testCompileOnly(libs.lombok)
-    testImplementation(project(":utils:test-utils"))
+    testImplementation(libs.sovity.edc.ext.testUtils)
     testImplementation(libs.assertj.core)
     testImplementation(libs.mockito.core)
     testImplementation(libs.restAssured.restAssured)
@@ -37,12 +38,4 @@ dependencies {
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
     maxParallelForks = 1
-}
-
-publishing {
-    publications {
-        create<MavenPublication>(project.name) {
-            from(components["java"])
-        }
-    }
 }

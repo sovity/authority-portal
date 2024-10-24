@@ -14,6 +14,7 @@
 
 package de.sovity.edc.ext.catalog.crawler.orchestration.schedules;
 
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import de.sovity.edc.ext.catalog.crawler.CrawlerTestDb;
 import de.sovity.edc.ext.catalog.crawler.TestData;
 import de.sovity.edc.ext.catalog.crawler.crawling.OfflineConnectorCleaner;
@@ -22,7 +23,6 @@ import de.sovity.edc.ext.catalog.crawler.dao.CatalogCleaner;
 import de.sovity.edc.ext.catalog.crawler.dao.connectors.ConnectorQueries;
 import de.sovity.edc.ext.catalog.crawler.dao.connectors.ConnectorRef;
 import de.sovity.edc.ext.catalog.crawler.dao.connectors.ConnectorStatusUpdater;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.enums.ConnectorOnlineStatus;
 import de.sovity.edc.ext.catalog.crawler.orchestration.config.CrawlerConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 
-import static de.sovity.edc.ext.catalog.crawler.db.jooq.tables.Connector.CONNECTOR;
+import static de.sovity.authorityportal.db.jooq.tables.Connector.CONNECTOR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

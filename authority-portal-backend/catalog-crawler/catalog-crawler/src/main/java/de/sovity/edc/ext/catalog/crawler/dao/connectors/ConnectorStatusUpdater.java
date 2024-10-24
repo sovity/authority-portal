@@ -14,9 +14,9 @@
 
 package de.sovity.edc.ext.catalog.crawler.dao.connectors;
 
+import de.sovity.authorityportal.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus;
 import de.sovity.edc.ext.catalog.crawler.dao.utils.PostgresqlUtils;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.Tables;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.enums.ConnectorOnlineStatus;
 import org.jooq.DSLContext;
 
 import java.util.Collection;

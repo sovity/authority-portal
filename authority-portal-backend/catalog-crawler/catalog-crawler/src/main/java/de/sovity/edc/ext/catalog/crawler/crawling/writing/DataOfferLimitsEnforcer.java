@@ -14,12 +14,12 @@
 
 package de.sovity.edc.ext.catalog.crawler.crawling.writing;
 
+import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded;
+import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded;
+import de.sovity.authorityportal.db.jooq.tables.records.ConnectorRecord;
 import de.sovity.edc.ext.catalog.crawler.crawling.fetching.model.FetchedDataOffer;
 import de.sovity.edc.ext.catalog.crawler.crawling.logging.CrawlerEventLogger;
 import de.sovity.edc.ext.catalog.crawler.dao.connectors.ConnectorRef;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.enums.ConnectorContractOffersExceeded;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.enums.ConnectorDataOffersExceeded;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.tables.records.ConnectorRecord;
 import de.sovity.edc.ext.catalog.crawler.orchestration.config.CrawlerConfig;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;

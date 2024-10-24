@@ -14,8 +14,8 @@
 
 package de.sovity.edc.ext.catalog.crawler.dao.data_offers;
 
-import de.sovity.edc.ext.catalog.crawler.db.jooq.Tables;
-import de.sovity.edc.ext.catalog.crawler.db.jooq.tables.records.DataOfferRecord;
+import de.sovity.authorityportal.db.jooq.Tables;
+import de.sovity.authorityportal.db.jooq.tables.records.DataOfferRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 
