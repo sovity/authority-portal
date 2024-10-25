@@ -49,7 +49,7 @@ export class ControlCenterUserProfilePageStateImpl {
   @Action(Reset)
   onReset(ctx: Ctx, action: Reset): Observable<never> {
     return this.globalStateUtils.userInfo$.pipe(
-      take(2),
+      take(5),
       switchMap((userInfo) =>
         this.apiService.getUserDetailDto(userInfo.userId),
       ),
