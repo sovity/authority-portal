@@ -10,7 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
 import {Title} from '@angular/platform-browser';
@@ -59,7 +59,7 @@ import {
   selector: 'app-organization-onboard-page',
   templateUrl: './organization-onboard-page.component.html',
 })
-export class OrganizationOnboardPageComponent implements OnInit {
+export class OrganizationOnboardPageComponent implements OnInit, OnDestroy {
   state = DEFAULT_ORGANIZATION_ONBOARD_PAGE_PAGE_STATE;
   parentFormGroup!: FormGroup<OnboardingWizardFormModel>;
   showForm: boolean = false;
@@ -94,7 +94,7 @@ export class OrganizationOnboardPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(Reset);
+    this.store.dispatch(new Reset(this.ngOnDestroy$));
     this.startListeningToState();
     this.setupFormOnce();
   }
@@ -181,5 +181,10 @@ export class OrganizationOnboardPageComponent implements OnInit {
         },
       ),
     );
+  }
+
+  ngOnDestroy(): void {
+    this.ngOnDestroy$.next(null);
+    this.ngOnDestroy$.complete();
   }
 }

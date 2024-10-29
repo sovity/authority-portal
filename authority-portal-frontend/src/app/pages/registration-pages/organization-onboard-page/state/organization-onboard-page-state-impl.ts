@@ -11,16 +11,24 @@
  *      sovity GmbH - initial implementation
  */
 import {Inject, Injectable} from '@angular/core';
-import {Observable, combineLatest, forkJoin} from 'rxjs';
+import {Observable, combineLatest, forkJoin, of} from 'rxjs';
 import {
+  catchError,
+  count,
+  delay,
+  filter,
   ignoreElements,
   map,
+  retry,
+  retryWhen,
   switchMap,
   take,
   takeUntil,
+  takeWhile,
   tap,
 } from 'rxjs/operators';
 import {Action, Actions, State, StateContext, ofAction} from '@ngxs/store';
+import {UserDetailDto, UserInfo} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
@@ -52,18 +60,23 @@ export class OrganizationOnboardPageStateImpl {
   ) {}
 
   @Action(Reset, {cancelUncompleted: true})
-  onReset(ctx: StateContext<OrganizationOnboardPageState>): Observable<never> {
-    return this.globalStateUtils.userInfo$.pipe(
-      switchMap((userInfo) =>
+  onReset(
+    ctx: StateContext<OrganizationOnboardPageState>,
+    action: Reset,
+  ): Observable<never> {
+    return combineLatest([
+      this.globalStateUtils.deploymentEnvironment$,
+      this.globalStateUtils.userInfo$.pipe(
+        filter((user) => user.authenticationStatus === 'AUTHENTICATED'),
+        take(1),
+      ),
+    ]).pipe(
+      switchMap(([environment, user]) =>
         combineLatest([
-          this.apiService.getOrganizationUser(userInfo.userId),
-          this.globalStateUtils
-            .getDeploymentEnvironmentId()
-            .pipe(
-              switchMap((environmentId) =>
-                this.apiService.getOwnOrganizationDetails(environmentId),
-              ),
-            ),
+          this.apiService
+            .getOrganizationUser(user.userId)
+            .pipe(retry({count: 3, delay: 1000})),
+          this.apiService.getOwnOrganizationDetails(environment.environmentId),
         ]),
       ),
       map(([user, organization]) => ({user, organization})),
@@ -79,6 +92,7 @@ export class OrganizationOnboardPageStateImpl {
               : 'USER_ONBOARDING',
         });
       }),
+      takeUntil(action.componentLifetime$),
       ignoreElements(),
     );
   }

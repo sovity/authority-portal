@@ -13,7 +13,14 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {ignoreElements, switchMap, take, tap} from 'rxjs/operators';
+import {
+  filter,
+  ignoreElements,
+  retry,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {UserDetailDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
@@ -50,6 +57,8 @@ export class ControlCenterUserEditPageStateImpl {
   @Action(Reset)
   onReset(ctx: Ctx, action: Reset): Observable<never> {
     return this.globalStateUtils.userInfo$.pipe(
+      filter((user) => user.authenticationStatus === 'AUTHENTICATED'),
+      take(1),
       switchMap((userInfo) =>
         this.apiService.getUserDetailDto(userInfo.userId),
       ),

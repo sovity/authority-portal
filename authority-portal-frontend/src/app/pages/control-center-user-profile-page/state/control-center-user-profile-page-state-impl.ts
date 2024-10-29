@@ -13,7 +13,15 @@
 import {Inject, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {ignoreElements, switchMap, take, tap} from 'rxjs/operators';
+import {
+  filter,
+  ignoreElements,
+  retry,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
 import {UserDetailDto, UserRoleDto} from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
@@ -49,10 +57,11 @@ export class ControlCenterUserProfilePageStateImpl {
   @Action(Reset)
   onReset(ctx: Ctx, action: Reset): Observable<never> {
     return this.globalStateUtils.userInfo$.pipe(
-      take(6),
       switchMap((userInfo) =>
         this.apiService.getUserDetailDto(userInfo.userId),
       ),
+      filter((user) => !!user),
+      take(1),
       Fetched.wrap({failureMessage: 'Failed to fetch user details'}),
       tap((user) => {
         ctx.patchState({
@@ -67,6 +76,7 @@ export class ControlCenterUserProfilePageStateImpl {
             .orElse(null),
         });
       }),
+      takeUntil(action.componentLifetime$),
       ignoreElements(),
     );
   }

@@ -10,6 +10,7 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
+import {Observable} from 'rxjs';
 import {
   OnboardingOrganizationUpdateDto,
   OnboardingUserUpdateDto,
@@ -34,4 +35,5 @@ export class OnboardingProcessFormSubmit {
 
 export class Reset {
   static readonly type = `[${tag}] Reset`;
+  constructor(public componentLifetime$: Observable<any>) {}
 }
