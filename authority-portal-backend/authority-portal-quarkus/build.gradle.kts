@@ -66,6 +66,12 @@ dependencies {
     testImplementation(libs.bundles.mockito)
 }
 
+configurations.all {
+    resolutionStrategy {
+        force(libs.keycloak.adminClient)
+    }
+}
+
 quarkus {
     quarkusBuildProperties.set(mapOf(
         "quarkus.datasource.db-version" to libs.versions.postgresDbVersion.get()
