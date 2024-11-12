@@ -308,20 +308,28 @@ let currentlyLoggedInUser = buildUnauthenticatedUserInfo();
  */
 export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
   currentlyLoggedInUser = patchObj<UserInfo>(currentlyLoggedInUser, patcher);
+  localStorage.setItem(
+    'fakeUserId',
+    JSON.stringify(currentlyLoggedInUser.userId),
+  );
+};
+
+export const updateLoggedInUserById = (userId: string) => {
+  currentlyLoggedInUser = buildUserInfo(ALL_USERS[userId]);
+  localStorage.setItem('fakeUserId', JSON.stringify(userId));
 };
 
 export const fakeLogin = (userId?: string) => {
   if (userId && Object.keys(ALL_USERS).includes(userId)) {
-    currentlyLoggedInUser = buildUserInfo(ALL_USERS[userId]);
+    updateLoggedInUserById(userId);
   } else {
-    currentlyLoggedInUser = buildUserInfo(
-      ALL_USERS['00000000-0000-0000-0000-000000000001'],
-    );
+    updateLoggedInUserById('00000000-0000-0000-0000-000000000001');
   }
 };
 
 export const fakeLogout = () => {
   currentlyLoggedInUser = buildUnauthenticatedUserInfo();
+  localStorage.removeItem('fakeUserId');
 };
 
 /**
@@ -505,6 +513,7 @@ const patchUser = (userId: string, patcher: Patcher<UserDetailDto>) => {
 };
 
 function buildUserInfo(user: UserDetailDto): UserInfo {
+  console.log('user?' + user.userId);
   return {
     authenticationStatus: 'AUTHENTICATED',
     userId: user.userId,

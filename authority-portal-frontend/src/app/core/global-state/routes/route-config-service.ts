@@ -25,6 +25,10 @@ import {
   REJECTED_ROUTES,
   UNAUTHENTICATED_ROUTES,
 } from '../../../app-routing.module';
+import {
+  updateLoggedInUser,
+  updateLoggedInUserById,
+} from '../../api/fake-backend/impl/fake-users';
 import {ActiveFeatureSet} from '../../services/config/active-feature-set';
 import {AuthorityPortalPageSet} from './authority-portal-page-set';
 import {UrlBeforeLoginService} from './url-before-login.service';
@@ -48,7 +52,17 @@ export class RouteConfigService {
     private router: Router,
     private urlBeforeLoginService: UrlBeforeLoginService,
     private activeFeatureSet: ActiveFeatureSet,
-  ) {}
+  ) {
+    console.log('RouteConfigService created');
+    try {
+      let fakeUserId = localStorage.getItem('fakeUserId');
+      if (fakeUserId) {
+        updateLoggedInUserById(JSON.parse(fakeUserId));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   decidePageSet(userInfoFetched: Fetched<UserInfo>): AuthorityPortalPageSet {
     if (!userInfoFetched.isReady) {
