@@ -10,32 +10,11 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {
-  ChangeApplicationRoleRequest,
-  ChangeParticipantRoleRequest,
-  ClearApplicationRoleRequest,
-  IdResponse,
-  InviteParticipantUserRequest,
-  MemberInfo,
-  OnboardingUserUpdateDto,
-  PossibleCreatorSuccessor,
-  UpdateUserDto,
-  UserDeletionCheck,
-  UserDetailDto,
-  UserInfo,
-  UserRoleDto,
-} from '@sovity.de/authority-portal-client';
-import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
-import {
-  isApplicationRole,
-  isParticipantRole,
-} from '../../../utils/user-role-utils';
-import {
-  deleteOrganization,
-  getOrganizationDetails,
-  getParticipantAdmins,
-  updateOrganization,
-} from './fake-organizations';
+import { ChangeApplicationRoleRequest, ChangeParticipantRoleRequest, ClearApplicationRoleRequest, IdResponse, InviteParticipantUserRequest, MemberInfo, OnboardingUserUpdateDto, PossibleCreatorSuccessor, UpdateUserDto, UserDeletionCheck, UserDetailDto, UserInfo, UserRoleDto } from '@sovity.de/authority-portal-client';
+import { Patcher, patchObj } from 'src/app/core/utils/object-utils';
+import { isApplicationRole, isParticipantRole } from '../../../utils/user-role-utils';
+import { deleteOrganization, getOrganizationDetails, getParticipantAdmins, updateOrganization } from './fake-organizations';
+
 
 export const ALL_USERS: Record<string, UserDetailDto> = {
   '00000000-0000-0000-0000-000000000001': {
@@ -291,7 +270,16 @@ export const TEST_USERS: UserInfo[] = [
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000014']),
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-000000000006']),
   buildUserInfo(ALL_USERS['00000000-0000-0000-0000-00000011']),
-  buildUnauthenticatedUserInfo(),
+  {
+    authenticationStatus: 'UNAUTHENTICATED',
+    userId: 'unauthenticated',
+    roles: ['UNAUTHENTICATED'],
+    registrationStatus: undefined,
+    firstName: 'Unauthenticated',
+    lastName: 'User',
+    organizationName: 'No Organization',
+    organizationId: 'unauthenticated',
+  },
 ];
 
 /**
