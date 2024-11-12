@@ -255,7 +255,7 @@ MDS 2.2 intermediate release
 
 - All brokers can be undeployed including their databases.
 - Keycloak
-  - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
+  - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.5/upgrading/index.html) for more information.
 - Portal Backend
 
   - Following environment variables have been added and **must be configured** for each environment
