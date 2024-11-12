@@ -10,11 +10,32 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import { ChangeApplicationRoleRequest, ChangeParticipantRoleRequest, ClearApplicationRoleRequest, IdResponse, InviteParticipantUserRequest, MemberInfo, OnboardingUserUpdateDto, PossibleCreatorSuccessor, UpdateUserDto, UserDeletionCheck, UserDetailDto, UserInfo, UserRoleDto } from '@sovity.de/authority-portal-client';
-import { Patcher, patchObj } from 'src/app/core/utils/object-utils';
-import { isApplicationRole, isParticipantRole } from '../../../utils/user-role-utils';
-import { deleteOrganization, getOrganizationDetails, getParticipantAdmins, updateOrganization } from './fake-organizations';
-
+import {
+  ChangeApplicationRoleRequest,
+  ChangeParticipantRoleRequest,
+  ClearApplicationRoleRequest,
+  IdResponse,
+  InviteParticipantUserRequest,
+  MemberInfo,
+  OnboardingUserUpdateDto,
+  PossibleCreatorSuccessor,
+  UpdateUserDto,
+  UserDeletionCheck,
+  UserDetailDto,
+  UserInfo,
+  UserRoleDto,
+} from '@sovity.de/authority-portal-client';
+import {Patcher, patchObj} from 'src/app/core/utils/object-utils';
+import {
+  isApplicationRole,
+  isParticipantRole,
+} from '../../../utils/user-role-utils';
+import {
+  deleteOrganization,
+  getOrganizationDetails,
+  getParticipantAdmins,
+  updateOrganization,
+} from './fake-organizations';
 
 export const ALL_USERS: Record<string, UserDetailDto> = {
   '00000000-0000-0000-0000-000000000001': {
@@ -293,9 +314,7 @@ let currentlyLoggedInUser: UserInfo = buildUserInfo(
  * Update currently logged-in User for local dev UI
  */
 export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
-  console.log('updateLoggedInUser', JSON.stringify(patcher));
   currentlyLoggedInUser = patchObj<UserInfo>(currentlyLoggedInUser, patcher);
-  console.log('currentlyLoggedInUser', currentlyLoggedInUser);
 };
 
 /**
@@ -304,7 +323,6 @@ export const updateLoggedInUser = (patcher: Patcher<UserInfo>) => {
 export const getUserInfo = (): UserInfo => currentlyLoggedInUser;
 
 export const getUserOrThrow = (userId: string): UserDetailDto => {
-  console.log('userId', userId);
   const id = Object.keys(ALL_USERS).find((id) => id === userId);
   if (!id) throw new Error(`User not found ${userId}`);
 
@@ -489,19 +507,6 @@ function buildUserInfo(user: UserDetailDto): UserInfo {
     lastName: user.lastName,
     organizationName: user.organizationName,
     organizationId: user.organizationId,
-  };
-}
-
-function buildUnauthenticatedUserInfo(): UserInfo {
-  return {
-    authenticationStatus: 'UNAUTHENTICATED',
-    userId: 'unauthenticated',
-    roles: ['UNAUTHENTICATED'],
-    registrationStatus: undefined,
-    firstName: 'Unauthenticated',
-    lastName: 'User',
-    organizationName: 'No Organization',
-    organizationId: 'unauthenticated',
   };
 }
 
