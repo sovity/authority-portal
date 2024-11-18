@@ -120,8 +120,10 @@ export class RouteConfigService {
         .then(() => {
           if (this.urlBeforeLoginService.originalUrl != '') {
             this.urlBeforeLoginService.goToOriginalUrl();
+            localStorage.removeItem('originalUrl');
           } else {
             this.router.navigate([this.defaultRoute]);
+            localStorage.removeItem('originalUrl');
           }
         });
     } else {
