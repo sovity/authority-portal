@@ -279,8 +279,13 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   }
 
   private setTitle() {
+    let title;
     this.catalogType === 'my-data-offers'
       ? this.titleService.setTitle('My Data Offers')
-      : this.titleService.setTitle(this.catalogSpelling);
+      : this.titleService.setTitle(
+          `${this.activeFeatureSet.usesMdsId() ? 'MDS ' : ''}${
+            this.catalogSpelling
+          }`,
+        );
   }
 }
