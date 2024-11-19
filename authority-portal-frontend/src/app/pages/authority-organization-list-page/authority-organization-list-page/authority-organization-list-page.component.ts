@@ -21,6 +21,7 @@ import {
   OrganizationRegistrationStatusDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
+import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {SlideOverService} from 'src/app/core/services/slide-over.service';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
 import {getOrganizationRegistrationStatusClasses} from 'src/app/core/utils/ui-utils';
@@ -75,8 +76,11 @@ export class AuthorityOrganizationListPageComponent
     private slideOverService: SlideOverService,
     private globalStateUtils: GlobalStateUtils,
     private titleService: Title,
+    private activeFeatureSet: ActiveFeatureSet,
   ) {
-    this.titleService.setTitle('Participant Management');
+    this.activeFeatureSet.usesMdsId()
+      ? this.titleService.setTitle('MDS Organizations')
+      : this.titleService.setTitle('Participant Management');
   }
 
   ngOnInit() {

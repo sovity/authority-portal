@@ -22,6 +22,7 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {SlideOverService} from 'src/app/core/services/slide-over.service';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
 import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
@@ -69,8 +70,11 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private slideOverService: SlideOverService,
     private titleService: Title,
+    private activeFeatureSet: ActiveFeatureSet,
   ) {
-    this.titleService.setTitle('Provided Connectors');
+    this.activeFeatureSet.usesMdsId()
+      ? this.titleService.setTitle('MDS Provided Connectors')
+      : this.titleService.setTitle('Provided Connectors');
   }
 
   ngOnInit() {
