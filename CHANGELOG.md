@@ -20,6 +20,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed final step not showing when registering a central component ([#305](https://github.com/sovity/authority-portal/issues/305))
 - Fixed My Organization page not updated when switching between environments ([#255](https://github.com/sovity/authority-portal/issues/255))
 - Added live update when deactivating/reactivating users ([#287](https://github.com/sovity/authority-portal/issues/287))
+- Fixed security vulnerabilities
 
 ### Known issues
 
@@ -256,7 +257,7 @@ MDS 2.2 intermediate release
 
 - All brokers can be undeployed including their databases.
 - Keycloak
-  - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
+  - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.5/upgrading/index.html) for more information.
 - Portal Backend
 
   - Following environment variables have been added and **must be configured** for each environment
