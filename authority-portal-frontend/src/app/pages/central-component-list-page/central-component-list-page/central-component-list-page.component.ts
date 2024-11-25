@@ -12,6 +12,7 @@
  */
 import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
+import {Title} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -21,6 +22,7 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
 import {ConfirmationDialogComponent} from '../../../shared/common/confirmation-dialog/confirmation-dialog.component';
 import {ConfirmationDialog} from '../../../shared/common/confirmation-dialog/confirmation-dialog.model';
@@ -54,7 +56,13 @@ export class CentralComponentListPageComponent implements OnInit, OnDestroy {
     private globalStateUtils: GlobalStateUtils,
     private router: Router,
     private dialog: MatDialog,
-  ) {}
+    private titleService: Title,
+    private activeFeatureSet: ActiveFeatureSet,
+  ) {
+    this.activeFeatureSet.usesMdsId()
+      ? this.titleService.setTitle('MDS Central Components')
+      : this.titleService.setTitle('Central Components');
+  }
 
   ngOnInit() {
     this.refresh();
