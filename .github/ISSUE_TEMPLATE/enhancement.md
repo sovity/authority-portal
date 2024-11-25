@@ -24,4 +24,6 @@ _Add more on who asked for this, i.e. company, person, how much they pay us, wha
 ```[tasklist]
 - [ ] Fix the GitHub Projects Labels, Sprint and other Metadata
 - [ ] Refine a Solution Proposal / Work Breakdown
+- [ ] Add security related tasks and checks
+- [ ] Final solution design has been challenged for security related topics
 ```
