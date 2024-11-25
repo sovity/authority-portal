@@ -42,16 +42,16 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 ### Deployment Units
 
-| Deployment Unit           | Version / Details                                                                                 |
-|---------------------------|---------------------------------------------------------------------------------------------------|
-| Reverse Proxy / Ingress   | _Infrastructure dependent_                                                                        |
-| Keycloak Deployment       | Version 24.0.4 or compatible version                                                              |
-| OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                           |
-| Caddy behind OAuth2 Proxy | caddy:2.7                                                                                         |
-| Authority Portal Backend  | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
-| Authority Portal Frontend | authority-portal-frontend, see  [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions. |
-| Catalog Crawler           | authority-portal-crawler, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
-| Postgresql                | Version 16 or compatible version                                                                  |
+| Deployment Unit                       | Version / Details                                                                                 |
+|---------------------------------------|---------------------------------------------------------------------------------------------------|
+| Reverse Proxy / Ingress               | _Infrastructure dependent_                                                                        |
+| Keycloak Deployment                   | Version 24.0.4 or compatible version                                                              |
+| OAuth2 Proxy                          | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                           |
+| Caddy behind OAuth2 Proxy             | caddy:2.7                                                                                         |
+| Authority Portal Backend              | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
+| Authority Portal Frontend             | authority-portal-frontend, see  [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions. |
+| Catalog Crawler (one per environment) | authority-portal-crawler, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
+| Postgresql                            | Version 16 or compatible version                                                                  |
 
 ### Configuration
 
@@ -364,8 +364,42 @@ EDC_OAUTH_CERTIFICATE_ALIAS: 1
 EDC_OAUTH_PRIVATE_KEY_ALIAS: 1
 ```
 
-Additional available configuration options can be found
-in [.env.catalog-crawler](.env.catalog-crawler).
+You can also optionally override the following defaults:
+
+```yaml
+# Database Connection Pool Size
+CRAWLER_DB_CONNECTION_POOL_SIZE: 30
+
+# Database Connection Timeout (in ms)
+CRAWLER_DB_CONNECTION_TIMEOUT_IN_MS: 30000
+
+# CRON interval for crawling ONLINE connectors
+CRAWLER_CRON_ONLINE_CONNECTOR_REFRESH: */20 * * ? * *
+
+# CRON interval for crawling OFFLINE connectors
+CRAWLER_CRON_OFFLINE_CONNECTOR_REFRESH: 0 */5 * ? * *
+
+# CRON interval for crawling DEAD connectors
+CRAWLER_CRON_DEAD_CONNECTOR_REFRESH: 0 0 * ? * *
+
+# CRON interval for marking connectors as DEAD
+CRAWLER_SCHEDULED_KILL_OFFLINE_CONNECTORS: 0 0 2 ? * *
+
+# Delete data offers / mark as dead after connector has been offline for:
+CRAWLER_KILL_OFFLINE_CONNECTORS_AFTER: P5D
+
+# Hide data offers after connector has been offline for:
+CRAWLER_HIDE_OFFLINE_DATA_OFFERS_AFTER: P1D
+
+# Parallelization for Crawling
+CRAWLER_NUM_THREADS: 32
+
+# Maximum number of Data Offers per Connector
+CRAWLER_MAX_DATA_OFFERS_PER_CONNECTOR: 50
+
+# Maximum number of Contract Offers per Data Offer
+CRAWLER_MAX_CONTRACT_OFFERS_PER_DATA_OFFER: 10
+```
 
 ## Initial Setup
 
