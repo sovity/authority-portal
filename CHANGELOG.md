@@ -11,6 +11,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Major
 
+- The Catalog Crawler has been moved to the AP repository.
+
 #### Minor
 
 #### Patch
@@ -25,11 +27,15 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 ### Deployment Migration Notes
 
+- The Crawler image name and version changed due to the crawler being moved into the AP repository and versions being aligned
+  - Previously: `ghcr.io/sovity/catalog-crawler-ce`
+  - Now: `ghcr.io/sovity/authority-portal-crawler`
+
 #### Compatible Versions
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
+- Catalog Crawler CE: `ghcr.io/sovity/authority-portal-crawler:{{ version }}`
 - Sovity EDC CE: {{ CE Release Link }}
 
 ## [v4.1.2] - 2024-09-26

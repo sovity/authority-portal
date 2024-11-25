@@ -42,16 +42,16 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 ### Deployment Units
 
-| Deployment Unit           | Version / Details                                                                                        |
-|---------------------------|----------------------------------------------------------------------------------------------------------|
-| Reverse Proxy / Ingress   | _Infrastructure dependent_                                                                               |
-| Keycloak Deployment       | Version 24.0.4 or compatible version                                                                     |
-| OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                                  |
-| Caddy behind OAuth2 Proxy | caddy:2.7                                                                                                |
-| Authority Portal Backend  | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.          |
-| Authority Portal Frontend | authority-portal-frontend, see  [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.        |
-| Catalog Crawler           | ghcr.io/sovity/catalog-crawler-ce, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions. |
-| Postgresql                | Version 16 or compatible version                                                                         |
+| Deployment Unit                       | Version / Details                                                                                 |
+|---------------------------------------|---------------------------------------------------------------------------------------------------|
+| Reverse Proxy / Ingress               | _Infrastructure dependent_                                                                        |
+| Keycloak Deployment                   | Version 24.0.4 or compatible version                                                              |
+| OAuth2 Proxy                          | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                           |
+| Caddy behind OAuth2 Proxy             | caddy:2.7                                                                                         |
+| Authority Portal Backend              | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
+| Authority Portal Frontend             | authority-portal-frontend, see  [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions. |
+| Catalog Crawler (one per environment) | authority-portal-crawler, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
+| Postgresql                            | Version 16 or compatible version                                                                  |
 
 ### Configuration
 
@@ -324,7 +324,82 @@ AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "Authority Portal" # Portal name 
 - Each deployment environment requires a Data Catalog Crawler.
   - A Data Catalog Crawler is based on the EDC Connector and crawls the catalogs of all connectors in the dataspace.
   - You will need an SKI/AKI client ID to register the crawler. Please refer to the [EDC documentation](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq) on how to generate one.
-- See the [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v10.4.1/docs/deployment-guide/goals/catalog-crawler-production/README.md) 
+
+#### Reverse Proxy Configuration
+
+- The catalog crawler is meant to be served via TLS/HTTPS.
+- The catalog crawler is meant to be deployed with a reverse proxy terminating TLS / providing HTTPS.
+- All requests are meant to be redirected to the deployment's `11003` port.
+
+#### Catalog Crawler Configuration
+
+A productive configuration will require you to join a DAPS.
+
+For that you will need a SKI/AKI client ID. Please refer
+to [edc-extension's Getting Started Guide](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq)
+on how to generate one.
+
+The DAPS needs to contain the claim `referringConnector=broker` for the broker.
+Although it is discouraged to do so, the expected value `broker` could be overridden by specifying a different value for `MY_EDC_PARTICIPANT_ID`.
+
+```yaml
+# Required: Fully Qualified Domain Name
+MY_EDC_FQDN: "crawler.test.example.com"
+
+# Required: Authority Portal Environment ID
+CRAWLER_ENVIRONMENT_ID: test
+
+# Required: Authority Portal Postgresql DB Access
+CRAWLER_DB_JDBC_URL: jdbc:postgresql://authority-portal:5432/portal
+CRAWLER_DB_JDBC_USER: portal
+CRAWLER_DB_JDBC_PASSWORD: portal
+
+# Required: DAPS credentials
+EDC_OAUTH_TOKEN_URL: 'https://daps.test.mobility-dataspace.eu/token'
+EDC_OAUTH_PROVIDER_JWKS_URL: 'https://daps.test.mobility-dataspace.eu/jwks'
+EDC_OAUTH_CLIENT_ID: '_your SKI/AKI_'
+EDC_KEYSTORE: '_your keystore file_' # Needs to be available as file in the running container
+EDC_KEYSTORE_PASSWORD: '_your keystore password_'
+EDC_OAUTH_CERTIFICATE_ALIAS: 1
+EDC_OAUTH_PRIVATE_KEY_ALIAS: 1
+```
+
+You can also optionally override the following defaults:
+
+```yaml
+# Database Connection Pool Size
+CRAWLER_DB_CONNECTION_POOL_SIZE: 30
+
+# Database Connection Timeout (in ms)
+CRAWLER_DB_CONNECTION_TIMEOUT_IN_MS: 30000
+
+# CRON interval for crawling ONLINE connectors
+CRAWLER_CRON_ONLINE_CONNECTOR_REFRESH: */20 * * ? * *
+
+# CRON interval for crawling OFFLINE connectors
+CRAWLER_CRON_OFFLINE_CONNECTOR_REFRESH: 0 */5 * ? * *
+
+# CRON interval for crawling DEAD connectors
+CRAWLER_CRON_DEAD_CONNECTOR_REFRESH: 0 0 * ? * *
+
+# CRON interval for marking connectors as DEAD
+CRAWLER_SCHEDULED_KILL_OFFLINE_CONNECTORS: 0 0 2 ? * *
+
+# Delete data offers / mark as dead after connector has been offline for:
+CRAWLER_KILL_OFFLINE_CONNECTORS_AFTER: P5D
+
+# Hide data offers after connector has been offline for:
+CRAWLER_HIDE_OFFLINE_DATA_OFFERS_AFTER: P1D
+
+# Parallelization for Crawling
+CRAWLER_NUM_THREADS: 32
+
+# Maximum number of Data Offers per Connector
+CRAWLER_MAX_DATA_OFFERS_PER_CONNECTOR: 50
+
+# Maximum number of Contract Offers per Data Offer
+CRAWLER_MAX_CONTRACT_OFFERS_PER_DATA_OFFER: 10
+```
 
 ## Initial Setup
 
