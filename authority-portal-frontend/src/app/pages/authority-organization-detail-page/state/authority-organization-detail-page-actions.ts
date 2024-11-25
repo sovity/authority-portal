@@ -20,6 +20,7 @@ export class SetOrganizationId {
 
 export class RefreshOrganization {
   static readonly type = `[${tag}] Refresh Organization`;
+  constructor(public cb?: () => void) {}
 }
 
 export class ApproveOrganization {
