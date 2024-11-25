@@ -19,6 +19,7 @@ import {
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {PageEvent} from '@angular/material/paginator';
+import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject, distinctUntilChanged, of, switchMap, tap} from 'rxjs';
 import {finalize, map, take, takeUntil} from 'rxjs/operators';
@@ -66,6 +67,8 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   // only tracked to prevent the component from resetting
   expandedFilterId = '';
 
+  catalogType = this.route.snapshot.data.catalogType;
+
   catalogSpelling = this.activeFeatureSet.usesBritishCatalogue()
     ? 'Catalogue'
     : 'Catalog';
@@ -78,7 +81,10 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private globalStateUtils: GlobalStateUtils,
     private deploymentEnvironmentUrlSyncService: DeploymentEnvironmentUrlSyncService,
     private activeFeatureSet: ActiveFeatureSet,
-  ) {}
+    private titleService: Title,
+  ) {
+    this.setTitle();
+  }
 
   ngOnInit(): void {
     this.deploymentEnvironmentUrlSyncService.updateFromUrlOnce(
@@ -181,6 +187,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       .pipe(
         finalize(() => {
           this.changeUrlToCatalogRoot();
+          this.setTitle();
         }),
       )
       .subscribe();
@@ -269,5 +276,16 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       subtitle: `${this.catalogSpelling} of all public Data Offers`,
       headerActions: [],
     };
+  }
+
+  private setTitle() {
+    let title;
+    this.catalogType === 'my-data-offers'
+      ? this.titleService.setTitle('My Data Offers')
+      : this.titleService.setTitle(
+          `${this.activeFeatureSet.usesMdsId() ? 'MDS ' : ''}${
+            this.catalogSpelling
+          }`,
+        );
   }
 }

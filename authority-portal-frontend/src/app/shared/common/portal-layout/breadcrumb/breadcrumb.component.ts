@@ -24,22 +24,11 @@ import {BreadcrumbService} from './breadcrumb.service';
 export class BreadcrumbComponent implements OnDestroy {
   breadcrumb: BreadcrumbItem[] = [];
 
-  constructor(
-    private breadcrumbService: BreadcrumbService,
-    private titleService: Title,
-    private activeFeatureSet: ActiveFeatureSet,
-  ) {
+  constructor(private breadcrumbService: BreadcrumbService) {
     this.breadcrumbService.breadcrumb$
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((breadcrumb) => {
         this.breadcrumb = breadcrumb;
-        this.titleService.setTitle(
-          `${
-            this.activeFeatureSet.usesMdsId()
-              ? 'MDS ' + (breadcrumb[breadcrumb.length - 1].label || 'Portal')
-              : breadcrumb[breadcrumb.length - 1].label || 'Portal'
-          }`,
-        );
       });
   }
 

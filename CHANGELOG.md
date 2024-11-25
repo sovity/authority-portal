@@ -16,6 +16,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Patch
 
 - Added documentation for roles and rights ([#334](https://github.com/sovity/authority-portal/issues/334))
+- Fixed Website title not updating in some scenarios [#237](https://github.com/sovity/authority-portal/issues/237)
 
 ### Known issues
 
