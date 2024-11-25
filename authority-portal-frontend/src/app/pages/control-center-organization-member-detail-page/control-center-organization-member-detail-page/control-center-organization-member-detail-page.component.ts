@@ -11,9 +11,11 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {Reset} from '../state/control-center-organization-member-detail-page-action';
 import {
   ControlCenterOrganizationMemberDetailPageState,
@@ -32,7 +34,16 @@ export class ControlCenterOrganizationMemberDetailPageComponent
   state: ControlCenterOrganizationMemberDetailPageState =
     DEFAULT_CONTROL_CENTER_ORGANIZATION_MEMBER_DETAIL_PAGE_STATE;
 
-  constructor(private store: Store, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private store: Store,
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title,
+    private activeFeatureSet: ActiveFeatureSet,
+  ) {
+    this.activeFeatureSet.usesMdsId()
+      ? this.titleService.setTitle('MDS Member Details')
+      : this.titleService.setTitle('Member Details');
+  }
 
   ngOnInit(): void {
     this.startRefreshingOnRouteChanges();
