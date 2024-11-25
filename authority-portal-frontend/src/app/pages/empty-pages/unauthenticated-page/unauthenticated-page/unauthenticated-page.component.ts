@@ -10,16 +10,22 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Component, Inject} from '@angular/core';
-import {UrlBeforeLoginService} from 'src/app/core/global-state/routes/url-before-login.service';
-import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
+import { Component, Inject } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { APP_CONFIG, AppConfig } from 'src/app/core/services/config/app-config';
+
 
 @Component({
   selector: 'app-unauthenticated-page',
   templateUrl: './unauthenticated-page.component.html',
 })
 export class UnauthenticatedPageComponent {
-  constructor(@Inject(APP_CONFIG) public appConfig: AppConfig) {}
+  constructor(
+    @Inject(APP_CONFIG) public appConfig: AppConfig,
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('Unauthenticated');
+  }
 
   get loginUrl(): string {
     const url = new URL(this.appConfig.loginUrl);

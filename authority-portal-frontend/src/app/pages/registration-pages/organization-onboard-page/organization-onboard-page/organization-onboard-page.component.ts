@@ -13,6 +13,7 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material/stepper';
+import {Title} from '@angular/platform-browser';
 import {Subject, take, takeUntil} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
@@ -87,7 +88,10 @@ export class OrganizationOnboardPageComponent implements OnInit {
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private store: Store,
     private formBuilder: FormBuilder,
-  ) {}
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('Onboarding');
+  }
 
   ngOnInit(): void {
     this.store.dispatch(Reset);

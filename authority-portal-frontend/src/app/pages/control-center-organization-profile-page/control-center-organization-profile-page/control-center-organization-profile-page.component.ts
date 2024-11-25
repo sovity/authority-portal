@@ -11,8 +11,11 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {Reset} from '../state/control-center-organization-profile-page-action';
 import {
   ControlCenterOrganizationProfilePageState,
@@ -30,11 +33,21 @@ export class ControlCenterOrganizationProfilePageComponent
   state: ControlCenterOrganizationProfilePageState =
     DEFAULT_CONTROL_CENTER_ORGANIZATION_PROFILE_PAGE_STATE;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private globalStateUtils: GlobalStateUtils,
+    private titleService: Title,
+    private activeFeatureSet: ActiveFeatureSet,
+  ) {
+    this.activeFeatureSet.usesMdsId()
+      ? this.titleService.setTitle('MDS My Organization')
+      : this.titleService.setTitle('My Organization');
+  }
 
   ngOnInit(): void {
     this.refresh();
     this.startListeningToState();
+    this.startRefreshingOnEnvChange();
   }
 
   refresh(): void {
@@ -50,6 +63,15 @@ export class ControlCenterOrganizationProfilePageComponent
       .subscribe((state) => {
         this.state = state;
       });
+  }
+
+  startRefreshingOnEnvChange() {
+    this.globalStateUtils.onDeploymentEnvironmentChangeSkipFirst({
+      ngOnDestroy$: this.ngOnDestroy$,
+      onChanged: () => {
+        this.refresh();
+      },
+    });
   }
 
   ngOnDestroy$ = new Subject();
