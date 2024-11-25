@@ -63,8 +63,6 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       env:
-        GITHUB_USERNAME: ${{ secrets.GHCR_READONLY_USER }}
-        GITHUB_TOKEN: ${{ secrets.GHCR_READONLY_TOKEN }}
         GPR_USER: ${{ secrets.GHCR_READONLY_USER }}
         GPR_KEY: ${{ secrets.GHCR_READONLY_TOKEN }}
       with:
