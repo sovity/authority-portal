@@ -11,9 +11,11 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
+import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {Reset} from '../state/control-center-user-profile-page-action';
 import {
   ControlCenterUserProfilePageState,
@@ -34,7 +36,13 @@ export class ControlCenterUserProfilePageComponent
   constructor(
     private store: Store,
     private globalStateUtils: GlobalStateUtils,
-  ) {}
+    private titleService: Title,
+    private activeFeatureSet: ActiveFeatureSet,
+  ) {
+    this.activeFeatureSet.usesMdsId()
+      ? this.titleService.setTitle('MDS My Profile')
+      : this.titleService.setTitle('My Profile');
+  }
 
   ngOnInit(): void {
     this.refresh();
