@@ -65,5 +65,7 @@ jobs:
       env:
         GITHUB_USERNAME: ${{ secrets.GHCR_READONLY_USER }}
         GITHUB_TOKEN: ${{ secrets.GHCR_READONLY_TOKEN }}
+        GPR_USER: ${{ secrets.GHCR_READONLY_USER }}
+        GPR_KEY: ${{ secrets.GHCR_READONLY_TOKEN }}
       with:
         category: "/language:${{matrix.language}}"
