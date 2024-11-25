@@ -15,6 +15,7 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
+import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {Reset} from '../state/control-center-organization-member-detail-page-action';
 import {
   ControlCenterOrganizationMemberDetailPageState,
@@ -37,8 +38,11 @@ export class ControlCenterOrganizationMemberDetailPageComponent
     private store: Store,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
+    private activeFeatureSet: ActiveFeatureSet,
   ) {
-    this.titleService.setTitle('Member Details');
+    this.activeFeatureSet.usesMdsId()
+      ? this.titleService.setTitle('MDS Member Details')
+      : this.titleService.setTitle('Member Details');
   }
 
   ngOnInit(): void {
