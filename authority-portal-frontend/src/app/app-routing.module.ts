@@ -83,7 +83,6 @@ const REDIRECT_TO_HOME: string[] = [
 
 const getProperRedirectUrl = (fallbackUrl: string) => {
   const url = localStorage.getItem('originalUrl') || fallbackUrl;
-  localStorage.removeItem('originalUrl');
   return url;
 };
 
