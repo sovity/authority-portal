@@ -34,6 +34,7 @@ import {
 } from './global-state-actions';
 import {AuthorityPortalPageSet} from './routes/authority-portal-page-set';
 import {RouteConfigService} from './routes/route-config-service';
+import {UrlBeforeLoginService} from './routes/url-before-login.service';
 
 @State<GlobalState>({
   name: 'GlobalState',
@@ -46,6 +47,7 @@ export class GlobalStateImpl implements NgxsOnInit {
     private ngZone: NgZone,
     private apiService: ApiService,
     private routeConfigService: RouteConfigService,
+    private urlBeforeLoginService: UrlBeforeLoginService,
   ) {}
 
   ngxsOnInit(ctx: StateContext<any>): void {
@@ -122,6 +124,8 @@ export class GlobalStateImpl implements NgxsOnInit {
       // Update Roles
       let roles = new Set(userInfo.map((it) => it.roles).orElse([]));
       roles = isEqualSets(state.roles, roles) ? state.roles : roles;
+
+      this.urlBeforeLoginService.clearOriginalUrl();
 
       return {userInfo, pageSet, roles};
     });
