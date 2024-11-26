@@ -21,13 +21,14 @@ import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import java.util.Base64
+import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 @ApplicationScoped
 class UptimeKumaClient(
     val deploymentEnvironmentService: DeploymentEnvironmentService,
     val uptimeKumaClientResource: UptimeKumaClientResource,
-    @ConfigProperty(name = "authority-portal.kuma.api-key") val uptimeKumaApiKey: String,
+    @ConfigProperty(name = "authority-portal.kuma.api-key") val uptimeKumaApiKey: Optional<String>,
 ) {
 
     fun getStatusByEnvironments(): Map<String, ComponentStatusOverview> {
@@ -43,12 +44,18 @@ class UptimeKumaClient(
         envConfig: DeploymentEnvironment
     ): ComponentStatusOverview =
         ComponentStatusOverview().also {
-            it.daps = getComponentStatus(envConfig.daps().kumaName(), response)
-            it.catalogCrawler = getComponentStatus(envConfig.dataCatalog().kumaName(), response)
-            it.loggingHouse = getComponentStatus(
-                envConfig.loggingHouse().get().kumaName(),
+            it.daps = getComponentStatus(
+                envConfig.daps().kumaName().get(),
                 response
-            ).takeUnless { envConfig.loggingHouse().getOrNull()?.kumaName().isNullOrBlank() }
+            ).takeUnless { envConfig.daps().kumaName().getOrNull().isNullOrBlank() }
+            it.catalogCrawler = getComponentStatus(
+                envConfig.dataCatalog().kumaName().get(),
+                response
+            ).takeUnless { envConfig.dataCatalog().kumaName().getOrNull().isNullOrBlank() }
+            it.loggingHouse = getComponentStatus(
+                envConfig.loggingHouse().get().kumaName().get(),
+                response
+            ).takeUnless { envConfig.loggingHouse().getOrNull()?.kumaName()?.getOrNull().isNullOrBlank() }
         }
 
     private fun getComponentStatus(componentName: String, response: String): ComponentStatus {
