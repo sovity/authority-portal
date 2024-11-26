@@ -82,14 +82,22 @@ export class RouteConfigService {
     }
 
     // Change routes
-    const routes = this.mapping[nextPageSet];
+    const routes = [...this.mapping[nextPageSet]];
 
     if (nextPageSet === 'AUTHORITY_PORTAL') {
-      const apRouteChildren = routes.find((r) => r.path === '')?.children;
-      if (this.activeFeatureSet.isHomePageEnabled()) {
-        apRouteChildren?.push(...HOME_REDIRECTS, ...FEATURE_HOME_ROUTE);
-      } else {
-        apRouteChildren?.push(...CATALOG_REDIRECTS);
+      const rootRouteIndex = routes.findIndex((r) => r.path === '');
+
+      if (rootRouteIndex !== -1) {
+        const rootRoute = routes[rootRouteIndex];
+        const existingChildren = rootRoute.children || [];
+        const newChildren = this.activeFeatureSet.isHomePageEnabled()
+          ? [...existingChildren, ...HOME_REDIRECTS, ...FEATURE_HOME_ROUTE]
+          : [...existingChildren, ...CATALOG_REDIRECTS];
+
+        routes[rootRouteIndex] = {
+          ...rootRoute,
+          children: newChildren,
+        };
       }
     }
 

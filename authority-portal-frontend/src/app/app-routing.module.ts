@@ -74,17 +74,6 @@ export const LOADING_ROUTES: Routes = [
   },
 ];
 
-export const FEATURE_HOME_ROUTE: Routes = [
-  {
-    path: 'home',
-    component: HomePageComponent,
-    data: {
-      requiresRole: ['USER'] satisfies UserRoleDto[],
-    },
-    canActivate: [requiresRole],
-  },
-];
-
 const REDIRECT_TO_HOME: string[] = [
   '',
   'registration/pending',
@@ -109,6 +98,17 @@ export const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   redirectTo: (() => getProperRedirectUrl('home'))(),
   pathMatch: 'full',
 }));
+
+export const FEATURE_HOME_ROUTE: Routes = [
+  {
+    path: 'home',
+    component: HomePageComponent,
+    data: {
+      requiresRole: ['USER'] satisfies UserRoleDto[],
+    },
+    canActivate: [requiresRole],
+  },
+];
 
 export const AUTHORITY_PORTAL_ROUTES: Routes = [
   // participant own connector registration
