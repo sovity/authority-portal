@@ -51,6 +51,7 @@ export class RouteConfigService {
   ) {}
 
   decidePageSet(userInfoFetched: Fetched<UserInfo>): AuthorityPortalPageSet {
+    console.log('RouteConfigService: decidePageSet');
     if (!userInfoFetched.isReady) {
       return 'LOADING';
     }
@@ -77,6 +78,7 @@ export class RouteConfigService {
     previousPageSet: AuthorityPortalPageSet,
     nextPageSet: AuthorityPortalPageSet,
   ) {
+    console.log('RouteConfigService: switchRouteConfig');
     if (previousPageSet == nextPageSet) {
       return;
     }
@@ -117,6 +119,7 @@ export class RouteConfigService {
   }
 
   forceRefreshCurrentRoute() {
+    console.log('RouteConfigService: forceRefreshCurrentRoute');
     const currentUrl = this.router.url;
     this.router
       .navigateByUrl('/random-redirect-for-force-refresh', {

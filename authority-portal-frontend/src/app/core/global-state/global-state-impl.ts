@@ -111,6 +111,7 @@ export class GlobalStateImpl implements NgxsOnInit {
     newUserInfo: Fetched<UserInfo>,
   ) {
     patchState(ctx, (state) => {
+      console.log('global-state-impl.ts: onUserInfoRefreshed -> patchState');
       let userInfo = state.userInfo.mergeIfReady(newUserInfo);
 
       // Update Routes in when user status has changed
