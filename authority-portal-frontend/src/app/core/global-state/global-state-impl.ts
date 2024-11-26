@@ -111,7 +111,10 @@ export class GlobalStateImpl implements NgxsOnInit {
     newUserInfo: Fetched<UserInfo>,
   ) {
     patchState(ctx, (state) => {
-      console.log('global-state-impl.ts: onUserInfoRefreshed -> patchState');
+      console.log(
+        'global-state-impl.ts: onUserInfoRefreshed -> patchState',
+        newUserInfo,
+      );
       let userInfo = state.userInfo.mergeIfReady(newUserInfo);
 
       // Update Routes in when user status has changed
@@ -126,7 +129,9 @@ export class GlobalStateImpl implements NgxsOnInit {
       let roles = new Set(userInfo.map((it) => it.roles).orElse([]));
       roles = isEqualSets(state.roles, roles) ? state.roles : roles;
 
-      this.urlBeforeLoginService.clearOriginalUrl();
+      if (!roles.has('UNAUTHENTICATED')) {
+        this.urlBeforeLoginService.clearOriginalUrl();
+      }
 
       return {userInfo, pageSet, roles};
     });
