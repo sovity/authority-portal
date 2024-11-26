@@ -93,7 +93,6 @@ const REDIRECT_TO_HOME: string[] = [
 ];
 
 const getProperRedirectUrl = (fallbackUrl: string) => {
-  console.log('app-routing module: getProperRedirectUrl');
   const url = localStorage.getItem('originalUrl') || fallbackUrl;
   localStorage.removeItem('originalUrl');
   return url;

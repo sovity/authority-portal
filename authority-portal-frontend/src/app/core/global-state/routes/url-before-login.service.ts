@@ -29,13 +29,11 @@ export class UrlBeforeLoginService {
   }
 
   public clearOriginalUrl(): void {
-    console.log('UrlBeforeLoginService: clearOriginalUrl');
     this.originalUrl = '';
     localStorage.removeItem('originalUrl');
   }
 
   public goToOriginalUrl(): void {
-    console.log('UrlBeforeLoginService: goToOriginalUrl');
     if (this.originalUrl) {
       this.router.navigateByUrl(this.originalUrl);
       this.clearOriginalUrl();
