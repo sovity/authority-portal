@@ -110,6 +110,17 @@ export const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   pathMatch: 'full',
 }));
 
+export const FEATURE_DASHBOARD_ROUTE: Routes = [
+  {
+    path: 'dashboard',
+    component: DashboardPageComponent,
+    data: {
+      requiresRole: ['USER'] satisfies UserRoleDto[],
+    },
+    canActivate: [requiresRole],
+  },
+];
+
 export const AUTHORITY_PORTAL_ROUTES: Routes = [
   // participant own connector registration
   {
@@ -149,14 +160,6 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     path: '',
     component: PortalLayoutComponent,
     children: [
-      {
-        path: 'dashboard',
-        component: DashboardPageComponent,
-        data: {
-          requiresRole: ['USER'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
       {
         path: 'catalog',
         component: CatalogPageComponent,
