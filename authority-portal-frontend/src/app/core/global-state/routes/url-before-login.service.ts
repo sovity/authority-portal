@@ -28,14 +28,15 @@ export class UrlBeforeLoginService {
       });
   }
 
-  public reset(): void {
+  public clearOriginalUrl(): void {
     this.originalUrl = '';
+    localStorage.removeItem('originalUrl');
   }
 
   public goToOriginalUrl(): void {
     if (this.originalUrl) {
       this.router.navigateByUrl(this.originalUrl);
-      this.reset();
+      this.clearOriginalUrl();
     }
   }
 }

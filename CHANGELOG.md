@@ -26,6 +26,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Added live update when deactivating/reactivating users ([#287](https://github.com/sovity/authority-portal/issues/287))
 - Fixed Website title not updating in some scenarios [#237](https://github.com/sovity/authority-portal/issues/237)
 - Fixed security vulnerabilities
+- Fixed the user not being redirected to the correct URL after login ([#324](https://github.com/sovity/authority-portal/issues/324))
 
 ### Known issues
 
