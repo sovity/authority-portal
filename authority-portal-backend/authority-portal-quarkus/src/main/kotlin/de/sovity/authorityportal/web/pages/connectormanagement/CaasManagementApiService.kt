@@ -49,7 +49,7 @@ class CaasManagementApiService(
     @ConfigProperty(name = "quarkus.oidc-client.sovity.client-enabled") val isCaasClientEnabled: Boolean
 ) {
 
-    @Transactional
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     fun createCaas(
         organizationId: String,
         userId: String,

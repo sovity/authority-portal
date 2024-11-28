@@ -69,7 +69,7 @@ import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 
-@PermitAll // auth checks will be in code in this unit
+@PermitAll
 @ApplicationScoped
 class UiResourceImpl(
     val authUtils: AuthUtils,
