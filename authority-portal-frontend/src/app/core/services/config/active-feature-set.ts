@@ -30,6 +30,11 @@ export class ActiveFeatureSet {
     return this.has('enable-home');
   }
 
+  // This is configurable via environment variable, not via theme
+  isDashboardEnabled(): boolean {
+    return this.config.enableDashboard;
+  }
+
   has(feature: UiFeature): boolean {
     return this.config.features.has(feature);
   }
