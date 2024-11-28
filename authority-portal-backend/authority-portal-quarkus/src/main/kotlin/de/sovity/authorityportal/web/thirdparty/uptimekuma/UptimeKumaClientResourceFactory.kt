@@ -18,18 +18,23 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.inject.Produces
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import java.net.URI
+import java.util.Optional
 
 @ApplicationScoped
-class UptimeKumaClientResourceFactory {
-
+class UptimeKumaClientResourceFactory(
     @ConfigProperty(name = "authority-portal.kuma.metrics-url")
-    lateinit var uptimeKumaUrl: String
+    val uptimeKumaUrl: Optional<String>
+) {
 
     @Produces
     @ApplicationScoped
-    fun uptimeKumaRestClient(): UptimeKumaClientResource {
+    fun uptimeKumaRestClient(): UptimeKumaClientResource? {
+        if (uptimeKumaUrl.isEmpty) {
+            return null
+        }
+
         return QuarkusRestClientBuilder.newBuilder()
-            .baseUri(uptimeKumaUrl.let(URI::create))
+            .baseUri(URI.create(uptimeKumaUrl.get()))
             .build(UptimeKumaClientResource::class.java)!!
     }
 }

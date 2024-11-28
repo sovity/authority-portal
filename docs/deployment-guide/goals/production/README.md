@@ -28,7 +28,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
   - URL of the CaaS-Portal, referred to as `[CAAS_PORTAL_FQDN]` in this guide.
   - URL of the Keycloak for authorizing at the CaaS-Portal, referred to as `[CAAS_KC_FQDN]` in this guide.
   - Credentials for the CaaS-Portal, referred to as `[CAAS_CLIENT_ID]` and `[CAAS_CLIENT_SECRET]` in this guide.
-- A running instance of Uptime Kuma is required.
+- You can use Uptime Kuma for monitoring of components the Portal depends on
   - This should track the DAPS and Catalog Crawler status. If the Logging House is used, its status should be tracked as well
   - The statuses must be available via the API (`/metrics` endpoint)
     - The output per component should look like this:
@@ -37,6 +37,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
       ```
   - URL of the Uptime Kuma, referred to as `[UPTIME_KUMA_FQDN]` in this guide.
   - API key for the Uptime Kuma, referred to as `[UPTIME_KUMA_API_KEY]` in this guide.
+  - To configure the Portal to utilize Uptime Kuma, see optional configuration for the Portal Backend further down in this guide.
 
 ## Deployment
 
@@ -229,12 +230,6 @@ authority-portal.config.api-key: "[AP_CONFIG_API_KEY]"
 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
 authority-portal.invitation.expiration: "43200"
 
-# Uptime Kuma
-# Uptime Kuma URL (/metrics endpoint must be available)
-authority-portal.kuma.metrics-url: "https://[UPTIME_KUMA_FQDN]"
-# Uptime Kuma API key
-authority-portal.kuma.api-key: "[UPTIME_KUMA_API_KEY]"
-
 # Environment Configuration
 # - Each Authority Portal can be configured with multiple environments, e.g. test, staging, prod, etc. 
 # - Following is an example configuration of the "test" environment.
@@ -251,8 +246,6 @@ authority-portal.deployment.environments.test.position: "0"
 authority-portal.deployment.environments.test.data-catalog.hide-offline-data-offers-after: "15m"
 # Default page size for the Data Catalog
 authority-portal.deployment.environments.test.data-catalog.catalog-page-page-size: "10"
-# Kuma name for the catalog crawler
-authority-portal.deployment.environments.test.data-catalog.kuma-name: broker
 
 # Environment Connector-Dataspace association: Allows certain connectors to be associated as partnered data spaces
 # Required: Default Dataspace name
@@ -269,14 +262,10 @@ authority-portal.deployment.environments.test.daps.realm-name: "DAPS"
 authority-portal.deployment.environments.test.daps.client-id: "authority-portal"
 # Env: DAPS Admin Client Client Secret
 authority-portal.deployment.environments.test.daps.client-secret: "[DAPS_CLIENT_SECRET]"
-# Env: DAPS Kuma name
-authority-portal.deployment.environments.test.daps.kuma-name: "[DAPS_KUMA_NAME]"
 
 # Environment Logging House
 # Env: Logging House URL
 authority-portal.deployment.environments.test.logging-house.url: "https://[LOGGING_HOUSE_FQDN]"
-# Env: Logging House Kuma name
-authority-portal.deployment.environments.test.logging-house.kuma-name: "[LOGGING_HOUSE_KUMA_NAME]"
 ```
 
 Optional configuration variables
@@ -285,6 +274,15 @@ Optional configuration variables
 # The 'L' stands for 'Legal' and is added automatically after the prefix - the last 2 characters are the checksum
 authority-portal.organization.id.prefix: "BPN"
 authority-portal.organization.id.length: "10"
+
+# Uptime Kuma monitoring
+authority-portal.kuma.metrics-url: "https://[UPTIME_KUMA_FQDN]" # Uptime Kuma URL (/metrics endpoint must be available)
+authority-portal.kuma.api-key: "[UPTIME_KUMA_API_KEY]" # Uptime Kuma API key
+# Kuma names for the components
+# These examples are for the environment with id "test". Repeat and adjust for each environment
+authority-portal.deployment.environments.test.data-catalog.kuma-name: "[CATALOG_CRAWLER_KUMA_NAME]"
+authority-portal.deployment.environments.test.logging-house.kuma-name: "[LOGGING_HOUSE_KUMA_NAME]"
+authority-portal.deployment.environments.test.daps.kuma-name: "[DAPS_KUMA_NAME]"
 ```
 
 #### Adjusting the log level at runtime
@@ -316,6 +314,7 @@ AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.yourdataspace.com # Suppo
 AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: sovity-open-source # UI Branding profile (sovity-open-source or mds-open-source)
 AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: ExDS # Short Dataspace name, used in some explanatory texts
 AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "Authority Portal" # Portal name displayed in various texts
+AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD: true # Enables or disables the status uptime dashboard
 ```
 
 ### Data Catalog Crawlers

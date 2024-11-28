@@ -18,6 +18,7 @@ import {UiLogo} from './profiles/ui-logo';
 import {UiProfile} from './profiles/ui-profile';
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
+
 /**
  * App Config
  *
@@ -57,6 +58,7 @@ export interface AppConfig {
   useLocalBackend: boolean;
   brandDataspaceName: string;
   portalName: string;
+  enableDashboard: boolean;
 }
 
 /**
@@ -78,6 +80,7 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: string;
   AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: string;
   AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: string;
+  AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD: string;
 }
 
 /**
@@ -109,5 +112,7 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
     supportUrl: envVars.AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL,
     brandDataspaceName: envVars.AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME,
     portalName: envVars.AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME,
+    enableDashboard:
+      envVars.AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD === 'true',
   };
 }

@@ -96,6 +96,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             title: 'Dashboard',
             icon: 'dashboard',
             rLink: '/dashboard',
+            isDisabled: !this.activeFeatureSet.isDashboardEnabled(),
           },
         ],
       },

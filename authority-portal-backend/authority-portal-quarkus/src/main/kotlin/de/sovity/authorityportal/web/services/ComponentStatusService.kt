@@ -23,19 +23,26 @@ import de.sovity.authorityportal.web.utils.TimeUtils
 import io.quarkus.logging.Log
 import io.quarkus.scheduler.Scheduled
 import jakarta.enterprise.context.ApplicationScoped
+import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
 import java.time.OffsetDateTime
+import java.util.Optional
 
 @ApplicationScoped
 class ComponentStatusService(
     val dsl: DSLContext,
     val uptimeKumaClient: UptimeKumaClient,
-    val timeUtils: TimeUtils
+    val timeUtils: TimeUtils,
+    @ConfigProperty(name = "authority-portal.kuma.api-key") val uptimeKumaApiKey: Optional<String>
 ) {
 
     @Scheduled(every = "30s")
     fun fetchComponentStatuses() {
+        if (uptimeKumaApiKey.isEmpty) {
+            return
+        }
+
         val componentsStatusByEnvironment = uptimeKumaClient.getStatusByEnvironments()
 
         componentsStatusByEnvironment.forEach { (env, componentStatuses) ->

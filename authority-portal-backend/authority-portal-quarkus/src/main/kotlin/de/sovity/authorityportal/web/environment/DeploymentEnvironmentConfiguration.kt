@@ -33,14 +33,14 @@ interface DeploymentEnvironmentConfiguration {
             fun realmName(): String
             fun clientId(): String
             fun clientSecret(): String
-            fun kumaName(): String
+            fun kumaName(): Optional<String>
         }
 
         interface DataCatalogConfig {
             fun hideOfflineDataOffersAfter(): Duration
             fun catalogPagePageSize(): Int
             fun dataspaceNames(): DataspaceNames
-            fun kumaName(): String
+            fun kumaName(): Optional<String>
 
             interface DataspaceNames {
                 fun connectorIds(): Map<String, String>
@@ -50,7 +50,7 @@ interface DeploymentEnvironmentConfiguration {
 
         interface LoggingHouseConfig {
             fun url(): String
-            fun kumaName(): String
+            fun kumaName(): Optional<String>
         }
     }
 }
