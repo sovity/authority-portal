@@ -11,7 +11,7 @@
  *      sovity GmbH - initial implementation
  */
 import {Component, HostBinding, Inject} from '@angular/core';
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {DomSanitizer, SafeResourceUrl, Title} from '@angular/platform-browser';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 
 @Component({
@@ -31,7 +31,9 @@ export class HomePageComponent {
   constructor(
     @Inject(APP_CONFIG) public appConfig: AppConfig,
     private sanitizer: DomSanitizer,
+    private titleService: Title,
   ) {
+    this.titleService.setTitle('Home');
     if (this.appConfig.iframeUrl) {
       this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
         this.appConfig.iframeUrl,
