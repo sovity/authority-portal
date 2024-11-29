@@ -14,6 +14,7 @@
 package de.sovity.authorityportal.seeds.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import de.sovity.authorityportal.db.jooq.Tables
 import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
@@ -56,6 +57,22 @@ class ScenarioData {
     private val dataOfferViews = mutableListOf<DataOfferViewCountRecord>()
     private val contractOffers = mutableListOf<ContractOfferRecord>()
     private val crawlerEventLogEntries = mutableListOf<CrawlerEventLogRecord>()
+
+    companion object {
+        fun uninstall(dsl: DSLContext) {
+            dsl.deleteFrom(Tables.CRAWLER_EVENT_LOG).execute()
+            dsl.deleteFrom(Tables.CONTRACT_OFFER).execute()
+            dsl.deleteFrom(Tables.DATA_OFFER_VIEW_COUNT).execute()
+            dsl.deleteFrom(Tables.DATA_OFFER).execute()
+            dsl.deleteFrom(Tables.COMPONENT).execute()
+            dsl.deleteFrom(Tables.CONNECTOR).execute()
+            dsl.update(Tables.USER)
+                .set(Tables.USER.ORGANIZATION_ID, null as String?)
+                .execute()
+            dsl.deleteFrom(Tables.ORGANIZATION).execute()
+            dsl.deleteFrom(Tables.USER).execute()
+        }
+    }
 
     fun install(dsl: DSLContext) {
         val userOrgMap = users.associate { it.id to it.organizationId }

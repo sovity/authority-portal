@@ -35,12 +35,10 @@ import de.sovity.authorityportal.web.thirdparty.caas.CaasClient
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasDetails
 import de.sovity.authorityportal.web.thirdparty.caas.model.CaasPortalResponse
 import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
-import io.quarkus.security.identity.SecurityIdentity
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.security.TestSecurity
-import jakarta.enterprise.context.control.ActivateRequestContext
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
 import org.flywaydb.core.Flyway
@@ -55,7 +53,6 @@ import org.mockito.kotlin.whenever
 import java.time.OffsetDateTime
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -78,19 +75,15 @@ class CaasManagementApiServiceTest {
     @Inject
     lateinit var executorService: ExecutorService
 
-    @Inject
-    lateinit var flyway: Flyway
-
     @InjectMock
     lateinit var caasClient: CaasClient
 
     @AfterEach
     fun cleanup() {
-        flyway.clean()
+        ScenarioData.uninstall(dsl)
     }
 
     @Test
-    @TestTransaction
     fun `create caas creates connector with caas configuration`() {
         // arrange
         val now = OffsetDateTime.now()
@@ -164,7 +157,6 @@ class CaasManagementApiServiceTest {
     }
 
     @Test
-    @TestTransaction
     fun `check free caas slots returns the correct amount`() {
         // arrange
         useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_CURATOR))
