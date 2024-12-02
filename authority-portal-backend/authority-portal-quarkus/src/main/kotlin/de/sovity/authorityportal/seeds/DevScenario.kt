@@ -96,6 +96,8 @@ class DevScenario(
             val objectMapper = ObjectMapper()
 
             connector(1, 1, 1)
+            connector(2, 1, 1)
+            connector(3, 1, 1)
             dataOffer(1, 1, 1, assetApplier = {
                 it.assetId = dummyDevAssetId(1)
                 it.title = "Asset Title"
