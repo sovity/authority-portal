@@ -98,11 +98,6 @@ class RegistrationApiServiceTest {
         useMockNow(now)
 
         doNothing().whenever(keycloakService).sendInvitationEmail(any())
-        doNothing().whenever(keycloakService).createOrganization(any())
-        doNothing().whenever(keycloakService).joinOrganization(any(), any(), any())
-        whenever(keycloakService.createUser(
-            eq(request.userEmail), eq(request.userFirstName), eq(request.userLastName), eq(request.userPassword)
-        )).thenReturn(dummyDevUserUuid(1))
         whenever(keycloakService.createKeycloakUserAndOrganization(
             any(), eq(request.userEmail), eq(request.userFirstName), eq(request.userLastName), any(), eq(request.userPassword)
         )).thenReturn(dummyDevUserUuid(1))
