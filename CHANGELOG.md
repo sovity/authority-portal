@@ -22,9 +22,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed final step not showing when registering a central component ([#305](https://github.com/sovity/authority-portal/issues/305))
 - Fixed My Organization page not updated when switching between environments ([#255](https://github.com/sovity/authority-portal/issues/255))
 - Added live update when deactivating/reactivating users ([#287](https://github.com/sovity/authority-portal/issues/287))
-- Fixed Website title not updating in some scenarios [#237](https://github.com/sovity/authority-portal/issues/237)
+- Fixed Website title not updating in some scenarios ([#237](https://github.com/sovity/authority-portal/issues/237))
 - Fixed security vulnerabilities
 - Fixed the user not being redirected to the correct URL after login ([#324](https://github.com/sovity/authority-portal/issues/324))
+- Fixed an issue wherein it was possible to bypass the CaaS request limit in an organization ([PR #384](https://github.com/sovity/authority-portal/pull/384))
 
 ### Known issues
 

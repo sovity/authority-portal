@@ -61,6 +61,7 @@ dependencies {
         // https://github.com/quarkusio/quarkus/wiki/Migration-Guide-3.0#fixation-of-the-mockito-subclass-mockmaker
         exclude(group = libs.mockito.subclass.get().group, module = libs.mockito.subclass.get().name)
     }
+    testImplementation("io.quarkus:quarkus-test-security")
     testImplementation(libs.bundles.assertj)
     testImplementation(libs.awaitility)
     testImplementation(libs.bundles.mockito)
