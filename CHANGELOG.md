@@ -28,12 +28,14 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed security vulnerabilities
 - Fixed the user not being redirected to the correct URL after login ([#324](https://github.com/sovity/authority-portal/issues/324))
 - Fixed an issue wherein it was possible to bypass the CaaS request limit in an organization ([PR #384](https://github.com/sovity/authority-portal/pull/384))
+- Added sorting to the list of connectors
 
 ### Known issues
 
 ### Deployment Migration Notes
 
 - The Crawler image name and version changed due to the crawler being moved into the AP repository and versions being aligned
+
   - Previously: `ghcr.io/sovity/catalog-crawler-ce`
   - Now: `ghcr.io/sovity/authority-portal-crawler`
 
@@ -47,8 +49,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Portal Frontend
   - New mandatory variables:
     ```yaml
-      # Enables or disables the status uptime dashboard
-      AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD: true
+    # Enables or disables the status uptime dashboard
+    AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD: true
     ```
 
 #### Compatible Versions
