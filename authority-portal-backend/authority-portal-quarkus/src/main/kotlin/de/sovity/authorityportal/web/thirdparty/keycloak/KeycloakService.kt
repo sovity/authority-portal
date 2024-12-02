@@ -19,7 +19,6 @@ import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.RequiredAction
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import jakarta.ws.rs.WebApplicationException
 import jakarta.ws.rs.core.Response
 import org.eclipse.microprofile.config.inject.ConfigProperty
