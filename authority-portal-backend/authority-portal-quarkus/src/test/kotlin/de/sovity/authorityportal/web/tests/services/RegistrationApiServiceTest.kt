@@ -195,6 +195,5 @@ class RegistrationApiServiceTest {
             .isInstanceOf(WebApplicationException::class.java)
             .extracting { (it as WebApplicationException).response.status }
             .isEqualTo(409)
-
     }
 }

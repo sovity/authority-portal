@@ -39,9 +39,9 @@ fun notFound(message: String = ""): Nothing {
     )
 }
 
-fun conflict(message: String = ""): Nothing {
+fun resourceAlreadyExists(message: String = ""): Nothing {
     throw WebApplicationException(
-        "User already exists. $message",
+        "Resource already exists. $message",
         Response.status(Response.Status.CONFLICT)
             .header("WWW-Authenticate", "Bearer realm=\"authority-portal\"")
             .build()

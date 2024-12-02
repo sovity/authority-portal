@@ -26,6 +26,7 @@ import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import de.sovity.authorityportal.web.utils.TimeUtils
+import de.sovity.authorityportal.web.utils.resourceAlreadyExists
 import de.sovity.authorityportal.web.utils.idmanagement.OrganizationIdUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
@@ -41,7 +42,9 @@ class RegistrationApiService(
 ) {
 
     fun registerUserAndOrganization(registrationRequest: RegistrationRequestDto): IdResponse {
-        userService.assertUserDoesNotExistInDbOrThrow(registrationRequest.userEmail)
+        if (userService.userExistsInDb(registrationRequest.userEmail)) {
+            resourceAlreadyExists("User with email ${registrationRequest.userEmail} already exists.")
+        }
 
         val organizationId = organizationIdUtils.generateOrganizationId()
         val userId = keycloakService.createKeycloakUserAndOrganization(

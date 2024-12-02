@@ -20,7 +20,6 @@ import de.sovity.authorityportal.db.jooq.enums.UserRegistrationStatus
 import de.sovity.authorityportal.db.jooq.tables.records.UserRecord
 import de.sovity.authorityportal.web.model.CreateUserData
 import de.sovity.authorityportal.web.utils.TimeUtils
-import de.sovity.authorityportal.web.utils.conflict
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
@@ -66,16 +65,13 @@ class UserService(
             .fetchMap(u.ORGANIZATION_ID, DSL.count())
     }
 
-    fun assertUserDoesNotExistInDbOrThrow(email: String) {
+    fun userExistsInDb(email: String): Boolean {
         val u = Tables.USER
 
-        val user = dsl.selectFrom(u)
-            .where(u.EMAIL.eq(email))
-            .fetchOne()
-
-        if (user != null) {
-            conflict("User with this email already exists")
-        }
+        return dsl.fetchExists(
+            dsl.selectFrom(u)
+                .where(u.EMAIL.eq(email))
+        )
     }
 
     private fun getUser(userId: String): UserRecord? {

@@ -22,6 +22,7 @@ import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import de.sovity.authorityportal.web.utils.TimeUtils
+import de.sovity.authorityportal.web.utils.resourceAlreadyExists
 import de.sovity.authorityportal.web.utils.idmanagement.OrganizationIdUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
@@ -36,7 +37,9 @@ class OrganizationInvitationApiService(
 ) {
 
     fun inviteOrganization(invitationInformation: InviteOrganizationRequest, adminUserId: String): IdResponse {
-        userService.assertUserDoesNotExistInDbOrThrow(invitationInformation.userEmail)
+        if (userService.userExistsInDb(invitationInformation.userEmail)) {
+            resourceAlreadyExists("User with email ${invitationInformation.userEmail} already exists.")
+        }
 
         val organizationId = organizationIdUtils.generateOrganizationId()
         val userId = keycloakService.createKeycloakUserAndOrganization(
