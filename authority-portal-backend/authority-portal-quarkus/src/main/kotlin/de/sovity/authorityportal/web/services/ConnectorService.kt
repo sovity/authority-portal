@@ -123,7 +123,7 @@ class ConnectorService(
 
         return dsl.selectFrom(c)
             .where(c.ORGANIZATION_ID.eq(organizationId).and(c.ENVIRONMENT.eq(environmentId)))
-            .orderBy(c.CREATED_AT.asc())
+            .orderBy(c.CONNECTOR_ID.asc())
             .fetch()
     }
 
@@ -132,7 +132,7 @@ class ConnectorService(
 
         return dsl.selectFrom(c)
             .where(c.ORGANIZATION_ID.eq(organizationId))
-            .orderBy(c.CREATED_AT.asc())
+            .orderBy(c.CONNECTOR_ID.asc())
             .fetch()
     }
 
@@ -141,7 +141,7 @@ class ConnectorService(
 
         return dsl.selectFrom(c)
             .where(c.PROVIDER_ORGANIZATION_ID.eq(organizationId).and(c.ENVIRONMENT.eq(environmentId)))
-            .orderBy(c.CREATED_AT.asc())
+            .orderBy(c.CONNECTOR_ID.asc())
             .fetch()
     }
 
@@ -150,7 +150,7 @@ class ConnectorService(
 
         return dsl.selectFrom(c)
             .where(c.ENVIRONMENT.eq(environment))
-            .orderBy(c.CREATED_AT.asc())
+            .orderBy(c.CONNECTOR_ID.asc())
             .fetch()
     }
 
