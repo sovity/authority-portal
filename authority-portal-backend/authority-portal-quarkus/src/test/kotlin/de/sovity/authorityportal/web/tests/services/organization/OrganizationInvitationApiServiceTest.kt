@@ -102,6 +102,9 @@ class OrganizationInvitationApiServiceTest {
             eq("New"),
             eq("User"),
             isNull())).thenReturn(dummyDevUserUuid(1))
+        whenever(keycloakService.createKeycloakUserAndOrganization(
+            any(), eq("new.user@test.sovity.io"), eq("New"), eq("User"), any(), eq(null)
+        )).thenReturn(dummyDevUserUuid(1))
         doNothing().whenever(keycloakService).createOrganization(eq(dummyDevOrganizationId(1)))
         doNothing().whenever(keycloakService).joinOrganization(eq(dummyDevUserUuid(1)), eq(dummyDevOrganizationId(1)), any())
 

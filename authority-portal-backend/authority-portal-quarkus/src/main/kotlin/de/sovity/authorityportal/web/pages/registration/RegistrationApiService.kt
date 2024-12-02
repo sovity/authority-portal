@@ -41,8 +41,18 @@ class RegistrationApiService(
 ) {
 
     fun registerUserAndOrganization(registrationRequest: RegistrationRequestDto): IdResponse {
+        userService.assertUserDoesNotExistInDbOrThrow(registrationRequest.userEmail)
+
         val organizationId = organizationIdUtils.generateOrganizationId()
-        val userId = createKeycloakUserAndOrganization(organizationId, registrationRequest)
+        val userId = keycloakService.createKeycloakUserAndOrganization(
+            organizationId = organizationId,
+            userEmail = registrationRequest.userEmail,
+            userFirstName = registrationRequest.userFirstName,
+            userLastName = registrationRequest.userLastName,
+            userOrganizationRole = OrganizationRole.PARTICIPANT_ADMIN,
+            userPassword = registrationRequest.userPassword,
+        )
+
         createDbUserAndOrganization(userId, organizationId, registrationRequest)
         keycloakService.sendInvitationEmail(userId)
         firstUserService.setupFirstUserIfRequired(userId, organizationId)
@@ -50,19 +60,6 @@ class RegistrationApiService(
         Log.info("Register organization and User. organizationId=$organizationId, userId=$userId")
 
         return IdResponse(userId, timeUtils.now())
-    }
-
-    private fun createKeycloakUserAndOrganization(organizationId: String, registrationRequest: RegistrationRequestDto): String {
-        val userId = keycloakService.createUser(
-            email = registrationRequest.userEmail,
-            firstName = registrationRequest.userFirstName,
-            lastName = registrationRequest.userLastName,
-            password = registrationRequest.userPassword
-        )
-        keycloakService.createOrganization(organizationId)
-        keycloakService.joinOrganization(userId, organizationId, OrganizationRole.PARTICIPANT_ADMIN)
-
-        return userId
     }
 
     private fun createDbUserAndOrganization(

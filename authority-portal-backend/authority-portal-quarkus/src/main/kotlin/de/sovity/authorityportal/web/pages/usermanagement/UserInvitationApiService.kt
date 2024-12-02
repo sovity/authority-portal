@@ -35,6 +35,14 @@ class UserInvitationApiService(
         organizationId: String,
         adminUserId: String
     ): IdResponse {
+        userService.assertUserDoesNotExistInDbOrThrow(userInformation.email)
+
+        // DB is source of truth, so we delete an existing user in Keycloak
+        val maybeExistingUserId = keycloakService.getUserIdByEmail(userInformation.email)
+        if (maybeExistingUserId != null) {
+            keycloakService.deleteUser(maybeExistingUserId)
+        }
+
         val userId =
             keycloakService.createUser(userInformation.email, userInformation.firstName, userInformation.lastName)
         keycloakService.sendInvitationEmailWithPasswordReset(userId)
