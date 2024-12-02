@@ -15,6 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Uptime Kuma is no longer mandatory and the status dashboard can be disabled
+
 #### Patch
 
 - Added documentation for roles and rights ([#334](https://github.com/sovity/authority-portal/issues/334))
@@ -26,14 +28,30 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed security vulnerabilities
 - Fixed the user not being redirected to the correct URL after login ([#324](https://github.com/sovity/authority-portal/issues/324))
 - Fixed an issue wherein it was possible to bypass the CaaS request limit in an organization ([PR #384](https://github.com/sovity/authority-portal/pull/384))
+- Fixed an issue where entries in the connector overview would randomly switch places ([PR #386](https://github.com/sovity/authority-portal/pull/386))
 
 ### Known issues
 
 ### Deployment Migration Notes
 
 - The Crawler image name and version changed due to the crawler being moved into the AP repository and versions being aligned
+
   - Previously: `ghcr.io/sovity/catalog-crawler-ce`
   - Now: `ghcr.io/sovity/authority-portal-crawler`
+
+- Portal Backend
+  - Following variables are now optional and can be removed from the configuration if not used:
+    - `authority-portal.kuma.metrics-url`
+    - `authority-portal.kuma.api-key`
+    - `authority-portal.deployment.environments.test.data-catalog.kuma-name`
+    - `authority-portal.deployment.environments.test.daps.kuma-name`
+    - `authority-portal.deployment.environments.test.logging-house.kuma-name`
+- Portal Frontend
+  - New mandatory variables:
+    ```yaml
+    # Enables or disables the status uptime dashboard
+    AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD: true
+    ```
 
 #### Compatible Versions
 
