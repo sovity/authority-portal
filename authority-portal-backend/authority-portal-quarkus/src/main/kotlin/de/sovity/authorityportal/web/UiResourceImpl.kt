@@ -64,11 +64,12 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiServi
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
+import io.quarkus.arc.Lock
 import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 
-@PermitAll // auth checks will be in code in this unit
+@PermitAll
 @ApplicationScoped
 class UiResourceImpl(
     val authUtils: AuthUtils,
@@ -412,7 +413,7 @@ class UiResourceImpl(
         )
     }
 
-    @Transactional
+    @Lock
     override fun createCaas(environmentId: String, caasRequest: CreateCaasRequest): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()
