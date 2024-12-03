@@ -82,9 +82,9 @@ class KeycloakService(
         userPassword: String?
     ): String {
         // To avoid syncing issues, we assume our DB to be the source of truth, so we need to delete the potentially existing user in KC
-        val maybeExists = getUserIdByEmail(userEmail)
-        if (maybeExists != null) {
-            deleteUser(maybeExists)
+        val userIdIfExists = getUserIdByEmail(userEmail)
+        if (userIdIfExists != null) {
+            deleteUser(userIdIfExists)
         }
 
         val userId = createUser(
