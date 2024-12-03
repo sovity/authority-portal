@@ -28,6 +28,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed security vulnerabilities
 - Fixed the user not being redirected to the correct URL after login ([#324](https://github.com/sovity/authority-portal/issues/324))
 - Fixed an issue wherein it was possible to bypass the CaaS request limit in an organization ([PR #384](https://github.com/sovity/authority-portal/pull/384))
+- Fixed an issue wherein a user registration could fail due to a mismatch of the internal database and the Keycloak database
 - Fixed an issue where entries in the connector overview would randomly switch places ([PR #386](https://github.com/sovity/authority-portal/pull/386))
 
 ### Known issues

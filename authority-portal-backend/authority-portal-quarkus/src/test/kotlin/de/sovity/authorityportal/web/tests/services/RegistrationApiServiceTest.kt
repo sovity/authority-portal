@@ -33,7 +33,9 @@ import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
+import jakarta.ws.rs.WebApplicationException
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.jooq.DSLContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -41,6 +43,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.time.OffsetDateTime
 
@@ -95,10 +98,8 @@ class RegistrationApiServiceTest {
         useMockNow(now)
 
         doNothing().whenever(keycloakService).sendInvitationEmail(any())
-        doNothing().whenever(keycloakService).createOrganization(any())
-        doNothing().whenever(keycloakService).joinOrganization(any(), any(), any())
-        whenever(keycloakService.createUser(
-            eq(request.userEmail), eq(request.userFirstName), eq(request.userLastName), eq(request.userPassword)
+        whenever(keycloakService.createKeycloakUserAndOrganization(
+            any(), eq(request.userEmail), eq(request.userFirstName), eq(request.userLastName), any(), eq(request.userPassword)
         )).thenReturn(dummyDevUserUuid(1))
 
         ScenarioData().apply {
@@ -173,5 +174,26 @@ class RegistrationApiServiceTest {
             .withOffsetDateTimeComparator()
             .withStrictTypeChecking()
             .isEqualTo(expectedUser.copy())
+    }
+
+    @Test
+    @TestTransaction
+    fun `registration fails because user is already in db`() {
+        // arrange
+        useUnauthenticated()
+
+        ScenarioData().apply {
+            organization(0, 0)
+            user(0, 0) {
+                it.email = request.userEmail
+            }
+            scenarioInstaller.install(this)
+        }
+
+        // act & assert
+        assertThatThrownBy { uiResource.registerUser(request) }
+            .isInstanceOf(WebApplicationException::class.java)
+            .extracting { (it as WebApplicationException).response.status }
+            .isEqualTo(409)
     }
 }

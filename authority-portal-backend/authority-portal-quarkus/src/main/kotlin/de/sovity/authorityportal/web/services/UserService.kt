@@ -65,6 +65,15 @@ class UserService(
             .fetchMap(u.ORGANIZATION_ID, DSL.count())
     }
 
+    fun userExistsInDb(email: String): Boolean {
+        val u = Tables.USER
+
+        return dsl.fetchExists(
+            dsl.selectFrom(u)
+                .where(u.EMAIL.eq(email))
+        )
+    }
+
     private fun getUser(userId: String): UserRecord? {
         val u = Tables.USER
 
