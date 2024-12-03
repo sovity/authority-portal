@@ -15,9 +15,6 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
-- Added documentation for roles and rights ([#334](https://github.com/sovity/authority-portal/issues/334))
-- Fixed My Organization page not updated when switching between environments ([#255](https://github.com/sovity/authority-portal/issues/255))
-
 ### Known issues
 
 ### Deployment Migration Notes
@@ -26,8 +23,40 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:{{ CE VERSION }}`
+- Catalog Crawler CE: `ghcr.io/sovity/authority-portal-crawler:{{ version }}`
 - Sovity EDC CE: {{ CE Release Link }}
+
+## [v4.1.3] - 2024-12-03
+
+### Overview
+
+This release addresses several issues and adds minor improvements to the Portal.
+
+### Detailed Changes
+
+#### Patch
+
+- Fixed an issue wherein a user registration could fail due to a mismatch of the internal database and the Keycloak database ([PR #387](https://github.com/sovity/authority-portal/pull/387))
+- Fixed the user not being redirected to the correct URL after login ([#324](https://github.com/sovity/authority-portal/issues/324))
+- Fixed an issue wherein it was possible to bypass the CaaS request limit in an organization ([PR #384](https://github.com/sovity/authority-portal/pull/384))
+- Fixed an issue where entries in the connector overview would randomly switch places ([PR #386](https://github.com/sovity/authority-portal/pull/386))
+- Fixed an issue wherein buttons in a confirmation modal would randomly switch places under certain circumstances ([#304](https://github.com/sovity/authority-portal/issues/304))
+- Fixed final step not showing when registering a central component ([#305](https://github.com/sovity/authority-portal/issues/305))
+- Fixed "My Organization" page not updating when switching between environments ([#255](https://github.com/sovity/authority-portal/issues/255))
+- Fixed website title not updating in some scenarios ([#237](https://github.com/sovity/authority-portal/issues/237))
+- The page now updates when activating/deactivating a user ([#287](https://github.com/sovity/authority-portal/issues/287))
+- Added documentation for roles and rights ([#334](https://github.com/sovity/authority-portal/issues/334))
+
+### Deployment Migration Notes
+
+_No special migration steps required_
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:4.1.3`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:4.1.3`
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.4.2`
+- Sovity EDC CE: [`v10.4.1`](https://github.com/sovity/edc-ce/releases/tag/v10.4.2)
 
 ## [v4.1.2] - 2024-09-26
 
