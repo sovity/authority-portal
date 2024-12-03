@@ -23,6 +23,7 @@ import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import de.sovity.authorityportal.web.utils.TimeUtils
 import de.sovity.authorityportal.web.utils.idmanagement.OrganizationIdUtils
+import de.sovity.authorityportal.web.utils.resourceAlreadyExists
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 
@@ -36,29 +37,26 @@ class OrganizationInvitationApiService(
 ) {
 
     fun inviteOrganization(invitationInformation: InviteOrganizationRequest, adminUserId: String): IdResponse {
+        if (userService.userExistsInDb(invitationInformation.userEmail)) {
+            resourceAlreadyExists("User with email ${invitationInformation.userEmail} already exists.")
+        }
+
         val organizationId = organizationIdUtils.generateOrganizationId()
-        val userId = createKeycloakUserAndOrganization(organizationId, invitationInformation)
+        val userId = keycloakService.createKeycloakUserAndOrganization(
+            organizationId = organizationId,
+            userEmail = invitationInformation.userEmail,
+            userFirstName = invitationInformation.userFirstName,
+            userLastName = invitationInformation.userLastName,
+            userOrganizationRole = OrganizationRole.PARTICIPANT_ADMIN,
+            userPassword = null
+        )
+
         createDbUserAndOrganization(userId, organizationId, invitationInformation)
         keycloakService.sendInvitationEmailWithPasswordReset(userId)
 
         Log.info("Invited organization and corresponding initial Participant Admin. organizationId=$organizationId, userId=$userId, adminUserId=$adminUserId.")
 
         return IdResponse(organizationId, timeUtils.now())
-    }
-
-    private fun createKeycloakUserAndOrganization(
-        organizationId: String,
-        invitationInformation: InviteOrganizationRequest
-    ): String {
-        val userId = keycloakService.createUser(
-            invitationInformation.userEmail,
-            invitationInformation.userFirstName,
-            invitationInformation.userLastName
-        )
-        keycloakService.createOrganization(organizationId)
-        keycloakService.joinOrganization(userId, organizationId, OrganizationRole.PARTICIPANT_ADMIN)
-
-        return userId
     }
 
     private fun createDbUserAndOrganization(
