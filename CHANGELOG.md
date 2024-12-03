@@ -11,6 +11,31 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Major
 
+#### Minor
+
+#### Patch
+
+### Known issues
+
+### Deployment Migration Notes
+
+#### Compatible Versions
+
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
+- Catalog Crawler CE: `ghcr.io/sovity/authority-portal-crawler:{{ version }}`
+- Sovity EDC CE: {{ CE Release Link }}
+
+## [v5.0.0] - 2024-12-03
+
+### Overview
+
+This release moves the Catalog Crawler into the AP repository to streamline future releases and introduces several bugfixes and improvements.
+
+### Detailed Changes
+
+#### Major
+
 - The Catalog Crawler has been moved to the AP repository.
 
 #### Minor
@@ -19,24 +44,20 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
-- Added documentation for roles and rights ([#334](https://github.com/sovity/authority-portal/issues/334))
-- Fixed Confirm and Delete buttons' behavior in confirmation modals ([#304](https://github.com/sovity/authority-portal/issues/304))
-- Fixed final step not showing when registering a central component ([#305](https://github.com/sovity/authority-portal/issues/305))
-- Fixed My Organization page not updated when switching between environments ([#255](https://github.com/sovity/authority-portal/issues/255))
-- Added live update when deactivating/reactivating users ([#287](https://github.com/sovity/authority-portal/issues/287))
-- Fixed Website title not updating in some scenarios ([#237](https://github.com/sovity/authority-portal/issues/237))
-- Fixed security vulnerabilities
+- Fixed an issue wherein a user registration could fail due to a mismatch of the internal database and the Keycloak database ([PR #387](https://github.com/sovity/authority-portal/pull/387))
 - Fixed the user not being redirected to the correct URL after login ([#324](https://github.com/sovity/authority-portal/issues/324))
 - Fixed an issue wherein it was possible to bypass the CaaS request limit in an organization ([PR #384](https://github.com/sovity/authority-portal/pull/384))
-- Fixed an issue wherein a user registration could fail due to a mismatch of the internal database and the Keycloak database
 - Fixed an issue where entries in the connector overview would randomly switch places ([PR #386](https://github.com/sovity/authority-portal/pull/386))
-
-### Known issues
+- Fixed an issue wherein buttons in a confirmation modal would randomly switch places under certain circumstances ([#304](https://github.com/sovity/authority-portal/issues/304))
+- Fixed final step not showing when registering a central component ([#305](https://github.com/sovity/authority-portal/issues/305))
+- Fixed "My Organization" page not updating when switching between environments ([#255](https://github.com/sovity/authority-portal/issues/255))
+- Fixed website title not updating in some scenarios ([#237](https://github.com/sovity/authority-portal/issues/237))
+- The page now updates when activating/deactivating a user ([#287](https://github.com/sovity/authority-portal/issues/287))
+- Added documentation for roles and rights ([#334](https://github.com/sovity/authority-portal/issues/334))
 
 ### Deployment Migration Notes
 
 - The Crawler image name and version changed due to the crawler being moved into the AP repository and versions being aligned
-
   - Previously: `ghcr.io/sovity/catalog-crawler-ce`
   - Now: `ghcr.io/sovity/authority-portal-crawler`
 
@@ -56,10 +77,10 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Compatible Versions
 
-- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:{{ version }}`
-- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:{{ version }}`
-- Catalog Crawler CE: `ghcr.io/sovity/authority-portal-crawler:{{ version }}`
-- Sovity EDC CE: {{ CE Release Link }}
+- Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:5.0.0`
+- Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:5.0.0`
+- Catalog Crawler CE: `ghcr.io/sovity/authority-portal-crawler:5.0.0`
+- sovity EDC CE: [`v10.4.2`](https://github.com/sovity/edc-ce/releases/tag/v10.4.2)
 
 ## [v4.1.2] - 2024-09-26
 
