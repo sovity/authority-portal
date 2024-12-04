@@ -55,8 +55,8 @@ _No special migration steps required_
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:4.1.3`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:4.1.3`
-- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.4.2`
-- Sovity EDC CE: [`v10.4.1`](https://github.com/sovity/edc-ce/releases/tag/v10.4.2)
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.4.3`
+- Sovity EDC CE: [`v10.4.3`](https://github.com/sovity/edc-ce/releases/tag/v10.4.3)
 
 ## [v4.1.2] - 2024-09-26
 
