@@ -49,7 +49,7 @@ This release addresses several issues and adds minor improvements to the Portal.
 
 ### Deployment Migration Notes
 
-_No special migration steps required_
+- This version is not compatible with previous Catalog Crawler versions. Please ensure that you deploy a compatible Crawler version. Aside from the image version bump, there are no further migration steps required.
 
 #### Compatible Versions
 
@@ -282,7 +282,7 @@ MDS 2.2 intermediate release
 
 - All brokers can be undeployed including their databases.
 - Keycloak
-  - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.0/upgrading/) for more information.
+  - Keycloak IAM must be updated to version `24.0.4`. Follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/24.0.5/upgrading/) for more information.
 - Portal Backend
 
   - Following environment variables have been added and **must be configured** for each environment
