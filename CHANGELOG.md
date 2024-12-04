@@ -49,7 +49,7 @@ This release addresses several issues and adds minor improvements to the Portal.
 
 ### Deployment Migration Notes
 
-_No special migration steps required_
+- This version is not compatible with previous Catalog Crawler versions. Please ensure that you deploy a compatible Crawler version. Aside from the image version bump, there are no further migration steps required.
 
 #### Compatible Versions
 
