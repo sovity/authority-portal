@@ -26,7 +26,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Catalog Crawler CE: `ghcr.io/sovity/authority-portal-crawler:{{ version }}`
 - Sovity EDC CE: {{ CE Release Link }}
 
-## [v4.1.3] - 2024-12-03
+## [v4.1.3] - 2024-12-09
 
 ### Overview
 
@@ -46,17 +46,18 @@ This release addresses several issues and adds minor improvements to the Portal.
 - Fixed website title not updating in some scenarios ([#237](https://github.com/sovity/authority-portal/issues/237))
 - The page now updates when activating/deactivating a user ([#287](https://github.com/sovity/authority-portal/issues/287))
 - Added documentation for roles and rights ([#334](https://github.com/sovity/authority-portal/issues/334))
+- Fixed an issue wherein a service provider could not delete their account if they provided a connector to another participant
 
 ### Deployment Migration Notes
 
-_No special migration steps required_
+- Deploy a Catalog Crawler with version `10.4.4`. Previous versions are not compatible with this release.
 
 #### Compatible Versions
 
 - Authority Portal Backend Docker Image: `ghcr.io/sovity/authority-portal-backend:4.1.3`
 - Authority Portal Frontend Docker Image: `ghcr.io/sovity/authority-portal-frontend:4.1.3`
-- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.4.2`
-- Sovity EDC CE: [`v10.4.1`](https://github.com/sovity/edc-ce/releases/tag/v10.4.2)
+- Catalog Crawler CE: `ghcr.io/sovity/catalog-crawler-ce:10.4.4`
+- Sovity EDC CE: [`v10.4.4`](https://github.com/sovity/edc-ce/releases/tag/v10.4.4)
 
 ## [v4.1.2] - 2024-09-26
 
