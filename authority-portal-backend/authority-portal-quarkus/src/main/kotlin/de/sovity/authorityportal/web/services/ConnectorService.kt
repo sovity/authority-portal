@@ -106,6 +106,7 @@ class ConnectorService(
         val c = Tables.CONNECTOR
         dsl.update(c)
             .setNull(c.PROVIDER_ORGANIZATION_ID)
+            .setNull(c.CREATED_BY)
             .where(c.PROVIDER_ORGANIZATION_ID.eq(organizationId))
             .execute()
     }
