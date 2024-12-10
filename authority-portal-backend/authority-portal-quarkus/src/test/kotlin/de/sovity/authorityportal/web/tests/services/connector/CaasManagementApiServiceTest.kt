@@ -154,6 +154,7 @@ class CaasManagementApiServiceTest {
             .withOffsetDateTimeComparator()
             .withStrictTypeChecking()
             .isEqualTo(expected.copy())
+        assertThat(actual.connectorId).isEqualTo(actual.clientId)
     }
 
     @Test
