@@ -443,7 +443,7 @@ class ConnectorManagementApiServiceTest {
 
         result.connectors.forEachIndexed { i, connector ->
             assertThat(connector.id).isEqualTo(dummyDevConnectorId(0, i))
-            assertThat(connector.customerOrgName).isEqualTo(dummyDevOrganizationName(0))
+            assertThat(connector.organizationName).isEqualTo(dummyDevOrganizationName(0))
         }
     }
 

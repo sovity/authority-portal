@@ -20,7 +20,7 @@ data class ConnectorOverviewEntryDto(
     @field:Schema(description = "Connector ID", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
     @field:Schema(description = "Organization Name", requiredMode = Schema.RequiredMode.REQUIRED)
-    val customerOrgName: String,
+    val organizationName: String,
     @field:Schema(description = "Host Name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val hostName: String?,
     @field:Schema(description = "Type", requiredMode = Schema.RequiredMode.REQUIRED)
