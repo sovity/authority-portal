@@ -23,7 +23,12 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
-import de.sovity.authorityportal.seeds.utils.*
+import de.sovity.authorityportal.seeds.utils.ScenarioData
+import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
+import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationName
+import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.loadTestResource
 import de.sovity.authorityportal.web.tests.useDevUser
