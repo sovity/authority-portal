@@ -17,8 +17,8 @@ import {Subject, interval} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {
-  ConnectorOverviewEntryDto,
   ConnectorTypeDto,
+  ProvidedConnectorOverviewEntryDto,
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
@@ -187,7 +187,7 @@ export class SpConnectorListPageComponent implements OnInit, OnDestroy {
     this.slideOverService.slideOverReset();
   }
 
-  openDetailPage(connector: ConnectorOverviewEntryDto) {
+  openDetailPage(connector: ProvidedConnectorOverviewEntryDto) {
     this.slideOverConfig = {
       childComponentInput: {
         id: connector.id,

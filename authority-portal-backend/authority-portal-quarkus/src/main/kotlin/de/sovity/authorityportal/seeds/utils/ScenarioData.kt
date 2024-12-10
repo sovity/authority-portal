@@ -117,7 +117,7 @@ class ScenarioData {
     fun organization(orgId: Int, createdByUserId: Int, applyer: (OrganizationRecord) -> Unit = {}) {
         OrganizationRecord().also {
             it.id = dummyDevOrganizationId(orgId)
-            it.name = "Organization $orgId"
+            it.name = dummyDevOrganizationName(orgId)
             it.address = "Address"
             it.url = "https://url"
             it.createdBy = dummyDevUserUuid(createdByUserId)
