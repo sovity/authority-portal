@@ -26,8 +26,6 @@ class ClientIdUtils {
 
     fun generateFromConnectorId(connectorId: String): String {
         return connectorId
-            .replace(".", "-")
-            .lowercase(Locale.getDefault())
     }
 
     fun exists(clientId: String): Boolean {
