@@ -116,6 +116,7 @@ class ConnectorManagementApiService(
         val connectorDtos = connectors.map {
             ConnectorOverviewEntryDto(
                 id = it.connectorId,
+                customerOrgName = orgNames[it.organizationId] ?: "",
                 hostName = if (it.type == ConnectorType.CAAS) "sovity GmbH" else orgNames[it.providerOrganizationId] ?: "",
                 type = it.type.toDto(),
                 environment = deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),

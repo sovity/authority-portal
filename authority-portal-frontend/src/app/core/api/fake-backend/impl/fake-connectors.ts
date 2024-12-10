@@ -158,6 +158,7 @@ export const getListOfConnectorsForTable = (
     ).map((c) => {
       return {
         id: c.connectorId,
+        customerOrgName: c.organizationName,
         hostOrganizationName: c.hostOrganizationName,
         type: c.type,
         environment: c.environment,
@@ -195,6 +196,7 @@ export const getListOfOwnConnectorsForTable = (): ConnectorOverviewResult => {
     ).map((c) => {
       return {
         id: c.connectorId,
+        customerOrgName: c.organizationName,
         hostOrganizationName: c.hostOrganizationName,
         type: c.type,
         environment: c.environment,
@@ -220,6 +222,7 @@ export const getListOfAllConnectorsForTable = (): ConnectorOverviewResult => {
     connectors: TEST_CONNECTORS.map((c) => {
       return {
         id: c.connectorId,
+        customerOrgName: c.organizationName,
         hostOrganizationName: c.hostOrganizationName,
         type: c.type,
         environment: c.environment,

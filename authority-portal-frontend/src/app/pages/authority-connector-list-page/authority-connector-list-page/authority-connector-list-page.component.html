@@ -14,11 +14,19 @@
                   scope="col">
                   Connector ID
                 </th>
+
                 <th
                   class="py-3.5 text-sm font-normal text-gray-700 text-left"
                   scope="col">
                   Connector Name
                 </th>
+
+                <th
+                  class="py-3.5 text-sm font-normal text-gray-700 text-left"
+                  scope="col">
+                  Organization
+                </th>
+
                 <th
                   class="py-3.5 text-sm font-normal text-gray-700 text-left"
                   scope="col">
@@ -36,6 +44,7 @@
                   scope="col">
                   Environment
                 </th>
+
                 <th
                   class="py-3.5 text-sm font-normal text-gray-700 text-left"
                   scope="col">
@@ -68,6 +77,10 @@
                     <td
                       class="py-8 text-sm font-medium whitespace-nowrap text-gray-700">
                       {{ connector.name }}
+                    </td>
+                    <td
+                      class="py-8 text-sm font-medium whitespace-nowrap text-gray-700">
+                      {{ connector.customerOrgName }}
                     </td>
                     <td class="py-8 text-sm whitespace-nowrap text-gray-700">
                       {{ connector.hostName }}
