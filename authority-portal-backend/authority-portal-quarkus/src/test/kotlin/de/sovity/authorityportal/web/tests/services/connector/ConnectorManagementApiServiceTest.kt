@@ -23,11 +23,7 @@ import de.sovity.authorityportal.db.jooq.enums.ConnectorContractOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorDataOffersExceeded
 import de.sovity.authorityportal.db.jooq.enums.ConnectorOnlineStatus
 import de.sovity.authorityportal.db.jooq.enums.ConnectorType
-import de.sovity.authorityportal.seeds.utils.ScenarioData
-import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
-import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
-import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
-import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
+import de.sovity.authorityportal.seeds.utils.*
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.loadTestResource
 import de.sovity.authorityportal.web.tests.useDevUser
@@ -439,9 +435,11 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.connectors).hasSize(3)
         assertThat(result.connectors).noneMatch { it.id == dummyDevConnectorId(1, 3) }
         assertThat(result.connectors).noneMatch { it.environment.environmentId != "test" }
-        assertThat(result.connectors[0].id).isEqualTo(dummyDevConnectorId(0, 0))
-        assertThat(result.connectors[1].id).isEqualTo(dummyDevConnectorId(0, 1))
-        assertThat(result.connectors[2].id).isEqualTo(dummyDevConnectorId(0, 2))
+
+        result.connectors.forEachIndexed { i, connector ->
+            assertThat(connector.id).isEqualTo(dummyDevConnectorId(0, i))
+            assertThat(connector.customerOrgName).isEqualTo(dummyDevOrganizationName(0))
+        }
     }
 
     @Test

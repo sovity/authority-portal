@@ -22,6 +22,7 @@ import java.time.ZoneOffset
  */
 fun dummyDevUserUuid(i: Int): String = "00000000-0000-0000-0000-${i.toString().padStart(12, '0')}"
 fun dummyDevOrganizationId(i: Int): String = "MDSL${i.toString().padStart(6, '0')}"
+fun dummyDevOrganizationName(i: Int): String = "Organization $i"
 fun dummyDevConnectorId(orgId: Int, connectorId: Int) =
     "${dummyDevOrganizationId(orgId)}.${dummyDevConnectorIdComponent(connectorId)}"
 fun dummyDevConnectorIdComponent(i: Int): String = "CONN${i.toString().padStart(3, '0')}"
