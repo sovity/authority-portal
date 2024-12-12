@@ -141,10 +141,7 @@ class KeycloakService(
             }
 
             if (password != null && user.credentials != null) {
-                user.credentials.remove(
-                    user.credentials.firstOrNull { it.type == CredentialRepresentation.PASSWORD }
-                )
-                user.credentials.add(
+                keycloak.realm(keycloakRealm).users().get(userId).resetPassword(
                     CredentialRepresentation().also { credentials ->
                         credentials.isTemporary = false
                         credentials.type = CredentialRepresentation.PASSWORD
@@ -152,12 +149,7 @@ class KeycloakService(
                     }
                 )
             }
-
-            if (user.email != email || password != null) {
-                forceLogout(userId)
-            }
         }
-
         keycloak.realm(keycloakRealm).users().get(userId).update(user)
     }
 
