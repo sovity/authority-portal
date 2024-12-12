@@ -152,7 +152,10 @@ class KeycloakService(
                     }
                 )
             }
-            forceLogout(userId)
+
+            if (user.email != email || password != null) {
+                forceLogout(userId)
+            }
         }
 
         keycloak.realm(keycloakRealm).users().get(userId).update(user)
