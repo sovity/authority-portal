@@ -13,38 +13,55 @@
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {notBlankValidator} from 'src/app/core/utils/validators/not-blank-validator';
 import {phoneNumberValidator} from 'src/app/core/utils/validators/phone-number-validator';
+import {passwordEntropyValidator} from '../../../core/utils/validators/password-entropy-validator';
+import {passwordMatchValidator} from '../../../core/utils/validators/password-match-validator';
 import {UserEditFormModel, UserEditFormValue} from './user-edit-form-model';
 
 export const buildUserEditForm = (
   formBuilder: FormBuilder,
   initialUser: UserEditFormValue,
 ): FormGroup<UserEditFormModel> => {
-  return formBuilder.nonNullable.group({
-    firstName: [
-      initialUser.firstName,
-      [Validators.required, Validators.maxLength(128), notBlankValidator()],
-    ],
-    lastName: [
-      initialUser.lastName,
-      [Validators.required, Validators.maxLength(128), notBlankValidator()],
-    ],
-    email: [
-      initialUser.email,
-      [Validators.required, Validators.maxLength(128), Validators.email],
-    ],
-    jobTitle: [
-      initialUser.jobTitle,
-      [Validators.required, Validators.maxLength(128), notBlankValidator()],
-    ],
-    phoneNumber: [
-      initialUser.phoneNumber,
-      [
-        Validators.required,
-        phoneNumberValidator,
-        Validators.minLength(5),
-        Validators.maxLength(28),
-        notBlankValidator(),
+  return formBuilder.nonNullable.group(
+    {
+      firstName: [
+        initialUser.firstName,
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
       ],
-    ],
-  });
+      lastName: [
+        initialUser.lastName,
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
+      ],
+      email: [
+        initialUser.email,
+        [Validators.required, Validators.maxLength(128), Validators.email],
+      ],
+      jobTitle: [
+        initialUser.jobTitle,
+        [Validators.required, Validators.maxLength(128), notBlankValidator()],
+      ],
+      phoneNumber: [
+        initialUser.phoneNumber,
+        [
+          Validators.required,
+          phoneNumberValidator,
+          Validators.minLength(5),
+          Validators.maxLength(28),
+          notBlankValidator(),
+        ],
+      ],
+      password: [
+        '',
+        [
+          Validators.minLength(8),
+          Validators.maxLength(128),
+          passwordEntropyValidator,
+        ],
+      ],
+      confirmPassword: [
+        '',
+        [Validators.minLength(8), Validators.maxLength(128)],
+      ],
+    },
+    {validators: passwordMatchValidator('password', 'confirmPassword')},
+  );
 };

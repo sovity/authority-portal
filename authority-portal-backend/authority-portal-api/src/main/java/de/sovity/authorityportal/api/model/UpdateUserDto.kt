@@ -36,4 +36,7 @@ data class UpdateUserDto(
     @field:NotBlank(message = "User's email cannot be blank")
     @field:Schema(description = "User's email", requiredMode = Schema.RequiredMode.REQUIRED)
     val email: String,
+
+    @field:Schema(description = "User's new password")
+    val password: String?
 )

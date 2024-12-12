@@ -91,7 +91,7 @@ class UserUpdateApiServiceTest {
         useDevUser(0, 0)
         useMockNow(now)
 
-        doNothing().whenever(keycloakService).updateUser(any(), any(), any(), any())
+        doNothing().whenever(keycloakService).updateUser(any(), any(), any(), any(), any())
 
         ScenarioData().apply {
             organization(0, 0)
