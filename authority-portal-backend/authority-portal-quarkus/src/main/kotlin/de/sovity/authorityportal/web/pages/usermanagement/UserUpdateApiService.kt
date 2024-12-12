@@ -37,7 +37,7 @@ class UserUpdateApiService(
         user.jobTitle = updateUserDto.jobTitle.trim()
         user.email = updateUserDto.email.trim()
         user.update()
-        keycloakService.updateUser(userId, updateUserDto.firstName, updateUserDto.lastName, updateUserDto.email)
+        keycloakService.updateUser(userId, updateUserDto.firstName, updateUserDto.lastName, updateUserDto.email, updateUserDto.password)
         return IdResponse(userId, timeUtils.now())
     }
 
@@ -53,7 +53,8 @@ class UserUpdateApiService(
             userId = userId,
             firstName = onboardingUserUpdateDto.firstName,
             lastName = onboardingUserUpdateDto.lastName,
-            email = user.email
+            email = user.email,
+            password = null
         )
         return IdResponse(userId, timeUtils.now())
     }

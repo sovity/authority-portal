@@ -125,19 +125,32 @@ class KeycloakService(
         keycloak.realm(keycloakRealm).users().get(userId).update(user)
     }
 
-    fun updateUser(userId: String, firstName: String, lastName: String, email: String?) {
+    fun updateUser(userId: String, firstName: String, lastName: String, email: String?, password: String?) {
         val userResource = keycloak.realm(keycloakRealm).users().get(userId)
         val user = userResource.toRepresentation()
         user.firstName = firstName.trim()
         user.lastName = lastName.trim()
 
-        if (user != null && user.email != email) {
-            user.email = email?.trim()
-            user.isEmailVerified = false
-            user.requiredActions = listOf(
-                RequiredAction.VERIFY_EMAIL.stringRepresentation
-            )
-            forceLogout(user.id)
+        if (user != null) {
+            if (user.email != email) {
+                user.email = email?.trim()
+                user.isEmailVerified = false
+                user.requiredActions = listOf(
+                    RequiredAction.VERIFY_EMAIL.stringRepresentation
+                )
+            }
+
+            if (password != null) {
+                user.credentials.removeIf { t -> t.type == CredentialRepresentation.PASSWORD }
+                user.credentials.add(
+                    CredentialRepresentation().also { credentials ->
+                        credentials.isTemporary = false
+                        credentials.type = CredentialRepresentation.PASSWORD
+                        credentials.value = password
+                    }
+                )
+            }
+            forceLogout(userId)
         }
 
         keycloak.realm(keycloakRealm).users().get(userId).update(user)
