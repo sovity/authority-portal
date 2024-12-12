@@ -92,6 +92,15 @@ class DevScenario(
                 it.name = "Service Partner Organization"
             }
 
+            // Operator Admin
+            user(8, 5) {
+                it.firstName = "Operator"
+                it.lastName = "Admin"
+            }
+            organization(5, 8) {
+                it.name = "Operator Organization"
+            }
+
             // Catalog test data
             val objectMapper = ObjectMapper()
 

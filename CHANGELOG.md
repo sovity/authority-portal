@@ -32,6 +32,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed an issue wherein a user registration could fail due to a mismatch of the internal database and the Keycloak database
 - Fixed an issue where entries in the connector overview would randomly switch places ([PR #386](https://github.com/sovity/authority-portal/pull/386))
 - Changed Client ID generation for Connectors & Central Components ([#327](https://github.com/sovity/authority-portal/issues/327))
+- Fixed missing operator admin in backend dev scenario/realm ([PR #396](https://github.com/sovity/authority-portal/pull/396))
 
 ### Known issues
 
