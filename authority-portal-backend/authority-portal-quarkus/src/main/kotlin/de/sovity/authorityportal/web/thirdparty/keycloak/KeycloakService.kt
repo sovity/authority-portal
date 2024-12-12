@@ -140,8 +140,10 @@ class KeycloakService(
                 )
             }
 
-            if (password != null) {
-                user.credentials.removeIf { t -> t.type == CredentialRepresentation.PASSWORD }
+            if (password != null && user.credentials != null) {
+                user.credentials.remove(
+                    user.credentials.firstOrNull { it.type == CredentialRepresentation.PASSWORD }
+                )
                 user.credentials.add(
                     CredentialRepresentation().also { credentials ->
                         credentials.isTemporary = false

@@ -22,6 +22,8 @@ export function buildFormValue(
     email: user.email,
     jobTitle: user.position,
     phoneNumber: user.phone,
+    password: '',
+    confirmPassword: '',
   };
 }
 
@@ -34,5 +36,6 @@ export function buildEditRequest(
     email: formValue.email,
     jobTitle: formValue.jobTitle,
     phone: formValue.phoneNumber,
+    password: formValue.password,
   };
 }
