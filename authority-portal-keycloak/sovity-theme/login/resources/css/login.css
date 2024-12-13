@@ -57,6 +57,25 @@ a:hover {
   color: rgb(93 169 255) !important;
 }
 
+.cancel-button {
+  display: block;
+  background-color: white !important;
+  color: black;
+  text-transform: uppercase;
+  border-radius: 0.25rem;
+  line-height: 1;
+  height: 2.5em;
+  margin: 1rem auto 0;
+  padding: 0 5em 0 5em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.cancel-button:hover {
+  color: rgb(93 169 255) !important;
+}
+
 /* default - IE compatibility */
 .pf-c-button.pf-m-control {
   border: solid 1px;
@@ -338,10 +357,20 @@ div.form-group.login-pf-settings {
 .pf-c-button.pf-m-primary.pf-m-block.btn-lg {
   margin-top: 10px !important;
   margin-bottom: 10px !important;
-  max-width: 211px;
+  width: 200px;
   height: 40px;
   background-color: black;
   color: white;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.pf-c-button.cancel-button.pf-m-block.btn-lg {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  width: 200px;
+  height: 40px;
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
