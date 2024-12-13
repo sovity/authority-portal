@@ -158,6 +158,7 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.connectors).hasSize(2)
         assertThat(result.connectors).noneMatch { it.environment.environmentId != "test" }
         assertThat(result.connectors).noneMatch { it.id == dummyDevConnectorId(0, 2) }
+        assertThat(result.connectors).allMatch { it.frontendUrl == null }
 
         assertThat(result.connectors[0].id).isEqualTo(dummyDevConnectorId(0, 0))
         assertThat(result.connectors[1].id).isEqualTo(dummyDevConnectorId(0, 1))
@@ -191,6 +192,7 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.connectors).noneMatch { it.environment.environmentId != "other-environment" }
         assertThat(result.connectors).noneMatch { it.id == dummyDevConnectorId(0, 0) }
         assertThat(result.connectors).noneMatch { it.id == dummyDevConnectorId(0, 1) }
+        assertThat(result.connectors).allMatch { it.frontendUrl == null }
 
         assertThat(result.connectors[0].id).isEqualTo(dummyDevConnectorId(0, 2))
         assertThat(result.connectors[0].environment.environmentId).isEqualTo("other-environment")
