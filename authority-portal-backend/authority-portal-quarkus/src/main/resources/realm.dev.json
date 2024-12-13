@@ -940,6 +940,28 @@
       ]
     },
     {
+      "id": "00000000-0000-0000-0000-000000000008",
+      "createdTimestamp": 1692872833738,
+      "username": "example-operator-partner-admin",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "Operator",
+      "lastName": "Admin",
+      "email": "example@operator.admin",
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-authority-portal"
+      ],
+      "notBefore": 0,
+      "groups": [
+        "/MDSL2222BB/Participant User",
+        "/ROLE_OPERATOR_ADMIN"
+      ]
+    },
+    {
       "id": "9525c6ea-34d5-4c11-b9f8-133dc2086f00",
       "createdTimestamp": 1691679101665,
       "username": "jdoe",
