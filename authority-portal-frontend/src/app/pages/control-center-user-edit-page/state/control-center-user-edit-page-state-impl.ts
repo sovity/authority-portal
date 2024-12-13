@@ -10,8 +10,9 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
+import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ignoreElements, switchMap, take, tap} from 'rxjs/operators';
 import {Action, State, StateContext} from '@ngxs/store';
@@ -20,6 +21,7 @@ import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {CustomRxjsOperators} from 'src/app/core/services/custom-rxjs-operators';
 import {Fetched} from 'src/app/core/utils/fetched';
+import {APP_CONFIG, AppConfig} from '../../../core/services/config/app-config';
 import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
 import {ControlCenterUserEditPageForm} from '../control-center-user-edit-page/control-center-user-edit-page.form';
 import {
@@ -45,6 +47,8 @@ export class ControlCenterUserEditPageStateImpl {
     private formBuilder: FormBuilder,
     private customRxjsOperators: CustomRxjsOperators,
     private globalStateUtils: GlobalStateUtils,
+    private router: Router,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
   ) {}
 
   @Action(Reset)
@@ -89,7 +93,15 @@ export class ControlCenterUserEditPageStateImpl {
     return {
       title: `${user.firstName} ${user.lastName}`,
       subtitle: 'Edit Your Profile Information',
-      headerActions: [],
+      headerActions: [
+        {
+          label: 'Change Password',
+          action: () => {
+            window.location.href = this.appConfig.updatePasswordUrl;
+          },
+          permissions: ['USER'],
+        },
+      ],
     };
   }
   private rebuildForm(data: UserDetailDto): ControlCenterUserEditPageForm {
