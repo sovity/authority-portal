@@ -10,8 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {NgModule, Type} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {InjectionToken, NgModule, Type} from '@angular/core';
+import {ActivatedRouteSnapshot, RouterModule, Routes} from '@angular/router';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {requiresRole} from './core/services/auth/requires-role-guard';
 import {AuthorityConnectorListPageComponent} from './pages/authority-connector-list-page/authority-connector-list-page/authority-connector-list-page.component';
@@ -40,6 +40,8 @@ import {OrganizationPendingPageComponent} from './pages/registration-pages/organ
 import {OrganizationRejectedPageComponent} from './pages/registration-pages/organization-rejected-page/organization-rejected-page/organization-rejected-page.component';
 import {SpConnectorListPageComponent} from './pages/sp-connector-list-page/sp-connector-list-page/sp-connector-list-page.component';
 import {PortalLayoutComponent} from './shared/common/portal-layout/portal-layout/portal-layout.component';
+
+const EXTERNAL_URL_PROVIDER = new InjectionToken('externalRedirectProvider');
 
 export const UNAUTHENTICATED_ROUTES: Routes = [
   {
@@ -302,6 +304,11 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     ],
   },
   {
+    path: 'externalRedirect',
+    canActivate: [EXTERNAL_URL_PROVIDER],
+    component: PageNotFoundPageComponent,
+  },
+  {
     path: '**',
     component: PageNotFoundPageComponent,
   },
@@ -324,5 +331,14 @@ function singleComponent(path: string, component: Type<any>): Routes {
 @NgModule({
   imports: [RouterModule.forRoot(LOADING_ROUTES)],
   exports: [RouterModule],
+  providers: [
+    {
+      provide: EXTERNAL_URL_PROVIDER,
+      useValue: (route: ActivatedRouteSnapshot) => {
+        const externalUrl = route.paramMap.get('externalUrl');
+        window.open(externalUrl!!, '_self');
+      },
+    },
+  ],
 })
 export class AppRoutingModule {}

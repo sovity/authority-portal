@@ -17,6 +17,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 - Uptime Kuma is no longer mandatory and the status dashboard can be disabled
 - Added Owning Organization in Admin Connector Overview ([#355](https://github.com/sovity/authority-portal/issues/355))
+- Added a button to change the password in the user settings ([PR #397](https://github.com/sovity/authority-portal/pull/397))
 
 #### Patch
 
@@ -54,6 +55,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
     ```yaml
     # Enables or disables the status uptime dashboard
     AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD: true
+    # Direct URL to the UPDATE_PASSWORD required action in Keycloak
+    AUTHORITY_PORTAL_FRONTEND_UPDATE_PASSWORD_URL: https://[KC_FQDN]/realms/authority-portal/protocol/openid-connect/auth?response_type=code&client_id=oauth2-proxy&scope=openid&kc_action=UPDATE_PASSWORD&redirect_uri=[AP_FQDN_URL_ENCODED]%2Foauth2%2Fcallback
     ```
 
 #### Compatible Versions
