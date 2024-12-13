@@ -97,7 +97,15 @@ export class ControlCenterUserEditPageStateImpl {
         {
           label: 'Change Password',
           action: () => {
-            window.location.href = this.appConfig.updatePasswordUrl;
+            this.router.navigate(
+              [
+                '/externalRedirect',
+                {externalUrl: this.appConfig.updatePasswordUrl},
+              ],
+              {
+                skipLocationChange: true,
+              },
+            );
           },
           permissions: ['USER'],
         },
