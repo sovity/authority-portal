@@ -71,8 +71,8 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 ```yaml
   # Variables to set privacy policy and legal notice URLs on Keycloak pages
-  KEYCLOAK_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal
-  KEYCLOAK_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice
+  KEYCLOAK_PRIVACY_POLICY_URL: https://sovity.de/en/privacy-policy/
+  KEYCLOAK_LEGAL_NOTICE_URL: https://sovity.de/en/imprint/
 ```
 
 - Consider consulting Keycloak's [server administration guide](https://www.keycloak.org/docs/latest/server_admin/).
