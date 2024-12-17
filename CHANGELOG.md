@@ -19,6 +19,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Uptime Kuma is no longer mandatory and the status dashboard can be disabled
 - Added Owning Organization in Admin Connector Overview ([#355](https://github.com/sovity/authority-portal/issues/355))
 - Added a button to change the password in the user settings ([PR #397](https://github.com/sovity/authority-portal/pull/397))
+- Removed link to frontend URL in all-connectors-view for authority- and operator admins ([PR #398](https://github.com/sovity/authority-portal/pull/398))
 
 #### Patch
 
@@ -34,6 +35,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Fixed an issue wherein a user registration could fail due to a mismatch of the internal database and the Keycloak database
 - Fixed an issue where entries in the connector overview would randomly switch places ([PR #386](https://github.com/sovity/authority-portal/pull/386))
 - Changed Client ID generation for Connectors & Central Components ([#327](https://github.com/sovity/authority-portal/issues/327))
+- Fixed an issue wherein a user could not be deleted if their organization had provided connectors to another participant ([PR #400](https://github.com/sovity/authority-portal/pull/400))
 
 ### Known issues
 
