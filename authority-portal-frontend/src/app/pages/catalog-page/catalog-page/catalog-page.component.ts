@@ -193,7 +193,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       },
     });
     // BreadcrumbService builds the name from the URL which is nonsensical in case of asset IDs
-    document.title = 'Catalog - Data Offer';
+    this.titleService.setTitle('Catalog - Data Offer');
   }
 
   private changeUrlToCatalogRoot() {
