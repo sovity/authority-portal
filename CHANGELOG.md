@@ -12,6 +12,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 #### Major
 
 - The Catalog Crawler has been moved to the AP repository.
+- Removed MDS theme and MDS specific flags in the UI.
 
 #### Minor
 
