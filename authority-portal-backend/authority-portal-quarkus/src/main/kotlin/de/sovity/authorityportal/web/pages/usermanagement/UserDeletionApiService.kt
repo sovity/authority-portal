@@ -102,10 +102,11 @@ class UserDeletionApiService(
         userService.deleteInvitationReferencesToOrgMembers(orgMemberIds)
         userService.deleteOrganizationIds(orgMemberIds)
 
-        keycloakService.deleteOrganization(organizationId)
         organizationService.deleteOrganization(organizationId)
-        keycloakService.deleteUsers(orgMemberIds)
         userService.deleteUsers(orgMemberIds)
+
+        keycloakService.deleteUsers(orgMemberIds)
+        keycloakService.deleteOrganization(organizationId)
 
         Log.info(
             "Organization and related users, connectors and central components deleted. " +

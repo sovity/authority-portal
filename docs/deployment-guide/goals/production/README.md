@@ -315,6 +315,9 @@ AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: sovity-open-source # UI Branding profi
 AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: ExDS # Short Dataspace name, used in some explanatory texts
 AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "Authority Portal" # Portal name displayed in various texts
 AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD: true # Enables or disables the status uptime dashboard
+# Direct URL to the UPDATE_PASSWORD required action in Keycloak
+AUTHORITY_PORTAL_FRONTEND_UPDATE_PASSWORD_URL: https://[KC_FQDN]/realms/authority-portal/protocol/openid-connect/auth?response_type=code&client_id=oauth2-proxy&scope=openid&kc_action=UPDATE_PASSWORD&redirect_uri=https%3A%2F%2F[AP_FQDN]%2Foauth2%2Fcallback
+
 ```
 
 ### Data Catalog Crawlers
