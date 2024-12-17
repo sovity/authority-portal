@@ -8,7 +8,7 @@ sovityCatalogCrawlerGroup = "de.sovity.edc.catalog.crawler"
 sovityEdcExtensionGroup = "de.sovity.edc.ext"
 sovityEdcGroup = "de.sovity.edc"
 
-sovity-edcCe = "10.5.1"
+sovity-edcCe = "v0.0.1-20241101-2408-alpha8"
 edc = "0.2.1.4"
 quartz = "2.3.2"
 shadow = "7.1.2"
