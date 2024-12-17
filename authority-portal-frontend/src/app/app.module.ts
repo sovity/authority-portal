@@ -50,7 +50,6 @@ import {DashboardPageModule} from './pages/dashboard-page/dashboard.module';
 import {LoadingPageModule} from './pages/empty-pages/loading-page/loading-page.module';
 import {PageNotFoundPageModule} from './pages/empty-pages/page-not-found-page/page-not-found-page.module';
 import {UnauthenticatedPageModule} from './pages/empty-pages/unauthenticated-page/unauthenticated-page.module';
-import {MdsHomePageModule} from './pages/home/home.module';
 import {ParticipantOwnConnectorDetailPageModule} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page.module';
 import {ParticipantOwnConnectorListPageModule} from './pages/participant-own-connector-list-page/participant-own-connector-list-page.module';
 import {OrganizationCreatePageModule} from './pages/registration-pages/organization-create-page/organization-create-page.module';
@@ -107,7 +106,6 @@ import {SharedModule} from './shared/shared.module';
     ControlCenterUserProfilePageModule,
     DashboardPageModule,
     LoadingPageModule,
-    MdsHomePageModule,
     OrganizationCreatePageModule,
     OrganizationOnboardPageModule,
     OrganizationPendingPageModule,

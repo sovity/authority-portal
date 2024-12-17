@@ -31,7 +31,6 @@ import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dash
 import {LoadingPageComponent} from './pages/empty-pages/loading-page/loading-page/loading-page.component';
 import {PageNotFoundPageComponent} from './pages/empty-pages/page-not-found-page/page-not-found-page/page-not-found-page.component';
 import {UnauthenticatedPageComponent} from './pages/empty-pages/unauthenticated-page/unauthenticated-page/unauthenticated-page.component';
-import {HomePageComponent} from './pages/home/home/home.component';
 import {ParticipantOwnConnectorDetailPageComponent} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {ParticipantOwnConnectorListPageComponent} from './pages/participant-own-connector-list-page/participant-own-connector-list-page/participant-own-connector-list-page.component';
 import {OrganizationCreatePageComponent} from './pages/registration-pages/organization-create-page/organization-create-page/organization-create-page.component';
