@@ -12,7 +12,6 @@ assignees: ""
 
 Feel free to edit this release checklist in-progress depending on what tasks need to be done:
 
-- [ ] Check whether the flyway migrations in Authority Portal and sovity EDC-CE Catalog Crawler are identical. If not, you cannot proceed with the release or you need to make clear which EDC CE version is compatible and vice versa
 - [ ] Release [sovity EDC CE](https://github.com/sovity/edc-ce), this might require several steps, first of which is
   to [create a new `Release` issue](https://github.com/sovity/edc-ce/issues/new/choose)
 - [ ] Decide a release version depending on major/minor/patch changes in the CHANGELOG.md.
@@ -23,11 +22,6 @@ Feel free to edit this release checklist in-progress depending on what tasks nee
         - [ ] Add the version to the old section.
         - [ ] Add the current date to the old version.
         - [ ] Bump the EDC CE Version to a release version in the `libs.versions.toml`.
-        - [ ] Bump the links to the Catalog Crawler initial deployment guide to the fixed EDC CE Version
-        - [ ] Add all Catalog Crawler or Catalog relevant changelog entries from the newer EDC CE release(s), merge and
-          reword them.
-        - [ ] Add all Catalog Crawler or Catalog deployment migration notes from the newer EDC CE release(s), merge and
-          reword them.
         - [ ] Write or review the `Deployment Migration Notes` section.
         - [ ] Ensure the `Deployment Migration Notes` contains the compatible docker images.
         - [ ] Write or review a release summary.
