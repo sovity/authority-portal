@@ -59,6 +59,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
     # Direct URL to the UPDATE_PASSWORD required action in Keycloak
     AUTHORITY_PORTAL_FRONTEND_UPDATE_PASSWORD_URL: https://[KC_FQDN]/realms/authority-portal/protocol/openid-connect/auth?response_type=code&client_id=oauth2-proxy&scope=openid&kc_action=UPDATE_PASSWORD&redirect_uri=[AP_FQDN_URL_ENCODED]%2Foauth2%2Fcallback
     ```
+  - The MDS theme is no longer available, so configurations using `mds-open-source` will revert to the default sovity theme
 
 #### Compatible Versions
 
