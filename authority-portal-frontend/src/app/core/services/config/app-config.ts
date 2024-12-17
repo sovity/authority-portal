@@ -48,7 +48,6 @@ export interface AppConfig {
   privacyPolicyUrl: string;
   legalNoticeUrl: string;
   supportUrl: string;
-  iframeUrl: string;
 
   backendUrl: string;
   loginUrl: string;
@@ -75,7 +74,6 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_USE_FAKE_BACKEND: string;
   AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND: string;
   AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: string;
-  AUTHORITY_PORTAL_FRONTEND_IFRAME_URL?: string;
   AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: string;
   AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: string;
   AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: string;
@@ -108,8 +106,6 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
       envVars.AUTHORITY_PORTAL_FRONTEND_USE_FAKE_BACKEND === 'true',
     useLocalBackend:
       envVars.AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND === 'true',
-
-    iframeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_IFRAME_URL ?? '',
     privacyPolicyUrl: envVars.AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL,
     legalNoticeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL,
     supportUrl: envVars.AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL,
