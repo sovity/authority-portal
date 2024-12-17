@@ -71,8 +71,8 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 ```yaml
   # Variables to set privacy policy and legal notice URLs on Keycloak pages
-  KEYCLOAK_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal
-  KEYCLOAK_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice
+  KEYCLOAK_PRIVACY_POLICY_URL: https://sovity.de/en/privacy-policy/
+  KEYCLOAK_LEGAL_NOTICE_URL: https://sovity.de/en/imprint/
 ```
 
 - Consider consulting Keycloak's [server administration guide](https://www.keycloak.org/docs/latest/server_admin/).
@@ -307,11 +307,10 @@ AUTHORITY_PORTAL_FRONTEND_LOGIN_URL: https://[AP_FQDN]/oauth2/start?rd=https%3A%
 # Example: https://[AP_FQDN]/oauth2/sign_out?rd=https%3A%2F%2F[KC_FQDN]%2Frealms%2F[KC_REALM]l%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F[AP_FQDN]
 AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: (...) # Auth Proxy: Logout URL
 AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: https://[AP_FQDN]/oauth2/sign_out # Auth Proxy: URL to invalidate sessions cookies
-AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://news.yourdataspace.com # iFrame URL for the "Home" page if it's used
 AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://yourdataspace.com/legal-notice # Legal Notice URL
 AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://yourdataspace.com/privacy-policy # Privacy policy URL
 AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.yourdataspace.com # Support page URL
-AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: sovity-open-source # UI Branding profile (sovity-open-source or mds-open-source)
+AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: sovity-open-source # UI Branding profile (sovity-open-source)
 AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: ExDS # Short Dataspace name, used in some explanatory texts
 AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "Authority Portal" # Portal name displayed in various texts
 AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD: true # Enables or disables the status uptime dashboard
@@ -357,8 +356,8 @@ CRAWLER_DB_JDBC_USER: portal
 CRAWLER_DB_JDBC_PASSWORD: portal
 
 # Required: DAPS credentials
-EDC_OAUTH_TOKEN_URL: 'https://daps.test.mobility-dataspace.eu/token'
-EDC_OAUTH_PROVIDER_JWKS_URL: 'https://daps.test.mobility-dataspace.eu/jwks'
+EDC_OAUTH_TOKEN_URL: 'https://daps.yourdataspace.com/token'
+EDC_OAUTH_PROVIDER_JWKS_URL: 'https://daps.yourdataspace.com/jwks'
 EDC_OAUTH_CLIENT_ID: '_your SKI/AKI_'
 EDC_KEYSTORE: '_your keystore file_' # Needs to be available as file in the running container
 EDC_KEYSTORE_PASSWORD: '_your keystore password_'

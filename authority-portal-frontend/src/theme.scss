@@ -1,6 +1,5 @@
 @use '@angular/material' as mat;
 @use 'theme-sovity' as sovityColors;
-@use 'theme-mds' as mdsColors;
 @use 'theme-generated-variables' as themeGeneratedVars;
 
 // Import theme and theme-dependent styles
@@ -23,25 +22,4 @@
   --color-sidebar-section: #{sovityColors.$color-sidebar-section};
 
   --color-background: #{sovityColors.$color-background};
-}
-
-.theme-mds {
-  @include mat.all-component-themes(mdsColors.$app-theme);
-  @include themeGeneratedVars.theme-vars(
-      mdsColors.$app-theme,
-  );
-
-  --color-brand-400: #{mdsColors.$color-brand-400};
-  --color-brand-500: #{mdsColors.$color-brand-500};
-  --color-brand-primary: #{mdsColors.$color-brand-primary};
-  --color-brand-black: #{mdsColors.$color-brand-black};
-  --color-brand-highlight: #{mdsColors.$color-brand-highlight};
-
-  --color-sidebar-bg: #{mdsColors.$color-sidebar-bg};
-  --color-sidebar-selected: #{mdsColors.$color-sidebar-selected};
-  --color-sidebar-text: #{mdsColors.$color-sidebar-text};
-  --color-sidebar-text-selected: #{mdsColors.$color-sidebar-text-selected};
-  --color-sidebar-section: #{mdsColors.$color-sidebar-section};
-
-  --color-background: #{mdsColors.$color-background};
 }

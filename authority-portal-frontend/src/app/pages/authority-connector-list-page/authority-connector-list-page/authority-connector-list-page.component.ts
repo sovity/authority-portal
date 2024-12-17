@@ -17,7 +17,6 @@ import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {ConnectorOverviewEntryDto} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {SlideOverService} from 'src/app/core/services/slide-over.service';
 import {sliderOverNavigation} from 'src/app/core/utils/helper';
 import {getConnectorsTypeClasses} from 'src/app/core/utils/ui-utils';
@@ -63,11 +62,8 @@ export class AuthorityConnectorListPageComponent implements OnInit, OnDestroy {
     private globalStateUtils: GlobalStateUtils,
     private slideOverService: SlideOverService,
     private titleService: Title,
-    private activeFeatureSet: ActiveFeatureSet,
   ) {
-    this.activeFeatureSet.usesMdsId()
-      ? this.titleService.setTitle('MDS Connectors')
-      : this.titleService.setTitle('All Connectors');
+    this.titleService.setTitle('All Connectors');
   }
 
   ngOnInit() {

@@ -22,7 +22,6 @@ import {
   UserRoleDto,
 } from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
 import {ConfirmationDialogComponent} from '../../../shared/common/confirmation-dialog/confirmation-dialog.component';
 import {ConfirmationDialog} from '../../../shared/common/confirmation-dialog/confirmation-dialog.model';
@@ -57,11 +56,8 @@ export class CentralComponentListPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: MatDialog,
     private titleService: Title,
-    private activeFeatureSet: ActiveFeatureSet,
   ) {
-    this.activeFeatureSet.usesMdsId()
-      ? this.titleService.setTitle('MDS Central Components')
-      : this.titleService.setTitle('Central Components');
+    this.titleService.setTitle('Central Components');
   }
 
   ngOnInit() {
@@ -88,13 +84,6 @@ export class CentralComponentListPageComponent implements OnInit, OnDestroy {
         },
       ],
     };
-  }
-
-  openUrl(url: string | undefined) {
-    if (!url) {
-      return;
-    }
-    window.open(url, '_blank');
   }
 
   showDeleteModal(centralComponent: CentralComponentDto) {

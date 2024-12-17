@@ -10,9 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {MDS_FEATURES} from './feature-sets/mds-features';
 import {inferUiProfileType} from './infer-ui-profile-type';
-import {MDS_THEME, SOVITY_THEME} from './ui-theme-data';
+import {SOVITY_THEME} from './ui-theme-data';
 
 /**
  * List of available profiles.
@@ -23,9 +22,5 @@ export const UI_PROFILE_DATA = inferUiProfileType({
   'sovity-open-source': {
     ...SOVITY_THEME,
     features: new Set(),
-  },
-  'mds-open-source': {
-    ...MDS_THEME,
-    features: new Set([...MDS_FEATURES]),
   },
 });

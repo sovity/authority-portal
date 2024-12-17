@@ -31,7 +31,6 @@ import {
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {LocalStoredValue} from 'src/app/core/utils/local-stored-value';
 import {DeploymentEnvironmentUrlSyncService} from '../../../core/global-state/deployment-environment-url-sync.service';
-import {ActiveFeatureSet} from '../../../core/services/config/active-feature-set';
 import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
 import {AssetDetailDialogService} from '../asset-detail-dialog/asset-detail-dialog.service';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
@@ -69,10 +68,6 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
 
   catalogType = this.route.snapshot.data.catalogType;
 
-  catalogSpelling = this.activeFeatureSet.usesBritishCatalogue()
-    ? 'Catalogue'
-    : 'Catalog';
-
   constructor(
     private assetDetailDialogService: AssetDetailDialogService,
     private store: Store,
@@ -80,7 +75,6 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private globalStateUtils: GlobalStateUtils,
     private deploymentEnvironmentUrlSyncService: DeploymentEnvironmentUrlSyncService,
-    private activeFeatureSet: ActiveFeatureSet,
     private titleService: Title,
   ) {
     this.setTitle();
@@ -198,10 +192,8 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
         environmentId: this.route.snapshot.queryParams.environmentId,
       },
     });
-    // BreadcrumbService builds the name from the URL which is nonsensical in casse of asset IDs
-    document.title = `${this.activeFeatureSet.usesMdsId() ? 'MDS ' : ''}${
-      this.catalogSpelling
-    } - Data Offer`;
+    // BreadcrumbService builds the name from the URL which is nonsensical in case of asset IDs
+    this.titleService.setTitle('Catalog - Data Offer');
   }
 
   private changeUrlToCatalogRoot() {
@@ -266,26 +258,21 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     if (isMyDataOffers) {
       return {
         title: 'My Data Offers',
-        subtitle: `${this.catalogSpelling} of your public Data Offers`,
+        subtitle: `Catalog of your public Data Offers`,
         headerActions: [],
       };
     }
 
     return {
-      title: this.catalogSpelling,
-      subtitle: `${this.catalogSpelling} of all public Data Offers`,
+      title: 'Catalog',
+      subtitle: `Catalog of all public Data Offers`,
       headerActions: [],
     };
   }
 
   private setTitle() {
-    let title;
     this.catalogType === 'my-data-offers'
       ? this.titleService.setTitle('My Data Offers')
-      : this.titleService.setTitle(
-          `${this.activeFeatureSet.usesMdsId() ? 'MDS ' : ''}${
-            this.catalogSpelling
-          }`,
-        );
+      : this.titleService.setTitle('Catalog');
   }
 }
