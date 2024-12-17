@@ -356,8 +356,8 @@ CRAWLER_DB_JDBC_USER: portal
 CRAWLER_DB_JDBC_PASSWORD: portal
 
 # Required: DAPS credentials
-EDC_OAUTH_TOKEN_URL: 'https://daps.test.mobility-dataspace.eu/token'
-EDC_OAUTH_PROVIDER_JWKS_URL: 'https://daps.test.mobility-dataspace.eu/jwks'
+EDC_OAUTH_TOKEN_URL: 'https://daps.yourdataspace.com/token'
+EDC_OAUTH_PROVIDER_JWKS_URL: 'https://daps.yourdataspace.com/jwks'
 EDC_OAUTH_CLIENT_ID: '_your SKI/AKI_'
 EDC_KEYSTORE: '_your keystore file_' # Needs to be available as file in the running container
 EDC_KEYSTORE_PASSWORD: '_your keystore password_'
