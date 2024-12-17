@@ -86,9 +86,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             isDisabled: !this.activeFeatureSet.isHomePageEnabled(),
           },
           {
-            title: this.activeFeatureSet.usesBritishCatalogue()
-              ? 'Data Catalogue'
-              : 'Data Catalog',
+            title: 'Data Catalog',
             icon: 'tag',
             rLink: '/catalog',
           },
@@ -169,9 +167,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         userRoles: ['USER'],
         menus: [
           {
-            title: this.activeFeatureSet.usesMdsId()
-              ? 'MDS Support'
-              : 'Support',
+            title: 'Support',
             icon: 'question-mark-circle',
             rLink: this.appConfig.supportUrl,
             isExternalLink: true,

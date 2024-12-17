@@ -22,10 +22,6 @@ export class ActiveFeatureSet {
     return this.has('mds-id');
   }
 
-  usesBritishCatalogue(): boolean {
-    return this.has('catalogue');
-  }
-
   isHomePageEnabled(): boolean {
     return this.has('enable-home');
   }

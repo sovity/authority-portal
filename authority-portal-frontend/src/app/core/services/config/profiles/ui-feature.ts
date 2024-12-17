@@ -21,9 +21,6 @@ export type UiFeature =
   // Show an iFrame on the homepage. The URL needs to be configured in the theme. Requires 'enable-home'
   | 'iframe-in-home'
 
-  // Replaces 'Catalog' with 'Catalogue'
-  | 'catalogue'
-
   // Enables the 'Powered by sovity' footer to be used in instances hosted by sovity
   | 'powered-by-sovity'
 

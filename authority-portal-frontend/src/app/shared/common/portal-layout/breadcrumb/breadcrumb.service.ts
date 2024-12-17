@@ -52,16 +52,6 @@ export class BreadcrumbService {
       .split('/')
       .filter((segment) => segment !== '' && segment !== 'control-center');
 
-    if (segments.length === 1 && segments[0] === 'mds-home') {
-      segments = [];
-    }
-
-    if (this.activeFeatureSet.usesBritishCatalogue()) {
-      segments = segments.map((segment) =>
-        segment === 'catalog' ? 'catalogue' : segment,
-      );
-    }
-
     return [
       {label: 'Home', link: '', isLinkable: true},
       ...segments.map((segment) => ({

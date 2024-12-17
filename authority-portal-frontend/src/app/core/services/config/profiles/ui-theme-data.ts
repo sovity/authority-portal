@@ -34,25 +34,3 @@ export const SOVITY_THEME: UiThemeConfig = {
   caasResellerBrandLogoSrc: 'assets/images/sovity_caas_logo.svg',
   copyrightCompanyName: 'sovity GmbH',
 };
-
-export const MDS_THEME: UiThemeConfig = {
-  theme: 'theme-mds',
-  brandFaviconSrc: 'assets/images/logo_light.svg',
-  brandLogo: {src: 'assets/images/mds_logo_yellow.svg', class: 'scale-100'},
-  brandLogoSmall: {
-    src: '/assets/images/mds_logo_no_text.svg',
-    class: 'scale-[0.7]',
-  },
-  brandLogoUnauthenticatedPage: {
-    src: 'assets/images/mds_logo_black.svg',
-    class: 'scale-150 mb-14',
-  },
-  brandLogoOnboardingPage: {
-    src: '/assets/images/mds_logo_black.svg',
-    class: '',
-  },
-  connectorSelfOwnedIconSrc: 'assets/images/mds_self-hosted-connector_logo.svg',
-  connectorCaasIconSrc: 'assets/images/mds_request-caas_logo.svg',
-  caasResellerBrandLogoSrc: 'assets/images/mds_caas_logo.svg',
-  copyrightCompanyName: 'DRM Datenraum Mobilität GmbH',
-};
