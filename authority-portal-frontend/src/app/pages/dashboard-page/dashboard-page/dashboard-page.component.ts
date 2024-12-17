@@ -20,7 +20,6 @@ import {
 } from '@sovity.de/authority-portal-client';
 import {ApiService} from 'src/app/core/api/api.service';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {APP_CONFIG, AppConfig} from 'src/app/core/services/config/app-config';
 import {Fetched} from 'src/app/core/utils/fetched';
 import {HeaderBarConfig} from 'src/app/shared/common/header-bar/header-bar.model';
@@ -46,11 +45,8 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     private globalStateUtils: GlobalStateUtils,
     private apiService: ApiService,
     private titleService: Title,
-    private activeFeatureSet: ActiveFeatureSet,
   ) {
-    this.activeFeatureSet.usesMdsId()
-      ? this.titleService.setTitle('MDS Dashboard')
-      : this.titleService.setTitle('Dashboard');
+    this.titleService.setTitle('Dashboard');
   }
 
   ngOnInit(): void {

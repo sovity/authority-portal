@@ -18,8 +18,6 @@ import {
   AUTHORITY_PORTAL_ROUTES,
   CATALOG_REDIRECTS,
   FEATURE_DASHBOARD_ROUTE,
-  FEATURE_HOME_ROUTE,
-  HOME_REDIRECTS,
   LOADING_ROUTES,
   ONBOARDING_ROUTES,
   PENDING_ROUTES,
@@ -41,9 +39,7 @@ export class RouteConfigService {
     AUTHORITY_PORTAL: AUTHORITY_PORTAL_ROUTES,
   };
 
-  defaultRoute = this.activeFeatureSet.isHomePageEnabled()
-    ? '/home'
-    : '/catalog';
+  readonly defaultRoute = '/catalog';
 
   constructor(
     private router: Router,
@@ -93,9 +89,7 @@ export class RouteConfigService {
         const existingChildren = rootRoute.children || [];
 
         // Add home route depending on feature set
-        const newChildren = this.activeFeatureSet.isHomePageEnabled()
-          ? [...existingChildren, ...HOME_REDIRECTS, ...FEATURE_HOME_ROUTE]
-          : [...existingChildren, ...CATALOG_REDIRECTS];
+        const newChildren = [...existingChildren, ...CATALOG_REDIRECTS];
 
         // Add additional routes depending on feature set & configuration
         if (this.activeFeatureSet.isDashboardEnabled()) {

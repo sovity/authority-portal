@@ -17,7 +17,6 @@ import {Subject, takeUntil} from 'rxjs';
 import {Store} from '@ngxs/store';
 import {MemberInfo} from '@sovity.de/authority-portal-client';
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
-import {ActiveFeatureSet} from 'src/app/core/services/config/active-feature-set';
 import {BreadcrumbService} from '../../../shared/common/portal-layout/breadcrumb/breadcrumb.service';
 import {Reset} from './state/control-center-organization-members-page-action';
 import {
@@ -42,11 +41,8 @@ export class ControlCenterOrganizationMembersPageComponent
     private breadcrumbService: BreadcrumbService,
     private globalStateUtils: GlobalStateUtils,
     private titleService: Title,
-    private activeFeatureSet: ActiveFeatureSet,
   ) {
-    this.activeFeatureSet.usesMdsId()
-      ? this.titleService.setTitle('MDS Users and Roles')
-      : this.titleService.setTitle('Users and Roles');
+    this.titleService.setTitle('Users and Roles');
   }
 
   ngOnInit(): void {

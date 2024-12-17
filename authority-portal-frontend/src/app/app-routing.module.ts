@@ -94,23 +94,6 @@ export const CATALOG_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   pathMatch: 'full',
 }));
 
-export const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
-  path,
-  redirectTo: (() => getProperRedirectUrl('home'))(),
-  pathMatch: 'full',
-}));
-
-export const FEATURE_HOME_ROUTE: Routes = [
-  {
-    path: 'home',
-    component: HomePageComponent,
-    data: {
-      requiresRole: ['USER'] satisfies UserRoleDto[],
-    },
-    canActivate: [requiresRole],
-  },
-];
-
 export const FEATURE_DASHBOARD_ROUTE: Routes = [
   {
     path: 'dashboard',

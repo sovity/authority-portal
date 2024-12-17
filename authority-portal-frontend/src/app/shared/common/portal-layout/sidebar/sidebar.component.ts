@@ -67,24 +67,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   navigateHome() {
-    const defaultRoute = this.activeFeatureSet.isHomePageEnabled()
-      ? 'home'
-      : 'catalog';
-    window.open(defaultRoute, '_self');
+    window.open('catalog', '_self');
   }
 
   setSideBarSections(organizationName: string): void {
     this.sidebarSections = [
       {
-        title: this.activeFeatureSet.usesMdsId() ? 'MDS' : 'Home',
+        title: 'Home',
         userRoles: ['USER'],
         menus: [
-          {
-            title: 'Home',
-            icon: 'home',
-            rLink: '/home',
-            isDisabled: !this.activeFeatureSet.isHomePageEnabled(),
-          },
           {
             title: 'Data Catalog',
             icon: 'tag',

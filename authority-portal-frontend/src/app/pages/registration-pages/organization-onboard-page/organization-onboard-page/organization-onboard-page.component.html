@@ -107,11 +107,7 @@
         <div class="my-12 flex flex-col justify-center items-center">
           <h3 class="wizard-end-title text-center">
             {{
-              ('mds-id' | isActiveFeature)
-                ? 'Thank you for onboarding on the MDS Portal!'
-                : 'Thank you for onboarding on the ' +
-                  appConfig.portalName +
-                  '!'
+              'Thank you for onboarding on the ' + appConfig.portalName + '!'
             }}
           </h3>
           <p class="wizard-end-prose max-w-3xl text-center">

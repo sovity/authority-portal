@@ -18,14 +18,6 @@ import {UiFeature} from './profiles/ui-feature';
 export class ActiveFeatureSet {
   constructor(@Inject(APP_CONFIG) private config: AppConfig) {}
 
-  usesMdsId(): boolean {
-    return this.has('mds-id');
-  }
-
-  isHomePageEnabled(): boolean {
-    return this.has('enable-home');
-  }
-
   // This is configurable via environment variable, not via theme
   isDashboardEnabled(): boolean {
     return this.config.enableDashboard;
