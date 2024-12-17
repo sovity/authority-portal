@@ -12,9 +12,6 @@
  */
 
 export type UiFeature =
-  // Enables the homepage. If this is not enabled, the default page will be the Catalog
-  | 'enable-home'
-
   // Show an iFrame on the homepage. The URL needs to be configured in the theme. Requires 'enable-home'
   | 'iframe-in-home'
 
