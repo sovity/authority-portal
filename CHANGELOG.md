@@ -18,6 +18,7 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 - Uptime Kuma is no longer mandatory and the status dashboard can be disabled
 - Added Owning Organization in Admin Connector Overview ([#355](https://github.com/sovity/authority-portal/issues/355))
 - Added a button to change the password in the user settings ([PR #397](https://github.com/sovity/authority-portal/pull/397))
+- Removed link to frontend URL in all-connectors-view for authority- and operator admins ([PR #398](https://github.com/sovity/authority-portal/pull/398))
 
 #### Patch
 

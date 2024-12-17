@@ -107,10 +107,13 @@ class ConnectorManagementApiService(
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
         val connectors = connectorService.getConnectorsByEnvironment(environmentId)
-        return buildConnectorOverview(connectors)
+        return buildConnectorOverview(connectors, showFrontendUrl = false)
     }
 
-    private fun buildConnectorOverview(connectors: List<ConnectorRecord>): ConnectorOverviewResult {
+    private fun buildConnectorOverview(
+        connectors: List<ConnectorRecord>,
+        showFrontendUrl: Boolean = true
+    ): ConnectorOverviewResult {
         val orgNames = organizationService.getAllOrganizationNames()
 
         val connectorDtos = connectors.map {
@@ -122,7 +125,7 @@ class ConnectorManagementApiService(
                 environment = deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
                 name = it.name,
                 status = if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else it.onlineStatus.toDto(),
-                frontendUrl = it.frontendUrl
+                frontendUrl = if (showFrontendUrl) it.frontendUrl else null
             )
         }
         return ConnectorOverviewResult(connectorDtos)
