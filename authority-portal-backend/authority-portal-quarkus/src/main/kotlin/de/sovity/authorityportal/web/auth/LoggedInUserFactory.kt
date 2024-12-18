@@ -21,22 +21,15 @@ import de.sovity.authorityportal.web.services.FirstLoginService
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.context.RequestScoped
 import jakarta.enterprise.inject.Produces
-import jakarta.inject.Inject
 import jakarta.ws.rs.core.SecurityContext
 
 @ApplicationScoped
-class LoggedInUserFactory {
-    @Inject
-    lateinit var context: SecurityContext
-
-    @Inject
-    lateinit var keycloakJwtUtils: KeycloakJwtUtils
-
-    @Inject
-    lateinit var elytronPropertyFileAuthUtils: ElytronPropertyFileAuthUtils
-
-    @Inject
-    lateinit var firstLoginService: FirstLoginService
+class LoggedInUserFactory(
+    var context: SecurityContext,
+    var keycloakJwtUtils: KeycloakJwtUtils,
+    var elytronPropertyFileAuthUtils: ElytronPropertyFileAuthUtils,
+    var firstLoginService: FirstLoginService
+) {
 
     @Produces
     @RequestScoped

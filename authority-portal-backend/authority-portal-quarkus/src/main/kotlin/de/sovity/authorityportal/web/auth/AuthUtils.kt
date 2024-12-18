@@ -20,18 +20,13 @@ import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.utils.unauthorized
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 
 @ApplicationScoped
-class AuthUtils {
-    @Inject
-    lateinit var loggedInUser: LoggedInUser
-
-    @Inject
-    lateinit var userService: UserService
-
-    @Inject
-    lateinit var organizationService: OrganizationService
+class AuthUtils(
+    val loggedInUser: LoggedInUser,
+    val userService: UserService,
+    val organizationService: OrganizationService
+) {
 
     fun requiresAuthenticated() {
         if (!loggedInUser.authenticated) {
