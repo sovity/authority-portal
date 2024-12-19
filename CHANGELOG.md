@@ -13,6 +13,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Minor
 
+- Added deleting of organizations for Authority Admins
+
 #### Patch
 
 ### Known issues
