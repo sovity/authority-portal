@@ -25,10 +25,10 @@ import jakarta.ws.rs.core.SecurityContext
 
 @ApplicationScoped
 class LoggedInUserFactory(
-    var context: SecurityContext,
-    var keycloakJwtUtils: KeycloakJwtUtils,
-    var elytronPropertyFileAuthUtils: ElytronPropertyFileAuthUtils,
-    var firstLoginService: FirstLoginService
+    val context: SecurityContext,
+    val keycloakJwtUtils: KeycloakJwtUtils,
+    val elytronPropertyFileAuthUtils: ElytronPropertyFileAuthUtils,
+    val firstLoginService: FirstLoginService
 ) {
 
     @Produces
