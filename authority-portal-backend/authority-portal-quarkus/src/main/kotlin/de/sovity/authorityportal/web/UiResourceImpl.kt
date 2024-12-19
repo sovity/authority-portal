@@ -525,7 +525,7 @@ class UiResourceImpl(
 
     @Transactional
     override fun deleteOrganization(organizationId: String): IdResponse {
-        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
         return organizationDeletionApiService.deleteOrganizationAndDependencies(organizationId, loggedInUser.userId)
     }
 }
