@@ -236,8 +236,10 @@ class UserDeletionApiServiceTest {
 
         ScenarioData().apply {
             organization(0, 0)
+            organization(1, 99)
             user(0, 0)
             user(1, 0)
+            user(99, 1)
             connector(0, 0, 0)
             component(0, 0, 0)
             scenarioInstaller.install(this)
