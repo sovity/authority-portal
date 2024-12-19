@@ -497,4 +497,12 @@ interface UiResource {
         @Valid @NotBlank(message = "EnvironmentId cannot be blank")
         environmentId: String
     ): ComponentStatusOverview
+
+    @DELETE
+    @Path("/authority/organizations/{organizationId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description = "Delete organization with respect to users and connectors associated with them.")
+    fun deleteOrganization(
+        @PathParam("organizationId") organizationId: String,
+    ): IdResponse
 }

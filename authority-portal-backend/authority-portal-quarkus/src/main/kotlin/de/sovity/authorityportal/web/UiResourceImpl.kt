@@ -52,6 +52,7 @@ import de.sovity.authorityportal.web.pages.ComponentStatusApiService
 import de.sovity.authorityportal.web.pages.centralcomponentmanagement.CentralComponentManagementApiService
 import de.sovity.authorityportal.web.pages.connectormanagement.CaasManagementApiService
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
+import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationDeletionApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationRegistrationApiService
@@ -89,7 +90,8 @@ class UiResourceImpl(
     val organizationUpdateApiService: OrganizationUpdateApiService,
     val centralComponentManagementApiService: CentralComponentManagementApiService,
     val caasManagementApiService: CaasManagementApiService,
-    val componentStatusApiService: ComponentStatusApiService
+    val componentStatusApiService: ComponentStatusApiService,
+    val organizationDeletionApiService: OrganizationDeletionApiService
 ) : UiResource {
 
     // User info
@@ -519,5 +521,11 @@ class UiResourceImpl(
             return componentStatusApiService.getComponentsStatus(environmentId)
         }
         return componentStatusApiService.getComponentsStatusForOrganizationId(environmentId, loggedInUser.organizationId!!)
+    }
+
+    @Transactional
+    override fun deleteOrganization(organizationId: String): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_USER)
+        return organizationDeletionApiService.deleteOrganizationAndDependencies(organizationId, loggedInUser.userId)
     }
 }
