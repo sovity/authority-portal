@@ -17,6 +17,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
+- Fixed Keycloak dev realm for local E2E development
+
 ### Known issues
 
 ### Deployment Migration Notes
