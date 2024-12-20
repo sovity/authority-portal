@@ -41,6 +41,7 @@ import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUpdateDto
+import de.sovity.authorityportal.api.model.organization.OrganizationDeletionCheck
 import de.sovity.authorityportal.api.model.organization.OrganizationDetailsDto
 import de.sovity.authorityportal.api.model.organization.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDto
@@ -52,6 +53,7 @@ import de.sovity.authorityportal.web.pages.ComponentStatusApiService
 import de.sovity.authorityportal.web.pages.centralcomponentmanagement.CentralComponentManagementApiService
 import de.sovity.authorityportal.web.pages.connectormanagement.CaasManagementApiService
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
+import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationDeletionApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInfoApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationInvitationApiService
 import de.sovity.authorityportal.web.pages.organizationmanagement.OrganizationRegistrationApiService
@@ -68,6 +70,7 @@ import io.quarkus.arc.Lock
 import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
+import jakarta.ws.rs.PathParam
 
 @PermitAll
 @ApplicationScoped
@@ -89,7 +92,8 @@ class UiResourceImpl(
     val organizationUpdateApiService: OrganizationUpdateApiService,
     val centralComponentManagementApiService: CentralComponentManagementApiService,
     val caasManagementApiService: CaasManagementApiService,
-    val componentStatusApiService: ComponentStatusApiService
+    val componentStatusApiService: ComponentStatusApiService,
+    val organizationDeletionApiService: OrganizationDeletionApiService
 ) : UiResource {
 
     // User info
@@ -519,5 +523,16 @@ class UiResourceImpl(
             return componentStatusApiService.getComponentsStatus(environmentId)
         }
         return componentStatusApiService.getComponentsStatusForOrganizationId(environmentId, loggedInUser.organizationId!!)
+    }
+
+    override fun checkOrganizationDeletion(organizationId: String): OrganizationDeletionCheck {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        return organizationDeletionApiService.checkOrganizationDeletion(organizationId)
+    }
+
+    @Transactional
+    override fun deleteOrganization(organizationId: String): IdResponse {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        return organizationDeletionApiService.deleteOrganizationAndDependencies(organizationId, loggedInUser.userId)
     }
 }
