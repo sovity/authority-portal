@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2024 sovity GmbH
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Contributors:
+ *      sovity GmbH - initial implementation
+ */
 package de.sovity.authorityportal.web.tests.services.organization
 
 import de.sovity.authorityportal.api.UiResource
@@ -45,6 +57,74 @@ class OrganizationDeletionApiServiceTest {
 
     @InjectMock
     lateinit var dapsClientService: DapsClientService
+
+    @Test
+    fun `checkOrganizationDeletion fails because user is not admin`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_USER))
+
+        // act & assert
+        assertThatThrownBy {
+            uiResource.checkOrganizationDeletion(dummyDevOrganizationId(1))
+        }.isInstanceOf(NotAuthorizedException::class.java)
+    }
+
+    @Test
+    @TestTransaction
+    fun `checkOrganizationDeletion fails because all remaining authority admins are part of it`() {
+        // arrange
+        val lastAuthorityAdmin = KeycloakUserDto(dummyDevUserUuid(0), "Authority", "Admin", "authority@test.sovity.io")
+
+        useDevUser(0, 0)
+
+        ScenarioData().apply {
+            organization(0, 0)
+            user(0, 0)
+            scenarioInstaller.install(this)
+        }
+
+        whenever(keycloakService.getAuthorityAdmins()).thenReturn(listOf(lastAuthorityAdmin))
+
+        // act
+        val result = uiResource.checkOrganizationDeletion(dummyDevOrganizationId(0))
+
+        // assert
+        assertThat(result).isNotNull
+        assertThat(result.organizationId).isEqualTo(dummyDevOrganizationId(0))
+        assertThat(result.canBeDeleted).isFalse()
+    }
+
+    @Test
+    @TestTransaction
+    fun checkOrganizationDeletion() {
+        // arrange
+        val lastAuthorityAdmin = KeycloakUserDto(dummyDevUserUuid(99), "Authority", "Admin", "authority@test.sovity.io")
+
+        val dapsClient = mock<DapsClient>()
+
+        useDevUser(0, 0)
+
+        ScenarioData().apply {
+            organization(0, 0)
+            organization(1, 99)
+            user(0, 0)
+            user(99, 1)
+            connector(0, 0, 0)
+            component(0, 0, 0)
+            scenarioInstaller.install(this)
+        }
+
+        whenever(keycloakService.getAuthorityAdmins()).thenReturn(listOf(lastAuthorityAdmin))
+        whenever(dapsClientService.forEnvironment(any())).thenReturn(dapsClient)
+
+        // act
+        val result = uiResource.checkOrganizationDeletion(dummyDevOrganizationId(0))
+
+        // assert
+        assertThat(result).isNotNull
+        assertThat(result.organizationId).isEqualTo(dummyDevOrganizationId(0))
+        assertThat(result.canBeDeleted).isTrue()
+    }
 
     @Test
     fun `deleteOrganization fails because user is not admin`() {

@@ -41,6 +41,7 @@ import de.sovity.authorityportal.api.model.UserInfo
 import de.sovity.authorityportal.api.model.UserRegistrationStatusResult
 import de.sovity.authorityportal.api.model.UserRoleDto
 import de.sovity.authorityportal.api.model.organization.OnboardingOrganizationUpdateDto
+import de.sovity.authorityportal.api.model.organization.OrganizationDeletionCheck
 import de.sovity.authorityportal.api.model.organization.OrganizationDetailsDto
 import de.sovity.authorityportal.api.model.organization.OrganizationOverviewResult
 import de.sovity.authorityportal.api.model.organization.OwnOrganizationDetailsDto
@@ -69,6 +70,7 @@ import io.quarkus.arc.Lock
 import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
+import jakarta.ws.rs.PathParam
 
 @PermitAll
 @ApplicationScoped
@@ -521,6 +523,11 @@ class UiResourceImpl(
             return componentStatusApiService.getComponentsStatus(environmentId)
         }
         return componentStatusApiService.getComponentsStatusForOrganizationId(environmentId, loggedInUser.organizationId!!)
+    }
+
+    override fun checkOrganizationDeletion(organizationId: String): OrganizationDeletionCheck {
+        authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
+        return organizationDeletionApiService.checkOrganizationDeletion(organizationId)
     }
 
     @Transactional

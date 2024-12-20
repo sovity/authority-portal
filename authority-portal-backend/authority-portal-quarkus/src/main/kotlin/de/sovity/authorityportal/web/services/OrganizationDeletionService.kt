@@ -1,5 +1,18 @@
+/*
+ * Copyright (c) 2024 sovity GmbH
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Contributors:
+ *      sovity GmbH - initial implementation
+ */
 package de.sovity.authorityportal.web.services
 
+import de.sovity.authorityportal.api.model.organization.OrganizationDeletionCheck
 import de.sovity.authorityportal.web.pages.centralcomponentmanagement.CentralComponentManagementApiService
 import de.sovity.authorityportal.web.pages.connectormanagement.ConnectorManagementApiService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
@@ -16,8 +29,17 @@ class OrganizationDeletionService(
     val keycloakService: KeycloakService
 ) {
 
+    fun checkOrganizationDeletion(organizationId: String): OrganizationDeletionCheck {
+        val organizationDeletionCheck = OrganizationDeletionCheck(
+            organizationId = organizationId,
+            canBeDeleted = !hasLastAuthorityAdmins(organizationId)
+        )
+
+        return organizationDeletionCheck
+    }
+
     fun deleteOrganizationAndDependencies(organizationId: String, adminUserId: String) {
-        if (hasLastAuthorityAdmins(organizationId)) {
+        if (!checkOrganizationDeletion(organizationId).canBeDeleted) {
             Log.error("Organization can not be deleted. The last Authority Admins are part of this organization. organizationId=$organizationId, adminUserId=$adminUserId.")
             error("Organization can not be deleted. The last Authority Admins are part of this organization.")
         }
