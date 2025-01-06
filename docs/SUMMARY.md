@@ -1,6 +1,7 @@
 # Table of contents
 
 * [Welcome](product/user-documentation/General%20Overview.md)
+* [FAQ](product/user-documentation/faq.md)
 
 ## User Guide
 
