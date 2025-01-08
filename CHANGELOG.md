@@ -15,7 +15,8 @@ please see [changelog_updates.md](docs/dev/changelog_updates.md).
 
 #### Patch
 
-- Fixed Keycloak dev realm for local E2E development
+- Fixed Keycloak dev realm for local E2E development ([PR #405](https://github.com/sovity/authority-portal/pull/405))
+- Fixed Operator Admins being unable to delete connectors ([PR #408](https://github.com/sovity/authority-portal/pull/408))
 
 ### Known issues
 
