@@ -51,7 +51,7 @@ Also, the connector details can be accessed from here.
 
 Additionally, the status of each connector is displayed, providing insights into their current operational state. Each Connector can have the following statuses:
 - Online: The connector is reachable and operational.
-- Offline: The connector is not reachable by the Authority Portals crawler.
+- Offline: The connector is not reachable by the Authority Portal crawler.
 
 Connectors of type CAAS (Connector as a Service) can also support extended operational statuses. These additional statuses provide more granular insights into the state of Connector as a Service Connectors, reflecting their dynamic and managed nature.
 - Init: The connector is in the initialization process.
