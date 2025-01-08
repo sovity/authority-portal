@@ -335,17 +335,12 @@ class ConnectorManagementApiService(
         return url.trim().removeSuffix("/")
     }
 
-    fun deleteOwnOrProvidedConnector(
+    fun deleteConnectorById(
         connectorId: String,
         organizationId: String,
         userId: String
     ): IdResponse {
         val connector = connectorService.getConnectorOrThrow(connectorId)
-
-        if (!connectorId.startsWith(organizationId) && connector.providerOrganizationId != organizationId) {
-            Log.error("To be deleted connector does not belong to user's organization and is not hosted by it. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
-            error("Connector ID does not match the ID of the user's organization or host organization")
-        }
 
         deleteConnector(connector)
         Log.info("Connector unregistered. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
@@ -353,8 +348,8 @@ class ConnectorManagementApiService(
         return IdResponse(connectorId, timeUtils.now())
     }
 
-    fun deleteAllOrganizationConnectors(organizationid: String) {
-        val connectors = connectorService.getConnectorsByOrganizationId(organizationid)
+    fun deleteAllOrganizationConnectors(organizationId: String) {
+        val connectors = connectorService.getConnectorsByOrganizationId(organizationId)
         connectors.forEach { deleteConnector(it) }
     }
 
