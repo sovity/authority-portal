@@ -105,7 +105,7 @@ export class AuthorityConnectorListPageStateImpl {
     }
     ctx.patchState({busy: true});
 
-    return this.apiService.deleteOwnConnector(action.connectorId).pipe(
+    return this.apiService.deleteProvidedConnector(action.connectorId).pipe(
       switchMap(() => this.globalStateUtils.getDeploymentEnvironmentId()),
       switchMap((deploymentEnvironmentId) =>
         this.apiService.getAllConnectors(deploymentEnvironmentId),
