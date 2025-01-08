@@ -27,7 +27,7 @@ Currently, the Service Partner Admin role grants the following rights in additio
 
 #### 1. View a list of provided connectors
 
-As a Service Partner Admin a user is able to access the "Provided Connectors" page, where all provided connectors are displayed. On this page, Connectors are categorized by their types as labels. The types of connectors include:
+A Service Partner Admin is able to access the "Provided Connectors" page, where all provided connectors are displayed. On this page, connectors are categorized by their types as labels. The types of connectors include:
 - Own: Connectors registered and maintained directly by the organization.
 - Provided: Connectors supplied by a third-party service partner.
 - CAAS: Connector as a Service - Managed connectors.
