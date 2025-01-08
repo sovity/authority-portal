@@ -58,6 +58,7 @@ Connectors of type CAAS (Connector as a Service) can also support extended opera
 - Provisioning: The connector is being set up and is not yet available for use.
 - Deprovisioning: The connector is being decommissioned or removed.
 - Error: An issue has occurred that requires attention.
+- Unknown: Connector has been deleted via other systems and no longer exists. 
 
 In rare cases, additional statuses may appear, reflecting specific scenarios or exceptions in the system's operation.
 
