@@ -70,7 +70,6 @@ import io.quarkus.arc.Lock
 import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
-import jakarta.ws.rs.PathParam
 
 @PermitAll
 @ApplicationScoped
@@ -531,6 +530,7 @@ class UiResourceImpl(
         return componentStatusApiService.getComponentsStatusForOrganizationId(environmentId, loggedInUser.organizationId!!)
     }
 
+    @Transactional
     override fun checkOrganizationDeletion(organizationId: String): OrganizationDeletionCheck {
         authUtils.requiresRole(Roles.UserRoles.AUTHORITY_ADMIN)
         return organizationDeletionApiService.checkOrganizationDeletion(organizationId)

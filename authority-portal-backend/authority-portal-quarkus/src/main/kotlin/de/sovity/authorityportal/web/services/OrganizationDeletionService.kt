@@ -30,12 +30,10 @@ class OrganizationDeletionService(
 ) {
 
     fun checkOrganizationDeletion(organizationId: String): OrganizationDeletionCheck {
-        val organizationDeletionCheck = OrganizationDeletionCheck(
+        return OrganizationDeletionCheck(
             organizationId = organizationId,
             canBeDeleted = !hasLastAuthorityAdmins(organizationId)
         )
-
-        return organizationDeletionCheck
     }
 
     fun deleteOrganizationAndDependencies(organizationId: String, adminUserId: String) {

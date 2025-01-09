@@ -30,7 +30,6 @@ class OrganizationDeletionApiService(
 
     fun deleteOrganizationAndDependencies(organizationId: String, adminUserId: String): IdResponse {
         organizationDeletionService.deleteOrganizationAndDependencies(organizationId, adminUserId)
-
         return IdResponse(organizationId, timeUtils.now())
     }
 }

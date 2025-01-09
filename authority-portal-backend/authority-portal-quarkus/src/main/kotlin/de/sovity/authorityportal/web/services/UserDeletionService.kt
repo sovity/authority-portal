@@ -38,9 +38,8 @@ class UserDeletionService(
         val isLastParticipantAdmin = participantAdmins.singleOrNull()?.userId == userId
         val isOrganizationCreator = organization.createdBy == userId
 
-        var possibleCreatorSuccessors = listOf<PossibleCreatorSuccessor>()
-        if (!isLastParticipantAdmin && isOrganizationCreator) {
-            possibleCreatorSuccessors = participantAdmins
+        val possibleCreatorSuccessors = if (!isLastParticipantAdmin && isOrganizationCreator) {
+            participantAdmins
                 .filter { it.userId != userId }
                 .map {
                     PossibleCreatorSuccessor(
@@ -49,17 +48,17 @@ class UserDeletionService(
                         lastName = it.lastName
                     )
                 }
+        } else {
+            emptyList()
         }
 
-        val userDeletionCheck = UserDeletionCheck(
+        return UserDeletionCheck(
             userId = userId,
             canBeDeleted = !isLastAuthorityAdmin,
             isLastParticipantAdmin = isLastParticipantAdmin,
             isOrganizationCreator = isOrganizationCreator,
             possibleCreatorSuccessors = possibleCreatorSuccessors
         )
-
-        return userDeletionCheck
     }
 
     fun deleteUserAndHandleDependencies(
@@ -74,9 +73,9 @@ class UserDeletionService(
         }
         connectorService.updateConnectorsCreator(organization.createdBy, userId)
         centralComponentService.updateCentralComponentsCreator(organization.createdBy, userId)
-        keycloakService.deleteUser(userId)
         userService.deleteInvitationReference(userId)
         userService.deleteUser(userId)
+        keycloakService.deleteUser(userId)
 
         Log.info(
             "User deleted. Ownership of connectors and central components handed over to organization creator. " +
