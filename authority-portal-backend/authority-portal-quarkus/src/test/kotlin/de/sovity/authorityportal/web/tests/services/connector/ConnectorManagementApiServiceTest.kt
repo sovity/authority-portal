@@ -371,13 +371,6 @@ class ConnectorManagementApiServiceTest {
         assertThat(result).isNotNull
         assertThat(result.id).isEqualTo(connectorId)
 
-        fun count(table: TableLike<*>, condition: Condition): Int {
-            return dsl.selectCount()
-                .from(table)
-                .where(condition)
-                .fetchOne(0, Int::class.java) ?: 0
-        }
-
         assertThat(
             count(
                 Tables.CONNECTOR,
@@ -822,5 +815,140 @@ class ConnectorManagementApiServiceTest {
             )
         }
             .isInstanceOf(NotAuthorizedException::class.java)
+    }
+
+    @Test
+    @TestTransaction
+    fun `delete own connector fails because of missing membership to owning organization`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_CURATOR))
+
+        ScenarioData().apply {
+            organization(0, 0)
+            organization(1, 1)
+            user(0, 0)
+            user(1, 1)
+            connector(0, 1, 1)
+
+            scenarioInstaller.install(this)
+        }
+
+        // act && assert
+        assertThatThrownBy { uiResource.deleteOwnConnector(dummyDevConnectorId(1, 0)) }
+            .isInstanceOf(NotAuthorizedException::class.java)
+            .hasMessageContaining("User is not a member of the owning organization")
+    }
+
+    @Test
+    @TestTransaction
+    fun `delete provided connector fails because of missing membership to provider organization`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.SERVICE_PARTNER_ADMIN))
+
+        ScenarioData().apply {
+            organization(0, 0)
+            organization(1, 1)
+            organization(2, 2)
+            user(0, 0)
+            user(1, 1)
+            user(2, 2)
+            connector(0, 1, 2) {
+                it.providerOrganizationId = dummyDevOrganizationId(2)
+            }
+
+            scenarioInstaller.install(this)
+        }
+
+        // act && assert
+        assertThatThrownBy { uiResource.deleteProvidedConnector(dummyDevConnectorId(1, 0)) }
+            .isInstanceOf(NotAuthorizedException::class.java)
+            .hasMessageContaining("User is not a member of the provider organization")
+    }
+
+    @Test
+    @TestTransaction
+    fun `delete provided connector as service partner admin`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.SERVICE_PARTNER_ADMIN))
+
+        val dapsClient = mock<DapsClient>()
+        whenever(dapsClientService.forEnvironment(any())).thenReturn(dapsClient)
+        doNothing().whenever(dapsClient).deleteClient(any())
+
+        ScenarioData().apply {
+            organization(0, 0)
+            organization(1, 1)
+            organization(2, 2)
+            user(0, 0)
+            user(1, 1)
+            user(2, 2)
+            connector(0, 1, 0) {
+                it.providerOrganizationId = dummyDevOrganizationId(0)
+            }
+
+            scenarioInstaller.install(this)
+        }
+        val connectorId = dummyDevConnectorId(1, 0)
+
+        // act
+        val result = uiResource.deleteProvidedConnector(connectorId)
+
+        // assert
+        assertThat(result).isNotNull
+        assertThat(result.id).isEqualTo(connectorId)
+
+        assertThat(
+            count(
+                Tables.CONNECTOR,
+                Tables.CONNECTOR.CONNECTOR_ID.eq(connectorId)
+            )
+        ).isEqualTo(0)
+    }
+
+    @Test
+    @TestTransaction
+    fun `delete provided connector as operator admin`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.OPERATOR_ADMIN))
+
+        val dapsClient = mock<DapsClient>()
+        whenever(dapsClientService.forEnvironment(any())).thenReturn(dapsClient)
+        doNothing().whenever(dapsClient).deleteClient(any())
+
+        ScenarioData().apply {
+            organization(0, 0)
+            organization(1, 1)
+            organization(2, 2)
+            user(0, 0)
+            user(1, 1)
+            user(2, 2)
+            connector(0, 1, 2) {
+                it.providerOrganizationId = dummyDevOrganizationId(2)
+            }
+
+            scenarioInstaller.install(this)
+        }
+        val connectorId = dummyDevConnectorId(1, 0)
+
+        // act
+        val result = uiResource.deleteProvidedConnector(connectorId)
+
+        // assert
+        assertThat(result).isNotNull
+        assertThat(result.id).isEqualTo(connectorId)
+
+        assertThat(
+            count(
+                Tables.CONNECTOR,
+                Tables.CONNECTOR.CONNECTOR_ID.eq(connectorId)
+            )
+        ).isEqualTo(0)
+    }
+
+    private fun count(table: TableLike<*>, condition: Condition): Int {
+        return dsl.selectCount()
+            .from(table)
+            .where(condition)
+            .fetchOne(0, Int::class.java) ?: 0
     }
 }
