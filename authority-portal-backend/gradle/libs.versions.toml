@@ -16,10 +16,8 @@ junit = "5.10.0"
 flyway = "9.0.1"
 jsonAssert = "1.5.1"
 
-quarkus = "3.15.1"
+quarkus = "3.18.0.CR1"
 quarkus-jooq = "2.0.0"
-
-keycloak-adminClient = "26.0.2"
 
 jakarta-servletApi = "5.0.0"
 jakarta-validation = "3.0.2"
@@ -50,11 +48,7 @@ sovity-edc-ext-postgresFlywayCore = { module = "de.sovity.edc.ext:postgres-flywa
 sovity-edc-ext-testUtils = { module = "de.sovity.edc.ext:test-utils", version.ref = "sovity-edcCe" }
 
 quarkus-universeBom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }
-quarkus-keycloakAdminClientReactive = { module = "io.quarkus:quarkus-keycloak-admin-client-reactive", version.ref = "quarkus" }
 quarkus-jooq = { module = "io.quarkiverse.jooq:quarkus-jooq", version.ref = "quarkus-jooq" }
-
-keycloak-adminClient = { module = "org.keycloak:keycloak-admin-client", version.ref = "keycloak-adminClient" }
-
 jakarta-servletApi = { module = "jakarta.servlet:jakarta.servlet-api", version.ref = "jakarta-servletApi" }
 jakarta-validation = { module = "jakarta.validation:jakarta.validation-api", version.ref = "jakarta-validation" }
 jakarta-wsRsApi = { module = "jakarta.ws.rs:jakarta.ws.rs-api", version.ref = "jakarta-wsRsApi" }
