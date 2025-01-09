@@ -7,28 +7,7 @@
     alt="Logo"
     [attr.src]="appConfig.brandLogoUnauthenticatedPage.src"
     [class]="appConfig.brandLogoUnauthenticatedPage.class" />
-  <div *ngIf="'mds-id' | isActiveFeature" class="max-w-2xl mx-auto text-center">
-    <h1 class="full-screen-end-title">
-      Thank you for signing up to be a part of the Mobility Data Space Portal!
-    </h1>
-    <p class="full-screen-end-prose">
-      Our community team will review your profile and confirm your access
-      <b>within the next 2-3 business days</b>. You will receive a confirmation
-      email with a link to the portal where you can sign in using your
-      credentials. In the meantime, feel free to check out some interesting MDS
-      resources:
-    </p>
-    <div class="flex justify-center">
-      <a
-        class="bg-black hover:bg-black text-white font-bold py-2 px-4 rounded"
-        href="https://mobility-dataspace.eu/"
-        >MDS Main Page</a
-      >
-    </div>
-  </div>
-  <div
-    *ngIf="!('mds-id' | isActiveFeature)"
-    class="max-w-2xl mx-auto text-center">
+  <div class="max-w-2xl mx-auto text-center">
     <h1 class="full-screen-end-title">Thank you for signing up!</h1>
     <p class="full-screen-end-prose">
       Our team will review your profile and confirm your access

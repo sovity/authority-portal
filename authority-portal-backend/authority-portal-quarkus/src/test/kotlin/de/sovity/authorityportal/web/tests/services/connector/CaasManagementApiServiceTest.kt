@@ -38,9 +38,12 @@ import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
 import io.quarkus.test.InjectMock
 import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.security.TestSecurity
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat
+import org.flywaydb.core.Flyway
 import org.jooq.DSLContext
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
@@ -48,6 +51,10 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.whenever
 import java.time.OffsetDateTime
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 
 @QuarkusTest
 @ExtendWith(MockitoExtension::class)
@@ -65,11 +72,18 @@ class CaasManagementApiServiceTest {
     @Inject
     lateinit var clientIdUtils: ClientIdUtils
 
+    @Inject
+    lateinit var executorService: ExecutorService
+
     @InjectMock
     lateinit var caasClient: CaasClient
 
+    @AfterEach
+    fun cleanup() {
+        ScenarioData.uninstall(dsl)
+    }
+
     @Test
-    @TestTransaction
     fun `create caas creates connector with caas configuration`() {
         // arrange
         val now = OffsetDateTime.now()
@@ -140,10 +154,10 @@ class CaasManagementApiServiceTest {
             .withOffsetDateTimeComparator()
             .withStrictTypeChecking()
             .isEqualTo(expected.copy())
+        assertThat(actual.connectorId).isEqualTo(actual.clientId)
     }
 
     @Test
-    @TestTransaction
     fun `check free caas slots returns the correct amount`() {
         // arrange
         useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_CURATOR))
@@ -165,5 +179,55 @@ class CaasManagementApiServiceTest {
         // Unfortunately, the OIDC Client is not enabled in the test environment because Quarkus would refuse to start.
         assertThat(result.limit).isEqualTo(0)
         assertThat(result.current).isEqualTo(0)
+    }
+
+    @Test
+    @TestSecurity(authorizationEnabled = false)
+    fun `create caas endpoint should lock correctly`() {
+        // arrange
+        val now = OffsetDateTime.now()
+        val i = AtomicInteger(0)
+
+        useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_CURATOR))
+        useMockNow(now)
+
+        ScenarioData().apply {
+            organization(0, 0)
+            user(0, 0)
+
+            scenarioInstaller.install(this)
+        }
+
+        whenever(caasClient.validateSubdomain(any())).thenReturn(true)
+        whenever(caasClient.requestCaas(any())).thenReturn(
+            CaasPortalResponse().apply {
+                value = CaasDetails(connectorId = dummyDevConnectorId(0, 0))
+            }
+        )
+
+        // act
+        val count = 10
+        val latch = CountDownLatch(count)
+
+        repeat(count) {
+            executorService.execute {
+                uiResource.createCaas(
+                    "test", CreateCaasRequest(
+                        connectorSubdomain = "test-caas-${i.addAndGet(1)}",
+                        connectorTitle = "Test CaaS-${i.addAndGet(1)}",
+                        connectorDescription = "Connector-as-a-service for testing purposes"
+                    )
+                )
+                latch.countDown()
+            }
+        }
+        latch.await(20, TimeUnit.SECONDS)
+
+        // assert
+        val connectors = dsl.selectFrom(Tables.CONNECTOR)
+            .where(Tables.CONNECTOR.TYPE.eq(ConnectorType.CAAS))
+            .fetch()
+
+        assertThat(connectors).hasSize(1)
     }
 }

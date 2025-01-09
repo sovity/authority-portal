@@ -18,6 +18,7 @@ import {UiLogo} from './profiles/ui-logo';
 import {UiProfile} from './profiles/ui-profile';
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
+
 /**
  * App Config
  *
@@ -47,16 +48,17 @@ export interface AppConfig {
   privacyPolicyUrl: string;
   legalNoticeUrl: string;
   supportUrl: string;
-  iframeUrl: string;
 
   backendUrl: string;
   loginUrl: string;
   logoutUrl: string;
+  updatePasswordUrl: string;
   invalidateSessionCookiesUrl: string;
   useFakeBackend: boolean;
   useLocalBackend: boolean;
   brandDataspaceName: string;
   portalName: string;
+  enableDashboard: boolean;
 }
 
 /**
@@ -68,16 +70,17 @@ export interface AppConfigEnv {
   AUTHORITY_PORTAL_FRONTEND_BACKEND_URL: string;
   AUTHORITY_PORTAL_FRONTEND_LOGIN_URL: string;
   AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: string;
+  AUTHORITY_PORTAL_FRONTEND_UPDATE_PASSWORD_URL: string;
   AUTHORITY_PORTAL_FRONTEND_USE_FAKE_BACKEND: string;
   AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND: string;
   AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: string;
-  AUTHORITY_PORTAL_FRONTEND_IFRAME_URL?: string;
   AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: string;
   AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: string;
   AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: string;
   AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: string;
   AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: string;
   AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: string;
+  AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD: string;
 }
 
 /**
@@ -96,18 +99,19 @@ export function buildAppConfig(envVars: AppConfigEnv): AppConfig {
     backendUrl: envVars.AUTHORITY_PORTAL_FRONTEND_BACKEND_URL,
     loginUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LOGIN_URL,
     logoutUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL,
+    updatePasswordUrl: envVars.AUTHORITY_PORTAL_FRONTEND_UPDATE_PASSWORD_URL,
     invalidateSessionCookiesUrl:
       envVars.AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL,
     useFakeBackend:
       envVars.AUTHORITY_PORTAL_FRONTEND_USE_FAKE_BACKEND === 'true',
     useLocalBackend:
       envVars.AUTHORITY_PORTAL_FRONTEND_USE_LOCAL_BACKEND === 'true',
-
-    iframeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_IFRAME_URL ?? '',
     privacyPolicyUrl: envVars.AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL,
     legalNoticeUrl: envVars.AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL,
     supportUrl: envVars.AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL,
     brandDataspaceName: envVars.AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME,
     portalName: envVars.AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME,
+    enableDashboard:
+      envVars.AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD === 'true',
   };
 }

@@ -10,8 +10,8 @@
  * Contributors:
  *      sovity GmbH - initial implementation
  */
-import {NgModule, Type} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {InjectionToken, NgModule, Type} from '@angular/core';
+import {ActivatedRouteSnapshot, RouterModule, Routes} from '@angular/router';
 import {UserRoleDto} from '@sovity.de/authority-portal-client';
 import {requiresRole} from './core/services/auth/requires-role-guard';
 import {AuthorityConnectorListPageComponent} from './pages/authority-connector-list-page/authority-connector-list-page/authority-connector-list-page.component';
@@ -31,7 +31,6 @@ import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page/dash
 import {LoadingPageComponent} from './pages/empty-pages/loading-page/loading-page/loading-page.component';
 import {PageNotFoundPageComponent} from './pages/empty-pages/page-not-found-page/page-not-found-page/page-not-found-page.component';
 import {UnauthenticatedPageComponent} from './pages/empty-pages/unauthenticated-page/unauthenticated-page/unauthenticated-page.component';
-import {HomePageComponent} from './pages/home/home/home.component';
 import {ParticipantOwnConnectorDetailPageComponent} from './pages/participant-own-connector-detail-page/participant-own-connector-detail-page/participant-own-connector-detail-page.component';
 import {ParticipantOwnConnectorListPageComponent} from './pages/participant-own-connector-list-page/participant-own-connector-list-page/participant-own-connector-list-page.component';
 import {OrganizationCreatePageComponent} from './pages/registration-pages/organization-create-page/organization-create-page/organization-create-page.component';
@@ -40,6 +39,8 @@ import {OrganizationPendingPageComponent} from './pages/registration-pages/organ
 import {OrganizationRejectedPageComponent} from './pages/registration-pages/organization-rejected-page/organization-rejected-page/organization-rejected-page.component';
 import {SpConnectorListPageComponent} from './pages/sp-connector-list-page/sp-connector-list-page/sp-connector-list-page.component';
 import {PortalLayoutComponent} from './shared/common/portal-layout/portal-layout/portal-layout.component';
+
+const EXTERNAL_URL_PROVIDER = new InjectionToken('externalRedirectProvider');
 
 export const UNAUTHENTICATED_ROUTES: Routes = [
   {
@@ -74,17 +75,6 @@ export const LOADING_ROUTES: Routes = [
   },
 ];
 
-export const FEATURE_HOME_ROUTE: Routes = [
-  {
-    path: 'home',
-    component: HomePageComponent,
-    data: {
-      requiresRole: ['USER'] satisfies UserRoleDto[],
-    },
-    canActivate: [requiresRole],
-  },
-];
-
 const REDIRECT_TO_HOME: string[] = [
   '',
   'registration/pending',
@@ -94,7 +84,6 @@ const REDIRECT_TO_HOME: string[] = [
 
 const getProperRedirectUrl = (fallbackUrl: string) => {
   const url = localStorage.getItem('originalUrl') || fallbackUrl;
-  localStorage.removeItem('originalUrl');
   return url;
 };
 
@@ -104,11 +93,16 @@ export const CATALOG_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
   pathMatch: 'full',
 }));
 
-export const HOME_REDIRECTS: Routes = REDIRECT_TO_HOME.map((path) => ({
-  path,
-  redirectTo: (() => getProperRedirectUrl('home'))(),
-  pathMatch: 'full',
-}));
+export const FEATURE_DASHBOARD_ROUTE: Routes = [
+  {
+    path: 'dashboard',
+    component: DashboardPageComponent,
+    data: {
+      requiresRole: ['USER'] satisfies UserRoleDto[],
+    },
+    canActivate: [requiresRole],
+  },
+];
 
 export const AUTHORITY_PORTAL_ROUTES: Routes = [
   // participant own connector registration
@@ -149,14 +143,6 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     path: '',
     component: PortalLayoutComponent,
     children: [
-      {
-        path: 'dashboard',
-        component: DashboardPageComponent,
-        data: {
-          requiresRole: ['USER'] satisfies UserRoleDto[],
-        },
-        canActivate: [requiresRole],
-      },
       {
         path: 'catalog',
         component: CatalogPageComponent,
@@ -300,6 +286,11 @@ export const AUTHORITY_PORTAL_ROUTES: Routes = [
     ],
   },
   {
+    path: 'externalRedirect',
+    canActivate: [EXTERNAL_URL_PROVIDER],
+    component: PageNotFoundPageComponent,
+  },
+  {
     path: '**',
     component: PageNotFoundPageComponent,
   },
@@ -322,5 +313,14 @@ function singleComponent(path: string, component: Type<any>): Routes {
 @NgModule({
   imports: [RouterModule.forRoot(LOADING_ROUTES)],
   exports: [RouterModule],
+  providers: [
+    {
+      provide: EXTERNAL_URL_PROVIDER,
+      useValue: (route: ActivatedRouteSnapshot) => {
+        const externalUrl = route.paramMap.get('externalUrl');
+        window.open(externalUrl!!, '_self');
+      },
+    },
+  ],
 })
 export class AppRoutingModule {}

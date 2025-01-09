@@ -16,6 +16,7 @@ package de.sovity.authorityportal.web.thirdparty.daps
 import de.sovity.authorityportal.web.environment.DeploymentEnvironmentConfiguration.DeploymentEnvironment.DapsConfig
 import de.sovity.authorityportal.web.thirdparty.daps.ext.CustomKeycloakResource
 import de.sovity.authorityportal.web.thirdparty.daps.ext.instantiateResource
+import io.quarkus.logging.Log
 import org.keycloak.admin.client.KeycloakBuilder
 import org.keycloak.representations.idm.ClientRepresentation
 import org.keycloak.representations.idm.ProtocolMapperRepresentation
@@ -43,7 +44,9 @@ class DapsClient(dapsConfig: DapsConfig): AutoCloseable {
     }
 
     fun createClient(clientId: String) {
+        Log.info("Creating client $clientId in realm $realmName")
         keycloak.realm(realmName).clients().create(buildClientRepresentation(clientId))
+        Log.info("Client $clientId created in realm $realmName")
     }
 
     fun deleteClient(clientId: String) {
@@ -66,6 +69,7 @@ class DapsClient(dapsConfig: DapsConfig): AutoCloseable {
     }
 
     fun addJwksUrl(clientId: String, jwksUrl: String) {
+        Log.info("Getting client $clientId in realm $realmName")
         val client = getClientById(clientId) ?: error("Client not found")
 
         client.attributes["jwks.url"] = jwksUrl

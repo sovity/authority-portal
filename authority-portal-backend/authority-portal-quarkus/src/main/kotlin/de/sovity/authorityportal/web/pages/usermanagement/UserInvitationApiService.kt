@@ -19,6 +19,7 @@ import de.sovity.authorityportal.db.jooq.enums.UserOnboardingType
 import de.sovity.authorityportal.web.services.UserService
 import de.sovity.authorityportal.web.thirdparty.keycloak.KeycloakService
 import de.sovity.authorityportal.web.utils.TimeUtils
+import de.sovity.authorityportal.web.utils.resourceAlreadyExists
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 
@@ -35,6 +36,13 @@ class UserInvitationApiService(
         organizationId: String,
         adminUserId: String
     ): IdResponse {
+        if (userService.userExistsInDb(userInformation.email)) {
+            resourceAlreadyExists("User with email ${userInformation.email} already exists.")
+        }
+
+        // DB is source of truth, so we delete a potentially existing user in Keycloak
+        keycloakService.getUserIdByEmail(userInformation.email)?.let { keycloakService.deleteUser(it) }
+
         val userId =
             keycloakService.createUser(userInformation.email, userInformation.firstName, userInformation.lastName)
         keycloakService.sendInvitationEmailWithPasswordReset(userId)

@@ -64,11 +64,12 @@ import de.sovity.authorityportal.web.pages.usermanagement.UserInvitationApiServi
 import de.sovity.authorityportal.web.pages.usermanagement.UserRoleApiService
 import de.sovity.authorityportal.web.pages.usermanagement.UserUpdateApiService
 import de.sovity.authorityportal.web.pages.userregistration.UserRegistrationApiService
+import io.quarkus.arc.Lock
 import jakarta.annotation.security.PermitAll
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 
-@PermitAll // auth checks will be in code in this unit
+@PermitAll
 @ApplicationScoped
 class UiResourceImpl(
     val authUtils: AuthUtils,
@@ -307,9 +308,15 @@ class UiResourceImpl(
 
     @Transactional
     override fun deleteProvidedConnector(connectorId: String): IdResponse {
-        authUtils.requiresRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN)
-        authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.deleteOwnOrProvidedConnector(
+        authUtils.requiresAnyRole(Roles.UserRoles.SERVICE_PARTNER_ADMIN, Roles.UserRoles.OPERATOR_ADMIN)
+
+        if (!authUtils.hasRole(Roles.UserRoles.OPERATOR_ADMIN)) {
+            authUtils.requiresMemberOfProviderOrganization(connectorId)
+        } else {
+            authUtils.requiresMemberOfAnyOrganization()
+        }
+
+        return connectorManagementApiService.deleteConnectorById(
             connectorId,
             loggedInUser.organizationId!!,
             loggedInUser.userId
@@ -368,8 +375,8 @@ class UiResourceImpl(
     @Transactional
     override fun deleteOwnConnector(connectorId: String): IdResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
-        authUtils.requiresMemberOfAnyOrganization()
-        return connectorManagementApiService.deleteOwnOrProvidedConnector(
+        authUtils.requiresMemberOfOwningOrganization(connectorId)
+        return connectorManagementApiService.deleteConnectorById(
             connectorId,
             loggedInUser.organizationId!!,
             loggedInUser.userId
@@ -412,7 +419,7 @@ class UiResourceImpl(
         )
     }
 
-    @Transactional
+    @Lock
     override fun createCaas(environmentId: String, caasRequest: CreateCaasRequest): CreateConnectorResponse {
         authUtils.requiresRole(Roles.UserRoles.PARTICIPANT_CURATOR)
         authUtils.requiresMemberOfAnyOrganization()

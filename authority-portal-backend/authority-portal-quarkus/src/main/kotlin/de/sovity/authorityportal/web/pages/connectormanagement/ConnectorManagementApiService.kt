@@ -107,21 +107,25 @@ class ConnectorManagementApiService(
         deploymentEnvironmentService.assertValidEnvId(environmentId)
 
         val connectors = connectorService.getConnectorsByEnvironment(environmentId)
-        return buildConnectorOverview(connectors)
+        return buildConnectorOverview(connectors, showFrontendUrl = false)
     }
 
-    private fun buildConnectorOverview(connectors: List<ConnectorRecord>): ConnectorOverviewResult {
+    private fun buildConnectorOverview(
+        connectors: List<ConnectorRecord>,
+        showFrontendUrl: Boolean = true
+    ): ConnectorOverviewResult {
         val orgNames = organizationService.getAllOrganizationNames()
 
         val connectorDtos = connectors.map {
             ConnectorOverviewEntryDto(
                 id = it.connectorId,
+                organizationName = orgNames[it.organizationId] ?: "",
                 hostName = if (it.type == ConnectorType.CAAS) "sovity GmbH" else orgNames[it.providerOrganizationId] ?: "",
                 type = it.type.toDto(),
                 environment = deploymentEnvironmentDtoService.findByIdOrThrow(it.environment),
                 name = it.name,
                 status = if (it.type == ConnectorType.CAAS) it.caasStatus.toDto() else it.onlineStatus.toDto(),
-                frontendUrl = it.frontendUrl
+                frontendUrl = if (showFrontendUrl) it.frontendUrl else null
             )
         }
         return ConnectorOverviewResult(connectorDtos)
@@ -331,17 +335,12 @@ class ConnectorManagementApiService(
         return url.trim().removeSuffix("/")
     }
 
-    fun deleteOwnOrProvidedConnector(
+    fun deleteConnectorById(
         connectorId: String,
         organizationId: String,
         userId: String
     ): IdResponse {
         val connector = connectorService.getConnectorOrThrow(connectorId)
-
-        if (!connectorId.startsWith(organizationId) && connector.providerOrganizationId != organizationId) {
-            Log.error("To be deleted connector does not belong to user's organization and is not hosted by it. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
-            error("Connector ID does not match the ID of the user's organization or host organization")
-        }
 
         deleteConnector(connector)
         Log.info("Connector unregistered. connectorId=$connectorId, organizationId=$organizationId, userId=$userId.")
@@ -349,8 +348,8 @@ class ConnectorManagementApiService(
         return IdResponse(connectorId, timeUtils.now())
     }
 
-    fun deleteAllOrganizationConnectors(organizationid: String) {
-        val connectors = connectorService.getConnectorsByOrganizationId(organizationid)
+    fun deleteAllOrganizationConnectors(organizationId: String) {
+        val connectors = connectorService.getConnectorsByOrganizationId(organizationId)
         connectors.forEach { deleteConnector(it) }
     }
 

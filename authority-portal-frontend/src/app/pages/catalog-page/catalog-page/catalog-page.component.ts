@@ -19,6 +19,7 @@ import {
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {PageEvent} from '@angular/material/paginator';
+import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject, distinctUntilChanged, of, switchMap, tap} from 'rxjs';
 import {finalize, map, take, takeUntil} from 'rxjs/operators';
@@ -30,7 +31,6 @@ import {
 import {GlobalStateUtils} from 'src/app/core/global-state/global-state-utils';
 import {LocalStoredValue} from 'src/app/core/utils/local-stored-value';
 import {DeploymentEnvironmentUrlSyncService} from '../../../core/global-state/deployment-environment-url-sync.service';
-import {ActiveFeatureSet} from '../../../core/services/config/active-feature-set';
 import {HeaderBarConfig} from '../../../shared/common/header-bar/header-bar.model';
 import {AssetDetailDialogService} from '../asset-detail-dialog/asset-detail-dialog.service';
 import {FilterBoxItem} from '../filter-box/filter-box-item';
@@ -66,9 +66,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   // only tracked to prevent the component from resetting
   expandedFilterId = '';
 
-  catalogSpelling = this.activeFeatureSet.usesBritishCatalogue()
-    ? 'Catalogue'
-    : 'Catalog';
+  catalogType = this.route.snapshot.data.catalogType;
 
   constructor(
     private assetDetailDialogService: AssetDetailDialogService,
@@ -77,8 +75,10 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private globalStateUtils: GlobalStateUtils,
     private deploymentEnvironmentUrlSyncService: DeploymentEnvironmentUrlSyncService,
-    private activeFeatureSet: ActiveFeatureSet,
-  ) {}
+    private titleService: Title,
+  ) {
+    this.setTitle();
+  }
 
   ngOnInit(): void {
     this.deploymentEnvironmentUrlSyncService.updateFromUrlOnce(
@@ -181,6 +181,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       .pipe(
         finalize(() => {
           this.changeUrlToCatalogRoot();
+          this.setTitle();
         }),
       )
       .subscribe();
@@ -191,10 +192,8 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
         environmentId: this.route.snapshot.queryParams.environmentId,
       },
     });
-    // BreadcrumbService builds the name from the URL which is nonsensical in casse of asset IDs
-    document.title = `${this.activeFeatureSet.usesMdsId() ? 'MDS ' : ''}${
-      this.catalogSpelling
-    } - Data Offer`;
+    // BreadcrumbService builds the name from the URL which is nonsensical in case of asset IDs
+    this.titleService.setTitle('Catalog - Data Offer');
   }
 
   private changeUrlToCatalogRoot() {
@@ -259,15 +258,21 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     if (isMyDataOffers) {
       return {
         title: 'My Data Offers',
-        subtitle: `${this.catalogSpelling} of your public Data Offers`,
+        subtitle: `Catalog of your public Data Offers`,
         headerActions: [],
       };
     }
 
     return {
-      title: this.catalogSpelling,
-      subtitle: `${this.catalogSpelling} of all public Data Offers`,
+      title: 'Catalog',
+      subtitle: `Catalog of all public Data Offers`,
       headerActions: [],
     };
+  }
+
+  private setTitle() {
+    this.catalogType === 'my-data-offers'
+      ? this.titleService.setTitle('My Data Offers')
+      : this.titleService.setTitle('Catalog');
   }
 }

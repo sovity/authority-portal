@@ -11,4 +11,4 @@
  *      sovity GmbH - initial implementation
  */
 
-export type UiColorTheme = 'theme-sovity' | 'theme-mds';
+export type UiColorTheme = 'theme-sovity';

@@ -67,28 +67,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   navigateHome() {
-    const defaultRoute = this.activeFeatureSet.isHomePageEnabled()
-      ? 'home'
-      : 'catalog';
-    window.open(defaultRoute, '_self');
+    window.open('catalog', '_self');
   }
 
   setSideBarSections(organizationName: string): void {
     this.sidebarSections = [
       {
-        title: this.activeFeatureSet.usesMdsId() ? 'MDS' : 'Home',
+        title: 'Home',
         userRoles: ['USER'],
         menus: [
           {
-            title: 'Home',
-            icon: 'home',
-            rLink: '/home',
-            isDisabled: !this.activeFeatureSet.isHomePageEnabled(),
-          },
-          {
-            title: this.activeFeatureSet.usesBritishCatalogue()
-              ? 'Data Catalogue'
-              : 'Data Catalog',
+            title: 'Data Catalog',
             icon: 'tag',
             rLink: '/catalog',
           },
@@ -96,6 +85,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             title: 'Dashboard',
             icon: 'dashboard',
             rLink: '/dashboard',
+            isDisabled: !this.activeFeatureSet.isDashboardEnabled(),
           },
         ],
       },
@@ -168,9 +158,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         userRoles: ['USER'],
         menus: [
           {
-            title: this.activeFeatureSet.usesMdsId()
-              ? 'MDS Support'
-              : 'Support',
+            title: 'Support',
             icon: 'question-mark-circle',
             rLink: this.appConfig.supportUrl,
             isExternalLink: true,

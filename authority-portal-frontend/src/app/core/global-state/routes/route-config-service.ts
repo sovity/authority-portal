@@ -17,8 +17,7 @@ import {Fetched} from 'src/app/core/utils/fetched';
 import {
   AUTHORITY_PORTAL_ROUTES,
   CATALOG_REDIRECTS,
-  FEATURE_HOME_ROUTE,
-  HOME_REDIRECTS,
+  FEATURE_DASHBOARD_ROUTE,
   LOADING_ROUTES,
   ONBOARDING_ROUTES,
   PENDING_ROUTES,
@@ -40,9 +39,7 @@ export class RouteConfigService {
     AUTHORITY_PORTAL: AUTHORITY_PORTAL_ROUTES,
   };
 
-  defaultRoute = this.activeFeatureSet.isHomePageEnabled()
-    ? '/home'
-    : '/catalog';
+  readonly defaultRoute = '/catalog';
 
   constructor(
     private router: Router,
@@ -82,14 +79,27 @@ export class RouteConfigService {
     }
 
     // Change routes
-    const routes = this.mapping[nextPageSet];
+    const routes = [...this.mapping[nextPageSet]];
 
     if (nextPageSet === 'AUTHORITY_PORTAL') {
-      const apRouteChildren = routes.find((r) => r.path === '')?.children;
-      if (this.activeFeatureSet.isHomePageEnabled()) {
-        apRouteChildren?.push(...HOME_REDIRECTS, ...FEATURE_HOME_ROUTE);
-      } else {
-        apRouteChildren?.push(...CATALOG_REDIRECTS);
+      const rootRouteIndex = routes.findIndex((r) => r.path === '');
+
+      if (rootRouteIndex !== -1) {
+        const rootRoute = routes[rootRouteIndex];
+        const existingChildren = rootRoute.children || [];
+
+        // Add home route depending on feature set
+        const newChildren = [...existingChildren, ...CATALOG_REDIRECTS];
+
+        // Add additional routes depending on feature set & configuration
+        if (this.activeFeatureSet.isDashboardEnabled()) {
+          newChildren.push(...FEATURE_DASHBOARD_ROUTE);
+        }
+
+        routes[rootRouteIndex] = {
+          ...rootRoute,
+          children: newChildren,
+        };
       }
     }
 

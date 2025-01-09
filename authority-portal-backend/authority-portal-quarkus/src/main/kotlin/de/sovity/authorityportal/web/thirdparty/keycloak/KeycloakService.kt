@@ -19,7 +19,6 @@ import de.sovity.authorityportal.web.thirdparty.keycloak.model.OrganizationRole
 import de.sovity.authorityportal.web.thirdparty.keycloak.model.RequiredAction
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import jakarta.ws.rs.WebApplicationException
 import jakarta.ws.rs.core.Response
 import org.eclipse.microprofile.config.inject.ConfigProperty
@@ -29,22 +28,19 @@ import org.keycloak.representations.idm.GroupRepresentation
 import org.keycloak.representations.idm.UserRepresentation
 
 @ApplicationScoped
-class KeycloakService {
-
-    @Inject
-    lateinit var keycloak: Keycloak
-
-    @Inject
-    lateinit var keycloakUserMapper: KeycloakUserMapper
+class KeycloakService(
+    val keycloak: Keycloak,
+    val keycloakUserMapper: KeycloakUserMapper,
 
     @ConfigProperty(name = "quarkus.keycloak.admin-client.realm")
-    lateinit var keycloakRealm: String
+    val keycloakRealm: String,
 
     @ConfigProperty(name = "quarkus.keycloak.admin-client.client-id")
-    lateinit var keycloakClientId: String
+    val keycloakClientId: String,
 
     @ConfigProperty(name = "authority-portal.base-url")
-    lateinit var baseUrl: String
+    val baseUrl: String
+) {
 
     fun createUser(email: String, firstName: String, lastName: String, password: String? = null): String {
         val user = UserRepresentation().also {
@@ -60,7 +56,7 @@ class KeycloakService {
 
             if (password != null) {
                 it.credentials = listOf(
-                    CredentialRepresentation().also {credentials ->
+                    CredentialRepresentation().also { credentials ->
                         credentials.isTemporary = false
                         credentials.type = CredentialRepresentation.PASSWORD
                         credentials.value = password
@@ -75,6 +71,36 @@ class KeycloakService {
             throw WebApplicationException("User already exists", response.status)
         }
         return keycloak.realm(keycloakRealm).users().search(email).first().id
+    }
+
+    fun createKeycloakUserAndOrganization(
+        organizationId: String,
+        userEmail: String,
+        userFirstName: String,
+        userLastName: String,
+        userOrganizationRole: OrganizationRole,
+        userPassword: String?
+    ): String {
+        // To avoid syncing issues, we assume our DB to be the source of truth, so we need to delete the potentially existing user in KC
+        val userIdIfExists = getUserIdByEmail(userEmail)
+        if (userIdIfExists != null) {
+            deleteUser(userIdIfExists)
+        }
+
+        val userId = createUser(
+            email = userEmail,
+            firstName = userFirstName,
+            lastName = userLastName,
+            password = userPassword
+        )
+        createOrganization(organizationId)
+        joinOrganization(userId, organizationId, userOrganizationRole)
+
+        return userId
+    }
+
+    fun getUserIdByEmail(email: String): String? {
+        return keycloak.realm(keycloakRealm).users().search(email).firstOrNull()?.id
     }
 
     fun deleteUser(userId: String) {
@@ -278,7 +304,7 @@ class KeycloakService {
         keycloak.realm(keycloakRealm).users().get(userId).executeActionsEmail(keycloakClientId, baseUrl, actions)
     }
 
-    private fun getSubGroupIds(groupId: String)  =
+    private fun getSubGroupIds(groupId: String) =
         keycloak.realm(keycloakRealm).groups().query("", true)
             .first { it.id == groupId }.subGroups.associate { it.name to it.id }
 }

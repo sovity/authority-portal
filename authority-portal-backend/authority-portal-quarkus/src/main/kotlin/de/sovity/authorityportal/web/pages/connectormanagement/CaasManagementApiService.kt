@@ -31,6 +31,7 @@ import de.sovity.authorityportal.web.utils.idmanagement.ClientIdUtils
 import de.sovity.authorityportal.web.utils.idmanagement.DataspaceComponentIdUtils
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
+import jakarta.transaction.Transactional
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import kotlin.jvm.optionals.getOrNull
 
@@ -48,6 +49,7 @@ class CaasManagementApiService(
     @ConfigProperty(name = "quarkus.oidc-client.sovity.client-enabled") val isCaasClientEnabled: Boolean
 ) {
 
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     fun createCaas(
         organizationId: String,
         userId: String,

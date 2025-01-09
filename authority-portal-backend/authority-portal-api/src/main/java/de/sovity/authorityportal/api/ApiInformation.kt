@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.info.License
 @OpenAPIDefinition(
     info = Info(
         title = "Authority Portal API",
-        version = "3.0.0",
+        version = "5.0.0",
         description = "REST API for sovity's Dataspace Authority Portal.",
         contact = Contact(
             name = "sovity GmbH",

@@ -59,7 +59,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: "Gradle: Validate Gradle Wrapper"
-        uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
+        uses: gradle/actions/wrapper-validation@v3
       - name: "Gradle: Build"
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         env:
@@ -92,7 +92,7 @@ jobs:
             type=sha
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=release,enable=${{ startsWith(github.ref, 'refs/tags/') }}
-      - name: "Docker: Build and Push Image"
+      - name: "Docker: Build and Push Image (authority-portal-backend)"
         uses: docker/build-push-action@v4
         with:
           file: authority-portal-backend/authority-portal-quarkus/src/main/docker/Dockerfile.jvm
@@ -101,7 +101,17 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           network: host
-
+      - name: "Docker: Build and Push Image (authority-portal-crawler)"
+        uses: ./.github/actions/build-connector-image
+        with:
+          registry-url: ${{ env.REGISTRY }}
+          registry-user: ${{ github.actor }}
+          registry-password: ${{ secrets.GITHUB_TOKEN }}
+          image-base-name: ${{ env.IMAGE_NAME_BASE }}
+          image-name: "authority-portal-crawler"
+          connector-name: "catalog-crawler-ce"
+          title: "Catalog Crawler (Community Edition, DAPS)"
+          description: "sovity CE Catalog crawler for the sovity CE Authority Portal. Requires DAPS dataspace credentials to join an existing dataspace."
 
   frontend:
     name: Frontend
@@ -123,7 +133,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: "Gradle: Validate Gradle Wrapper"
-        uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
+        uses: gradle/actions/wrapper-validation@v3
       - name: "Gradle: Generate TypeScript Library Code"
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         env:

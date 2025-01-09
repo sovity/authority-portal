@@ -27,6 +27,7 @@ import de.sovity.authorityportal.seeds.utils.ScenarioData
 import de.sovity.authorityportal.seeds.utils.ScenarioInstaller
 import de.sovity.authorityportal.seeds.utils.dummyDevConnectorId
 import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationId
+import de.sovity.authorityportal.seeds.utils.dummyDevOrganizationName
 import de.sovity.authorityportal.seeds.utils.dummyDevUserUuid
 import de.sovity.authorityportal.web.Roles
 import de.sovity.authorityportal.web.tests.loadTestResource
@@ -157,6 +158,7 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.connectors).hasSize(2)
         assertThat(result.connectors).noneMatch { it.environment.environmentId != "test" }
         assertThat(result.connectors).noneMatch { it.id == dummyDevConnectorId(0, 2) }
+        assertThat(result.connectors).allMatch { it.frontendUrl == null }
 
         assertThat(result.connectors[0].id).isEqualTo(dummyDevConnectorId(0, 0))
         assertThat(result.connectors[1].id).isEqualTo(dummyDevConnectorId(0, 1))
@@ -190,6 +192,7 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.connectors).noneMatch { it.environment.environmentId != "other-environment" }
         assertThat(result.connectors).noneMatch { it.id == dummyDevConnectorId(0, 0) }
         assertThat(result.connectors).noneMatch { it.id == dummyDevConnectorId(0, 1) }
+        assertThat(result.connectors).allMatch { it.frontendUrl == null }
 
         assertThat(result.connectors[0].id).isEqualTo(dummyDevConnectorId(0, 2))
         assertThat(result.connectors[0].environment.environmentId).isEqualTo("other-environment")
@@ -368,13 +371,6 @@ class ConnectorManagementApiServiceTest {
         assertThat(result).isNotNull
         assertThat(result.id).isEqualTo(connectorId)
 
-        fun count(table: TableLike<*>, condition: Condition): Int {
-            return dsl.selectCount()
-                .from(table)
-                .where(condition)
-                .fetchOne(0, Int::class.java) ?: 0
-        }
-
         assertThat(
             count(
                 Tables.CONNECTOR,
@@ -439,9 +435,11 @@ class ConnectorManagementApiServiceTest {
         assertThat(result.connectors).hasSize(3)
         assertThat(result.connectors).noneMatch { it.id == dummyDevConnectorId(1, 3) }
         assertThat(result.connectors).noneMatch { it.environment.environmentId != "test" }
-        assertThat(result.connectors[0].id).isEqualTo(dummyDevConnectorId(0, 0))
-        assertThat(result.connectors[1].id).isEqualTo(dummyDevConnectorId(0, 1))
-        assertThat(result.connectors[2].id).isEqualTo(dummyDevConnectorId(0, 2))
+
+        result.connectors.forEachIndexed { i, connector ->
+            assertThat(connector.id).isEqualTo(dummyDevConnectorId(0, i))
+            assertThat(connector.organizationName).isEqualTo(dummyDevOrganizationName(0))
+        }
     }
 
     @Test
@@ -547,6 +545,7 @@ class ConnectorManagementApiServiceTest {
             .withOffsetDateTimeComparator()
             .withStrictTypeChecking()
             .isEqualTo(expected.copy())
+        assertThat(actual.connectorId).isEqualTo(actual.clientId)
     }
 
     @Test
@@ -816,5 +815,140 @@ class ConnectorManagementApiServiceTest {
             )
         }
             .isInstanceOf(NotAuthorizedException::class.java)
+    }
+
+    @Test
+    @TestTransaction
+    fun `delete own connector fails because of missing membership to owning organization`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.PARTICIPANT_CURATOR))
+
+        ScenarioData().apply {
+            organization(0, 0)
+            organization(1, 1)
+            user(0, 0)
+            user(1, 1)
+            connector(0, 1, 1)
+
+            scenarioInstaller.install(this)
+        }
+
+        // act && assert
+        assertThatThrownBy { uiResource.deleteOwnConnector(dummyDevConnectorId(1, 0)) }
+            .isInstanceOf(NotAuthorizedException::class.java)
+            .hasMessageContaining("User is not a member of the owning organization")
+    }
+
+    @Test
+    @TestTransaction
+    fun `delete provided connector fails because of missing membership to provider organization`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.SERVICE_PARTNER_ADMIN))
+
+        ScenarioData().apply {
+            organization(0, 0)
+            organization(1, 1)
+            organization(2, 2)
+            user(0, 0)
+            user(1, 1)
+            user(2, 2)
+            connector(0, 1, 2) {
+                it.providerOrganizationId = dummyDevOrganizationId(2)
+            }
+
+            scenarioInstaller.install(this)
+        }
+
+        // act && assert
+        assertThatThrownBy { uiResource.deleteProvidedConnector(dummyDevConnectorId(1, 0)) }
+            .isInstanceOf(NotAuthorizedException::class.java)
+            .hasMessageContaining("User is not a member of the provider organization")
+    }
+
+    @Test
+    @TestTransaction
+    fun `delete provided connector as service partner admin`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.SERVICE_PARTNER_ADMIN))
+
+        val dapsClient = mock<DapsClient>()
+        whenever(dapsClientService.forEnvironment(any())).thenReturn(dapsClient)
+        doNothing().whenever(dapsClient).deleteClient(any())
+
+        ScenarioData().apply {
+            organization(0, 0)
+            organization(1, 1)
+            organization(2, 2)
+            user(0, 0)
+            user(1, 1)
+            user(2, 2)
+            connector(0, 1, 0) {
+                it.providerOrganizationId = dummyDevOrganizationId(0)
+            }
+
+            scenarioInstaller.install(this)
+        }
+        val connectorId = dummyDevConnectorId(1, 0)
+
+        // act
+        val result = uiResource.deleteProvidedConnector(connectorId)
+
+        // assert
+        assertThat(result).isNotNull
+        assertThat(result.id).isEqualTo(connectorId)
+
+        assertThat(
+            count(
+                Tables.CONNECTOR,
+                Tables.CONNECTOR.CONNECTOR_ID.eq(connectorId)
+            )
+        ).isEqualTo(0)
+    }
+
+    @Test
+    @TestTransaction
+    fun `delete provided connector as operator admin`() {
+        // arrange
+        useDevUser(0, 0, setOf(Roles.UserRoles.OPERATOR_ADMIN))
+
+        val dapsClient = mock<DapsClient>()
+        whenever(dapsClientService.forEnvironment(any())).thenReturn(dapsClient)
+        doNothing().whenever(dapsClient).deleteClient(any())
+
+        ScenarioData().apply {
+            organization(0, 0)
+            organization(1, 1)
+            organization(2, 2)
+            user(0, 0)
+            user(1, 1)
+            user(2, 2)
+            connector(0, 1, 2) {
+                it.providerOrganizationId = dummyDevOrganizationId(2)
+            }
+
+            scenarioInstaller.install(this)
+        }
+        val connectorId = dummyDevConnectorId(1, 0)
+
+        // act
+        val result = uiResource.deleteProvidedConnector(connectorId)
+
+        // assert
+        assertThat(result).isNotNull
+        assertThat(result.id).isEqualTo(connectorId)
+
+        assertThat(
+            count(
+                Tables.CONNECTOR,
+                Tables.CONNECTOR.CONNECTOR_ID.eq(connectorId)
+            )
+        ).isEqualTo(0)
+    }
+
+    private fun count(table: TableLike<*>, condition: Condition): Int {
+        return dsl.selectCount()
+            .from(table)
+            .where(condition)
+            .fetchOne(0, Int::class.java) ?: 0
     }
 }

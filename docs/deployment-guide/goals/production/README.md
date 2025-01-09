@@ -28,7 +28,7 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
   - URL of the CaaS-Portal, referred to as `[CAAS_PORTAL_FQDN]` in this guide.
   - URL of the Keycloak for authorizing at the CaaS-Portal, referred to as `[CAAS_KC_FQDN]` in this guide.
   - Credentials for the CaaS-Portal, referred to as `[CAAS_CLIENT_ID]` and `[CAAS_CLIENT_SECRET]` in this guide.
-- A running instance of Uptime Kuma is required.
+- You can use Uptime Kuma for monitoring of components the Portal depends on
   - This should track the DAPS and Catalog Crawler status. If the Logging House is used, its status should be tracked as well
   - The statuses must be available via the API (`/metrics` endpoint)
     - The output per component should look like this:
@@ -37,21 +37,22 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
       ```
   - URL of the Uptime Kuma, referred to as `[UPTIME_KUMA_FQDN]` in this guide.
   - API key for the Uptime Kuma, referred to as `[UPTIME_KUMA_API_KEY]` in this guide.
+  - To configure the Portal to utilize Uptime Kuma, see optional configuration for the Portal Backend further down in this guide.
 
 ## Deployment
 
 ### Deployment Units
 
-| Deployment Unit           | Version / Details                                                                                        |
-|---------------------------|----------------------------------------------------------------------------------------------------------|
-| Reverse Proxy / Ingress   | _Infrastructure dependent_                                                                               |
-| Keycloak Deployment       | Version 24.0.4 or compatible version                                                                     |
-| OAuth2 Proxy              | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                                  |
-| Caddy behind OAuth2 Proxy | caddy:2.7                                                                                                |
-| Authority Portal Backend  | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.          |
-| Authority Portal Frontend | authority-portal-frontend, see  [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.        |
-| Catalog Crawler           | ghcr.io/sovity/catalog-crawler-ce, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions. |
-| Postgresql                | Version 16 or compatible version                                                                         |
+| Deployment Unit                       | Version / Details                                                                                 |
+|---------------------------------------|---------------------------------------------------------------------------------------------------|
+| Reverse Proxy / Ingress               | _Infrastructure dependent_                                                                        |
+| Keycloak Deployment                   | Version 24.0.4 or compatible version                                                              |
+| OAuth2 Proxy                          | quay.io/oauth2-proxy/oauth2-proxy:7.5.0                                                           |
+| Caddy behind OAuth2 Proxy             | caddy:2.7                                                                                         |
+| Authority Portal Backend              | authority-portal-backend, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
+| Authority Portal Frontend             | authority-portal-frontend, see  [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions. |
+| Catalog Crawler (one per environment) | authority-portal-crawler, see [CHANGELOG.md](../../../../CHANGELOG.md) for compatible versions.   |
+| Postgresql                            | Version 16 or compatible version                                                                  |
 
 ### Configuration
 
@@ -70,8 +71,8 @@ The respective compatible versions can be found in the [CHANGELOG.md](../../../.
 
 ```yaml
   # Variables to set privacy policy and legal notice URLs on Keycloak pages
-  KEYCLOAK_PRIVACY_POLICY_URL: https://mobility-dataspace.online/privacy-policy-mds-portal
-  KEYCLOAK_LEGAL_NOTICE_URL: https://mobility-dataspace.eu/legal-notice
+  KEYCLOAK_PRIVACY_POLICY_URL: https://sovity.de/en/privacy-policy/
+  KEYCLOAK_LEGAL_NOTICE_URL: https://sovity.de/en/imprint/
 ```
 
 - Consider consulting Keycloak's [server administration guide](https://www.keycloak.org/docs/latest/server_admin/).
@@ -229,12 +230,6 @@ authority-portal.config.api-key: "[AP_CONFIG_API_KEY]"
 # Invitation link expiration time in seconds. (Must equal the value in Keycloak configuration)
 authority-portal.invitation.expiration: "43200"
 
-# Uptime Kuma
-# Uptime Kuma URL (/metrics endpoint must be available)
-authority-portal.kuma.metrics-url: "https://[UPTIME_KUMA_FQDN]"
-# Uptime Kuma API key
-authority-portal.kuma.api-key: "[UPTIME_KUMA_API_KEY]"
-
 # Environment Configuration
 # - Each Authority Portal can be configured with multiple environments, e.g. test, staging, prod, etc. 
 # - Following is an example configuration of the "test" environment.
@@ -251,8 +246,6 @@ authority-portal.deployment.environments.test.position: "0"
 authority-portal.deployment.environments.test.data-catalog.hide-offline-data-offers-after: "15m"
 # Default page size for the Data Catalog
 authority-portal.deployment.environments.test.data-catalog.catalog-page-page-size: "10"
-# Kuma name for the catalog crawler
-authority-portal.deployment.environments.test.data-catalog.kuma-name: broker
 
 # Environment Connector-Dataspace association: Allows certain connectors to be associated as partnered data spaces
 # Required: Default Dataspace name
@@ -269,14 +262,10 @@ authority-portal.deployment.environments.test.daps.realm-name: "DAPS"
 authority-portal.deployment.environments.test.daps.client-id: "authority-portal"
 # Env: DAPS Admin Client Client Secret
 authority-portal.deployment.environments.test.daps.client-secret: "[DAPS_CLIENT_SECRET]"
-# Env: DAPS Kuma name
-authority-portal.deployment.environments.test.daps.kuma-name: "[DAPS_KUMA_NAME]"
 
 # Environment Logging House
 # Env: Logging House URL
 authority-portal.deployment.environments.test.logging-house.url: "https://[LOGGING_HOUSE_FQDN]"
-# Env: Logging House Kuma name
-authority-portal.deployment.environments.test.logging-house.kuma-name: "[LOGGING_HOUSE_KUMA_NAME]"
 ```
 
 Optional configuration variables
@@ -285,6 +274,15 @@ Optional configuration variables
 # The 'L' stands for 'Legal' and is added automatically after the prefix - the last 2 characters are the checksum
 authority-portal.organization.id.prefix: "BPN"
 authority-portal.organization.id.length: "10"
+
+# Uptime Kuma monitoring
+authority-portal.kuma.metrics-url: "https://[UPTIME_KUMA_FQDN]" # Uptime Kuma URL (/metrics endpoint must be available)
+authority-portal.kuma.api-key: "[UPTIME_KUMA_API_KEY]" # Uptime Kuma API key
+# Kuma names for the components
+# These examples are for the environment with id "test". Repeat and adjust for each environment
+authority-portal.deployment.environments.test.data-catalog.kuma-name: "[CATALOG_CRAWLER_KUMA_NAME]"
+authority-portal.deployment.environments.test.logging-house.kuma-name: "[LOGGING_HOUSE_KUMA_NAME]"
+authority-portal.deployment.environments.test.daps.kuma-name: "[DAPS_KUMA_NAME]"
 ```
 
 #### Adjusting the log level at runtime
@@ -309,13 +307,16 @@ AUTHORITY_PORTAL_FRONTEND_LOGIN_URL: https://[AP_FQDN]/oauth2/start?rd=https%3A%
 # Example: https://[AP_FQDN]/oauth2/sign_out?rd=https%3A%2F%2F[KC_FQDN]%2Frealms%2F[KC_REALM]l%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3Doauth2-proxy%26post_logout_redirect_uri%3Dhttps%253A%252F%252F[AP_FQDN]
 AUTHORITY_PORTAL_FRONTEND_LOGOUT_URL: (...) # Auth Proxy: Logout URL
 AUTHORITY_PORTAL_FRONTEND_INVALIDATE_SESSION_COOKIES_URL: https://[AP_FQDN]/oauth2/sign_out # Auth Proxy: URL to invalidate sessions cookies
-AUTHORITY_PORTAL_FRONTEND_IFRAME_URL: https://news.yourdataspace.com # iFrame URL for the "Home" page if it's used
 AUTHORITY_PORTAL_FRONTEND_LEGAL_NOTICE_URL: https://yourdataspace.com/legal-notice # Legal Notice URL
 AUTHORITY_PORTAL_FRONTEND_PRIVACY_POLICY_URL: https://yourdataspace.com/privacy-policy # Privacy policy URL
 AUTHORITY_PORTAL_FRONTEND_SUPPORT_URL: https://support.yourdataspace.com # Support page URL
-AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: sovity-open-source # UI Branding profile (sovity-open-source or mds-open-source)
+AUTHORITY_PORTAL_FRONTEND_ACTIVE_PROFILE: sovity-open-source # UI Branding profile (sovity-open-source)
 AUTHORITY_PORTAL_FRONTEND_DATASPACE_SHORT_NAME: ExDS # Short Dataspace name, used in some explanatory texts
 AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "Authority Portal" # Portal name displayed in various texts
+AUTHORITY_PORTAL_FRONTEND_ENABLE_DASHBOARD: true # Enables or disables the status uptime dashboard
+# Direct URL to the UPDATE_PASSWORD required action in Keycloak
+AUTHORITY_PORTAL_FRONTEND_UPDATE_PASSWORD_URL: https://[KC_FQDN]/realms/authority-portal/protocol/openid-connect/auth?response_type=code&client_id=oauth2-proxy&scope=openid&kc_action=UPDATE_PASSWORD&redirect_uri=https%3A%2F%2F[AP_FQDN]%2Foauth2%2Fcallback
+
 ```
 
 ### Data Catalog Crawlers
@@ -324,7 +325,82 @@ AUTHORITY_PORTAL_FRONTEND_PORTAL_DISPLAY_NAME: "Authority Portal" # Portal name 
 - Each deployment environment requires a Data Catalog Crawler.
   - A Data Catalog Crawler is based on the EDC Connector and crawls the catalogs of all connectors in the dataspace.
   - You will need an SKI/AKI client ID to register the crawler. Please refer to the [EDC documentation](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq) on how to generate one.
-- See the [Catalog Crawler Productive Deployment Guide](https://github.com/sovity/edc-ce/blob/v10.4.1/docs/deployment-guide/goals/catalog-crawler-production/README.md) 
+
+#### Reverse Proxy Configuration
+
+- The catalog crawler is meant to be served via TLS/HTTPS.
+- The catalog crawler is meant to be deployed with a reverse proxy terminating TLS / providing HTTPS.
+- All requests are meant to be redirected to the deployment's `11003` port.
+
+#### Catalog Crawler Configuration
+
+A productive configuration will require you to join a DAPS.
+
+For that you will need a SKI/AKI client ID. Please refer
+to [edc-extension's Getting Started Guide](https://github.com/sovity/edc-ce/tree/main/docs/getting-started#faq)
+on how to generate one.
+
+The DAPS needs to contain the claim `referringConnector=broker` for the broker.
+Although it is discouraged to do so, the expected value `broker` could be overridden by specifying a different value for `MY_EDC_PARTICIPANT_ID`.
+
+```yaml
+# Required: Fully Qualified Domain Name
+MY_EDC_FQDN: "crawler.test.example.com"
+
+# Required: Authority Portal Environment ID
+CRAWLER_ENVIRONMENT_ID: test
+
+# Required: Authority Portal Postgresql DB Access
+CRAWLER_DB_JDBC_URL: jdbc:postgresql://authority-portal:5432/portal
+CRAWLER_DB_JDBC_USER: portal
+CRAWLER_DB_JDBC_PASSWORD: portal
+
+# Required: DAPS credentials
+EDC_OAUTH_TOKEN_URL: 'https://daps.yourdataspace.com/token'
+EDC_OAUTH_PROVIDER_JWKS_URL: 'https://daps.yourdataspace.com/jwks'
+EDC_OAUTH_CLIENT_ID: '_your SKI/AKI_'
+EDC_KEYSTORE: '_your keystore file_' # Needs to be available as file in the running container
+EDC_KEYSTORE_PASSWORD: '_your keystore password_'
+EDC_OAUTH_CERTIFICATE_ALIAS: 1
+EDC_OAUTH_PRIVATE_KEY_ALIAS: 1
+```
+
+You can also optionally override the following defaults:
+
+```yaml
+# Database Connection Pool Size
+CRAWLER_DB_CONNECTION_POOL_SIZE: 30
+
+# Database Connection Timeout (in ms)
+CRAWLER_DB_CONNECTION_TIMEOUT_IN_MS: 30000
+
+# CRON interval for crawling ONLINE connectors
+CRAWLER_CRON_ONLINE_CONNECTOR_REFRESH: */20 * * ? * *
+
+# CRON interval for crawling OFFLINE connectors
+CRAWLER_CRON_OFFLINE_CONNECTOR_REFRESH: 0 */5 * ? * *
+
+# CRON interval for crawling DEAD connectors
+CRAWLER_CRON_DEAD_CONNECTOR_REFRESH: 0 0 * ? * *
+
+# CRON interval for marking connectors as DEAD
+CRAWLER_SCHEDULED_KILL_OFFLINE_CONNECTORS: 0 0 2 ? * *
+
+# Delete data offers / mark as dead after connector has been offline for:
+CRAWLER_KILL_OFFLINE_CONNECTORS_AFTER: P5D
+
+# Hide data offers after connector has been offline for:
+CRAWLER_HIDE_OFFLINE_DATA_OFFERS_AFTER: P1D
+
+# Parallelization for Crawling
+CRAWLER_NUM_THREADS: 32
+
+# Maximum number of Data Offers per Connector
+CRAWLER_MAX_DATA_OFFERS_PER_CONNECTOR: 50
+
+# Maximum number of Contract Offers per Data Offer
+CRAWLER_MAX_CONTRACT_OFFERS_PER_DATA_OFFER: 10
+```
 
 ## Initial Setup
 

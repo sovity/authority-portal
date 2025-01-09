@@ -92,10 +92,21 @@ class DevScenario(
                 it.name = "Service Partner Organization"
             }
 
+            // Operator Admin
+            user(8, 5) {
+                it.firstName = "Operator"
+                it.lastName = "Admin"
+            }
+            organization(5, 8) {
+                it.name = "Operator Organization"
+            }
+
             // Catalog test data
             val objectMapper = ObjectMapper()
 
             connector(1, 1, 1)
+            connector(2, 1, 1)
+            connector(3, 1, 1)
             dataOffer(1, 1, 1, assetApplier = {
                 it.assetId = dummyDevAssetId(1)
                 it.title = "Asset Title"
